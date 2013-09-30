@@ -1,0 +1,28 @@
+    <div class="col-md-6">
+      <div class="well well-sm">
+        Click on:
+        <ul>
+          <li>Name - View details on the Flow itself</li>
+          <li>Node - View a list of the flows for the node</li>
+        </ul>
+      </div>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Node</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="flow in flows">
+            <td>
+              <a ui-sref="flows.details({nodeType: flow.node.type, nodeId: flow.node.id, flowName: flow.name})">{{flow.name}}</a>
+            </td>
+            <td>
+              <a ui-sref="flows.node({nodeType: flow.node.type, nodeId: flow.node.id})">{{flow.node.type}} / {{flow.node.id}}</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>

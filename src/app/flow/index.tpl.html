@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="menu">
+      <ul class="nav nav-pills">
+        <li ng-class="{ active: $state.includes('flow.list') }"><a ui-sref="flow.list()">List</a></li>
+        <li ng-class="{ active: $state.includes('flow.create') }"><a ui-sref="flow.create()">Create</a></li>
+      </ul>
+
+      <!-- For child state use-->
+      <div ui-view="submenu"></div>
+    </div>
+
+    <div ui-view></div>
+  </div>
+</div>

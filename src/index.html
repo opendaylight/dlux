@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title ng-bind="'ODL UI - ' + $state.current.name"></title>
+
+    <!-- compiled CSS <% styles.forEach( function ( file ) { %>
+    <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
+    -->
+    <link rel="stylesheet" type="text/css" href="assets/VieUX-0.0.1.css"></style>
+
+    <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
+    <script type="text/javascript" src="<%= file %>"></script><% }); %>
+</head>
+
+<body>
+  <div id="top" ng-if="authed">
+    <div id="logo">
+      <a ui-sref="index">Open<span>Daylight</span></a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User: {{user.username}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a ui-sref="user.preferences">Preferences</a></li>
+          <li><a ui-sref="logout">Logout</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li ng-class="{ active: $state.includes('about') }"><a ui-sref="about()">About</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div id="main" ng-if="authed">
+    <div id="left-cover">
+      <div id="left">
+        <div ng-controller="NavigationCtrl">
+          <div class="top pane">
+            <div class="title">Menu</div>
+            <ul class="nav nav-pills nav-stacked">
+              <li is-active state="node">
+                <brd-anchor label="Nodes" state="node.list"></brd-anchor>
+              </li>
+              <li is-active state="flow">
+                <brd-anchor label="Flows" state="flow.list"></brd-anchor>
+              <li>
+              <li is-active state="topology">
+                <brd-anchor label="Topology" state="topology"></brd-anchor>
+              </li>
+              <li is-active state="network">
+                <brd-anchor label="Network" state="network"></brd-anchor>
+              </li>
+              <li is-active state="container">
+                <brd-anchor label="Container" state="container.index"></brd-anchor>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bottom pane">
+            <div ng-if="menu">
+              <div class="title">
+                {{subMenuTitle}}
+                <input ng-model="search" name="search" placeholder="Search" class="input-xs pull-right"/>
+              </div>
+
+              <div id="submenu" class="navbar navbar-default">
+                <div class="collapse navbar-collapse">
+                  <ul class="nav nav-tabs nav-stacked">
+                    <li ng-repeat="item in menu | filter:search | orderBy:'name'">
+                      <brd-anchor label="{{item.name}}" state="{{item.state}}" state-params="item.params"></brd-anchor>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- This is the "main" content div, it holds a contextual menu for the current view on the top and shows useful things underneith-->
+    <div id="center-cover">
+      <div id="center">
+        <div ui-view></div>
+      </div>
+    </div>
+
+    <div id="right-cover">
+      <div id="right" ui-view="right">
+        <span>Current state path: {{$state.current.name}}</span><br/>
+        <span>stateParams: {{$stateParams}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div ng-if="!authed" ui-view></div>
+</body>
+</html>
+¡

@@ -1,0 +1,35 @@
+<style>
+.node {
+  padding-bottom: 10px;
+}
+</style>
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-5">
+
+      Displaying {{data.nodeProperties.length}} nodes<br/>
+
+      <table class="table table-stripped">
+        <tbody ng-repeat="np in data.nodeProperties">
+          <tr>
+            <th scope="row">{{np.node.type}}/{{np.node.id}}</th>
+            <td class="text-right"><a ui-sref="node.detail({nodeId: np.node.id, nodeType: np.node.type})" class="btn btn-xs btn-primary">ports</a>
+              <a ui-sref="flows.node({nodeType: np.node.type, nodeId:np.node.id})" class="btn btn-xs btn-primary">flows</a>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              Description : {{np.properties.description.value}}<br />
+              MAC : {{np.properties.macAddress.value}}
+              </dl>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-7">
+      <div ui-view></div>
+    </div>
+  </div><!-- row -->
+</div>

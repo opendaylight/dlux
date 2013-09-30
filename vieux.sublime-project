@@ -1,0 +1,29 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				".svn",
+				".git",
+				".hg",
+                "node_modules",
+                "vendor"
+			],
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"default_line_ending": "unix",
+		"detect_indentation": false,
+		"ensure_newline_at_eof_on_save": true,
+		"rulers":
+		[
+			79
+		],
+		"tab_size": 2,
+		"translate_tabs_to_spaces": true,
+		"trim_trailing_white_space_on_save": true
+	}
+}

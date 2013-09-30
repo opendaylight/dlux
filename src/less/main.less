@@ -1,0 +1,212 @@
+@import "bootstrap.less";
+
+/**
+ * This is our main variables file. It in turn imports the `variables` file from
+ * Twitter Bootstrap. We must include it last so we can overwrite any variable
+ * definitions in our imported stylesheets.
+ */
+
+@import 'variables.less';
+
+/**
+ * Typography
+ */
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto Regular'), local('Roboto-Regular'), url(assets/Roboto-Regular.woff) format('woff');
+}
+
+
+// style
+body, html {
+  height: 100%;
+  background-image: linear-gradient(to bottom, #ffc427, #de5d2c);
+}
+
+#top {
+  height: 28px;
+  #logo {
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #444;
+    float: left;
+    margin-left: 20px;
+    padding: 3px 15px 5px 40px;
+    background: url('../assets/img/logo.png') left 10px center no-repeat #fff;
+    background-size: 20px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 0 15px #b99e57;
+    span {
+      color: #777;
+    }
+  }
+  .nav {
+    a {
+      padding: 3px 10px;
+      margin: 0;
+    }
+  }
+}
+
+#main {
+  @mainWidth: 65%;
+
+  @padding: 7px;
+  @offset: 5px;
+  //background-image: linear-gradient(to bottom, #eee, #f7941e);
+  background-color: hsla(17%, 0, 33, 50%);
+
+  //border: 1px dotted #000;
+
+  position: absolute;
+  top: @bodyOffset+5px;
+  bottom: @offset;
+  left: @offset;
+  right: @offset;
+
+  border-radius: 7px;
+  padding: @padding;
+
+  #left-cover, #center-cover, #right-cover {
+    height: 100%;
+    min-height: 100%;
+    //border: 1px dotted #000;
+  }
+  #left, #center, #right {
+    overflow-y: auto;
+    height: 100%;
+    min-height: 100%;
+    //border: 1px dotted #000;
+    background: #fff;
+    padding: @padding;
+    border-radius: 7px;
+  }
+  #left-cover, #center-cover {
+    float: left;
+  }
+  #left-cover, #right-cover {
+    width: (100%-@mainWidth)/2;
+  }
+  #left-cover {
+    padding-right: 5px;
+    #left {
+      .pane {
+        overflow-y: auto;
+      }
+      .top {
+        border-radius: 5px 5px 0 0;
+        height: 30%;
+        border: 1px solid #ccc;
+        .title {
+          background-image: linear-gradient(to bottom, #eee, #ccc);
+          color: #222;
+          font-weight: bold;
+          border-radius: 4px 4px 0 0;
+          padding: 2px 5px;
+          border-bottom: 1px solid #ccc;
+        }
+        .nav {
+          li {
+            a {
+              padding: 5px 15px;
+              &:hover {
+                border-radius: 0;
+              }
+            }
+            margin: 0;
+          }
+          .active {
+            a {
+              background: #eee;
+              color: #222;
+              border-radius: 0;
+            }
+          }
+        }
+      }
+      .bottom {
+        height: 70%;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        padding: 0;
+        .title {
+          background: #eee;
+          border-bottom: 1px solid #ccc;
+          padding: 7px 5px;
+          input {
+            padding: 0;
+          }
+        }
+        #submenu {
+          border-radius: 0;
+          border: none;
+          background: #fff;
+          .collapse {
+            padding: 0;
+            font-size: 0.9em;
+            ul {
+              border-bottom: none;
+              li {
+                margin: 0;
+                a {
+                  background: url('../assets/img/openflow.png') left 8px center no-repeat #fff;
+                  border-radius: 0;
+                  border: none;
+                  margin: 0;
+                  padding: 5px 5px 5px 35px;
+                  &:hover {
+                    background-color: #eee;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  #right-cover {
+    float: right;
+    padding-left: 5px;
+    #right {
+    }
+  }
+  #center-cover {
+    width: @mainWidth;
+    #center {
+      padding: @padding;
+      .menu {
+        ul {
+          margin-bottom: 10px;
+          padding-bottom: 5px;
+          border-bottom: 1px solid #ddd;
+          li {
+            a {
+              padding: 5px 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// Needed for topology
+circle.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+line.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+text {
+  font: 10px san-serif;
+  pointer-events: none;
+}

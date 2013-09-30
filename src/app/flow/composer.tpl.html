@@ -1,0 +1,10 @@
+Flow Composition
+<div ng-show="actionActive">
+  <div class="well well-sm" ng-repeat="(key, value) in actionActive">
+    <div ng-switch="value">
+      <div ng-switch-default>
+        {{value}}
+      </div>
+    </div>
+  </div>
+</div>

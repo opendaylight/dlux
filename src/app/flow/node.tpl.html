@@ -1,0 +1,12 @@
+    <div class="col-md-3">
+      <div class="well well-sm">Click on a flow to view details</div>
+
+      <table class="table table-condensed table-hover">
+        <thead><tr><th>Name</th></tr></thead>
+        <tbody>
+          <tr ng-repeat="flow in flows" ng-style="{'cursor': 'pointer'}" ng-click="$state.transitionTo('flows.details', {nodeType: $stateParams.nodeType, nodeId: $stateParams.nodeId, flowName: flow.name})">
+            <td>{{flow.name}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

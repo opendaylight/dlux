@@ -1,0 +1,20 @@
+<div class="col-md-4">
+  <div class="well well-sm">
+    <a ui-sref="network.subnets.create()" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus-sign"></span> Create</a>
+  </div>
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Subnet</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="subnet in data.subnetConfig">
+          <td>{{subnet.name}}</td>
+          <td>{{subnet.subnet}}</td>
+        </tr>
+      </tbody>
+    </table>
+    {{subnet | json}}
+</div>

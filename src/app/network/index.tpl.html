@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="well well-sm">
+        <ul class="nav nav-pills nav-stacked">
+          <li ng-class="{ active: $state.includes('network.staticroutes') }"><a ui-sref="network.staticroutes()">Static Routes</a></li>
+          <li ng-class="{ active: $state.includes('network.subnets') }"><a ui-sref="network.subnets()">Subnets</a></li>
+        </ul>
+
+        <!-- For child state use-->
+        <div ui-view="submenu"></div>
+      </div>
+    </div>
+
+    <div ui-view></div>
+  </div>
+</div>
