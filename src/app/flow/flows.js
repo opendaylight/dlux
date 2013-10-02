@@ -93,7 +93,7 @@ angular.module('dlux.flow', [])
       '': {
         templateUrl: 'flow/node.tpl.html',
         controller: function ($scope, FlowSvc) {
-          FlowSvc.nodeflowUrl('default', $scope.$stateParams.nodeType, $scope.$stateParams.nodeId).getList().then(
+          FlowSvc.nodeflowUrl(null, $scope.$stateParams.nodeType, $scope.$stateParams.nodeId).getList().then(
             function (data) {
               $scope.flow = data.flowConfig;
             }

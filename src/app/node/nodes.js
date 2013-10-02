@@ -35,7 +35,7 @@ angular.module('dlux.node', [])
   });
 
   $stateProvider.state('node.detail', {
-    url: '/{nodeType}/{nodeId}/etail',
+    url: '/{nodeType}/{nodeId}/detail',
     views: {
       '': {
         templateUrl: 'node/detail.tpl.html',

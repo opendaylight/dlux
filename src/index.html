@@ -14,11 +14,25 @@
 </head>
 
 <body>
-  <div id="top" ng-if="authed">
+  <div id="top" ng-if="authed" ng-controller="TopNavCtrl">
     <div id="logo">
       <a ui-sref="index">Open<span>Daylight</span></a>
     </div>
     <ul class="nav navbar-nav navbar-right">
+      <!-- containers-->
+      <li class="dropdown" ng-if="containers">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          Container: {{currentContainer ? currentContainer.container : 'Please select'}}
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li ng-repeat="container in containers | orderBy:'container'" ng-click="setContainer(container)">
+            <a href="">{{container.container}}</a>
+          </li>
+        </ul>
+      </li>
+      <!-- end container-->
+
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">User: {{user.username}} <b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -39,7 +53,7 @@
   <div id="main" ng-if="authed">
     <div id="left-cover">
       <div id="left">
-        <div ng-controller="NavigationCtrl">
+        <div ng-controller="LeftNavCrl">
           <div class="top pane">
             <div class="title">Menu</div>
             <ul class="nav nav-pills nav-stacked">

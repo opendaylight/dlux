@@ -18,7 +18,7 @@ angular.module('dlux.container', [])
       '': {
         templateUrl: 'container/detail.tpl.html',
         controller: function ($scope, ContainerSvc) {
-          $scope.data = ContainerSvc.containerUrl($scope.$stateParams.container).get()
+          $scope.data = ContainerSvc.containerUrl($scope.$stateParams.container).get();
         }
       }
     }

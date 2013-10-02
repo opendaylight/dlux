@@ -8,10 +8,10 @@
 angular.module('dlux.nbapi', [])
 
 
-.factory('NBApiSvc', function (Restangular) {
+.factory('NBApiSvc', function (Restangular, ContainerSvc) {
   var svc = {
     base: function(nbName, container) {
-      container = container || 'default';
+      container = container || ContainerSvc.getCurrentName();
       return Restangular.one(nbName, container);
     },
     rest: Restangular
@@ -25,8 +25,29 @@ angular.module('dlux.nbapi', [])
     base: function() {
       return Restangular.one('containermanager');
     },
+    current: null,
     data: null
   };
+
+  /*
+   * Setup handling of the current container
+   *
+   * Setters / Getters
+   *
+   * If no containers it should return 'default'
+   */
+  svc.setCurrent = function (container) {
+    svc.current = container;
+  }
+
+  svc.getCurrent = function () {
+    return svc.current;
+  }
+
+  svc.getCurrentName = function () {
+    var current = svc.getCurrent();
+    return current ? current.container : 'default';
+  }
 
   svc.containersUrl = function() {
     return svc.base().all('containers');

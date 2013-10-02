@@ -1,9 +1,40 @@
 angular.module('dlux.navigation', [])
 
 
+.controller('TopNavCtrl', function ($scope, ContainerSvc) {
+  $scope.currentContainer = undefined;
+
+  ContainerSvc.getAll();
+
+  $scope.setContainer = function (container) {
+    ContainerSvc.setCurrent(container);
+    $scope.$state.go('index')
+  }
+
+  $scope.$watch(
+    function () { return ContainerSvc.getCurrent() },
+    function(newValue, oldValue, scope) {
+      if (newValue) {
+        $scope.currentContainer = newValue;
+      }
+    }
+  );
+
+  $scope.$watch(
+    function () {
+      return ContainerSvc.data;
+    },
+    function(newValue, oldValue) {
+      if (newValue) {
+        $scope.containers = newValue['container-config'];
+      }
+    }
+  );
+})
+
 
 // This triggers data updates when clicking on a item
-.controller('NavigationCtrl', function ($scope, $injector) {
+.controller('LeftNavCrl', function ($scope, $injector) {
   /*
    * Listen for the event:nagivation from the brd-anchor directive and act
    * accordingly.
@@ -44,9 +75,8 @@ angular.module('dlux.navigation', [])
     }
   };
 
-  // The directive broadcasts event:navigation that we are listening to
-  $scope.$on('event:navigation', function (event, data) {
-    $scope.setupSubMenu(data.state);
+  $scope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+    $scope.setupSubMenu(to.name);
   });
 
   // A watcher, if $scope.svc and $scope.svc.data then we return the data else null
