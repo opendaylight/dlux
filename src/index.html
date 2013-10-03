@@ -76,21 +76,16 @@
           </div>
 
           <div class="bottom pane">
-            <div ng-if="menu">
-              <div class="title">
-                {{subMenuTitle}}
-                <input ng-model="search" name="search" placeholder="Search" class="input-xs pull-right"/>
-              </div>
-
-              <div id="submenu" class="navbar navbar-default">
-                <div class="collapse navbar-collapse">
-                  <ul class="nav nav-tabs nav-stacked">
-                    <li ng-repeat="item in menu | filter:search | orderBy:'name'">
-                      <brd-anchor label="{{item.name}}" state="{{item.state}}" state-params="item.params"></brd-anchor>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+            <div class="title">
+              <h4>{{subMenuTitle}}</h4>
+              <input ng-model="search" name="search" placeholder="Search" class="input-xs"/>
+            </div>
+            <div ng-if="menu" id="submenu" class="navbar navbar-default">
+                <ul class="nav nav-tabs nav-stacked">
+                  <li ng-repeat="item in menu | filter:search | orderBy:'name'">
+                    <brd-anchor label="{{item.name}}" state="{{item.state}}" state-params="item.params"></brd-anchor>
+                  </li>
+                </ul>
             </div>
           </div>
         </div>

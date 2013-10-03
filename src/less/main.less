@@ -93,13 +93,12 @@ body, html {
   #left-cover {
     padding-right: 5px;
     #left {
-      .pane {
-        overflow-y: auto;
-      }
+      overflow: hidden;
+      position: relative;
       .top {
         border-radius: 5px 5px 0 0;
-        height: 30%;
         border: 1px solid #ccc;
+        height: 175px;
         .title {
           background-image: linear-gradient(to bottom, #eee, #ccc);
           color: #222;
@@ -128,39 +127,65 @@ body, html {
         }
       }
       .bottom {
-        height: 70%;
+        position: absolute;
+        top: 180px;
+        right: 7px;
+        bottom: 7px;
+        left: 7px;
+        overflow: hidden;
         border: 1px solid #ccc;
         border-top: none;
         border-radius: 0 0 5px 5px;
         padding: 0;
         .title {
+          position: relative;
+          height: 60px;
           background: #eee;
           border-bottom: 1px solid #ccc;
           padding: 7px 5px;
+          display: inline-block;
+          width: 100%;
+          h4 {
+            margin: 0;
+            font-size: 1.0em;
+            font-weight: bold;
+            width: 100%;
+            display: block;
+          }
           input {
-            padding: 0;
+            font-size: 0.9em;
+            padding: 1px;
+            width: 100%;
+            border: 1px solid #888;
+            margin-top: 5px;
+            display: block;
           }
         }
         #submenu {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          margin: 0;
           border-radius: 0;
           border: none;
           background: #fff;
-          .collapse {
-            padding: 0;
-            font-size: 0.9em;
-            ul {
-              border-bottom: none;
-              li {
+          overflow-y: scroll;
+          padding: 0;
+          font-size: 0.9em;
+          ul {
+            border-bottom: none;
+            li {
+              margin: 0;
+              a {
+                background: url('../assets/img/openflow.png') left 8px center no-repeat #fff;
+                border-radius: 0;
+                border: none;
                 margin: 0;
-                a {
-                  background: url('../assets/img/openflow.png') left 8px center no-repeat #fff;
-                  border-radius: 0;
-                  border: none;
-                  margin: 0;
-                  padding: 5px 5px 5px 35px;
-                  &:hover {
-                    background-color: #eee;
-                  }
+                padding: 5px 5px 5px 35px;
+                &:hover {
+                  background-color: #eee;
                 }
               }
             }
