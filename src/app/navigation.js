@@ -8,11 +8,11 @@ angular.module('dlux.navigation', [])
 
   $scope.setContainer = function (container) {
     ContainerSvc.setCurrent(container);
-    $scope.$state.go('index')
-  }
+    $scope.$state.go('index');
+  };
 
   $scope.$watch(
-    function () { return ContainerSvc.getCurrent() },
+    function () { return ContainerSvc.getCurrent(); },
     function(newValue, oldValue, scope) {
       if (newValue) {
         $scope.currentContainer = newValue;

@@ -38,16 +38,16 @@ angular.module('dlux.nbapi', [])
    */
   svc.setCurrent = function (container) {
     svc.current = container;
-  }
+  };
 
   svc.getCurrent = function () {
     return svc.current;
-  }
+  };
 
   svc.getCurrentName = function () {
     var current = svc.getCurrent();
     return current ? current.container : 'default';
-  }
+  };
 
   svc.containersUrl = function() {
     return svc.base().all('containers');
