@@ -22,7 +22,7 @@ angular.module('dlux.container', [])
         }
       }
     }
-  })
+  });
 
   $stateProvider.state('container.create', {
     url: '/create',

@@ -19,6 +19,7 @@ angular.module('dlux.directives.topology', [])
     },
     link: function($scope, iElm, iAttrs, controller) {
       var svg = d3.select(iElm[0]).append('svg')
+        .attr("pointer-events", "all")
         .attr('width', width)
         .attr('height', height);
 
@@ -56,16 +57,34 @@ angular.module('dlux.directives.topology', [])
           .attr("cx", function(d) { return d.x; })
           .attr("cy", function(d) { return d.y; })
           .call(topo.drag);
+        /*
+        var node = svg
+          .selectAll('.node')
+          .data(newVal.nodes)
+          .enter()
+          .append('svg:g')
+          .call(topo.drag);
+        
+        node
+          .append("image")
+          .attr("xlink:href", function(d) {
+            var imageName = "/assets/img/Device_switch_3062_unknown_64.png";
+            return imageName;
+          })
+          .attr("width", 50).attr("height", 50).attr("x", function(d) { return d.x; }).attr("y", function(d) { return d.y; });
+        */
 
         var text = svg.append("svg:g").selectAll("g")
           .data(topo.nodes())
           .enter().append("svg:g");
 
         text.append("svg:text")
-          .text(function(d) { return d.id; });
+          .text(function(d) { return d.id; })
+          .attr('x', -50)
+          .attr('y', 25);
           //.attr("x", function(d) { return d.x; })
           //.attr("y", function(d) { return d.y; })
-
+        
         svg.style("opacity", 1e-6)
           .transition()
           .duration(1000)
