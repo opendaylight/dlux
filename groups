@@ -1,4 +1,6 @@
 # UUID                                  	Group Name
 #
 6c822e96ed14a0834e59e814aa6b2a258f2cc8fb	Non-interactive dlux users
+global:Anonymous-Users                  	Anonymous Users
+global:Registered-Users                 	Registered Users
 ldap:cn=gerrit-dlux-committers,ou=Groups,dc=opendaylight,dc=org	ldap/gerrit-dlux-committers
