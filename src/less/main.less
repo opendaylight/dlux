@@ -77,11 +77,10 @@ body, html {
   }
   #left, #center, #right {
     overflow-y: auto;
-    height: 100%;
-    min-height: 100%;
-    //border: 1px dotted #000;
     background: #fff;
     padding: @padding;
+    height: 100%;
+    min-height: 100%;
     border-radius: 7px;
   }
   #left-cover, #center-cover {
@@ -202,12 +201,28 @@ body, html {
   }
   #center-cover {
     width: @mainWidth;
+    position: relative;
+
     #center {
       padding: @padding;
+      padding-top: 45px;
+
       .menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 45px;
+
+        z-index: 1;
+        background: #fff;
+
+        border-radius: 7px 7px 0 0;
+
         ul {
           margin-bottom: 10px;
-          padding-bottom: 5px;
+          padding: 5px;
           border-bottom: 1px solid #ddd;
           li {
             a {
