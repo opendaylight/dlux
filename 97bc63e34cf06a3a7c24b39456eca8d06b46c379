@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6255ed_05d12e57",
+        "filename": "bower.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2013-10-18T18:27:16Z",
+      "side": 1,
+      "message": "Is it possible to host this in opendaylight servers ?",
+      "revId": "97bc63e34cf06a3a7c24b39456eca8d06b46c379",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
