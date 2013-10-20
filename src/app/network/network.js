@@ -12,7 +12,11 @@ angular.module('dlux.networking', [])
       '': {
         templateUrl: 'network/staticroutes.tpl.html',
         controller: function ($scope, StaticRouteSvc) {
-          $scope.data = StaticRouteSvc.routesUrl(null).getList();
+          StaticRouteSvc.routesUrl(null).getList().then(
+            function (data) {
+              $scope.data = data;
+            }
+          );
         }
       }
     }
@@ -42,7 +46,11 @@ angular.module('dlux.networking', [])
       '': {
         templateUrl: 'network/subnets.tpl.html',
         controller: function ($scope, SubnetSvc) {
-          $scope.data = SubnetSvc.subnetsUrl(null).getList();
+          SubnetSvc.subnetsUrl(null).getList().then(
+            function (data) {
+              $scope.data = data;
+            }
+          );
         }
       }
     }

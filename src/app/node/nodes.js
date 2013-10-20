@@ -40,7 +40,10 @@ angular.module('dlux.node', [])
       '': {
         templateUrl: 'node/detail.tpl.html',
         controller: function ($scope, $stateParams, SwitchSvc) {
-          $scope.ncpData = SwitchSvc.nodeUrl(null, $stateParams.nodeType, $stateParams.nodeId).get();
+          SwitchSvc.nodeUrl(null, $stateParams.nodeType, $stateParams.nodeId).get().then(
+            function (data) {
+              $scope.data = data;
+            });
 
           // Filter function to remove ports with id 0
           $scope.portNotNull = function (property) {
