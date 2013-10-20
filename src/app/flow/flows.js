@@ -52,7 +52,7 @@ angular.module('dlux.flow', [])
 .config(function ($stateProvider) {
   $stateProvider.state('flow', {
     url: '/flow',
-    templateUrl: 'flow/index.tpl.html',
+    templateUrl: 'flow/root.tpl.html',
     //template: '<ui-view></ui-view>',
     abstract: true
   });
