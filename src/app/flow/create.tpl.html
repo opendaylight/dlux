@@ -12,15 +12,17 @@
 
       <div class="form-group">
         <label for="node">Node</label>
-        <select class="form-control input-sm" id="node" ui-select2 ng-model="nodeString" ng-required="true" ng-change="selectNode()" data-placeholder="Select a node">
+        <select class="form-control input-sm" id="node" ui-select2 ng-model="nodeString" ng-required="true" data-placeholder="Select a node">
+          <option value=""></option>
           <option ng-repeat="np in nodes.nodeProperties" value="{{np.node.type}}/{{np.node.id}}">{{np.properties.description.value}}: {{np.node.type}}/{{np.node.id}}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="ingressPort">Ingress Port</label>
-        <select class="form-control input-sm" id="ingressPort" ui-select2 ng-model="flow.ingressPort"  ng-required="true" ng-disabled="!nodeConnector">
-          <option ng-repeat="ncp in nodeConnector.nodeConnectorProperties | noRootPorts | orderBy:'properties.name.value'" value="{{ncp.nodeconnector.id}}">{{ncp.properties.name.value}}</option>
+        <select class="form-control input-sm" id="ingressPort" ui-select2 ng-model="flow.ingressPort"  ng-required="true" ng-disabled="!connectors">
+          <option value=""></option>
+          <option ng-repeat="ncp in connectors.nodeConnectorProperties | noRootPorts | orderBy:'properties.name.value'" value="{{ncp.nodeconnector.id}}">{{ncp.properties.name.value}}</option>
         </select>
       </div>
 
