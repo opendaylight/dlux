@@ -12,23 +12,36 @@ angular.module('dlux.flow', [])
 
   $scope.actionActive = [];
 
-  $scope.nodes = SwitchSvc.nodesUrl().getList();
+  SwitchSvc.nodesUrl().getList().then(
+    function (data) {
+      $scope.nodes = data;
+    }
+  );
 
-  // The current select nodes properties
-  $scope.selectNode = function() {
+  $scope.$watch('nodeString', function(newValue, oldValue, scope) {
+    if (!newValue) {
+      return;
+    }
+
     // Split the nodeString which contains nodeType and nodeId, this is used
     // in $scope.submit() to construct the URL for the PUT
     var node  = $scope.nodeString.split('/');
 
     $scope.flow.node = {type: node[0], id: node[1]};
 
+
     /* Set nodeConnectorProperties for the selected node
      *
      * When a node is set the ingressPort should be cleared
      */
     delete $scope.flow.ingressPort;
-    $scope.nodeConnector = SwitchSvc.nodeUrl(null, $scope.flow.node.type, $scope.flow.node.id).get();
-  };
+    delete $scope.connectors;
+
+    SwitchSvc.nodeUrl(null, $scope.flow.node.type, $scope.flow.node.id).get().then(
+      function (data) {
+        $scope.connectors = data;
+      });
+  });
 
   $scope.submit = function () {
     FlowSvc.staticFlowUrl(null, $scope.flow.node.type, $scope.flow.node.id, $scope.flow.name)
