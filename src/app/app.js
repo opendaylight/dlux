@@ -8,6 +8,7 @@ var dlux = angular.module('dlux', [
   'restangular',
   'ui.router',
   'ui.select2',
+  'ngGrid',
   'dlux.nbapi',
   'dlux.auth',
   'dlux.navigation',
