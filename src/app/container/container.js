@@ -9,7 +9,21 @@ angular.module('dlux.container', [])
 
   $stateProvider.state('container.index', {
     url: '/index',
-    templateUrl: 'container/index.tpl.html'
+    views: {
+      '': {
+        templateUrl: 'container/index.tpl.html',
+        controller: function ($scope, ContainerSvc) {
+          $scope.$watch(
+            function () {
+              return ContainerSvc.data;
+            },
+            function (data) {
+              $scope.data = data;
+            }
+          );
+        }
+      }
+    }
   });
 
   $stateProvider.state('container.detail', {
@@ -18,7 +32,11 @@ angular.module('dlux.container', [])
       '': {
         templateUrl: 'container/detail.tpl.html',
         controller: function ($scope, ContainerSvc) {
-          $scope.data = ContainerSvc.containerUrl($scope.$stateParams.container).get();
+          ContainerSvc.containerUrl($scope.$stateParams.container).get().then(
+            function (data) {
+              $scope.data = data;
+            }
+          );
         }
       }
     }

@@ -1,0 +1,17 @@
+<div class="col-md-6">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in data['container-config']">
+        <td>
+          <a ui-sref="container.detail({container: item.container})">{{item.container}}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
