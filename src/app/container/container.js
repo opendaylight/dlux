@@ -9,7 +9,42 @@ angular.module('dlux.container', [])
 
   $stateProvider.state('container.index', {
     url: '/index',
-    templateUrl: 'container/index.tpl.html'
+    views: {
+      '': {
+        templateUrl: 'container/index.tpl.html',
+        controller: function ($scope, ContainerSvc) {
+          $scope.svc = ContainerSvc;
+
+          $scope.gridOptions = {
+            data: 'data["container-config"]',
+            selectedItems: [],
+            enableRowSelection: true,
+            showSelectionCheckbox: true,
+            selectWithCheckboxOnly: true,
+            columnDefs: [
+              {
+                field: 'container', displayName: 'Name',
+              },
+              {
+                field: 'nodeConnectors.length', displayName: 'Connector Count',
+              },
+              {
+                displayName: 'Options', cellTemplate: '<div><a ng-click="console.log(row)"><span class="glyphicon glyphicon-remove"></span> Delete</a></div>'
+              }
+            ]
+          }
+
+          $scope.$watch(
+            function () {
+              return ContainerSvc.data;
+            },
+            function (data) {
+              $scope.data = data;
+            }
+          );
+        }
+      }
+    }
   });
 
   $stateProvider.state('container.detail', {
@@ -18,7 +53,11 @@ angular.module('dlux.container', [])
       '': {
         templateUrl: 'container/detail.tpl.html',
         controller: function ($scope, ContainerSvc) {
-          $scope.data = ContainerSvc.containerUrl($scope.$stateParams.container).get();
+          ContainerSvc.containerUrl($scope.$stateParams.container).get().then(
+            function (data) {
+              $scope.data = data;
+            }
+          );
         }
       }
     }
