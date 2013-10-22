@@ -170,4 +170,61 @@ angular.module('dlux.directives.navigation', [])
       }
     }
   };
-});
+})
+
+
+.directive('showSelected', function() {
+  // Runs during compile
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      'data': '='
+    },
+    template: '<div>{{data.length}}</div>',
+  };
+})
+
+.directive('ctrlReload', function() {
+  // Runs during compile
+  return {
+    replace: true,
+    restrict: 'E',
+    scope: {
+      svc: '=service'
+    },
+    template: '<button class="btn btn-primary btn-xs" ng-click="svc.getAll()"><i class="glyphicon glyphicon-refresh"></i></button>',
+    link: function ($scope, iElm, iAttrs, controller) {
+      $scope.$on('evt:refresh', function() {
+        $scope.svc.getAll();
+      })
+    }
+  };
+})
+
+.directive('ctrlDelete', function($rootScope) {
+  // Runs during compile
+  return {
+    replace: true,
+    restrict: 'E',
+    template: '<button class="btn btn-danger btn-xs" ng-click="deleteSelected()" ng-disabled="gridOptions.selectedItems.length == 0"><i class="glyphicon glyphicon-remove"></i></button>',
+    link: function($scope, iElm, iAttrs, controller) {
+      var i = 0;
+      var selected = $scope.gridOptions.selectedItems;
+
+      // Fire up a evt:refresh event once done.
+      $scope.deleteSelected = function () {
+        angular.forEach(selected, function(value, key) {
+          $scope.svc.delete(value).then(
+            function () {
+              i++;
+              if (i == selected.length) {
+                $rootScope.$broadcast('evt:refresh')
+              }
+            }
+          )
+        });
+      }
+    }
+  };
+})

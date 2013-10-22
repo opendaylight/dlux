@@ -74,12 +74,14 @@ module.exports = {
       'vendor/angular-route/index.js',
       'vendor/angular-ui-router/index.js',
       'vendor/angular-ui-select2/index.js',
+      'vendor/ng-grid/ng-grid-2.0.7.min.js',
       'vendor/restangular/dist/restangular.min.js'
     ],
     css: [
       'vendor/bootstrap/dist/css/bootstrap.min.css',
       'vendor/select2/select2.css',
-      'vendor/select2-bootstrap-css/select2-bootstrap.css'
+      'vendor/select2-bootstrap-css/select2-bootstrap.css',
+      'vendor/ng-grid/ng-grid.min.css'
     ],
     assets: [
       'vendor/**/*.gif',
