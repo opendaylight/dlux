@@ -32,7 +32,7 @@ angular.module('dlux.container', [])
                 displayName: 'Options', cellTemplate: '<div><a ng-click="console.log(row)"><span class="glyphicon glyphicon-remove"></span> Delete</a></div>'
               }
             ]
-          }
+          };
 
           $scope.$watch(
             function () {

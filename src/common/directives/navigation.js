@@ -197,7 +197,7 @@ angular.module('dlux.directives.navigation', [])
     link: function ($scope, iElm, iAttrs, controller) {
       $scope.$on('evt:refresh', function() {
         $scope.svc.getAll();
-      })
+      });
     }
   };
 })
@@ -219,12 +219,12 @@ angular.module('dlux.directives.navigation', [])
             function () {
               i++;
               if (i == selected.length) {
-                $rootScope.$broadcast('evt:refresh')
+                $rootScope.$broadcast('evt:refresh');
               }
             }
-          )
+          );
         });
-      }
+      };
     }
   };
-})
+});

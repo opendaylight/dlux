@@ -1,5 +1,5 @@
+<!--
 <div class="container">
-
   <div class="row">
     <h1>Nodes</h1>
     <h4>Displaying {{data.nodeProperties.length}} nodes</h4>
@@ -20,5 +20,22 @@
         </tr>
       </tbody>
     </table>
-  </div><!-- row -->
+  </div>
 </div>
+-->
+
+<style>
+  .gridStyle {
+    border: 1px solid #777;
+    position: absolute;
+    top: 80px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+  }
+</style>
+
+<ctrl-reload service="svc"></ctrl-reload>
+<count-selected data="gridOptions.selectedItems"></count-selected>
+<div class="gridStyle" ng-grid="gridOptions"></div>

@@ -58,9 +58,9 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.delete = function (container) {
-    container = angular.isObject(container) ? container.container : container
-    return svc.containerUrl(container).remove()
-  }
+    container = angular.isObject(container) ? container.container : container;
+    return svc.containerUrl(container).remove();
+  };
 
   svc.getAll = function() {
     svc.containersUrl().getList().then(function (data) {
