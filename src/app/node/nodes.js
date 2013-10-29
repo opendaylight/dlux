@@ -22,11 +22,31 @@ angular.module('dlux.node', [])
       '': {
         templateUrl: 'node/index.tpl.html',
         controller: function ($scope, SwitchSvc) {
+          $scope.gridOptions = {
+            data: 'data["nodeProperties"]',
+            selectedItems: [],
+            enableRowSelection: true,
+            showSelectionCheckbox: true,
+            selectWithCheckboxOnly: true,
+            columnDefs: [
+              {
+                field: 'properties.description.value', displayName: 'Node Name'
+              },
+              {
+                field: 'node.id', displayName: 'Node ID'
+              },
+              {
+                field: 'properties.macAddress.value', displayName: 'MAC Address'
+              }
+            ]
+          }
+
           $scope.$watch(
             function () {
               return SwitchSvc.data;
             },
             function (data) {
+              console.log(data);
               $scope.data = data;
           });
         }
