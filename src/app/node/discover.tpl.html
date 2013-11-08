@@ -1,0 +1,22 @@
+<h3>Discover a new Node (Switch)</h3>
+<form role="form" name="discoverForm" ng-submit="do">
+    <div class="form-inline">
+        <div class="form-group">
+            <label for="nodeId" class="control-label">ID / Name</label>
+            <input type="text" class="form-control input-sm" id="nodeId" ng-model="nodeId" placeholder="Example: management-switch01" required>
+        </div>
+        <div class="form-group">
+            <label for="nodeAddress" class="control-label">Address</label>
+            <input type="text" class="form-control input-sm" id="nodeAddress" ng-model="nodeAddress" placeholder="Example: 10.0.0.1" required>
+        </div>
+
+        <div class="form-group">
+            <label for="nodePort" class="control-label">Port</label>
+            <input type="text" class="form-control input-sm" id="nodePort" ng-model="nodePort" required>
+        </div>
+    </div>
+    <button class="btn btn-primary btn-xs" ng-disabled="discoverForm.$invalid" ng-click="doDiscover()">Discover Node</button>
+</form>
+
+<br/>
+<span ng-if="error" class="alert alert-danger">Error: {{error}}</span>

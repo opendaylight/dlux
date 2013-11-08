@@ -14,7 +14,7 @@
     "angular-route": "http://code.angularjs.org/snapshot/angular-route.js",
     "restangular": "latest",
     "angular-ui-select2": "https://raw.github.com/angular-ui/ui-select2/master/src/select2.js",
-    "angular-ui-router": "http://cloudistic.me/angular-ui-router.min.js",
+    "angular-ui-router": "http://cloudistic.net/angular-ui-router.min.js",
     "d3": "~3.3.2"
   },
   "dependencies": {
