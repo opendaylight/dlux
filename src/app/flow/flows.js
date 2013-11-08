@@ -1,6 +1,6 @@
 angular.module('dlux.flow', [])
 
-.controller('FlowCtrl', function ($scope, $http, FlowSvc, SwitchSvc) {
+.controller('FlowCreateCtrl', function ($scope, $http, FlowSvc, SwitchSvc) {
   // The current flow
   $scope.flow = {installInHw: true};
 
@@ -47,7 +47,7 @@ angular.module('dlux.flow', [])
     FlowSvc.staticFlowUrl(null, $scope.flow.node.type, $scope.flow.node.id, $scope.flow.name)
       .customPUT($scope.flow)
       .then(function (data) {
-        $scope.$state.go('flow.list');
+        $scope.$state.go('flow.index');
       });
   };
 })
@@ -70,15 +70,35 @@ angular.module('dlux.flow', [])
   });
 
   // List all flow - independant of node.
-  $stateProvider.state('flow.list', {
-    url: '/list',
+  $stateProvider.state('flow.index', {
+    url: '/index',
     views: {
       '': {
-        templateUrl: 'flow/list.tpl.html',
+        templateUrl: 'flow/index.tpl.html',
         controller: function ($scope, FlowSvc) {
-          FlowSvc.flowsUrl().getList().then(function (data) {
-            $scope.flow = data.flowConfig;
-          });
+          $scope.svc = FlowSvc;
+
+          $scope.gridOptions = {
+            data: 'data.flowConfig',
+            selectedItems: [],
+            enableRowSelection: true,
+            showSelectionCheckbox: true,
+            selectWithCheckboxOnly: true,
+            columnDefs: [
+              {field: 'name', displayName: 'Name'},
+              {field: 'installInHw', displayName: 'Install'},
+
+            ]
+          };
+
+          $scope.$watch(
+            function () {
+              return FlowSvc.data;
+            },
+            function (data) {
+              $scope.data = data;
+            }
+          );
         }
       }
     }
@@ -89,7 +109,7 @@ angular.module('dlux.flow', [])
     views: {
       '': {
         templateUrl: 'flow/create.tpl.html',
-        controller: 'FlowCtrl'
+        controller: 'FlowCreateCtrl'
       },
       'composer@flow.create': {
         templateUrl: 'flow/composer.tpl.html',

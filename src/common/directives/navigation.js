@@ -181,7 +181,7 @@ angular.module('dlux.directives.navigation', [])
     scope: {
       'data': '='
     },
-    template: '<div>{{data.length}}</div>',
+    template: '<span>Selected: {{data.length}}</span>'
   };
 })
 

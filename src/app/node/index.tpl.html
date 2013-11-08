@@ -23,19 +23,6 @@
   </div>
 </div>
 -->
-
-<style>
-  .gridStyle {
-    border: 1px solid #777;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-  }
-</style>
-
 <ctrl-reload service="svc"></ctrl-reload>
-<count-selected data="gridOptions.selectedItems"></count-selected>
-<div class="gridStyle" ng-grid="gridOptions"></div>
+<show-selected data="gridOptions.selectedItems"></show-selected>
+<div class="indexGrid" ng-grid="gridOptions"></div>

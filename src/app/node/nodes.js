@@ -13,15 +13,17 @@ angular.module('dlux.node', [])
   $stateProvider.state('node', {
     url: '/node',
     abstract: true,
-    template: '<div ui-view></div>'
+    templateUrl: 'node/root.tpl.html'
   });
 
-  $stateProvider.state('node.list', {
-    url: '/list',
+  $stateProvider.state('node.index', {
+    url: '/index',
     views: {
       '': {
         templateUrl: 'node/index.tpl.html',
         controller: function ($scope, SwitchSvc) {
+          $scope.svc = SwitchSvc;
+
           $scope.gridOptions = {
             data: 'data["nodeProperties"]',
             selectedItems: [],
@@ -46,9 +48,31 @@ angular.module('dlux.node', [])
               return SwitchSvc.data;
             },
             function (data) {
-              console.log(data);
               $scope.data = data;
           });
+        }
+      }
+    }
+  });
+
+  $stateProvider.state('node.discover', {
+    url: '/discover',
+    views: {
+      '': {
+        templateUrl: 'node/discover.tpl.html',
+        controller: function ($scope, SwitchSvc, ConnectionManagerSvc) {
+          $scope.nodePort = 6633;
+
+          $scope.doDiscover = function () {
+            ConnectionManagerSvc.discover($scope.nodeId, $scope.nodeAddress, $scope.nodePort).then(
+              function () {
+                $scope.$state.go('node.index');
+              },
+              function (error) {
+                $scope.error = error.data;
+              }
+            );
+          };
         }
       }
     }

@@ -129,6 +129,25 @@ angular.module('dlux.nbapi', [])
 })
 
 
+.factory('ConnectionManagerSvc', function (Restangular) {
+  var svc = {
+    data: null
+  };
+
+  svc.getAll = function () {
+    Restangular.one('connectionmanager').one('nodes').then(function (data) {
+      svc.data = data;
+    });
+  };
+
+  svc.discover = function (nodeId, nodeIp, nodePort) {
+    return Restangular.one('connectionmanager').one('node', nodeId).one('address', nodeIp).one('port', nodePort).customPUT();
+  };
+
+  return svc;
+})
+
+
 .factory('SwitchSvc', function (NBApiSvc) {
   var svc = {
     base: function (container) {
