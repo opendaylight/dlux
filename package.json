@@ -1,5 +1,5 @@
 {
-  "name": "VieUX",
+  "name": "dlux",
   "version": "0.0.1",
   "description": "OpenDaylight UI in AngularJS",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ekarlso/opendaylight-ui.git"
+    "url": "https://git.opendaylight.org/dlux.git"
   },
   "keywords": [
     "networking",

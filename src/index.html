@@ -7,7 +7,7 @@
     <!-- compiled CSS <% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
     -->
-    <link rel="stylesheet" type="text/css" href="assets/VieUX-0.0.1.css"></style>
+    <link rel="stylesheet" type="text/css" href="assets/dlux-0.0.1.css"></style>
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
@@ -16,7 +16,7 @@
 <body>
   <div id="top" ng-if="authed" ng-controller="TopNavCtrl">
     <div id="logo">
-      <a ui-sref="index">Open<span>Daylight</span></a>
+      <a ui-sref="index">Open<span><u>D</u>ay<u>l</u>ight <u>U</u>ser<u>E</u>xperience</span></a>
     </div>
     <ul class="nav navbar-nav navbar-right">
       <!-- containers-->
@@ -44,7 +44,7 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li ng-class="{ active: $state.includes('about') }"><a ui-sref="about()">About</a></li>
+          <li><a href="https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main">Wiki</a></li>
         </ul>
       </li>
     </ul>
