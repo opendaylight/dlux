@@ -1,28 +1,3 @@
-<!--
-<div class="container">
-  <div class="row">
-    <h1>Nodes</h1>
-    <h4>Displaying {{data.nodeProperties.length}} nodes</h4>
-    <table class="table table-striped">
-      <tbody ng-repeat="np in data.nodeProperties">
-        <tr>
-          <th scope="row">{{np.node.type}}/{{np.node.id}}</th>
-          <td class="text-right"><a ui-sref="node.detail({nodeId: np.node.id, nodeType: np.node.type})" class="btn btn-xs btn-primary">ports</a>
-            <a ui-sref="flows.node({nodeType: np.node.type, nodeId:np.node.id})" class="btn btn-xs btn-primary">flows</a>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <strong>Description:</strong> {{np.properties.description.value}}<br />
-            <strong>MAC:</strong> {{np.properties.macAddress.value}}
-            </dl>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
--->
 <ctrl-reload service="svc"></ctrl-reload>
 <show-selected data="gridOptions.selectedItems"></show-selected>
 <div class="indexGrid" ng-grid="gridOptions"></div>

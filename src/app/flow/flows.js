@@ -29,7 +29,6 @@ angular.module('dlux.flow', [])
 
     $scope.flow.node = {type: node[0], id: node[1]};
 
-
     /* Set nodeConnectorProperties for the selected node
      *
      * When a node is set the ingressPort should be cleared
@@ -52,14 +51,12 @@ angular.module('dlux.flow', [])
   };
 })
 
-
 // Flow composition view controller
 .controller('FlowCompositionCtrl', function ($scope) {
   $scope.$watch('actionActive', function(newValue, oldValue, scope) {
     $scope.flow.actions = newValue;
   });
 })
-
 
 .config(function ($stateProvider) {
   $stateProvider.state('flow', {
