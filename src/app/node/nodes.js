@@ -55,28 +55,6 @@ angular.module('dlux.node', [])
     }
   });
 
-  $stateProvider.state('node.discover', {
-    url: '/discover',
-    views: {
-      '': {
-        templateUrl: 'node/discover.tpl.html',
-        controller: function ($scope, SwitchSvc, ConnectionManagerSvc) {
-          $scope.nodePort = 6633;
-
-          $scope.doDiscover = function () {
-            ConnectionManagerSvc.discover($scope.nodeId, $scope.nodeAddress, $scope.nodePort).then(
-              function () {
-                $scope.$state.go('node.index');
-              },
-              function (error) {
-                $scope.error = error.data;
-              }
-            );
-          };
-        }
-      }
-    }
-  });
 
   $stateProvider.state('node.detail', {
     url: '/{nodeType}/{nodeId}/detail',

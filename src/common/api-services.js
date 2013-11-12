@@ -135,13 +135,13 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.getAll = function () {
-    Restangular.one('connectionmanager').one('nodes').then(function (data) {
+    Restangular.one('connection_manager').one('nodes').then(function (data) {
       svc.data = data;
     });
   };
 
   svc.discover = function (nodeId, nodeIp, nodePort) {
-    return Restangular.one('connectionmanager').one('node', nodeId).one('address', nodeIp).one('port', nodePort).customPUT();
+    return Restangular.one('connection_manager').one('node', nodeId).one('address', nodeIp).one('port', nodePort).customPUT();
   };
 
   return svc;
