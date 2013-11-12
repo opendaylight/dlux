@@ -18,6 +18,7 @@ var dlux = angular.module('dlux', [
   'dlux.directives.general',
   'dlux.directives.topology',
   'dlux.container',
+  'dlux.connection_manager',
   'dlux.flow',
   'dlux.node',
   'dlux.networking',
