@@ -96,8 +96,7 @@
 
     <!-- This is the "main" content div, it holds a contextual menu for the current view on the top and shows useful things underneith-->
     <div id="center-cover">
-      <div id="center">
-        <div ui-view></div>
+      <div id="center" ui-view>
       </div>
     </div>
 
@@ -109,8 +108,7 @@
     </div>
   </div>
 
-  <div ng-if="!authed">
-    <div ui-view></div>
+  <div ng-if="!authed" ui-view>
   </div>
 </body>
 </html>
