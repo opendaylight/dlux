@@ -22,7 +22,7 @@
 // style
 body, html {
   height: 100%;
-  background-image: linear-gradient(to bottom, #ffc427, #de5d2c);
+  background-image: linear-gradient(to bottom, #1f1f21, #6a7b6f);
 }
 
 #top {
@@ -75,12 +75,14 @@ body, html {
     //border: 1px dotted #000;
   }
   #left, #center, #right {
-    overflow-y: auto;
     background: #fff;
     padding: @padding;
     height: 100%;
     min-height: 100%;
     border-radius: 7px;
+  }
+  #left, #right {
+    overflow-y: auto;
   }
   #left-cover, #center-cover {
     float: left;
@@ -236,6 +238,10 @@ body, html {
             }
           }
         }
+      }
+      .main {
+        overflow-y: auto;
+        height: 100%;
       }
     }
   }
