@@ -135,7 +135,7 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.getAll = function () {
-    Restangular.one('connectionmanager').one('nodes').then(function (data) {
+    Restangular.one('connectionmanager').one('nodes').getList().then(function (data) {
       svc.data = data;
     });
   };

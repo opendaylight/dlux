@@ -54,9 +54,8 @@ angular.module('dlux.navigation', [])
     if (stateToServices[stateBase] !== undefined) {
       svcName = stateToServices[stateBase];
     } else {
-      svcName = _.str.capitalize(stateBase) + 'Svc';
+      svcName = _.string.capitalize(_.string.camelize(stateBase)) + 'Svc';
     }
-
 
     if (!$injector.has(svcName)) {
       $scope.menu = null;
