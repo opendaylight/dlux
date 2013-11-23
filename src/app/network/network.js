@@ -2,8 +2,20 @@ angular.module('dlux.networking', [])
 
 .config(function ($stateProvider) {
   $stateProvider.state('network', {
-    templateUrl: 'network/index.tpl.html',
-    url: '/network'
+    url: '/network',
+    templateUrl: 'network/root.tpl.html',
+    abstract: true
+  });
+
+  $stateProvider.state('network.index', {
+    url: '/index',
+    views: {
+      '': {
+        templateUrl: 'network/index.tpl.html',
+        controller: function($scope, NetworkSvc) {
+        }
+      }
+    }
   });
 
   $stateProvider.state('network.staticroutes', {
