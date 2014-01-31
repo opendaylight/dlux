@@ -1,0 +1,6 @@
+<h3>Tables</h3>
+<ul class="nav nav-pills nav-stacked">
+    <li ng-repeat="(key, values) in table_defs" ng-class="{ active: $stateParams.name == key }">
+        <a ui-sref="db.table({name: key})">{$ values.title $}</a>
+    </li>
+</ul>

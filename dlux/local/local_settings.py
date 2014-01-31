@@ -1,0 +1,153 @@
+import os
+
+from django.utils.translation import ugettext_lazy as _
+
+from dlux import exceptions
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+# Required for Django 1.5.
+# If horizon is running in production (DEBUG is False), set this
+# with the list of host/domain names that the application can serve.
+# For more information see:
+# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+#ALLOWED_HOSTS = ['horizon.example.com', ]
+
+# Set SSL proxy settings:
+# For Django 1.4+ pass this header from the proxy after terminating the SSL,
+# and don't forget to strip it from the client's request.
+# For more information see:
+# https://docs.djangoproject.com/en/1.4/ref/settings/#secure-proxy-ssl-header
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+
+# If Horizon is being served through SSL, then uncomment the following two
+# settings to better secure the cookies from security exploits
+#CSRF_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
+
+# Set Console type:
+# valid options would be "AUTO", "VNC" or "SPICE"
+# CONSOLE_TYPE = "AUTO"
+
+# Default OpenStack Dashboard configuration.
+HORIZON_CONFIG = {
+    'dashboards': ('network', 'settings',),
+    'default_dashboard': 'network',
+    'user_home': 'dlux.views.get_user_home',
+    'ajax_queue_limit': 10,
+    'auto_fade_alerts': {
+        'delay': 3000,
+        'fade_duration': 1500,
+        'types': ['alert-success', 'alert-info']
+    },
+    'help_url': "http://docs.openstack.org",
+    'exceptions': {'recoverable': exceptions.RECOVERABLE,
+                   'not_found': exceptions.NOT_FOUND,
+                   'unauthorized': exceptions.UNAUTHORIZED},
+}
+
+# Specify a regular expression to validate user passwords.
+# HORIZON_CONFIG["password_validator"] = {
+#     "regex": '.*',
+#     "help_text": _("Your password does not meet the requirements.")
+# }
+
+LOCAL_PATH = os.path.dirname(os.path.abspath(__file__))
+
+# Set custom secret key:
+# You can either set it to a specific value or you can let horizion generate a
+# default secret key that is unique on this machine, e.i. regardless of the
+# amount of Python WSGI workers (if used behind Apache+mod_wsgi): However, there
+# may be situations where you would want to set this explicitly, e.g. when
+# multiple dashboard instances are distributed on different machines (usually
+# behind a load-balancer). Either you have to make sure that a session gets all
+# requests routed to the same dashboard instance or you set the same SECRET_KEY
+# for all of them.
+from horizon.utils import secret_key
+SECRET_KEY = secret_key.generate_or_read_from_file(os.path.join(LOCAL_PATH, '.secret_key_store'))
+
+# We recommend you use memcached for development; otherwise after every reload
+# of the django development server, you will have to login again. To use
+# memcached set CACHES to something like
+# CACHES = {
+#    'default': {
+#        'BACKEND' : 'django.core.cache.backends.memcached.MemcachedCache',
+#        'LOCATION' : '127.0.0.1:11211',
+#    }
+#}
+
+CACHES = {
+    'default': {
+        'BACKEND' : 'django.core.cache.backends.locmem.LocMemCache'
+    }
+}
+
+# Send email to the console by default
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Or send them to /dev/null
+#EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# Configure these for your outgoing email host
+# EMAIL_HOST = 'smtp.my-company.com'
+# EMAIL_PORT = 25
+# EMAIL_HOST_USER = 'djangomail'
+# EMAIL_HOST_PASSWORD = 'top-secret!'
+
+DEFAULT_CONTROLLER = ("http://home.dtucker.co.uk:8080", "DT")
+# For multiple controllers uncomment this configuration, and add (endpoint, title).
+#AVAILABLE_CONTROLLERS = [
+#    ("http://localhost:8080", "Localhost")
+#]
+
+
+# The timezone of the server. This should correspond with the timezone
+# of your entire OpenStack installation, and hopefully be in UTC.
+TIME_ZONE = "UTC"
+
+LOGGING = {
+    'version': 1,
+    # When set to True this will disable all logging except
+    # for loggers specified in this configuration dictionary. Note that
+    # if nothing is specified here and disable_existing_loggers is True,
+    # django.db.backends will still log unless it is disabled explicitly.
+    'disable_existing_loggers': False,
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
+        },
+        'console': {
+            # Set the level to "DEBUG" for verbose output logging.
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        # Logging from django.db.backends is VERY verbose, send to null
+        # by default.
+        'django.db.backends': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+        'requests': {
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'horizon': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'dlux': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'iso8601': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+    }
+}
+
