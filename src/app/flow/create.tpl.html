@@ -35,7 +35,6 @@
         <label for="hardTimeout">Hard Timeout</label>
         <input type="text" class="form-control input-sm" ng-model="flow.hardTimeout" id="hardTimeout" placeholder="Hard Timeout">
       </div>
-
       <div class="form-group">
         <label for="idleTimeout">Idle Timeout</label>
         <input type="text" class="form-control input-sm" ng-model="flow.idleTimeout" id="idleTimeout" placeholder="Idle Timeout">
@@ -97,27 +96,23 @@
         <label for="protocol">Protocol</label>
         <input type="text" class="form-control input-sm" ng-model="flow.protocol" id="protocol" placeholder="Protocol (Example: TCP)">
       </div>
-    </div><!-- end column -->
+    </div>
 
     <div class="col-md-4">
     <h3>Actions</h3>
     <div class="form-group">
       <label for="actions">Actions</label>
-      <select class="form-control input-sm" id="actions" multiple ng-model="actionActive" ui-select2>
-        <option ng-repeat="(key, value) in actionOptions">{{key}}</option>
+      <select ng-init="actionOptions[0]" class="form-control input-sm" id="actions" ng-click="changeOptions(actionActive)" ng-model="actionActive" ui-select2>
+        <option ng-repeat="(key, value) in actionOptions" ng-show="!value.hidden">{{value.displayName}}</option>
       </select>
     </div>
-
+</div>
+<div class="col-md-6">
     <div ui-view="composer"></div>
 
     <button-submit form="createForm" function="submit"></button-submit>
     <button-cancel state="flows.index"></button-cancel>
     </div>
-  </form>
 
-  <div class="col-md-3">
-    Flow debug:<br/>
-    <span ng-show="flowName">Name: {{flowName}}<br/></span>
-    <span ng-show="nodeType && nodeId">Node: {{nodeType}} @ {{nodeId}}<br/></span>
-    <span ng-show="flow">{{flow | json}}<br/></span>
-  </div>
+
+  </form>

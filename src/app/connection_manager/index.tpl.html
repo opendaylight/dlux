@@ -1,3 +1,25 @@
-<ctrl-reload service="svc"></ctrl-reload>
+<!--<ctrl-reload service="svc"></ctrl-reload>
 <show-selected data="gridOptions.selectedItems"></show-selected>
-<div class="indexGrid" ng-grid="gridOptions"></div>
+<div class="indexGrid" ng-grid="gridOptions"></div>-->
+
+
+
+<table class="footable table">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th data-hide="phone">Type</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in data | filter:search">
+        <td>{{item.id}}</td>
+        <td>{{item.type}}</td>
+      </tr>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+	$('.footable').footable();
+</script>

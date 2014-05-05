@@ -5,7 +5,7 @@
     https://wiki..org/view/_Controller:REST_Reference_and_Authentication
 */
 
-angular.module('dlux.nbapi', [])
+angular.module('common.nbapi', [])
 
 
 .factory('NBApiSvc', function (Restangular, ContainerSvc) {
@@ -57,15 +57,12 @@ angular.module('dlux.nbapi', [])
     return svc.base().one('container', container);
   };
 
-  svc.delete = function (container) {
-    container = angular.isObject(container) ? container.container : container;
-    return svc.containerUrl(container).remove();
+  svc.delete = function (containerName) {
+    return svc.containerUrl(containerName).remove();
   };
 
   svc.getAll = function() {
-    svc.containersUrl().getList().then(function (data) {
-      svc.data = data;
-    });
+    return svc.containersUrl().getList();
   };
 
   svc.itemData = function (i) {
@@ -91,6 +88,10 @@ angular.module('dlux.nbapi', [])
     }
   };
 
+  svc.delete = function(flowName, flowID, flowType) {
+    return svc.staticFlowUrl('default', flowType, flowID, flowName).remove();
+  };
+
   svc.flowsUrl = function (container) {
     return svc.base(container);
   };
@@ -104,9 +105,8 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.getAll = function (container) {
-    svc.flowsUrl(container).getList().then(function (data) {
-      svc.data = data;
-    });
+    return svc.flowsUrl(container).getList();
+    
   };
 
   svc.itemData = function (i) {
@@ -135,9 +135,7 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.getAll = function () {
-    Restangular.one('connectionmanager').one('nodes').getList().then(function (data) {
-      svc.data = data;
-    });
+    return Restangular.one('connectionmanager').one('nodes').getList();
   };
 
   svc.discover = function (nodeId, nodeIp, nodePort) {
@@ -156,6 +154,11 @@ angular.module('dlux.nbapi', [])
     data: null
   };
 
+  svc.delete = function(node) {
+   /* console.log(node);
+    return svc.nodeUrl('default', node.node.type, node.node.id).remove();*/
+  };
+
   // URL for nodes
   svc.nodesUrl = function (container) {
     return svc.base(container).all('nodes');
@@ -167,9 +170,7 @@ angular.module('dlux.nbapi', [])
   };
 
   svc.getAll = function (container) {
-    svc.nodesUrl(container).getList().then(function (data) {
-      svc.data = data;
-    });
+    return svc.nodesUrl(container).getList();
   };
 
   svc.getConnectorProperties = function (container, type, id) {
@@ -197,12 +198,28 @@ angular.module('dlux.nbapi', [])
   return svc;
 })
 
+.factory('UserSvc', function(NBApiSvc) {
+  var svc = {
+    base: function (container) {
+      return NBApiSvc.base("usermanager", "users");
+    }
+  };
+
+  svc.getUsers = function(container) {
+    return svc.base(container).get();
+  };
+  return svc;
+})
 
 .factory('StaticRouteSvc', function (NBApiSvc) {
   var svc = {
     base: function (container) {
       return NBApiSvc.base('staticroute', container);
     }
+  };
+
+  svc.delete = function(staticRouteName) {
+    svc.routeUrl("default", staticRouteName).remove();
   };
 
   svc.routesUrl = function (container) {
@@ -232,8 +249,42 @@ angular.module('dlux.nbapi', [])
     return svc.base(container).one('subnet', name);
   };
 
+  svc.delete = function(subnetName) {
+    return svc.subnetUrl('default', subnetName).remove();
+  };
+
   svc.subnetPortsUrl = function (container, name) {
     return svc.base(container).one('subnet', name).all('node-ports');
+  };
+
+  return svc;
+})
+
+.factory('SpanPortSvc', function (Restangular) {
+  var svc = {
+    base: function(container) {
+      return Restangular.one(container);
+    }
+  };
+
+  svc.getSpanPorts = function() {
+    return svc.base("spanPorts").getList();
+  };
+
+  svc.getSpanPort = function() {
+
+  };
+
+  svc.addSpanPort = function() {
+
+  };
+
+  svc.updateSpanPort = function() {
+
+  };
+
+  svc.deleteSpanPort = function() {
+
   };
 
   return svc;

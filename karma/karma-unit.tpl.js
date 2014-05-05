@@ -33,7 +33,7 @@ module.exports = function ( karma ) {
      * operating, and what is the URL path for the browser to use.
      */
     port: 9018,
-    runnerPort: 9100,
+    runnerPort: 9101,
     urlRoot: '/',
 
     /** 

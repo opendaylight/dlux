@@ -1,0 +1,25 @@
+<a href="{{item.link}}" ng-if="isValid(item.submenu)" target="_self">
+    <i class="{{item.icon}}"></i>
+    {{item.title}}
+    <span ng-show="isValid(item.submenu)" class="arrow icon-angle-down"></span>
+</a>
+<a href="{{item.link}}" target="_self" ng-if="!isValid(item.submenu)">
+    <i class="{{item.icon}}"></i>
+    {{item.title}}
+</a>
+
+<ul class="nav nav-second-level collapse" style="display: {{display}}">
+
+    <li ng-controller="navItemCtrl" ng-repeat="item in item.submenu"
+        ng-include="'navigation/nav_item_template.tpl.html'">
+
+    </li>
+
+
+</ul>
+
+
+  
+ 
+
+

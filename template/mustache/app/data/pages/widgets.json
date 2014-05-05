@@ -1,0 +1,7 @@
+{
+ "title" : "Widgets"
+ ,
+ "description" : "Draggabble Widget Boxes & Containers"
+ ,
+ "scripts" : ["jquery-ui" , "slimscroll"]
+}

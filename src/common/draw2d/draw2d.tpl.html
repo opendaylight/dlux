@@ -1,0 +1,69 @@
+<script src="assets/js/fix-old-jquery.js"></script>
+
+
+
+<script src="assets/js/draw2d/lib/raphael.js"></script>
+<script src="assets/js/draw2d/lib/jquery.layout.js"></script>
+<script src="assets/js/draw2d/lib/jquery.autoresize.js"></script>
+
+<script src="assets/js/draw2d/lib/jquery.contextmenu.js"></script>
+<script src="assets/js/draw2d/lib/rgbcolor.js"></script>
+<script src="assets/js/draw2d/lib/canvg.js"></script>
+<script src="assets/js/draw2d/lib/Class.js"></script>
+<script src="assets/js/draw2d/lib/json2.js"></script>
+<script src="assets/js/draw2d/src/draw2d.js"></script>
+<script src="scripts/js/requirejs-config.js"></script>
+
+
+<div id="draw2d">
+<!-- we need this since the new version of jquery lack this function and draw2d use it -->
+
+
+<div id="gfx_holder"></div>
+
+<script type="text/javascript">
+
+    //This function is called when scripts/helper/util.js is loaded.
+    //If util.js calls define(), then this function is not fired until
+    //util's dependencies have loaded, and the util argument will hold
+    //the module value for "helper/util".
+  
+
+    //This function is called when scripts/helper/util.js is loaded.
+    //If util.js calls define(), then this function is not fired until
+    //util's dependencies have loaded, and the util argument will hold
+    //the module value for "helper/util".
+    require(["util", "geo", "layout", "commandPackage", "policy", "sourcePackage", "shape", "decoratorPackage"], function() {
+    //This function is called after some/script.js has loaded.
+          var canvas = new draw2d.Canvas("gfx_holder");
+      
+       
+      
+      // create and add two nodes which contains Ports (In and OUT)
+      //
+      var start = new draw2d.shape.node.Start();
+      var end   = new draw2d.shape.node.End();
+        
+     // ...add it to the canvas 
+     canvas.addFigure( start, 50,50);
+     canvas.addFigure( end, 230,80);
+           
+ // Create a Connection and connect the Start and End node
+      //
+      var c = new draw2d.Connection();
+       
+      // Set the endpoint decorations for the connection
+      //
+      c.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+      c.setTargetDecorator(new draw2d.decoration.connection.DiamondDecorator());   
+      // Connect the endpoints with the start and end port
+      //
+      c.setSource(start.getInputPort(0));
+      c.setTarget(end.getOutputPort(0));
+            
+      // and finally add the connection to the canvas
+      canvas.addFigure(c);
+    });
+</script>
+
+</div>

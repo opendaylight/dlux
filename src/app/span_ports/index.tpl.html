@@ -1,0 +1,40 @@
+<a class="btn btn-info add-row" href="index.html#/span_ports/create">
+    Add Span Port
+</a>
+Search:
+<input id="filter" type="text"></input>
+<table class="footable table" data-page-size="5" page-navigation="pagination">
+  <thead>
+    <tr>
+        <th>Node</th>
+        <th>SPAN Port</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="sr in data.staticRoute | filter:search" on-finish-render>
+        <td>{{sr.name}}</td>
+        <td>{{sr.prefix}}</td>
+        <td>
+          <a class="row-delete" href="">
+          <i class="icon-remove"></i>
+      </a>
+    </td>
+      </tr>
+  </tbody>
+  <tfoot class="hide-if-no-paging">
+    <tr>
+      <td colspan="5">
+        <div class="pagination pagination-centered"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+
+
+
+
+<script type="text/javascript">
+    
+    $('.footable').footable();
+</script>

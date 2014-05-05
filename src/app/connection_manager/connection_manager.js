@@ -1,6 +1,7 @@
-angular.module('dlux.connection_manager', [])
+angular.module('console.connection_manager', [])
 
 .config(function ($stateProvider) {
+  var access = routingConfig.accessLevels;
   $stateProvider.state('connection_manager', {
     abstract: true,
     url: '/connection_manager',
@@ -9,61 +10,43 @@ angular.module('dlux.connection_manager', [])
 
   $stateProvider.state('connection_manager.index', {
     url: '/index',
+    access: access.public,
     templateUrl: 'connection_manager/index.tpl.html',
     views: {
       '': {
         templateUrl: 'connection_manager/index.tpl.html',
-        controller: function ($scope, ConnectionManagerSvc) {
+        controller: ['$scope', 'ConnectionManagerSvc', function ($scope, ConnectionManagerSvc) {
           $scope.svc = ConnectionManagerSvc;
+          ConnectionManagerSvc.getAll(null).then(function(data) {
+            $scope.data = data[0];
+          });
+          
 
-          $scope.gridOptions = {
-            data: 'data["node"]',
-            selectedItems: [],
-            enableRowSelection: true,
-            showSelectionCheckbox: true,
-            selectWithCheckboxOnly: true,
-            columnDefs: [
-              {
-                field: 'id', displayName: 'ID',
-              },
-              {
-                field: 'type', displayName: 'Type',
-              }
-            ]
-          };
-
-          $scope.$watch(
-            function () {
-              return ConnectionManagerSvc.data;
-            },
-            function (data) {
-              $scope.data = data;
-            }
-          );
-        }
+        }]
       }
     }
   });
 
   $stateProvider.state('connection_manager.discover', {
     url: '/discover',
+    access: access.public,
     views: {
       '': {
         templateUrl: 'connection_manager/discover.tpl.html',
-        controller: function ($scope, SwitchSvc, ConnectionManagerSvc) {
+        controller: ['$scope', 'SwitchSvc', 'ConnectionManagerSvc', '$state', function ($scope, SwitchSvc, ConnectionManagerSvc, $state) {
           $scope.nodePort = 6633;
 
           $scope.doDiscover = function () {
             ConnectionManagerSvc.discover($scope.nodeId, $scope.nodeAddress, $scope.nodePort).then(
               function () {
-                $scope.$state.go('connection_manager.index');
+                $state.transitionTo('connection_manager.index', null, { location: true, inherit: true, relative: $state.$current, notify: true });
               },
               function (error) {
                 $scope.error = error.data;
               }
             );
           };
-        }
+        }]
       }
     }
   });
