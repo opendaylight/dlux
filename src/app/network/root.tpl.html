@@ -1,8 +1,7 @@
 <div class="menu">
   <ul class="nav nav-pills">
-    <li ng-class="{ active: $state.includes('network.index') }"><a ui-sref="network.index()">Home</a></li>
-    <li ng-class="{ active: $state.includes('network.staticroutes') }"><a ui-sref="network.staticroutes()">Static Routes</a></li>
-    <li ng-class="{ active: $state.includes('network.subnets') }"><a ui-sref="network.subnets()">Subnets</a></li>
+    <li ng-class="{ active: isState('network.staticroutes') }"><a href="index.html#/network/staticroute">Static Routes</a></li>
+    <li ng-class="{ active: isState('network.subnets') }"><a href="index.html#/network/subnet">Subnets</a></li>
   </ul>
 
   <!-- For child state use-->

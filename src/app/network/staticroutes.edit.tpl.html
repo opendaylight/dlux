@@ -1,0 +1,24 @@
+<div class="col-md-4">
+ <form role="form" name="createForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input disabled type="text" class="form-control input-sm" ng-model="data.name" id="name" placeholder="Name" required>
+    </div>
+
+    <div class="form-group">
+      <label for="prefix">Network / Mask</label>
+      <input type="text" class="form-control input-sm" ng-model="data.prefix" id="prefix" placeholder="Network / Mask - Example: 10.0.0.0/24" required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="nextHop">Next Hop</label>
+      <input type="text" class="form-control input-sm" ng-model="data.nextHop" id="name" placeholder="Next Hop - Example: 10.0.0.1" required>
+    </div>
+
+    <button-submit form="createForm" function="submit"></button-submit>
+    <button-cancel state="network.staticroutes"></button-cancel>
+    <span class="error clearfix">{{ error }}</span>
+  </form>
+
+</div>

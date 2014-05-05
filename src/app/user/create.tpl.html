@@ -1,0 +1,26 @@
+<form role="form" name="createForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control input-sm control-label" ng-model="data.user" id="user" placeholder="Username" required>
+  </div>
+  <div class="form-group">
+    <label for="name">Password</label>
+    <input type="text" class="form-control input-sm control-label" ng-model="data.password" id="password" placeholder="Password" required>
+  </div>
+  <div class="form-group">
+    <label for="name">Verify Password</label>
+    <input type="text" class="form-control input-sm control-label" ng-model="verifyPasword" id="verifypasword" placeholder="Verify Password" required>
+  </div>
+
+  <div class="form-group">
+    <label for="nodes">Nodes</label>
+    <select class="form-control input-sm" id="roles" ui-select2 ng-model="data.roles">
+      <option ng-repeat="role in Roles" value="{{role.name}}">{{role.name}}</option>
+    </select>
+  </div>
+
+
+  <button-submit form="createForm" function="submit"></button-submit>
+  <button-cancel state="user.index"></button-cancel>
+  <span class="error clearfix">{{ error }}</span>
+</form>

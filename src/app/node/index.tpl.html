@@ -1,3 +1,56 @@
-<ctrl-reload service="svc"></ctrl-reload>
-<show-selected data="gridOptions.selectedItems"></show-selected>
-<div class="indexGrid" ng-grid="gridOptions"></div>
+<!--<ctrl-reload service="svc"></ctrl-reload>
+<span>Selected: {{numberSelectedItems}}</span>-->
+<!--<div class="indexGrid" ng-grid="gridOptions"></div>-->
+
+<!--<a class="btn btn-info add-row" href="index.html#/node/create">
+    Add New Node
+</a>-->
+
+<table class="footable table">
+	<thead>
+		<tr>
+
+			<th>Node ID</th>
+			<th data-hide="phone">Node name</th>
+			<th data-hide="phone">MAC Address</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in data | filter:search">
+      	<!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
+        <td><a href="index.html#/node/{{item.node.type}}/{{item.node.id}}/detail">{{item.node.id}}</a></td>
+        <td>{{item.properties.description.value}}</td>
+        <td>{{item.properties.macAddress.value}}</td>
+        <!--<td>
+        	<a class="row-delete" href="#">
+    			<i class="icon-remove"></i>
+			</a>
+		</td>-->
+      </tr>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+		$('.footable').footable();
+</script>
+
+<!--
+<table class="table table-striped table-bordered table-condensed">
+    <thead >
+      <tr class="table-top">
+      	<th class="table-checkbox-row"><input ng-click="selectAll()" type="checkbox" id="checkAll" /></th>
+        <th>Node ID</th>
+        <th>Node Name</th>
+        <th>MAC Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in data.nodeProperties | filter:search">
+      	<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>
+        <td>{{item.node.id}}</td>
+        <td>{{item.properties.description.value}}</td>
+        <td>{{item.properties.macAddress.value}}</td>
+      </tr>
+    </tbody>
+  </table> -->

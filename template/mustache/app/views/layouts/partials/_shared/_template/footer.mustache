@@ -1,0 +1,29 @@
+<!-- basic scripts -->
+{{> layout._template.jquery}}
+
+<script src="{{{path.assets}}}/js/bootstrap.min.js"></script>
+<script src="{{{path.assets}}}/js/typeahead-bs2.min.js"></script>
+
+<!-- page specific plugin scripts -->
+{{!put IE only scripts here, currently we only use ExCanvas.js from time to time}}
+{{#page.ie_scripts}}
+<!--[if lte IE {{version}}]>
+  <script src="{{{path.assets}}}/js/{{{file_name}}}"></script>
+<![endif]-->
+{{/page.ie_scripts}}
+
+{{#page.scripts}}
+<script src="{{{path.assets}}}/js/{{{.}}}"></script>
+{{/page.scripts}}
+
+<!-- ace scripts -->
+<script src="{{{path.assets}}}/js/ace-elements.min.js"></script>
+<script src="{{{path.assets}}}/js/ace.min.js"></script>
+
+
+<!-- inline scripts related to this page -->
+{{#page.inline_scripts}}
+<script type="text/javascript">
+{{{page.inline_scripts}}}
+</script>
+{{/page.inline_scripts}}

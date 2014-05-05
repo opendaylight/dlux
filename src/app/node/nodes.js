@@ -1,4 +1,4 @@
-angular.module('dlux.node', [])
+angular.module('console.node', [])
 
 .controller('nodeCtrl', function($scope, SwitchSvc) {
   $scope.ncpData = {};
@@ -10,6 +10,7 @@ angular.module('dlux.node', [])
 })
 
 .config(function ($stateProvider) {
+  var access = routingConfig.accessLevels;
   $stateProvider.state('node', {
     url: '/node',
     abstract: true,
@@ -18,50 +19,52 @@ angular.module('dlux.node', [])
 
   $stateProvider.state('node.index', {
     url: '/index',
+    access: access.admin,
     views: {
       '': {
         templateUrl: 'node/index.tpl.html',
-        controller: function ($scope, SwitchSvc) {
-          $scope.svc = SwitchSvc;
-
-          $scope.gridOptions = {
-            data: 'data["nodeProperties"]',
-            selectedItems: [],
-            enableRowSelection: true,
-            showSelectionCheckbox: true,
-            selectWithCheckboxOnly: true,
-            columnDefs: [
-              {
-                field: 'properties.description.value', displayName: 'Node Name'
-              },
-              {
-                field: 'node.id', displayName: 'Node ID'
-              },
-              {
-                field: 'properties.macAddress.value', displayName: 'MAC Address'
-              }
-            ]
+        controller: ['$scope', 'SwitchSvc', function ($scope, SwitchSvc) {
+          $scope.selectAll = function() {
+            console.log($('input[id^=select-node-]'));
+            if($("#checkAll")[0].checked) {
+              $scope.numberSelectedItems = $('input[id^=select-node-]').length;
+            }
+            else {
+              $scope.numberSelectedItems = 0;
+            }
+            $('input[id^=select-node-]').each(function(i, el) {
+              el.checked = $("#checkAll")[0].checked;
+            });
           };
 
-          $scope.$watch(
-            function () {
-              return SwitchSvc.data;
-            },
-            function (data) {
-              $scope.data = data;
+          $scope.unselect = function($event) {
+            if(!$event.target.checked) {
+              $("#checkAll")[0].checked = false;
+              $scope.numberSelectedItems--;
+            }
+            else {
+              $scope.numberSelectedItems++;
+            }
+          };
+          $scope.svc = SwitchSvc;
+          $scope.numberSelectedItems = 0;
+          SwitchSvc.getAll(null).then(function(data) {
+            $scope.data = data[0];
           });
-        }
+          
+        }]
       }
     }
   });
 
 
   $stateProvider.state('node.detail', {
-    url: '/{nodeType}/{nodeId}/detail',
+    url: '/:nodeType/:nodeId/detail',
+    access: access.admin,
     views: {
       '': {
         templateUrl: 'node/detail.tpl.html',
-        controller: function ($scope, $stateParams, SwitchSvc) {
+        controller: ['$scope', '$stateParams', 'SwitchSvc', function ($scope, $stateParams, SwitchSvc) {
           SwitchSvc.nodeUrl(null, $stateParams.nodeType, $stateParams.nodeId).get().then(
             function (data) {
               $scope.data = data;
@@ -71,7 +74,7 @@ angular.module('dlux.node', [])
           $scope.portNotNull = function (property) {
             return property.nodeconnector.id !== "0";
           };
-        }
+        }]
       }
     }
   });

@@ -1,0 +1,27 @@
+<form role="form" name="createForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input disabled type="text" class="form-control input-sm control-label" ng-model="data.container" id="name" placeholder="Container name" required>
+  </div>
+
+  <div class="form-group">
+    <label for="nodes">Nodes</label>
+    <select class="form-control input-sm" id="nodes" multiple ui-select2 ng-model="currentNodes">
+      <option ng-repeat="np in nodeProperties" value="{{np.node.type}}|{{np.node.id}}">{{np.properties.description.value}}: {{np.node.type}}/{{np.node.id}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="connectors">Node Connectors</label>
+    <select class="form-control input-sm" id="connectors" multiple ui-select2 ng-model="data.nodeConnectors" ng-disabled="currentNodes == 0">
+      <optgroup ng-repeat="(nodeString, nodeConnectors) in connectorProperties" label="{{nodeString}}">
+        <option ng-repeat="connector in nodeConnectors | noRootPorts" value="{{connector.nodeconnector.type}}|{{connector.nodeconnector.id}}@{{nodeString}}">{{connector.properties.name.value}}</option>
+      </optgroup>
+    </select>
+  </div>
+
+
+  <button-submit form="createForm" function="submit"></button-submit>
+  <button-cancel state="container.index"></button-cancel>
+  <span class="error clearfix">{{ error }}</span>
+</form>

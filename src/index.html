@@ -1,117 +1,116 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title ng-bind="'ODL UI - ' + $state.current.name"></title>
+  <head>
+    <meta charset="utf-8" />
+    <title>Inocybe Management Console</title>
 
-    <!-- compiled CSS <% styles.forEach( function ( file ) { %>
+    <meta name="description" content="overview &amp; stats" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- To remove / convert to LESS -->
+    
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- compiled CSS --><% styles.forEach( function ( file ) { %>
     <link rel="stylesheet" type="text/css" href="<%= file %>" /><% }); %>
-    -->
-    <link rel="stylesheet" type="text/css" href="assets/dlux-0.0.1.css"></style>
 
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
-</head>
 
-<body>
-  <div id="top" ng-if="authed" ng-controller="TopNavCtrl">
-    <div id="logo">
-      <a ui-sref="index">Open<span><u>D</u>ay<u>l</u>ight <u>U</u>ser<u>E</u>xperience</span></a>
-    </div>
-    <ul class="nav navbar-nav navbar-right">
-      <!-- containers-->
-      <li class="dropdown" ng-if="containers">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          Container: {{currentContainer ? currentContainer.container : 'Please select'}}
-          <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu">
-          <li ng-repeat="container in containers | orderBy:'container'" ng-click="setContainer(container)">
-            <a href="">{{container.container}}</a>
-          </li>
-        </ul>
-      </li>
-      <!-- end container-->
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" /> <!-- the font-awesome is different from the 'official' one -->
+    <!-- ACE DESIGN
+    <link rel="stylesheet" href="assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="assets/css/ace.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="assets/css/ace-ie.min.css" /> -->
+    <link rel="stylesheet" href="assets/css/sb-admin.css" />
+    <!--<link rel="stylesheet" href="assets/css/footable.editable.css" />-->
+  </head>
 
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User: {{user.username}} <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a ui-sref="user.preferences">Preferences</a></li>
-          <li><a ui-sref="logout">Logout</a></li>
-        </ul>
-      </li>
+  <body ng-app="console" ng-controller="AppCtrl" class="skin-3">
+    <div id="wrapper">
+      <div mc-top-bar></div>
+      <div id="red"></div>
+      <div id="gray"></div>
+      <div mc-navigation></div>
 
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main">Wiki</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-
-  <div id="main" ng-if="authed">
-    <div id="left-cover">
-      <div id="left">
-        <div ng-controller="LeftNavCrl">
-          <div class="top pane">
-            <div class="title">Menu</div>
-            <ul class="nav nav-pills nav-stacked">
-              <li is-active state="node">
-                <brd-anchor label="Nodes" state="node.index"></brd-anchor>
-              </li>
-              <li is-active state="connection_manager">
-                <brd-anchor label="Connection Manager" state="connection_manager.index">
-              </brd-anchor>
-              <li is-active state="flow">
-                <brd-anchor label="Flows" state="flow.index"></brd-anchor>
-              <li>
-              <li is-active state="topology">
-                <brd-anchor label="Topology" state="topology"></brd-anchor>
-              </li>
-              <li is-active state="network">
-                <brd-anchor label="Network" state="network.index"></brd-anchor>
-              </li>
-              <li is-active state="container">
-                <brd-anchor label="Container" state="container.index"></brd-anchor>
-              </li>
-            </ul>
-          </div>
-
-          <div class="bottom pane">
-            <div ng-if="menu">
-              <div class="title">
-                <h4>{{subMenuTitle}}</h4>
-                <input ng-model="search" name="search" placeholder="Search" class="input-xs"/>
-              </div>
-              <div id="submenu" class="navbar navbar-default">
-                <ul class="nav nav-tabs nav-stacked">
-                  <li ng-repeat="item in menu | filter:search | orderBy:'name'">
-                    <brd-anchor label="{{item.name}}" state="{{item.state}}" state-params="item.params"></brd-anchor>
-                  </li>
-                </ul>
-              </div>
-            </div>
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="topology"></div>
+            <!--<h1 ng-bind="title">
+                  
+                  <small>
+                    <i class="icon-double-angle-right"></i>
+                    <span ng-bind="description"></span>
+                  </small>
+                </h1>-->
           </div>
         </div>
-      </div>
-    </div>
+        <div class="row content-row">
 
-    <!-- This is the "main" content div, it holds a contextual menu for the current view on the top and shows useful things underneith-->
-    <div id="center-cover">
-      <div id="center" ui-view>
-      </div>
-    </div>
+          <div class="col-xs-12" style="margin-bottom: 50px" ui-view>
+            <!-- PAGE CONTENT BEGINS -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.page-content -->
+    </div><!-- /.main-content -->
 
-    <div id="right-cover">
-      <div id="right" ui-view="right">
-        <span>Current state path: {{$state.current.name}}</span><br/>
-        <span>stateParams: {{$stateParams}}</span>
-      </div>
-    </div>
-  </div>
+      <script type="text/javascript">
+        if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+      </script>
+      <!--<script src="assets/js/bootstrap.min.js"></script>-->
+      <script src="assets/js/typeahead-bs2.min.js"></script>
 
-  <div ng-if="!authed" ui-view>
-  </div>
-</body>
+      <!--
+      <script src="assets/js/ace-elements.min.js"></script>
+      <script src="assets/js/ace.min.js"></script> 
+      <script src="assets/js/ace-extra.min.js"></script><!-- for now put these script here since they make errors with jshintsrc ... -->
+      <script src="assets/js/sb-admin.js"></script>
+      <!--<script src="assets/js/footable.editable.js"></script>-->
+      <!-- inline scripts related to this page -->
+
+      <script type="text/javascript">
+        
+          
+          jQuery(function($) {
+          //Android's default browser somehow is confused when tapping on label which will lead to dragging the task
+          //so disable dragging when clicking on label
+          var agent = navigator.userAgent.toLowerCase();
+          if("ontouchstart" in document && /applewebkit/.test(agent) && /android/.test(agent))
+            $('#tasks').on('touchstart', function(e){
+            var li = $(e.target).closest('#tasks li');
+            if(li.length == 0)return;
+            var label = li.find('label.inline').get(0);
+            if(label == e.target || $.contains(label, e.target)) e.stopImmediatePropagation() ;
+          });
+        
+          $('#tasks').sortable({
+            opacity:0.8,
+            revert:true,
+            forceHelperSize:true,
+            placeholder: 'draggable-placeholder',
+            forcePlaceholderSize:true,
+            tolerance:'pointer',
+            stop: function( event, ui ) {//just for Chrome!!!! so that dropdowns on items don't appear below other items after being moved
+              $(ui.item).css('z-index', 'auto');
+            }
+            }
+          );
+          $('#tasks').disableSelection();
+          $('#tasks input:checkbox').removeAttr('checked').on('click', function(){
+            if(this.checked) $(this).closest('li').addClass('selected');
+            else $(this).closest('li').removeClass('selected');
+          });
+          
+        })
+      </script>
+  </body>
 </html>

@@ -1,118 +1,172 @@
-var noAuthRoutes = ['/login'];
 
-// Make sure to include the `ui.router` module as a dependency
-var dlux = angular.module('dlux', [
-  'templates-app',
-  'templates-common',
-  'ngCookies',
-  'restangular',
-  'ui.router',
-  'ui.select2',
-  'ngGrid',
-  'dlux.nbapi',
-  'dlux.auth',
-  'dlux.navigation',
-  'dlux.services',
-  'dlux.filters',
-  'dlux.directives.navigation',
-  'dlux.directives.general',
-  'dlux.directives.topology',
-  'dlux.container',
-  'dlux.connection_manager',
-  'dlux.flow',
-  'dlux.node',
-  'dlux.networking',
-  'dlux.topology'
-])
+var endpoint_proto = 'http';
+var endpoint_host = 'localhost';
+var endpoint_port = '8080';
+var endpoint_path = '/controller/nb/v2';
+//var endpoint_path = "/controller/web/devices";
+var endpoint_base = endpoint_proto + '://' + endpoint_host + ':' + endpoint_port;
+angular.module('console', [
+        'templates-app', 'ngCookies',
+        'templates-common',
+        'ui.state',
+        'ui.route',
+        'common.navigation',
+        'common.breadcrumb',
+        'common.topbar',
+        'common.auth',
+        'console.connection_manager',
+        'console.container',
+        'console.flow',
+        'console.networking',
+        'console.node',
+        'console.topology',
+        //'console.user',
+        'common.general', 
+        'common.nbapi',
+        'common.services',
+        'common.filters',
+        'common.topology',
+        'ngGrid',
+        'restangular',
+        'ui.select2',
+        'common.dlux.navigation'
+        //'console.span_ports'
+    ])
 
+	.config(function myAppConfig($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider) {
+		$httpProvider.defaults.withCredentials = true;
+		RestangularProvider.setBaseUrl(endpoint_base + endpoint_path);
+		$urlRouterProvider.otherwise('/node/index');
+		
+	})
 
-.run(function ($rootScope, $state, $stateParams, $location, config, AuthService) {
-  // Set the state and stateParams on the $rootScope to make it available anywhere
-  $rootScope.$state = $state;
-  $rootScope.$stateParams = $stateParams;
+	.run(function run() {
+	})
 
-  // Make config always available
-  $rootScope.config = config;
+	.controller('AppCtrl', function AppCtrl($rootScope, $http, $scope, $state, $location, $window, $cookieStore, navigationFactory, Auth) {
+        
+        
+        $window.useMobile = 
+            function() { 
+                if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i) ) {
 
-  // Authentication stuff. Taken partially from: http://arthur.gonigberg.com/2013/06/29/angularjs-role-based-auth/
-  var isClean = function (route) {
-    return _.find(noAuthRoutes,
-      function (noAuthRoute) {
-        return _.str.startsWith(route, noAuthRoute);
-      }
-    );
-  };
+                    return true;
+                }
+                else {
+                    return false;
+                } 
+            };
+        
+		$scope.$on('$stateChangeSuccess', function () {
+			// for now, we are going to change the logo with static statements
+			$scope.logo = "logo_";
+			if($scope.isState('flow')) {
+				$scope.logo += "flow";
+			}
+			else if($scope.isState('node')) {
+				$scope.logo += "node";
+			}
+			else if($scope.isState('connection_manager')) {
+				$scope.logo += "connection_manager";
+			}
+			else if($scope.isState('topology')) {
+				$scope.logo += "topology";
+			}
+			else if($scope.isState('network')) {
+				$scope.logo += "network";
+			}
+			else if($scope.isState('container')) {
+				$scope.logo += "container";
+			}
 
-  $rootScope.$on('$stateChangeStart', function (ev, to, toParams, from, fromParams) {
-    if (!isClean($location.url()) && !$rootScope.authed) {
-      ev.preventDefault();
-      $location.path('/login');
-    }
-  });
+			$scope.init($scope.navList, 1);
+		});
 
-  $rootScope.$watch(
-    function () {
-      var authed = AuthService.isAuthed();
-      return authed;
-    },
-    function (authed) {
-      $rootScope.authed = authed;
-      $rootScope.user = authed ? AuthService.getUser() : null;
-    }
-  );
-})
+		$scope.getText = function(text) { // firefox use textContent while chrome use innerText...
+			return text.innerText||text.textContent;
+		};
 
+		$rootScope.$on('$stateChangeStart', function(event, next, current){
+			
+			//if (!Auth.isAuthed()) {
+				//$window.location.href = 'login.html';
+			//}
+			
+			$scope.navList = navigationFactory.getNavigationData($window.useMobile());
+		});
 
-// TODO: This should probably be changed to use broadcasts and present a user with a login form if auth is gone?
-.config(function ($httpProvider) {
-  var logsOutUserOn401 = ['$q', '$location', function ($q, $location) {
-    var success = function (response) {
-      return response;
-    };
+		$scope.isState = function(strState) {
+			return $state.includes(strState);
+		};
 
-    var error = function (response) {
-      if (response.status === 401) {
-        //redirect them back to login page
-        $location.path('/login');
+		$scope.reset_items = function(navList) {
+			for(var i in navList)
+			{
+				if(!navList.hasOwnProperty(i)) {continue;}
+				var item = navList[i];
+				item['class'] = false;
+		
+				if('submenu' in item)
+				{
+					this.reset_items(item['submenu']);
+				}
+			}
+		};
+		$scope.init = function(navList , level) {
+			$scope.reset_items(navList);
+			var ret = false;
+			var isOpen = false;
+			for(var i in navList)
+			{
+				if(!navList.hasOwnProperty(i)) {continue;}
+				var item = navList[i];
 
-        return $q.reject(response);
-      }
-      else {
-        return $q.reject(response);
-      }
-    };
+				item['icon'] = item['icon'] || false;//if there is no icon for this item, we set it as false, otherwise in recursive modes it will lookup the parent's scope and use that one's icon istrad
+				item['class'] = item['class'] || false;//same as above
+				item['submenu?'] = ('submenu' in item);//same as above
+				item['badge'] = item['badge'] || false;//same as above
+				item['label'] = item['label'] || false;//same as above
+	 
+				item['level-'+level] = true;//in printing out menu items, we use a partial recursively, but we have different needs for level-1 & level-2, etc items ... so we specify this data with each item
+				for(var l = level - 1 ; l > 0 ; l--) {item['level-'+l] = false;}
+				//why? because when we have "level-2"=true  then parent's "level-1" will also be true,
+				//and mustache looks up the parent context's value as well, so the part between {{#level-1}}{{/level-1}} will be
+				//executed even when we are printing level-2 menu items (i.e submenu) recursively
+				//see views/layouts/partials/default/sidenav/items.mustache
+				//maybe using something like handlebars with a little bit of logic is better here
+				//or perhaps not using recursive partials, and a different partial for each other
+				if(("index.html#" + $location.path()) == item['link'] || ($location.path() == "/" && item.title == "Dashboard"))
+				{
+					//item['class'] = 'active';
+					$scope.title = item.page["title"];
+					$scope.description = item.page["description"];
+					if(item['submenu?']) {item['class'] += ' no-active-child';}//rare case, it means that this item has been directly selected, not a child of it, so it's not opened and take care of the caret using "no-active-child" class
+		
+					$scope.breadcrumbs['title'] = item['title'];//add the active page's title to breadcrumb object
+					ret = true;//this item is active so we return true
+				}//if current page
+	 
+				if(item['submenu?'])
+				{
+					//isOpen = $scope.init(item['submenu'] , level+1);
+					if(isOpen)
+					{
+					
+						//item['class'] = 'active open';//an item in the submenu of this item is active, so set this as "active" & "open"
+			
+						//make the array if it doesn't exist
+						$scope.breadcrumbs['links'] = $scope.breadcrumbs['links'] || [];
+						//add the parent of this active submenu item to the breadcrumbs list
+						$scope.breadcrumbs['links'].push({'link': (item['link'] ? item['link']+'.html' : '#'), 'title':item['title']});
+						
+						ret = true;
+					}
+				}//it has submenu
+	 
+			}//for
+		return ret;
+		};
 
-    return function (promise) {
-      return promise.then(success, error);
-    };
-  }];
-
-  $httpProvider.responseInterceptors.push(logsOutUserOn401);
-  $httpProvider.defaults.withCredentials = true;
-})
-
-.config(function ($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider
-    .otherwise('/');
-
-  $stateProvider.state('index', {
-    url: '/',
-    templateUrl: 'index.tpl.html'
-  });
-
-  $stateProvider.state('about', {
-    url: '/about',
-    templateUrl: 'about.tpl.html'
-  });
-
-  $stateProvider.state('login', {
-    url: '/login',
-    templateUrl: 'login.tpl.html',
-    controller: 'LoginController'
-  });
-
-  $stateProvider.state('logout', {
-    url: '/logout',
-    controller: 'LogoutController'
-  });
-});
+		$scope.isCollapse = false;
+		$scope.breadcrumbs = {};
+    });
