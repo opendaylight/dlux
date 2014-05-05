@@ -1,0 +1,30 @@
+<ul id="tasks" class="item-list">
+	{{#page.tasks}}
+	<li class="item-{{color}} clearfix">
+		<label class="inline"><input type="checkbox" class="ace" /><span class="lbl"> {{title}}</span></label>
+		{{#progress}}
+		<div class="pull-right easy-pie-chart percentage" data-size="30" data-color="#ECCB71" data-percent="{{progress}}">
+			<span class="percent">{{progress}}</span>%
+		</div>
+		{{/progress}}
+		{{#toolbar}}
+		<div class="pull-right action-buttons">
+			<a href="#" class="blue"><i class="icon-pencil bigger-130"></i></a>
+			<span class="vbar"></span>
+			<a href="#" class="red"><i class="icon-trash bigger-130"></i></a>
+			<span class="vbar"></span>
+			<a href="#" class="green"><i class="icon-flag bigger-130"></i></a>
+		</div>
+		{{/toolbar}}
+		{{#menu}}
+		<div class="inline pull-right position-relative dropdown-hover">
+			<button class="btn btn-minier bigger btn-primary"><i class="icon-cog icon-only bigger-120"></i></button>
+			<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-caret dropdown-close pull-right">
+				<li><a href="#" class="tooltip-success" data-rel="tooltip" title="Mark&nbsp;as&nbsp;done"><span class="green"><i class="icon-ok bigger-110"></i></span></a></li>
+				<li><a href="#" class="tooltip-error" data-rel="tooltip" title="Delete"><span class="red"><i class="icon-trash bigger-110"></i></span></a></li>
+			</ul>
+		</div>
+		{{/menu}}
+	</li>
+	{{/page.tasks}}
+</ul>

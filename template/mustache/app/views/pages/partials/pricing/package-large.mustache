@@ -1,0 +1,33 @@
+<div class="col-xs-6 col-sm-3 pricing-box">
+	<div class="widget-box">
+		<div class="widget-header header-color-{{title-color}}">
+			<h5 class="bigger lighter">{{title}}</h5>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main">
+				<ul class="list-unstyled spaced2">
+					{{#features}}
+						{{^unavailable}}{{! if the named feature is available add "OK" icon}}
+						<li><i class="icon-ok green"></i> {{name}} </li>
+						{{/unavailable}}
+						{{#unavailable}}{{! if the named feature is not available}}
+						<li><i class="icon-remove red"></i> {{name}} </li>
+						{{/unavailable}}
+					{{/features}}
+				</ul>
+				
+				<hr />
+				<div class="price">
+					{{price}}<small>/{{duration}}</small>
+				</div>
+			</div>
+			
+			<div>
+				<a href="#" class="btn btn-block btn-{{btn-color}}">
+					<i class="icon-shopping-cart bigger-110"></i>
+					<span>Buy</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

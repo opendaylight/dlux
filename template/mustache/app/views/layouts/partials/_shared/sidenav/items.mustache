@@ -1,0 +1,33 @@
+<li{{#class}} class="{{class}}"{{/class}}>{{! print class name (active, open, etc) if it exists }}
+  <a href="{{#link}}{{#createLinkFunction}}{{link}}{{/createLinkFunction}}{{/link}}{{^link}}#{{/link}}"{{#submenu?}} class="dropdown-toggle"{{/submenu?}}>
+	{{#icon}}<i class="{{icon}}"></i>{{/icon}}
+	{{#level-1}}
+	 <span class="menu-text">
+	{{/level-1}}
+
+	 {{#level-2}}{{! if level-2 and no icon assigned, use this icon}}
+		{{^icon}}<i class="icon-double-angle-right"></i>{{/icon}}
+	 {{/level-2}}
+
+	  {{title}}
+	  {{#badge}}
+			<span class="badge {{badge-class}} {{tooltip-class}}"{{#tooltip}} title="{{{tooltip}}}"{{/tooltip}}>{{{badge}}}</span>
+	  {{/badge}}
+	  {{#label}}
+			<span class="label {{label-class}}"{{#label-title}} title="{{label-title}}"{{/label-title}}>{{{label}}}</span>
+	  {{/label}}
+	{{#level-1}}
+	 </span>
+	{{/level-1}}
+
+	{{#submenu?}}<b class="arrow icon-angle-down"></b>{{/submenu?}}
+  </a>
+  
+  {{#submenu?}}{{! if we have submenu items, print them recursively }}
+	<ul class="submenu">
+	{{#submenu}}
+		{{> layout.sidenav.items}}
+	{{/submenu}}
+	</ul>
+  {{/submenu?}}
+</li>

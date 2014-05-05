@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	{{> layout._template.header}}
+
+	<body>
+	{{> layout.topbar}}
+
+		<div class="main-container" id="main-container">
+		 <script type="text/javascript">
+		 try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+		 </script>
+		 <div class="main-container-inner">
+
+		 {{> layout.sidenav}}
+
+			<div class="main-content">
+				{{> layout.breadcrumbs}}
+
+				<div class="page-content">
+					{{^page.no-header}}{{!if no such thing as "no-header", then print header}}
+					<div class="page-header">
+						<h1>{{page.title}} {{#page.description}}<small><i class="icon-double-angle-right"></i> {{page.description}}</small>{{/page.description}}</h1>
+					</div><!--/.page-header-->
+					{{/page.no-header}}
+
+					<div class="row">
+					 <div class="col-xs-12">
+<!-- PAGE CONTENT BEGINS -->
+{{> page.content }}
+<!-- PAGE CONTENT ENDS -->
+					 </div><!--/.col-->
+					</div><!--/.row-->
+
+				</div><!--/.page-content-->
+
+			</div><!--/.main-content -->
+
+			{{> layout.settings}}
+		 </div><!--/.main-container-inner-->
+
+		 <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+			<i class="icon-double-angle-up icon-only bigger-110"></i>
+		 </a>
+		</div><!--/.main-container-->
+
+		{{> layout._template.footer}}
+
+
+	</body>
+</html>

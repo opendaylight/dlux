@@ -1,0 +1,18 @@
+<ul class="ace-thumbnails">
+  {{#page.photos}}
+  <li>
+	<a href="#" data-rel="colorbox">
+	   <img alt="150x150" src="{{{path.images}}}/gallery/{{thumb}}">
+	   <div class="text">
+		<div class="inner">{{title}}</div>
+	   </div>
+	</a>
+	<div class="tools tools-bottom">
+		<a href="#"><i class="icon-link"></i></a>
+		<a href="#"><i class="icon-paper-clip"></i></a>
+		<a href="#"><i class="icon-pencil"></i></a>
+		<a href="#"><i class="icon-remove red"></i></a>
+	</div>
+  </li>
+  {{/page.photos}}
+</ul>

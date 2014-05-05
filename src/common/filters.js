@@ -1,4 +1,4 @@
-angular.module('dlux.filters', [])
+angular.module('common.filters', [])
 
 // Filter to return only valid ports (like id != 0)
 .filter('noRootPorts', function () {

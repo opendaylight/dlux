@@ -9,7 +9,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'bin',
-
+  
   /**
    * This is a collection of file patterns that refer to our app code (the
    * stuff in `src/`). These file paths are used in the configuration of
@@ -20,28 +20,23 @@ module.exports = {
    * app's unit tests.
    */
   app_files: {
-    //js: [ 'src/app/*.js', 'src/common/*.js', 'src/config.js', '!src/**/*.spec.js' ],
-    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js' ],
+    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'  ],
     jsunit: [ 'src/**/*.spec.js' ],
-
+    
     coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],
     coffeeunit: [ 'src/**/*.spec.coffee' ],
 
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
-    html: [ 'src/index.html' ],
+    html: [ 'src/index.html',  'src/login.html'],
     less: 'src/less/main.less'
   },
 
   /**
    * This is a collection of files used during testing only.
    */
-  test_files: {
-    js: [
-      'vendor/angular-mocks/angular-mocks.js'
-    ]
-  },
+
 
   /**
    * This is the same as `app_files`, except it contains patterns that
@@ -63,32 +58,46 @@ module.exports = {
    */
   vendor_files: {
     js: [
-      'vendor/jquery/jquery.min.js',
-      'vendor/bootstrap/dist/js/bootstrap.min.js',
-      'vendor/underscore/underscore-min.js',
-      'vendor/underscore.string/dist/underscore.string.min.js',
-      'vendor/select2/select2.js',
-      'vendor/d3/d3.min.js',
-      'vendor/angular/index.js',
-      'vendor/angular-cookies/index.js',
-      'vendor/angular-route/index.js',
-      'vendor/angular-ui-router/index.js',
+      'vendor/jquery/jquery.js',
+      'vendor/jquery-ui/ui/jquery-ui.js',
+      'vendor/bootstrap/js/dropdown.js',
+      'vendor/angular/angular.js',
+      'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
+      'vendor/angular-ui-router/release/angular-ui-router.js',
+      'vendor/angular-ui-utils/modules/route/route.js',
+      'vendor/angular-cookies/angular-cookies.min.js',
+      'vendor/requirejs/require.js',
       'vendor/angular-ui-select2/index.js',
-      'vendor/ng-grid/ng-grid-2.0.7.min.js',
-      'vendor/restangular/dist/restangular.min.js'
+      'vendor/ng-grid/build/ng-grid.min.js',
+      'vendor/restangular/dist/restangular.min.js',
+      'vendor/underscore/underscore.js',
+      'vendor/underscore.string/dist/underscore.string.min.js',
+      'vendor/d3/d3.min.js',
+      'vendor/select2/select2.js',
+      'vendor/footable/dist/footable.min.js',
+      'vendor/footable/dist/footable.paginate.min.js',
+      'vendor/footable/dist/footable.sort.min.js'
     ],
     css: [
-      'vendor/bootstrap/dist/css/bootstrap.min.css',
-      'vendor/select2/select2.css',
-      'vendor/select2-bootstrap-css/select2-bootstrap.css',
-      'vendor/ng-grid/ng-grid.min.css'
+    'vendor/ng-grid/ng-grid.min.css',
+    'vendor/select2/select2.css',
+    'vendor/select2-bootstrap-css/select2-bootstrap.css',
+    'vendor/footable/css/footable.core.min.css',
+    'vendor/footable/css/footable.standalone.min.css'
+
+    ],
+    images: [
+    'vendor/select2/select2.png',
+    'vendor/select2/select2-spinner.gif',
+    'vendor/select2/select2x2.png'
     ],
     assets: [
-      'vendor/**/*.gif',
-      'vendor/**/*.jpg',
-      'vendor/**/*.png',
-      'vendor/**/*.woff',
-      'vendor/**/*.ttf'
+    
+    ],
+    font: [
+      'vendor/font-awesome/font/*',
+      'vendor/footable/css/fonts/*'
     ]
   },
 };
