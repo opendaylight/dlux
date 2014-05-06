@@ -52,6 +52,24 @@
       "revId": "e3257b4f9aca91f44b2e78ab0f6ad7b2722926b9",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_4fe2aea0",
+        "filename": "LICENSE",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2014-05-06T14:27:06Z",
+      "side": 1,
+      "message": "Sure, ngBoilerplate is a framework to help start with AngularJs. (His creator is Josh David Miller.) It\u0027s a kickstarter, it should give us the good practices and tools for an angularJs project.",
+      "parentUuid": "fa82b9bf_597e00b0",
+      "revId": "e3257b4f9aca91f44b2e78ab0f6ad7b2722926b9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
