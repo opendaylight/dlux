@@ -21,29 +21,31 @@
 
 
 
-
+<h4>Node Id - {{data.id}}</h4>
 
 <table class="footable table">
   <thead>
     <tr>
+      <th>Node Connector Id</th>
       <th>Name</th>
-      <th>Type</th>
-      <th>State</th>
+      <th>Port Number</th>
+      <th>Mac Address</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="ncp in data.nodeConnectorProperties | noRootPorts | orderBy:'properties.name.value'">
+    <tr ng-repeat="ncp in data['node-connector']">
         <!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
-        <td>{{ncp.properties.name.value}}</td>
-        <td>{{ncp.nodeconnector.type}}</td>
-        <td>
+        <td>{{ncp.id}}</td>
+        <td>{{ncp['flow-node-inventory:name']}}</td>
+        <td>{{ncp['flow-node-inventory:port-number']}}</td>
+        <td>{{ncp['flow-node-inventory:hardware-address']}}</td>
+        <!--td>
           <i class="icon-ok-sign"></i>
           <port-state value="{{ncp.properties.state.value}}"></port-state>
-        </td>
+        </td-->
       </tr>
   </tbody>
 </table>
-
 
 <script type="text/javascript">
     $('.footable').footable();

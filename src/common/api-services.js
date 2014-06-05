@@ -345,4 +345,24 @@ angular.module('common.nbapi', [])
   };
 
   return svc;
-});
+})
+.factory('NodeInventorySvc', function(Restangular) {
+  var svc = {
+    base: function() {
+      return Restangular.one('operational').one('opendaylight-inventory:nodes');
+    },
+    data: null
+  };
+  svc.getCurrentData = function() {
+    return svc.data;  
+  };
+  svc.getAllNodes = function() {
+    svc.data = svc.base().getList();  
+    return svc.data;
+  };
+  svc.getNode = function(node) {
+    return svc.base().one("node", node).get();
+  };
+  return svc;
+})
+;

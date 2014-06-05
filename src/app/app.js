@@ -2,7 +2,7 @@
 var endpoint_proto = 'http';
 var endpoint_host = 'localhost';
 var endpoint_port = '8080';
-var endpoint_path = '/controller/nb/v2';
+var endpoint_path = '/restconf';
 //var endpoint_path = "/controller/web/devices";
 var endpoint_base = endpoint_proto + '://' + endpoint_host + ':' + endpoint_port;
 angular.module('console', [
