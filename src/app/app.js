@@ -2,7 +2,7 @@
 var endpoint_proto = 'http';
 var endpoint_host = 'localhost';
 var endpoint_port = '8080';
-var endpoint_path = '/controller/nb/v2';
+var endpoint_path = '/restconf';
 //var endpoint_path = "/controller/web/devices";
 var endpoint_base = endpoint_proto + '://' + endpoint_host + ':' + endpoint_port;
 angular.module('console', [
@@ -43,20 +43,18 @@ angular.module('console', [
 	.run(function run() {
 	})
 
-	.controller('AppCtrl', function AppCtrl($rootScope, $http, $scope, $state, $location, $window, $cookieStore, navigationFactory, Auth) {
-        
-        
-        $window.useMobile = 
-            function() { 
-                if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i) ) {
-
-                    return true;
-                }
-                else {
-                    return false;
-                } 
-            };
-        
+	.controller('AppCtrl', function AppCtrl($rootScope, $http, $scope, $state, $location, $window, $cookieStore, navigationFactory, Auth) {    
+    $window.useMobile = 
+      function() { 
+       if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) ||
+           navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) ||
+           navigator.userAgent.match(/Windows Phone/i) ) {
+         return true;
+       }
+       else {
+         return false;
+       } 
+     };   
 		$scope.$on('$stateChangeSuccess', function () {
 			// for now, we are going to change the logo with static statements
 			$scope.logo = "logo_";
