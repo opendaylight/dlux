@@ -14,10 +14,10 @@ angular.module('console.topology', [])
       };
 
       $scope.createTopology();
-      /*$scope.topologyData = {
-        directed: false, multigraph: false, graph: [], nodes: [{"id": "one"}, {"id": "two"}, {"id": "three"}],
-        links: [{"source": 0, "target": 1}, {"source": 0, "target": 2}]
-      }*/
+      $scope.topologyData = {
+        directed: false, multigraph: false, graph: [], nodes: [{"id": "openflow:1"}, {"id": "openflow:3"}, {"id": "openflow:2"}, {"id": "openflow:5"}, {"id": "openflow:4"}, {"id": "openflow:7"}, {"id": "openflow:6"}],
+        links: [{"source": 0, "target": 2}, {"source": 0, "target": 3}, {"source": 1, "target": 2}, {"source": 2, "target": 4}, {"source": 3, "target": 5}, {"source": 3, "target": 6}]
+      };
     }]
   });
 
