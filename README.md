@@ -16,6 +16,12 @@ $ grunt watch
 
 Finally, open `file:///path/to/ng-boilerplate/build/index.html` in your browser.
 
+If you want to run the dlux on local node server, use command
+
+$ grunt live
+
+It will expect your controller to be running at localhost:8080
+
 
 ## Overall Directory Structure
 

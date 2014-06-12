@@ -492,7 +492,9 @@ module.exports = function ( grunt ) {
           '<%= vendor_files.js %>',
           '<%= html2js.app.dest %>',
           '<%= html2js.common.dest %>',
-          '<%= test_files.js %>'
+          '<%= app_files.js_common %>',
+          '<%= app_files.js_app %>',
+          '<%= app_files.jsunit %>'
         ]
       }
     },
@@ -679,7 +681,7 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'build', [
     'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:development',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', /*'copy:build_vendor_font',*/ 'index:build'/*, 'karmaconfig',
+    'copy:build_appjs', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', /*'copy:build_vendor_font',*/ 'index:build'/*, 
     'karma:continuous'  */
   ]);
 
