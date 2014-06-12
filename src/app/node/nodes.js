@@ -1,7 +1,23 @@
 angular.module('console.node', [])
 
-.controller('nodeCtrl', function($scope, NodeInventorySvc) {
-
+.controller('allNodesCtrl', function($scope, NodeInventorySvc) {
+  NodeInventorySvc.getAllNodes().then(function(data) {
+    $scope.data = data[0].node;
+  });
+})
+.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc) {
+   var currentData = NodeInventorySvc.getCurrentData();
+   if(currentData != null) {
+     currentData.then(function(data) {
+       var node = _.find(data[0].node, function(entry) {if(entry.id == $stateParams.nodeId) { return entry;}});
+       $scope.data = node;
+     });
+   }
+   else {
+     NodeInventorySvc.getNode($stateParams.nodeId).then(function(data) {
+     $scope.data = data.node[0];
+    });
+ }
 })
 
 .config(function ($stateProvider) {
@@ -18,13 +34,7 @@ angular.module('console.node', [])
     views: {
       '': {
         templateUrl: 'node/index.tpl.html',
-        controller: ['$scope', 'NodeInventorySvc', function ($scope, NodeInventorySvc) {
-          $scope.svc = NodeInventorySvc;
-          NodeInventorySvc.getAllNodes().then(function(data) {
-            $scope.data = data[0].node;
-          });
-          
-        }]
+        controller: 'allNodesCtrl'
       }
     }
   });
@@ -35,20 +45,7 @@ angular.module('console.node', [])
     views: {
       '': {
         templateUrl: 'node/detail.tpl.html',
-        controller: ['$scope', '$stateParams', 'NodeInventorySvc', function ($scope, $stateParams, NodeInventorySvc) {
-            var currentData = NodeInventorySvc.getCurrentData();
-            if(currentData != null) {
-              currentData.then(function(data) {
-                var node = _.find(data[0].node, function(entry) {if(entry.id == $stateParams.nodeId) { return entry;}});
-                $scope.data = node;
-              }); 
-            } 
-            else {
-              NodeInventorySvc.getNode($stateParams.nodeId).then(function(data) {
-                $scope.data = data.node[0];
-              });
-            }   
-        }]
+        controller: 'nodeConnectorCtrl'
       }
     }
   });
