@@ -9,10 +9,9 @@ module.exports = function ( karma ) {
      * This is the list of file patterns to load into the browser during testing.
      */
     files: [
-      <% scripts.forEach( function ( file ) { %>'<%= file %>',
-      <% }); %>
-      'src/**/*.js',
-      'src/**/*.coffee',
+     <% scripts.forEach( function ( file ) { %>'<%= file %>',
+     <% }); %>
+      'src/**/*.coffee'
     ],
     exclude: [
       'src/assets/**/*.js'
@@ -55,7 +54,7 @@ module.exports = function ( karma ) {
      * the aesthetic advantage of not launching a browser every time you save.
      */
     browsers: [
-      'Firefox'
+      'Chrome'
     ]
   });
 };

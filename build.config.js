@@ -22,7 +22,8 @@ module.exports = {
   app_files: {
     js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'  ],
     jsunit: [ 'src/**/*.spec.js' ],
-    
+    js_common: [ 'src/common/**/*.js', '!src/common/**/*.spec.js', '!src/common/assets/**/*.js'  ],
+    js_app: [ 'src/app/**/*.js', '!src/app/**/*.spec.js', '!src/app/assets/**/*.js'  ],
     coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],
     coffeeunit: [ 'src/**/*.spec.coffee' ],
 
@@ -67,6 +68,7 @@ module.exports = {
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-cookies/angular-cookies.min.js',
+      'vendor/angular-mocks/angular-mocks.js',
       'vendor/requirejs/require.js',
       'vendor/angular-ui-select2/index.js',
       'vendor/ng-grid/build/ng-grid.min.js',
