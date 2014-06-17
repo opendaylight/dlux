@@ -1,0 +1,18 @@
+{
+    "NODE_ID": "Node Id",
+    "NODE_NAME": "Node Name",
+    "NODE_CONNECTORS": "Node Connectors",
+    "NO_DATA_FOUND":"No data found",
+    "NODE_CONNECTOR_ID": "Node Connector Id",
+    "NAME":"Name",
+    "PORT_NUMBER":"Port Number",
+    "MAC_ADDRESS":"Mac Address",
+    "NAV_NODES":"test nodes",
+
+    "NODES": "Nodes",
+    "CONNECTION_MANAGER":"Connection Manager",
+    "FLOWS":"Flows",
+    "TOPOLOGY":"Topology",
+    "NETWORK":"Network",
+    "CONTAINER":"Container"
+}

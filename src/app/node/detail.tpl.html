@@ -21,19 +21,19 @@
 
 
 
-<h4>Node Id - {{data.id}}</h4>
+<h4>{{ 'NODE_ID' | translate }} - {{data.id}}</h4>
 
 <table class="footable table">
   <thead>
     <tr>
-      <th>Node Connector Id</th>
-      <th>Name</th>
-      <th>Port Number</th>
-      <th>Mac Address</th>
+      <th>{{ 'NODE_CONNECTOR_ID' | translate }}</th>
+      <th>{{ 'NAME' | translate }}</th>
+      <th>{{ 'PORT_NUMBER' | translate }}</th>
+      <th>{{ 'MAC_ADDRESS' | translate }}</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-hide="data['node-connector'].length"><td colspan="4" class="centerAlign">No data found</td></tr>
+    <tr ng-hide="data['node-connector'].length"><td colspan="4" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
     <tr ng-repeat="ncp in data['node-connector']">
         <!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
         <td>{{ncp.id}}</td>

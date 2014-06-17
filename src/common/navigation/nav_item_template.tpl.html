@@ -1,11 +1,11 @@
 <a href="{{item.link}}" ng-if="isValid(item.submenu)" target="_self">
     <i class="{{item.icon}}"></i>
-    {{item.title}}
+    {{item.title | translate}}
     <span ng-show="isValid(item.submenu)" class="arrow icon-angle-down"></span>
 </a>
 <a href="{{item.link}}" target="_self" ng-if="!isValid(item.submenu)">
     <i class="{{item.icon}}"></i>
-    {{item.title}}
+    {{item.title | translate}}
 </a>
 
 <ul class="nav nav-second-level collapse" style="display: {{display}}">

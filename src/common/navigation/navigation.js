@@ -19,61 +19,61 @@ angular.module('common.navigation', ['ngCookies'])
                     {
                         "link": "index.html#/node/index",
                         "active": "node",
-                        "title": "Nodes",
+                        "title": "NODES",
                         "icon": "icon-sitemap",
                         "page": {
-                            "title": "Nodes",
-                            "description": "Nodes"
+                            "title": "NODES",
+                            "description": "NODES"
                         }
                     },
                     {
                         "link": "index.html#/connection_manager/index",
                         "active": "connection_manager",
-                        "title": "Connection Manager",
+                        "title": "CONNECTION_MANAGER",
                         "icon": "icon-bolt",
                         "page": {
-                            "title": "Connection Manager",
-                            "description": "Connection Manager"
+                            "title": "CONNECTION_MANAGER",
+                            "description": "CONNECTION_MANAGER"
                         }
                     },
                     {
                         "link": "index.html#/flow/index",
                         "active": "flow",
-                        "title": "Flows",
+                        "title": "FLOWS",
                         "icon": "icon-level-down",
                         "page": {
-                            "title": "Flows",
-                            "description": "Flows"
+                            "title": "FLOWS",
+                            "description": "FLOWS"
                         }
                     },
                     {
                         "link": "index.html#/topology",
-                        "title": "Topology",
+                        "title": "TOPOLOGY",
                         "active": "topology",
                         "icon": "icon-link",
                         "page": {
-                            "title": "Topology",
-                            "description": "Topology"
+                            "title": "TOPOLOGY",
+                            "description": "TOPOLOGY"
                         }
                     },
                     {
                         "link": "index.html#/network/staticroute",
-                        "title": "Network",
+                        "title": "NETWORK",
                         "active": "network",
                         "icon": "icon-cloud",
                         "page": {
-                            "title": "Network",
-                            "description": "Network"
+                            "title": "NETWORK",
+                            "description": "NETWORK"
                         }
                     },
                     {
                         "link": "index.html#/container/index",
-                        "title": "Container",
+                        "title": "CONTAINER",
                         "active": "container",
                         "icon": "icon-sign-blank",
                         "page": {
-                            "title": "Container",
-                            "description": "Container"
+                            "title": "CONTAINER",
+                            "description": "CONTAINER"
                         }
                     }/*,
                     {

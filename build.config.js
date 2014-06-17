@@ -79,7 +79,9 @@ module.exports = {
       'vendor/select2/select2.js',
       'vendor/footable/dist/footable.min.js',
       'vendor/footable/dist/footable.paginate.min.js',
-      'vendor/footable/dist/footable.sort.min.js'
+      'vendor/footable/dist/footable.sort.min.js',
+      'vendor/angular-translate/angular-translate.min.js',
+      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
