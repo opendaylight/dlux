@@ -10,6 +10,7 @@ angular.module('console', [
         'templates-common',
         'ui.state',
         'ui.route',
+        'pascalprecht.translate',
         'common.navigation',
         'common.breadcrumb',
         'common.topbar',
@@ -30,14 +31,19 @@ angular.module('console', [
         'restangular',
         'ui.select2',
         'common.dlux.navigation'
+
         //'console.span_ports'
     ])
 
-	.config(function myAppConfig($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider) {
-		$httpProvider.defaults.withCredentials = true;
-		RestangularProvider.setBaseUrl(endpoint_base + endpoint_path);
-		$urlRouterProvider.otherwise('/node/index');
-		
+	.config(function myAppConfig($httpProvider, $stateProvider, $urlRouterProvider, RestangularProvider, $translateProvider) {
+      $httpProvider.defaults.withCredentials = true;
+      RestangularProvider.setBaseUrl(endpoint_base + endpoint_path);
+      $urlRouterProvider.otherwise('/node/index');
+      $translateProvider.useStaticFilesLoader({
+        prefix: 'assets/data/locale-',
+        suffix: '.json'
+      });
+      $translateProvider.preferredLanguage('en_US');
 	})
 
 	.run(function run() {
