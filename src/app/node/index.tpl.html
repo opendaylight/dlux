@@ -9,18 +9,24 @@
 <table class="footable table">
 	<thead>
 		<tr>
-
 			<th>Node Id</th>
 			<th data-hide="phone">Node Name</th>
 			<th>Node Connectors</th>
+			<th>Statistics</th>
 		</tr>
 	</thead>
 	<tbody>
 	    <tr ng-hide="data.length"><td colspan="3" class="centerAlign">No data found</td></tr>
 		<tr ng-repeat="item in data | filter:search">
-        <td tooltip="{{item['flow-node-inventory:description']}}">{{item.id}}</td>
+        <td tooltip="item['flow-node-inventory:description']">{{item.id}}</td>
         <td>{{item['flow-node-inventory:description']}}</td>
         <td><a href="index.html#/node/{{item.id}}/detail">{{item['node-connector'].length}}</a></td>
+        <td>
+          <span ng-show="item.id!='controller-config'">
+            <a href="index.html#/node/{{item.id}}/flow-stat">Flows</a>
+            <a href="index.html#/node/{{item.id}}/port-stat">Ports</a>
+          </span>
+        </td>
         <!--<td>
         	<a class="row-delete" href="#">
     			<i class="icon-remove"></i>
