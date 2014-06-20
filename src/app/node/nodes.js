@@ -6,7 +6,7 @@ angular.module('console.node', [])
   });
 })
 
-.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc) {
+.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, nodeConnectorFactory) {
   var currentData = NodeInventorySvc.getCurrentData();
   if(currentData != null) {
     currentData.then(function(data) {
@@ -20,15 +20,20 @@ angular.module('console.node', [])
     });
   }
   $scope.checkActiveFlow = function(index) {
-    var tableEntry = $scope.data['flow-node-inventory:table'][index];
-    var activeFlow = tableEntry['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows'];
-    if (activeFlow > 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return nodeConnectorFactory.getActiveFlow($scope.data['flow-node-inventory:table'], index);
   };
+})
+
+.factory('nodeConnectorFactory', function() {
+  var factory = {};
+
+  factory.getActiveFlow = function(flowTable, index) {
+    var flow = flowTable[index];
+    var activeFlow = flow['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows'];
+
+    return (activeFlow > 0);
+  };
+  return factory;
 })
 
 .config(function ($stateProvider) {
@@ -62,8 +67,8 @@ angular.module('console.node', [])
   });
 
   $stateProvider.state('node.flow-stat', {
-  url: '/:nodeId/flow-stat',
-  access: access.admin,
+    url: '/:nodeId/flow-stat',
+    access: access.admin,
     views: {
       '': {
         templateUrl: 'node/flow-stat.tpl.html',
@@ -73,14 +78,14 @@ angular.module('console.node', [])
   });
 
   $stateProvider.state('node.port-stat', {
-  url: '/:nodeId/port-stat',
-  access: access.admin,
-  views: {
-    '': {
-      templateUrl: 'node/port-stat.tpl.html',
-      controller: 'nodeConnectorCtrl'
+    url: '/:nodeId/port-stat',
+    access: access.admin,
+    views: {
+      '': {
+        templateUrl: 'node/port-stat.tpl.html',
+        controller: 'nodeConnectorCtrl'
+      }
     }
-  }
   });
 
 });
