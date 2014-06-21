@@ -20,7 +20,7 @@ If you want to run the dlux on local node server, use command
 
 $ grunt live
 
-It will expect your controller to be running at localhost:8080
+It will start server at localhost:9000. It will expect your controller to be running at localhost:8080
 
 
 ## Overall Directory Structure

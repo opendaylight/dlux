@@ -1,11 +1,35 @@
 angular.module('console.node', [])
+  .directive("nodeTable", function () {
+    return function ($scope) {
+      if($scope.$last) {
+        $scope.$emit('lastentry');
+      }
+    };
+  })
 
-.controller('allNodesCtrl', function($scope, NodeInventorySvc) {
+.controller('allNodesCtrl', function($scope, NodeInventorySvc, $timeout) {
   NodeInventorySvc.getAllNodes().then(function(data) {
     $scope.data = data[0].node;
   });
+  var tableRendered = false;
+  $scope.$watch('nodeSearch.id', function() {
+    if(tableRendered) {
+      $timeout(function(){
+          $('.footable').trigger('footable_redraw'); //force a redraw
+      }, 20);
+    }
+  });
+
+  $scope.$on('lastentry', function() {
+    // Initialize footable table
+    if(!tableRendered){
+      $('.footable').footable();
+      tableRendered = true;
+    }
+  });
 })
-.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc) {
+
+.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, $timeout) {
    var currentData = NodeInventorySvc.getCurrentData();
    if(currentData != null) {
      currentData.then(function(data) {
@@ -17,9 +41,24 @@ angular.module('console.node', [])
      NodeInventorySvc.getNode($stateParams.nodeId).then(function(data) {
      $scope.data = data.node[0];
     });
- }
-})
+   }
+   var tableRendered = false;
+   $scope.$watch('nodeConnectorSearch', function() {
+     if(tableRendered) {
+         $timeout(function () {
+         $('.footable').trigger('footable_redraw');//force a redraw
+       }, 20);
+     }
+   });
 
+    $scope.$on('lastentry', function() {
+      // Initialize footable table
+      if(!tableRendered){
+        $('.footable').footable();
+        tableRendered = true;
+      }
+    });
+})
 .config(function ($stateProvider) {
   var access = routingConfig.accessLevels;
   $stateProvider.state('node', {

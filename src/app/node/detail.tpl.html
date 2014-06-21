@@ -22,20 +22,21 @@
 
 
 <h4>{{ 'NODE_ID' | translate }} - {{data.id}}</h4>
-
+<div class="form-group searchDiv">
+    <input class="form-control" ng-model="nodeConnectorSearch" placeholder="{{'SEARCH_NODE_CONNECTORS' | translate}}">
+</div>
 <table class="footable table">
   <thead>
     <tr>
       <th>{{ 'NODE_CONNECTOR_ID' | translate }}</th>
       <th>{{ 'NAME' | translate }}</th>
-      <th>{{ 'PORT_NUMBER' | translate }}</th>
+      <th data-hide="phone">{{ 'PORT_NUMBER' | translate }}</th>
       <th>{{ 'MAC_ADDRESS' | translate }}</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-hide="data['node-connector'].length"><td colspan="4" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
-    <tr ng-repeat="ncp in data['node-connector']">
-        <!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
+    <tr ng-repeat="ncp in data['node-connector'] | filter:nodeConnectorSearch" node-table>
         <td>{{ncp.id}}</td>
         <td>{{ncp['flow-node-inventory:name']}}</td>
         <td>{{ncp['flow-node-inventory:port-number']}}</td>
@@ -46,8 +47,11 @@
         </td-->
       </tr>
   </tbody>
+    <tfoot class="hide-if-no-paging">
+    <tr>
+        <td colspan="4">
+            <div class="pagination pagination-centered"></div>
+        </td>
+    </tr>
+    </tfoot>
 </table>
-
-<script type="text/javascript">
-    $('.footable').footable();
-</script>

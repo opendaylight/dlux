@@ -14,5 +14,10 @@
     "FLOWS":"Flows",
     "TOPOLOGY":"Topology",
     "NETWORK":"Network",
-    "CONTAINER":"Container"
+    "CONTAINER":"Container",
+    "STATISTICS":"Statistics",
+    "FLOW_STATISTICS":"Flow Statistics",
+    "NODE_CONNECTOR_STATISTICS": "Node Connector Statistics",
+    "SEARCH_NODES":"Search Nodes",
+    "SEARCH_NODE_CONNECTORS":"Search Node Connectors"
 }
