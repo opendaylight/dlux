@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_18e57d37",
+        "filename": "src/app/node/nodes.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-23T20:24:07Z",
+      "side": 1,
+      "message": "Can you move this method to the factory in this module, so it stays outside the controller?",
+      "revId": "39f6dbdd453be651318da7b7667418630b5ad01e",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_f8d77949",
+        "filename": "src/app/node/nodes.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-23T20:24:07Z",
+      "side": 1,
+      "message": "you can do something like return (activeflow \u003e0);",
+      "revId": "39f6dbdd453be651318da7b7667418630b5ad01e",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
