@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_186a5d81",
+        "filename": "src/app/node/flow-stat.tpl.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 960
+      },
+      "writtenOn": "2014-06-23T20:41:18Z",
+      "side": 1,
+      "message": "there are less files under the less folder. We can leverage these for the styles. There is already class white-detail-page under design.less file for color white",
+      "revId": "ffede00554cb21a258d8561ac85ad14c7d208992",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
