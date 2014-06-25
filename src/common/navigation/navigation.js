@@ -47,6 +47,16 @@ angular.module('common.navigation', ['ngCookies'])
                         }
                     },
                     {
+                        "link": "index.html#/yangui/index",
+                        "active": "yangui",
+                        "title": "Yang UI",
+                        "icon": "icon-level-down",
+                        "page": {
+                            "title": "Yang UI",
+                            "description": "Yang UI"
+                        }
+                    },
+                    {
                         "link": "index.html#/topology",
                         "title": "TOPOLOGY",
                         "active": "topology",
