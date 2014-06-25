@@ -21,6 +21,7 @@ angular.module('console', [
         'console.networking',
         'console.node',
         'console.topology',
+        'console.yangui',
         //'console.user',
         'common.general', 
         'common.nbapi',
@@ -30,8 +31,8 @@ angular.module('console', [
         'ngGrid',
         'restangular',
         'ui.select2',
-        'common.dlux.navigation'
-
+        'common.dlux.navigation',
+        'common.yangUtils'
         //'console.span_ports'
     ])
 

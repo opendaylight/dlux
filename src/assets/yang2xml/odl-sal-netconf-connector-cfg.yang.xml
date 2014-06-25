@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="odl-sal-netconf-connector-cfg"
+        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
+        xmlns:sal-netconf="urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf"
+        xmlns:config="urn:opendaylight:params:xml:ns:yang:controller:config"
+        xmlns:th="urn:opendaylight:params:xml:ns:yang:controller:threadpool"
+        xmlns:netty="urn:opendaylight:params:xml:ns:yang:controller:netty"
+        xmlns:dom="urn:opendaylight:params:xml:ns:yang:controller:md:sal:dom"
+        xmlns:cfg-net="urn:opendaylight:params:xml:ns:yang:controller:config:netconf">
+  <yang-version value="1"/>
+  <namespace uri="urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf"/>
+  <prefix value="sal-netconf"/>
+  <import module="config">
+    <prefix value="config"/>
+    <revision-date date="2013-04-05"/>
+  </import>
+  <import module="threadpool">
+    <prefix value="th"/>
+  </import>
+  <import module="netty">
+    <prefix value="netty"/>
+  </import>
+  <import module="opendaylight-md-sal-dom">
+    <prefix value="dom"/>
+  </import>
+  <import module="odl-netconf-cfg">
+    <prefix value="cfg-net"/>
+    <revision-date date="2014-04-08"/>
+  </import>
+  <description>
+    <text>Service definition for Binding Aware MD-SAL.</text>
+  </description>
+  <revision date="2013-10-28">
+    <description>
+      <text>Initial revision</text>
+    </description>
+  </revision>
+  <identity name="sal-netconf-connector">
+    <base name="config:module-type"/>
+    <config:java-name-prefix java-prefix="NetconfConnector"/>
+  </identity>
+  <grouping name="server">
+    <leaf name="address">
+      <type name="string"/>
+    </leaf>
+    <leaf name="port">
+      <type name="uint32"/>
+    </leaf>
+  </grouping>
+  <augment target-node="/config:modules/config:module/config:configuration">
+    <case name="sal-netconf-connector">
+      <when condition="/config:modules/config:module/config:type = 'sal-netconf-connector'"/>
+      <leaf name="address">
+        <type name="string"/>
+      </leaf>
+      <leaf name="port">
+        <type name="uint32"/>
+      </leaf>
+      <leaf name="tcp-only">
+        <type name="boolean"/>
+      </leaf>
+      <leaf name="username">
+        <type name="string"/>
+      </leaf>
+      <leaf name="password">
+        <type name="string"/>
+      </leaf>
+      <container name="dom-registry">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <mandatory value="true"/>
+            <config:required-identity name="dom:dom-broker-osgi-registry"/>
+          </refine>
+        </uses>
+      </container>
+      <container name="boss-thread-group">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <mandatory value="false"/>
+            <config:required-identity name="netty:netty-threadgroup"/>
+          </refine>
+        </uses>
+      </container>
+      <container name="worker-thread-group">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <mandatory value="false"/>
+            <config:required-identity name="netty:netty-threadgroup"/>
+          </refine>
+        </uses>
+      </container>
+      <container name="event-executor">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <config:required-identity name="netty:netty-event-executor"/>
+          </refine>
+        </uses>
+      </container>
+      <container name="client-dispatcher">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <mandatory value="false"/>
+            <config:required-identity name="cfg-net:netconf-client-dispatcher"/>
+          </refine>
+        </uses>
+      </container>
+      <leaf name="connection-timeout-millis">
+        <description>
+          <text>Specifies timeout in milliseconds after which connection must be established.</text>
+        </description>
+        <type name="uint32"/>
+        <default value="20000"/>
+      </leaf>
+      <leaf name="max-connection-attempts">
+        <description>
+          <text>Maximum number of connection retries. Non positive value or null is interpreted as infinity.</text>
+        </description>
+        <type name="uint32"/>
+        <default value="0"/>
+      </leaf>
+      <leaf name="between-attempts-timeout-millis">
+        <description>
+          <text>Timeout in milliseconds to wait between connection attempts.</text>
+        </description>
+        <type name="uint16"/>
+        <default value="10000"/>
+      </leaf>
+    </case>
+  </augment>
+</module>

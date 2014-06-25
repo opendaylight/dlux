@@ -1,0 +1,98 @@
+<div>
+  <pre ng-class="'previewContainer'" ng-show="previewVisible">{{previewValue}}</pre>
+
+  
+  
+  <div class="simpleContainer">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th class="leaf-input"></th>
+        <th></th>
+        <th class="leaf-input"></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr>
+        <td>
+          <span>Host:</span>
+        </td>
+        <td>
+          <input class="form-control input-sm" type="text" ng-model="host">
+        </td>
+        <td>
+          <span>Port:</span>
+        </td>
+        <td>
+          <input class="form-control input-sm" type="text" ng-model="port">
+        </td>
+        <td>
+          <button class="btn mc
+          cmdadd-row btn-orange ng-scope" ng-click="loadController()">Reload</button>
+        </td>
+      </tr> -->
+      <tr>
+        <td>
+          <span>Module</span>
+        </td>
+        <td>
+          <select class="form-control col-md-4" id="idModulesSelection" ng-model="selModule" ng-options="node.module for node in nodeModules" ng-change="reloadAll()" >
+            <option value="">-</option>
+          </select>
+        </td>
+        <td>
+          <span>Module API</span>
+        </td>
+        <td>
+          <select class="form-control col-md-4" id="idModuleAPIsSelection" ng-model="selApi" ng-options="api.name for api in moduleAPIs" ng-change="getAPIs()">
+            <option value="">-</option>
+          </select>
+        </td>
+        <!-- <td>
+          <button class="btn add-row btn-orange ng-scope" ng-click="getAPIs()" >Get APIs</button>
+        </td> -->
+      </tr>
+      <tr>
+        <td>
+          <span>Device</span>
+        </td>
+        <td>
+          <select class="form-control col-md-4" id="idDeviceSelection" ng-model="selDevice" ng-options="device for device in devices" ng-change="getData()">
+            <option value="">-</option>
+          </select>
+        </td>
+        <td>
+          <span>Entry</span>
+        </td>
+        <td>
+          <select class="form-control col-md-4" id="idFlowSelection" ng-model="selFlow" ng-options="flow.label for flow in flows">
+            <option value="">-</option>
+          </select>
+        </td>
+        <td>
+          <button class="btn add-row btn-orange ng-scope" ng-click="fill()">Load</button>
+          <button class="btn add-row btn-orange ng-scope" ng-click="delete()">Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span>Show preview</span>
+        </td>
+        <td>
+          <input type="checkbox" ng-model="showPreview" ng-change="preview()">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <button class="btn add-row btn-orange ng-scope" ng-click="clear()">Clear inputs</button>
+  <button class="btn add-row btn-orange ng-scope" ng-click="send()">Send request</button>
+
+  <br><br>
+  <div class="form-inline">
+    <div ng-repeat="node in nodeModules" ng-include src="currentPath+'/'+node.type+'.tpl.html'" ng-show="node.module === selModule.module"></div>
+  </div>
+</div>
