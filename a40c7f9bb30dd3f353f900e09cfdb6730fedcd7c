@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_39d96022",
+        "filename": "src/app/yangui/index.tpl.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-26T06:51:36Z",
+      "side": 1,
+      "message": "You can think of putting I18 keys, once that code is merged. No need to make change right now",
+      "revId": "a40c7f9bb30dd3f353f900e09cfdb6730fedcd7c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_59d6a4f2",
+        "filename": "src/app/yangui/index.tpl.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-26T06:51:36Z",
+      "side": 1,
+      "message": "try to put styles in separate less/css file",
+      "revId": "a40c7f9bb30dd3f353f900e09cfdb6730fedcd7c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_f9069885",
+        "filename": "src/app/yangui/yangui.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-26T06:51:36Z",
+      "side": 1,
+      "message": "Whenever you have a function which has some logic, you can try to move it out of the controller into some factory, so you controller stays lean, then you can call your factory function inside scope\u0027s behavior like here inside viewPreview. the name of method could be preview only, no need to add view in front of it. \nThis comment applies to couple of methods in this controller.",
+      "revId": "a40c7f9bb30dd3f353f900e09cfdb6730fedcd7c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_190c9ca4",
+        "filename": "src/app/yangui/yangui.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-26T06:51:36Z",
+      "side": 1,
+      "message": "put this kind of common methods inside factory, so you can reuse.",
+      "revId": "a40c7f9bb30dd3f353f900e09cfdb6730fedcd7c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_b9fc9073",
+        "filename": "src/common/yangutils/yangutils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-06-26T06:51:36Z",
+      "side": 1,
+      "message": "You can have multiple factories here, where each factory will do some specific operation, then you can return one object for each factory. Each factory can have a logical boundary. You can call those factories at required controller or other factories. \n\nThis way code becomes easier to read. I know you have mentioned that you will move away from jquery ajax calls, you can use $http or Restangular, which is very nice, less verbose and easy to use",
+      "revId": "a40c7f9bb30dd3f353f900e09cfdb6730fedcd7c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
