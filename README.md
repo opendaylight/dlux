@@ -20,8 +20,14 @@ If you want to run the dlux on local node server, use command
 
 $ grunt live
 
-It will start server at localhost:9000. It will expect your controller to be running at localhost:8080
+It will start server at http://localhost:9000/. It expects your controller to be running at localhost:8080. We can change it in app.js.
 
+To generate OSGi bundle for controller, run
+
+ $ mvn clean install
+
+It will generate dlux-web-0.1.0-SNAPSHOT.jar under target/.
+Copy this jar bundle to plugins directory inside your controller distribution. Then, you can access Dlux UI at http://localhost:8080/dlux/index.html.
 
 ## Overall Directory Structure
 
@@ -150,10 +156,15 @@ $ grunt
 ```
 
 This will perform a build and then a compile. The compiled site - ready for
-uploading to the server! - is located in `bin/`, taking a cue from
+uploading to the server! - is located in `src/main/resources/pages`, taking a cue from
 traditional software development. To test that your full site works as
-expected, open the `bin/index.html` file in your browser. Voila!
+expected, open the `src/main/resources/pages/index.html` file in your browser. Voila!
 
+### Maven Build
+
+Maven is added to generate an OSGi compatible bundle that can be shipped with Opendaylight Controller.
+Maven internally runs grunt production ready build and generate a jar out of it.
+Once you successfully run 'mvn clean install', the OSGi bundle jar gets generated under target/.
 ### Live Reload!
 
 DLUX also includes [Live Reload](http://livereload.com/), so you no

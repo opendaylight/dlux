@@ -18,7 +18,7 @@
       </tr>
 	</thead>
 	<tbody>
-	    <tr ng-hide="data.length"><td colspan="3" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
+	    <tr ng-hide="data.length > 1"><td colspan="3" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
 		<tr ng-repeat="item in data | filter:{id:'!config'} | filter:nodeSearch" node-table>
         <td tooltip="{{item['flow-node-inventory:description']}}">{{item.id}}</td>
         <td>{{item['flow-node-inventory:description']}}</td>

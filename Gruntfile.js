@@ -342,7 +342,7 @@ module.exports = function ( grunt ) {
                   cleancss: true
               },
               files: {
-                  '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': "src/less/main.less"
+                  '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
               }
           }
       },
@@ -690,7 +690,7 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-      'less:development', 'copy:compile_assets', 'ngmin:compile', 'concat:compile_js', 'uglify', 'index:compile'
+      'less:production', 'concat:build_css', 'copy:compile_assets', 'ngmin:compile', 'concat:compile_js', 'uglify', 'index:compile'
   ]);
 
   /**

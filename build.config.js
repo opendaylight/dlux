@@ -8,7 +8,7 @@ module.exports = {
    * completely built.
    */
   build_dir: 'build',
-  compile_dir: 'bin',
+  compile_dir: 'src/main/resources/pages',
   
   /**
    * This is a collection of file patterns that refer to our app code (the
@@ -20,7 +20,7 @@ module.exports = {
    * app's unit tests.
    */
   app_files: {
-    js: [ 'src/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'  ],
+    js: [ 'src/**/*.js', '!src/main/**/*.js', '!src/**/*.spec.js', '!src/assets/**/*.js'  ],
     jsunit: [ 'src/**/*.spec.js' ],
     js_common: [ 'src/common/**/*.js', '!src/common/**/*.spec.js', '!src/common/assets/**/*.js'  ],
     js_app: [ 'src/app/**/*.js', '!src/app/**/*.spec.js', '!src/app/assets/**/*.js'  ],

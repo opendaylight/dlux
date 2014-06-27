@@ -1,16 +1,16 @@
 {
   "author": "Mathieu Lemay",
-  "name": "management-console-web",
+  "name": "opendaylight-dlux",
   "version": "0.1.0",
-  "homepage": "http://platform.inocybe.com",
+  "homepage": "http://opendaylight.org",
   "licenses": {
-    "type": "Proprietary",
+    "type": "Open source",
     "url": ""
   },
-  "bugs": "http://inocybe.atlassian.net",
+  "bugs": "https://bugs.opendaylight.org/",
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.com:inocybe/MC-ManagementWeb.git"
+    "url": "https://git.opendaylight.org/gerrit/dlux.git"
   },
   "dependencies": {},
   "devDependencies": {
