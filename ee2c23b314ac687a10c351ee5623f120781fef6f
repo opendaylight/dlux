@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_5ee20230",
+        "filename": "src/app/yangui/index.tpl.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-07-01T01:12:57Z",
+      "side": 1,
+      "message": "Now I18 code is merged, you can try to do I18 for your templates also.",
+      "revId": "ee2c23b314ac687a10c351ee5623f120781fef6f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
