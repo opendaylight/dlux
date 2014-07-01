@@ -1,0 +1,51 @@
+<!--<h3>Ports</h3>
+<table class="table table-stripped">
+  <thead>
+    <tr>
+      <th class="col-md-8">Name</th>
+      <th class="col-md-2">Type</th>
+      <th class="col-md-2">State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table table-striped" ng-repeat="ncp in data.nodeConnectorProperties | noRootPorts | orderBy:'properties.name.value'">
+      <td>{{ncp.properties.name.value}}</td>
+      <td>{{ncp.nodeconnector.type}}</td>
+      <td>
+        <i class="icon-ok-sign"></i>
+        <port-state value="{{ncp.properties.state.value}}"></port-state>
+      </td>
+    </tr>
+  </tbody>
+</table>-->
+
+<h4>{{ 'FLOW_TABLE_STATISTICS_FOR_NODE_ID' | translate }} - {{data.id}}</h4>
+<label class="white-detail-page"><input type="checkbox" ng-model="checked">&nbsp;{{ 'SHOW_ALL_TABLES' | translate }}</label>
+<table class="footable table">
+  <thead>
+    <tr>
+      <th>{{ 'TABLE_ID' | translate }}</th>
+      <th>{{ 'ACTIVE_FLOW' | translate }}</th>
+      <th>{{ 'PKTS_MATCHED' | translate }}</th>
+      <th>{{ 'PKTS_LOOKED_UP' | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-hide="data['flow-node-inventory:table'].length"><td colspan="4" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
+    <tr data-ng-repeat="ncp in data['flow-node-inventory:table']" ng-show="checked || checkActiveFlow($index)">
+        <!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
+        <td>{{ncp['flow-node-inventory:id']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:packets-matched']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:packets-looked-up']}}</td>
+        <!--td>
+          <i class="icon-ok-sign"></i>
+          <port-state value="{{ncp.properties.state.value}}"></port-state>
+        </td-->
+      </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+    $('.footable').footable();
+</script>

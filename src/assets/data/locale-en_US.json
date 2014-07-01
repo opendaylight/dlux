@@ -19,5 +19,26 @@
     "FLOW_STATISTICS":"Flow Statistics",
     "NODE_CONNECTOR_STATISTICS": "Node Connector Statistics",
     "SEARCH_NODES":"Search Nodes",
-    "SEARCH_NODE_CONNECTORS":"Search Node Connectors"
+    "SEARCH_NODE_CONNECTORS":"Search Node Connectors",
+        
+    "FLOW_TABLE_STATISTICS_FOR_NODE_ID":"Flow Table Statistics for Node Id",
+    "TABLE_ID":"Table Id",
+    "ACTIVE_FLOW":"Active Flow",
+    "PKTS_MATCHED":"Pkts Matched",
+    "PKTS_LOOKED_UP":"Pkts Looked-up",
+    "SHOW_ALL_TABLES":"Show all tables",
+    
+    "NODE_CONNECTOR_STATISTICS_FOR_NODE_ID":"Node Connector Statistics for Node Id",
+    "RX_PKTS":"Rx Pkts",
+    "TX_PKTS":"Tx Pkts",
+    "RX_BYTES":"Rx Bytes",
+    "TX_BYTES":"Tx Bytes",
+    "RX_DROPS":"Rx Drops",
+    "TX_DROPS":"Tx Drops",
+    "RX_ERRS":"Rx Errs",
+    "TX_ERRS":"Tx Errs",
+    "RX_FRAME_ERRS":"Rx Frame Errs",
+    "RX_OVERRUN_ERRS":"Rx OverRun Errs",
+    "RX_CRC_ERRS":"Rx CRC Errs",
+    "Collisions":"Collisions"
 }
