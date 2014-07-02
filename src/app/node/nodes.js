@@ -29,7 +29,7 @@ angular.module('console.node', [])
   });
 })
 
-.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, $timeout) {
+.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, $timeout, nodeConnectorFactory) {
    var currentData = NodeInventorySvc.getCurrentData();
    if(currentData != null) {
      currentData.then(function(data) {
@@ -58,7 +58,24 @@ angular.module('console.node', [])
         tableRendered = true;
       }
     });
+
+  $scope.checkActiveFlow = function(index) {
+    return nodeConnectorFactory.getActiveFlow($scope.data['flow-node-inventory:table'], index);
+  };
 })
+
+.factory('nodeConnectorFactory', function() {
+  var factory = {};
+
+  factory.getActiveFlow = function(flowTable, index) {
+    var flow = flowTable[index];
+    var activeFlow = flow['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows'];
+
+    return (activeFlow > 0);
+  };
+  return factory;
+})
+
 .config(function ($stateProvider) {
   var access = routingConfig.accessLevels;
   $stateProvider.state('node', {
@@ -84,6 +101,28 @@ angular.module('console.node', [])
     views: {
       '': {
         templateUrl: 'node/detail.tpl.html',
+        controller: 'nodeConnectorCtrl'
+      }
+    }
+  });
+
+  $stateProvider.state('node.flow-stat', {
+    url: '/:nodeId/flow-stat',
+    access: access.admin,
+    views: {
+      '': {
+        templateUrl: 'node/flow-stat.tpl.html',
+        controller: 'nodeConnectorCtrl'
+      }
+    }
+  });
+
+  $stateProvider.state('node.port-stat', {
+    url: '/:nodeId/port-stat',
+    access: access.admin,
+    views: {
+      '': {
+        templateUrl: 'node/port-stat.tpl.html',
         controller: 'nodeConnectorCtrl'
       }
     }
