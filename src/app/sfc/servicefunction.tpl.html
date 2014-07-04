@@ -1,0 +1,35 @@
+<a class="btn btn-info add-row" href="index.html#/sfc/servicefunction/create">
+    Add Service Function
+</a>
+
+<table class="footable table">
+    <thead>
+        <tr>
+            <th>{{'SFC_FUNCTION_NAME' | translate}}</th>
+            <th>{{'SFC_FUNCTION_TYPE' | translate}}</th>
+            <th>{{'SFC_FUNCTION_IP' | translate}}</th>
+            <th>{{'SFC_FUNCTION_ACTIONS' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-hide="sfs.length"><td colspan="3" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td></tr>
+        <tr ng-repeat="item in sfs track by $index | filter:search" ng-model="items">
+            <td>{{item.name}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item['ip-mgmt-address']}}</td>
+            <td>
+                <!--<a class="row-delete-sf" href="#">-->
+                    <!--<i class="icon-edit"></i>-->
+                <!--</a>-->
+                <a class="row-delete-sf" href="#">
+                    <i class="icon-remove"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+		$('.footable').footable();
+</script>
