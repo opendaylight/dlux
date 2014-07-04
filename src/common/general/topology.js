@@ -19,74 +19,84 @@ angular.module('common.topology', [])
     },
     link: function($scope, iElm, iAttrs, controller) {
 
-        //Creates the parent svg element
-        var svg = d3.select(iElm[0]).append('svg')
-        //.attr("pointer-events", "all")
-        .attr('width', width)
-        .attr('height', height)
-        .attr("viewBox", "0 0 " + width + " " + height)
-        .attr("preserveAspectRatio", "xMidYMid meet")
-        .attr("pointer-events", "all")
-        .call(d3.behavior.zoom().on("zoom", redraw));
+        $scope.$watch('topologyData', function (ntdata) {
+            if(ntdata){
+                //   visinit(inNodes, inEdges, container, inOptions) {
+                var inNodes = $scope.topologyData.nodes;
+                var inEdges = $scope.topologyData.links;
+                var container = iElm[0];
 
-        //Creates a container g element for the svg, all the visualization elements are under vis
-        var vis = svg.append('svg:g');
+                // legend
+                var x = - container.clientWidth / 2 + 50;
+                var y = - container.clientHeight / 2 + 50;
+                var step = 30;
+                inNodes.push({id: 1001, x: x, y: y + step, label: 'Switch', group: 'switch',value:20});
+                inNodes.push({id: 1003, x: x, y: y + 3 * step, label: 'Computer', group: 'desktop',value:20});
 
-        function redraw() {
-            vis.attr("transform","translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
-        }
+                var data = {
+                    nodes: inNodes,
+                    edges: inEdges
+                };
 
-        $scope.$watch('topologyData', function (newVal, dluxVal) {
-            vis.selectAll('*').remove();
+                var color = '#66FFFF',
+                    hl = '#0066FF',
+                    hover = '#33CC33',
+                    BLACK = '#2B1B17';
 
-        if(!newVal) {
-            return;
-        }
+                var options =
+                {
+                    width:  '80%',
+                    nodes: {
+                        widthMin: 20,
+                        widthMax: 64,
+                        fontColor: BLACK
+                    },
+                    edges: {
+                        style: 'arrow',
+                        length: 80,
+                        color: {
+                            color: '#070707',
+                            highlight: hl,
+                            hover: hover
+                        }
+                    },
+                    physics: {
+                        barnesHut: {
+                            gravitationalConstant: -7025
+                        }
+                    },
+                    hover: true,
+                    groups: {
+                        'switch': {
+                            shape: 'image',
+                            image: 'assets/images/Device_switch_3062_unknown_64.png'
+                        },
+                        'desktop': {
+                            shape: 'image',
+                            image: 'assets/images/Device_pc_3045_default_64.png'
+                        }
+                    },
+                    keyboard:true,
+                    tooltip: {
+                        delay: 300,
+                        fontColor: "black",
+                        fontSize: 14, // px
+                        fontFace: "verdana",
+                        color: {
+                            border: "#666",
+                            background: "#FFFFC6"
+                        }
+                    }
+                    //smoothCurves: false,
+                    //stabilizationIterations: (inNodes.length > 30 ? inNodes.length * 10 : 1000),
+                    //freezeForStabilization: true
+                };
 
-        var topo = d3.layout.force()
-            .charge(-300)
-            .distance(150)
-            .nodes(newVal.nodes)
-            .links(newVal.links)
-            .size([width, height])
-            .start();
-
-        var link = vis.selectAll(".link")
-            .data(newVal.links)
-            .enter().append("line")
-            .attr("class", "link");
-
-        var node = vis
-            .selectAll('.node')
-            .data(newVal.nodes)
-            .enter()
-            .append('g')
-            .attr("class", "node")
-            .call(topo.drag);
-        
-        node.append("image")
-            .attr("xlink:href", "/assets/images/Device_switch_3062_unknown_64.png")
-            .attr("x", -25)
-            .attr("y", -25)
-            .attr("width", 50)
-            .attr("height", 50);
-
-        node.append("text")
-            .attr("dx", -55)
-            .attr("dy", "-10")
-            .text(function(d) {
-                console.log(d);
-                return d.id; });
-        topo.on("tick", function() {
-            link.attr("x1", function(d) { return d.source.x; })
-            .attr("y1", function(d) { return d.source.y; })
-            .attr("x2", function(d) { return d.target.x; })
-            .attr("y2", function(d) { return d.target.y; });
-
-            node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-            });
-        
+                var graph = new vis.Graph(container, data, options);
+                return graph;
+            }
         });
+
     }
   };
 });
