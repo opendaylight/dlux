@@ -24,13 +24,17 @@
     "select2-bootstrap-css": "https://github.com/fk/select2-bootstrap-css/archive/master.zip",
     "footable": "2.0.1",
     "angular-translate": "2.2.0",
-    "angular-translate-loader-static-files": "2.2.0"
+    "angular-translate-loader-static-files": "2.2.0",
+    "angular-ui-sortable": "0.12.8",
+    "angular-dragdrop": "https://github.com/ganarajpr/angular-dragdrop/archive/master.zip",
+    "angular-xeditable": "0.1.8"
+
   },
   "devDependencies": {
     "angular": "1.2.16",
     "angular-mocks": "1.2.16",
-    "bootstrap": "~2.3.2",
-    "angular-bootstrap": "~0.7.0",
+    "bootstrap": "~3.0.2",
+    "angular-bootstrap": "~0.11.0",
     "ng-grid": "~2.0.7"
   }
 }

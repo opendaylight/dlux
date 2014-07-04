@@ -65,7 +65,7 @@ angular.module('common.topology', [])
             .call(topo.drag);
         
         node.append("image")
-            .attr("xlink:href", "/assets/images/Device_switch_3062_unknown_64.png")
+            .attr("xlink:href", "assets/images/Device_switch_3062_unknown_64.png")
             .attr("x", -25)
             .attr("y", -25)
             .attr("width", 50)

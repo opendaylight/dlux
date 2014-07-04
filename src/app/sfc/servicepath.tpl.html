@@ -1,0 +1,61 @@
+<div class="col-md-2" style="padding-left: 0px">
+    <table class="footable table">
+        <thead>
+        <tr>
+            <th>{{'SFC_FUNCTION_NAME' | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-hide="sfs.length"><td colspan="3" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td></tr>
+        <tr ng-repeat="item in sfs track by $index | filter:search" ng-model="items"
+            ui-draggable="true" drag="item.name" class="draggable">
+            <td><span style="color:black;" tooltip-html-unsafe="{{'SFC_TOOLTIP_TYPE' | translate}} {{item.type}} <br/> {{'SFC_TOOLTIP_IP' | translate}} {{item['ip-mgmt-address']}}"  tooltip-placement="right">{{item.name}}</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-10" style="padding-right: 0px">
+    <table class="footable table">
+        <thead>
+        <tr>
+            <th colspan="2">{{'SFC_PATH' | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-hide="sfps.length"><td colspan="1" class="centerAlign">No data found</td></tr>
+        <tr ng-repeat="sfp in sfps track by $index" id="{{sfp.name}}~!~{{$index}}">
+            <td ui-on-Drop="onSFPdrop($event, $data, sfp)" ng-class="{temporary: isTemporarySFP(sfp)}">
+                <p>
+                    <span style="color: #444;" ng-show="isTemporarySFP(sfp)">Temporary SFP: </span>
+                    {{sfp.name}}
+                    <a class="row-delete-sfp" href="#">
+                        <i class="icon-remove"></i>
+                    </a>
+                        <span ng-show="isTemporarySFP(sfp)">
+                        <a>
+                            <i class="icon-ok-sign" style="cursor: pointer" ng-click="persistSFP(sfp)"></i>
+                        </a>
+                        </span>
+                </p>
+                <div class="connected grid highlight">start</div>
+                <div class="connected-apps-container dropcontainer" ui-sortable="sortableOptions"
+                     ng-model="sfp['service-function']">
+
+                    <div class="connected grid draggable" ng-model="sfp['service-function']" ng-repeat="s in sfp['service-function'] track by $index">
+                        <a>
+                            <i class="icon-remove" style="cursor: pointer" ng-click="removeSFfromSFP(sfp)"></i>
+                        </a><br/>
+                        {{s.name}}
+                    </div>
+                </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $('.footable').footable();
+</script>
+

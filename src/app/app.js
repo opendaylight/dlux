@@ -10,8 +10,10 @@ angular.module('console', [
         'templates-common',
         'ui.state',
         'ui.route',
-        'ui.bootstrap',
         'pascalprecht.translate',
+        'ui.sortable',
+        'ui.bootstrap',
+        'ui.unique',
         'common.navigation',
         'common.breadcrumb',
         'common.topbar',
@@ -21,19 +23,25 @@ angular.module('console', [
         'console.flow',
         'console.networking',
         'console.node',
+        'console.sfc',
         'console.topology',
         'console.yangui',
         //'console.user',
         'common.general', 
         'common.nbapi',
+        'common.sfc.api',
+        'common.sfc.nodestopology',
+        'common.sfc.utils',
         'common.services',
         'common.filters',
         'common.topology',
         'ngGrid',
+        'ngDragDrop',
         'restangular',
         'ui.select2',
         'common.dlux.navigation',
-        'common.yangUtils'
+        'common.yangUtils',
+        'xeditable'
         //'console.span_ports'
     ])
 
@@ -84,6 +92,9 @@ angular.module('console', [
 			else if($scope.isState('container')) {
 				$scope.logo += "container";
 			}
+      else if($scope.isState('sfc')) {
+          $scope.logo += "sfc";
+      }
 
 			$scope.init($scope.navList, 1);
 		});

@@ -1,0 +1,28 @@
+<div class="col-md-4">
+    <form role="form" name="createForm">
+        <div class="form-group">
+            <label for="name">{{'SFC_FUNCTION_NAME' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data.name" id="name" placeholder="{{'SFC_FUNCTION_CREATE_NAME' | translate}}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="type">{{'SFC_FUNCTION_TYPE' | translate}}</label>
+            <select class="form-control input-sm" id="type" ui-select2 ng-model="data.type" ng-required="true" data-placeholder="{{'SFC_FUNCTION_CREATE_TYPE' | translate}}">
+                <option value=""></option>
+                <option ng-repeat="t in servicefunction.type" value="{{t}}">{{t}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ip">{{'SFC_FUNCTION_IP' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data['ip-mgmt-address']" id="ip" placeholder="{{'SFC_FUNCTION_CREATE_IP' | translate}}"
+                   ng-pattern='/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b/' required>
+        </div>
+
+
+        <button-submit form="createForm" function="submit"></button-submit>
+        <button-cancel state="sfc.servicefunction"></button-cancel>
+        <span class="error clearfix">{{ error }}</span>
+    </form>
+
+</div>
