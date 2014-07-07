@@ -59,6 +59,7 @@ module.exports = {
    */
   vendor_files: {
     js: [
+      'vendor/vis/dist/vis.min.js',
       'vendor/jquery/jquery.js',
       'vendor/jquery-ui/ui/jquery-ui.js',
       'vendor/bootstrap/js/dropdown.js',
@@ -88,7 +89,8 @@ module.exports = {
     'vendor/select2/select2.css',
     'vendor/select2-bootstrap-css/select2-bootstrap.css',
     'vendor/footable/css/footable.core.min.css',
-    'vendor/footable/css/footable.standalone.min.css'
+    'vendor/footable/css/footable.standalone.min.css',
+    'vendor/vis/dist/vis.min.css'
 
     ],
     images: [
@@ -103,5 +105,5 @@ module.exports = {
       'vendor/font-awesome/font/*',
       'vendor/footable/css/fonts/*'
     ]
-  },
+  }
 };
