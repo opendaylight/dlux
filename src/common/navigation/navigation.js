@@ -26,26 +26,26 @@ angular.module('common.navigation', ['ngCookies'])
                             "description": "NODES"
                         }
                     },
-                    {
-                        "link": "index.html#/connection_manager/index",
-                        "active": "connection_manager",
-                        "title": "CONNECTION_MANAGER",
-                        "icon": "icon-bolt",
-                        "page": {
-                            "title": "CONNECTION_MANAGER",
-                            "description": "CONNECTION_MANAGER"
-                        }
-                    },
-                    {
-                        "link": "index.html#/flow/index",
-                        "active": "flow",
-                        "title": "FLOWS",
-                        "icon": "icon-level-down",
-                        "page": {
-                            "title": "FLOWS",
-                            "description": "FLOWS"
-                        }
-                    },
+                    // {
+                    //     "link": "index.html#/connection_manager/index",
+                    //     "active": "connection_manager",
+                    //     "title": "CONNECTION_MANAGER",
+                    //     "icon": "icon-bolt",
+                    //     "page": {
+                    //         "title": "CONNECTION_MANAGER",
+                    //         "description": "CONNECTION_MANAGER"
+                    //     }
+                    // },
+                    // {
+                    //     "link": "index.html#/flow/index",
+                    //     "active": "flow",
+                    //     "title": "FLOWS",
+                    //     "icon": "icon-level-down",
+                    //     "page": {
+                    //         "title": "FLOWS",
+                    //         "description": "FLOWS"
+                    //     }
+                    // },
                     {
                         "link": "index.html#/yangui/index",
                         "active": "yangui",
@@ -66,26 +66,27 @@ angular.module('common.navigation', ['ngCookies'])
                             "description": "TOPOLOGY"
                         }
                     },
-                    {
-                        "link": "index.html#/network/staticroute",
-                        "title": "NETWORK",
-                        "active": "network",
-                        "icon": "icon-cloud",
-                        "page": {
-                            "title": "NETWORK",
-                            "description": "NETWORK"
-                        }
-                    },
-                    {
-                        "link": "index.html#/container/index",
-                        "title": "CONTAINER",
-                        "active": "container",
-                        "icon": "icon-sign-blank",
-                        "page": {
-                            "title": "CONTAINER",
-                            "description": "CONTAINER"
-                        }
-                    }/*,
+                    // {
+                    //     "link": "index.html#/network/staticroute",
+                    //     "title": "NETWORK",
+                    //     "active": "network",
+                    //     "icon": "icon-cloud",
+                    //     "page": {
+                    //         "title": "NETWORK",
+                    //         "description": "NETWORK"
+                    //     }
+                    // },
+                    // {
+                    //     "link": "index.html#/container/index",
+                    //     "title": "CONTAINER",
+                    //     "active": "container",
+                    //     "icon": "icon-sign-blank",
+                    //     "page": {
+                    //         "title": "CONTAINER",
+                    //         "description": "CONTAINER"
+                    //     }
+                    // }
+                    /*,
                     {
                         "link": "index.html#/user/index",
                         "title": "User",

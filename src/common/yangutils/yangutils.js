@@ -59,11 +59,18 @@ angular.module('common.yangUtils', [])
             node.value = '';
 
             node.buildRequest = function(builder, req) {
-                if(node.value) {
-                    builder.insertPropertyToObj(req, node.label, node.value);
-                    return true;
+                var valueStr = '';
+
+                try {
+                    valueStr = node.value.toString();
+                } catch(e) {
+                    console.warn('cannot convert value',node.value);
                 }
 
+                if(valueStr) {
+                    builder.insertPropertyToObj(req, node.label, valueStr);
+                    return true;
+                }
                 return false;
             };
 
@@ -212,7 +219,7 @@ angular.module('common.yangUtils', [])
 
             node.addListElem = function() {
                 var copy = node.deepCopy();
-                wrapper.wrapAll(copy);
+                wrapper._listElem(copy);
                 node.listElems.push(copy);
                 node.needAddNewListElem = false;
                 node.actElement = node.listElems[node.listElems.length - 1];
@@ -227,39 +234,12 @@ angular.module('common.yangUtils', [])
                 }
             };
 
-            var listElemBuildRequest = function(builder, req, node) {
-                var added = false,
-                    objToAdd = builder.createObj();
-
-                node.children.forEach(function(child) {
-                    var childAdded = child.buildRequest(builder, objToAdd);
-                    added = added || childAdded;
-                });
-
-                if(added) {
-                    builder.insertObjToList(req, objToAdd);
-                }
-
-                return added;
-            };
-
-            var fillListElement = function(name, data, node) {
-                var filled = false;
-
-                node.children.forEach(function(child) {
-                    var childFilled = child.fill(name, data);
-                    filled = filled || childFilled;
-                });
-                
-                return filled;
-            };
-
             node.buildRequest = function(builder, req) {
                 var added = false,
                     listToAdd = builder.createList();
 
                 node.listElems.forEach(function(listElem) {
-                    var elemAdded = listElemBuildRequest(builder, listToAdd, listElem);
+                    var elemAdded = listElem.listElemBuildRequest(builder, listToAdd);
                     added = added || elemAdded;
                 });
 
@@ -280,7 +260,7 @@ angular.module('common.yangUtils', [])
 
                         lastIndex = node.listElems.length - 1;
                         for(var prop in array[i]) {
-                            node.needAddNewListElem = fillListElement( prop, array[i][prop], node.listElems[lastIndex]);
+                            node.needAddNewListElem = node.listElems[lastIndex].fillListElement( prop, array[i][prop]);
                         }
                     }
                 }
@@ -293,7 +273,44 @@ angular.module('common.yangUtils', [])
                 }
                 node.needAddNewListElem = true;
             };
+        },
+
+        _listElem: function(node) {
+            node.listElemBuildRequest = function(builder, req) {
+                var added = false,
+                    objToAdd = builder.createObj();
+
+                node.children.forEach(function(child) {
+                    var childAdded = child.buildRequest(builder, objToAdd);
+                    added = added || childAdded;
+                });
+
+                if(added) {
+                    builder.insertObjToList(req, objToAdd);
+                }
+
+                return added;
+            };
+
+            node.fillListElement = function(name, data) {
+                var filled = false;
+
+                node.children.forEach(function(child) {
+                    var childFilled = child.fill(name, data);
+                    filled = filled || childFilled;
+                });
+                
+                return filled;
+            };
+
+            node.children.forEach(function(child) {
+                wrapper.wrapAll(child);
+            });
         }
+    };
+
+    wrapper.__test = {
+        comparePropToElemByName: comparePropToElemByName
     };
 
     return wrapper;
@@ -370,7 +387,7 @@ angular.module('common.yangUtils', [])
 
         $http.get(path+yinPath).success(function (data) {
             var rootModule = $($.parseXML(data).documentElement).attr('name');
-        
+
             yangParser.reset();
             yangParser.setCurrentModule(rootModule);
             yangParser.parse(data, null);
@@ -499,9 +516,12 @@ angular.module('common.yangUtils', [])
                         var importTagModule = importTag.attr('module'),
                             reqId = spawnRequest(importTagModule);
 
+                        // console.info('spawning request', reqId);
+
                         $http.get(path+'/yang2xml/'+importTagModule+'.yang.xml').success(function (data) {
                             self.setCurrentModule(importTagModule);
                             self._grouping($.parseXML(data).documentElement, parent, names[1]);
+                            // console.info('removing request', reqId);
                             removeRequest(reqId);
                         });
                     });
@@ -511,11 +531,22 @@ angular.module('common.yangUtils', [])
     };
 
     return {
-        parse: parseYang
+        parse: parseYang,
+        __test: {
+            path: path,
+            spawnRequest: spawnRequest,
+            removeRequest: removeRequest,
+            waitFor: waitFor,
+            runningRequests: runningRequests,
+            reqId: reqId,
+            parseYang: parseYang,
+            parentTag: parentTag,
+            yangParser: yangParser
+        }
     };
 })
 
-.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder) {
+.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, $timeout) {
 
     var utils = {};
 
@@ -599,6 +630,38 @@ angular.module('common.yangUtils', [])
         });
 
         return flows;
+    };
+
+
+    var flowInOperational = function(flowDataConf, flowDataOper) {
+        var operId = flowDataOper['flow-node-inventory:id'],
+            OperTable = flowDataOper['opendaylight-flow-statistics:flow-statistics']['opendaylight-flow-statistics:table_id'];
+
+        console.info(operId,' === ',flowDataConf.id,' && ',OperTable,' === ',flowDataConf.table_id,' ---> ',(operId === flowDataConf.id && OperTable === flowDataConf.table_id));
+        
+        return (operId === flowDataConf.id && OperTable === flowDataConf.table_id);
+    };
+
+    var operationalTO = 15000;
+
+    utils.checkOperational = function(device, flow, successCbk, errorCbk) {
+        // Restangular.all('operational').all('opendaylight-inventory:nodes').one('node',device).one('table',flow.table_id).one('flow',);
+
+        $timeout(function() {
+            $http.get('http://localhost:8080/restconf/operational/opendaylight-inventory:nodes/node/'+device+'/table/'+flow.table_id+'/flow/'+flow.id).then(function(nodeOperRawData) {
+                 if(flowInOperational(flow, nodeOperRawData['flow-node-inventory:flow'][0])) {
+                    successCbk();
+                } else {
+                    errorCbk();
+                }
+            }, function() {
+                errorCbk();
+            });
+        }, operationalTO);
+    };
+
+    utils.__test = {
+        flowInOperational: flowInOperational
     };
 
     return utils;
