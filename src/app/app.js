@@ -84,6 +84,9 @@ angular.module('console', [
 			else if($scope.isState('container')) {
 				$scope.logo += "container";
 			}
+            else if($scope.isState('yangui')) {
+                $scope.logo += "yangui";
+            }
 
 			$scope.init($scope.navList, 1);
 		});
