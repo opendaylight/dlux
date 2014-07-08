@@ -9,6 +9,12 @@ function consoleSfcPartConfig(module) {
       templateUrl: 'sfc/sfc.config.tpl.html',
       controller: function ($scope, SfcConfigSvc, SfcFileReaderSvc) {
 
+        $scope.validatorLoaded = false;
+
+        SfcConfigSvc.loadValidator().then(function () {
+          $scope.validatorLoaded = true;
+        });
+
         $scope.fileContent = "";
 
         $scope.getFile = function (file) {

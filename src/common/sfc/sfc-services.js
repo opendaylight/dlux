@@ -24,9 +24,9 @@ angular.module('common.sfc.api', [])
     return svc.baseRest().customPUT(elem, sfModelUrl + '/service-function/' + key);
   };
 
-    svc.putContainer = function (containerElem) {
-      return svc.baseRest().customPUT(containerElem, sfModelUrl);
-    };
+  svc.putContainer = function (containerElem) {
+    return svc.baseRest().customPUT(containerElem, sfModelUrl);
+  };
 
   svc.delete = function (key) {
     return svc.baseRest().customDELETE(sfModelUrl + '/service-function/' + key);

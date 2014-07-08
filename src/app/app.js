@@ -31,6 +31,7 @@ angular.module('console', [
         'common.nbapi',
         'common.sfc.api',
         'common.sfc.nodestopology',
+        'common.sfc.utils',
         'common.services',
         'common.filters',
         'common.topology',
@@ -39,7 +40,8 @@ angular.module('console', [
         'restangular',
         'ui.select2',
         'common.dlux.navigation',
-        'common.yangUtils'
+        'common.yangUtils',
+        'xeditable'
         //'console.span_ports'
     ])
 
@@ -90,9 +92,9 @@ angular.module('console', [
 			else if($scope.isState('container')) {
 				$scope.logo += "container";
 			}
-            else if($scope.isState('sfc')) {
-                $scope.logo += "sfc";
-            }
+      else if($scope.isState('sfc')) {
+          $scope.logo += "sfc";
+      }
 
 			$scope.init($scope.navList, 1);
 		});

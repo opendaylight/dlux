@@ -1,6 +1,6 @@
 angular.module('console.sfc', ['sfc.config.svchost'])
 
-.controller('serviceNodeCtrl', function ($scope, ServiceFunctionSvc, ServiceNodeSvc) {
+.controller('serviceNodeCtrl', function ($scope, ServiceFunctionSvc, ServiceNodeSvc, ModalDeleteSvc) {
   var createGraphData = function createGraphData (nodeArray) {
     var graphData = [];
     _.each(nodeArray, function (element) {
@@ -23,23 +23,28 @@ angular.module('console.sfc', ['sfc.config.svchost'])
   };
 
   $scope.deleteServiceNode = function deleteServiceNode(snName){
-    ServiceNodeSvc.deleteItem(snName, function(){
-      //after delete refresh local service node array
-      ServiceNodeSvc.getArray(function (data) {
-        $scope.sns = data;
-        $scope.snsGraph = createGraphData($scope.sns);
-      });
-    });
+   ModalDeleteSvc.open(snName.name, function (result){
+     if(result == 'delete'){
+       ServiceNodeSvc.deleteItem(snName, function () {
+         //after delete refresh local service node array
+         ServiceNodeSvc.getArray(function (data) {
+           $scope.sns = data;
+           $scope.snsGraph = createGraphData($scope.sns);
+         });
+       });
+     }
+   });
   };
 
   ServiceFunctionSvc.getArray(function (data) {
     $scope.sfs = data;
+
+    ServiceNodeSvc.getArray(function (data) {
+      $scope.sns = data;
+      $scope.snsGraph = createGraphData($scope.sns);
+    });
   });
 
-  ServiceNodeSvc.getArray(function (data) {
-    $scope.sns = data;
-    $scope.snsGraph = createGraphData($scope.sns);
-  });
 })
 
 .controller('serviceNodeCreateCtrl', function ($scope, $state, ServiceFunctionSvc, ServiceNodeSvc) {
@@ -57,7 +62,7 @@ angular.module('console.sfc', ['sfc.config.svchost'])
   };
 })
 
-.controller('serviceFunctionCtrl', function ($scope, ServiceFunctionSvc) {
+.controller('serviceFunctionCtrl', function ($scope, ServiceFunctionSvc, ModalDeleteSvc) {
 
   ServiceFunctionSvc.getArray(function (data) {
     $scope.sfs = data;
@@ -72,9 +77,13 @@ angular.module('console.sfc', ['sfc.config.svchost'])
     //get the SF name
     var sfName = ($scope.getText(row[0].cells[0]));
 
-    //delete the row
-    ServiceFunctionSvc.deleteItem({"name": sfName}, function () {
-      footable.removeRow(row);
+    ModalDeleteSvc.open(sfName, function(result) {
+      if(result == 'delete'){
+        //delete the row
+        ServiceFunctionSvc.deleteItem({"name": sfName}, function () {
+          footable.removeRow(row);
+        });
+      }
     });
   });
 })
@@ -87,13 +96,13 @@ angular.module('console.sfc', ['sfc.config.svchost'])
   };
 })
 
-.controller('serviceChainCtrl', function ($scope, ServiceFunctionSvc, ServiceChainSvc, $modal) {
+.controller('serviceChainCtrl', function ($scope, ServiceFunctionSvc, ServiceChainSvc, $modal, ModalDeleteSvc, ModalSfnameSvc) {
 
   $scope.isTemporarySFC = function isTemporarySFC(sfc) {
     return sfc.temporary || false;
   };
 
-  var setTemporarySFC = function setTemporarySFC(sfc) {
+  $scope.setTemporarySFC = function setTemporarySFC(sfc) {
     sfc.temporary = true;
   };
 
@@ -109,7 +118,7 @@ angular.module('console.sfc', ['sfc.config.svchost'])
 
     //temporary SFCs are kept in local array, persisted SFCs should be removed from it
     _.each($scope.sfcs, function (sfc, index) {
-      if (isTemporarySFC(sfc)) {
+      if (!$scope.isTemporarySFC(sfc)) {
         $scope.sfcs.splice(index, 1);
       }
     });
@@ -131,12 +140,12 @@ angular.module('console.sfc', ['sfc.config.svchost'])
     update: function (e, ui) {
       //sfc[0]: name, sfc[1]: index in sfcs
       var sfc = $(ui.item).closest('tr').attr('id').split("~!~");
-      setTemporarySFC($scope.sfcs[sfc[1]]);
+      $scope.setTemporarySFC($scope.sfcs[sfc[1]]);
     },
     receive: function (e, ui) {
       //sfc[0]: name, sfc[1]: index in sfcs
       var sfc = $(e.target).closest('tr').attr('id').split("~!~");
-      setTemporarySFC($scope.sfcs[sfc[1]]);
+      $scope.setTemporarySFC($scope.sfcs[sfc[1]]);
     }
   };
 
@@ -148,61 +157,16 @@ angular.module('console.sfc', ['sfc.config.svchost'])
     var sfNameExists = _.findWhere(sfc['service-function-type'], {name: $sf.type});
 
     if (sfNameExists !== undefined) {
-      $scope.sfc = sfc;
-      $scope.sf = $sf;
-      $scope.open();
+      ModalSfnameSvc.open(sfc, $sf, function(newSf){
+        sfc['service-function-type'].push({name: newSf.name, type: newSf.type});
+        $scope.setTemporarySFC(sfc);
+      });
     }
     else {
       sfc['service-function-type'].push({name: $sf.type, type: $sf.type});
-      setTemporarySFC(sfc);
+      $scope.setTemporarySFC(sfc);
     }
   };
-
-  $scope.open = function () {
-
-    var modalInstance = $modal.open({
-      templateUrl: 'sfc/servicechain.addsf.tpl.html',
-      controller: ModalInstanceCtrl,
-      resolve: {
-        sfc: function () {
-          return $scope.sfc;
-        },
-        sf: function () {
-          return $scope.sf;
-        }
-      }
-    });
-
-    modalInstance.result.then(function (sf) {
-      $scope.sfc['service-function-type'].push({name: sf.name, type: sf.type});
-      setTemporarySFC($scope.sfc);
-    });
-  };
-
-  var ModalInstanceCtrl = function ($scope, $modalInstance, sfc, sf) {
-
-    $scope.sfc = sfc;
-    $scope.sf = sf;
-
-    $scope.save = function () {
-      var newSfName;
-      if (this.data.prefix) {
-        newSfName = (this.data.prefix + "-");
-      }
-      newSfName = newSfName.concat($scope.sf.type);
-      if (this.data.sufix) {
-        newSfName = newSfName.concat("-" + this.data.sufix);
-      }
-
-      $scope.sf.name = newSfName;
-      $modalInstance.close(sf);
-    };
-
-    $scope.dismiss = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  };
-
 
   $('table').footable().on('click', '.row-delete-sfc', function (e) {
     e.preventDefault();
@@ -214,16 +178,20 @@ angular.module('console.sfc', ['sfc.config.svchost'])
     //sfc[0]: name, sfc[1]: index in sfcs
     var sfc = row[0].id.split("~!~");
 
-    //delete the row
-    ServiceChainSvc.deleteItem({"name": sfc[0]}, function () {
-      $scope.sfcs.splice(sfc[1], 1);
-      footable.removeRow(row);
+    ModalDeleteSvc.open(sfc[0], function(result){
+      if(result == 'delete'){
+        //delete the row
+        ServiceChainSvc.deleteItem({"name": sfc[0]}, function () {
+          $scope.sfcs.splice(sfc[1], 1);
+          footable.removeRow(row);
+        });
+      }
     });
   });
 
   $scope.removeSFfromSFC = function (sfc) {
     sfc['service-function-type'].splice(this.$index, 1);
-    setTemporarySFC(sfc);
+    $scope.setTemporarySFC(sfc);
   };
 
   $scope.persistSFC = function (sfc) {
@@ -269,7 +237,7 @@ angular.module('console.sfc', ['sfc.config.svchost'])
 
     //temporary SFPs are kept in local array, persisted SFPs should be removed from it
     _.each($scope.sfps, function (sfp, index) {
-      if (isTemporarySFP(sfp)) {
+      if ($scope.isTemporarySFP(sfp)) {
         $scope.sfps.splice(index, 1);
       }
     });

@@ -93,7 +93,8 @@ angular.module('common.sfc.nodestopology', [])
             .on("mouseover", function (d) {
               div.transition()
                 .duration(200)
-                .style("opacity", 0.9);
+                .style("opacity", 0.9)
+                .style("z-index", "10");
 
               if (d.type !== undefined) {
                 div.html(
@@ -101,7 +102,7 @@ angular.module('common.sfc.nodestopology', [])
                     "IP: " + d['ip-mgmt-address'] + "<br/>" +
                     "Type: " + d.type + "<br/>"
                 )
-                  .style("left", (d3.event.pageX) + "px")
+                  .style("left", (d3.event.pageX + 15) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               }
               else {
@@ -109,7 +110,7 @@ angular.module('common.sfc.nodestopology', [])
                     "<p style='text-align: center;'>" + d.name + "</p>" +
                     "IP: " + d['ip-mgmt-address'] + "<br/>"
                 )
-                  .style("left", (d3.event.pageX) + "px")
+                  .style("left", (d3.event.pageX + 15) + "px")
                   .style("top", (d3.event.pageY - 28) + "px");
               }
 
@@ -118,7 +119,8 @@ angular.module('common.sfc.nodestopology', [])
             .on("mouseout", function (d) {
               div.transition()
                 .duration(600)
-                .style("opacity", 0);
+                .style("opacity", 0)
+                .style("z-index", "-1");
             });
 
           nodeEnter.append("image")
@@ -128,15 +130,6 @@ angular.module('common.sfc.nodestopology', [])
             .attr("width", 40)
             .attr("height", 40);
 
-          nodeEnter.append("div")
-            .attr("x", -40)
-            .attr("y", -40)
-            .attr("dy", ".35em")
-            .attr("text-anchor", 'middle')
-            .text("delete")
-            .style("fill-opacity", 1);
-
-          //TODO: allow to delete serviceNode
           nodeEnter.append("text")
             .attr("y", function (d) {
               return d.children || d._children ? -30 : 30;
@@ -148,14 +141,12 @@ angular.module('common.sfc.nodestopology', [])
             })
             .style("fill-opacity", 1);
 
-
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()
             .duration(duration)
             .attr("transform", function (d) {
               return "translate(" + d.x + "," + d.y + ")";
             });
-
 
           nodeUpdate.select("text")
             .style("fill-opacity", 1);

@@ -8,7 +8,7 @@
         <tbody>
         <tr ng-hide="sfs.length"><td colspan="3" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td></tr>
         <tr ng-repeat="item in sfs track by $index | filter:search" ng-model="items"
-            ui-draggable="true" drag="item.name">
+            ui-draggable="true" drag="item.name" class="draggable">
             <td><span style="color:black;" tooltip-html-unsafe="{{'SFC_TOOLTIP_TYPE' | translate}} {{item.type}} <br/> {{'SFC_TOOLTIP_IP' | translate}} {{item['ip-mgmt-address']}}"  tooltip-placement="right">{{item.name}}</span></td>
         </tr>
         </tbody>
@@ -42,7 +42,7 @@
                 <div class="connected-apps-container dropcontainer" ui-sortable="sortableOptions"
                      ng-model="sfp['service-function']">
 
-                    <div class="connected grid" ng-model="sfp['service-function']" ng-repeat="s in sfp['service-function'] track by $index">
+                    <div class="connected grid draggable" ng-model="sfp['service-function']" ng-repeat="s in sfp['service-function'] track by $index">
                         <a>
                             <i class="icon-remove" style="cursor: pointer" ng-click="removeSFfromSFP(sfp)"></i>
                         </a><br/>

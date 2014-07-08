@@ -1,9 +1,13 @@
 (function () {
 
   // **** module for sfc config service *****
-  var sfcConfigModule = angular.module('sfc.config.svchost', []);
+  var module = angular.module('sfc.config.svchost', ['sfc.schemas.svchost']);
 
-  sfcConfigModule.factory("SfcConfigSvc", function (ServiceFunctionSvc, ServiceNodeSvc, ServiceChainSvc) {
+  module.factory("SfcConfigSvc", function (SfcJsonSchemasSvc, JsonSchemaValidatorSvc, ServiceFunctionSvc, ServiceNodeSvc, ServiceChainSvc) {
+
+    var sfcModelRevision = "sfc-rev-2014-06-30";
+
+    var sfcModelJsonSchemas =  SfcJsonSchemasSvc.getSchemasForRevision(sfcModelRevision);
 
     // replace placeholder formatting helper function; usage:  format("... {0} {1}", arg0, arg1);
     var format = function () {
@@ -41,13 +45,14 @@
 
     var svc = {};
 
-    // synchronously send PUT requests based on data in 'pool' array
+    // synchronously (thru recursive callbacks) send PUT requests based on data in 'pool' array
     svc.applyConfigPool = function (pool, finalCallback) {
 
-      var callback = function (response, container) {
+      // define common callback fn after REST operation
+      var callback = function (response, containerData) {
         try {
           if (response) {
-            throw new Error(format("status code: {0}, for PUT object:\n{1}", response.status, container));
+            throw new Error(format("status code: {0}, for PUT opration:\n\n{1}\n\n{2}", response.status, containerData, response.data));
           } else {
             svc.applyConfigPool(pool, finalCallback);
           }
@@ -73,6 +78,7 @@
             ServiceNodeSvc.putContainerWrapper(poolItem.container, callback);
             break;
           }
+
           case 'sfc':
           {
             ServiceChainSvc.putContainerWrapper(poolItem.container, callback);
@@ -89,6 +95,29 @@
       }
     };
 
+
+    // throws exception with formatted message in case of invalid json
+    svc.checkJsonSchema = function (dataObject, jsonSchema) {
+      var env = JsonSchemaValidatorSvc.getJSV().createEnvironment();
+      var report = env.validate(dataObject, jsonSchema);
+
+      // check
+      if (report.errors.length === 0) {
+        //JSON is valid against the schema - OK
+      } else {
+
+        var error = report.errors[0];
+        var schemaId = jsonSchema.id;
+        var schemaUri = error.schemaUri;
+        var message = error.message;
+        var detail = error.detail || '';
+        var path = schemaUri.replace(new RegExp("^[\\w\\W]*" + _.str.escapeRegExp(schemaId)), "")
+          .replace(new RegExp("/items/properties", "g"), "").replace(new RegExp("/properties", "g"), "");
+
+        throw new Error(format("Does not validate to schema: input:\n{0}\n\n{1} : {2}\n\ndetail: {3}", dataObject, path, message, detail));
+      }
+    };
+
     // check for SF json, and in case store in pool
     svc.processSF = function (token, pool) {
 
@@ -102,7 +131,9 @@
 
       try {
         var parsedJson = $.parseJSON(match);
-        // todo - validation
+
+        // Validation to SF schema
+        svc.checkJsonSchema(parsedJson, sfcModelJsonSchemas.SF_SCHEMA);
 
         pool.push({model: "sf", container: parsedJson});
 
@@ -113,7 +144,8 @@
       return true;
     };
 
-    // check for SF json, and in case store in pool
+
+    // check for SN json, validate, and in case store in pool
     svc.processSN = function (token, pool) {
 
       var regexp = new RegExp(SN_PARSE);
@@ -127,9 +159,11 @@
       try {
         var parsedJson = $.parseJSON(match);
 
-        // todo - validation
+        // Validation to SN schema
+        svc.checkJsonSchema(parsedJson, sfcModelJsonSchemas.SN_SCHEMA);
 
         pool.push({model: "sn", container: parsedJson});
+
       } catch (e) {
         throw new Error(e);
       }
@@ -137,7 +171,7 @@
       return true;
     };
 
-    // check for SF json, and in case store in pool
+    // check for SFC json, and in case store in pool
     svc.processSFC = function (token, pool) {
 
       var regexp = new RegExp(SFC_PARSE);
@@ -149,15 +183,16 @@
       }
       try {
         var parsedJson = $.parseJSON(match);
-        //var parsedJson = angular.fromJson(match);
 
-        // todo - validation
+        // Validation to SFC schema
+        svc.checkJsonSchema(parsedJson, sfcModelJsonSchemas.SFC_SCHEMA);
 
         pool.push({model: "sfc", container: parsedJson});
 
       } catch (e) {
-        throw new Error(e);
+        throw e;
       }
+
       return true;
     };
 
@@ -214,16 +249,21 @@
       }
     };
 
+    svc.loadValidator = function () {
+      return JsonSchemaValidatorSvc.loadValidator();
+    };
+
     // export
     return {
-      processGeneral: svc.processGeneral
+      processGeneral: svc.processGeneral,
+      loadValidator: svc.loadValidator
     };
 
   });
 
 
   // **** service: SfcFileReaderSvc ****
-  sfcConfigModule.factory("SfcFileReaderSvc",
+  module.factory("SfcFileReaderSvc",
     ["$q", "$log", function ($q, $log) {
 
       var onLoad = function (reader, deferred, scope) {
@@ -260,6 +300,7 @@
         return reader;
       };
 
+      // returns promise with the txt content of the file, registers 'fileProgress' broadcast in scope
       var readAsText = function (file, scope) {
         $log.debug(file);
 
@@ -271,11 +312,61 @@
         return deferred.promise;
       };
 
-      // export
+      // service exports
       return {
         readAsText: readAsText
       };
     }]);
+
+
+  // **** service: JsonSchemaValidator ****
+  module.factory("JsonSchemaValidatorSvc", function ($q) {
+
+    var validator = null;
+
+    // loads the library with dependencies, returns promise with future JSV object
+    var loadValidator = function () {
+      var deferred = $q.defer();
+
+      if (!validator) {
+
+        // load only once
+        require(['assets/js/jsv/uri'], function () {
+          require(['assets/js/jsv/urn'], function () {
+            require(['assets/js/jsv/jsv'], function () {
+              require(['assets/js/jsv/json-schema-draft-01', 'assets/js/jsv/json-schema-draft-02', 'assets/js/jsv/json-schema-draft-03'], function () {
+                validator = exports.JSV;
+                deferred.resolve(validator);
+              });
+            });
+          });
+        });
+
+      } else {
+        deferred.resolve(validator);
+      }
+
+      return deferred.promise;
+    };
+
+
+    // returns JSV object
+    var getJSV = function () {
+      if (validator !== null) {
+        return validator;
+      } else {
+        alert("JSV probably not fully loaded yet!");
+      }
+    };
+
+    loadValidator(); // launch loading asynchronously!!!
+
+    // service exports
+    return {
+      loadValidator: loadValidator,
+      getJSV: getJSV
+    };
+  });
 
 
 }());

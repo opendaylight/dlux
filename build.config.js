@@ -84,14 +84,17 @@ module.exports = {
       'vendor/angular-translate/angular-translate.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
       'vendor/angular-ui-sortable/sortable.js',
-      'vendor/angular-dragdrop/draganddrop.js'
+      'vendor/angular-dragdrop/draganddrop.js',
+      'vendor/angular-xeditable/dist/js/xeditable.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
     'vendor/select2/select2.css',
     'vendor/select2-bootstrap-css/select2-bootstrap.css',
     'vendor/footable/css/footable.core.min.css',
-    'vendor/footable/css/footable.standalone.min.css'
+    'vendor/footable/css/footable.standalone.min.css',
+    'vendor/angular-xeditable/dist/css/xeditable.css'
+
 
     ],
     images: [
