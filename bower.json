@@ -10,10 +10,10 @@
     "angular-cookies": "1.2.16",
     "angular-sanitize": "1.2.16",
     "angular-ui-date": "latest",
-    "requirejs": "2.1.9",
+    "requirejs": "2.1.14",
     "font-awesome": "~4.0.3",
     "bootstrap": "~3.0.2",
-    "angular-ui-router": "~0.0.1",
+    "angular-ui-router": "~0.2.10",
     "angular-ui-utils": "~0.0.3",
     "d3": "~3.3.2",
     "restangular": "1.2.1",
@@ -32,6 +32,9 @@
     "angular-mocks": "1.2.16",
     "bootstrap": "~3.0.2",
     "angular-bootstrap": "~0.7.0",
-    "ng-grid": "~2.0.7"
+    "ng-grid": "~2.0.7",
+    "angularAMD": "~0.1.1",
+    "requirejs-domready": "~2.0.1",
+    "ocLazyLoad": "~0.3.0"
   }
 }
