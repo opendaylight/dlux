@@ -1,5 +1,5 @@
-angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'])
-    .factory('taskFactory',function () {
+define(['common/topbar/topbar.module'], function(topbar) {
+    topbar.register.factory('taskFactory',function () {
         var factory = {};
         factory.getTaskData = function () {
             return {
@@ -30,7 +30,9 @@ angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'
 
         };
         return factory;
-    }).factory('messageFactory', function () {
+    });
+    
+    topbar.register.factory('messageFactory', function () {
         var factory = {};
         factory.getMessageData = function () {
             return {
@@ -58,8 +60,9 @@ angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'
             };
         };
         return factory;
-    })
-    .factory('notifsFactory', function () {
+    });
+
+    topbar.regiser.factory('notifsFactory', function () {
         var factory = {};
         factory.getNotifsData = function () {
             return {
@@ -96,69 +99,5 @@ angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'
 
         };
         return factory;
-    })
-    .directive('mcTopBar', function () {
-        return {
-            replace: true,
-            templateUrl: 'topbar/topbar.tpl.html',
-        };
-    })
-    .directive('mcTopBarTasks', function () {
-        return {
-            replace: true,
-            controller: 'topBarTasksCtrl',
-            templateUrl: 'topbar/tasks.tpl.html'
-        };
-    })
-    .directive('mcTopBarNotifications', function () {
-        return {
-            replace: true,
-            controller: 'topBarNotifsCtrl',
-            templateUrl: 'topbar/notifications.tpl.html'
-        };
-    })
-    .directive('mcTopBarMessages', function () {
-        return {
-            replace: true,
-            controller: 'topBarMessagesCtrl',
-            templateUrl: 'topbar/messages.tpl.html'
-        };
-    })
-    .directive('mcTopBarUserMenu', function () {
-        return {
-            replace: true,
-            controller: 'topBarUserMenuCtrl',
-            templateUrl: 'topbar/user_menu.tpl.html'
-        };
-    })
-    .controller('topBarTasksCtrl',function ($scope, taskFactory) {
-        $scope.tasks = taskFactory.getTaskData();
-    }).controller('topBarNotifsCtrl',function ($scope, notifsFactory) {
-        $scope.notifs = notifsFactory.getNotifsData();
-        $scope.isValid = function (value) {
-            if (angular.isUndefined(value) || value === null) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        };
-    }).controller('topBarMessagesCtrl',function ($scope, messageFactory) {
-        $scope.messages = messageFactory.getMessageData();
-        $scope.isValid = function (value) {
-            if (angular.isUndefined(value) || value === null) {
-                return false;
-            }
-            else {
-                return true;
-            }
-        };
-    }).controller('topBarUserMenuCtrl', function ($scope, $cookieStore, Auth, $window) {
-        $scope.logOut = function () {
-            Auth.logout(
-            function(res) {
-                $window.location.href = 'login.html'; 
-            });
-
-        };
     });
+});
