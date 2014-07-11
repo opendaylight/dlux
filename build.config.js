@@ -24,14 +24,13 @@ module.exports = {
     jsunit: [ 'src/**/*.spec.js' ],
     js_common: [ 'src/common/**/*.js', '!src/common/**/*.spec.js', '!src/common/assets/**/*.js'  ],
     js_app: [ 'src/app/**/*.js', '!src/app/**/*.spec.js', '!src/app/assets/**/*.js'  ],
-    coffee: [ 'src/**/*.coffee', '!src/**/*.spec.coffee' ],
-    coffeeunit: [ 'src/**/*.spec.coffee' ],
 
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
     html: [ 'src/index.html',  'src/login.html'],
-    less: 'src/less/main.less'
+    less: 'src/less/main.less',
+    templates: ['src/**/*.tpl.html']
   },
 
   /**
@@ -64,6 +63,12 @@ module.exports = {
       'vendor/jquery-ui/ui/jquery-ui.js',
       'vendor/bootstrap/js/dropdown.js',
       'vendor/angular/angular.js',
+      'vendor/requirejs/requirejs.js',
+      'vendor/angularAMD/angularAMD.js',
+      'vendor/angularAMD/ngload.js',
+      'vendor/requirejs-domready/domReady.js',
+      'vendor/ocLazyLoad/dist/ocLazyLoad.js',
+      'vendor/angular-route/angular-route.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
