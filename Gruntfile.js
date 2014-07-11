@@ -15,10 +15,8 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
-  grunt.loadNpmTasks('grunt-coffeelint');
   //grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-ngmin');
@@ -137,6 +135,16 @@ module.exports = function ( grunt ) {
           }
         ]
       },
+      copy_template: {
+        files: [
+          {
+            src: ['<%= app_files.templates %>'],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      },
       build_vendorjs: {
         files: [
           {
@@ -177,17 +185,6 @@ module.exports = function ( grunt ) {
           }
         ]
       },
-
-     /* build_vendor_font: {
-        files: [
-          {
-            src: [ '<%= vendor_files.font %>' ],
-            dest: '<%= build_dir %>',
-            cwd: '.',
-            expand: true
-          }
-        ]
-      },*/
 
       compile_font: {
         files: [
@@ -237,26 +234,6 @@ module.exports = function ( grunt ) {
     },
 
     /**
-     * `grunt coffee` compiles the CoffeeScript sources. To work well with the
-     * rest of the build, we have a separate compilation task for sources and
-     * specs so they can go to different places. For example, we need the
-     * sources to live with the rest of the copied JavaScript so we can include
-     * it in the final build, but we don't want to include our specs there.
-     */
-    coffee: {
-      source: {
-        options: {
-          bare: true
-        },
-        expand: true,
-        cwd: '.',
-        src: [ '<%= app_files.coffee %>' ],
-        dest: '<%= build_dir %>',
-        ext: '.js'
-      }
-    },
-
-    /**
      * `ng-min` annotates the sources before minifying. That is, it allows us
      * to code without the array syntax.
      */
@@ -286,37 +263,7 @@ module.exports = function ( grunt ) {
         }
       }
     },
-
-    /**
-     * `recess` handles our LESS compilation and uglification automatically.
-     * Only our `main.less` file is included in compilation; all other files
-     * must be imported from this file.
-     */
-   /**recess: {
-      build: {
-        src: [ '<%= app_files.less %>' ],
-        dest: '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css',
-        options: {
-          compile: true,
-          compress: false,
-          noUnderscores: false,
-          noIDs: false,
-          zeroUnits: false
-        }
-      },
-      compile: {
-        src: [ '<%= recess.build.dest %>' ],
-        dest: '<%= recess.build.dest %>',
-        options: {
-          compile: true,
-          compress: true,
-          noUnderscores: false,
-          noIDs: false,
-          zeroUnits: false
-        }
-      }
-    }, **/
-
+      
       /**
        * `less` less plugin handles the LESS compilation and minification automatically
        * this has been changed to the LESS plugin from recess plugin above because of
@@ -376,24 +323,7 @@ module.exports = function ( grunt ) {
       },
       globals: {}
     },
-
-    /**
-     * `coffeelint` does the same as `jshint`, but for CoffeeScript.
-     * CoffeeScript is not the default in ngBoilerplate, so we're just using
-     * the defaults here.
-     */
-    coffeelint: {
-      src: {
-        files: {
-          src: [ '<%= app_files.coffee %>' ]
-        }
-      },
-      test: {
-        files: {
-          src: [ '<%= app_files.coffeeunit %>' ]
-        }
-      }
-    },
+   
 
     /**
      * HTML2JS is a Grunt plugin that takes all of your template files and
@@ -457,8 +387,6 @@ module.exports = function ( grunt ) {
       build: {
         dir: '<%= build_dir %>',
         src: [
-          '<%= vendor_files.js %>',
-          '<%= build_dir %>/src/**/*.js',
           '<%= html2js.common.dest %>',
           '<%= html2js.app.dest %>',
           '<%= vendor_files.css %>',
@@ -579,17 +507,6 @@ module.exports = function ( grunt ) {
       },
 
       /**
-       * When our CoffeeScript source files change, we want to run lint them and
-       * run our unit tests.
-       */
-      coffeesrc: {
-        files: [ 
-          '<%= app_files.coffee %>'
-        ],
-        tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs' ]
-      },
-
-      /**
        * When assets are changed, copy them. Note that this will *not* copy new
        * files, so this is probably not very useful.
        */
@@ -639,20 +556,6 @@ module.exports = function ( grunt ) {
         options: {
           livereload: false
         }
-      },
-
-      /**
-       * When a CoffeeScript unit test file changes, we only want to lint it and
-       * run the unit tests. We don't want to do any live reloading.
-       */
-      coffeeunit: {
-        files: [
-          '<%= app_files.coffeeunit %>'
-        ],
-        tasks: [ 'coffeelint:test', 'karma:unit:run' ],
-        options: {
-          livereload: false
-        }
       }
     }
   };
@@ -679,10 +582,9 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:development',
+    'clean', 'html2js', 'jshint', 'less:development',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', /*'copy:build_vendor_font',*/ 'index:build'/*, 
-    'karma:continuous'  */
+    'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
   /**
