@@ -15,8 +15,8 @@
             </div>
         </li>          
                    --> 
-        <li ng-class="{ active: isState(item.active) }" class="{{item.class}}" ng-controller="navItemCtrl" ng-repeat="item in navList"
-            ng-include="'navigation/nav_item_template.tpl.html'">
+        <li class="{{item.class}}" ng-controller="navItemCtrl" ng-repeat="item in navList"
+            ng-include="'src/common/navigation/nav_item_template.tpl.html'">
 
 
         </li>
