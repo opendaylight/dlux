@@ -85,6 +85,16 @@ angular.module('common.navigation', ['ngCookies'])
                             "title": "CONTAINER",
                             "description": "CONTAINER"
                         }
+                    },
+                    {
+                        "link": "index.html#/sfc/servicenode",
+                        "title": "SFC",
+                        "active": "sfc",
+                        "icon": "icon-sign-blank",
+                        "page": {
+                            "title": "SFC",
+                            "description": "SFC"
+                        }
                     }/*,
                     {
                         "link": "index.html#/user/index",
