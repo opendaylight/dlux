@@ -92,9 +92,9 @@ angular.module('common.dlux.navigation', [])
             'btnGlyph': '@glyph',
             'cancelFunc': '=function',
             'state': '@',
-            'stateParams': '=',
+            'stateParams': '='
         },
-        template: '<button class="btn btn-{{size}} btn-danger" ng-click="doCancel()"><i class="icon-remove-sign"></i> {{label}}</button>',
+        template: '<button type="button" class="btn btn-{{size}} btn-danger" ng-click="doCancel()"><i class="icon-remove-sign"></i> {{label}}</button>',
         controller: ['$scope', '$state', function ($scope, $state) {
           $scope.label = $scope.btnLabel || 'Cancel';
           $scope.size = $scope.btnSize || 'md';
@@ -108,7 +108,7 @@ angular.module('common.dlux.navigation', [])
 
             var params = $scope.stateParams || {};
             $state.transitionTo($scope.state, params, { location: true, inherit: true, relative: $state.$current, notify: true });
-      
+
           };
         }]
     };
@@ -127,7 +127,7 @@ angular.module('common.dlux.navigation', [])
       'form': '=form',
       'validator': '='
     },
-    template: '<button class="btn btn-{{size}} btn-orange" ng-click="doSubmit()" ng-disabled="submitDisabled"><i class="icon-ok-sign"></i> {{label}}</button>',
+    template: '<button type="submit" class="btn btn-{{size}} btn-orange" ng-click="doSubmit()" ng-disabled="submitDisabled"><i class="icon-ok-sign"></i> {{label}}</button>',
     controller: ['$scope', function ($scope) {
       $scope.label = $scope.btnLabel || 'Submit';
       $scope.size = $scope.btnSize || 'md';
@@ -226,6 +226,25 @@ angular.module('common.dlux.navigation', [])
           );
         });
       };
+    }
+  };
+})
+
+.directive('focusMe', function($timeout, $parse) {
+  return {
+    link: function(scope, element, attrs) {
+      var model = $parse(attrs.focusMe);
+      scope.$watch(model, function(value) {
+        if(value === true) {
+          $timeout(function() {
+            element[0].focus();
+          });
+        }
+      });
+
+      element.bind('blur', function() {
+        scope.$apply(model.assign(scope, false));
+      });
     }
   };
 });

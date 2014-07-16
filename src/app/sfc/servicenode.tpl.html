@@ -1,0 +1,18 @@
+
+<a class="btn btn-info add-row" href="index.html#/sfc/servicenode/create">
+    {{ 'SFC_NODE_ADD' | translate }}
+</a>
+
+<div class="sfc-node-main">
+    <div class="col-xs-12 col-md-6 col-lg-3" ng-repeat="nodeGraph in snsGraph">
+        <div style="padding-bottom: 15px; min-width: 360px;">
+            <button class="btn btn-sm btn-danger"  ng-click="deleteServiceNode(nodeGraph.name)" popover-trigger="mouseenter" popover="{{ 'SFC_NODE_DELETE' | translate }}"><i class="icon-trash"></i></button>
+            <button class="btn btn-sm btn-orange"  ng-click="editServiceNode(nodeGraph.name)" popover-trigger="mouseenter" popover="{{ 'SFC_NODE_EDIT' | translate }}"><i class="icon-edit"></i></button>
+        </div>
+        <service-nodes-topology tree-view-data="nodeGraph"></service-nodes-topology>
+    </div>
+</div>
+
+<script type="text/javascript">
+		$('.footable').footable();
+</script>
