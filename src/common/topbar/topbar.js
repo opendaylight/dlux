@@ -1,4 +1,4 @@
-angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'])
+  angular.module('common.topbar', ['ngCookies', 'common.auth', 'common.navigation'])
     .factory('taskFactory',function () {
         var factory = {};
         factory.getTaskData = function () {
