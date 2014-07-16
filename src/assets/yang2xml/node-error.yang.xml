@@ -106,7 +106,6 @@
     <uses name="tr:transaction-metadata"/>
     <uses name="flow:base-node-error-notification"/>
     <uses name="flow:node-error-reference"/>
-    <uses name="flow:node-error-reference"/>
   </notification>
   <notification name="group-mod-error-notification">
     <description>

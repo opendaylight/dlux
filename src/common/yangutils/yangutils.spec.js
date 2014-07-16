@@ -11,74 +11,78 @@
 
 describe('common.yangUtils', function(){
 
-	beforeEach(angular.mock.module('common.yangUtils'));
+    var constants;
+    beforeEach(angular.mock.module('common.yangUtils'));
 
-	describe('reqBuilder service tests', function() {
+    beforeEach(function() {
+        angular.mock.inject(function(_constants_) {
+            constants = _constants_;
+        });
+    });
 
-		var reqBuilder, testObject, testListArray;
+    describe('reqBuilder', function() {
 
-		// executed before each it
-		beforeEach(function() {
-			// injecting service for testing
-			angular.mock.inject(function(_reqBuilder_) {
-				reqBuilder = _reqBuilder_;
-			});
-
-		});
-
-		it('should have an createList function', function() {
-			expect(angular.isFunction(reqBuilder.createList)).toBe(true);
-		});
-
-		it('namespace should have value', function() {
-			expect(reqBuilder.namespace).toBe('flow-node-inventory');
-		});
-
-		it('test for pushing object to array', function() {
-			testObject = reqBuilder.createObj();
-			testListArray = reqBuilder.createList();
-
-			expect(testListArray.length).toBe(0);
-			reqBuilder.insertObjToList(testListArray, testObject);
-			expect(testListArray[0]).toBe(testObject);
-
-		});
-
-		it('insertPropertyToObj set to object property with value', function() {
-
-			var testProperty = 'testProp';
-			var testValue = 'testValue';
-
-			expect(testObject[testProperty]).toBeUndefined();
-			reqBuilder.insertPropertyToObj(testObject, testProperty, testValue);
-			expect(testObject[testProperty]).toBe(testValue);
-
-		});
-
-		it('resultToString should return string', function() {
-
-			var stringJSON = reqBuilder.resultToString(testObject);
-			var isValidJSON = true;
-
-			try {
-				JSON.parse(stringJSON);
-			} catch (e) {
-				isValidJSON = false;
-			}
-
-			expect(isValidJSON).toBe(true);
-
-		});
-
-	});
-
-	describe('yangUtils service tests', function() {
-
-		var yangUtils, yinParser, nodeWrapper, $httpBackend;
+        var reqBuilder, testObject, testListArray;
 
         beforeEach(function() {
 
-            angular.mock.module('common.yangUtils');
+            angular.mock.inject(function(_reqBuilder_) {
+                reqBuilder = _reqBuilder_;
+            });
+        });
+
+        it('createList', function() {
+            expect(angular.isFunction(reqBuilder.createList)).toBe(true);
+        });
+
+        it('namespace', function() {
+            expect(reqBuilder.namespace).toBe('flow-node-inventory');
+        });
+
+        it('insertObjToList', function() {
+            testObject = reqBuilder.createObj();
+            testListArray = reqBuilder.createList();
+
+            expect(testListArray.length).toBe(0);
+            reqBuilder.insertObjToList(testListArray, testObject);
+            expect(testListArray[0]).toBe(testObject);
+
+        });
+
+        it('insertPropertyToObj', function() {
+
+            var testProperty = 'testProp';
+            var testValue = 'testValue';
+
+            expect(testObject[testProperty]).toBeUndefined();
+            reqBuilder.insertPropertyToObj(testObject, testProperty, testValue);
+            expect(testObject[testProperty]).toBe(testValue);
+
+        });
+
+        it('resultToString ', function() {
+
+            var stringJSON = reqBuilder.resultToString(testObject);
+            var isValidJSON = true;
+
+            try {
+                JSON.parse(stringJSON);
+            } catch (e) {
+                isValidJSON = false;
+            }
+
+            expect(isValidJSON).toBe(true);
+
+        });
+
+    });
+
+    describe('yangUtils', function() {
+
+        var yangUtils, yinParser, nodeWrapper, $httpBackend;
+
+        beforeEach(function() {
+
             angular.mock.inject(function(_yangUtils_) {
                 yangUtils = _yangUtils_;
             });
@@ -93,144 +97,63 @@ describe('common.yangUtils', function(){
 
         });
 
-		it('processNodes return array of nodes', function() {
+        it('processNodes', function() {
             var nodes = [];
-			var invData = {
-					nodes : {
-						node: [
-							{id: 1},{id: 2},{id: 3}
-						]
-					}
-				};
-		
-			expect(angular.isFunction(yangUtils.processNodes)).toBe(true);
-			nodes = yangUtils.processNodes(invData.nodes);
-			expect(nodes[0]).toEqual(1);
-			expect(nodes[1]).toEqual(2);
-			expect(nodes[2]).toEqual(3);
-			
-		});
-
-		it('processFlows return array of flows', function(){
-            var flows = [];
-			var nodeData = [];
-			nodeData['flow-node-inventory:table'] = [
-				{
-					'flow-node-inventory:id' : 1,
-					'flow-node-inventory:flow': [
-						{
-							'flow-node-inventory:id': 1,
-							'flow-node-inventory:test': 'testData11',
-						},
-						{
-							'flow-node-inventory:id': 2,
-							'flow-node-inventory:test': 'testData12',
-						}
-					]				
-				},
-				{
-					'flow-node-inventory:id' : 2,
-					'flow-node-inventory:flow': [
-						{
-							'flow-node-inventory:id': 1,
-							'flow-node-inventory:test': 'testData21',
-						},
-						{
-							'flow-node-inventory:id': 2,
-							'flow-node-inventory:test': 'testData22',
-						}
-					]				
-				},
-				{
-					'flow-node-inventory:id' : 3
-				},
-				{
-					'flow-node-inventory:id' : 4
-				}
-			];
-		
-			flows = yangUtils.processFlows(nodeData);
-
-			expect(angular.isFunction(yangUtils.processFlows)).toBe(true);
-			expect(flows[0].data).toBe(nodeData['flow-node-inventory:table'][0]['flow-node-inventory:flow'][0]);
-			expect(flows.length).toEqual(4);
-			expect(flows[3].table).toBe(nodeData['flow-node-inventory:table'][1]['flow-node-inventory:id']);
-
-		});
-
-		it('yangUtils buildRequest method test', function(){
-            var node = yinParser.__test.yangParser.createNewNode('flows','leaf', null);
-			nodeWrapper.wrapAll(node);
-			expect(angular.isFunction(yangUtils.buildRequest)).toBe(true);
-			node.value = 'dummyValue';
-			var flows = yangUtils.buildRequest(node);
-			expect(flows).toBe('dummyValue');
-
-		});
-
-		it('yangUtils getRequestString method test', function(){
-            var node = yinParser.__test.yangParser.createNewNode('ports','leaf', null),
-				reqStr,
-				isValidJSON = true,
-				jsonData;
-
-			nodeWrapper.wrapAll(node);
-			expect(angular.isFunction(yangUtils.getRequestString)).toBe(true);
-			node.value = 'dummyValue';
-			reqStr = yangUtils.getRequestString(node);
-
-			try {
-				jsonData = JSON.parse(reqStr);
-			} catch (e) {
-				isValidJSON = false;
-			}
-
-			expect(isValidJSON).toBe(true);
-			expect(jsonData.ports).toBe('dummyValue');
-
-		});
-
-        it('processModules', function(_yinParser_) {
-            var dummyModuleA = 'dummy-module-a',
-                mockURLA = '/yang2xml/'+dummyModuleA+'.yang.xml',
-                xmlStringA = '<module name="'+dummyModuleA+'">' +
-                            '   <leaf name="LA"></leaf>' +
-                            '</module>',
-                dummyModuleB = 'dummy-module-b',
-                mockURLB = '/yang2xml/'+dummyModuleB+'.yang.xml',
-                xmlStringB = '<module name="'+dummyModuleB+'">' +
-                            '   <leaf name="LB"></leaf>' +
-                            '</module>',
-                parseResult = [],
-                testPath,
-                $httpBackend;
-
-            angular.mock.inject(function(_$httpBackend_) {
-                $httpBackend = _$httpBackend_;
-            });
-
-            angular.mock.inject(function(_yinParser_) {
-                testPath = _yinParser_.__test.path;
-            });
-
-            $httpBackend.when('GET', testPath+mockURLA).respond(xmlStringA);
-            $httpBackend.when('GET', testPath+mockURLB).respond(xmlStringB);
-
-            yangUtils.processModules({ 'module': [{ 'name': dummyModuleA}, {'name': dummyModuleB}]}, function(data) {
-                parseResult.push(data);
-            });
-
-            $httpBackend.flush();
-            expect(parseResult.length).toEqual(2);
+            var invData = {
+                    nodes : {
+                        node: [
+                            {id: 1},{id: 2},{id: 3}
+                        ]
+                    }
+                };
+        
+            expect(angular.isFunction(yangUtils.processNodes)).toBe(true);
+            nodes = yangUtils.processNodes(invData.nodes);
+            expect(nodes[0]).toEqual(1);
+            expect(nodes[1]).toEqual(2);
+            expect(nodes[2]).toEqual(3);
+            
         });
 
-	});
+        it('buildRequest', function(){
+            var node = yinParser.__test.yangParser.createNewNode('flows','leaf', null, constants.NODE_UI_DISPLAY);
+            nodeWrapper.wrapAll(node);
+            expect(angular.isFunction(yangUtils.buildRequest)).toBe(true);
+            node.value = 'dummyValue';
+            var flows = yangUtils.buildRequest(node);
+            expect(flows).toBe('dummyValue');
+
+        });
+
+        it('getRequestString', function(){
+            var node = yinParser.__test.yangParser.createNewNode('ports','leaf', null, constants.NODE_UI_DISPLAY),
+                reqStr,
+                isValidJSON = true,
+                jsonData;
+
+            nodeWrapper.wrapAll(node);
+            expect(angular.isFunction(yangUtils.getRequestString)).toBe(true);
+            node.value = 'dummyValue';
+            reqStr = yangUtils.getRequestString(node);
+
+            try {
+                jsonData = JSON.parse(reqStr);
+            } catch (e) {
+                isValidJSON = false;
+            }
+
+            expect(isValidJSON).toBe(true);
+            expect(jsonData.ports).toBe('dummyValue');
+
+        });
+
+    });
 
 
-	describe('nodeWrapper service tests', function(){
+    describe('nodeWrapper', function(){
 
-		var propName = 'test:elementName',
-			elemName = 'elementName',
+        var propName = 'test:elementName',
+            elemName = 'elementName',
             nodeWrapper,
             yinParser,
             reqBuilder;
@@ -255,11 +178,11 @@ describe('common.yangUtils', function(){
             }
         };
 
-		beforeEach(function() {
+        beforeEach(function() {
 
-			angular.mock.inject(function(_nodeWrapper_) {
-				nodeWrapper = _nodeWrapper_;
-			});
+            angular.mock.inject(function(_nodeWrapper_) {
+                nodeWrapper = _nodeWrapper_;
+            });
 
             angular.mock.inject(function(_nodeWrapper_) {
                 nodeWrapper = _nodeWrapper_;
@@ -273,21 +196,21 @@ describe('common.yangUtils', function(){
                 reqBuilder = _reqBuilder_;
             });
 
-		});
+        });
 
-		it('compare property to element by name function', function(){
-			var compareResult;
+        it('comparePropToElemByName', function(){
+            var compareResult;
 
-			expect(angular.isFunction(nodeWrapper.__test.comparePropToElemByName)).toBe(true);
-			compareResult = nodeWrapper.__test.comparePropToElemByName(propName, elemName);
-			expect(compareResult).toBe(true);
-			propName = 'test:test';
-			compareResult = nodeWrapper.__test.comparePropToElemByName(propName, elemName);
-			expect(compareResult).toBe(false);
+            expect(angular.isFunction(nodeWrapper.__test.comparePropToElemByName)).toBe(true);
+            compareResult = nodeWrapper.__test.comparePropToElemByName(propName, elemName);
+            expect(compareResult).toBe(true);
+            propName = 'test:test';
+            compareResult = nodeWrapper.__test.comparePropToElemByName(propName, elemName);
+            expect(compareResult).toBe(false);
 
-		});
+        });
 
-        describe('nodeWrapper leaf wrapping', function(){
+        describe('leaf', function(){
 
             var req = {},
                 propName = 'test:elementName',
@@ -298,12 +221,12 @@ describe('common.yangUtils', function(){
 
             beforeEach(function() {
 
-                node = yinParser.__test.yangParser.createNewNode('ports','leaf',null);
+                node = yinParser.__test.yangParser.createNewNode('ports','leaf',null, constants.NODE_UI_DISPLAY);
 
             });
 
 
-            it('leaf buildRequest method', function(){
+            it('buildRequest', function(){
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.buildRequest)).toBe(true);
@@ -314,7 +237,7 @@ describe('common.yangUtils', function(){
             });
             
 
-            it('leaf fill method', function(){
+            it('fill', function(){
 
                 var data = 'dummyData';
 
@@ -329,7 +252,7 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('leaf clear method', function(){
+            it('clear', function(){
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.clear)).toBe(true);
@@ -340,7 +263,7 @@ describe('common.yangUtils', function(){
 
         });
 
-        describe('nodeWrapper container wrapping', function(){
+        describe('container', function(){
 
             var req = {},
                 propName = 'test:elementName',
@@ -350,11 +273,11 @@ describe('common.yangUtils', function(){
 
             beforeEach(function() {
 
-                node = yinParser.__test.yangParser.createNewNode('ports','container',null);
+                node = yinParser.__test.yangParser.createNewNode('ports','container',null, constants.NODE_UI_DISPLAY);
 
             });
 
-            it('container toggleExpand method', function(){
+            it('toggleExpand', function(){
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.toggleExpand)).toBe(true);
@@ -363,13 +286,15 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('container buildRequest method', function(){
+            it('buildRequest', function(){
 
-                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node),
-                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','container', node),
-                    nodeChildThird = yinParser.__test.yangParser.createNewNode('ports','leaf', nodeChildSec);
+                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY),
+                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','container', node, constants.NODE_UI_DISPLAY),
+                    nodeChildThird = yinParser.__test.yangParser.createNewNode('ports','leaf', nodeChildSec, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
+                var reqs = node.buildRequest(reqBuilder, req);
+                
                 expect(angular.isFunction(node.buildRequest)).toBe(true);
                 expect(node.buildRequest(reqBuilder, req)).toBe(false);
                 nodeChildThird.value = 'dummyTest';
@@ -377,10 +302,10 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('container clear method', function(){
+            it('clear', function(){
 
-                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node),
-                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','container', node);
+                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY),
+                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','container', node, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.clear)).toBe(true);
@@ -392,10 +317,10 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('container fill method', function(){
+            it('fill', function(){
 
                 var data = { 'dummyProp:ports': 'dummyData'},
-                    nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node);
+                    nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.fill)).toBe(true);
@@ -411,7 +336,7 @@ describe('common.yangUtils', function(){
 
         });
 
-        describe('nodeWrapper case wrapping', function(){
+        describe('case', function(){
 
             var req = {},
                 propName = 'test:elementName',
@@ -421,15 +346,15 @@ describe('common.yangUtils', function(){
 
             beforeEach(function() {
 
-                node = yinParser.__test.yangParser.createNewNode('ports','case',null);
+                node = yinParser.__test.yangParser.createNewNode('ports','case',null, constants.NODE_UI_DISPLAY);
 
             });
 
-            it('case buildRequest method', function(){
+            it('buildRequest', function(){
 
-                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node),
-                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','case', node),
-                    nodeChildThird = yinParser.__test.yangParser.createNewNode('ports','leaf', nodeChildSec);
+                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY),
+                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','case', node, constants.NODE_UI_DISPLAY),
+                    nodeChildThird = yinParser.__test.yangParser.createNewNode('ports','leaf', nodeChildSec, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.buildRequest)).toBe(true);
@@ -439,11 +364,11 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('case fill method', function(){
+            it('fill', function(){
 
                 var data = 'dummyData',
                     filled,
-                    nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node);
+                    nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.fill)).toBe(true);
@@ -457,10 +382,10 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('case clear method', function(){
+            it('clear', function(){
 
-                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node),
-                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','case', node);
+                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY),
+                    nodeChildSec = yinParser.__test.yangParser.createNewNode('ports','case', node, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 expect(angular.isFunction(node.clear)).toBe(true);
@@ -474,7 +399,7 @@ describe('common.yangUtils', function(){
 
         });
 
-        describe('nodeWrapper choice wrapping', function(){
+        describe('choice', function(){
 
             var req = {},
                 propName = 'test:elementName',
@@ -484,17 +409,17 @@ describe('common.yangUtils', function(){
 
             beforeEach(function() {
 
-                node = yinParser.__test.yangParser.createNewNode('ports','choice',null);
+                node = yinParser.__test.yangParser.createNewNode('ports','choice',null, constants.NODE_UI_DISPLAY);
 
             });
 
-            it('choice buildRequest method', function(){
+            it('buildRequest', function(){
 
                 nodeWrapper.wrapAll(node);
-                node.choice =  yinParser.__test.yangParser.createNewNode('ports','case', null);
+                node.choice =  yinParser.__test.yangParser.createNewNode('ports','case', null, constants.NODE_UI_DISPLAY);
                 nodeWrapper.wrapAll(node.choice);
                 
-                var nodeChoiceChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node.choice);
+                var nodeChoiceChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node.choice, constants.NODE_UI_DISPLAY);
                 nodeWrapper.wrapAll(nodeChoiceChild);
                 expect(angular.isFunction(node.buildRequest)).toBe(true);
                 expect(node.buildRequest(reqBuilder, req)).toBe(false);
@@ -503,9 +428,9 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('choice fill method', function(){
+            it('fill', function(){
 
-                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node),
+                var nodeChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node, constants.NODE_UI_DISPLAY),
                     data = 'dummyData',
                     filled;
                     
@@ -521,14 +446,14 @@ describe('common.yangUtils', function(){
 
             });
 
-            it('choice clear merhod', function(){
+            it('clear', function(){
 
                 nodeWrapper.wrapAll(node);
-                yinParser.__test.yangParser.createNewNode('ports','case', node);
+                yinParser.__test.yangParser.createNewNode('ports','case', node, constants.NODE_UI_DISPLAY);
                 node.choice = node.children[0];
                 nodeWrapper.wrapAll(node.choice);
 
-                var nodeChoiceChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node.children[0]);
+                var nodeChoiceChild = yinParser.__test.yangParser.createNewNode('ports','leaf', node.children[0], constants.NODE_UI_DISPLAY);
                 nodeWrapper.wrapAll(nodeChoiceChild);
                         
                 expect(angular.isFunction(node.clear)).toBe(true);
@@ -583,15 +508,15 @@ describe('common.yangUtils', function(){
             };
 
             beforeEach(function() {
-                node = yinParser.__test.yangParser.createNewNode('LiA','list',null);
-                nodeChildLeaf = yinParser.__test.yangParser.createNewNode('LA','leaf', node);
-                nodeChildContainer = yinParser.__test.yangParser.createNewNode('CA','container', node);
-                containerChildLeaf = yinParser.__test.yangParser.createNewNode('LB','leaf', nodeChildContainer);
+                node = yinParser.__test.yangParser.createNewNode('LiA','list',null, constants.NODE_UI_DISPLAY);
+                nodeChildLeaf = yinParser.__test.yangParser.createNewNode('LA','leaf', node, constants.NODE_UI_DISPLAY);
+                nodeChildContainer = yinParser.__test.yangParser.createNewNode('CA','container', node, constants.NODE_UI_DISPLAY);
+                containerChildLeaf = yinParser.__test.yangParser.createNewNode('LB','leaf', nodeChildContainer, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
             });
 
-            it('test utility - nodeEqual', function(){
+            it('nodeEqual-utility', function(){
                 copy = node.deepCopy();
                 nodeWrapper.wrapAll(copy);
                 nodesEqual(node, copy);
@@ -736,7 +661,7 @@ describe('common.yangUtils', function(){
                 
                 expect(added).toBe(true);
                 expect($.isEmptyObject(dummyReq)).toBe(false);
-                reqsEqual(dummyReq, expectedReq);
+                reqsEqual(dummyReq, expectedReq);// - key issue
             });
 
             it('fill', function(){
@@ -791,10 +716,10 @@ describe('common.yangUtils', function(){
             var listElem, dummyValueA, dummyValueB, dummyReq;
 
             beforeEach(function() {
-                var node = yinParser.__test.yangParser.createNewNode('LiA','list',null);
+                var node = yinParser.__test.yangParser.createNewNode('LiA','list',null, constants.NODE_UI_DISPLAY);
 
-                yinParser.__test.yangParser.createNewNode('LA','leaf', node);
-                yinParser.__test.yangParser.createNewNode('LB','leaf', node);
+                yinParser.__test.yangParser.createNewNode('LA','leaf', node, constants.NODE_UI_DISPLAY);
+                yinParser.__test.yangParser.createNewNode('LB','leaf', node, constants.NODE_UI_DISPLAY);
 
                 nodeWrapper.wrapAll(node);
                 node.addListElem();
@@ -854,7 +779,56 @@ describe('common.yangUtils', function(){
             });
         });
 
-	});
+    });
+
+    describe('syncFact', function(){
+        var sync, $timeout;
+
+        beforeEach(angular.mock.inject(function(_syncFact_, _$timeout_){
+            $timeout = _$timeout_;
+            sync = _syncFact_.generateObj();
+        }));
+
+        it('spawnRequest', function(){
+            sync.spawnRequest('A');
+            expect(sync.runningRequests.length).toBe(1);
+
+            sync.spawnRequest('B');
+            expect(sync.runningRequests.length).toBe(2);
+
+            expect(sync.runningRequests[0]).toBe('A0');
+            expect(sync.runningRequests[1]).toBe('B1');
+        });
+
+        it('removeRequest', function(){
+            var reqA = sync.spawnRequest('A'),
+                reqB = sync.spawnRequest('B'),
+                reqC = sync.spawnRequest('C');
+            
+            sync.removeRequest(reqB);
+
+            expect(sync.runningRequests.length).toBe(2);
+            expect(sync.runningRequests[0]).toBe('A0');
+            expect(sync.runningRequests[1]).toBe('C2');
+        });
+
+        it('waitFor', function(){
+            var called = false,
+                reqA = sync.spawnRequest('A'),
+                dummyCbk = function() { 
+                    called = true;
+                };
+
+            sync.waitFor(dummyCbk);
+            $timeout.flush();
+            expect(called).toBe(false);
+
+            sync.removeRequest(reqA);
+            $timeout.flush();
+            expect(called).toBe(true);
+        });
+
+    });
 
     describe('yinParser', function(){
 
@@ -870,45 +844,6 @@ describe('common.yangUtils', function(){
         afterEach(function() {
             $httpBackend.verifyNoOutstandingExpectation();
             $httpBackend.verifyNoOutstandingRequest();
-        });
-
-        it('spawnRequest', function(){
-            testProvider.spawnRequest('A');
-            expect(testProvider.runningRequests.length).toBe(1);
-
-            testProvider.spawnRequest('B');
-            expect(testProvider.runningRequests.length).toBe(2);
-
-            expect(testProvider.runningRequests[0]).toBe('A0');
-            expect(testProvider.runningRequests[1]).toBe('B1');
-        });
-
-        it('removeRequest', function(){
-            var reqA = testProvider.spawnRequest('A'),
-                reqB = testProvider.spawnRequest('B'),
-                reqC = testProvider.spawnRequest('C');
-            
-            testProvider.removeRequest(reqB);
-
-            expect(testProvider.runningRequests.length).toBe(2);
-            expect(testProvider.runningRequests[0]).toBe('A0');
-            expect(testProvider.runningRequests[1]).toBe('C2');
-        });
-
-        it('waitFor', function(){
-            var called = false,
-                reqA = testProvider.spawnRequest('A'),
-                dummyCbk = function() { 
-                    called = true;
-                };
-
-            testProvider.waitFor(dummyCbk);
-            $timeout.flush();
-            expect(called).toBe(false);
-
-            testProvider.removeRequest(reqA);
-            $timeout.flush();
-            expect(called).toBe(true);
         });
 
         it('parentTag', function() {
@@ -950,8 +885,8 @@ describe('common.yangUtils', function(){
 
             $httpBackend.when('GET', testProvider.path+mockURL).respond(xmlString);
 
-            testProvider.parseYang(mockURL, function(result) {
-                parseResult = result;
+            yinParser.parse(mockURL, function(result) {
+                parseResult = result[0];
             });
             
             $httpBackend.flush();
@@ -1000,16 +935,6 @@ describe('common.yangUtils', function(){
             });
 
 
-            it('reset', function() {
-                parserProvider.setCurrentModule(module);
-                parserProvider.createNewNode(name, type, null);
-
-                parserProvider.reset();
-                expect(parserProvider.rootNode).toBe(null);
-                expect(parserProvider.nodeIndex).toBe(0);
-                expect(parserProvider.currentModule).toBe(null);
-            });
-
             it('setCurrentModule', function() {
                 parserProvider.setCurrentModule(module);
                 expect(parserProvider.currentModule).toBe(module);
@@ -1018,10 +943,10 @@ describe('common.yangUtils', function(){
             it('createNewNode', function() {
                 parserProvider.setCurrentModule(module);
 
-                var node = parserProvider.createNewNode(name, type, null);
-                var childNode = parserProvider.createNewNode(name, type, node);
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY);
+                var childNode = parserProvider.createNewNode(name, type, node, constants.NODE_UI_DISPLAY);
 
-                expect(parserProvider.rootNode).toBe(node);
+                expect(parserProvider.rootNodes[0]).toBe(node);
                 checkNode(node, 0, name, type, module, 1, {'0': childNode});
             });
 
@@ -1045,7 +970,7 @@ describe('common.yangUtils', function(){
 
                 parserProvider.setCurrentModule(module);
 
-                var node = parserProvider.createNewNode(name, type, null);
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY);
 
                 parserProvider.parse(xmlString, node);
                 checkNode(node, 0, name, type, module, 5, {});
@@ -1057,7 +982,7 @@ describe('common.yangUtils', function(){
             });
 
             it('leaf', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<leaf name="LA"></leaf>';
 
                 parserProvider.leaf(xmlString, node);
@@ -1066,7 +991,7 @@ describe('common.yangUtils', function(){
             });
 
             it('container', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<container name="CA"></container>';
 
                 parserProvider.container(xmlString, node);
@@ -1075,7 +1000,7 @@ describe('common.yangUtils', function(){
             });
 
             it('choice', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<choice name="ChiA"><case name="CA"></case></choice>';
 
                 parserProvider.choice(xmlString, node);
@@ -1087,7 +1012,7 @@ describe('common.yangUtils', function(){
             });
 
             it('_case', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<case name="CA"></case>';
 
                 parserProvider._case(xmlString, node);
@@ -1096,7 +1021,7 @@ describe('common.yangUtils', function(){
             });
 
             it('list', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<list name="LiA"></list>';
 
                 parserProvider.list(xmlString, node);
@@ -1105,7 +1030,7 @@ describe('common.yangUtils', function(){
             });
 
             it('_grouping', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<module><grouping name="GA"><leaf name="LA"></leaf></grouping></module>';
 
                 parserProvider._grouping(xmlString, node, 'GA');
@@ -1114,7 +1039,7 @@ describe('common.yangUtils', function(){
             });
 
             it('uses - same module', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     xmlString = '<module name="MA">' +
                                 '   <grouping name="GA">' +
                                 '       <leaf name ="LA"></leaf>' +
@@ -1129,7 +1054,7 @@ describe('common.yangUtils', function(){
             });
 
             it('uses - different module', function() {
-                var node = parserProvider.createNewNode(name, type, null),
+                var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                     otherModuleName = 'MB',
                     mockURL = '/yang2xml/'+otherModuleName+'.yang.xml',
                     xmlString = '<module name="MA">' +
@@ -1149,13 +1074,14 @@ describe('common.yangUtils', function(){
 
                 usesXmlPart = $(xmlString).children('uses:first')[0];
                 $httpBackend.when('GET', testProvider.path+mockURL).respond(xmlStringOtherModule);
+                parserProvider.currentModule = 'MA';
                 parserProvider.uses(usesXmlPart, node);
 
                 $httpBackend.flush();
                 $timeout.flush();
 
                 expect(node.children.length).toBe(1);
-                checkNode(node.children[0], 1, 'LB', 'leaf', otherModuleName, 0, {});
+                checkNode(node.children[0], 1, 'LB', 'leaf', 'MA', 0, {});
             });
 
         });

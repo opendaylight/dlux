@@ -1,0 +1,7 @@
+<div ng-controller="leafListCtrl" class="simpleContainer leaflist">
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='addListElem()'><i class="icon-plus-sign"></i> {{ 'ADD_ELEM' | translate }} {{node.localeLabel | translate}}</button>
+    <div class="leafListValue" ng-repeat="elem in node.value">
+        <input type="text" class="leaf-list-value form-control input-small" ng-model="elem.value" ng-change="changed()" />
+        <button class="btn btn-md btn-danger btn-slim" ng-click='removeListElem(elem)'><i class="icon-remove-sign"></i> {{ 'REMOVE_ELEM' | translate }}</button>
+    </div>
+</div>

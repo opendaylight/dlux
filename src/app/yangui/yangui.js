@@ -1,7 +1,5 @@
 angular.module('console.yangui', ['common.yangUtils'])
 
-    
-
 .config(function ($stateProvider) {
     var access = routingConfig.accessLevels;
     $stateProvider.state('yangui', {
@@ -22,13 +20,36 @@ angular.module('console.yangui', ['common.yangUtils'])
     });
 })
 
-.controller('yanguiCtrl', ['$scope', '$http', '$timeout', 'Restangular', 'yangUtils', function ($scope, $http, $timeout, Restangular, yangUtils) {
+.controller('yanguiCtrl', ['$scope', '$http', '$timeout', 'Restangular', 'yangUtils', 'apiConnector', function ($scope, $http, $timeout, Restangular, yangUtils) {
     $scope.currentPath = './assets/views/yangui';
     $scope.host = '127.0.0.1';
     $scope.port = '9999';
     $scope.status = {
         type: 'noreq',
         msg: null
+    };
+
+    var processingModulesCallback = function() {
+        $scope.status = {
+            isWorking: true,
+            type: 'warning',
+            msg: 'PROCESSING_MODULES'
+        };
+    };
+
+    var processingModulesSuccessCallback = function() {
+        $scope.status = {
+            type: 'success',
+            msg: 'PROCESSING_MODULES_SUCCESS'
+        };
+    };
+
+    var processingModulesErrorCallback = function(e) {
+        $scope.status = {
+            type: 'danger',
+            msg: 'PROCESSING_MODULES_ERROR',
+            rawMsg: e.toString()
+        };
     };
 
     var requestWorkingCallback = function() {
@@ -60,13 +81,17 @@ angular.module('console.yangui', ['common.yangUtils'])
         };
     };
 
-    var loadModules = function() {
-        $scope.nodeModules = [];
-        Restangular.all('modules').getList().then(function(modulesRawData) {
-            // console.info('modules raw:',modulesRawData);
-            yangUtils.processModules(modulesRawData.modules, function(node) {
-                $scope.nodeModules.push(node);
-            });
+    var loadApis = function loadApis() {
+        $scope.apis = [];
+        $scope.allNodes = [];
+        processingModulesCallback();
+        yangUtils.generateNodesToApis(function(apis, allNodes) {
+            $scope.apis = apis;
+            $scope.allNodes = allNodes;
+            processingModulesSuccessCallback();
+            console.info('got api data',$scope.apis, allNodes);
+        }, function(e) {
+            processingModulesErrorCallback(e);
         });
     };
 
@@ -78,113 +103,56 @@ angular.module('console.yangui', ['common.yangUtils'])
         });
     };
 
-    var loadFlows = function loadFlows() {
-        $scope.flows = [];
-        if($scope.selDevice) { 
-            //TODO change when module discovery will be implemented
-            Restangular.all('config').all('opendaylight-inventory:nodes').one('node', $scope.selDevice).get().then(function(nodeRawData) {
-                $scope.flows = yangUtils.processFlows(nodeRawData.node[0]);
-            });
-        }
-    };
-
-    var sendFlow = function sendFlow() {
-        if($scope.selDevice && $scope.selModule) {
-            var requestData = yangUtils.buildRequest($scope.selModule),
-                flowId = requestData.flow[0].id,
-                tableId = requestData.flow[0].table_id;
-
-            if(requestData) {
-                //TODO change when module discovery will be implemented
-                var request = Restangular.all('config').all('opendaylight-inventory:nodes').one('node',$scope.selDevice).one('table',tableId).one('flow',flowId);
-
-                request.customPUT(requestData).then(function() {
-                    requestWorkingCallback();
-                    yangUtils.checkOperational($scope.selDevice, requestData.flow[0], requestSuccessCallback, requestOperErrorCallback);
-                }, function() {
-                    requestErrorCallback();
-                });
-            }
-        }
-    };
-
-    var deleteFlow = function deleteFlow() {
-        if($scope.selDevice && $scope.selFlow) {
-            var flowId = $scope.selFlow.flow,
-                tableId = $scope.selFlow.table,
-                //TODO change when module discovery will be implemented
-                request = Restangular.all('config').all('opendaylight-inventory:nodes').one('node',$scope.selDevice).one('table',tableId).one('flow',flowId);
-
-            request.remove().then(function() {
-                $scope.selFlow = null;
-                requestSuccessCallback();
-            }, function() {
-                requestErrorCallback();
-            });
-        }
-    };
-
     $scope.dismissStatus = function() {
         $scope.status = {};
     };
 
+    $scope.setNode = function() {
+        $scope.node = $scope.selSubApi.node;
+    };
+
     $scope.loadController = function() {
-        $scope.nodeModules = [];
         $scope.flows = [];
         $scope.devices = [];
+        $scope.apis = [];
         $scope.showPreview = true;
         $scope.previewValue = '';
 
-        loadModules();
+        loadApis();
         loadNodes();
     };
 
     $scope.getAPIs = function() {
-        //TODO load api when cross domain issue with Restconf API explorer will be closed
-
-        // Restangular.all('config').all('opendaylight-inventory:nodes').one('node', 'openflow:1').one('table', '1').one('flow', '1').get().then(function(flowData) {
-        //     console.info('flowData:',flowData);
-        // });
-        console.info(yangUtils.exportModulesLocales($scope.nodeModules));
+        console.info(yangUtils.exportModulesLocales($scope.allNodes));
     };
 
-    $scope.getData = function() {
-        loadFlows();
+    $scope.executeOperation = function(operation) {
+        var requestPath = $scope.selSubApi.buildApiRequestString();
+        alert('sending '+operation+' request to\n'+$scope.selApi.basePath+'/'+requestPath);
     };
 
     $scope.fill = function() {
-        if($scope.selFlow && $scope.selModule) {
+        if($scope.selFlow && $scope.node) {
             //TODO when rest api explorer will be available do it by it
             var data = {'flow-node-inventory:flow': [$scope.selFlow.data]},
                 name = 'flow-node-inventory:flows';
             
-            $scope.selModule.clear();
-            $scope.selModule.fill(name, data); 
+            $scope.node.clear();
+            $scope.node.fill(name, data); 
             $scope.preview();
         }
-    };
-
-    $scope.delete = function() {
-        deleteFlow();
-        // loadFlows();
-        $scope.preview();
     };
 
     $scope.clear = function() {
-        if($scope.selModule) {
-            $scope.selModule.clear();
+        if($scope.node) {
+            $scope.node.clear();
             $scope.preview();
         }
     };
 
-    $scope.send = function() {
-        sendFlow();
-        // loadFlows();
-    };
-
     $scope.preview = function() {
-        if($scope.showPreview && $scope.selModule) {
-            $scope.previewValue = yangUtils.getRequestString($scope.selModule);
+        if($scope.showPreview && $scope.node) {
+            $scope.previewValue = yangUtils.getRequestString($scope.node);
         } else {
             $scope.previewValue = '';
         }
@@ -193,64 +161,81 @@ angular.module('console.yangui', ['common.yangUtils'])
     };
 
     $scope.__test = {
-        loadModules: loadModules,
-        loadNodes: loadNodes,
-        loadFlows: loadFlows,
-        sendFlow: sendFlow,
-        deleteFlow: deleteFlow
+        loadApis: loadApis,
+        loadNodes: loadNodes
     };
 
     $scope.loadController();
 }])
 
 .controller('leafCtrl', function ($scope) {
-    $scope.parentNode = $scope.node;
-
     $scope.changed = function() {
         $scope.preview();
     };
 })
 
 .controller('containerCtrl', function ($scope) {
-    $scope.parentNode = $scope.node;
-    var node = $scope.node;
     $scope.toggleExpanded = function() {
-        node.expanded = !node.expanded;
+        $scope.node.expanded = !$scope.node.expanded;
     };
 })
 
 .controller('caseCtrl', function ($scope) {
-    $scope.parentNode = $scope.node;
-    var node = $scope.node;
-    $scope.empty = (node.children.length === 0 || (node.children.length === 1 && node.children[0].children.length ===0));
+    $scope.empty = ($scope.node.children.length === 0 || ($scope.node.children.length === 1 && $scope.node.children[0].children.length ===0));
 })
 
-.controller('choiceCtrl', function ($scope) {
-    $scope.parentNode = $scope.node;
-
+.controller('choiceCtrl', function () {
 })
-
 
 .controller('listCtrl', function ($scope) {
-    $scope.parentNode = $scope.node;
     $scope.actElement = null;
-    var node = $scope.node;
-    
+
     $scope.setActElement = function setActElement(elem) {
-        $scope.parentNode.actElement = elem;
+        $scope.node.actElement = elem;
     };
 
     $scope.addListElem = function addListElem() {
-        node.addListElem();
+        $scope.node.addListElem();
     };
 
     $scope.removeListElem = function removeListElem(elem) {
-        node.removeListElem(elem);
+        $scope.node.removeListElem(elem);
         // $scope.preview();
     };
 
     $scope.isElemActive = function isElemActive(elem) {
-        var match = (elem === $scope.parentNode.actElement);
+        var match = (elem === $scope.node.actElement);
         return (match ? 'active' : '');
     };
+})
+
+.controller('leafListCtrl', function ($scope) {
+
+    $scope.addListElem = function addListElem() {
+        $scope.node.addListElem();
+    };
+
+    $scope.removeListElem = function removeListElem(elem){
+        $scope.node.removeListElem(elem);
+    };
+
+    $scope.changed = function() {
+        $scope.preview();
+    };
+})
+
+.controller('leafListCtrl', function ($scope) {
+
+    $scope.addListElem = function addListElem() {
+        $scope.node.addListElem();
+    };
+
+    $scope.removeListElem = function removeListElem(elem){
+        $scope.node.removeListElem(elem);
+    };
+
+    $scope.changed = function() {
+        $scope.preview();
+    };
+
 });

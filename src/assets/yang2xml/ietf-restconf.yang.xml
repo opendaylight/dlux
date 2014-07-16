@@ -8,6 +8,7 @@
   <prefix value="restconf"/>
   <import module="ietf-yang-types">
     <prefix value="yang"/>
+    <revision-date date="2013-07-15"/>
   </import>
   <import module="ietf-inet-types">
     <prefix value="inet"/>
@@ -32,13 +33,14 @@ Editor:   Rex Fernando
     <text>This module contains conceptual YANG specifications
 for the YANG Patch and error content that is used in
 RESTCONF protocol messages. A conceptual container
-representing the RESTCONF API nodes (media type
+representing the RESTCONF API nodes (media type 
 application/yang.api).
 
 Note that the YANG definitions within this module do not
 represent configuration data of any kind.
 The YANG grouping statements provide a normative syntax
 for XML and JSON message encoding purposes.
+
 Copyright (c) 2013 IETF Trust and the persons identified as
 authors of the code.  All rights reserved.
 
@@ -136,15 +138,15 @@ patch identifier. Each edit MUST be applied
 in ascending order, and all edits MUST be applied.
 If any errors occur, then the target datastore MUST NOT
 be changed by the patch operation.
-
-A patch MUST be validated by the server to be a
+  
+A patch MUST be validated by the server to be a 
 well-formed message before any of the patch edits
 are validated or attempted.
-
-YANG datastore validation (defined in RFC 6020, section 
+  
+YANG datastore validation (defined in RFC 6020, section
 8.3.3) is performed after all edits have been
 individually validated.
-
+  
 It is possible for a datastore constraint violation to occur
 due to any node in the datastore, including nodes not
 included in the edit list. Any validation errors MUST
@@ -529,7 +531,7 @@ advertised by the server in /restconf/modules.</text>
           <text>Container representing the application/yang.datastore
 resource type. Represents the conceptual root of the
 operational data supported by the server.  The child
-nodes of this container are operational data resources
+nodes of this container are operational data resources 
 (application/yang.data) defined as top-level
 YANG data nodes from the modules advertised by
 the server in /restconf/modules.</text>
@@ -596,11 +598,11 @@ associated with this entry.</text>
 
 Each resource is represented as an empty leaf with the
 name of the RPC operation from the YANG rpc statement.
-
+  
 E.g.;
-
+  
    POST /restconf/operations/show-log-errors
-
+  
    leaf show-log-errors {
      type empty;
    }

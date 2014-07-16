@@ -189,3 +189,47 @@ background-color: #58595B;
 .white-detail-page {
 	color: white;
 }
+
+/* --------------------------------------------------------------------------------- COMMON OWN RULES */
+.left{ float: left;}
+.right{ float: right;}
+.clear{ clear: both; float: none!important;}
+.outline{ outline: 0 none;}
+.block{ display: block;}
+.blockNone{ display: none;}
+.inlineBlock {
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+}
+.classicLink{
+	.outline;
+	text-decoration: none;
+	&:hover{
+		text-decoration: underline;
+	}
+}
+/* --------------------------------------------------------------------------------- COMMON OWN RULES - END */
+
+
+
+
+/* --------------------------------------------------------------------------------- YANG UI */
+.leaflist{
+	.leafListValue{
+		margin-top: 5px;
+		input[type=text], button{
+			.inlineBlock;
+		}
+		input[type=text]{
+			width: 20%;
+		}
+		button{
+			margin-top: 4px;
+			margin-left: 5px;
+		}
+	}
+}
+/* --------------------------------------------------------------------------------- YANG UI - END */
