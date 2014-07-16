@@ -1,0 +1,129 @@
+div.tooltip {
+  a{
+    color: #428bca !important;
+  }
+  position: absolute;
+  text-align: left;
+  //width: 180px;
+  //height: 80px;
+  padding: 10px;
+  font: 12px sans-serif;
+  color: white;
+  background: black;
+  border: 0px;
+  border-radius: 4px;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.overlay{
+  //background-color:#EEE;
+  background-image: none;
+  border: none;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: orange;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size:13px;
+  font-family:sans-serif;
+  fill: #ffffff;
+}
+
+.link {
+  fill: none;
+  stroke: #fafafa;
+  stroke-width: 2.5px;
+}
+
+.borderright{
+  border-right: 1px dashed #ededed;
+}
+
+.sfc-node-main{
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dropcontainer{
+  display: table-cell;
+  float:left;
+}
+
+.editable-input{
+  color: #1C94C4 !important;
+  background-color: white !important;
+  font-size:11px;
+  width: 60px;
+  text-align: center;
+  cursor: text;
+}
+
+.editable-click, a.editable-click{
+  text-decoration: none;
+  color: #428bca;
+  border-bottom: none;
+  cursor: text;
+}
+
+.sortable, .connected{
+  border: 1px solid #a4a4a4;
+  border-radius: 40px;
+  background: #eaeaea;
+  color: #1C94C4;
+  margin: 15px;
+  padding: 5px;
+  width: 100%;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  float: left;
+}
+
+.connected.grid{
+  font-size:11px;
+  float: left;
+  width: 75px;
+  height: 75px;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.place{
+  border: 1px dotted #a4a4a4;
+  background: #fbfbfb;
+}
+
+.connected.grid.highlight {
+  background: #ffcd50;
+  border-radius: 0px;
+  padding-top: 30px;
+}
+
+.temporary {
+  background: rgba(250, 182, 0, 0.49);
+}
+
+.error {
+  background: rgba(255,0,0,0.53);
+  border-radius: 0px;
+  float:right;
+}
+
+.warning {
+  background-color: orange;
+  color: #444444;
+}
+
+.draggable {
+  cursor: move;
+}

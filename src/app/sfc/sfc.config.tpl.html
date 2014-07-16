@@ -1,0 +1,16 @@
+<div class="container col-md-8">
+    <form role="form" name="jsonConfigForm">
+        <div class="form-group">
+            <label for="config_content">{{'SFC_CONFIG_JSON_CONTENT' | translate}}</label>
+            <textarea id="config_content" style="width: 100%;" rows="20" wrap="soft" ng-model="fileContent"></textarea>
+            <button class="btn btn-primary" ng-click="applyConfig()">{{'SFC_CONFIG_APPLY' | translate}}</button>
+        </div>
+    </form>
+
+    <form role="form" name="jsonLoadForm">
+        <div class="form-group">
+            <label for="select_file">{{'SFC_CONFIG_FILE' | translate}}</label>
+            <input id="select_file" type="file" class="form-control input-sm" ng-file-select="onFileSelect($files)"/>
+        </div>
+    </form>
+</div>
