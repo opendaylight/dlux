@@ -1,0 +1,121 @@
+<div class="col-md-2" style="padding-left: 0px">
+    <table class="footable table">
+        <thead>
+        <tr>
+            <th>{{'SFC_FUNCTION_NAME' | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-hide="sfs.length">
+            <td colspan="3" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td>
+        </tr>
+        <tr ng-repeat="item in sfs track by $index | filter:search" ng-model="items"
+            ui-draggable="true" drag="item.name" class="draggable">
+            <td><span style="color:black;"
+                      tooltip-html-unsafe="{{'SFC_TOOLTIP_TYPE' | translate}} {{item.type}} <br/> {{'SFC_TOOLTIP_IP' | translate}} {{item['ip-mgmt-address']}}"
+                      tooltip-placement="right">{{item.name}}</span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="col-md-10" style="padding-right: 0px">
+    <table class="footable table">
+        <thead>
+        <tr>
+            <th colspan="2">{{'SFC_PATH' | translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-hide="sfps.length">
+            <td colspan="1" class="centerAlign">No data found</td>
+        </tr>
+        <tr ng-repeat="sfp in sfps track by $index" id="{{sfp.name}}~!~{{$index}}">
+            <td ui-on-Drop="onSFPdrop($data, sfp)" ng-class="getSFPstate(sfp)" effect-me="sfpEffectMe[sfp.name]">
+                <p>
+                    <span class="spanText"><b>{{sfp.name}}</b></span>
+                    <span class="spanText" ng-show="sfp['path-id'] && sfp['service_index']">
+                        ({{ 'SFC_PATH_ID' | translate }}: <b>{{sfp['path-id']}}</b>, {{ 'SFC_PATH_SERVICE_INDEX' | translate }}: <b>{{sfp['service_index']}}</b>)
+                    </span>
+                    <span ng-show="isSFPstate(sfp, sfpState.EDITED)">
+                        <a>
+                            <i class="icon-undo" style="cursor: pointer" ng-click="undoSFPchanges(sfp, $index)"
+                               popover-trigger="mouseenter" popover="{{ 'SFC_PATH_UNDO_CHANGES' | translate }}"></i>
+                        </a>
+                    </span>
+                    <span ng-show="isSFPstate(sfp, sfpState.PERSISTED)">
+                        <a ng-click="deleteSFP(sfp.name, $index)">
+                            <i class="icon-remove" style="cursor: pointer" popover-trigger="mouseenter"
+                               popover="{{ 'SFC_PATH_DELETE' | translate }}"></i>
+                        </a>
+                    </span>
+                    <span ng-show="isSFPstate(sfp, sfpState.EDITED)">
+                        <a>
+                            <i class="icon-save" style="cursor: pointer" ng-click="persistSFP(sfp)"
+                               popover-trigger="mouseenter" popover="{{ 'SFC_PATH_PERSIST' | translate }}"></i>
+                        </a>
+                    </span>
+                    <span class="spanText" ng-show="isSFPstate(sfp, sfpState.EDITED)">({{'SFC_PATH_TEMPORARY' | translate}})</span>
+
+                </p>
+
+                <div class="sfc-sf-component"
+                     style="width: 18px;">
+                    <div style="width: 100%; height: 64px;">
+                        <div class="arrow-left-part"></div>
+                    </div>
+                </div>
+
+                <div class="connected-apps-container dropcontainer"
+                     ui-sortable="sortableOptions"
+                     ng-model="sfp['sfp-service-function']">
+
+                    <div class="sfc-sf-component draggable"
+                         ng-repeat="s in sfp['sfp-service-function'] track by $index">
+
+                        <div style="width: 100%; height: 64px;">
+                            <div class="arrow-right-part"></div>
+                            <div class="obr-box">
+                                <i class="icon-remove" style="cursor: pointer; position: relative; top: 0px; left: 60px;"
+                                   ng-click="removeSFfromSFP(sfp, $index)"
+                                   popover-trigger="mouseenter" popover="{{ 'SFC_FUNCTION_DELETE' | translate }}">
+                                 </i>
+                            </div>
+                            <wbr>
+                            <div class="arrow-left-part"></div>
+                        </div>
+
+                        <div style="width: 100%; height: 36px; text-align: center;">
+                            <div style="display: inline-block;">
+                                <span style="color: #1C94C4; cursor: pointer;" tooltip-placement="bottom"
+                                      tooltip-html-unsafe="
+                                  {{'SFC_TOOLTIP_TYPE' | translate}} {{sfs[getSFindexInSFS(s.name)].type}} <br/>
+                                  {{'SFC_TOOLTIP_IP' | translate}} {{sfs[getSFindexInSFS(s.name)]['ip-mgmt-address']}} <br/>
+                                  {{'SFC_TOOLTIP_FORWARDER' | translate}} {{s['service-function-forwarder']}}
+                                  ">
+                                {{s.name}}
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="sfc-sf-component"
+                     style="width: 22px;">
+                    <div style="width: 100%; height: 64px;">
+                        <div class="arrow-right-part"></div>
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $('.footable').footable();
+</script>
+

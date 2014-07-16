@@ -47,6 +47,26 @@ angular.module('common.navigation', ['ngCookies'])
                     //     }
                     // },
                     {
+                        "link": "index.html#/connection_manager/index",
+                        "active": "connection_manager",
+                        "title": "CONNECTION_MANAGER",
+                        "icon": "icon-bolt",
+                        "page": {
+                            "title": "CONNECTION_MANAGER",
+                            "description": "CONNECTION_MANAGER"
+                        }
+                    },
+                    {
+                        "link": "index.html#/flow/index",
+                        "active": "flow",
+                        "title": "FLOWS",
+                        "icon": "icon-level-down",
+                        "page": {
+                            "title": "FLOWS",
+                            "description": "FLOWS"
+                        }
+                    },
+                    {
                         "link": "index.html#/yangui/index",
                         "active": "yangui",
                         "title": "Yang UI",
@@ -86,6 +106,16 @@ angular.module('common.navigation', ['ngCookies'])
                     //         "description": "CONTAINER"
                     //     }
                     // }
+                    {
+                        "link": "index.html#/sfc/servicenode",
+                        "title": "SFC",
+                        "active": "sfc",
+                        "icon": "icon-sign-blank",
+                        "page": {
+                            "title": "SFC",
+                            "description": "SFC"
+                        }
+                    }
                     /*,
                     {
                         "link": "index.html#/user/index",
