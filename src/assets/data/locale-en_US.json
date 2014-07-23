@@ -55,6 +55,8 @@
     "SEND_REQUEST": "Send",
     "SEND_SUCCESS": "Request sent successfully",
     "SEND_ERROR": "Error sending request",
+    "SEND_OPER_ERROR": "Deploying flow to device failed",
+    "SEND_OPER_WAIT": "Flow deployed to config, waitin for flow deployment to device for operational check",
     "ADD_ELEM": "Add",
     "REMOVE_ELEM": "Remove",
 

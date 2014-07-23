@@ -22,23 +22,48 @@ angular.module('console.yangui', ['common.yangUtils'])
     });
 })
 
-.controller('yanguiCtrl', ['$scope', '$http', 'Restangular', 'yangUtils', function ($scope, $http, Restangular, yangUtils) {
+.controller('yanguiCtrl', ['$scope', '$http', '$timeout', 'Restangular', 'yangUtils', function ($scope, $http, $timeout, Restangular, yangUtils) {
     $scope.currentPath = './assets/views/yangui';
     $scope.host = '127.0.0.1';
     $scope.port = '9999';
+    $scope.status = {
+        type: 'noreq',
+        msg: null
+    };
 
+    var requestWorkingCallback = function() {
+        $scope.status = {
+            isWorking: true,
+            type: 'warning',
+            msg: 'SEND_OPER_WAIT'
+        };
+    };
+
+    var requestOperErrorCallback = function() {
+        $scope.status = {
+            type: 'danger',
+            msg: 'SEND_OPER_ERROR'
+        };
+    };
 
     var requestSuccessCallback = function() {
-        $scope.statusMsg = 'SEND_SUCCESS';
+        $scope.status = {
+            type: 'success',
+            msg: 'SEND_SUCCESS'
+        };
     };
 
     var requestErrorCallback = function() {
-        $scope.statusMsg = 'SEND_ERROR';
+        $scope.status = {
+            type: 'danger',
+            msg: 'SEND_ERROR'
+        };
     };
 
-    var loadModules = function loadModules() {
+    var loadModules = function() {
         $scope.nodeModules = [];
         Restangular.all('modules').getList().then(function(modulesRawData) {
+            // console.info('modules raw:',modulesRawData);
             yangUtils.processModules(modulesRawData.modules, function(node) {
                 $scope.nodeModules.push(node);
             });
@@ -74,8 +99,9 @@ angular.module('console.yangui', ['common.yangUtils'])
                 var request = Restangular.all('config').all('opendaylight-inventory:nodes').one('node',$scope.selDevice).one('table',tableId).one('flow',flowId);
 
                 request.customPUT(requestData).then(function() {
-                    requestSuccessCallback();
-                }, function(response) {
+                    requestWorkingCallback();
+                    yangUtils.checkOperational($scope.selDevice, requestData.flow[0], requestSuccessCallback, requestOperErrorCallback);
+                }, function() {
                     requestErrorCallback();
                 });
             }
@@ -90,15 +116,16 @@ angular.module('console.yangui', ['common.yangUtils'])
                 request = Restangular.all('config').all('opendaylight-inventory:nodes').one('node',$scope.selDevice).one('table',tableId).one('flow',flowId);
 
             request.remove().then(function() {
+                $scope.selFlow = null;
                 requestSuccessCallback();
-            }, function(response) {
+            }, function() {
                 requestErrorCallback();
             });
         }
     };
 
     $scope.dismissStatus = function() {
-        $scope.statusMsg = null;
+        $scope.status = {};
     };
 
     $scope.loadController = function() {
@@ -165,6 +192,14 @@ angular.module('console.yangui', ['common.yangUtils'])
         $scope.previewVisible = ($scope.showPreview && $scope.previewValue);
     };
 
+    $scope.__test = {
+        loadModules: loadModules,
+        loadNodes: loadNodes,
+        loadFlows: loadFlows,
+        sendFlow: sendFlow,
+        deleteFlow: deleteFlow
+    };
+
     $scope.loadController();
 }])
 
@@ -211,12 +246,11 @@ angular.module('console.yangui', ['common.yangUtils'])
 
     $scope.removeListElem = function removeListElem(elem) {
         node.removeListElem(elem);
+        // $scope.preview();
     };
 
     $scope.isElemActive = function isElemActive(elem) {
         var match = (elem === $scope.parentNode.actElement);
         return (match ? 'active' : '');
     };
-
-    //node.addListElem(); //creating loop errors
 });

@@ -193,3 +193,14 @@ following to the end of the `body` tag in `index.html`:
 
 Boom!
 
+### Testing
+
+Tests can be run via grunt-watch command. It opens separate Chrome instance for running tests. This instance need to be open
+at all times (or at least during the time you want tests to be executed). Note on test execution speed - Chrome is at lower CPU 
+priority when minimalized, or tab where are test executed is not active. This grealy decreases test execution speed, so in that 
+case, just bring up the Chrome and/or activate tab with tests. Test are executed every time on Grunt jshint command.
+
+If you want to create/alter new task or command in Gruntfile and want to plug in test execution, you can add karma:unit to new 
+Grunt task or karma:unit:run to Grunt command.
+
+If you are writing tests, they should be in same folder as tested file in form <TESTED_FILE>.spec.js

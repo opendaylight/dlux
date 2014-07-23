@@ -12,6 +12,8 @@
         <th></th>
         <th class="leaf-input"></th>
         <th></th>
+        <th class="leaf-input"></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -53,8 +55,8 @@
         <!-- <td>
           <button class="btn add-row btn-orange ng-scope" ng-click="getAPIs()" >{{ 'GET_APIS' | translate }}</button>
         </td> -->
-      </tr>
-      <tr>
+      <!-- </tr>
+      <tr> -->
         <td>
           <span>{{ 'DEVICE' | translate }}</span>
         </td>
@@ -92,10 +94,7 @@
   <button class="btn add-row btn-orange ng-scope" ng-click="clear()"><i class="icon-stop"></i> {{ 'CLEAR_INPUTS' | translate }}</button>
   <button class="btn add-row btn-orange ng-scope" ng-click="send()"><i class="icon-download-alt"></i> {{ 'SEND_REQUEST' | translate }}</button>
   <br><br>
-  <div class="alert alert-dismissible animate-show" role="alert" ng-show="statusMsg" ng-class="{'alert-success': statusMsg==='SEND_SUCCESS', 'alert-danger': statusMsg==='SEND_ERROR'}">
-    <button type="button" class="close" ng-click="dismissStatus()"><i class="icon-remove icon-1"></i></button>
-    {{ statusMsg | translate }}
-  </div>
+  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b>{{status.msg | translate }}</b></alert>
   <div class="form-inline">
     <div ng-repeat="node in nodeModules" ng-include src="currentPath+'/'+node.type+'.tpl.html'" ng-show="node.module === selModule.module"></div>
   </div>
