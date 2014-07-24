@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_503e4a29",
+        "filename": "src/app/connection_manager/connection_manager.services.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2014-07-24T19:55:14Z",
+      "side": 1,
+      "message": "Can you please change the base url to point to locahost:8080 and drop the restconf from the base url ?",
+      "revId": "df3163f3ed0c88c124fc3589aeb1c9beaee4dd01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_f0467ebf",
+        "filename": "src/app/container/container.services.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2014-07-24T19:55:14Z",
+      "side": 1,
+      "message": "I guess this is a common problem. please take care of it in all the modules ?",
+      "revId": "df3163f3ed0c88c124fc3589aeb1c9beaee4dd01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
