@@ -1,4 +1,4 @@
-define(['common/navigation/navigation.module', 'common/navigation/navigation.services', 'app/core/core.services'], function(nav, services) {
+define(['common/navigation/navigation.module', 'app/core/core.services'], function(nav, services) {
   nav.register.controller('NavCtrl', function($scope, NavHelper) {
     $scope.navList = NavHelper.getMenu();
   });
