@@ -16,6 +16,24 @@
       "revId": "1d9a3f193b162e96a6b8036379eac58f3423fa3a",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_b6eb0e12",
+        "filename": "build.config.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2014-07-25T17:47:13Z",
+      "side": 0,
+      "message": "With the modularity, I don\u0027t think Grunt will be useful to build stuff. His uses will be more to put things together. Basically, I don\u0027t see the point to use something you need to compile when you provide module \"plug and play\".",
+      "parentUuid": "fa82b9bf_ab1ac77a",
+      "revId": "1d9a3f193b162e96a6b8036379eac58f3423fa3a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
