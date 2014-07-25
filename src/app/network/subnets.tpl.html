@@ -31,7 +31,7 @@
 -->
 
 
-<a class="btn btn-info add-row" href="index.html#/network/subnet/create">
+<a class="btn btn-info add-row" href="#/network/subnet/create">
     Add Subnet
 </a>
 
@@ -46,7 +46,7 @@
     <tr ng-repeat="subnet in data.subnetConfig | filter:search" on-finish-render>
         <td>{{subnet.name}}</td>
         <td>{{subnet.subnet}}</td>
-        <td><a href="index.html#/network/subnet/{{subnet.name}}/edit"><i class="icon-edit"></i></a></td>
+        <td><a href="#/network/subnet/{{subnet.name}}/edit"><i class="icon-edit"></i></a></td>
         <td>
           <a class="row-delete" href="">
           <i class="icon-remove"></i>
