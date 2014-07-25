@@ -10,6 +10,7 @@ var module = [
   'angular-ui-router',
   'ocLazyLoad',
   'angular-css-injector',
+  'app/topology/topology.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module']; //needed module
@@ -20,6 +21,7 @@ var e = [
   'oc.lazyLoad',
   'pascalprecht.translate',
   'angular.css.injector',
+  'app.topology',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
