@@ -15,6 +15,7 @@ var module = [
   'common/login/login.module',
   'app/connection_manager/connection_manager.module',
   'app/flow/flows.module',
+  'app/network/network.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module']; //needed module
@@ -30,6 +31,7 @@ var e = [
   'app.common.login',
   'app.connection_manager',
   'app.flows',
+  'app.networking',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
