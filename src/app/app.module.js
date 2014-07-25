@@ -13,6 +13,7 @@ var module = [
   'app/node/nodes.module',
   'app/topology/topology.module',
   'common/login/login.module',
+  'app/connection_manager/connection_manager.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module']; //needed module
@@ -26,6 +27,7 @@ var e = [
   'app.nodes',
   'app.topology',
   'app.common.login',
+  'app.connection_manager',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
