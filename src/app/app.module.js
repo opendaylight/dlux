@@ -11,6 +11,7 @@ var module = [
   'ocLazyLoad',
   'angular-css-injector',
   'app/node/nodes.module',
+  'app/connection_manager/connection_manager.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module']; //needed module
@@ -22,6 +23,7 @@ var e = [
   'pascalprecht.translate',
   'angular.css.injector',
   'app.nodes',
+  'app.connection_manager',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
