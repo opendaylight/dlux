@@ -17,6 +17,7 @@ var module = [
   'app/flow/flows.module',
   'app/container/container.module',
   'app/network/network.module',
+  'app/yangui/yangui.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module']; //needed module
@@ -34,6 +35,7 @@ var e = [
   'app.flows',
   'app.container',
   'app.networking',
+  'app.yangui',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
