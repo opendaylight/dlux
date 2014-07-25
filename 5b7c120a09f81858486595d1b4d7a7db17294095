@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_30606600",
+        "filename": "src/app/connection_manager/connection_manager.services.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2014-07-25T00:12:58Z",
+      "side": 1,
+      "message": "FYI, any AD-SAL components such as ConnectionManager, ContainerManager, TopologyManager, etc.. all follow a convention as :\n\nhttp://localhost:8080/nb/v2/\u003ccomponent\u003e/......\n\nrestconf is not supported in AD-SAL.\n\nrestConf is an MD-SAL only concept and hence it doesnt make sense here.\n\nAll the AD-SAL REST-APIs are represented in :\nhttps://wiki.opendaylight.org/view/OpenDaylight_Controller:REST_Reference_and_Authentication\n\nCan you please take a look @ that and fix it appropriately ?\nPlease note that this comment is applicable only to AD-SAL APIs, \nMD-SAL APIs are all well-structured and auto-generated via rest-conf.",
+      "revId": "5b7c120a09f81858486595d1b4d7a7db17294095",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
