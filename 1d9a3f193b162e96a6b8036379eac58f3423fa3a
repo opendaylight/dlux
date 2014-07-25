@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_ab1ac77a",
+        "filename": "build.config.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 0,
+      "message": "Any reason for removing coffee script support?",
+      "revId": "1d9a3f193b162e96a6b8036379eac58f3423fa3a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}

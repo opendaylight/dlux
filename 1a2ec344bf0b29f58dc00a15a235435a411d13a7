@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_d606d21c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Please Add a little more informaiton on this commit message.. something like \nIntroducing DLUX client-side modularity",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_cb1f0b6b",
+        "filename": "src/app/app.controller.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Please correct the spaces (in red)",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_6b103f59",
+        "filename": "src/app/app.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "spaces again",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_2b0eb73b",
+        "filename": "src/app/app.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Please add more comments here on what this section is about",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_4b0bfb29",
+        "filename": "src/app/app.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Comment me please ...",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_eb03ef0d",
+        "filename": "src/common/layout/layout.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "More comments and information here..",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_0b017305",
+        "filename": "src/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Good Cleanup here",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_b601ce06",
+        "filename": "src/main.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-25T15:42:48Z",
+      "side": 1,
+      "message": "Remove space after",
+      "revId": "1a2ec344bf0b29f58dc00a15a235435a411d13a7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
