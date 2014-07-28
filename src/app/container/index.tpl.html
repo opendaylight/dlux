@@ -1,31 +1,31 @@
 
 <!--<div class="indexGrid" ng-grid="gridOptions"></div>-->
-<a class="btn btn-info add-row" href="index.html#/container/create">
+<a class="btn btn-info add-row" href="#/container/create">
     Add a Container
 </a>
 
 <table class="footable table">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th data-hide="phone">Connector Count</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="item in data | filter:search">
-        <td><a href="index.html#/container/{{item.container}}/detail">{{item.container}}</a></td>
-        <td>{{item.nodeConnectors.length}}</td>
-        <!--<td><a href="index.html#/container/{{item.container}}/edit"><i class="icon-edit"></i></a></td>-->
-        <td>
-        	<a class="row-delete" href="#">
-    			<i class="icon-remove"></i>
-			</a>
-		</td>
-      </tr>
-	</tbody>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th data-hide="phone">Connector Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in data | filter:search">
+      <td><a href="#/container/{{item.container}}/detail">{{item.container}}</a></td>
+      <td>{{item.nodeConnectors.length}}</td>
+      <!--<td><a href="index.html#/container/{{item.container}}/edit"><i class="icon-edit"></i></a></td>-->
+      <td>
+        <a class="row-delete" href="#">
+          <i class="icon-remove"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 
 <script type="text/javascript">
-	$('.footable').footable();
+  $('.footable').footable();
 </script>
