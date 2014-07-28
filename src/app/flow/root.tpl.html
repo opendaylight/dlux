@@ -1,7 +1,7 @@
 <div class="menu">
   <ul class="nav nav-pills">
-  	<li ng-class="{ active: isState('flow.index') || isState('flow.detail') }"><a href="index.html#/flow/index">Home</a></li>
-    <li ng-class="{ active: isState('flow.create') }"><a href="index.html#/flow/create">Create</a></li>
+  	<li ng-class="{ active: isState('main.flow.index') || isState('main.flow.detail') }"><a href="#/flow/index">Home</a></li>
+    <li ng-class="{ active: isState('main.flow.create') }"><a href="#/flow/create">Create</a></li>
   </ul>
   <!-- For child state use-->
   <div ui-view="submenu"></div>
