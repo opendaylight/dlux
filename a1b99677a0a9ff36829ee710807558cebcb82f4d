@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_3924cec3",
+        "filename": "src/app/app.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-28T13:46:01Z",
+      "side": 1,
+      "message": "is app.* the proper naming scheme? just curious if ther eis a better alternative..",
+      "revId": "a1b99677a0a9ff36829ee710807558cebcb82f4d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
