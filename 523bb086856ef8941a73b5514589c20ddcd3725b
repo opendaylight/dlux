@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_4abd2b01",
+        "filename": "src/app/core/core.services.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-07-29T17:32:46Z",
+      "side": 1,
+      "message": "Methods like addtoView, getViews etc seems common for all providers. Can we put them at common place?",
+      "revId": "523bb086856ef8941a73b5514589c20ddcd3725b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_cac93bad",
+        "filename": "src/app/core/core.services.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-07-29T17:32:46Z",
+      "side": 1,
+      "message": "Did you leave this keyword on purpose?",
+      "revId": "523bb086856ef8941a73b5514589c20ddcd3725b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
