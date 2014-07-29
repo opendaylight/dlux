@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa82b9bf_0abe43d5",
+        "filename": "src/app/core/core.services.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2014-07-29T19:49:49Z",
+      "side": 1,
+      "message": "I will do the change on an other patch after this patch will be merged. So you\u0027ll be able to start working with the whole thing.",
+      "parentUuid": "fa82b9bf_4abd2b01",
+      "revId": "523bb086856ef8941a73b5514589c20ddcd3725b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa82b9bf_cac93bad",
         "filename": "src/app/core/core.services.js",
         "patchSetId": 4
