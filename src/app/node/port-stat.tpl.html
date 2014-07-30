@@ -1,23 +1,10 @@
-<!--<h3>Ports</h3>
-<table class="table table-stripped">
-  <thead>
-    <tr>
-      <th class="col-md-8">Name</th>
-      <th class="col-md-2">Type</th>
-      <th class="col-md-2">State</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="table table-striped" ng-repeat="ncp in data.nodeConnectorProperties | noRootPorts | orderBy:'properties.name.value'">
-      <td>{{ncp.properties.name.value}}</td>
-      <td>{{ncp.nodeconnector.type}}</td>
-      <td>
-        <i class="icon-ok-sign"></i>
-        <port-state value="{{ncp.properties.state.value}}"></port-state>
-      </td>
-    </tr>
-  </tbody>
-</table>-->
+<!--
+* Copyright (c) 2014 Brocade and others.  All rights reserved.
+*
+* This program and the accompanying materials are made available under the
+* terms of the Eclipse Public License v1.0 which accompanies this distribution,
+* and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
 
 <h4>{{ 'NODE_CONNECTOR_STATISTICS_FOR_NODE_ID' | translate }} - {{data.id}}</h4>
 <table class="footable table">
