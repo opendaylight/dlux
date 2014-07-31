@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_d30b367b",
+        "filename": "dlux_karaf/core/impl/src/main/java/org/opendaylight/controller/dlux/core/implementation/internal/DluxBoostrapper.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-31T02:29:59Z",
+      "side": 1,
+      "message": "Please use Logger not System.out.println... http://karaf.apache.org/manual/latest/users-guide/log.html",
+      "revId": "0b525a6a093188cc99b036ab0a4a8d4b723da47a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_f30e7a8b",
+        "filename": "dlux_karaf/core/impl/src/main/java/org/opendaylight/controller/dlux/core/implementation/internal/DluxCoreServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-07-31T02:29:59Z",
+      "side": 1,
+      "message": "A start I guess but will need to be filled properly.. again no System.out.println.. never.. that command doesn\u0027t exist ..",
+      "revId": "0b525a6a093188cc99b036ab0a4a8d4b723da47a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
