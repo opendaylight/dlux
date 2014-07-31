@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_595427c9",
+        "filename": "bootstrapper/bootstrapper/api/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2013
+      },
+      "writtenOn": "2014-07-31T16:04:20Z",
+      "side": 1,
+      "message": "change to org.opendaylight.dlux",
+      "revId": "ed75b5997c0db406619e71f23cb5c3b279ea62f6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_b949b332",
+        "filename": "bootstrapper/bootstrapper/impl/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2013
+      },
+      "writtenOn": "2014-07-31T16:04:20Z",
+      "side": 1,
+      "message": "change to org.opendaylight.dlux",
+      "revId": "ed75b5997c0db406619e71f23cb5c3b279ea62f6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_393e038d",
+        "filename": "bootstrapper/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2013
+      },
+      "writtenOn": "2014-07-31T16:04:20Z",
+      "side": 1,
+      "message": "add groupId to make it org.opendaylight.dlux",
+      "revId": "ed75b5997c0db406619e71f23cb5c3b279ea62f6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
