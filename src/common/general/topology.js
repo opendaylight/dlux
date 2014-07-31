@@ -52,7 +52,6 @@ angular.module('common.topology', [])
                         fontColor: BLACK
                     },
                     edges: {
-                        style: 'arrow',
                         length: 80,
                         color: {
                             color: '#070707',
@@ -92,7 +91,7 @@ angular.module('common.topology', [])
                     //freezeForStabilization: true
                 };
 
-                var graph = new vis.Graph(container, data, options);
+                var graph = new vis.Network(container, data, options);
                 return graph;
             }
         });

@@ -394,10 +394,19 @@ angular.module('common.nbapi', [])
 
             return nodeId;
         };
+        var isEdgePresent = function(inLinks,srcId,dstId){
+            if( inLinks[srcId+":"+dstId] === undefined && inLinks[dstId+":"+srcId] === undefined) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
         return svc.base().one("topology", node).get().then(function(ntData){
 
             var nodes = [];
             var links = [];
+            var linksMap = {};
 
             if(ntData.topology && ntData.topology[0]){
                 angular.forEach(ntData.topology[0].node, function(nodeData) {
@@ -410,8 +419,9 @@ angular.module('common.nbapi', [])
                         srcPort = linkData.source["source-tp"],
                         dstPort = linkData.destination["dest-tp"],
                         linkId = links.length.toString();
-                    if(srcId!=null && dstId!=null){
+                    if(srcId!=null && dstId!=null && !isEdgePresent(linksMap,srcId,dstId)){
                         links.push({id: linkId, 'from' : srcId, 'to': dstId, title:'Source Port: <b>' + srcPort + '</b><br>Dest Port: <b>'+dstPort+'</b>'});
+                        linksMap[srcId+":"+dstId]=linkId;
                     }
                 });
 
