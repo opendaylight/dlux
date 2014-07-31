@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_f9f5fbec",
+        "filename": "dlux_karaf/pom.xml",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2013
+      },
+      "writtenOn": "2014-07-31T15:55:22Z",
+      "side": 1,
+      "message": "change to dlux",
+      "revId": "c5dd862e5da954fa1cff6e12f86a16b48b93b3d6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
