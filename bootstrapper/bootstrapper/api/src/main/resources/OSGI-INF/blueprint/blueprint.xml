@@ -1,0 +1,6 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <bean id="bundle-activator" class="org.opendaylight.controller.dlux.core.Activator"/>
+      <reference id="sampleService" availability="mandatory" activation="eager" interface="org.osgi.service.http.HttpService">
+        <reference-listener ref="bundle-activator" bind-method="onBindService" unbind-method="onUnbindService"/>
+      </reference>
+</blueprint>
