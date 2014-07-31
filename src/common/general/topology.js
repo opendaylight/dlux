@@ -31,7 +31,7 @@ angular.module('common.topology', [])
                 var y = - container.clientHeight / 2 + 50;
                 var step = 30;
                 inNodes.push({id: 1001, x: x, y: y + step, label: 'Switch', group: 'switch',value:20});
-                inNodes.push({id: 1003, x: x, y: y + 3 * step, label: 'Computer', group: 'desktop',value:20});
+                inNodes.push({id: 1003, x: x, y: y + 3 * step, label: 'Host', group: 'host',value:20});
 
                 var data = {
                     nodes: inNodes,
@@ -52,7 +52,6 @@ angular.module('common.topology', [])
                         fontColor: BLACK
                     },
                     edges: {
-                        style: 'arrow',
                         length: 80,
                         color: {
                             color: '#070707',
@@ -71,7 +70,7 @@ angular.module('common.topology', [])
                             shape: 'image',
                             image: 'assets/images/Device_switch_3062_unknown_64.png'
                         },
-                        'desktop': {
+                        'host': {
                             shape: 'image',
                             image: 'assets/images/Device_pc_3045_default_64.png'
                         }
@@ -92,7 +91,7 @@ angular.module('common.topology', [])
                     //freezeForStabilization: true
                 };
 
-                var graph = new vis.Graph(container, data, options);
+                var graph = new vis.Network(container, data, options);
                 return graph;
             }
         });
