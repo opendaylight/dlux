@@ -1,0 +1,4 @@
+<div ng-controller="caseCtrl" class="simpleContainer" ng-hide="empty">
+    <!-- {{ node.label}} -->
+    <div ng-repeat="node in parentNode.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" >
+</div>
