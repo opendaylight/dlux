@@ -1,85 +1,100 @@
-define(['app/core/core.module', 'jquery'], function(core, $) {
-  core.provider('TopBarHelper', function TopBarHelperProvider() {
-    var ids = [];
-    var ctrls = [];
+/*
+ * Copyright (c) 2014 Inocybe Technologies, and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
 
-    this.addToView = function(url) {
-        $.ajax({
-          url : url,
-          method: 'GET',
-          async : false
-        }).done(function(data) {
-          ids.push(data);
-        });
+define(['app/core/core.module', 'jquery'], function(core, $) {
+
+    var BaseCoreHelper = (function() {
+
+    function BaseCoreHelper() {
+      this.ids = [];
+      this.ctrls = [];
+    }
+
+    BaseCoreHelper.prototype.addToView = function(url) {
+      setIds = function(data) {
+        this.ids.push(data);
+      };
+
+      $.ajax({
+        url : url,
+        context: this,
+        method: 'GET',
+        async : false
+      }).done(setIds);
     };
 
-    this.getViews = function() {
+    BaseCoreHelper.prototype.getViews = function() {
       var template = "";
 
-      for(var i = 0; i < ids.length; ++i) {
-        template += ids[i];
+      for(var i = 0; i < this.ids.length; ++i) {
+        template += this.ids[i];
       }
 
       return template;
     };
 
-    this.addControllerUrl = function(url) {
-      ctrls.push(url);
+    BaseCoreHelper.prototype.addControllerUrl = function(url) {
+      this.ctrls.push(url);
     };
 
-    this.getControllers = function() {
-      return ctrls;
+    BaseCoreHelper.prototype.getControllers = function() {
+      return this.ctrls;
     };
 
-    this.$get = ['apiToken', function TopBarHelper(apiToken) {
-      return new TopBarHelperProvider(apiToken);
-    }];
+    return BaseCoreHelper;
 
+  })();
+
+  core.provider('TopBarHelper', function() {
+
+    var TopBarHelperProvider = (function() {
+
+      function TopBarHelperProvider() {
+      }
+
+      TopBarHelperProvider.prototype = new BaseCoreHelper();
+      TopBarHelperProvider.prototype.constructor = TopBarHelperProvider;
+
+      TopBarHelperProvider.prototype.$get = function() {
+        return new TopBarHelperProvider();
+      };
+
+      return TopBarHelperProvider;
+
+    })();
+
+    return new TopBarHelperProvider();
   });
 
   core.provider('NavHelper', function() {
-    var ids = [];
-    var ctrls = [];
     var menu = [];
 
-    function NavHelperProvider() {
-      this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
-      };
+    var NavHelperProvider = (function() {
 
-      this.getViews = function() {
-        var template = "";
+      function NavHelperProvider() {
 
-        for(var i = 0; i < ids.length; ++i) {
-          template += ids[i];
-        }
+      }
 
-        return template;
-      };
+      NavHelperProvider.prototype = new BaseCoreHelper();
 
-      this.addControllerUrl = function(url) {
-        ctrls.push(url);
-      };
-
-      this.getControllers = function() {
-        return ctrls;
-      };
-
-      getMenuWithId = function(menu, level) {
-        if(menu === undefined) {
+       getMenuWithId = function(menuSection, level) {
+        if(menuSection === undefined) {
           return null;
         }
         var currentLevel = level[0];
 
-        var menuItem = $.grep(menu, function(item) {
+        var menuItem = $.grep(menuSection, function(item) {
           return item.id == currentLevel;
         })[0];
+
+        if (!menuItem) {
+          return menuItem;
+        }
 
         if (level.length === 1) {
           return menuItem;
@@ -88,7 +103,7 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         }
       };
 
-      this.addToMenu = function(id, obj) {
+      NavHelperProvider.prototype.addToMenu = function(id, obj) {
         var lvl = id.split(".");
         obj["id"] = lvl.pop();
 
@@ -97,7 +112,7 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         } else {
           var menuItem = getMenuWithId(menu, lvl);
 
-        if(menuItem) {
+        if(menuItem !== undefined) {
           if(!menuItem.submenu) {
             menuItem.submenu = [];
           }
@@ -114,14 +129,17 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         }
       };
 
-      this.getMenu = function() {
+      NavHelperProvider.prototype.getMenu = function() {
         return menu;
       };
 
-      this.$get =  function NavHelperFactory() {
+      NavHelperProvider.prototype.$get =  function NavHelperFactory() {
         return new NavHelperProvider();
       };
-    }
+
+      return NavHelperProvider;
+    })();
+
     var persistentProvider = new NavHelperProvider();
 
     return persistentProvider;
@@ -129,45 +147,24 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
    });
 
   core.provider('ContentHelper', function() {
-    var ids = [];
-    var ctrls = [];
 
-    function ContentHelperProvider() {
-      this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
-      };
+    var ContentHelperProvider = (function() {
 
-      this.getViews = function() {
-        var template = "";
+      function ContentHelperProvider() {
 
-        for(var i = 0; i < ids.length; ++i) {
-          template += ids[i];
-        }
+      }
 
-        return template;
-      };
+      ContentHelperProvider.prototype = new BaseCoreHelper();
 
-      this.addControllerUrl = function(url) {
-        ctrls.push(url);
-      };
-
-      this.getControllers = function() {
-        return ctrls;
-      };
-
-      this.$get =  function ContentHelperFactory() {
+      ContentHelperProvider.prototype.$get = function() {
         return new ContentHelperProvider();
       };
-    }
-    var persistentProvider = new ContentHelperProvider();
 
-    return persistentProvider;
+    return ContentHelperProvider;
 
-   });
+   })();
+
+   return new ContentHelperProvider();
+
+  });
 });
