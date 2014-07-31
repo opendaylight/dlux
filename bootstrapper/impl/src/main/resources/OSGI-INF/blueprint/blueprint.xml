@@ -1,0 +1,13 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <!--bean id="bundle-onbind" class="org.opendaylight.dlux.bootstrapper.implementation.DluxBootstrapper"/-->
+    <bean id="bootstrapperImpl" class="org.opendaylight.dlux.bootstrapper.implementation.DluxBootstrapper"/>
+
+    <reference id="onBindService" availability="mandatory" activation="eager" interface="org.osgi.service.http.HttpService">
+      <reference-listener ref="bootstrapperImpl" bind-method="onBindService" unbind-method="onUnbindService"/>
+    </reference>
+
+    <!--service id="serviceRegistration" interface="org.opendaylight.dlux.bootstrapper.IDluxBootstrapperRegistration" ref="bootstrapperImpl">
+      <registration-listener ref="onBindService" registration-method="onRegisterService" unregistration-method="onUnregisterService"/>
+    </service-->
+
+</blueprint>
