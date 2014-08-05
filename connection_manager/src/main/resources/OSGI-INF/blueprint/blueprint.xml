@@ -1,0 +1,9 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <bean id="bundle" class="org.opendaylight.dlux.connection_manager.DluxConnectionManager"/>
+      <reference id="sampleService" availability="mandatory" activation="eager" interface="org.osgi.service.http.HttpService">
+        <reference-listener ref="bundle" bind-method="onBindHttpService" unbind-method="onUnbindHttpService"/>
+      </reference>
+      <reference id="addModuleService" availability="mandatory" activation="eager" interface="org.opendaylight.dlux.bootstrapper.IDluxBootstrapperRegistration">
+        <reference-listener ref="bundle" bind-method="onBindBootService" unbind-method="onUnbindBootService"/>
+      </reference>
+</blueprint>
