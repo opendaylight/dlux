@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_9671110e",
+        "filename": "bootstrapper/impl/src/main/java/org/opendaylight/dlux/bootstrapper/implementation/DluxBootstrapper.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2013
+      },
+      "writtenOn": "2014-08-05T15:16:54Z",
+      "side": 1,
+      "message": "If srv\u003d\u003d null; How can you use srv?",
+      "revId": "509cb52712d553fc8abb152f97036ee3f02df0f9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
