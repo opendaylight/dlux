@@ -1,13 +1,14 @@
-angular.module('common.login', [
-    'ngCookies',
-    'common.auth',
-    'templates-app',
-    'templates-common',
-    'ui.state',
-    'ui.route',
-    'common.auth'])
+/*
+ * Copyright (c) 2014 Inocybe Technologies, and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
 
-    .controller('loginCtrl', function ($cookieStore, $scope, $http, $window, Auth, $location) {
+define(['common/login/login.module', 'common/authentification/auth.services'], function(login) {
+
+  login.register.controller('LoginCtrl', function ($cookieStore, $scope, $http, $window, Auth, $location) {
         // default values
         $scope.login = {};
         $scope.login.username = "";
@@ -18,18 +19,17 @@ angular.module('common.login', [
         $scope.sendLogin = function () {
             Auth.login($scope.login.username, $scope.login.password, $scope.success, $scope.error);
         };
-        
-        
+
         $scope.success = function(response) {
-            $window.location.href = 'index.html'; 
+            $window.location.href = 'index.html';
         };
         $scope.error = function (error) {
            $scope.error = "Unable to login";
 
         };
-    })
+    });
 
-    .controller('forgotPasswordCtrl', function ($scope, $http) {
+    login.register.controller('forgotPasswordCtrl', function ($scope, $http) {
         $scope.recover = {};
         $scope.recover.email = "";
         $scope.sendForgotPassword = function () {
@@ -43,38 +43,9 @@ angular.module('common.login', [
             });
 
         };
-    })
+    });
 
-    .directive('mcRegister', function () {
-        return {
-            templateUrl: 'login/register.tpl.html',
-            controller: 'registerCtrl',
-            restrict: 'A'
-        };
-    })
-
-    .directive('mcLogin', function () {
-        return {
-            templateUrl: 'login/login.tpl.html',
-            restrict: 'A',
-            controller: 'loginCtrl',
-            link: function (scope, element, attrs) {
-
-            }
-        };
-    })
-
-    .directive('mcForgotPassword', function () {
-        return {
-            templateUrl: 'login/forgot_password.tpl.html',
-            controller: 'forgotPasswordCtrl',
-            restrict: 'A',
-            link: function (scope, element, attrs) {
-
-            }
-        };
-    })
-    .controller('registerCtrl', function ($scope, $http) {
+   login.register.controller('registerCtrl', function ($scope, $http) {
         $scope.register = {};
         $scope.register.email = "";
         $scope.register.username = "";
@@ -93,5 +64,4 @@ angular.module('common.login', [
             });
         };
     });
-
-
+});
