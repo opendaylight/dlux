@@ -1,0 +1,11 @@
+<div ng-controller="containerCtrl" class="simpleContainer">
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='toggleExpanded()'>
+        <i class="icon-caret-down" ng-show="parentNode.expanded"></i>
+        <i class="icon-caret-right" ng-show="!parentNode.expanded"></i>
+        {{parentNode.localeLabel | translate}}
+    </button>
+    <div ng-show="parentNode.expanded">
+        <div ng-repeat="node in parentNode.children" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+    </div>
+    
+</div>
