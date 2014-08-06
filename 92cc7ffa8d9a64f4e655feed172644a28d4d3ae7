@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_8194668b",
+        "filename": "src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-06T20:55:25Z",
+      "side": 1,
+      "message": "We should move all these URLs to one common file",
+      "revId": "92cc7ffa8d9a64f4e655feed172644a28d4d3ae7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_418ade64",
+        "filename": "src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-06T20:55:25Z",
+      "side": 1,
+      "message": "If this Base64 encoding/deciding logic is on client side, they is a security risk, we should think of keeping this keyStr in config file, which can reside on server side",
+      "revId": "92cc7ffa8d9a64f4e655feed172644a28d4d3ae7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
