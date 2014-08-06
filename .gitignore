@@ -5,3 +5,9 @@ bin/
 node_modules/
 vendor/
 .DS_Store
+**/target
+**/target-ide
+target
+target-ide
+MANIFEST.MF
+.metadata
