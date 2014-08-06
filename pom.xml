@@ -12,9 +12,10 @@
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-web</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <packaging>bundle</packaging>
+    <packaging>pom</packaging>
     <properties>
         <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
+        <bootstrapper.version>1.0.0-SNAPSHOT</bootstrapper.version>
     </properties>
 
     <dependencies>
