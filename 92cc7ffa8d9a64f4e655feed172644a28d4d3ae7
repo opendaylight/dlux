@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa82b9bf_cccaa51a",
+        "filename": "src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2014-08-07T14:55:08Z",
+      "side": 1,
+      "message": "If all the URL\u0027s are in the same file, won\u0027t we lose the modularity?",
+      "parentUuid": "fa82b9bf_8194668b",
+      "revId": "92cc7ffa8d9a64f4e655feed172644a28d4d3ae7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa82b9bf_418ade64",
         "filename": "src/common/authentification/auth.services.js",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2014-08-06T20:55:25Z",
       "side": 1,
       "message": "If this Base64 encoding/deciding logic is on client side, they is a security risk, we should think of keeping this keyStr in config file, which can reside on server side",
+      "revId": "92cc7ffa8d9a64f4e655feed172644a28d4d3ae7",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_cc638540",
+        "filename": "src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2014-08-07T14:55:08Z",
+      "side": 1,
+      "message": "This implementation of Base64 is just to follow the RFC about HTTP Authentication. I think using a custom alphabet will not be enough. We should have an other layer who will be the payload of the Base64 encode. Something server side as you said.",
+      "parentUuid": "fa82b9bf_418ade64",
       "revId": "92cc7ffa8d9a64f4e655feed172644a28d4d3ae7",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
