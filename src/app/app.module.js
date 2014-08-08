@@ -9,6 +9,7 @@ var module = [
   'angular-translate-loader-static-files',
   'angular-ui-router',
   'ocLazyLoad',
+  'footable',
   'angular-css-injector',
   'app/node/nodes.module',
   'app/topology/topology.module',
@@ -17,9 +18,11 @@ var module = [
   'app/flow/flows.module',
   'app/container/container.module',
   'app/network/network.module',
+  'app/sfc/sfc.global',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
-  'common/layout/layout.module']; //needed module
+  'common/layout/layout.module',
+  'common/general/common.navigation.module']; //needed module
 
 // The name of all angularjs module
 var e = [
@@ -34,9 +37,11 @@ var e = [
   'app.flows',
   'app.container',
   'app.networking',
+  'app.sfc',
   'app.common.nav',
   'app.common.topbar',
-  'app.common.layout'];
+  'app.common.layout',
+  'app.common.navigation'];
 //--------------------\\
 
 define(module, function(ng) {
@@ -59,6 +64,17 @@ define(module, function(ng) {
     });
 
     $translateProvider.preferredLanguage('en_US');
+  });
+
+  app.run(function run($rootScope, $q) {
+
+    //  deferred resolved when translate data are loaded - can be used to wait before rendering view
+    $rootScope.translateLoadingEnd = $q.defer();
+
+    var deregistertranslateLoadingEndFunc = $rootScope.$on("$translateLoadingEnd", function () {
+      $rootScope.translateLoadingEnd.resolve(true);
+      deregistertranslateLoadingEndFunc();
+    });
   });
 
   ng.bootstrap(app);
