@@ -1,0 +1,58 @@
+<a class="btn btn-info add-row" href="index.html#/sfc/serviceforwarder-create">
+    {{'SFC_FORWARDER_ADD' | translate}}
+</a>
+
+<table class="footable table">
+    <thead>
+        <tr>
+            <th>{{'SFC_FORWARDER_NAME' | translate}}</th>
+            <th>{{'SFC_FORWARDER_SERVICE_NODE' | translate}}</th>
+            <th>{{'SFC_FUNCTION_DATA_PLANE_LOCATOR' | translate}}</th>
+            <th>{{'SFC_FORWARDER_SF_DICTIONARY' | translate}}</th>
+            <th>{{'SFC_FORWARDER_ACTIONS' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-hide="sffs.length"><td colspan="6" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td></tr>
+        <tr ng-repeat="sff in sffs track by $index | filter:search" ng-model="sffs">
+            <td>{{sff['name']}}</td>
+            <td>{{sff['service-node']}}</td>
+            <td>
+                <span style="color: #1C94C4; cursor: pointer;" ng-repeat="loc in sff['sff-data-plane-locator']" tooltip-placement="bottom"
+                      tooltip-html-unsafe="
+                          <div style='text-align: left'>
+                          {{'SFC_TOOLTIP_TRANSPORT' | translate}}: {{loc['transport']}} <br/>
+                          {{'SFC_TOOLTIP_IP' | translate}}: {{loc['data-plane-locator']['ip']}} <br/>
+                          {{'SFC_TOOLTIP_PORT' | translate}}: {{loc['data-plane-locator']['port']}}
+                          </div>">
+
+                    {{loc['name']}}{{$last ? '' : ', '}}
+                </span>
+            </td>
+
+            <td>
+                <span style="color: #1C94C4; cursor: pointer;" ng-repeat="sf in sff['service-function-dictionary']" tooltip-placement="bottom"
+                      tooltip-html-unsafe="
+                          <div style='text-align: left'>
+                          {{'SFC_TOOLTIP_NAME' | translate}}: {{sf['name']}} <br/>
+                          {{'SFC_TOOLTIP_TYPE' | translate}}: {{sf['type']}} <br/>
+                          {{'SFC_TOOLTIP_FAILMODE' | translate}}: {{sf['failmode']}} <br/>
+                          {{'SFC_TOOLTIP_INTERFACES' | translate}}: {{sffInterfaceToString(sf['sff-interfaces'])}}
+                          </div>">
+
+                    {{sf['name']}}{{$last ? '' : ', '}}
+                </span>
+            </td>
+            <td>
+                <a ng-click="deleteSFF(sff.name, $index)">
+                    <i class="icon-remove" style="cursor: pointer"  popover-trigger="mouseenter" popover="{{ 'SFC_FORWARDER_DELETE' | translate }}"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+		$('.footable').footable();
+</script>

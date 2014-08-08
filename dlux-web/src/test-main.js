@@ -1,13 +1,36 @@
-require.config({
-  baseUrl : 'src',
+var allTestFiles = [];
+var TEST_REGEXP = /spec\.js$/;
+
+var pathToModule = function(path) {
+  return path.replace(/^\/base\/src\//, '').replace(/\.js$/, '');
+};
+
+Object.keys(window.__karma__.files).forEach(function(file) {
+  if (TEST_REGEXP.test(file)) {
+    // Normalize paths to RequireJS module names.
+    allTestFiles.push(pathToModule(file));
+  }
+});
+
+//require allTestFiles and then start karma
+var run = function(){
+  test(allTestFiles, function (){
+    console.log('Starting Karma');
+    window.__karma__.start();
+  });
+};
+
+var test = require.config({
+  baseUrl : '/base/src',
   paths : {
     'jquery' : '../vendor/jquery/jquery',
     'jquery-ui' : '../vendor/jquery-ui/ui/jquery-ui',
     'angular' : '../vendor/angular/angular',
+    'angular-mocks' : '../vendor/angular-mocks/angular-mocks',
     'angularAMD' : '../vendor/angularAMD/angularAMD',
     'ngload' : '../vendor/angularAMD/ngload',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
-    'domReady' : '../vendor/requirejs-domready/domReady',
+    'domReady' : '../venddor/requirejs-domready/domReady',
     'Restangular' : '../vendor/restangular/dist/restangular.min',
     'underscore' : '../vendor/underscore/underscore',
     'underscore-string' : '../vendor/underscore.string/dist/underscore.string.min',
@@ -18,8 +41,6 @@ require.config({
     'angular-translate-loader-static-files' : '../vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min',
     'angular-sanitize' : '../vendor/angular-sanitize/angular-sanitize',
     'footable' : '../vendor/footable/dist/footable.min',
-    'footable-sort' : '../vendor/footable/dist/footable.sort.min',
-    'footable-paginate': '../vendor/footable/dist/footable.paginate.min',
     'd3' : '../vendor/d3/d3.min',
     'vis' : '../vendor/vis/dist/vis.min',
     'select2' :  '../vendor/select2/select2',
@@ -33,6 +54,7 @@ require.config({
 
   shim : {
     'angular' : ['jquery'],
+    'angular-mocks' : ['angular'],
     'angularAMD' : ['angular'],
     'ocLazyLoad' : ['angular'],
     'Restangular' : ['angular', 'underscore'],
@@ -55,8 +77,6 @@ require.config({
       exports : '$'
     },
     'footable' : ['jquery'],
-    'footable-sort': ['footable'],
-    'footable-paginate': ['footable'],
     'underscore' : {
       exports : '_'
     },
@@ -66,6 +86,9 @@ require.config({
     }
   },
 
-  deps : ['app/app.module']
+  // load all common test dependencies
+  deps: ['angular', 'angular-mocks', 'common/layout/layout.module', 'angular-ui-router', 'app/core/core.module', 'common/navigation/navigation.module'],
 
+  // we have to kickoff jasmine, as it is asynchronous
+  callback: run
 });
