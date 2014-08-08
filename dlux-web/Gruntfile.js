@@ -4,8 +4,8 @@ var mountFolder = function (connect, dir) {
 };
 
 module.exports = function ( grunt ) {
-  
-  /** 
+
+  /**
    * Load required Grunt tasks. These are installed based on the versions listed
    * in `package.json` when you do `npm install` in this directory.
    */
@@ -368,10 +368,17 @@ module.exports = function ( grunt ) {
       },   
       unit: {
         runnerPort: 9102,
-        background: true,
-        port: 9877 // IMPORTANT!
+        port: 9877, // IMPORTANT!
+        autoWatch: true
       },
       continuous: {
+        singleRun: true
+      },
+      coverage: {
+        //we want to report only SFC directory (add more directories if you need)
+        preprocessors: {
+          'src/app/sfc/**/*.js': 'coverage'
+        },
         singleRun: true
       }
     },
@@ -507,7 +514,7 @@ module.exports = function ( grunt ) {
         files: [ 
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
+        tasks: [ 'jshint:src', 'copy:build_appjs' ]
       },
 
       /**
@@ -537,7 +544,7 @@ module.exports = function ( grunt ) {
           '<%= app_files.atpl %>', 
           '<%= app_files.ctpl %>'
         ],
-        tasks: [ 'html2js' ]
+        tasks: [ /*'html2js',*/ 'copy:copy_template' ]
       },
 
       /**
@@ -556,7 +563,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.jsunit %>'
         ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
+        tasks: [ 'jshint:test' /*, 'karma:unit:run'*/ ],
         options: {
           livereload: false
         }
@@ -579,9 +586,12 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
-
-  grunt.registerTask('live', ['build', 'connect:dev', 'delta']);
+  //Watch task is executing tests (delta not needed because karma is watching for changes automatically)
+  //Probably watch could be renamed to 'test' (watch task is no longer used because webserver (live task) is required)
+  grunt.registerTask( 'watch', ['build', 'karma:unit']);
+  //Live task is for development without test execution
+  grunt.registerTask( 'live', ['build', 'connect:dev', 'delta']);
+  grunt.registerTask( 'coverage', ['build', 'karma:coverage']);
   /**
    * The default task is to build and compile.
    */
@@ -591,7 +601,7 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less:development',
+    'clean', /*'html2js',*/ 'jshint', 'less:development',
     'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
     'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);

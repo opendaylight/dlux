@@ -1,61 +1,76 @@
-module.exports = function ( karma ) {
-  karma.configure({
-    /** 
-     * From where to look for files, starting with the location of this file.
-     */
+// Karma configuration
+// Generated on Wed Aug 06 2014 09:25:48 GMT+0200 (CEST)
+
+module.exports = function(config) {
+  config.set({
+
+    // base path, that will be used to resolve files and exclude
     basePath: '../',
 
-    /**
-     * This is the list of file patterns to load into the browser during testing.
-     */
+    plugins: [ 'karma-jasmine', 'karma-coverage', 'karma-requirejs', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher'],
+
+    // frameworks to use
+    frameworks: ['jasmine', 'requirejs'],
+
+    // list of files / patterns to load in the browser
+    // filtering out only SFC files
     files: [
-     <% scripts.forEach( function ( file ) { %>'<%= file %>',
-     <% }); %>
-      'src/**/*.coffee'
+      'src/test-main.js',
+      {pattern: 'vendor/**/*.js', included: false},
+      {pattern: 'assets/**/*.js', included: false},
+      {pattern: 'src/**/*.js', included: false},
+      {pattern: 'src/**/*.tpl.html', included: false}
     ],
+
+    // list of files to exclude
     exclude: [
-      'src/assets/**/*.js'
+      'src/assets/**/*.js',
+      'src/main.js'
     ],
-    frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-coffee-preprocessor' ],
-    preprocessors: {
-      '**/*.coffee': 'coffee',
+
+
+    // test results reporter to use
+    // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
+    reporters: ['dots', 'progress', 'coverage'],
+
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
     },
 
-    /**
-     * How to report, by default.
-     */
-    reporters: 'dots',
 
-    /**
-     * On which port should the browser connect, on which port is the test runner
-     * operating, and what is the URL path for the browser to use.
-     */
-    port: 9018,
-    runnerPort: 9101,
-    urlRoot: '/',
+    // web server port
+    port: 9876,
 
-    /** 
-     * Disable file watching by default.
-     */
+
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
+
+
+    // level of logging
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_DEBUG,
+
+
+    // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-    /**
-     * The list of browsers to launch to test on. This includes only "Firefox" by
-     * default, but other browser names include:
-     * Chrome, ChromeCanary, Firefox, Opera, Safari, PhantomJS
-     *
-     * Note that you can also use the executable name of the browser, like "chromium"
-     * or "firefox", but that these vary based on your operating system.
-     *
-     * You may also leave this blank and manually navigate your browser to
-     * http://localhost:9018/ when you're running tests. The window/tab can be left
-     * open and the tests will automatically occur there during the build. This has
-     * the aesthetic advantage of not launching a browser every time you save.
-     */
-    browsers: [
-      'Chrome'
-    ]
+
+    // Start these browsers, currently available:
+    // - Chrome
+    // - ChromeCanary
+    // - Firefox
+    // - Opera (has to be installed with `npm install karma-opera-launcher`)
+    // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
+    // - PhantomJS
+    // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
+    browsers: ['Chrome'],
+
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout: 60000,
+
+    // Continuous Integration mode
+    // if true, it capture browsers, run tests and exit
+    singleRun: false
   });
 };
-
