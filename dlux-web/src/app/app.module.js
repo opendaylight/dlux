@@ -9,6 +9,9 @@ var module = [
   'angular-translate-loader-static-files',
   'angular-ui-router',
   'ocLazyLoad',
+  'footable',
+  'footable-sort',
+  'footable-paginate',
   'angular-css-injector',
   'app/node/nodes.module',
   'app/topology/topology.module',
@@ -17,6 +20,7 @@ var module = [
   'app/flow/flows.module',
   'app/container/container.module',
   'app/network/network.module',
+  'app/sfc/sfc.global',
   'app/yangui/yangui.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
@@ -35,6 +39,7 @@ var e = [
   'app.flows',
   'app.container',
   'app.networking',
+  'app.sfc',
   'app.yangui',
   'app.common.nav',
   'app.common.topbar',
@@ -61,6 +66,17 @@ define(module, function(ng) {
     });
 
     $translateProvider.preferredLanguage('en_US');
+  });
+
+  app.run(function run($rootScope, $q) {
+
+    //  deferred resolved when translate data are loaded - can be used to wait before rendering view
+    $rootScope.translateLoadingEnd = $q.defer();
+
+    var deregistertranslateLoadingEndFunc = $rootScope.$on("$translateLoadingEnd", function () {
+      $rootScope.translateLoadingEnd.resolve(true);
+      deregistertranslateLoadingEndFunc();
+    });
   });
 
   ng.bootstrap(app);
