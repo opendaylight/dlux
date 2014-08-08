@@ -92,7 +92,7 @@ angular.module('common.dlux.navigation', [])
             'btnGlyph': '@glyph',
             'cancelFunc': '=function',
             'state': '@',
-            'stateParams': '=',
+            'stateParams': '='
         },
         template: '<button class="btn btn-{{size}} btn-danger" ng-click="doCancel()"><i class="icon-remove-sign"></i> {{label}}</button>',
         controller: ['$scope', '$state', function ($scope, $state) {
@@ -108,7 +108,7 @@ angular.module('common.dlux.navigation', [])
 
             var params = $scope.stateParams || {};
             $state.transitionTo($scope.state, params, { location: true, inherit: true, relative: $state.$current, notify: true });
-      
+
           };
         }]
     };

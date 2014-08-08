@@ -1,0 +1,39 @@
+<a class="btn btn-info add-row" href="index.html#/sfc/servicefunction-create">
+    {{'SFC_FUNCTION_ADD' | translate}}
+</a>
+
+<table class="footable table">
+    <thead>
+        <tr>
+            <th>{{'SFC_FUNCTION_NAME' | translate}}</th>
+            <th>{{'SFC_FUNCTION_TYPE' | translate}}</th>
+            <th>{{'SFC_FUNCTION_IP' | translate}}</th>
+            <th>{{'SFC_FUNCTION_DATA_PLANE_LOCATOR' | translate}}</th>
+            <th>{{'SFC_FUNCTION_SFF' | translate}}</th>
+            <th>{{'SFC_FUNCTION_ACTIONS' | translate}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-hide="sfs.length"><td colspan="6" class="centerAlign">{{'NO_DATA_FOUND' | translate}}</td></tr>
+        <tr ng-repeat="sf in sfs track by $index | filter:search" ng-model="sfs">
+            <td>{{sf.name}}</td>
+            <td>{{sf.type}}</td>
+            <td>{{sf['ip-mgmt-address']}}</td>
+            <td>{{sf['sf-data-plane-locator']['ip']}}:{{sf['sf-data-plane-locator']['port']}}</td>
+            <td>{{sf['service-function-forwarder']}}</td>
+            <td>
+                <!--<a class="row-delete-sf" href="#">-->
+                    <!--<i class="icon-edit"></i>-->
+                <!--</a>-->
+                <a ng-click="deleteSF(sf.name, $index)">
+                    <i class="icon-remove" style="cursor: pointer"  popover-trigger="mouseenter" popover="{{ 'SFC_FUNCTION_DELETE' | translate }}"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+		$('.footable').footable();
+</script>

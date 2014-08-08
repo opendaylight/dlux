@@ -4,7 +4,10 @@ define(['common/general/common.navigation.module'], function(common) {
   * Helper to set CSS class to active via ng-class using $location.path()
   * or $state.includes()
   */
-  common.directive('isActive', function($compile) {
+
+  // var common = angular.module('app.common.navigation');
+
+  common.register.directive('isActive', function($compile) {
     return {
       restrict: 'A',
       replace: false,
@@ -39,7 +42,7 @@ define(['common/general/common.navigation.module'], function(common) {
   });
 
 
-  common.directive('brdAnchor', function ($compile, $rootScope) {
+  common.register.directive('brdAnchor', function ($compile, $rootScope) {
     return {
       restrict: 'E',
       replace: true,
@@ -81,7 +84,7 @@ define(['common/general/common.navigation.module'], function(common) {
   });
 
 
-  common.directive('buttonCancel', function() {
+  common.register.directive('buttonCancel', function() {
       // Runs during compile
       return {
           restrict: 'E',
@@ -92,9 +95,9 @@ define(['common/general/common.navigation.module'], function(common) {
               'btnGlyph': '@glyph',
               'cancelFunc': '=function',
               'state': '@',
-              'stateParams': '=',
+              'stateParams': '='
           },
-          template: '<button class="btn btn-{{size}} btn-danger" ng-click="doCancel()"><i class="icon-remove-sign"></i> {{label}}</button>',
+          template: '<button type="button" class="btn btn-{{size}} btn-danger" ng-click="doCancel()"><i class="icon-remove-sign"></i> {{label}}</button>',
           controller: ['$scope', '$state', function ($scope, $state) {
             $scope.label = $scope.btnLabel || 'Cancel';
             $scope.size = $scope.btnSize || 'md';
@@ -114,7 +117,7 @@ define(['common/general/common.navigation.module'], function(common) {
       };
   });
 
-  common.directive('buttonSubmit', function(){
+  common.register.directive('buttonSubmit', function(){
     // Runs during compile
     return {
       restrict: 'E',
@@ -127,7 +130,7 @@ define(['common/general/common.navigation.module'], function(common) {
         'form': '=form',
         'validator': '='
       },
-      template: '<button class="btn btn-{{size}} btn-orange" ng-click="doSubmit()" ng-disabled="submitDisabled"><i class="icon-ok-sign"></i> {{label}}</button>',
+      template: '<button type="submit" class="btn btn-{{size}} btn-orange" ng-click="doSubmit()" ng-disabled="submitDisabled"><i class="icon-ok-sign"></i> {{label}}</button>',
       controller: ['$scope', function ($scope) {
         $scope.label = $scope.btnLabel || 'Submit';
         $scope.size = $scope.btnSize || 'md';
@@ -174,7 +177,7 @@ define(['common/general/common.navigation.module'], function(common) {
   });
 
 
-  common.directive('showSelected', function() {
+  common.register.directive('showSelected', function() {
     // Runs during compile
     return {
       restrict: 'E',
@@ -186,7 +189,7 @@ define(['common/general/common.navigation.module'], function(common) {
     };
   });
 
-  common.directive('ctrlReload', function() {
+  common.register.directive('ctrlReload', function() {
     // Runs during compile
     return {
       replace: true,
@@ -194,7 +197,7 @@ define(['common/general/common.navigation.module'], function(common) {
       scope: {
         svc: '=service'
       },
-      template: '<button class="btn btn-primary btn-xs" ng-click="svc.getAll()"><i class="icon-refresh"></i></button>',
+      template: '<button type="button" class="btn btn-primary btn-xs" ng-click="svc.getAll()"><i class="icon-refresh"></i></button>',
       link: function ($scope, iElm, iAttrs, controller) {
         $scope.$on('evt:refresh', function() {
           $scope.svc.getAll();
@@ -203,12 +206,12 @@ define(['common/general/common.navigation.module'], function(common) {
     };
   });
 
-  common.directive('ctrlDelete', function($rootScope) {
+  common.register.directive('ctrlDelete', function($rootScope) {
     // Runs during compile
     return {
       replace: true,
       restrict: 'E',
-      template: '<button class="btn btn-danger btn-xs" ng-click="deleteSelected()" ng-disabled="gridOptions.selectedItems.length == 0"><i class="icon-remove"></i></button>',
+      template: '<button type="button" class="btn btn-danger btn-xs" ng-click="deleteSelected()" ng-disabled="gridOptions.selectedItems.length == 0"><i class="icon-remove"></i></button>',
       link: function($scope, iElm, iAttrs, controller) {
         var i = 0;
         var selected = $scope.gridOptions.selectedItems;

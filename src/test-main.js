@@ -1,9 +1,31 @@
-require.config({
-  baseUrl : 'src',
+var allTestFiles = [];
+var TEST_REGEXP = /spec\.js$/;
+
+var pathToModule = function(path) {
+  return path.replace(/^\/base\/src\//, '').replace(/\.js$/, '');
+};
+
+Object.keys(window.__karma__.files).forEach(function(file) {
+  if (TEST_REGEXP.test(file)) {
+    // Normalize paths to RequireJS module names.
+    allTestFiles.push(pathToModule(file));
+  }
+});
+
+var run = function(){
+  test(allTestFiles, function (){
+    console.log('Starting Karma');
+    window.__karma__.start();
+  });
+};
+
+var test = require.config({
+  baseUrl : '/base/src',
   paths : {
     'jquery' : '../vendor/jquery/jquery',
     'jquery-ui' : '../vendor/jquery-ui/ui/jquery-ui',
     'angular' : '../vendor/angular/angular',
+    'angular-mocks' : '../vendor/angular-mocks/angular-mocks',
     'angularAMD' : '../vendor/angularAMD/angularAMD',
     'ngload' : '../vendor/angularAMD/ngload',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
@@ -31,6 +53,7 @@ require.config({
 
   shim : {
     'angular' : ['jquery'],
+    'angular-mocks' : ['angular'],
     'angularAMD' : ['angular'],
     'ocLazyLoad' : ['angular'],
     'Restangular' : ['angular', 'underscore'],
@@ -62,6 +85,9 @@ require.config({
     }
   },
 
-  deps : ['app/app.module']
+  // dynamically load all test files
+  deps: ['angular', 'angular-mocks'],
 
+  // we have to kickoff jasmine, as it is asynchronous
+  callback: run
 });
