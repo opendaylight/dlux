@@ -8,7 +8,7 @@ OpenDaylight DLUX is a Javascript-based stateless user interface that communicat
 Install Node.js then:
 
 ```sh
-$ sudo npm -g install grunt-cli karma bower
+$ sudo npm -g install grunt-cli karma karma-coverage bower
 $ npm install
 $ bower install
 $ grunt watch

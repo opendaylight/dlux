@@ -1,0 +1,59 @@
+<div class="col-md-4">
+    <form role="form" id="createForm" name="createForm">
+        <div class="form-group">
+            <label for="name">{{'SFC_FUNCTION_NAME' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data.name" id="name" placeholder="{{'SFC_FUNCTION_CREATE_NAME' | translate}}" required focus-me="{{true}}">
+        </div>
+
+        <div class="form-group">
+            <label for="type">{{'SFC_FUNCTION_TYPE' | translate}}</label>
+            <select class="form-control input-sm" id="type" ui-select2 ng-model="data.type" ng-required="true" data-placeholder="{{'SFC_FUNCTION_CREATE_TYPE' | translate}}">
+                <option value=""></option>
+                <option ng-repeat="t in servicefunction.type" value="{{t}}">{{t}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ip">{{'SFC_FUNCTION_IP' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data['ip-mgmt-address']" id="ip" placeholder="{{'SFC_FUNCTION_CREATE_IP' | translate}}"
+                   ip-address required>
+        </div>
+
+
+        <h3>{{'SFC_FUNCTION_DATA_PLANE_LOCATOR' | translate}}</h3>
+        <!--<div class="form-group">-->
+            <!--<label for="dataplane_type">{{'SFC_DATA_PLANE_LOCATOR_TYPE' | translate}}</label>-->
+            <!--<select class="form-control input-sm" id="dataplane_type" ng-model="dataplane.type" ui-select2 ng-required="true" data-placeholder="{{'SFC_DATA_PLANE_CREATE_LOCATOR_TYPE' | translate}}">-->
+                <!--<option value=""></option>-->
+                <!--<option ng-repeat="t in dataplane_locator.type" value="{{t}}">{{t}}</option>-->
+            <!--</select>-->
+        <!--</div>-->
+
+        <div class="form-group">
+            <label for="data_plane_ip">{{'SFC_DATA_PLANE_LOCATOR_IP' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data['sf-data-plane-locator']['ip']" id="data_plane_ip" placeholder="{{'SFC_DATA_PLANE_CREATE_LOCATOR_IP' | translate}}"
+                   ip-address required>
+        </div>
+
+        <div class="form-group">
+            <label for="data_plane_port">{{'SFC_DATA_PLANE_LOCATOR_PORT' | translate}}</label>
+            <input type="text" class="form-control input-sm" ng-model="data['sf-data-plane-locator']['port']" id="data_plane_port" placeholder="{{'SFC_DATA_PLANE_CREATE_LOCATOR_PORT' | translate}}" required>
+        </div>
+
+        <h3>{{'SFC_FUNCTION_SFF' | translate}}</h3>
+
+        <div class="form-group">
+            <label for="forwarder">{{'SFC_FUNCTION_SFF_NAME' | translate}}</label>
+            <!--<input type="hidden" id="forwarder" class="form-control input-sm" ui-select2="select2Options" ng-model="select2ModelSff" ng-required="true" data-placeholder="{{'SFC_FUNCTION_SFF_CREATE_NAME' | translate}}">-->
+            <select class="form-control input-sm" id="forwarder" ui-select2 ng-model="data['sf-data-plane-locator']['service-function-forwarder']" ng-required="true" data-placeholder="{{'SFC_FUNCTION_SFF_CREATE_NAME' | translate}}">
+                <option value=""></option>
+                <option ng-repeat="sff in sffs" value="{{sff.name}}">{{sff.name}}</option>
+            </select>
+        </div>
+
+        <button-submit form="createForm" function="submit"></button-submit>
+        <button-cancel state="main.sfc.servicefunction"></button-cancel>
+        <span class="error clearfix">{{ error }}</span>
+    </form>
+
+</div>
