@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_5205ce43",
+        "filename": "core/move_resource.sh",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-08T16:50:40Z",
+      "side": 1,
+      "message": "Please make that part of the Maven Build... \n\nhttp://maven.apache.org/plugins/maven-resources-plugin/examples/copy-resources.html",
+      "revId": "7b68224eb920af23effbabeafb4cfc81cbd2a456",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_72001234",
+        "filename": "core/pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-08T16:50:40Z",
+      "side": 1,
+      "message": "Any \"versions\" should be in a Parent POM file... no localized versions to bundles..",
+      "revId": "7b68224eb920af23effbabeafb4cfc81cbd2a456",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_32f60a5e",
+        "filename": "core/pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-08T16:50:40Z",
+      "side": 1,
+      "message": "Use the resource plugin as this makes it \"platform\" specific to linux and taht is a very bad thing for the builds. (should be as much platform agnostic as possible.) see my other comment",
+      "revId": "7b68224eb920af23effbabeafb4cfc81cbd2a456",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_7287b2b5",
+        "filename": "core/src/main/resources/config.properties",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-08T16:50:40Z",
+      "side": 1,
+      "message": "I recommend making this a Karaf config file and use ManagedService from OSGi... http://www.liquid-reality.de/display/liquid/2011/09/23/Karaf+Tutorial+Part+2+-+Using+the+Configuration+Admin+Service\n\nIt integrates well with shell and you simply do a \n\u003cconfigFile\u003e tag in your features along with the config file in question.",
+      "revId": "7b68224eb920af23effbabeafb4cfc81cbd2a456",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
