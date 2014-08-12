@@ -8,4 +8,9 @@
       <bundle>mvn:org.opendaylight.dlux/bootstrapper/${bootstrapper.version}</bundle>
       <bundle>mvn:org.opendaylight.dlux/bootstrapper.implementation/${bootstrapper.version}</bundle>
    </feature>
+
+   <feature name="dlux-common-topbar" description="DLUX common/topbar bundle">
+     <feature>dlux-bootstrapper</feature>
+     <bundle>mvn:org.opendaylight.dlux/dlux.common.topbar/${dlux.common.topbar.version}</bundle>
+   </feature>
 </features>
