@@ -16,6 +16,7 @@
     <properties>
         <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
         <bootstrapper.version>1.0.0-SNAPSHOT</bootstrapper.version>
+        <common.navigation.version>1.0.0-SNAPSHOT</common.navigation.version>
     </properties>
 
     <dependencies>

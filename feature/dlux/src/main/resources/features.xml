@@ -8,4 +8,9 @@
       <bundle>mvn:org.opendaylight.dlux/bootstrapper/${bootstrapper.version}</bundle>
       <bundle>mvn:org.opendaylight.dlux/bootstrapper.implementation/${bootstrapper.version}</bundle>
    </feature>
+
+   <feature name="dlux-common-navigation" description="DLUX common/navigation bundle">
+     <feature>dlux-bootstrapper</feature>
+     <bundle>mvn:org.opendaylight.dlux/dlux.common.navigation/${dlux.common.navigation.version}</bundle>
+   </feature>
 </features>
