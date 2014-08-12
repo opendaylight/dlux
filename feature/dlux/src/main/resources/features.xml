@@ -8,4 +8,9 @@
       <bundle>mvn:org.opendaylight.dlux/bootstrapper/${bootstrapper.version}</bundle>
       <bundle>mvn:org.opendaylight.dlux/bootstrapper.implementation/${bootstrapper.version}</bundle>
    </feature>
+
+   <feature name="dlux-core" description="DLUX Core bundle">
+     <feature>dlux-bootstrapper</feature>
+     <bundle>mvn:org.opendaylight.dlux/dlux.core/${dlux.core.version}</bundle>
+   </feature>
 </features>
