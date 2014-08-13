@@ -18,8 +18,9 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-bump');
   //grunt.loadNpmTasks('grunt-recess');
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-connect');
@@ -237,8 +238,11 @@ module.exports = function ( grunt ) {
      * `ng-min` annotates the sources before minifying. That is, it allows us
      * to code without the array syntax.
      */
-    ngmin: {
-      compile: {
+    ngAnnotate: {
+      options: {
+        singleQuotes:true
+      },
+      app: {
         files: [
           {
             src: [ '<%= app_files.js %>' ],
@@ -557,6 +561,11 @@ module.exports = function ( grunt ) {
           livereload: false
         }
       }
+    },
+    shell : {
+      requirejs: {
+        command: "r.js -o optimize.js"
+      }
     }
   };
 
@@ -591,9 +600,7 @@ module.exports = function ( grunt ) {
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', [
-      'less:production', 'concat:build_css', 'copy:compile_assets', 'ngmin:compile', 'concat:compile_js', 'uglify', 'index:compile'
-  ]);
+  grunt.registerTask( 'compile', ['build', 'ngAnnotate', 'shell:requirejs']);
 
   /**
    * A utility function to get all app JavaScript sources.
