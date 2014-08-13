@@ -14,7 +14,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.5",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-coffee": "~0.7.0",
@@ -30,13 +30,12 @@
     "grunt-usemin": "~0.1.11",
     "grunt-svgmin": "~0.2.0",
     "grunt-rev": "~0.1.0",
-    "grunt-karma": "~0.6.1",
+    "grunt-karma": "~0.8.3",
     "grunt-open": "~0.2.0",
     "grunt-concurrent": "~0.3.0",
     "matchdep": "~0.1.2",
     "connect-livereload": "~0.2.0",
     "grunt-google-cdn": "~0.2.0",
-    "grunt-ngmin": "~0.0.2",
     "grunt-contrib-livereload": "~0.1.2",
     "connect-modrewrite": "~0.5.4",
     "grunt-recess": "~0.5.0",
@@ -44,7 +43,10 @@
     "grunt-conventional-changelog": "~1.0.0",
     "grunt-bump": "0.0.13",
     "grunt-html2js": "~0.2.4",
-    "grunt-coffeelint": "0.0.8"
+    "grunt-coffeelint": "0.0.8",
+    "karma-requirejs": "~0.2.2",
+    "grunt-shell": "~0.7.0",
+    "grunt-ng-annotate": "~0.3.2"
   },
   "engines": {
     "node": ">=0.8.0"

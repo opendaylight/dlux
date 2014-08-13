@@ -36,6 +36,7 @@
     "angularAMD": "~0.1.1",
     "requirejs-domready": "~2.0.1",
     "ocLazyLoad": "0.3.0",
-    "angular-css-injector": "~1.0.3"
+    "angular-css-injector": "~1.0.3",
+    "grunt-shell": "~0.7.0"
   }
 }
