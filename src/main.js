@@ -5,7 +5,7 @@ require.config({
     'angularAMD' : '../vendor/angularAMD/angularAMD',
     'ngload' : '../vendor/angularAMD/ngload',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
-    'domReady' : '../venddor/requirejs-domready/domReady',
+    'domReady' : '../vendor/requirejs-domready/domReady',
     'Restangular' : '../vendor/restangular/dist/restangular.min',
     'underscore' : '../vendor/underscore/underscore',
     'angular-ui-router' : '../vendor/angular-ui-router/release/angular-ui-router',
