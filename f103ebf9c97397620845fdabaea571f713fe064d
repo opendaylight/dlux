@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_a4b3ad08",
+        "filename": "optimize.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-14T00:57:17Z",
+      "side": 1,
+      "message": "Can your change this directory dist to src/main/resources/pages, so it can be used for maven",
+      "revId": "f103ebf9c97397620845fdabaea571f713fe064d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
