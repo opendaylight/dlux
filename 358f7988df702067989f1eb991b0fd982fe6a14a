@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_26232257",
+        "filename": "modules/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-14T16:38:37Z",
+      "side": 1,
+      "message": "unpacks will be local to bundle...",
+      "revId": "358f7988df702067989f1eb991b0fd982fe6a14a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_461e660d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-08-14T16:38:37Z",
+      "side": 1,
+      "message": "give it a more proper name as in core.resources.version",
+      "revId": "358f7988df702067989f1eb991b0fd982fe6a14a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
