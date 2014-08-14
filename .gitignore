@@ -3,5 +3,6 @@
 build/
 bin/
 node_modules/
+target/
 vendor/
 .DS_Store
