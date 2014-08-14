@@ -1,6 +1,6 @@
 # OpenDaylight DLUX 
 
-OpenDaylight DLUX is a Javascript stateless user interface that communicates with the service backend to provide a consistent and user-friendly interface to interact with OpenDaylight projects and base controller.
+OpenDaylight DLUX is a Javascript-based stateless user interface that communicates with the service backend to provide a consistent and user-friendly interface to interact with OpenDaylight projects and base controller.
 
 
 ## Quick Start
