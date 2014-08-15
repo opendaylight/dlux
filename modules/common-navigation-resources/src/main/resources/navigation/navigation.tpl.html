@@ -1,0 +1,29 @@
+<nav class="navbar-default navbar-static-side menu-sidebar" role="navigation">
+    <div class="sidebar-collapse">
+    <ul id="side-menu" class="nav">
+        <!--
+
+        We don't need the side-search for now...
+        <li class="sidebar-search">
+            <div class="input-group custom-search-form">
+                <input class="form-control" placeholder="Search..." type="text">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <i class="icon-search"></i>
+                    </button>
+                </span>
+            </div>
+        </li>          
+                   --> 
+        <li ng-class="{ active: (isState(item.active) && !isValid(item.submenu))}" ng-controller="navItemCtrl" ng-repeat="item in navList"
+            ng-include="'src/common/navigation/nav_item_template.tpl.html'">
+
+
+        </li>
+
+    <ul>
+</div>
+</nav>
+
+
+
