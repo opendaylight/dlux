@@ -8,4 +8,8 @@
       <bundle>mvn:org.opendaylight.dlux/loader/${loader.version}</bundle>
       <bundle>mvn:org.opendaylight.dlux/loader.implementation/${loader.version}</bundle>
    </feature>
+   <feature name="dlux-core" description="DLUX Core bundle">
+     <feature>dlux-loader</feature>
+     <bundle>mvn:org.opendaylight.dlux/dlux.core/${dlux.core.version}</bundle>
+   </feature>
 </features>
