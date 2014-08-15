@@ -1,6 +1,6 @@
-define(['angularAMD', 'app/routingConfig', 'app/core/core.services', 'Restangular'], function(ng) {
+define(['angularAMD', 'app/routingConfig', 'app/core/core.services', 'Restangular', 'common/config/env.module'], function(ng) {
 
-  var connection_manager = angular.module('app.connection_manager', ['app.core', 'ui.router.state', 'restangular' ]);
+  var connection_manager = angular.module('app.connection_manager', ['app.core', 'ui.router.state', 'restangular', 'config' ]);
 
   connection_manager.config(function ($stateProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
 

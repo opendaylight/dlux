@@ -20,9 +20,9 @@ define(['app/node/nodes.module'],function(node) {
     return factory;
   });
 
-  node.register.factory('NodeRestangular', function(Restangular) {
+  node.register.factory('NodeRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 

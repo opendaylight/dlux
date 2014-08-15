@@ -1,5 +1,5 @@
-define(['angularAMD', 'app/routingConfig','app/core/core.services', 'common/general/common.general.services'], function(ng) {
-  var container = angular.module('app.container', ['app.core', 'app.common.general','ui.router.state', 'restangular']);
+define(['angularAMD', 'app/routingConfig','app/core/core.services', 'common/general/common.general.services', 'common/config/env.module'], function(ng) {
+  var container = angular.module('app.container', ['app.core', 'app.common.general','ui.router.state', 'restangular', 'config']);
 
   container.config(function ($stateProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
 

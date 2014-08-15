@@ -1,8 +1,8 @@
 define(['app/network/network.module'], function(network) {
 
-  network.register.factory('NetworkRestangular', function(Restangular) {
+  network.register.factory('NetworkRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 

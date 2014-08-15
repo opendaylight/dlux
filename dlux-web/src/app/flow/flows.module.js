@@ -1,5 +1,6 @@
-define(['angularAMD', 'Restangular', 'app/routingConfig', 'common/general/finishRender.module', 'app/core/core.services', 'common/general/common.general.services'], function (ng) {
-  var flows = angular.module('app.flows', ['ui.router.state', 'app.core', 'restangular', 'app.common.finishRender','app.common.general']);
+define(['angularAMD', 'Restangular', 'app/routingConfig', 'common/general/finishRender.module', 'app/core/core.services',
+    'common/general/common.general.services', 'common/config/env.module'], function (ng) {
+  var flows = angular.module('app.flows', ['ui.router.state', 'app.core', 'restangular', 'app.common.finishRender','app.common.general', 'config']);
 
   flows.config(function($controllerProvider, $compileProvider, $provide, $stateProvider, $translateProvider, NavHelperProvider) {
     flows.register = {

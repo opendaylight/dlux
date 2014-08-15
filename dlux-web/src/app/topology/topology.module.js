@@ -1,6 +1,6 @@
-define(['angularAMD', 'app/routingConfig', 'app/core/core.services','Restangular'], function(ng) {
+define(['angularAMD', 'app/routingConfig', 'app/core/core.services','Restangular', 'common/config/env.module'], function(ng) {
 
-  var topology = angular.module('app.topology', ['ui.router.state','app.core','restangular']);
+  var topology = angular.module('app.topology', ['ui.router.state','app.core','restangular', 'config']);
 
   topology.config(function($stateProvider, $controllerProvider, $compileProvider, $provide, $translateProvider, NavHelperProvider) {
 

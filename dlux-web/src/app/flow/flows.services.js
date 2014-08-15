@@ -1,8 +1,8 @@
 define(['app/flow/flows.module'], function(flows) {
 
-  flows.register.factory('FlowRestangular', function(Restangular) {
+  flows.register.factory('FlowRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 
