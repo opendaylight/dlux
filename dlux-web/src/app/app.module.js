@@ -20,7 +20,8 @@ var module = [
   'app/yangui/yangui.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
-  'common/layout/layout.module']; //needed module
+  'common/layout/layout.module',
+  'common/env.config']; //needed module
 
 // The name of all angularjs module
 var e = [

@@ -6,8 +6,8 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-define(['angularAMD', 'app/routingConfig', 'Restangular', 'angular-translate-loader-static-files', 'app/core/core.services'], function(ng) {
-  var nodes = angular.module('app.nodes', ['app.core', 'ui.router.state', 'restangular']);
+define(['angularAMD', 'app/routingConfig', 'Restangular', 'angular-translate-loader-static-files', 'app/core/core.services', 'common/env.config'], function(ng) {
+  var nodes = angular.module('app.nodes', ['app.core', 'ui.router.state', 'restangular', 'config']);
 
   nodes.config(function($stateProvider, $compileProvider, $controllerProvider, $provide, NavHelperProvider, $translateProvider) {
     nodes.register = {

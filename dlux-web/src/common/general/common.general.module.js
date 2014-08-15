@@ -1,5 +1,5 @@
-define(['angularAMD', 'Restangular'], function(ng) {
-  var general = angular.module('app.common.general', ['restangular']);
+define(['angularAMD', 'Restangular', 'common/env.config'], function(ng) {
+  var general = angular.module('app.common.general', ['restangular', 'config']);
 
   general.config(function($controllerProvider, $compileProvider, $filterProvider, $provide) {
     general.register = {

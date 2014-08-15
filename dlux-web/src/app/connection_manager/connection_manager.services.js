@@ -1,8 +1,8 @@
 define(['app/connection_manager/connection_manager.module'], function(connection_manager) {
 
-  connection_manager.register.factory('ConnectionManagerRestangular', function(Restangular) {
+  connection_manager.register.factory('ConnectionManagerRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 

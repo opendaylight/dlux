@@ -1,5 +1,5 @@
-define(['angularAMD', 'app/routingConfig', 'app/core/core.services', 'Restangular'], function(ng) {
-  var network = angular.module('app.networking', ['ui.router.state','app.core','restangular']);
+define(['angularAMD', 'app/routingConfig', 'app/core/core.services', 'Restangular', 'common/env.config'], function(ng) {
+  var network = angular.module('app.networking', ['ui.router.state','app.core','restangular', 'config']);
 
   network.config(function ($stateProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
 
