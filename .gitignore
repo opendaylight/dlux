@@ -11,6 +11,7 @@ vendor/
 .classpath
 .project
 .settings/
+target-ide/
 
 # Intellij
 .idea/
