@@ -15,6 +15,7 @@
     <packaging>pom</packaging>
     <properties>
         <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
+	<loader.version>1.0.0-SNAPSHOT</loader.version>
         <loader.resources.version>0.0.1-SNAPSHOT</loader.resources.version>
         <core.resources.version>0.0.1-SNAPSHOT</core.resources.version>
         <node.resources.version>0.0.1-SNAPSHOT</node.resources.version>
