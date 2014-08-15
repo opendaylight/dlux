@@ -1,4 +1,4 @@
-define(['app/yangui/yangui.module', 'app/yangui/yangui.services'], function(yangui) {
+define(['app/yangui/yangui.module'], function(yangui) {
 
   yangui.register.controller('yanguiCtrl', ['$scope', '$http', 'YangUiRestangular', 'yangUtils', function ($scope, $http, Restangular, yangUtils) {
       $scope.currentPath = './assets/views/yangui';
