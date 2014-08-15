@@ -1,8 +1,8 @@
 define(['common/general/common.general.module'], function(general) {
 
-  general.factory('GeneralRestangular', function(Restangular) {
+  general.factory('GeneralRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 

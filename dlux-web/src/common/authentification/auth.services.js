@@ -8,7 +8,7 @@
 
 define(['common/authentification/auth.module'], function(auth) {
 
-  auth.factory('Auth', function($http, $window, $cookieStore, Base64){
+  auth.factory('Auth', function($http, $window, $cookieStore, Base64, ENV){
           var factory = {};
           // Set Authorization header to username + password
           factory.setBasic = function(user, pw) {
@@ -54,7 +54,7 @@ define(['common/authentification/auth.module'], function(auth) {
           };*/
           factory.login = function (user, pw, cb, eb) {
               factory.setBasic(user, pw);
-              $http.get("http://127.0.0.1:8080/controller/nb/v2/flowprogrammer/default")
+              $http.get(ENV.baseURL + "/controller/nb/v2/flowprogrammer/default")
                   .success(function (data, status, headers, config) {
                     cb(data);
                   })

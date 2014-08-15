@@ -6,8 +6,8 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-define(['angularAMD'], function(ng) {
-  var auth = angular.module('app.common.auth', []);
+define(['angularAMD', 'common/config/env.module'], function(ng) {
+  var auth = angular.module('app.common.auth', ['config']);
 
   auth.config(function($compileProvider, $controllerProvider, $provide) {
     auth.register = {

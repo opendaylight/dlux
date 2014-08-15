@@ -1,9 +1,9 @@
 define(['app/container/container.module', 'Restangular'], function(container) {
 
 
-  container.register.factory('ContainerRestangular', function(Restangular) {
+  container.register.factory('ContainerRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl('http://localhost:8080');
+      RestangularConfig.setBaseUrl(ENV.baseURL);
     });
   });
 

@@ -46,7 +46,8 @@
     "grunt-coffeelint": "0.0.8",
     "karma-requirejs": "~0.2.2",
     "grunt-shell": "~0.7.0",
-    "grunt-ng-annotate": "~0.3.2"
+    "grunt-ng-annotate": "~0.3.2",
+    "grunt-replace": "~0.7.8"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -25,11 +25,52 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-open');
+  grunt.loadNpmTasks('grunt-replace');
 
   /**
    * Load in our build configuration file.
    */
   var userConfig = require( './build.config.js' );
+
+  var envConfig = {
+
+      replace: {
+          development: {
+              options: {
+                  patterns: [
+                      {
+                          json: grunt.file.readJSON('./config/development.json')
+                      }
+                  ]
+              },
+              files: [
+                  {
+                      expand: true,
+                      flatten: true,
+                      src: ['./config/env.module.js'],
+                      dest: 'src/common/config/'
+                  }
+              ]
+          },
+          production: {
+              options: {
+                  patterns: [
+                      {
+                          json: grunt.file.readJSON('./config/production.json')
+                      }
+                  ]
+              },
+              files: [
+                  {
+                      expand: true,
+                      flatten: true,
+                      src: ['./config/env.module.js'],
+                      dest: 'src/common/config/'
+                  }
+              ]
+          }
+      }
+  }
 
   /**
    * This is the configuration object Grunt uses to give each plugin its 
@@ -569,7 +610,7 @@ module.exports = function ( grunt ) {
     }
   };
 
-  grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
+  grunt.initConfig( grunt.util._.extend( taskConfig, userConfig, envConfig ) );
 
   /**
    * In order to make it safe to just compile or copy *only* what was changed,
@@ -585,22 +626,24 @@ module.exports = function ( grunt ) {
   /**
    * The default task is to build and compile.
    */
-  grunt.registerTask( 'default', [ 'build', 'compile' ] );
+  grunt.registerTask( 'default', [ 'compile' ] );
 
   /**
    * The `build` task gets your app ready to run for development and testing.
    */
-  grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less:development',
-    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
+  grunt.registerTask( 'common', [
+      'clean', 'html2js', 'jshint', 'less:development',
+      'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+      'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
+
+  grunt.registerTask( 'build', ['replace:development', 'common']);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', ['build', 'ngAnnotate', 'shell:requirejs']);
+  grunt.registerTask( 'compile', ['replace:production', 'common', 'ngAnnotate', 'shell:requirejs']);
 
   /**
    * A utility function to get all app JavaScript sources.
