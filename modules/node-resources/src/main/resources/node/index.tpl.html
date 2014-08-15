@@ -1,0 +1,47 @@
+<!--
+ * Copyright (c) 2014 Cisco Systems, Inc. and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+
+<div class="form-group searchDiv">
+    <input class="form-control" ng-model="nodeSearch.id" placeholder="{{'SEARCH_NODES' | translate}}">
+</div>
+<table class="footable table">
+	<thead>
+      <tr>
+        <th>{{ 'NODE_ID' | translate }}</th>
+        <th data-hide="phone">{{ 'NODE_NAME' | translate }}</th>
+        <th>{{ 'NODE_CONNECTORS' | translate }}</th>
+        <th data-sort-ignore="true">{{ 'STATISTICS' | translate }}</th>
+      </tr>
+	</thead>
+	<tbody>
+	    <tr ng-hide="data.length > 1"><td colspan="4" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
+		<tr ng-repeat="item in data | filter:{id:'!config'} | filter:nodeSearch" node-table>
+        <td>{{item.id}}</td>
+        <td>{{item['flow-node-inventory:description']}}</td>
+        <td><a href="index.html#/node/{{item.id}}/detail">{{item['node-connector'].length}}</a></td>
+        <td>
+          <span ng-show="item.id!='controller-config'">
+            <a href="index.html#/node/{{item.id}}/flow-stat">{{ 'FLOWS' | translate }} </a><span style="color: #414042;">&nbsp;|&nbsp;</span>
+            <a href="index.html#/node/{{item.id}}/port-stat">{{ 'NODE_CONNECTORS' | translate }}</a>
+          </span>
+        </td>
+        <!--<td>
+        	<a class="row-delete" href="#">
+    			<i class="icon-remove"></i>
+			</a>
+		</td>-->
+      </tr>
+	</tbody>
+    <tfoot class="hide-if-no-paging">
+      <tr>
+        <td colspan="4">
+          <div class="pagination pagination-centered"></div>
+        </td>
+      </tr>
+    </tfoot>
+</table>
