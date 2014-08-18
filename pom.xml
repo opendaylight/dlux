@@ -15,9 +15,26 @@
     <packaging>pom</packaging>
     <properties>
         <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
+        <loader.resources.version>0.0.1-SNAPSHOT</loader.resources.version>
+        <core.resources.version>0.0.1-SNAPSHOT</core.resources.version>
+        <node.resources.version>0.0.1-SNAPSHOT</node.resources.version>
+        <connection_manager.resources.version>0.0.1-SNAPSHOT</connection_manager.resources.version>
+        <container.resources.version>0.0.1-SNAPSHOT</container.resources.version>
+        <flow.resources.version>0.0.1-SNAPSHOT</flow.resources.version>
+        <network.resources.version>0.0.1-SNAPSHOT</network.resources.version>
+        <topology.resources.version>0.0.1-SNAPSHOT</topology.resources.version>
+        <yangui.resources.version>0.0.1-SNAPSHOT</yangui.resources.version>
+	<common.authentication.resources.version>0.0.1-SNAPSHOT</common.authentication.resources.version>
+	<common.general.resources.version>0.0.1-SNAPSHOT</common.general.resources.version>
+	<common.navigation.resources.version>0.0.1-SNAPSHOT</common.navigation.resources.version>
+	<common.layout.resources.version>0.0.1-SNAPSHOT</common.layout.resources.version>
+	<common.topbar.resources.version>0.0.1-SNAPSHOT</common.topbar.resources.version>
+	<common.login.resources.version>0.0.1-SNAPSHOT</common.login.resources.version>
+	<common.yangutils.resources.version>0.0.1-SNAPSHOT</common.yangutils.resources.version>
     </properties>
     <name>DLUX</name>
     <modules>
+	<module>modules</module>
 	<module>dlux-web</module>
     </modules>
     <repositories>
