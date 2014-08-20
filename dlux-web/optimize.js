@@ -2,7 +2,7 @@
     appDir: "build/",
     mainConfigFile: "src/main.js",
     baseUrl: "src",
-    dir: "src/main/resources/pages",
+    dir: "target/generated-resources",
     removeCombined: true,
     findNestedDependencies: true,
     modules: [
