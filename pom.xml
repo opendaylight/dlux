@@ -19,6 +19,7 @@
     <name>DLUX</name>
     <modules>
 	<module>dlux-web</module>
+	<module>features</module>
     </modules>
     <repositories>
     <!-- Opendaylight public group -->
