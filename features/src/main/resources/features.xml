@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<features name="odl-dlux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+    <feature name='odl-dlux-all' version='${project.version}'>
+       <feature>odl-dlux-core</feature>
+    </feature>
+    <feature name='odl-dlux-core' version='${project.version}'>
+    	<feature>http</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux-web/${project.version}</bundle>
+    </feature>
+</features>
