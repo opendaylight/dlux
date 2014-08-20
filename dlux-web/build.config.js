@@ -8,7 +8,7 @@ module.exports = {
    * completely built.
    */
   build_dir: 'build',
-  compile_dir: 'src/main/resources/pages',
+  compile_dir: 'target/generated-resources',
   
   /**
    * This is a collection of file patterns that refer to our app code (the
