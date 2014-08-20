@@ -1,35 +1,16 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1403827803807
-Build-Jdk: 1.7.0_45
-Built-By: harmansingh
+Bnd-LastModified: 1409019497176
+Build-Jdk: 1.7.0_65
+Built-By: inocult
+Bundle-Activator: org.opendaylight.dlux.web.Activator
 Bundle-ManifestVersion: 2
-Bundle-Name: dlux-web
+Bundle-Name: DLUX - DLUX Static Web
 Bundle-SymbolicName: org.opendaylight.dlux.web
 Bundle-Version: 0.1.0.SNAPSHOT
 Created-By: Apache Maven Bundle Plugin
-Export-Package: org.opendaylight.dlux.web;version="0.1.0.SNAPSHOT"
-Import-Package: org.apache.commons.logging,org.springframework.util;vers
- ion="[3.1,4)",org.springframework.beans.factory.xml;version="[3.1,4)",j
- avax.servlet.jsp.tagext,javax.servlet.jsp.jstl.fmt,org.apache.taglibs.s
- tandard.resources,org.slf4j,javax.servlet.jsp.jstl.tlv,org.springframew
- ork.web;version="[3.1,4)",org.apache.taglibs.standard.functions,org.spr
- ingframework.web.servlet;version="[3.1,4)",org.apache.taglibs.standard.
- tag.rt.core,org.springframework.ui;version="[3.1,4)",javax.annotation,j
- avax.xml.transform,javax.servlet.jsp.el,javax.servlet.resources,javax.s
- ervlet.http,org.apache.catalina.filters,org.springframework.web.bind.an
- notation;version="[3.1,4)",javax.servlet.jsp,javax.naming,org.apache.ta
- glibs.standard.tag.rt.fmt,org.springframework.web.filter;version="[3.1,
- 4)",org.springframework.stereotype;version="[3.1,4)",com.fasterxml.jack
- son.core,org.springframework.beans;version="[3.1,4)",javax.servlet.anno
- tation,org.apache.taglibs.standard.tlv,org.springframework.web.servlet.
- view;version="[3.1,4)",org.springframework.core;version="[3.1,4)",javax
- .servlet,org.apache.taglibs.standard.tag.common.fmt,org.osgi.framework,
- org.apache.taglibs.standard.tag.common.core,org.apache.taglibs.standard
- .tei,org.springframework.context.config;version="[3.1,4)",org.springfra
- mework.web.servlet.config;version="[3.1,4)",org.springframework.web.con
- text;version="[3.1,4)",com.fasterxml.jackson.annotation,org.springframe
- work.web.servlet.view.json;version="[3.1,4)",javax.xml.parsers,com.fast
- erxml.jackson.databind,javax.servlet.jsp.jstl.core
+Export-Package: org.opendaylight.dlux.web;version="0.1.0.SNAPSHOT";uses:
+ ="org.osgi.framework"
+Import-Package: org.osgi.framework;version="[1.7,2)",org.osgi.service.ht
+ tp;version="[1.2,2)",org.osgi.util.tracker;version="[1.5,2)"
 Originally-Created-By: Apache Maven Bundle Plugin
 Tool: Bnd-2.1.0.20130426-122213
-Web-ContextPath: /dlux
