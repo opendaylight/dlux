@@ -1,0 +1,6 @@
+<div ng-controller="leafListCtrl" class="simpleContainer leaflist" ng-show='node.isFilled()'>
+    <button class="btn btn-orange ng-scope btn-slim">{{node.localeLabel | translate}}</button>
+    <div class="leafListValue" ng-repeat="elem in node.value">
+        <span class="block"><strong>{{elem.value}}</strong></span>
+    </div>
+</div>

@@ -67,7 +67,10 @@
   </typedef>
   <grouping name="common-port">
     <leaf name="port-number">
-      <type name="uint32"/>
+      <type name="union">
+        <type name="uint32"/>
+        <type name="string"/>
+      </type>
     </leaf>
     <leaf name="hardware-address">
       <type name="yang:mac-address"/>

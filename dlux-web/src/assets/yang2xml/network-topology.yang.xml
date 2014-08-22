@@ -173,9 +173,15 @@ to provide room for augmentations, e.g. for
 statistics or priorization information associated with
 supporting nodes.</text>
       </description>
-      <key value="node-ref"/>
+      <key value="node-ref node-name"/>
       <leaf name="node-ref">
         <type name="node-ref"/>
+      </leaf>
+      <leaf name="node-name">
+        <type name="node-name"/>
+      </leaf>
+      <leaf name="node-type">
+        <type name="node-type"/>
       </leaf>
     </list>
   </grouping>

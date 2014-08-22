@@ -1,7 +1,8 @@
-define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','ui-bootstrap', 'Restangular'], function() {
+define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','ui-bootstrap', 'Restangular', 'angular-translate'], function() {
 
-  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular']);
+  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate']);
 
+  yangui.register = yangui;
 
   yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
 

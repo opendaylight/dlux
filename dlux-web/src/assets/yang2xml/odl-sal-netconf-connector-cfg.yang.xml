@@ -6,7 +6,9 @@
         xmlns:th="urn:opendaylight:params:xml:ns:yang:controller:threadpool"
         xmlns:netty="urn:opendaylight:params:xml:ns:yang:controller:netty"
         xmlns:dom="urn:opendaylight:params:xml:ns:yang:controller:md:sal:dom"
-        xmlns:cfg-net="urn:opendaylight:params:xml:ns:yang:controller:config:netconf">
+        xmlns:md-sal-binding="urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding"
+        xmlns:cfg-net="urn:opendaylight:params:xml:ns:yang:controller:config:netconf"
+        xmlns:inet="urn:ietf:params:xml:ns:yang:ietf-inet-types">
   <yang-version value="1"/>
   <namespace uri="urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf"/>
   <prefix value="sal-netconf"/>
@@ -23,9 +25,17 @@
   <import module="opendaylight-md-sal-dom">
     <prefix value="dom"/>
   </import>
+  <import module="opendaylight-md-sal-binding">
+    <prefix value="md-sal-binding"/>
+    <revision-date date="2013-10-28"/>
+  </import>
   <import module="odl-netconf-cfg">
     <prefix value="cfg-net"/>
     <revision-date date="2014-04-08"/>
+  </import>
+  <import module="ietf-inet-types">
+    <prefix value="inet"/>
+    <revision-date date="2010-09-24"/>
   </import>
   <description>
     <text>Service definition for Binding Aware MD-SAL.</text>
@@ -51,10 +61,10 @@
     <case name="sal-netconf-connector">
       <when condition="/config:modules/config:module/config:type = 'sal-netconf-connector'"/>
       <leaf name="address">
-        <type name="string"/>
+        <type name="inet:host"/>
       </leaf>
       <leaf name="port">
-        <type name="uint32"/>
+        <type name="inet:port-number"/>
       </leaf>
       <leaf name="tcp-only">
         <type name="boolean"/>
@@ -73,28 +83,32 @@
           </refine>
         </uses>
       </container>
-      <container name="boss-thread-group">
+      <container name="binding-registry">
         <uses name="config:service-ref">
           <refine target-node="type">
-            <mandatory value="false"/>
-            <config:required-identity name="netty:netty-threadgroup"/>
-          </refine>
-        </uses>
-      </container>
-      <container name="worker-thread-group">
-        <uses name="config:service-ref">
-          <refine target-node="type">
-            <mandatory value="false"/>
-            <config:required-identity name="netty:netty-threadgroup"/>
+            <mandatory value="true"/>
+            <config:required-identity name="md-sal-binding:binding-broker-osgi-registry"/>
           </refine>
         </uses>
       </container>
       <container name="event-executor">
         <uses name="config:service-ref">
           <refine target-node="type">
+            <mandatory value="true"/>
             <config:required-identity name="netty:netty-event-executor"/>
           </refine>
         </uses>
+      </container>
+      <container name="processing-executor">
+        <uses name="config:service-ref">
+          <refine target-node="type">
+            <mandatory value="true"/>
+            <config:required-identity name="th:threadpool"/>
+          </refine>
+        </uses>
+        <description>
+          <text>Makes up for flaws in netty threading design</text>
+        </description>
       </container>
       <container name="client-dispatcher">
         <uses name="config:service-ref">
@@ -120,10 +134,16 @@
       </leaf>
       <leaf name="between-attempts-timeout-millis">
         <description>
-          <text>Timeout in milliseconds to wait between connection attempts.</text>
+          <text>Initial timeout in milliseconds to wait between connection attempts. Will be multiplied by sleep-factor with every additional attempt</text>
         </description>
         <type name="uint16"/>
-        <default value="10000"/>
+        <default value="2000"/>
+      </leaf>
+      <leaf name="sleep-factor">
+        <type name="decimal64">
+          <fraction-digits value="1"/>
+        </type>
+        <default value="1.5"/>
       </leaf>
     </case>
   </augment>

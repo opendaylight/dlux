@@ -1,8 +1,8 @@
 <div ng-controller="choiceCtrl" class="simpleContainer">
-    <span>{{parentNode.localeLabel | translate}}</span>
-    <select class="form-control input-sm" style="width:300px" ng-model="parentNode.choice" ng-options="node.label for node in parentNode.children">
+    <span>{{node.localeLabel | translate}}</span>
+    <select class="form-control input-sm" style="width:300px" ng-model="node.choice" ng-options="node.label for node in node.children">
         <option value="">-</option>
     </select>
     <br>
-    <div ng-repeat="node in parentNode.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" ng-show="parentNode.choice.id === node.id" >
+    <div ng-repeat="case in node.children" ng-include="currentPath+'/'+case.type+'.tpl.html'" ng-show="node.choice.id === case.id" ></div>
 <div>

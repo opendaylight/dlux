@@ -1,0 +1,6 @@
+<div ng-controller="choiceCtrl" class="simpleContainer" ng-show='node.isFilled()'>
+    <span>{{node.localeLabel | translate}}</span>
+    <span><strong>{{node.choice.label}}</strong></span>
+    <br>
+    <div ng-repeat="case in node.children | filter:filterNodes" ng-include="currentPath+'/operational/'+case.type+'.tpl.html'" ng-show="node.choice.id === case.id" ></div>
+<div>

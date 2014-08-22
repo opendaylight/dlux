@@ -1,0 +1,4 @@
+<div ng-controller="rpcCtrl" class="simpleContainer" ng-show='node.isFilled()'>
+    <span><b>{{node.localeLabel | translate}}</b></span>
+    <div ng-repeat="node in node.children | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'">
+</div>
