@@ -26,6 +26,10 @@
     <base name="config:service-type"/>
     <config:java-class name="org.opendaylight.controller.sal.binding.api.data.DataProviderService"/>
   </identity>
+  <identity name="binding-async-data-broker">
+    <base name="config:service-type"/>
+    <config:java-class name="org.opendaylight.controller.md.sal.binding.api.DataBroker"/>
+  </identity>
   <identity name="binding-data-consumer-broker">
     <base name="config:service-type"/>
     <config:java-class name="org.opendaylight.controller.sal.binding.api.data.DataBrokerService"/>
