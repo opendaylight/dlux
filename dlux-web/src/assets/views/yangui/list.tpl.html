@@ -1,11 +1,25 @@
 <div ng-controller="listCtrl" class="simpleContainer">
-    
-    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='addListElem()'><i class="icon-plus-sign"></i> {{ 'ADD_ELEM' | translate }}</button>
-    <button ng-repeat="elem in parentNode.listElems" class="btn {'btn-default': elem === parentNode.actElement} {'btn-orange': elem !== parentNode.actElement} add-row  ng-scope btn-slim" style="margin-right: 5px" ng-click="setActElement(elem)">
-        {{elem.localeLabel | translate}}
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='addListElem()'>
+        <i class="icon-plus-sign"></i> 
+        {{ 'ADD_ELEM' | translate }} {{node.localeLabel | translate}}
     </button>
-    <div ng-repeat="elem in parentNode.listElems" class="simpleContainer" ng-show='elem === parentNode.actElement'>
-        <button class="btn btn-md btn-danger floatRight btn-slim" ng-click='removeListElem(elem)'><i class="icon-remove-sign"></i> {{ 'REMOVE_ELEM' | translate }}</button>
-        <div ng-repeat="node in elem.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" >
+    <button ng-repeat="_ in node.listData track by $index" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} 
+        {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+        {{node.localeLabel | translate}}{{node.createListName($index)}}
+    </button>
+
+    <div class="clear"></div>
+    <button class="btn add-row btn-orange ng-scope btn-slim mt10" ng-click='toggleExpanded()'>
+        <i class="icon-caret-down" ng-show="node.expanded"></i>
+        <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        {{ node.expanded ? 'HIDE' : 'SHOW' | translate }}
+    </button>
+
+    <div class="simpleContainer" ng-if="node.actElemStructure" ng-show="node.expanded">
+        <button class="btn btn-md btn-danger floatRight btn-slim" ng-click='removeListElem(elem)'>
+            <i class="icon-remove-sign"></i> 
+            {{ 'REMOVE_ELEM' | translate }}
+        </button>
+        <div ng-repeat="node in node.actElemStructure.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" ></div>
     </div>
 </div>
