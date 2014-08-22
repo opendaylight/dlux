@@ -20,12 +20,7 @@ define(['app/topology/topology.module', 'd3', 'vis'], function(topology) {
                   var inEdges = $scope.topologyData.links;
                   var container = iElm[0];
 
-                  // legend
-                  var x = - container.clientWidth / 2 + 50;
-                  var y = - container.clientHeight / 2 + 50;
-                  var step = 30;
-                  inNodes.push({id: 1001, x: x, y: y + step, label: 'Switch', group: 'switch',value:20});
-                  inNodes.push({id: 1003, x: x, y: y + 3 * step, label: 'Host', group: 'host',value:20});
+                  // legend moved to topology controller
 
                   var data = {
                       nodes: inNodes,

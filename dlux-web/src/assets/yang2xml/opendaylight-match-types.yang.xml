@@ -319,6 +319,25 @@
       <uses name="mac-address-filter"/>
     </container>
   </grouping>
+  <grouping name="tcp-flag-match-fields">
+    <leaf name="tcp-flag">
+      <type name="uint16"/>
+    </leaf>
+  </grouping>
+  <grouping name="tunnel-ipv4-match-fields">
+    <leaf name="tunnel-ipv4-source">
+      <description>
+        <text>IPv4 source tunnel endpoint address.</text>
+      </description>
+      <type name="inet:ipv4-prefix"/>
+    </leaf>
+    <leaf name="tunnel-ipv4-destination">
+      <description>
+        <text>IPv4 destination tunnel endpoint address.</text>
+      </description>
+      <type name="inet:ipv4-prefix"/>
+    </leaf>
+  </grouping>
   <grouping name="match">
     <leaf name="in-port">
       <type name="inv:node-connector-id"/>
@@ -359,6 +378,9 @@
       <case name="arp-match">
         <uses name="arp-match-fields"/>
       </case>
+      <case name="tunnel-ipv4-match">
+        <uses name="tunnel-ipv4-match-fields"/>
+      </case>
     </choice>
     <choice name="layer-4-match">
       <case name="udp-match">
@@ -379,6 +401,9 @@
     </container>
     <container name="protocol-match-fields">
       <uses name="protocol-match-fields"/>
+    </container>
+    <container name="tcp-flag-match">
+      <uses name="tcp-flag-match-fields"/>
     </container>
   </grouping>
 </module>

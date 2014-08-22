@@ -1,11 +1,12 @@
-/*
- * Copyright (c) 2014 Cisco Systems, Inc. and others.  All rights reserved.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- */
-
+.topologyContainer {
+    position: fixed;
+    width: 1000px;
+    height: 800px;
+    top: 150px;
+    right: 100px;
+    z-index: 1100;
+    overflow: hidden;
+}
 
 .simpleContainer {
     border: 1px solid #7a7a7a;
@@ -63,3 +64,190 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.btn-red {
+    background: red;
+}
+
+.btn-selected {
+    background: rgb(255,69,0);
+}
+
+/* --------------------------------------------------------------------------------- COMMON OWN RULES */
+.left{ float: left;}
+.right{ float: right;}
+.clear{ clear: both; float: none!important;}
+.outline{ outline: 0 none;}
+.block{ display: block;}
+.blockNone{ display: none;}
+.inlineBlock {
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+.classicLink{
+    .outline;
+    text-decoration: none;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+.mt10{margin-top: 10px;}
+/* --------------------------------------------------------------------------------- COMMON OWN RULES - END */
+
+
+
+
+/* --------------------------------------------------------------------------------- YANG UI */
+.leaflist{
+    .leafListValue{
+        margin-top: 5px;
+        input[type=text], button{
+            .inlineBlock;
+        }
+        input[type=text]{
+            width: 20%;
+        }
+        button{
+            margin-top: 4px;
+            margin-left: 5px;
+        }
+    }
+}
+
+.selSubApiPath{
+    &.is-sticky{
+        width: 100%;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        padding-left: 270px;
+        right: 0;
+        padding-right: 20px;
+        z-index: 100;
+        div.in{
+            border: 1px solid #7a7a7a;
+            -webkit-border-radius: 0 0 5px 5px;
+            border-radius: 0 0 5px 5px;
+            background: #414042;
+            padding-left: 15px;
+        }
+    }
+    input[type="text"]{
+        width: 150px;
+        display: inline!important;
+    }
+    div.in{
+        padding: 10px;
+    }
+}
+/* --------------------------------------------------------------------------------- YANG UI - END */
+
+
+
+
+
+/* --------------------------------------------------------------------------------- YANG UI TREE */
+ul.tree,
+ul.tree ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+ul.tree ul {
+  margin-left:10px; /* indentation */
+  position:relative;
+}
+
+ul.tree ul:before {
+  content:"";
+  display:block;
+  width:0;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  border-left:1px solid;
+}
+
+ul.tree li {
+  margin:0;
+  padding:0 12px; /* indentation + 2 */
+  font-size:14px;
+  line-height:20px; /* default list item `line-height` */
+  color:#369;
+  font-weight:bold;
+  position:relative;
+}
+
+ul.tree ul li:before {
+  content:"";
+  display:block;
+  width:10px; /* same with indentation */
+  height:0;
+  border-top:1px solid;
+  position:absolute;
+  top:10px;
+  left:0;
+}
+
+ul.tree ul li:last-child:before {
+  background:white; /* same with body background */
+  height:auto;
+  top:10px; /* (line-height/2) */
+  bottom:0;
+}
+
+.listContainer{
+  position: relative;
+}
+
+.listModal{
+  position: absolute;
+  top: 0px;
+  margin: 0 0 0 20px!important;
+  left: 100%;
+  background: #393939;
+  max-height: 200px;
+  overflow-y: scroll;
+  z-index: 20;
+  li{
+    margin: 5px 0;
+  }
+  ul{
+    padding: 0 10px;
+  }
+  button.close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #C4C4C4;
+  }
+}
+
+.topologyContainer{
+  background: #393939;
+  border: 1px solid #7a7a7a;
+  border-radius: 5px;
+  padding: 20px;
+  z-index: 15;
+  button.close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #C4C4C4;
+  }
+  .graph-frame{
+    width: 100%!important;
+  }
+}
+
+.modalWrapper{
+  position: relative;
+  .inlineBlock;
+}
+
+/* --------------------------------------------------------------------------------- YANG UI TREE - END */

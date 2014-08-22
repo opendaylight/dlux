@@ -46,6 +46,9 @@
       </case>
     </choice>
   </grouping>
+  <container name="action-types">
+    <uses name="action-list"/>
+  </container>
   <grouping name="action-list">
     <list name="action">
       <key value="order"/>

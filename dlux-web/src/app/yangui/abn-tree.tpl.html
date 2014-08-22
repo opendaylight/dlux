@@ -1,0 +1,18 @@
+<div>
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='expand_collapse_all_items()'>
+        <i class="icon-caret-down" ng-show="expandedTree"></i>
+        <i class="icon-caret-right" ng-show="!expandedTree"></i>
+        {{ expandedTree ? "Collapse all" : "Expand all" }}
+    </button>
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='collapse_others()'>
+        Collapse others
+    </button>
+    <ul class="nav nav-list nav-pills nav-stacked abn-tree">
+        <li ng-repeat="row in tree_rows | filter:{visible:true} track by row.branch.uid" ng-animate="'abn-tree-animate'" ng-class="'level-' + {{ row.level }} + (row.branch.selected ? ' active':'')" class="abn-tree-row">
+            <a ng-click="user_clicks_branch(row.branch)">
+                <i ng-class="row.tree_icon" ng-click="row.branch.expanded = !row.branch.expanded" class="indented tree-icon"></i>
+                <span ng-click="" class="indented tree-label">{{ row.label }} {{ row.branch.identifier }}</span>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,11 @@
+<div ng-controller="containerCtrl" class="simpleContainer" ng-show='node.isFilled()'>
+    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='toggleExpanded()'>
+        <i class="icon-caret-down" ng-show="node.expanded"></i>
+        <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        {{node.localeLabel | translate}}
+    </button>
+    <div ng-show="node.expanded">
+        <div ng-repeat="node in node.children | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'"></div>
+    </div>
+    
+</div>

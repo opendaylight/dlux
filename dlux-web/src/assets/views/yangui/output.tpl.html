@@ -1,0 +1,4 @@
+<div ng-controller="outputCtrl" class="simpleContainer">
+    <span><b>{{node.localeLabel | translate}}</b></span>
+    <div ng-repeat="node in node.children" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+</div>

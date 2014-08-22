@@ -1,108 +1,41 @@
-<!--
-* Copyright (c) 2014 Cisco Systems, Inc. and others.  All rights reserved.
-*
-* This program and the accompanying materials are made available under the
-* terms of the Eclipse Public License v1.0 which accompanies this distribution,
-* and is available at http://www.eclipse.org/legal/epl-v10.html
--->
 <div>
   <pre ng-class="'previewContainer'" ng-show="previewVisible">{{previewValue}}</pre>
+  <div ng-show='topologyData.nodes.length > 0' class='topologyContainer'>
+    <!-- <button class="btn add-row btn-orange ng-scope" ng-click="clearTopologyData()" >Exit topology view</button> -->
+    <button class="close" ng-click="clearTopologyData()">&times;</button>
+    <topology-simple topology-data="topologyData"></topology-simple>
+  </div>
 
-  
-  
   <div class="simpleContainer">
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th class="leaf-input"></th>
-        <th></th>
-        <th class="leaf-input"></th>
-        <th></th>
-        <th class="leaf-input"></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr>
-        <td>
-          <span>Host:</span>
-        </td>
-        <td>
-          <input class="form-control input-sm" type="text" ng-model="host">
-        </td>
-        <td>
-          <span>Port:</span>
-        </td>
-        <td>
-          <input class="form-control input-sm" type="text" ng-model="port">
-        </td>
-        <td>
-          <button class="btn mc
-          cmdadd-row btn-orange ng-scope" ng-click="loadController()">Reload</button>
-        </td>
-      </tr> -->
-      <tr>
-        <td>
-          <span>{{ 'MODULE' | translate }}</span>
-        </td>
-        <td>
-          <select class="form-control col-md-4" id="idModulesSelection" ng-model="selModule" ng-options="node.module for node in nodeModules" ng-change="preview()" >
-            <option value="">-</option>
-          </select>
-        </td>
-        <!-- <td>
-          <span>{{ 'MODULE_API' | translate }}</span>
-        </td>
-        <td>
-          <select class="form-control col-md-4" id="idModuleAPIsSelection" ng-model="selApi" ng-options="api.name for api in moduleAPIs" ng-change="getAPIs()">
-            <option value="">-</option>
-          </select>
-        </td> -->
-        <!-- <td>
-          <button class="btn add-row btn-orange ng-scope" ng-click="getAPIs()" >{{ 'GET_APIS' | translate }}</button>
-        </td> -->
-      <!-- </tr>
-      <tr> -->
-        <td>
-          <span>{{ 'DEVICE' | translate }}</span>
-        </td>
-        <td>
-          <select class="form-control col-md-4" id="idDeviceSelection" ng-model="selDevice" ng-options="device for device in devices" ng-change="getData()">
-            <option value="">-</option>
-          </select>
-        </td>
-        <td>
-          <span>{{ 'ENTRY' | translate }}</span>
-        </td>
-        <td>
-          <select class="form-control col-md-4" id="idFlowSelection" ng-model="selFlow" ng-options="flow.label for flow in flows">
-            <option value="">-</option>
-          </select>
-        </td>
-        <td>
-          <button class="btn add-row btn-orange ng-scope" ng-click="getData()" popover-trigger="mouseenter" popover="{{ 'RELOAD_FLOWS' | translate }}"><i class="icon-refresh"></i></button>
-          <button class="btn add-row btn-orange ng-scope" ng-click="fill()" popover-trigger="mouseenter" popover="{{ 'EDIT_FLOW' | translate }}"><i class="icon-edit"></i></button>
-          <button class="btn btn-md btn-danger" ng-click="delete()" popover-trigger="mouseenter" popover="{{ 'DELETE_FLOW' | translate }}"><i class="icon-trash"></i></button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span>{{ 'SHOW_PREVIEW' | translate }}</span>
-        </td>
-        <td>
-          <input type="checkbox" ng-model="showPreview" ng-change="preview()">
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div>
+      <span>{{ 'MODULE' | translate }}</span>
+
+      <abn-tree tree-data="treeApis" on-select="setApiNode(branch)"></abn-tree>
+    </div>
+    
+    <div sticky class="selSubApiPath">
+      <div class="in">
+        <span ng-repeat="pathElem in selSubApi.pathArray">{{'/'+pathElem.name}}
+          <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control input-small" ng-model="pathElem.identifierValue"></input></span>
+        </span>
+        <button ng-repeat="operation in selSubApi.operations" class="btn add-row btn-orange btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
+        <button ng-repeat="custFunct in selSubApi.custFunct" class="btn add-row btn-orange btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{custFunct.label}}</button>
+      </div>
+    </div>
+    
+    <div>
+      <span>{{ 'SHOW_PREVIEW' | translate }}</span>
+      <input type="checkbox" ng-model="showPreview" ng-change="preview()">
+    </div>
   </div>
 
-  <button class="btn add-row btn-orange ng-scope" ng-click="clear()"><i class="icon-stop"></i> {{ 'CLEAR_INPUTS' | translate }}</button>
-  <button class="btn add-row btn-orange ng-scope" ng-click="send()"><i class="icon-download-alt"></i> {{ 'SEND_REQUEST' | translate }}</button>
-  <br><br>
-  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b>{{status.msg | translate }}</b></alert>
+  <!-- <button class="btn add-row btn-orange ng-scope" ng-click="getAPIs()" >Export locales</button> -->
+  <br>
+
+  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert>
+
   <div class="form-inline">
-    <div ng-repeat="node in nodeModules" ng-include src="currentPath+'/'+node.type+'.tpl.html'" ng-show="node.module === selModule.module"></div>
+    <div ng-if="node" ng-include src="currentPath+'/'+ apiType + node.type+'.tpl.html'"></div>
   </div>
+
 </div>
