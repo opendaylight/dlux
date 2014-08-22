@@ -1,0 +1,21 @@
+<div ng-controller="leafListCtrl" class="customContainer leaflist {{ node.expanded ? '' : 'withoutBorder' }}">
+    <div class="topContainerPart">
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='toggleExpanded()'>
+            <i class="icon-caret-down" ng-show="node.expanded"></i>
+            <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        </button>
+        <button class="btn add-row btn-orange ng-scope btn-slim">
+            {{node.localeLabel | translate}}
+        </button>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='addListElem()' title="{{ 'LEAF_LIST_ADD_ELEM' | translate }}">
+            <i class="icon-plus-sign"></i> 
+        </button>
+    </div>
+
+    <div class="leafListValue" ng-repeat="elem in node.value" ng-show="node.expanded">
+        <input type="text" class="leaf-list-value form-control input-small" ng-model="elem.value" ng-change="changed()" />
+        <button class="btn btn-md btn-danger btn-slim" ng-click='removeListElem(elem)'><i class="icon-remove-sign"></i> {{ 'REMOVE_ELEM' | translate }}</button>
+    </div>
+
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+</div>

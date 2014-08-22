@@ -1,0 +1,17 @@
+<div ng-controller="outputCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+    <div class="topContainerPart">
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='toggleExpanded()'>
+            <i class="icon-caret-down" ng-show="node.expanded"></i>
+            <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        </button>
+        <span><b>{{node.localeLabel | translate}}</b></span>
+    </div>
+
+    <div ng-show="node.expanded">
+        <div ng-repeat="node in node.children" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'">
+        </div>
+    </div>
+
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+
+</div>

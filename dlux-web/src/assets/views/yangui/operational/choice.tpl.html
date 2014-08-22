@@ -1,0 +1,14 @@
+<div ng-controller="choiceCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+    <div class="topContainerPart">
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='toggleExpanded()'>
+            <i class="icon-caret-down" ng-show="node.expanded"></i>
+            <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        </button>
+        <span>{{node.localeLabel | translate}}</span>
+        <span><strong>{{node.choice.label}}</strong></span>
+    </div>
+
+    <div ng-repeat="case in node.children | filter:filterNodes" ng-include="currentPath+'/operational/'+case.type+'.tpl.html'" ng-show="node.choice.id === case.id && node.expanded" ></div>
+
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+<div>

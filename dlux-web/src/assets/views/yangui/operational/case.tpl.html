@@ -1,0 +1,3 @@
+<div ng-controller="caseCtrl" ng-show="case.isFilled() && !empty">
+    <div ng-repeat="node in case.children | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" ></div>
+</div>

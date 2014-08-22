@@ -1,11 +1,68 @@
-<div ng-controller="listCtrl" class="simpleContainer">
+<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
+    <div class="topContainerPart">
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='toggleExpanded()'>
+            <i class="icon-caret-down" ng-show="node.expanded"></i>
+            <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        </button>
+        <button class="btn-slim btn-name inlineBlock">
+            {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
+        </button>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='addListElem()' title="{{ 'LIST_ADD_ELEM' | translate }}">
+            <i class="icon-plus-sign"></i> 
+            <!-- {{ 'ADD_ELEM' | translate }} {{node.localeLabel | translate}} -->
+        </button>
+
+        <div class="modalWrapper">
+            <button ng-click="showModalWin()" ng-show="node.listData.length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+                <i class="icon-list"></i>
+            </button>
+            <div class="listModal simpleContainer" ng-show="showModal && node.listData.length > 0">
+                <button class="close" ng-click="showModalWin()">&times;</button>
+                <div class="listWrapper">
+                    <ul>
+                        <li ng-repeat="_ in node.listData" class="pr30">
+                            <button class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                                {{node.localeLabel | translate}}&nbsp;{{node.createListName($index) || '[' + $index + ']'}}
+                            </button>
+                            <button class="left btn btn-md btn-danger btn-slim btn-show-custom btn-remove" ng-click='removeListElem($index)'>
+                                <i class="icon-remove-sign"></i> 
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="listItemWrapper">
+            <button ng-click="shiftDisplayPrev()" ng-show="showPrevButton()" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+                <i class="icon-circle-arrow-left"></i>
+            </button>
+            <div class="listButtonWrapper" ng-repeat="offset in displayOffsets" ng-if="currentDisplayIndex + offset > -1 && node.listData.length > currentDisplayIndex + offset">
+                <button  class="btn listElemButton add-row btn-orange {{ (currentDisplayIndex + offset === node.actElemIndex ? 'btn-selected':'') }} ng-scope btn-slim" ng-click="node.changeActElementData(currentDisplayIndex + offset)">
+                    {{ node.localeLabel | translate}}&nbsp;{{node.createListName(currentDisplayIndex + offset) || '[' + (currentDisplayIndex + offset) + ']'}}
+                </button>
+                <button class="btn btn-md btn-danger btn-slim btn-show-custom" ng-click='removeListElem(currentDisplayIndex + offset)'>
+                    <i class="icon-remove-sign"></i> 
+                </button>
+            </div>
+            <button ng-click="shiftDisplayNext()"  ng-show="showNextButton()" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+                <i class="icon-circle-arrow-right"></i>
+            </button>
+        </div>
+
+        
     
-    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='addListElem()'><i class="icon-plus-sign"></i> {{ 'ADD_ELEM' | translate }}</button>
-    <button ng-repeat="elem in parentNode.listElems" class="btn {'btn-default': elem === parentNode.actElement} {'btn-orange': elem !== parentNode.actElement} add-row  ng-scope btn-slim" style="margin-right: 5px" ng-click="setActElement(elem)">
-        {{elem.localeLabel | translate}}
-    </button>
-    <div ng-repeat="elem in parentNode.listElems" class="simpleContainer" ng-show='elem === parentNode.actElement'>
-        <button class="btn btn-md btn-danger floatRight btn-slim" ng-click='removeListElem(elem)'><i class="icon-remove-sign"></i> {{ 'REMOVE_ELEM' | translate }}</button>
-        <div ng-repeat="node in elem.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" >
     </div>
+
+    <!-- <button ng-repeat="_ in node.listData track by $index" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} 
+        {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+        {{node.localeLabel | translate}}{{node.createListName($index)}}
+    </button> -->
+
+    <div ng-if="node.actElemStructure" ng-show="node.expanded">
+        <div ng-repeat="node in node.actElemStructure.children" ng-include="currentPath+'/'+node.type+'.tpl.html'" ></div>
+    </div>
+
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+
 </div>

@@ -253,7 +253,7 @@ the NETCONF server and related information.</text>
           </description>
         </leaf>
         <container name="locks">
-          <presence value="This container is present only if the datastore&#13;&#10;is locked."/>
+          <presence value="This container is present only if the datastore&#10;is locked."/>
           <description>
             <text>The NETCONF &lt;lock&gt; and &lt;partial-lock&gt; operations allow
 a client to lock specific resources in a datastore.  The

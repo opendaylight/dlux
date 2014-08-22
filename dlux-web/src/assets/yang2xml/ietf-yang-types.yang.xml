@@ -263,28 +263,6 @@ to the OBJECT IDENTIFIER type of the SMIv2.</text>
       <text>RFC 2578: Structure of Management Information Version 2 (SMIv2)</text>
     </reference>
   </typedef>
-  <typedef name="yang-identifier">
-    <type name="string">
-      <length value="1..max"/>
-      <pattern value="[a-zA-Z_][a-zA-Z0-9\-_.]*"/>
-      <pattern value=".|..|[^xX].*|.[^mM].*|..[^lL].*"/>
-    </type>
-    <description>
-      <text>A YANG identifier string as defined by the 'identifier'
-rule in Section 12 of RFC 6020.  An identifier must
-start with an alphabetic character or an underscore
-followed by an arbitrary sequence of alphabetic or
-numeric characters, underscores, hyphens, or dots.
-
-A YANG identifier MUST NOT start with any possible
-combination of the lowercase or uppercase character
-sequence 'xml'.</text>
-    </description>
-    <reference>
-      <text>RFC 6020: YANG - A Data Modeling Language for the Network
-          Configuration Protocol (NETCONF)</text>
-    </reference>
-  </typedef>
   <typedef name="date-and-time">
     <type name="string">
       <pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]\d{2}:\d{2})"/>

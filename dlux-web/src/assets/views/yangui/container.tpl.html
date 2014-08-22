@@ -1,11 +1,17 @@
-<div ng-controller="containerCtrl" class="simpleContainer">
-    <button class="btn add-row btn-orange ng-scope btn-slim" ng-click='toggleExpanded()'>
-        <i class="icon-caret-down" ng-show="parentNode.expanded"></i>
-        <i class="icon-caret-right" ng-show="!parentNode.expanded"></i>
-        {{parentNode.localeLabel | translate}}
-    </button>
-    <div ng-show="parentNode.expanded">
-        <div ng-repeat="node in parentNode.children" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+<div ng-controller="containerCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}">
+    <div class="topContainerPart">
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='toggleExpanded()'>
+            <i class="icon-caret-down" ng-show="node.expanded"></i>
+            <i class="icon-caret-right" ng-show="!node.expanded"></i>
+        </button>
+        <button class="btn-name btn-slim">
+            {{node.localeLabel | translate}}
+        </button>
+    </div>
+
+    <div ng-show="node.expanded">
+        <div ng-repeat="node in node.children" ng-include="currentPath+'/'+node.type+'.tpl.html'">
     </div>
     
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
 </div>
