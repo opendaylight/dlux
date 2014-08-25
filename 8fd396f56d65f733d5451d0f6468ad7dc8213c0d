@@ -16,6 +16,24 @@
       "revId": "8fd396f56d65f733d5451d0f6468ad7dc8213c0d",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_b7c2f031",
+        "filename": "dlux-web/config/production.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-25T18:19:49Z",
+      "side": 1,
+      "message": "So, production model gets triggered, when we do maven clean install, by default its blank, which makes sure that when jar file is deployed in OSGi, javascript can still makes call with relative URL. dlux user does not have to know abt server IP.\nHowever, if they want to specify this URL, they can always update Json file.\n\nI am adding all this in documentation",
+      "parentUuid": "fa82b9bf_77b9c8ca",
+      "revId": "8fd396f56d65f733d5451d0f6468ad7dc8213c0d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
