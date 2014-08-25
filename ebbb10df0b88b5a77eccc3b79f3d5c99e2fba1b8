@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_f7b2b892",
+        "filename": "dlux-web/src/app/yangui/abn_tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-25T22:09:03Z",
+      "side": 1,
+      "message": "can we use something else to show message than plain alerts?",
+      "revId": "ebbb10df0b88b5a77eccc3b79f3d5c99e2fba1b8",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_d7a3f440",
+        "filename": "dlux-web/src/app/yangui/yangui.services.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-25T22:09:03Z",
+      "side": 1,
+      "message": "Use the baseURL from common config, like used in other modules like node, topology etc. code has been merged already",
+      "revId": "ebbb10df0b88b5a77eccc3b79f3d5c99e2fba1b8",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
