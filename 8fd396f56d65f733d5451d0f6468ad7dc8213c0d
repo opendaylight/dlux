@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_77b9c8ca",
+        "filename": "dlux-web/config/production.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 960
+      },
+      "writtenOn": "2014-08-25T18:11:43Z",
+      "side": 1,
+      "message": "If I understand this right, for production this is something that is set by user?",
+      "revId": "8fd396f56d65f733d5451d0f6468ad7dc8213c0d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
