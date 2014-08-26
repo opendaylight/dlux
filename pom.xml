@@ -20,7 +20,8 @@
     <name>DLUX</name>
 
     <modules>
-	     <module>dlux-web</module>
+       <module>dlux-web</module>
+       <module>features</module>     
     </modules>
     <dependencyManagement>
       <dependencies>
@@ -32,6 +33,7 @@
       </dependencies>
     </dependencyManagement>
     <repositories>
+   
     <!-- Opendaylight public group -->
     <repository>
       <id>opendaylight-public</id>
