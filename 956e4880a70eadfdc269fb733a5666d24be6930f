@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_4343a212",
+        "filename": "features/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-08-27T01:02:27Z",
+      "side": 1,
+      "message": "Should not it be dlux information?",
+      "revId": "956e4880a70eadfdc269fb733a5666d24be6930f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
