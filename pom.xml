@@ -15,11 +15,22 @@
     <packaging>pom</packaging>
     <properties>
         <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
+        <commons.opendaylight.version>1.4.2-SNAPSHOT</commons.opendaylight.version>
     </properties>
     <name>DLUX</name>
+
     <modules>
-	<module>dlux-web</module>
+	     <module>dlux-web</module>
     </modules>
+    <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.opendaylight.yangtools</groupId>
+            <artifactId>features-test</artifactId>
+            <version>0.6.2-SNAPSHOT</version>
+         </dependency>
+      </dependencies>
+    </dependencyManagement>
     <repositories>
     <!-- Opendaylight public group -->
     <repository>
