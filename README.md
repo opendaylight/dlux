@@ -21,7 +21,7 @@ OpenDaylight DLUX is a Javascript-based stateless user interface that communicat
 
    $ grunt live
 
-It will start server at http://localhost:9000/. It expects your controller to be running at localhost:8080.
+It will start server at http://localhost:9000/. It expects your controller to be running at localhost:8181.
 
 You can change the base url of controller in file dlux-web/config/development.json
 
@@ -34,7 +34,7 @@ It will generate dlux-web-0.1.0-SNAPSHOT.jar under dlux-web/target/.
 This assumes that dlux is deployed on same node where md-sal is present. If md-sal is present at different OSGi container,
 then you should update the base url in file dlux-web/config/production.json
 
-6. Copy this jar bundle to plugins directory inside your controller distribution. Then, you can access Dlux UI at http://<<Controller IP>>:8080/dlux/index.html.
+6. Copy this jar bundle to plugins directory inside your controller distribution. Then, you can access Dlux UI at http://<<Controller IP>>:8181/dlux/index.html.
 
 
 ## Overall Directory Structure

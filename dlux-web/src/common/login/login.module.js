@@ -52,13 +52,13 @@ define(['angularAMD', 'jquery', 'common/authentification/auth.services', 'ocLazy
       });
       return found;
     };
-
+/*
     $rootScope.$on('$stateChangeStart', function() {
       if (!isPublicPath($location.url()) && !Auth.isAuthed()) {
         $location.path('/login');
       }
     });
-
+*/
   });
 
   return login;
