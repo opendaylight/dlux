@@ -34,20 +34,20 @@
 
 .leaf {
     margin: 5px;
+    padding-left: 5px;
+    position: relative;
 }
 
 .leaf-label {
     margin-right: 10px;
-    display: block;
-    float: left;
-    width: 150px;
+    .inlineBlock;
+    /*width: 170px;*/
     padding-top: 6px;
 }
 
 .leaf-input {
     width: 300px;
-    float: left;
-    display: block;
+    .inlineBlock;
 }
 
 .clear{
@@ -96,6 +96,10 @@
 }
 .mt10{margin-top: 10px;}
 .pr30{padding-right: 30px;}
+.pr40{padding-right: 40px;}
+.pr50{padding-right: 50px;}
+.pr60{padding-right: 60px;}
+.pl30{padding-left: 30px;}
 /* --------------------------------------------------------------------------------- COMMON OWN RULES - END */
 
 
@@ -105,6 +109,7 @@
 .leaflist{
     .leafListValue{
         margin-top: 5px;
+        margin-left: 10px;
         input[type=text], button{
             .inlineBlock;
         }
@@ -151,56 +156,6 @@
 
 
 /* --------------------------------------------------------------------------------- YANG UI TREE */
-ul.tree,
-ul.tree ul {
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-
-ul.tree ul {
-  margin-left:10px; /* indentation */
-  position:relative;
-}
-
-ul.tree ul:before {
-  content:"";
-  display:block;
-  width:0;
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:0;
-  border-left:1px solid;
-}
-
-ul.tree li {
-  margin:0;
-  padding:0 12px; /* indentation + 2 */
-  font-size:14px;
-  line-height:20px; /* default list item `line-height` */
-  color:#369;
-  font-weight:bold;
-  position:relative;
-}
-
-ul.tree ul li:before {
-  content:"";
-  display:block;
-  width:10px; /* same with indentation */
-  height:0;
-  border-top:1px solid;
-  position:absolute;
-  top:10px;
-  left:0;
-}
-
-ul.tree ul li:last-child:before {
-  background:white; /* same with body background */
-  height:auto;
-  top:10px; /* (line-height/2) */
-  bottom:0;
-}
 
 .listContainer{
   position: relative;
@@ -212,7 +167,7 @@ ul.tree ul li:last-child:before {
   margin: 0 0 0 20px!important;
   left: 100%;
   background: #393939;
-  z-index: 20;
+  z-index: 99;
   /*width: 245px;*/
   .btn{
     /*width: 200px;*/
@@ -222,7 +177,17 @@ ul.tree ul li:last-child:before {
     position: relative;
     .btn-remove{
       position: absolute;
-      right: 8px;
+      right: 29px;
+      top: 0;
+    }
+    .btn-double-index{
+      position: absolute;
+      right: 3px;
+      top: 0;
+    }
+    .btn-view{
+      position: absolute;
+      left: 0px;
       top: 0;
     }
   }
@@ -274,21 +239,28 @@ ul.tree ul li:last-child:before {
 .modalWrapper{
   position: relative;
   .inlineBlock;
+  /*z-index: 20;*/
 }
 
 .customContainer{
   border-left: 1px solid #7a7a7a;
-  margin: 5px 5px 5px 10px;
+  margin: 5px 5px 5px 15px;
   padding: 5px;
-  z-index: 10;
+  /*z-index: 10;*/
   width:auto;
   margin-top: 21px;
   position: relative;
   &.withoutBorder{
     border-left: 0;
     padding-bottom: 0;
+    .treeBullet.containerBullet{
+      left: -25px;
+      top: -17px;
+    }
   }
 }
+
+
 
 .btn-show-custom{
   width: 22px;
@@ -297,6 +269,22 @@ ul.tree ul li:last-child:before {
   border-radius: 11px;
   text-align: center;
   padding: 0!important;
+}
+
+.btn-double-index{
+  cursor: auto;
+  &:hover, &:focus{
+    background: #d9534f!important;
+    border-color: #d9534f!important;
+  }
+}
+
+.btn-view{
+  cursor: auto;
+  &:hover, &:focus{
+    background: orange!important;
+    border-color: orange!important;
+  }
 }
 
 .topContainerPart{
@@ -332,5 +320,33 @@ ul.tree ul li:last-child:before {
 
 .btn.btn-arrow{
   /*font-size: 12px;*/
+}
+
+.treeBullet{
+  font-size: 25px;
+  color: #7a7a7a;
+  position: absolute;
+  left: -15px;
+  top: 0;
+  &.containerBullet{
+/*    margin: 0 0px 0 -14px;
+    line-height: 25px;*/
+    top: -19px; 
+    left: -26px;
+  }
+}
+
+.tooltip-inner{
+  color: #fff;
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word;      /* IE */
+}
+
+.listElemButton{
+  /*max-width: 250px;*/
+  /*overflow: hidden;*/
 }
 /* --------------------------------------------------------------------------------- YANG UI TREE - END */

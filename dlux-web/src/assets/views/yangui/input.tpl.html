@@ -1,10 +1,17 @@
 <div ng-controller="inputCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
-        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='toggleExpanded()'>
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'>
             <i class="icon-caret-down" ng-show="node.expanded"></i>
             <i class="icon-caret-right" ng-show="!node.expanded"></i>
         </button>
-        <span><b>{{node.localeLabel | translate}}</b></span>
+        <span>
+            <b>{{node.localeLabel | translate}}</b>
+            <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" >
+                <i class="icon-question-sign"></i> 
+            </button>
+        </span>
+
     </div>
 
     <div ng-show="node.expanded">

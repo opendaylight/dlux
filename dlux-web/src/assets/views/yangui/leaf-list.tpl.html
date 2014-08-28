@@ -1,13 +1,17 @@
 <div ng-controller="leafListCtrl" class="customContainer leaflist {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
-        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='toggleExpanded()'>
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'>
             <i class="icon-caret-down" ng-show="node.expanded"></i>
             <i class="icon-caret-right" ng-show="!node.expanded"></i>
         </button>
         <button class="btn add-row btn-orange ng-scope btn-slim">
             {{node.localeLabel | translate}}
         </button>
-        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" ng-click='addListElem()' title="{{ 'LEAF_LIST_ADD_ELEM' | translate }}">
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" >
+            <i class="icon-question-sign"></i> 
+        </button>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="{{ 'LIST_ADD_ITEM' | translate }}" ng-click='addListElem()' title="{{ 'LEAF_LIST_ADD_ELEM' | translate }}">
             <i class="icon-plus-sign"></i> 
         </button>
     </div>
