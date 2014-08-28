@@ -5,36 +5,44 @@ OpenDaylight DLUX is a Javascript-based stateless user interface that communicat
 
 ## Quick Start
 
-Install Node.js then:
+1. Install Node.js. Use link http://nodejs.org/download/
+2. Go to directory dlux-web from command line
 
-```sh
-$ sudo npm -g install grunt-cli karma bower
-$ npm install
-$ bower install
-$ grunt watch
-```
+   $ cd dlux-web
 
-Finally, open `file:///path/to/ng-boilerplate/build/index.html` in your browser.
+3. Execute following steps from shell prompt
 
-If you want to run the dlux on local node server, use command
+   $ sudo npm -g install grunt-cli karma bower
+   $ npm install
+   $ bower install
 
-$ grunt live
 
-It will start server at http://localhost:9000/. It expects your controller to be running at localhost:8080. We can change it in app.js.
+4. To run the dlux on local node server, use command
 
-To generate OSGi bundle for controller, run
+   $ grunt live
+
+It will start server at http://localhost:9000/. It expects your controller to be running at localhost:8080.
+
+You can change the base url of controller in file dlux-web/config/development.json
+
+
+5. To generate OSGi bundle for controller, run
 
  $ mvn clean install
 
-It will generate dlux-web-0.1.0-SNAPSHOT.jar under target/.
-Copy this jar bundle to plugins directory inside your controller distribution. Then, you can access Dlux UI at http://localhost:8080/dlux/index.html.
+It will generate dlux-web-0.1.0-SNAPSHOT.jar under dlux-web/target/.
+This assumes that dlux is deployed on same node where md-sal is present. If md-sal is present at different OSGi container,
+then you should update the base url in file dlux-web/config/production.json
+
+6. Copy this jar bundle to plugins directory inside your controller distribution. Then, you can access Dlux UI at http://<<Controller IP>>:8080/dlux/index.html.
+
 
 ## Overall Directory Structure
 
 At a high level, the structure looks roughly like this:
 
 ```
-dlux/
+dlux-web/
   |- grunt-tasks/
   |- karma/
   |- src/
@@ -142,12 +150,12 @@ And everything will be done automatically!
 
 To make the build even faster, tasks are placed into two categories: build and
 compile. The build tasks (like those we've been discussing) are the minimal
-tasks required to run your app during development.
+tasks required to run your app during development. Build use developement.json for configuration.
 
 Compile tasks, however, get your app ready for production. The compile tasks
 include concatenation, minification, compression, etc. These tasks take a little
 bit longer to run and are not at all necessary for development so are not called
-automatically during build or watch.
+automatically during build or watch. Compile use production.json as configuration file.
 
 To initiate a full compile, you simply run the default task:
 
