@@ -57,51 +57,33 @@ define(['app/topology/topology.module'], function(topology) {
                   return true;
               }
           };
-          //Determines the switch id from the host tracker service attach point
-          var getHostLinkInfo = function(htserviceattp){
-              if(htserviceattp){
-                  return htserviceattp.substring(0,htserviceattp.lastIndexOf(":"));
-              }else{
-                  return null;
-              }
-          };
           return svc.base().one("topology", node).get().then(function(ntData){
 
               var nodes = [];
               var links = [];
               var linksMap = {};
-              var hostLinks = [];
 
               if(ntData.topology && ntData.topology[0]){
                   //Loop over the nodes
                   angular.forEach(ntData.topology[0].node, function(nodeData) {
-                      var groupType = "", nodeTitle = "", nodeLabel = "";
-                      if(nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ID]){
-                          groupType = "host";
-                          var ht_serviceadd = nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ADDS];
-                          //get title info
-                          for(var i=0;i<ht_serviceadd.length;i++){
-                              nodeTitle += 'IP: <b>' + ht_serviceadd[i][svc.TOPOLOGY_CONST.HT_SERVICE_IP] + '</b><br>';
-                          }
-
-                          nodeLabel = nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ID];
-
-                          //get Link Info
-                          var ht_serviceattp = nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ATTPOINTS];
-                          for(var j=0;j<ht_serviceattp.length;j++){
-                              var hostTpId = getHostLinkInfo(ht_serviceattp[j][svc.TOPOLOGY_CONST.HT_SERVICE_TPID]);
-                              hostLinks.push({'from':nodeLabel,'to':hostTpId});
-                          }
-
-                          nodeTitle += 'Type: Host';
-
-                      }else{
-                          groupType = "switch";
-                          nodeTitle = 'Name: <b>' + nodeData[svc.TOPOLOGY_CONST.NODE_ID] + '</b><br>Type: Switch';
-                          nodeLabel = nodeData[svc.TOPOLOGY_CONST.NODE_ID];
+                    var groupType = "", nodeTitle = "", nodeLabel = "";
+                    var nodeId = nodeData[svc.TOPOLOGY_CONST.NODE_ID];
+                      if(nodeId!==undefined && nodeId.indexOf("host")>=0){
+                        groupType = "host";
+                        var ht_serviceadd = nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ADDS];
+                        //get title info
+                            for(var i=0;i<ht_serviceadd.length;i++){
+                                nodeTitle += 'IP: <b>' + ht_serviceadd[i][svc.TOPOLOGY_CONST.HT_SERVICE_IP] + '</b><br>';
+                            }
+                        nodeTitle += 'Type: Host';
+                      }
+                      else{
+                        groupType = "switch";
+                        nodeTitle = 'Name: <b>' + nodeId + '</b><br>Type: Switch';
                       }
 
-                      nodes.push({'id': nodes.length.toString(), 'label': nodeLabel, group: groupType,value:20,title:nodeTitle});
+                    nodeLabel = nodeData[svc.TOPOLOGY_CONST.NODE_ID];
+                    nodes.push({'id': nodes.length.toString(), 'label': nodeLabel, group: groupType,value:20,title:nodeTitle});
                   });
                   //Loops over the links
                   angular.forEach(ntData.topology[0].link, function(linkData) {
@@ -115,12 +97,6 @@ define(['app/topology/topology.module'], function(topology) {
                           linksMap[srcId+":"+dstId]=linkId;
                       }
                   });
-
-                  //Adds the host to switch link info, determined at the end as we need the node id for from and to
-                  for(var i =0;i<hostLinks.length;i++){
-                      links.push({id: links.length.toString(), 'from' : getNodeIdByText(nodes,hostLinks[i]["from"]), 'to': getNodeIdByText(nodes,hostLinks[i]["to"]), title:''});
-                  }
-
 
               }
 
