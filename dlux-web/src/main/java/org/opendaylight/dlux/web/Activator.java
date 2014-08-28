@@ -14,7 +14,7 @@ public class Activator implements BundleActivator {
       public void removedService(ServiceReference reference, Object service) {
 
         try {
-           ((HttpService) service).unregister("/");
+           ((HttpService) service).unregister("/dlux");
         } catch (IllegalArgumentException exception) {
            // Ignore; servlet registration probably failed earlier on...
         }
@@ -24,7 +24,7 @@ public class Activator implements BundleActivator {
         // HTTP service is available, register our servlet...
         HttpService httpService = (HttpService) this.context.getService(reference);
         try {
-          httpService.registerResources("/", "/pages",  null);
+          httpService.registerResources("/dlux", "/pages",  null);
         } catch (Exception exception) {
           exception.printStackTrace();
         }
