@@ -114,7 +114,7 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
 
         describe('yangUtils', function() {
 
-            var yangUtils, yinParser, nodeWrapper, $httpBackend, $timeout;
+            var yangUtils, yinParser, nodeWrapper, $httpBackend, $timeout, apiConnector;
 
             beforeEach(function() {
 
@@ -136,6 +136,10 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
 
                 angular.mock.inject(function(_$timeout_) {
                     $timeout = _$timeout_;
+                });
+
+                angular.mock.inject(function(_apiConnector_) {
+                    apiConnector = _apiConnector_;
                 });
             });
 
@@ -256,45 +260,42 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
             });
 
             it('generateApiTreeData', function(){
-                var apis = [
+                var YangParser = yinParser.__test.yangParser,
+                    type = 'leaf',
+                    nodeType = 0,
+                    subApiPathA = '/config/MA:LA/',
+                    subApiPathB = '/config/MA:LB/',
+                    apis = [
                         {
-                            module: 'config',
-                            revision: '2013-04-05',
+                            module: 'MA',
+                            revision: 'rev1',
+                            basePath: 'dummyPath',
                             subApis : [
-                                {
-                                    pathArray: [
-                                        {
-                                            name: 'lvl0'
-                                        },
-                                        {
-                                            name: 'lvl1',
-                                            identifierName: 'id'
-                                        }
-                                    ]
-                                },
-                                {
-                                    pathArray: [
-                                        {
-                                            name: 'lvl0',
-
-                                        },
-                                        {
-                                            name: 'lvl1-2'
-                                        }
-                                    ]
-                                }
+                                new apiConnector.__test.SubApi(subApiPathA, ['GET']),
+                                new apiConnector.__test.SubApi(subApiPathB, ['PUT'])
                             ]
                         }
                     ],
                     dataTree;
 
-                dataTree = yangUtils.generateApiTreeData(apis);
-                expect(dataTree[0].children.length).toBe(1);
-                expect(dataTree[0].children[0].children.length).toBe(2);
-                expect(dataTree[0].label).toBe('config rev.2013-04-05');
-                expect(dataTree[0].children[0].label).toBe('lvl0');
-                expect(dataTree[0].children[0].children[0].identifier).toBe(' {id}');
+                YangParser.setCurrentModule('MA');
+                var nodeMA = YangParser.createNewNode('LA',type, null, nodeType);
+                var nodeMB = YangParser.createNewNode('LB',type, null, nodeType);
 
+                nodeWrapper.wrapAll(nodeMA);
+                nodeWrapper.wrapAll(nodeMB);
+
+                apiConnector.linkApisToNodes(apis, [nodeMA, nodeMB]);
+
+                yangUtils.generateApiTreeData(apis, function(treeApis) {
+                    dataTree = treeApis;
+
+                    expect(dataTree[0].children.length).toBe(1);
+                    expect(dataTree[0].children[0].children.length).toBe(2);
+                    expect(dataTree[0].label).toBe('config rev.2013-04-05');
+                    expect(dataTree[0].children[0].label).toBe('lvl0');
+                    expect(dataTree[0].children[0].children[0].identifier).toBe(' {id}');
+                });
             });
 
         });
@@ -1582,11 +1583,11 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
                     checkNode(choiceNode.children[0], 2, 'CA', 'case', node.module, 0, {});
                 });
 
-                it('_case', function() {
+                it('case', function() {
                     var node = parserProvider.createNewNode(name, type, null, constants.NODE_UI_DISPLAY),
                         xmlString = '<case name="CA"></case>';
 
-                    parserProvider._case(xmlString, node);
+                    parserProvider.case(xmlString, node);
                     expect(node.children.length).toBe(1);
                     checkNode(node.children[0], 1, 'CA', 'case', node.module, 0, {});
                 });

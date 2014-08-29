@@ -69,7 +69,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         return pathElem.checkNode(child);
                     }));
 
-            if(selNode) {
+            if(selNode !== null) {
                 if(path.length) {
                     return pathUtils.search(selNode, path);
                 } else {
@@ -380,9 +380,9 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         name = node.label,
                         objToAdd = builder.createObj();
                     
-                    if(node.getByNodeType(constants.NODE_UI_DISPLAY).length) {
+                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
                         
-                        node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -399,7 +399,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
                         nodesToFill.forEach(function(child) {
@@ -414,7 +414,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     if ( nodesToClear.length ) {
@@ -425,7 +425,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
@@ -437,9 +437,9 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     var added = false,
                         name = node.label;
                     
-                    if(node.getByNodeType(constants.NODE_UI_DISPLAY).length) {
+                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
                         
-                        node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                             var childAdded = child.buildRequest(builder, req);
                             added = added || childAdded;
                         });
@@ -452,7 +452,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var filled = false,
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
 
                     nodesToFill.forEach(function(child) {
                         var childFilled = child.fill(name, data);
@@ -465,7 +465,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     if (nodesToClear.length) {
@@ -476,7 +476,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
@@ -490,9 +490,9 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         name = node.label,
                         objToAdd = builder.createObj();
                     
-                    if(node.getByNodeType(constants.NODE_UI_DISPLAY).length) {
+                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
                         
-                        node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -509,7 +509,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
                         nodesToFill.forEach(function(child) {
@@ -524,7 +524,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     if (nodesToClear.length) {
@@ -535,7 +535,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
@@ -549,9 +549,9 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         name = node.label,
                         objToAdd = builder.createObj();
                     
-                    if(node.getByNodeType(constants.NODE_UI_DISPLAY).length) {
+                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
                         
-                        node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -568,7 +568,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
                         nodesToFill.forEach(function(child) {
@@ -583,7 +583,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     if (nodesToClear.length) {
@@ -594,7 +594,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
@@ -605,7 +605,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 node.buildRequest = function(builder, req) {
                     var added = false;
 
-                    node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                         var childAdded = child.buildRequest(builder, req);
                         added = added || childAdded;
                     });
@@ -615,7 +615,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var filled = false,
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
 
                     nodesToFill.forEach(function(child) {
                         var childFilled = child.fill(name, data);
@@ -626,7 +626,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     nodesToClear.forEach(function(child) {
@@ -635,7 +635,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
@@ -656,7 +656,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node.fill = function(name, data) {
                     var filled = false,
-                        nodesToFill = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     
                     nodesToFill.forEach(function(child) {
                         var childFilled = child.fill(name, data);
@@ -757,7 +757,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 // do this only on list, not on listElem because deepCopy on list doesn't copy property keys to listElem => don't do this when button for add new list is clicked
                 if (node.parent.hasOwnProperty('refKey')) {
                     var keyLabels = node.label.split(' ');
-                    node.parent.refKey = node.parent.getByNodeType(constants.NODE_UI_DISPLAY).filter(function(child) {
+                    node.parent.refKey = node.parent.getChildrenByNodeType(constants.NODE_UI_DISPLAY).filter(function(child) {
                         return keyLabels.indexOf(child.label) > -1;
                     });
                 }
@@ -923,7 +923,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     var added = false,
                         objToAdd = builder.createObj();
 
-                    node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                         var childAdded = child.buildRequest(builder, objToAdd);
                         added = added || childAdded;
                     });
@@ -938,7 +938,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 node.fillListElement = function(name, data) {
                     var filled = false;
 
-                    node.getByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
                         var childFilled = child.fill(name, data);
                         filled = filled || childFilled;
                     });
@@ -947,13 +947,13 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
                 node.isFilled = function() {
-                    return node.getByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
                         return child.isFilled();
                     });
                 };
                 
                 node.clear = function() {
-                    var nodesToClear = node.getByNodeType(constants.NODE_UI_DISPLAY);
+                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
                     if (nodesToClear.length) {
@@ -1022,7 +1022,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 return copy;
             };
 
-            this.getByNodeType = function getByNodeType(nodeType) {
+            this.getChildrenByNodeType = function(nodeType) {
                 if (nodeType instanceof Array) {
                     return this.children.filter(function(child){
                         return nodeType.indexOf(child.nodeType) > -1;
@@ -1032,7 +1032,22 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         return child.nodeType === nodeType;
                     });
                 }
-                
+            };
+
+            this.getChildren = function(type, name, nodeType, property) {
+                var filteredChildren = this.children.filter(function(item) {
+                    return (name ? name === item.label : true) && (type ? type === item.type : true) && (nodeType ? nodeType === item.nodeType : true);
+                });
+
+                if(property) {
+                    return filteredChildren.filter(function(item) {
+                        return item.hasOwnProperty(property);
+                    }).map(function(item) {
+                        return item[property];
+                    });
+                } else {
+                    return filteredChildren;
+                }
             };
 
         };
@@ -1186,7 +1201,8 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 namespace = this._namespace(xml, setGlobalVariables);
                 revision = this._revision(xml, setGlobalVariables);
 
-                this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                var node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                this.parse(xml, node, setGlobalVariables);
             };
 
             this['leaf-list'] = function(xml, parent, setGlobalVariables) {
@@ -1194,12 +1210,14 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
                     namespace = null,
-                    revision = null;
+                    revision = null,
+                    node;
 
                 namespace = this._namespace(xml, setGlobalVariables);
                 revision = this._revision(xml, setGlobalVariables);
 
-                this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                this.parse(xml, node, setGlobalVariables);
             };
 
             this.container = function(xml, parent, setGlobalVariables) {   
@@ -1235,12 +1253,13 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
 
-                $(xml).children('case').each(function() {
+                /*$(xml).children('case').each(function() {
                     self._case(this, node, setGlobalVariables);
-                });
+                });*/
+                this.parse(xml, node, setGlobalVariables);
             };
 
-            this._case = function(xml, parent, setGlobalVariables) {
+            this.case = function(xml, parent, setGlobalVariables) {
                 var type = 'case',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
@@ -1283,6 +1302,19 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 namespace = this._namespace(xml, setGlobalVariables);
                 revision = this._revision(xml, setGlobalVariables);
                 
+                this.createNewNode(name, type, parent, nodeType, namespace, revision);
+            };
+
+            this.description = function (xml, parent, setGlobalVariables) {
+                var type = 'description',
+                    name = $(xml).children('text:first').text(),
+                    nodeType = constants.NODE_ALTER,
+                    namespace = null,
+                    revision = null;
+
+                namespace = this._namespace(xml, setGlobalVariables);
+                revision = this._revision(xml, setGlobalVariables);
+
                 this.createNewNode(name, type, parent, nodeType, namespace, revision);
             };
 
@@ -1595,6 +1627,10 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             this.operations = operations;
             this.custFunct = [];
             
+            this.hasSetData = function() {
+                return this.node !== null && this.pathArray.length > 0;
+            };
+
             this.setNode = function(node) {
                 this.node = node;
             };
@@ -1680,10 +1716,14 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     var pathArray = pathUtils.translate(subApi.pathTemplateString, null, null),
                         rootNode = getRootNodeByPath(pathArray[1].module, pathArray[1].name, nodeList);
 
-                    subApi.setNode(pathArray.length > 2 ? pathUtils.search(rootNode, pathArray.slice(2)) : rootNode);
-                    subApi.setPathArray(pathArray);
+                    if(rootNode && pathArray) {
+                        subApi.setNode(pathArray.length > 2 ? pathUtils.search(rootNode, pathArray.slice(2)) : rootNode);
+                        subApi.setPathArray(pathArray);
+                    }
 
                     return subApi;
+                }).filter(function(subApi) {
+                    return subApi.hasSetData();
                 });
 
                 return api;
@@ -1720,6 +1760,8 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
     yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, YangUtilsRestangular) {
 
         var utils = {};
+
+        
 
         utils.exportModulesLocales = function(modules) {
             var obj = {},
@@ -1780,9 +1822,10 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             
         };
 
-        utils.generateApiTreeData = function(apis){
+        utils.generateApiTreeData = function(apis, callback){
 
-            var dataTree = [];
+            var dataTree = [],
+                sync = syncFact.generateObj();
 
             dataTree = apis.map(function(item, indexApi){
 
@@ -1844,14 +1887,89 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return childrenArray;
                 },
                 apisPath = getApisAndPath(item, indexApi);
+
                 return { 
                     label: item.module + ' rev.' + item.revision,
                     children: apisPath
                 };
             });
 
-            return dataTree;
+            dataTree.forEach(function(item){
+                var findSupApi = function(treeElem) {
+                        var apiInfo = null;
+                        if(treeElem.hasOwnProperty('indexApi') && treeElem.hasOwnProperty('indexSubApi') && apis[treeElem.indexApi].subApis[treeElem.indexSubApi].operations.indexOf('PUT') > -1) {
+                            apiInfo = { api: treeElem.indexApi, subApi: treeElem.indexSubApi };
+                        } else if (treeElem.children.length && apiInfo === null) {
+                            var searchResult = null;
+                            for(var i = 0; i < treeElem.children.length && apiInfo === null; i++) {
+                                apiInfo = findSupApi(treeElem.children[i]);
+                            }
+                        }
+                        return apiInfo;
+                    },
+                    apiInfo = findSupApi(item),
+                    checkAPIValidity = function(api, subApi) {
+                        var fillDummyData = function(node) {
+                                var leaves = node.getChildren('leaf'),
+                                    filled = false,
+                                    childFilled,
+                                    i;
 
+                                if(leaves.length && node.type === 'list') {
+                                    node.addListElem();
+                                    node.actElemStructure.getChildren('leaf')[0].value = '0';
+                                    filled = true;
+                                } else if(leaves.length) {
+                                    leaves[0].value = '0';
+                                    filled = true;
+                                } else if (leaves.length === 0 && node.type === 'list'){
+                                    childFilled = false;
+                                    for(i = 0; i < node.actElemStructure.children.length && !childFilled; i++) {
+                                        childFilled = fillDummyData(node.actElemStructure.children[i]);
+                                    }
+                                    filled = childFilled;
+                                } else {
+                                    childFilled = false;
+                                    for(i = 0; i < node.children.length && !childFilled; i++) {
+                                        childFilled = fillDummyData(node.children[i]);
+                                    }
+                                    filled = childFilled;
+                                }
+
+                                return filled;
+                            },
+                            requestData = {},
+                            requestPath = api.basePath+'/'+subApi.buildApiRequestString(),
+                            reqID = sync.spawnRequest(requestPath);
+
+                        fillDummyData(subApi.node);
+                        subApi.node.buildRequest(reqBuilder, requestData);
+
+                        $http({method: 'PUT', url: requestPath, data: requestData, headers: { "Content-Type": "application/yang.data+json"}}).
+                              success(function(data) {
+                                  // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- success'); //TODO entry deletion?
+                                  sync.removeRequest(reqID);
+                              }).
+                              error(function(data, status) {
+                                  // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- error');
+                                  item.toRemove = true;
+                                  sync.removeRequest(reqID);
+                              }
+                        );
+                    };
+
+                if(apiInfo) {
+                    checkAPIValidity(apis[apiInfo.api] ,apis[apiInfo.api].subApis[apiInfo.subApi]);
+                } else {
+                    item.toRemove = true;
+                }
+            });
+
+            sync.waitFor(function() {
+                callback(dataTree.filter(function(item) {
+                    return !item.hasOwnProperty('toRemove');
+                }));
+            });
         };
 
         utils.processModules = function(loadedModules, callback) {
@@ -1926,7 +2044,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         }),
                         nodeId;
 
-                    if(nodes && nodes[0]) {
+                    if(nodes.length > 0 && nodes[0]) {
                         nodeId = nodes[0].id;
                     }else{
                         return null;
@@ -1941,11 +2059,11 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     nodeId = 0,
                     linkId = 0;
 
-                nodes = topoData.node.map(function(nodeData) {
+                nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function(nodeData) {
                     return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch',value:20,title:'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
-                });
+                }) : [];
 
-                links = topoData.link.map(function(linkData) {
+                links = topoData.hasOwnProperty('link') ? topoData.link.map(function(linkData) {
                     var srcId = getNodeIdByText(nodes, linkData.source["source-node"]),
                         dstId = getNodeIdByText(nodes, linkData.destination["dest-node"]),
                         srcPort = linkData.source["source-tp"],
@@ -1953,7 +2071,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     if(srcId!=null && dstId!=null){
                         return {id: (linkId++).toString(), 'from' : srcId, 'to': dstId, title:'Source Port: <b>' + srcPort + '</b><br>Dest Port: <b>'+dstPort+'</b>'};
                     }
-                });
+                }) : [];
             }
 
             return {nodes: nodes, links: links};

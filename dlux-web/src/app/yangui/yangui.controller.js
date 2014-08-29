@@ -73,11 +73,17 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
               '/operational/network-topology:network-topology/', 
               'Display Topology', 
               function() {
-                  if($scope.node) {
-                      var data = {};
-                      $scope.node.buildRequest(reqBuilder, data);
+                  if($scope.node && 
+                    $scope.node.getChildren('list', 'topology').length > 0 && 
+                    $scope.node.getChildren('list', 'topology')[0].actElemStructure) {
+                      var dataList = [],
+                          dataObj = {};
 
-                      $scope.topologyData = yangUtils.transformTopologyData(data);
+                      $scope.node.getChildren('list', 'topology')[0].actElemStructure.listElemBuildRequest(reqBuilder, dataList);
+                      dataObj = {'network-topology': { 'topology': dataList }};
+
+                      $scope.topologyData = yangUtils.transformTopologyData(dataObj);
+                      console.info('got topology data:',$scope.topologyData,'from',dataObj);
                   }
               }
           );
@@ -134,9 +140,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           yangUtils.generateNodesToApis(function(apis, allNodes) {
               $scope.apis = apis;
               $scope.allNodes = allNodes;
-              $scope.treeApis = yangUtils.generateApiTreeData(apis);
+              console.info('got data',$scope.apis, allNodes);
+              yangUtils.generateApiTreeData(apis, function(treeApis) {
+                  $scope.treeApis = treeApis;
+                  console.info('tree api', $scope.treeApis);
+              });
               processingModulesSuccessCallback();
-              console.info('got data',$scope.apis, allNodes, $scope.treeApis);
 
               setCustFunct($scope.apis);
           }, function(e) {
@@ -236,7 +245,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       $scope.changed = function() {
           $scope.preview();
       };
-
   });
 
   yangui.register.controller('containerCtrl', function ($scope) {
@@ -249,7 +257,8 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       $scope.empty = ($scope.case.children.length === 0 || ($scope.case.children.length === 1 && $scope.case.children[0].children.length ===0));
   });
 
-  yangui.register.controller('choiceCtrl', function ($scope) {
+  yangui.register.controller('choiceCtrl', function ($scope, constants) {
+    $scope.constants = constants;
     $scope.toggleExpanded = function() {
         $scope.node.expanded = !$scope.node.expanded;
     };
@@ -311,6 +320,23 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
 
       $scope.showModalWin = function() {
         $scope.showModal = !$scope.showModal;
+      };
+
+      $scope.getListName = function(offset, config) {
+        var createdListItemName = $scope.node.createListName($scope.currentDisplayIndex + offset);
+
+        if ( createdListItemName.length > 33 ) {
+          return {
+            name: createdListItemName.substring(0,30) + '...',
+            tooltip: createdListItemName
+          };
+        } else {
+          return {
+            name: config ? createdListItemName || '[' + ($scope.currentDisplayIndex + offset) + ']' : createdListItemName,
+            tooltip: ''
+          };
+        }
+
       };
 
   });

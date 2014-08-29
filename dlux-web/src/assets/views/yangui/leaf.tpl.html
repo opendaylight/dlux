@@ -1,5 +1,10 @@
 <div class="leaf" ng-controller="leafCtrl">
-    <span class="leaf-label">{{node.localeLabel | translate}}</span>
+    <span class="treeBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+    <span class="leaf-label col-md-2">
+        {{node.localeLabel | translate}}
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" >
+            <i class="icon-question-sign"></i> 
+        </button>
+    </span>
     <input class="leaf-input form-control input-small" type="text" ng-model="node.value" ng-change="changed()">
-    <div class="clear"></div>
 </div>

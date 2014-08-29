@@ -644,10 +644,20 @@
     "YANGUI_GET-AGGREGATE-FLOW-STATISTICS-FROM-FLOW-TABLE-FOR-GIVEN-MATCH": "get-aggregate-flow-statistics-from-flow-table-for-given-match",
     "HIDE": "hide",
     "SHOW": "show",
-	"LIST_SHOW_ALL": "show all",
+    "LIST_SHOW_ALL": "show all",
     "HIDE_SHOW_ALL": "hide all",
-	"YANGUI_LIST_LABEL": "list",
+    "YANGUI_LIST_LABEL": "list",
     "LEAF_LIST_ADD_ELEM": "add leaf list element",
-    "LIST_ADD_ELEM": "add list element"
+    "LIST_ADD_ELEM": "add list item",
+    "SHOW_HIDE_LIST": "show / hide list",
+    "LIST_SHOW_ALL" : "show all list items",
+    "LIST_DELETE_ITEM": "delete list item",
+    "LIST_INDEX_DUPLICATE": "index duplacate found",
+    "LIST_PREV_ITEM": "show previous item",
+    "LIST_NEXT_ITEM": "show next item",
+    "SHOW_HIDE_CON": "show / hide container",
+    "SHOW_HIDE_ELEM": "show / hide element",
+    "LIST_ADD_ITEM": "add item",
+    "LIST_DELETE_ITEM": "delete item"
 
 }

@@ -1,31 +1,41 @@
 <div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
-        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='toggleExpanded()'>
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'>
             <i class="icon-caret-down" ng-show="node.expanded"></i>
             <i class="icon-caret-right" ng-show="!node.expanded"></i>
         </button>
         <button class="btn-slim btn-name inlineBlock">
-            {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
+            {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
         </button>
-        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='addListElem()' title="{{ 'LIST_ADD_ELEM' | translate }}">
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" >
+            <i class="icon-question-sign"></i> 
+        </button>
+        <button class="btn add-row btn-orange ng-scope btn-slim btn-show-custom inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ELEM' | translate }}">
             <i class="icon-plus-sign"></i> 
             <!-- {{ 'ADD_ELEM' | translate }} {{node.localeLabel | translate}} -->
         </button>
 
         <div class="modalWrapper">
-            <button ng-click="showModalWin()" ng-show="node.listData.length > 0" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+            <button ng-click="showModalWin()" ng-show="node.listData.length > 0" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
                 <i class="icon-list"></i>
             </button>
             <div class="listModal simpleContainer" ng-show="showModal && node.listData.length > 0">
                 <button class="close" ng-click="showModalWin()">&times;</button>
                 <div class="listWrapper">
                     <ul>
-                        <li ng-repeat="_ in node.listData" class="pr30">
-                            <button class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                        <li ng-repeat="_ in node.listData" class="pr50 pl30">
+                            <button class="btn btn-md btn-orange btn-slim btn-show-custom btn-view" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1">
+                                <i class="icon-eye-open"></i> 
+                            </button>
+                            <button class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
                                 {{node.localeLabel | translate}}&nbsp;{{node.createListName($index) || '[' + $index + ']'}}
                             </button>
-                            <button class="left btn btn-md btn-danger btn-slim btn-show-custom btn-remove" ng-click='removeListElem($index)'>
+                            <button class="btn btn-md btn-danger btn-slim btn-show-custom btn-remove" tooltip="{{ 'LIST_DELETE_ITEM' | translate }}" ng-click='removeListElem($index)'>
                                 <i class="icon-remove-sign"></i> 
+                            </button>
+                            <button class="btn btn-md btn-danger btn-slim btn-show-custom btn-double-index" tooltip="{{ 'LIST_INDEX_DUPLICATE' | translate }}" ng-show="node.doubleKeyIndexes.indexOf($index)>-1">
+                                <i class="icon-exclamation-sign"></i> 
                             </button>
                         </li>
                     </ul>
@@ -34,18 +44,21 @@
         </div>
 
         <div class="listItemWrapper">
-            <button ng-click="shiftDisplayPrev()" ng-show="showPrevButton()" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+            <button ng-click="shiftDisplayPrev()" ng-show="showPrevButton()" tooltip="{{ 'LIST_PREV_ITEM' | translate }}" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
                 <i class="icon-circle-arrow-left"></i>
             </button>
             <div class="listButtonWrapper" ng-repeat="offset in displayOffsets" ng-if="currentDisplayIndex + offset > -1 && node.listData.length > currentDisplayIndex + offset">
-                <button  class="btn listElemButton add-row btn-orange {{ (currentDisplayIndex + offset === node.actElemIndex ? 'btn-selected':'') }} ng-scope btn-slim" ng-click="node.changeActElementData(currentDisplayIndex + offset)">
-                    {{ node.localeLabel | translate}}&nbsp;{{node.createListName(currentDisplayIndex + offset) || '[' + (currentDisplayIndex + offset) + ']'}}
+                <button  class="btn listElemButton add-row btn-orange {{ (currentDisplayIndex + offset === node.actElemIndex ? 'btn-selected':'') }} ng-scope btn-slim" ng-click="node.changeActElementData(currentDisplayIndex + offset)" tooltip="{{getListName(offset, false).tooltip}}">
+                    {{ node.localeLabel | translate}}&nbsp;{{ getListName(offset, true).name }}
                 </button>
-                <button class="btn btn-md btn-danger btn-slim btn-show-custom" ng-click='removeListElem(currentDisplayIndex + offset)'>
+                <button class="btn btn-md btn-danger btn-slim btn-show-custom" tooltip="{{ 'LIST_DELETE_ITEM' | translate }}" ng-click='removeListElem(currentDisplayIndex + offset)'>
                     <i class="icon-remove-sign"></i> 
                 </button>
+                <button class="btn btn-md btn-danger btn-slim btn-show-custom btn-double-index" tooltip="{{ 'LIST_INDEX_DUPLICATE' | translate }}" ng-show="node.doubleKeyIndexes.indexOf(currentDisplayIndex + offset)>-1">
+                    <i class="icon-exclamation-sign"></i> 
+                </button>
             </div>
-            <button ng-click="shiftDisplayNext()"  ng-show="showNextButton()" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
+            <button ng-click="shiftDisplayNext()"  ng-show="showNextButton()" tooltip="{{ 'LIST_NEXT_ITEM' | translate }}" class="btn add-row btn-orange ng-scope btn-slim btn-show-custom">
                 <i class="icon-circle-arrow-right"></i>
             </button>
         </div>
@@ -53,7 +66,6 @@
         
     
     </div>
-
     <!-- <button ng-repeat="_ in node.listData track by $index" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} 
         {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
         {{node.localeLabel | translate}}{{node.createListName($index)}}

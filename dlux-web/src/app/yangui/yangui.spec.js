@@ -273,8 +273,12 @@ define(['app/yangui/yangui.test.module.loader', 'common/layout/layout.module'], 
                   success(apis, allNodes);
               };
 
+              $httpBackend.when('PUT', 'dummyBase/config/M:N').respond({});
+
               yanguiCtrl = $controller('yanguiCtrl', {$scope: $scope, $rootScope: $rootScope, $http: _$http_, 
                 Restangular: Restangular, yangUtils: yangUtils, reqBuilder: reqBuilder, apiConnector: apiConnector});
+
+              $httpBackend.flush();
           }));
 
           afterEach(function() {
@@ -285,6 +289,7 @@ define(['app/yangui/yangui.test.module.loader', 'common/layout/layout.module'], 
           it('loadApis', function() {
               $scope.__test.loadApis();
 
+              $httpBackend.flush();
               expect($scope.apis.length).toBe(1); 
               expect($scope.apis[0].subApis.length).toBe(1);
           });
@@ -292,6 +297,7 @@ define(['app/yangui/yangui.test.module.loader', 'common/layout/layout.module'], 
           it('loadController', function() {
               $scope.loadController();
 
+              $httpBackend.flush();
               expect($scope.apis.length).toBe(1);
               expect($scope.apis[0].subApis.length).toBe(1);
           });
