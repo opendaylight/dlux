@@ -54,7 +54,7 @@ define(['common/authentification/auth.module'], function(auth) {
           };*/
           factory.login = function (user, pw, cb, eb) {
               factory.setBasic(user, pw);
-              $http.get(ENV.baseURL + "/controller/nb/v2/flowprogrammer/default")
+              $http.get(ENV.baseURL + "/restconf/operational/network-topology:network-topology")
                   .success(function (data, status, headers, config) {
                     cb(data);
                   })
@@ -159,7 +159,8 @@ define(['common/authentification/auth.module'], function(auth) {
   auth.factory('NbInterceptor', function($q, $window, Base64) {
     return {
       request : function(config) {
-        if (config.url.indexOf('controller/nb/v2') != -1) {
+          // Use AAA basic authentication
+        if (config.url.indexOf('restconf') != -1) {
           config.headers = config.headers || {};
           if ($window.sessionStorage.odlUser && $window.sessionStorage.odlPass) {
             var encoded = Base64.encode($window.sessionStorage.odlUser + ':' + $window.sessionStorage.odlPass);
