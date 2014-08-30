@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_a5514b31",
+        "filename": "dlux-web/src/common/authentification/auth.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 11
+      },
+      "writtenOn": "2014-08-30T16:31:44Z",
+      "side": 1,
+      "message": "To be clear on my reasoning for -1.... I thought AAA is a backend support and hence the front-end shouldnt worry about restconf or traditional northbound APIs. dlux should just go ahead and use Basic auth regardless of the Northbound API. \n\nBy this change, you are effectively disabling Authentication for traditional NB APIs (which is a lot of them)...",
+      "revId": "fe38204adb3a15779a8d9c6a31a9d9b4c9329aca",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
