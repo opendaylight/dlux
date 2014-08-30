@@ -5,7 +5,7 @@
     <groupId>org.opendaylight.odlparent</groupId>
     <artifactId>odlparent</artifactId>
     <version>1.4.2-SNAPSHOT</version>
-    <relativePath></relativePath>
+    <relativePath/>
   </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -18,8 +18,7 @@
       <nexus.repository.snapshot>opendaylight.snapshot</nexus.repository.snapshot>
       <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
       <releaseplugin.version>2.3.2</releaseplugin.version>
-      <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy
->
+      <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy>
 
       <commons.opendaylight.version>1.4.2-SNAPSHOT</commons.opendaylight.version>
     </properties>
@@ -27,7 +26,8 @@
 
     <modules>
        <module>dlux-web</module>
-       <module>features</module>     
+       <module>features</module>
+       <module>distribution-dlux</module>
     </modules>
     <dependencyManagement>
       <dependencies>
