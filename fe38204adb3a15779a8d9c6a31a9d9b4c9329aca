@@ -16,6 +16,24 @@
       "revId": "fe38204adb3a15779a8d9c6a31a9d9b4c9329aca",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_a54ce8c9",
+        "filename": "dlux-web/src/common/authentification/auth.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-01T19:04:53Z",
+      "side": 1,
+      "message": "Thanks for checking it, yes, will update this code",
+      "parentUuid": "fa82b9bf_a5514b31",
+      "revId": "fe38204adb3a15779a8d9c6a31a9d9b4c9329aca",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
