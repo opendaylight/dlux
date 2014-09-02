@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_b1b74a3a",
+        "filename": "dlux-web/src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-09-02T18:56:40Z",
+      "side": 1,
+      "message": "Ideally shouldn\u0027t depend on AD-SAL or MD-SAL /RESTConf to check auth.. should have our own backend check..",
+      "revId": "6b9a21c686d7d0db41963d0edb9854b4770f1fb2",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
