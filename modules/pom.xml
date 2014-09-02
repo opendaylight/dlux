@@ -31,6 +31,7 @@ sd">
     <module>common-layout-resources</module>
     <module>common-authentication-resources</module>
     <module>common-login-resources</module>
+    <module>common-general-resources</module>
   </modules>
 
   <dependencies>
@@ -63,6 +64,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.common.login.resources</artifactId>
       <version>${common.login.resources.version}</version>
+</dependency>
+	<dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.common.general.resources</artifactId>
+      <version>${common.general.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -81,6 +87,7 @@ sd">
                 <directory>../dlux-web/src/common/layout</directory>
                 <directory>../dlux-web/src/common/authentification</directory>
                 <directory>../dlux-web/src/common/login</directory>
+                <directory>../dlux-web/src/common/general</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -127,7 +134,8 @@ sd">
 		          dlux.common.layout.resources,
 		          dlux.common.authentication.resources,
 		          dlux.common.login.resources,
-	          </includeArtifactIds>
+		          dlux.common.general.resources,
+		      </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
