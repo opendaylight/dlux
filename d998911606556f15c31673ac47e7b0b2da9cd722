@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_3111fa5d",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-09-02T23:19:40Z",
+      "side": 1,
+      "message": "Should only have the proper version but I\u0027ll let it pass for now.. Time is running out..",
+      "revId": "d998911606556f15c31673ac47e7b0b2da9cd722",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
