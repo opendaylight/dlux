@@ -29,6 +29,7 @@ sd">
     <module>common-yangutils-resources</module>
     <module>common-navigation-resources</module>
     <module>common-layout-resources</module>
+    <module>common-authentication-resources</module>
   </modules>
 
   <dependencies>
@@ -51,6 +52,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.common.layout.resources</artifactId>
       <version>${common.layout.resources.version}</version>
+	</dependency>
+	<dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.common.authentication.resources</artifactId>
+      <version>${common.authentication.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -67,6 +73,7 @@ sd">
                 <directory>../dlux-web/src/common/yangutils</directory>
                 <directory>../dlux-web/src/common/navigation</directory>
                 <directory>../dlux-web/src/common/layout</directory>
+                <directory>../dlux-web/src/common/authentification</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -111,6 +118,7 @@ sd">
 		          dlux.common.yangutils.resources,
 		          dlux.common.navigation.resources,
 		          dlux.common.layout.resources,
+		          dlux.common.authentication.resources,
 	          </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
