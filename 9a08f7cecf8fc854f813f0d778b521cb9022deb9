@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_fc112954",
+        "filename": "modules/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1788
+      },
+      "writtenOn": "2014-09-02T23:24:52Z",
+      "side": 1,
+      "message": "Missing node...",
+      "revId": "9a08f7cecf8fc854f813f0d778b521cb9022deb9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
