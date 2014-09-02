@@ -16,6 +16,24 @@
       "revId": "6b9a21c686d7d0db41963d0edb9854b4770f1fb2",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_71e8e216",
+        "filename": "dlux-web/src/common/authentification/auth.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-02T19:28:08Z",
+      "side": 1,
+      "message": "Agree, but we don\u0027t have any such API as of now and AAA only authenticate RestConf APIs i think",
+      "parentUuid": "fa82b9bf_b1b74a3a",
+      "revId": "6b9a21c686d7d0db41963d0edb9854b4770f1fb2",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
