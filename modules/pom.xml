@@ -40,6 +40,7 @@ sd">
     <module>loader-resources</module>
     <module>connection_manager-resources</module>
     <module>core-resources</module>
+    <module>common-topbar-resources</module>
   </modules>
 
   <dependencies>
@@ -113,10 +114,15 @@ sd">
       <artifactId>dlux.connection_manager.resources</artifactId>
       <version>${connection_manager.resources.version}</version>
     </dependency>
-  <dependency>
+    <dependency>
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.core.resources</artifactId>
       <version>${core.resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.common.topbar.resources</artifactId>
+      <version>${common.topbar.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -144,6 +150,7 @@ sd">
                 <directory>../dlux-web/src/</directory>
                 <directory>../dlux-web/src/app/connection_manager</directory>
                 <directory>../dlux-web/src/app/core</directory>
+                <directory>../dlux-web/src/common/topbar</directory>
                 <includes>
             		  <include></include>
             		  <include>index.html</include>
@@ -206,6 +213,7 @@ sd">
                 dlux.common.general.resources,
                 dlux.network.resources,
                 dlux.flow.resources,
+                dlux.common.topbar.resources,
               </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
