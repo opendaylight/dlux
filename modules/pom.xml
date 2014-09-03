@@ -36,6 +36,7 @@ sd">
     <module>network-resources</module>
     <module>flow-resources</module>
     <module>container-resources</module>
+    <module>topology-resources</module>
   </modules>
 
   <dependencies>
@@ -93,6 +94,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.container.resources</artifactId>
       <version>${container.resources.version}</version>
+  </dependency>
+  <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.topology.resources</artifactId>
+      <version>${topology.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -116,6 +122,7 @@ sd">
                 <directory>../dlux-web/src/app/network</directory>
                 <directory>../dlux-web/src/app/flow</directory>
                 <directory>../dlux-web/src/app/container</directory>
+                <directory>../dlux-web/src/app/topology</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -142,6 +149,7 @@ sd">
                 dlux.node.resources,
                 dlux.yangui.resources,
                 dlux.container.resources,
+                dlux.topology.resources,
               </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
