@@ -34,6 +34,7 @@ sd">
     <module>common-general-resources</module>
     <module>yangui-resources</module>
     <module>network-resources</module>
+    <module>flow-resources</module>
   </modules>
 
   <dependencies>
@@ -81,6 +82,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.network.resources</artifactId>
       <version>${network.resources.version}</version>
+  </dependency>
+  <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.flow.resources</artifactId>
+      <version>${flow.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -102,6 +108,7 @@ sd">
                 <directory>../dlux-web/src/common/general</directory>
                 <directory>../dlux-web/src/app/yangui</directory>
                 <directory>../dlux-web/src/app/network</directory>
+                <directory>../dlux-web/src/app/flow</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -151,6 +158,7 @@ sd">
   		          dlux.common.login.resources,
   		          dlux.common.general.resources,
                 dlux.network.resources,
+                dlux.flow.resources,
       	      </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
