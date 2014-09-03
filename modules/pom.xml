@@ -27,6 +27,7 @@ sd">
   <modules>
     <module>node-resources</module>
     <module>common-yangutils-resources</module>
+    <module>common-navigation-resources</module>
   </modules>
 
   <dependencies>
@@ -39,6 +40,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.common.yangutils.resources</artifactId>
       <version>${common.yangutils.resources.version}</version>
+	</dependency>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.common.navigation.resources</artifactId>
+      <version>${common.navigation.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -53,6 +59,7 @@ sd">
               <fileset>
                 <directory>../dlux-web/src/app/node</directory>
                 <directory>../dlux-web/src/common/yangutils</directory>
+                <directory>../dlux-web/src/common/navigation</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -83,6 +90,7 @@ sd">
               <ignorePermissions>false</ignorePermissions>
             </configuration>
           </execution>
+	  <!--src/common Resources-->
           <execution>
             <id>unpack-general-resources</id>
             <goals>
@@ -93,8 +101,9 @@ sd">
               <outputDirectory>${project.basedir}/../dlux-web/src/common/</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
               <includeArtifactIds>
-		            dlux.common.yangutils.resources,
-	            </includeArtifactIds>
+		          dlux.common.yangutils.resources,
+		          dlux.common.navigation.resources,
+	          </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
