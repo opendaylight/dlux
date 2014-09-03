@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2014 Inocybe Technologies, and others. All rights reserved.
+
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-insta
+nce" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.x
+sd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.opendaylight.dlux</groupId>
+    <artifactId>dlux-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <artifactId>dlux.resources</artifactId>
+  <name>${project.artifactId}</name>
+  <description>Resources</description>
+  <packaging>pom</packaging>
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+  <modules>
+    <module>node-resources</module>
+  </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.node.resources</artifactId>
+      <version>${node.resources.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+      <plugins>
+      <!--Clean extracted resources-->
+      <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>../dlux-web/src/app/node</directory>
+                <includes></includes>
+                <excludes></excludes>
+                <followSymlinks>false</followSymlinks>
+              </fileset>
+            </filesets>
+          </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+	  <!--src/app/ Resources-->
+          <execution>
+            <id>unpack-core-resources</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <outputDirectory>${project.basedir}/../dlux-web/src/app/</outputDirectory>
+              <groupId>org.opendaylight.dlux</groupId>
+              <includeArtifactIds>
+	        dlux.node.resources,
+	      </includeArtifactIds>
+              <excludes>META-INF\/**</excludes>
+              <excludeTransitive>true</excludeTransitive>
+              <ignorePermissions>false</ignorePermissions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      </plugins>
+  </build>
+</project>
