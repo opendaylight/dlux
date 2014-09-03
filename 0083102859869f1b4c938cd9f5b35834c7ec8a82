@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_4ce740ad",
+        "filename": "loader/impl/src/main/java/org/opendaylight/dlux/loader/implementation/DluxLoader.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-03T22:40:05Z",
+      "side": 1,
+      "message": "We should use some logger here. better, use Guava precondition api, you can avoid if else in that case",
+      "revId": "0083102859869f1b4c938cd9f5b35834c7ec8a82",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_9f2a4c7d",
+        "filename": "loader/impl/src/main/java/org/opendaylight/dlux/loader/implementation/DluxLoader.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-03T22:40:05Z",
+      "side": 1,
+      "message": "Indexloader servlet is just loading index.html and then printing it, doing nothing else. Its not connected with modules code at all, something missing?",
+      "revId": "0083102859869f1b4c938cd9f5b35834c7ec8a82",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_0c013839",
+        "filename": "loader/impl/src/main/java/org/opendaylight/dlux/loader/implementation/DluxLoaderIndexServlet.java",
+        "patchSetId": 46
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-03T22:40:05Z",
+      "side": 1,
+      "message": "Use logger here",
+      "revId": "0083102859869f1b4c938cd9f5b35834c7ec8a82",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
