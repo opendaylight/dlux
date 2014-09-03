@@ -26,6 +26,7 @@ sd">
   </prerequisites>
   <modules>
     <module>node-resources</module>
+    <module>common-yangutils-resources</module>
   </modules>
 
   <dependencies>
@@ -33,6 +34,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.node.resources</artifactId>
       <version>${node.resources.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.common.yangutils.resources</artifactId>
+      <version>${common.yangutils.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -46,6 +52,7 @@ sd">
             <filesets>
               <fileset>
                 <directory>../dlux-web/src/app/node</directory>
+                <directory>../dlux-web/src/common/yangutils</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -69,8 +76,25 @@ sd">
               <outputDirectory>${project.basedir}/../dlux-web/src/app/</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
               <includeArtifactIds>
-	        dlux.node.resources,
-	      </includeArtifactIds>
+                dlux.node.resources,
+              </includeArtifactIds>
+              <excludes>META-INF\/**</excludes>
+              <excludeTransitive>true</excludeTransitive>
+              <ignorePermissions>false</ignorePermissions>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-general-resources</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <outputDirectory>${project.basedir}/../dlux-web/src/common/</outputDirectory>
+              <groupId>org.opendaylight.dlux</groupId>
+              <includeArtifactIds>
+		            dlux.common.yangutils.resources,
+	            </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
