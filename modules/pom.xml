@@ -33,6 +33,7 @@ sd">
     <module>common-login-resources</module>
     <module>common-general-resources</module>
     <module>yangui-resources</module>
+    <module>network-resources</module>
   </modules>
 
   <dependencies>
@@ -75,6 +76,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.yangui.resources</artifactId>
       <version>${yangui.resources.version}</version>
+  </dependency>
+  <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.network.resources</artifactId>
+      <version>${network.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -95,6 +101,7 @@ sd">
                 <directory>../dlux-web/src/common/login</directory>
                 <directory>../dlux-web/src/common/general</directory>
                 <directory>../dlux-web/src/app/yangui</directory>
+                <directory>../dlux-web/src/app/network</directory>
                 <includes></includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
@@ -143,7 +150,8 @@ sd">
   		          dlux.common.authentication.resources,
   		          dlux.common.login.resources,
   		          dlux.common.general.resources,
-  	          </includeArtifactIds>
+                dlux.network.resources,
+      	      </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
