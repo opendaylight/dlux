@@ -187,6 +187,8 @@ sd">
                 dlux.container.resources,
                 dlux.topology.resources,
                 dlux.connection_manager.resources,
+                dlux.network.resources,
+                dlux.flow.resources,
                 dlux.core.resources,
               </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
@@ -211,8 +213,6 @@ sd">
                 dlux.common.authentication.resources,
                 dlux.common.login.resources,
                 dlux.common.general.resources,
-                dlux.network.resources,
-                dlux.flow.resources,
                 dlux.common.topbar.resources,
               </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
