@@ -37,6 +37,7 @@ sd">
     <module>flow-resources</module>
     <module>container-resources</module>
     <module>topology-resources</module>
+    <module>loader-resources</module>
   </modules>
 
   <dependencies>
@@ -99,6 +100,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.topology.resources</artifactId>
       <version>${topology.resources.version}</version>
+  </dependency>
+  <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.loader.resources</artifactId>
+      <version>${loader.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -123,7 +129,16 @@ sd">
                 <directory>../dlux-web/src/app/flow</directory>
                 <directory>../dlux-web/src/app/container</directory>
                 <directory>../dlux-web/src/app/topology</directory>
-                <includes></includes>
+                <directory>../dlux-web/src/</directory>
+                <includes>
+            		  <include></include>
+            		  <include>index.html</include>
+            		  <include>main.js</include>
+            		  <include>app/app.controller.js</include>
+            		  <include>app/app.module.js</include>
+            		  <include>app/routingConfig.js</include>
+            		  <include>assets/</include>
+		            </includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
               </fileset>
@@ -167,15 +182,31 @@ sd">
               <outputDirectory>${project.basedir}/../dlux-web/src/common/</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
               <includeArtifactIds>
-  		          dlux.common.yangutils.resources,
-  		          dlux.common.navigation.resources,
-  		          dlux.common.layout.resources,
-  		          dlux.common.authentication.resources,
-  		          dlux.common.login.resources,
-  		          dlux.common.general.resources,
+                dlux.common.yangutils.resources,
+                dlux.common.navigation.resources,
+                dlux.common.layout.resources,
+                dlux.common.authentication.resources,
+                dlux.common.login.resources,
+                dlux.common.general.resources,
                 dlux.network.resources,
                 dlux.flow.resources,
-	            </includeArtifactIds>
+              </includeArtifactIds>
+              <excludes>META-INF\/**</excludes>
+              <excludeTransitive>true</excludeTransitive>
+              <ignorePermissions>false</ignorePermissions>
+            </configuration>
+          </execution>
+	  <!--loader Resources-->
+          <execution>
+            <id>unpack-loader-resources</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <phase>generate-sources</phase>
+            <configuration>
+              <outputDirectory>${project.basedir}/../dlux-web/src/</outputDirectory>
+              <groupId>org.opendaylight.dlux</groupId>
+              <includeArtifactIds>dlux.loader.resources</includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
