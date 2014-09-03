@@ -38,6 +38,7 @@ sd">
     <module>container-resources</module>
     <module>topology-resources</module>
     <module>loader-resources</module>
+    <module>connection_manager-resources</module>
   </modules>
 
   <dependencies>
@@ -105,6 +106,11 @@ sd">
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.loader.resources</artifactId>
       <version>${loader.resources.version}</version>
+  </dependency>
+  <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux.connection_manager.resources</artifactId>
+      <version>${connection_manager.resources.version}</version>
     </dependency>
   </dependencies>
 
@@ -130,6 +136,7 @@ sd">
                 <directory>../dlux-web/src/app/container</directory>
                 <directory>../dlux-web/src/app/topology</directory>
                 <directory>../dlux-web/src/</directory>
+                <directory>../dlux-web/src/app/connection_manager</directory>
                 <includes>
             		  <include></include>
             		  <include>index.html</include>
@@ -165,6 +172,7 @@ sd">
                 dlux.yangui.resources,
                 dlux.container.resources,
                 dlux.topology.resources,
+                dlux.connection_manager.resources,
               </includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
