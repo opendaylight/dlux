@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features name="controller-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+
+   <feature name="dlux-loader" description="DLUX Boostrapper to add bundles">
+      <feature>http</feature>
+      <bundle>mvn:org.opendaylight.dlux/loader/${loader.version}</bundle>
+      <bundle>mvn:org.opendaylight.dlux/loader.implementation/${loader.version}</bundle>
+   </feature>
+   <feature name="dlux-core" description="DLUX Core bundle">
+     <feature>dlux-loader</feature>
+     <bundle>mvn:org.opendaylight.dlux/dlux.core/${dlux.core.version}</bundle>
+   </feature>
+</features>
