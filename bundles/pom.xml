@@ -28,6 +28,7 @@ sd">
     <module>core</module>
     <module>connection_manager</module>
 	<module>container</module>
+	<module>flow</module>
   </modules>
 
 </project>
