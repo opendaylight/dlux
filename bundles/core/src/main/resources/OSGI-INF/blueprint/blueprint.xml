@@ -1,0 +1,12 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <reference id="httpService" availability="mandatory" activation="eager" interface="org.osgi.service.http.HttpService"/>
+    <reference id="loader" availability="mandatory" activation="eager" interface="org.opendaylight.dlux.bootstrapper.IDluxBootstrapperRegistration"/>
+    <bean id="bundle" init-method="init" class="org.opendaylight.dlux.loader.DluxModule">
+    	<property name="httpService" ref="httpService"/>
+    	<property name="loader" ref="loader"/>
+    	<property name="moduleName" value="core"/>
+    	<property name="url" value="/core"/>
+    	<property name="requireJs" value="core.module"/>
+    	<property name="angularJs" value="app.core"/>
+    </bean>
+</blueprint>
