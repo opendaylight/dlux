@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_7f49888d",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "why do we need these string objects?",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_bf563029",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "if service is not null, do failure, check with precondition",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_bf2dd0aa",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "should not it be private method?",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_df2a1490",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "System.out.println should be replaced with log",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_ff0a7826",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "should use logging",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa82b9bf_bf04f018",
+        "filename": "bundles/core/src/main/java/org/opendaylight/dlux/core/DluxCore.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-04T01:31:35Z",
+      "side": 1,
+      "message": "make it private, so it gets called only when httpService and loader are available, then there is no need to check if they r null or not",
+      "revId": "3d41b9d0c6bbfd1ae64142352ee47b12640fe3ec",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
