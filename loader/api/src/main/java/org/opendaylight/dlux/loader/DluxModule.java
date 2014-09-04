@@ -56,8 +56,8 @@ public class DluxModule {
         this.angularJs = angularJs;
     }
 
-    public void init() throws NamespaceException{
-
+    public void initialize() {
+        try {
         if(httpService != null) {
             logger.info("Registering resources for %s",moduleName);
             httpService.registerResources(url, directory, null);
@@ -68,6 +68,9 @@ public class DluxModule {
             loader.addModule(moduleName, url, requireJs, angularJs);
         } else {
             logger.error("loader is null. Cannot add core module to loader");
+        }}
+        catch(Exception e){
+            logger.error("Could not initialize",e);
         }
     }
 }
