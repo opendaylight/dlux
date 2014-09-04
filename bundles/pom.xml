@@ -26,6 +26,7 @@ sd">
   </prerequisites>
   <modules>
     <module>core</module>
+    <module>connection_manager</module>
   </modules>
 
 </project>
