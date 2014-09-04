@@ -27,6 +27,7 @@ sd">
   <modules>
     <module>core</module>
     <module>connection_manager</module>
+	<module>container</module>
   </modules>
 
 </project>
