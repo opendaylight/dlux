@@ -26,6 +26,7 @@ sd">
   </prerequisites>
   <modules>
     <module>core</module>
+    <module>container</module>
   </modules>
 
 </project>
