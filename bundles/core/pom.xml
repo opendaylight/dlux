@@ -82,8 +82,9 @@
           <instructions>
             <Import-Package>org.osgi.service.http,
                             org.osgi.framework;version="1.0.0",
-                            org.opendaylight.dlux.loader
-                            </Import-Package>
+                            org.opendaylight.dlux.loader,
+                            org.slf4j
+            </Import-Package>
             <Export-Package></Export-Package>
           </instructions>
         </configuration>
