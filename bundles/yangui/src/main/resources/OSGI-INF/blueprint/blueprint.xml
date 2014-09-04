@@ -1,0 +1,12 @@
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+    <reference id="httpService" availability="mandatory" activation="eager" interface="org.osgi.service.http.HttpService"/>
+    <reference id="loader" availability="mandatory" activation="eager" interface="org.opendaylight.dlux.loader.IDluxLoaderRegistration"/>
+    <bean id="bundle" init-method="initialize" class="org.opendaylight.dlux.loader.DluxModule">
+    	<property name="httpService" ref="httpService"/>
+    	<property name="loader" ref="loader"/>
+    	<property name="moduleName" value="yangui"/>
+    	<property name="url" value="/yangui"/>
+    	<property name="requireJs" value="yangui"/>
+    	<property name="angularJs" value="console.yangui"/>
+    </bean>
+</blueprint>
