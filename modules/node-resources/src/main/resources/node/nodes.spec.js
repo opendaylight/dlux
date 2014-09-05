@@ -5,71 +5,101 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-
-describe("Node Listing Screen", function() {
-  var scope, state, nodeServiceMock, rootScope;
-  beforeEach(angular.mock.module('ui.state'));
-  beforeEach(angular.mock.module('console.node'));
-  beforeEach(angular.mock.inject( function( $controller, $q, $state, $rootScope, $templateCache) {
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    state = $state;
-    $templateCache.put('node/root.tpl.html', '');
-    $templateCache.put('node/index.tpl.html', '');
-    $templateCache.put('node/detail.tpl.html', '');
-    nodeServiceMock = {
-      getAllNodes : function() {
-        var deferred = $q.defer();
-        deferred.resolve([{"node":"node1"}]);
-        return deferred.promise;
-      },
-      getCurrentData : function() {
-          return null;
-      },
-      getNode : function(id){
-        var deferred = $q.defer();
-        deferred.resolve({"node":[{"id":id}]});
-        return deferred.promise;
-      }
-    };
-  }));
-  
-  
-  it("should call get Nodes", angular.mock.inject( function($controller) {
-    spyOn(nodeServiceMock, 'getAllNodes').andCallThrough();
-    $controller( 'allNodesCtrl', { $scope: scope, NodeInventorySvc:nodeServiceMock });
-    state.transitionTo('node.index');
-    rootScope.$digest();
-    expect(state.current.name).toBe('node.index');
-    expect(nodeServiceMock.getAllNodes).toHaveBeenCalled();
-    expect(scope.data).toBe('node1');
-  }));
-
-  it("ensure node connector link works using existing Data", angular.mock.inject( function($controller, $q) {
-      nodeServiceMock.getCurrentData = function() {
-        var deferred = $q.defer();
-        deferred.resolve([{"node":[{"id":2},{"id" :3}]}]);
-        return deferred.promise;
+define(['app/node/nodes.module', 'app/node/nodes.controller', 'angular-ui-router', 'common/layout/layout.module'], function() {
+  describe("Node Listing Screen", function() {
+    var scope, state, nodeServiceMock, rootScope, httpBackend;
+    beforeEach(angular.mock.module('ui.router'));
+    beforeEach(angular.mock.module('app.common.layout'));
+    beforeEach(angular.mock.module('app.nodes'));
+    beforeEach(angular.mock.inject( function( $controller, $q, $state, $rootScope, $httpBackend, $templateCache) {
+      rootScope = $rootScope;
+      scope = $rootScope.$new();
+      httpBackend = $httpBackend;
+      $state.transitionTo('main').then(
+        function(a) {
+          console(a);
+      }, function(b) {
+         console(b);
+      });
+      rootScope.$digest();
+      state = $state;
+      $templateCache.put('src/app/node/root.tpl.html', '');
+      $templateCache.put('src/app/node/index.tpl.html', '');
+      $templateCache.put('src/app/node/detail.tpl.html', '');
+      nodeServiceMock = {
+        getAllNodes : function() {
+          var deferred = $q.defer();
+          deferred.resolve([{"node":"node1"}]);
+          return deferred.promise;
+        },
+        getCurrentData : function() {
+            return null;
+        },
+        getNode : function(id){
+          var deferred = $q.defer();
+          deferred.resolve({"node":[{"id":id}]});
+          return deferred.promise;
+        }
       };
-      var stateParams = { nodeId: 2 };
-      spyOn(nodeServiceMock, 'getCurrentData').andCallThrough();
-      $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
-      state.transitionTo('node.detail');
-      rootScope.$digest();
-      expect(state.current.name).toBe('node.detail');
-      expect(nodeServiceMock.getCurrentData).toHaveBeenCalled();
-      expect(scope.data.id).toEqual(2);
-  }));
+      httpBackend.whenGET('').passThrough();
+    }));
 
-  it("ensure node connector can be fetched separately", angular.mock.inject(function($controller) {
-      var stateParams = { nodeId: 3 };
-      spyOn(nodeServiceMock, 'getCurrentData').andCallThrough();
-      spyOn(nodeServiceMock, 'getNode').andCallThrough();
-      $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
-      state.transitionTo('node.detail');
+    afterEach(function() {
+       httpBackend.verifyNoOutstandingExpectation();
+       httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('should load the root states', angular.mock.inject(function($controller) {
+      var stateName = 'main.node';
+      $controller('rootNodeCtrl', {$scope: scope, $state: state});
+      expect(state.href(stateName, {})).toBe('#/node');
+    }));
+
+
+    it("should call get Nodes", angular.mock.inject( function($controller, $q) {
+      var stateName = 'main.node.index';
+
+      spyOn(nodeServiceMock, 'getAllNodes').andCallThrough();
+      $controller( 'allNodesCtrl', { $scope: scope, $state:state, NodeInventorySvc:nodeServiceMock });
+      //state.transitionTo('main.node.index');
       rootScope.$digest();
-      expect(state.current.name).toBe('node.detail');
-      expect(nodeServiceMock.getNode).toHaveBeenCalled();
-      expect(scope.data.id).toEqual(3);
-  }));
+
+      //expect(state.current.name).toBe('main.node.index');
+      expect(state.href(stateName, {})).toBe('#/node/index');
+      expect(nodeServiceMock.getAllNodes).toHaveBeenCalled();
+      expect(scope.data).toBe('node1');
+    }));
+
+    it("ensure node connector link works using existing Data", angular.mock.inject( function($controller, $q) {
+        nodeServiceMock.getCurrentData = function() {
+          var deferred = $q.defer();
+          deferred.resolve([{"node":[{"id":2},{"id" :3}]}]);
+          return deferred.promise;
+        };
+        var stateName = 'main.node.detail';
+        var stateParams = { nodeId: 2 };
+        spyOn(nodeServiceMock, 'getCurrentData').andCallThrough();
+        $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
+        //state.transitionTo('main.node.detail');
+        rootScope.$digest();
+        //expect(state.current.name).toBe('main.node.detail');
+        expect(state.href(stateName, stateParams)).toBe('#/node/%d/detail'.replace('%d', stateParams.nodeId));
+        expect(nodeServiceMock.getCurrentData).toHaveBeenCalled();
+        expect(scope.data.id).toEqual(2);
+    }));
+
+    it("ensure node connector can be fetched separately", angular.mock.inject(function($controller) {
+        var stateName = 'main.node.detail';
+        var stateParams = { nodeId: 3 };
+        spyOn(nodeServiceMock, 'getCurrentData').andCallThrough();
+        spyOn(nodeServiceMock, 'getNode').andCallThrough();
+        $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
+        state.transitionTo('main.node.detail');
+        rootScope.$digest();
+        //expect(state.current.name).toBe('main.node.detail');
+        expect(state.href(stateName, stateParams)).toBe('#/node/%d/detail'.replace('%d',stateParams.nodeId));
+        expect(nodeServiceMock.getNode).toHaveBeenCalled();
+        expect(scope.data.id).toEqual(3);
+    }));
+  });
 });

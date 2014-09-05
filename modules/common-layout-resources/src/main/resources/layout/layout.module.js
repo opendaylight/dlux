@@ -1,7 +1,7 @@
 // This module is used to populate views from the index.tpl.html
 // Each module will register html pages with the appropriate HelperProvider's and this module will take everything from those Helpers and fill the view.
 define(['angularAMD' ,'angular-ui-router', 'ocLazyLoad', 'common/general/common.general.directives', 'common/general/common.navigation.directives','app/core/core.services'], function(app) {
-  var layout = angular.module('app.common.layout', ['ui.router.state', 'app.core', 'app.common.general', 'app.common.navigation']);
+  var layout = angular.module('app.common.layout', ['ui.router.state', 'app.core', 'oc.lazyLoad','app.common.general', 'app.common.navigation']);
 
   layout.config(function($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvider, $provide, TopBarHelperProvider, NavHelperProvider, ContentHelperProvider) {
     $urlRouterProvider.otherwise("/node/index");
