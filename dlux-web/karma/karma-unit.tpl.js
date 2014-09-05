@@ -1,5 +1,5 @@
 module.exports = function ( karma ) {
-  karma.configure({
+  karma.set({
     /** 
      * From where to look for files, starting with the location of this file.
      */
@@ -9,15 +9,17 @@ module.exports = function ( karma ) {
      * This is the list of file patterns to load into the browser during testing.
      */
     files: [
-     <% scripts.forEach( function ( file ) { %>'<%= file %>',
-     <% }); %>
-      'src/**/*.coffee'
+     'src/test-main.js',
+     {pattern: 'vendor/**/*.js', included: false},
+     {pattern: 'src/**/*.js', included: false},
+     {pattern: 'src/**/*.js', included: false}
     ],
     exclude: [
       'src/assets/**/*.js'
     ],
-    frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-coffee-preprocessor' ],
+    frameworks: [ 'jasmine', 'requirejs' ],
+    plugins: [ 'karma-jasmine', 'karma-coverage', 'karma-requirejs', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-coffee-preprocessor' ],
+
     preprocessors: {
       '**/*.coffee': 'coffee',
     },
@@ -39,7 +41,7 @@ module.exports = function ( karma ) {
      * Disable file watching by default.
      */
     autoWatch: false,
-
+    singleRun: false,
     /**
      * The list of browsers to launch to test on. This includes only "Firefox" by
      * default, but other browser names include:
