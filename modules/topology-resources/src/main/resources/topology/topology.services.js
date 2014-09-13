@@ -22,7 +22,9 @@ define(['app/topology/topology.module'], function(topology) {
               DEST_NODE:"dest-node",
               SOURCE_TP:"source-tp",
               DEST_TP:"dest-tp",
-              ADDRESSES:"addresses"
+              ADDRESSES:"addresses",
+              HT_SERVICE_ADDS:"host-tracker-service:addresses",
+              HT_SERVICE_IP:"host-tracker-service:ip"
           }
       };
       svc.getCurrentData = function() {
@@ -71,10 +73,20 @@ define(['app/topology/topology.module'], function(topology) {
                       if(nodeId!==undefined && nodeId.indexOf("host")>=0){
                         groupType = "host";
                         var ht_serviceadd = nodeData[svc.TOPOLOGY_CONST.ADDRESSES];
-                        //get title info
+                          if(ht_serviceadd===undefined){
+                              ht_serviceadd = nodeData[svc.TOPOLOGY_CONST.HT_SERVICE_ADDS];
+                          }
+                          if(ht_serviceadd!==undefined){
+                              var ip;
+                            //get title info
                             for(var i=0;i<ht_serviceadd.length;i++){
-                                nodeTitle += 'IP: <b>' + ht_serviceadd[i][svc.TOPOLOGY_CONST.IP] + '</b><br>';
+                                ip = ht_serviceadd[i][svc.TOPOLOGY_CONST.IP];
+                                if(ip===undefined){
+                                    ip = ht_serviceadd[i][svc.TOPOLOGY_CONST.HT_SERVICE_IP];
+                                }
+                                nodeTitle += 'IP: <b>' + ip + '</b><br>';
                             }
+                          }
                         nodeTitle += 'Type: Host';
                       }
                       else{
