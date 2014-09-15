@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa82b9bf_d2f2f005",
+        "filename": "dlux-web/src/common/config/env.module.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-09-15T17:27:32Z",
+      "side": 1,
+      "message": "Rather than changing env.module.js, change development.json or production.json, Build creation updates this file.",
+      "revId": "cf6f0b41119a176481a341329289362e4eb23de0",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
