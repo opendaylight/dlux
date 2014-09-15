@@ -46,7 +46,8 @@
        <module>dlux-web</module>
        <module>loader/api</module>
        <module>loader/impl</module>
-       <module>features</module>     
+       <module>features</module>
+       <module>distribution-dlux</module>
     </modules>
     <dependencyManagement>
       <dependencies>
