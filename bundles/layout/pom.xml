@@ -9,7 +9,6 @@
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
   <artifactId>dlux.common.layout</artifactId>
-  <version>${common.layout.resources.version}</version>
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
