@@ -92,7 +92,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
               apis, 
               'opendaylight-inventory', 
               null, 
-              '/config/opendaylight-inventory:nodes/node/{id}/table/{id}/flow/{id}/', 
+              '/config/opendaylight-inventory:nodes/node/{id}/flow-node-inventory:table/{id}/flow/{id}/', 
               'Verify operational flow', 
               function() {
 
