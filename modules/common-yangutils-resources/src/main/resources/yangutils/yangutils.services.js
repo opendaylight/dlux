@@ -11,9 +11,9 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         var arrayUtils = {};
 
         arrayUtils.getFirstElementByCondition = function(list, condition) {
-            var selItems = list.filter(function(item) {
+            var selItems = list && condition ? list.filter(function(item) {
                 return condition(item);
-            });
+            }) : [];
             return (selItems.length ? selItems[0] : null);
         };
 
@@ -1714,7 +1714,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                 api.subApis = api.subApis.map(function(subApi) {
                     var pathArray = pathUtils.translate(subApi.pathTemplateString, null, null),
-                        rootNode = getRootNodeByPath(pathArray[1].module, pathArray[1].name, nodeList);
+                        rootNode = pathArray && pathArray.length > 1 ? getRootNodeByPath(pathArray[1].module, pathArray[1].name, nodeList) : null;
 
                     if(rootNode && pathArray) {
                         subApi.setNode(pathArray.length > 2 ? pathUtils.search(rootNode, pathArray.slice(2)) : rootNode);
@@ -1797,7 +1797,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     topLevelSync.removeRequest(reqApis);
                 });
             }).error(function(result) {
-                console.error('Error getting API data:',result);
+                console.error('Error getting API data from :'+YangUtilsRestangular.configuration.baseUrl+'/apidoc/apis/'+':'+result);
                 topLevelSync.removeRequest(reqApis);
             });
 
