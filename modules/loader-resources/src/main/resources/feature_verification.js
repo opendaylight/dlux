@@ -23,3 +23,4 @@ poll("/controller/nb/v2/connectionmanager/nodes","connection_manager");
 poll("/controller/nb/v2/flowprogrammer/default","flow");
 poll("/controller/nb/v2/containermanager/containers","container");
 poll("/controller/nb/v2/staticroute/default/routes","network");
+poll("/apidoc/apis","yangui");
