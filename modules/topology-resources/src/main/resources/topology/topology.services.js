@@ -2,7 +2,7 @@ define(['app/topology/topology.module'], function(topology) {
 
   topology.register.factory('TopologyRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
     });
   });
 

@@ -22,7 +22,7 @@ define(['app/node/nodes.module'],function(node) {
 
   node.register.factory('NodeRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
     });
   });
 

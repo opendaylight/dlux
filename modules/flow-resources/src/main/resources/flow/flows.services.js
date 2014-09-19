@@ -2,7 +2,7 @@ define(['app/flow/flows.module'], function(flows) {
 
   flows.register.factory('FlowRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.ENV.getBaseURL("AD_SAL"));
     });
   });
 

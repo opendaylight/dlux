@@ -2,7 +2,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
     yangUtils.factory('YangUtilsRestangular', function(Restangular, ENV) {
         return Restangular.withConfig(function(RestangularConfig) {
-          RestangularConfig.setBaseUrl(ENV.baseURL);
+          RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
         });
     });
 

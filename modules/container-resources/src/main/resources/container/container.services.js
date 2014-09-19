@@ -3,7 +3,7 @@ define(['app/container/container.module', 'Restangular'], function(container) {
 
   container.register.factory('ContainerRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 

@@ -2,7 +2,7 @@ define(['app/connection_manager/connection_manager.module'], function(connection
 
   connection_manager.register.factory('ConnectionManagerRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 
