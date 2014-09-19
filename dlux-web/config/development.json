@@ -1,3 +1,6 @@
 {
-    "baseURL": "http://localhost:8080"
+    "configEnv":"ENV_DEV",
+    "baseURL": "http://localhost:",
+    "adSalPort": "8080",
+    "mdSalPort" : "8181"
 }

@@ -4,7 +4,7 @@ define(['angularAMD' ,'angular-ui-router', 'ocLazyLoad', 'common/general/common.
   var layout = angular.module('app.common.layout', ['ui.router.state', 'app.core', 'app.common.general', 'app.common.navigation']);
 
   layout.config(function($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvider, $provide, TopBarHelperProvider, NavHelperProvider, ContentHelperProvider) {
-    $urlRouterProvider.otherwise("/node/index");
+    $urlRouterProvider.otherwise("/topology");
 
     $stateProvider.state('main', {
       url: '/',

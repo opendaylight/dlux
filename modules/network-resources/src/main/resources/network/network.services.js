@@ -2,7 +2,7 @@ define(['app/network/network.module'], function(network) {
 
   network.register.factory('NetworkRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
-      RestangularConfig.setBaseUrl(ENV.baseURL);
+      RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 

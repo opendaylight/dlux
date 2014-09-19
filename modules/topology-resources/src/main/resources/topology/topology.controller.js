@@ -1,7 +1,13 @@
 define(['app/topology/topology.module', 'app/topology/topology.directives','app/topology/topology.services'], function(topology) {
-  topology.register.controller('TopologyCtrl', ['$scope', '$rootScope', 'NetworkTopologySvc', function ($scope, $rootScope, NetworkTopologySvc) {
+  topology.register.controller('TopologyCtrl', ['$scope', '$rootScope', 'NetworkTopologySvc' , 'pollSvc', function ($scope, $rootScope, NetworkTopologySvc, pollSvc) {
     $rootScope['section_logo'] = 'logo_topology';
     $scope.createTopology = function() {
+
+        if(window.PollFlag === undefined){
+            pollSvc.makePoll(250);
+            window.PollFlag = true;
+        }
+
         NetworkTopologySvc.getNode("flow:1", function(data) {
           var x = 50;
           var y = 50;
