@@ -22,9 +22,9 @@
     <tr data-ng-repeat="ncp in data['flow-node-inventory:table']" ng-show="checked || checkActiveFlow($index)">
         <!--<td><input type="checkbox" name="select-node-{{item.node.id}}" ng-click="unselect($event)" id="select-node-{{item.node.id}}" /></td>-->
         <td>{{ncp['flow-node-inventory:id']}}</td>
-        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:active-flows']}}</td>
-        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:packets-matched']}}</td>
-        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['opendaylight-flow-table-statistics:packets-looked-up']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['active-flows']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['packets-matched']}}</td>
+        <td>{{ncp['opendaylight-flow-table-statistics:flow-table-statistics']['packets-looked-up']}}</td>
         <!--td>
           <i class="icon-ok-sign"></i>
           <port-state value="{{ncp.properties.state.value}}"></port-state>
