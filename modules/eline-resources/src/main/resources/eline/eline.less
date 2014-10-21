@@ -1,0 +1,190 @@
+@iconsElineRootPath : 'images/eline-icons/';
+@colorLightGreen: #b5e7bd;
+@colorDarkGrey: #757574;
+
+.roundedCorners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.boxSizing{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.icon-red {
+    color: red;
+}
+
+.icon-green {
+    color: green;
+}
+
+.simpleContainerEline{
+    border: 1px solid #7a7a7a;
+    margin: 15px 0;
+    .roundedCorners(5px);
+    padding: 5px;
+    z-index: 10;
+}
+
+.elineAppWrapper{
+    color: #fefefe;
+    div.topWrapper{
+        border-bottom: 1px solid #fefefe;
+        min-height: 40px;
+    }
+    .btn-gray{
+        &:hover, &.active{
+            background: @colorLightGreen;
+        }
+    }
+    label.title{
+        font-weight: normal;
+        display: block;
+        background: #434242;
+        .boxSizing;
+        padding: 2px 0 2px 50px;
+        margin: 0;
+    }
+    div.textWrapper{
+        padding: 5px 0 5px 50px;
+    }
+    .elineBox{
+        &.bordered{
+            border-right: 1px solid #fefefe;
+        }
+    }
+    .boxRow{
+        display: table;
+        padding: 0;
+        div.cell {
+            background: #595959;
+            /*border-bottom: 1px solid #fefefe;*/
+            border-right: 15px solid #414042;
+            padding: 0px 0px 10px 0px;
+            float: none;
+            display: table-cell;
+            vertical-align: top;
+            &.blank{
+                background: #414042;
+            }
+        }
+    }
+    .icon-circle-arrow-up{
+        /*&.icon-green{
+            color: @colorLightGreen;
+        }
+        &.icon-red{
+            color: @colorDarkGrey;
+        }*/
+    }
+    span.status{
+        font-weight: bold;
+        margin-right: 0;
+        padding-left: 0;
+        
+        span.iconArrow{
+            width: 12px;
+            height: 12px;
+            .inlineBlock;
+            margin-top: 5px;
+        }
+
+        &.up{
+            color: @colorLightGreen;
+            .iconArrow{
+                background: transparent url('@{iconsElineRootPath}arrow-up.png') no-repeat center top;
+                
+            }
+        }
+        &.down{
+            color: @colorDarkGrey;
+            .iconArrow{
+                background: transparent url('@{iconsElineRootPath}arrow-down.png') no-repeat center top;
+            }
+        }
+    }
+    div.epButtons{
+        background: #434242;
+        padding: 0 50px;
+        margin-top: 20px;
+        .btn{
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+    div.epListWrapper{
+        button.btn{
+            margin: 1px 2px;
+        }
+    }
+    div.elineListButtonsWrapper{
+        margin: 5px 0 10px;
+        button{
+            margin: 1px 2px;
+        }
+    }
+    div.endPointsWrapper{
+        label{
+            font-weight: normal;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+    }
+    div.addingElinesWrapper{
+        border-top: 1px solid #a8d4af;
+        img.pcImage{
+            margin: 20px auto;
+            display: block;
+            width: 80%;
+        }
+        div.elineInputs{
+            margin: 10px 0;
+        }
+        .boxRow {
+            div.cell{
+                position: relative;
+                border-bottom: 15px solid #414042;
+                .textWrapper{
+                    padding-top: 20px;
+                }
+            }
+            div.dragAreaHover{
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                background: transparent url('@{iconsElineRootPath}image-drag.png') repeat center center;
+            }
+        }
+        .elineInput{
+            .inlineBlock;
+            border: 2px solid #ebecec;
+            .roundedCorners(0px);
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.428571429;
+            margin-bottom: 10px;
+            background: transparent!important;
+            color: #fefefe;
+            option{
+                color: black;
+            }
+        }
+    }
+    button.close{
+        position: absolute;
+        top: 5px;
+        right: 25px;
+        color: #a8d4af;
+        z-index: 1;
+    }
+}

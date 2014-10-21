@@ -1,0 +1,80 @@
+<div class="elineAppWrapper">
+
+    <div class="topWrapper"></div>
+
+    <div class="boxRow col-md-10">
+      <div class="col-md-5 cell">
+        <label class="title">{{ 'ELINE_ODL_STATUS' | translate }}</label>
+        <div class="textWrapper">
+          <span class="status {{odl_status ? 'up' : 'down'}}">
+              <span class="iconArrow"></span>
+              {{ odl_status ? 'ELINE_UP' : 'ELINE_DOWN' | translate }}
+          </span>
+        </div>
+
+        <label class="title">{{'ELINE_ROUTES_STATUS' | translate}}</label>
+        <div class="textWrapper">
+          <div ng-include src="'src/app/eline/nodeinfo.tpl.html'"></div>
+        </div>
+        
+        <div ng-include src="'src/app/eline/epinfo.tpl.html'"></div>
+      </div>
+      
+      <div class="col-md-5 cell">
+        <label class="title">{{'ELINE_EL_STATUS' | translate}}</label>
+        <div class="textWrapper">
+          <div ng-include src="'src/app/eline/elineinfo.tpl.html'"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="addingElinesWrapper">
+      <div class="boxRow col-md-10 addingElines">
+
+        <div class="col-md-12 cell">
+          <div class="epButtons">
+            <button class="btn btn-slim btn-gray ng-scope" ng-click="addProvisionData()">{{'ELINE_ADD_EL' | translate}}</button>
+            <button class="btn btn-slim btn-gray ng-scope" style="margin-right: 5px" ng-click="provisionEline()">{{'ELINE_SAVE_EL' | translate}}</button>
+          </div>
+          <img class="pcImage" src="/assets/images/eline-icons/icon-pc.png" alt="" />
+        </div>
+        <div class="clear"></div>
+        
+      </div>
+
+      <div ng-repeat="row in provisionData" class="boxRow epRows col-md-10">
+        <button class="close" ng-click="provisionData.splice($index,1);">×</button>
+        <div class="col-md-6 cell" ng-controller="epSetterCtrl" ng-init="epId = 'ep1'; pdIndex = row.id" ui-on-Drop="onDrop($event,$data,'ep1')">
+          <div class="dragAreaHover" ng-show="displayHelpers"></div>
+          <div class="textWrapper">
+            <span class="col-md-3"><strong>{{'ELINE_EP1' | translate}}:</strong></span>
+            <select class="elineInput col-md-7" ng-model="ep1setter" ng-options="s.label for s in epSetters" ng-change="change()"></select>
+            <div class="clear"></div>
+            <div class="elineInputs" ng-repeat="epset in epSetters" ng-show="epset === ep1setter" ng-include src="'src/app/eline/'+epset.template+'.tpl.html'"></div>
+          </div>
+        </div>
+
+        <div class="col-md-6 cell" ng-controller="epSetterCtrl" ng-init="epId = 'ep2'; pdIndex = row.id" ui-on-Drop="onDrop($event,$data,'ep2')">
+          <div class="dragAreaHover" ng-show="displayHelpers"></div>
+          <div class="textWrapper">
+            <span class="col-md-3"><strong>{{'ELINE_EP2' | translate}}:</strong></span>
+            <select class="elineInput col-md-7" ng-model="ep2setter" ng-options="s.label for s in epSetters" ng-change="change()"></select>
+            <div class="clear"></div>
+            <div class="elineInputs" ng-repeat="epset in epSetters" ng-show="epset === ep2setter" ng-include src="'src/app/eline/'+epset.template+'.tpl.html'"></div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <div class="clear"></div>
+
+  </div>
+  
+  <div class="clear"></div>
+
+  
+
+</div>

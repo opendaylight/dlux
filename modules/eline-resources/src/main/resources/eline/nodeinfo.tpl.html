@@ -1,0 +1,9 @@
+<div ng-repeat="n in nodes">
+    <span class="col-md-2 status {{n.status ? 'up' : 'down'}}">
+        <span class="iconArrow"></span>
+        {{ n.status ? 'ELINE_UP' : 'ELINE_DOWN' | translate }}
+    </span>
+    <span class="col-md-10">{{'ip: ' + n.id}} </span>
+    <div class="clear"></div>
+</div>
+<div ng-if="nodes.length === 0"><span>{{'ELINE_NO_NODES' | translate}}</span></div>
