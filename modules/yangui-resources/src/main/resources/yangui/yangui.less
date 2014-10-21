@@ -40,14 +40,31 @@
 
 .leaf-label {
     margin-right: 10px;
+    font-weight: bold;
     .inlineBlock;
     /*width: 170px;*/
     padding-top: 6px;
+    button.iconQuestion{
+      margin-top: -2px;
+    }
+}
+
+.yangInput{
+  border: 2px solid #ebecec;
+  .roundedCorners(0px);
+  margin: 0 3px 0 5px;
 }
 
 .leaf-input {
-    width: 300px;
-    .inlineBlock;
+  width: 300px;
+  .inlineBlock;
+  border: 2px solid #ebecec;
+  /*background-color: #414042!important;*/
+  .roundedCorners(0px);
+}
+
+INPUT.leaf-input{
+  height: 30px;
 }
 
 .clear{
@@ -65,6 +82,26 @@
     padding-bottom: 2px;
 }
 
+.btn-filter{
+  margin: 2px 0px;
+}
+
+.btn-filter-high{
+  margin-top: 5px !important;
+}
+
+.btn-filter-right{
+  float: right;
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.iconFilterOver{
+  position: absolute !important;
+  top:  9px;
+  left: -15px;
+}
+
 .btn-red {
     background: red;
 }
@@ -74,6 +111,30 @@
 }
 
 /* --------------------------------------------------------------------------------- COMMON OWN RULES */
+.opacityDeph(@opacity: 0.5){
+  -ms-filter: ~"'progid:DXImageTransform.Microsoft.Alpha(Opacity=" @opacity*100 ~")'";  
+  filter: ~"alpha(opacity=" @opacity*100 ~")";
+  -moz-opacity: @opacity;
+  -khtml-opacity: @opacity;
+  opacity: @opacity;
+}
+
+.roundedCorners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.transition (@time: 500ms){
+  -webkit-transition: all @time linear;
+  -moz-transition: all @time linear;
+  -ms-transition: all @time linear;
+  -o-transition: all @time linear;
+  transition: all @time linear;
+}
+
 .left{ float: left;}
 .right{ float: right;}
 .clear{ clear: both; float: none!important;}
@@ -94,7 +155,20 @@
         text-decoration: underline;
     }
 }
+.boxSizing{
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .mt10{margin-top: 10px;}
+.mt20{margin-top: 20px;}
+.mt30{margin-top: 30px;}
+.mt40{margin-top: 40px;}
+.mb10{margin-bottom: 10px;}
+.mb20{margin-bottom: 20px;}
+.mb30{margin-bottom: 30px;}
+.mb40{margin-bottom: 40px;}
+.nmb{margin-bottom: 0!important}
 .pr30{padding-right: 30px;}
 .pr40{padding-right: 40px;}
 .pr50{padding-right: 50px;}
@@ -106,6 +180,17 @@
 
 
 /* --------------------------------------------------------------------------------- YANG UI */
+.btn-gray{
+  font-weight: bold;
+  background: #ebecec;
+  .transition(100ms);
+  &:hover{
+    background: #ffa500;
+  }
+  &.btn-selected{
+    background: #ffa500;
+  }
+}
 .leaflist{
     .leafListValue{
         margin-top: 5px;
@@ -115,6 +200,9 @@
         }
         input[type=text]{
             width: 20%;
+            border: 2px solid #ebecec;
+            /*background-color: #414042;*/
+            .roundedCorners(0px);
         }
         button{
             margin-top: 4px;
@@ -149,6 +237,51 @@
         padding: 10px;
     }
 }
+
+label.classic{
+  color: #fff;
+  min-width: 120px;
+}
+
+.actionButtons{
+  div.in{
+    padding: 0 10px;
+  }
+}
+
+.dataPopupWrapper{
+  position: relative;
+  .dataPopup{
+    position: absolute;
+    left: 110%;
+    top: 0;
+    right: auto;
+  }
+}
+
+.nav-tabs li a{
+  cursor: pointer;
+}
+
+div.overlay{
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  top: 0;
+  left: 0;
+}
+
+div.popUpWrapperFix{
+  position: fixed;
+  width: calc(~"100% - 250px");
+  height: 100%;
+  margin-left: 250px;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
 /* --------------------------------------------------------------------------------- YANG UI - END */
 
 
@@ -172,6 +305,12 @@
   .btn{
     /*width: 200px;*/
   }
+  button.iconView{
+    position: absolute;
+    left: 0px;
+    top: 0;
+    margin: 0;
+  }
   li{
     margin: 5px 0;
     position: relative;
@@ -179,26 +318,30 @@
       position: absolute;
       right: 29px;
       top: 0;
+      margin: 0;
     }
     .btn-double-index{
       position: absolute;
       right: 3px;
       top: 0;
+      margin: 0;
     }
     .btn-view{
       position: absolute;
       left: 0px;
       top: 0;
     }
+
   }
   ul{
     padding: 0 15px 0 10px;
   }
   button.close{
     position: absolute;
-    top: 5px;
-    right: 25px;
-    color: #C4C4C4;
+    top: 0px;
+    right: 5px;
+    color: #ebecec;
+    opacity: 1;
   }
   .listWrapper{
     overflow-y: scroll;
@@ -233,6 +376,53 @@
         margin: 0;
       }
     }
+    .restUrl{
+      margin-bottom: 10px;
+      .title{
+        display: block;
+      }
+    }
+    &.dataPopup{
+      min-width: 320px;
+      textarea{
+        width: 100%;
+        min-height: 150px;
+        margin: 0px 0 10px;
+      }
+      input{
+        margin: 0px 0 10px;
+      }
+    }
+    &.historyPopUp{
+      width: 70%;
+      margin-left: -35%;
+      left: 50%;
+      top: 50px;
+      min-height: 50px;
+      position: absolute;
+      z-index: 2;
+      .tab-pane{
+        .tableWrapper{
+          overflow-y: scroll;
+          max-height: 500px;
+          margin-bottom: 10px;
+        }
+      }
+      table{
+        color: #fff;
+        th{
+          &.actions{
+            width: 120px;
+          }
+        }
+      }
+      pre{
+        position: relative;
+        button.close{
+          color: #000;
+        }
+      }
+    }
   }
 }
 
@@ -242,20 +432,24 @@
   /*z-index: 20;*/
 }
 
+.list-title{
+  line-height: 14px;
+  margin-bottom: 10px;
+}
+
 .customContainer{
   border-left: 1px solid #7a7a7a;
-  margin: 5px 5px 5px 15px;
+  margin: 35px 5px 5px 15px;
   padding: 5px;
   /*z-index: 10;*/
   width:auto;
-  margin-top: 21px;
   position: relative;
   &.withoutBorder{
     border-left: 0;
     padding-bottom: 0;
     .treeBullet.containerBullet{
       left: -25px;
-      top: -17px;
+      top: -25px;
     }
   }
 }
@@ -272,11 +466,11 @@
 }
 
 .btn-double-index{
-  cursor: auto;
+  /*cursor: auto;
   &:hover, &:focus{
     background: #d9534f!important;
     border-color: #d9534f!important;
-  }
+  }*/
 }
 
 .btn-view{
@@ -288,8 +482,8 @@
 }
 
 .topContainerPart{
-  margin-left: -16px;
-  margin-top: -16px;
+  margin-left: -19px;
+  margin-top: -28px;
   margin-bottom: 10px;
 }
 
@@ -297,16 +491,21 @@
   margin: 0 10px 0 20px;
   .inlineBlock;
   .listButtonWrapper{
-    margin: 0 5px;
+    margin: 2px 5px 0;
     .inlineBlock;
+    button.yangButton{
+      margin: 0;
+    }
   }
 }
 
 .btn-name{
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  background: orange;
-  border: 0;
+  background: transparent;
+  font-weight: bold;
+  color: #ebecec;
+  border: 2px solid #ebecec;
   cursor: auto;
 }
 
@@ -331,8 +530,8 @@
   &.containerBullet{
 /*    margin: 0 0px 0 -14px;
     line-height: 25px;*/
-    top: -19px; 
-    left: -26px;
+    top: -25px; 
+    left: -25px;
   }
 }
 
@@ -349,4 +548,173 @@
   /*max-width: 250px;*/
   /*overflow: hidden;*/
 }
+
+.filterModalWrapper{
+  
+}
+
+
+.listFilterWindow{
+  left: -6px;
+  top: -10px;
+  border: 2px solid #ebecec;
+}
+
+.filterContainer .leaf{
+  min-width: 500px;
+}
+
+.filterContainer{
+  margin-top:20px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+  /*max-width: 510px;*/
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.filterContainer .col-md-2{
+  width: 150px;
+}
 /* --------------------------------------------------------------------------------- YANG UI TREE - END */
+
+
+
+
+
+/* --------------------------------------------------------------------------------- MAIN MENU CHANGES */
+#side-menu.nav li{
+    a{
+    padding-left: 35px;
+    position: relative;
+    .transition(150ms);
+    i{
+      position: absolute;
+      left: 15px;
+      top: 8px;
+    }
+    &:hover{
+      i{
+        font-size: 18px;
+        top: 6px;
+        left: 11px;
+      }
+    }
+  }
+  &.active{
+    a{
+      i{
+        font-size: 14px;
+        top: 8px;
+        left: 15px;
+      }
+    }
+  }
+}
+/* --------------------------------------------------------------------------------- MAIN MENU CHANGES - END */
+
+
+@iconsRootPath : 'images/yang-ui-icons/';
+/* --------------------------------------------------------------------------------- YANG UI BUTTONS */
+button{
+  &.yangButton{
+    position: relative;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    margin: 2px;
+    .inlineBlock;
+    &.iconClose{
+      background: transparent url('@{iconsRootPath}icon-close.png') no-repeat center top;
+    }
+    &.iconNext{
+      background: transparent url('@{iconsRootPath}icon-next.png') no-repeat center top;
+    }
+    &.iconPlus{
+      background: transparent url('@{iconsRootPath}icon-plus.png') no-repeat center top;
+    }
+    &.iconArrowUp{
+      background: transparent url('@{iconsRootPath}icon-arrow-up.png') no-repeat center top;
+    }
+    &.iconArrowDown{
+      background: transparent url('@{iconsRootPath}icon-arrow-down.png') no-repeat center top;
+    }
+    &.iconArrowRight{
+      background: transparent url('@{iconsRootPath}icon-arrow-right.png') no-repeat center top;
+    }
+    &.iconFilterEmpty{
+      background: transparent url('@{iconsRootPath}icon-filter-empty.png') no-repeat center top;
+    }
+    &.iconFilterFull{
+      background: transparent url('@{iconsRootPath}icon-filter-full.png') no-repeat center top;
+    }
+    &.iconFilterFullBck{
+      background: transparent url('@{iconsRootPath}icon-filter-full-bck.png') no-repeat center top;
+    }
+    &.iconList{
+      background: transparent url('@{iconsRootPath}icon-list.png') no-repeat center top;
+    }
+    &.iconListBck{
+      background: transparent url('@{iconsRootPath}icon-list-bck.png') no-repeat center top;
+    }
+    &.iconQuestion{
+      background: transparent url('@{iconsRootPath}icon-question.png') no-repeat center top;
+    }
+    &.iconPrev{
+      background: transparent url('@{iconsRootPath}icon-prev.png') no-repeat center top;
+    }
+    &.iconDanger{
+      background: transparent url('@{iconsRootPath}icon-danger.png') no-repeat center top;
+      &:hover{
+        background-position: 0 0!important;
+      }
+    }
+    &.iconView{
+      background: transparent url('@{iconsRootPath}icon-view.png') no-repeat center top;
+      &:hover{
+        background-position: 0 0!important;
+      }
+    }
+    &:hover{
+      background-position: 0 -24px!important;
+    }
+    /*&:hover{
+      .opacityDeph(0.8);
+    }*/
+  }
+}
+/* --------------------------------------------------------------------------------- YANG UI BUTTONS - END */
+
+
+
+/* --------------------------------------------------------------------------------- YANG UI TYPE UNION */
+.unionType.tabs{
+  margin: 10px 0;
+  .nav-tabs{
+    border: 0;
+    li{
+      margin: 0 2px;
+      &.active{
+        a{
+          background: #ffa500!important;
+        }
+      }
+      a{
+        .roundedCorners(4px);
+        border: 0;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        span{
+          color: #000!important;
+        }
+      }
+    }
+  }
+  div.tab-content{
+    border: 2px solid #ebecec;
+    .boxSizing;
+    padding: 22px 10px 10px;
+    margin-top: -12px;
+  }
+}
+/* --------------------------------------------------------------------------------- YANG UI TYPE UNION - END */

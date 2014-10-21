@@ -1,0 +1,6 @@
+<select ng-controller="filterTypeEnumCtrl" class="form-control input-sm" style="width:300px" ng-model="type.selEnum" ng-options="enum.label for enum in type.getChildren('enum')" ng-change="valueChanged()">
+    <option value="">-</option>
+</select>
+
+<!-- <input ng-controller="filterTypeEnumCtrl" class="form-control input-sm" type="text" ng-change="valueChanged()" ng-model="type.selEnum" tooltip="{{type.label}}">
+<button class="yangButton iconDanger" tooltip="{{type.errors.join('\n')}}" ng-show="type.errors.length > 0"></button> -->

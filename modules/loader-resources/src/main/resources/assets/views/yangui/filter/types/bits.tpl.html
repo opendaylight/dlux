@@ -1,0 +1,8 @@
+<div ng-controller="filterTypeBitCtrl">
+    <div ng-repeat="bit in type.getChildren('bit')">
+        <span>{{bit.label}}</span>
+        <input type="checkbox" ng-model="type.bitsValues[$index]" ng-checked="type.bitsValues[$index] === 1" ng-true-value="1" ng-false-value="0" ng-change="valueChanged()">
+        <div class='clear'></div>
+    </div>
+    <span>{{'Value '+node.value}}</span>
+</div>

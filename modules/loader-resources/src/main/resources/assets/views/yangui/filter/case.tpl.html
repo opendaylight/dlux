@@ -1,0 +1,3 @@
+<div ng-controller="caseCtrl" ng-hide="empty">
+    <div ng-repeat="node in case.getChildren(null,null,constants.NODE_UI_DISPLAY)" ng-include="currentPath+'/filter/'+node.type+'.tpl.html'" ></div>
+</div>
