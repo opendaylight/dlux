@@ -1,12 +1,12 @@
-define(['common/yangutils/yangutils.module'], function(yangUtils) {
+define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
-    yangUtils.factory('YangUtilsRestangular', function(Restangular, ENV) {
-        return Restangular.withConfig(function(RestangularConfig) {
-          RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
+    yangUtils.factory('YangUtilsRestangular', function (Restangular, ENV) {
+        return Restangular.withConfig(function (RestangularConfig) {
+            RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
         });
     });
 
-    yangUtils.factory('arrayUtils', function() {
+    yangUtils.factory('arrayUtils', function () {
 
         var arrayUtils = {};
 
@@ -20,39 +20,39 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         return arrayUtils;
     });
 
-    yangUtils.factory('pathUtils', function(arrayUtils) {
+    yangUtils.factory('pathUtils', function (arrayUtils) {
 
         var pathUtils = {},
             parentPath = '..';
 
-        var PathElem = function(name, module, identifierName) {
+        var PathElem = function (name, module, identifierName) {
             this.name = name;
             this.module = module;
             this.identifierName = identifierName;
             this.identifierValue = '';
 
-            this.hasIdentifier = function() {
+            this.hasIdentifier = function () {
                 return (identifierName ? true : false);
             };
 
-            this.toString = function() {
-                return (this.module ? this.module+':' : '')+this.name+'/'+(this.hasIdentifier() ? this.identifierValue + '/' : '');
+            this.toString = function () {
+                return (this.module ? this.module + ':' : '') + this.name + '/' + (this.hasIdentifier() ? this.identifierValue + '/' : '');
             };
 
-            this.checkNode = function(node) {
+            this.checkNode = function (node) {
                 return (this.module ? this.module === node.module : true) && (this.name ? this.name === node.label : true);
             };
         };
 
-        var getModuleNodePair = function(pathString, defaultModule) {
+        var getModuleNodePair = function (pathString, defaultModule) {
             return pathString.indexOf(':') > -1 ? pathString.split(':') : [defaultModule, pathString];
         };
 
-        var isIdentifier = function(item) {
+        var isIdentifier = function (item) {
             return (item.indexOf('{') === item.indexOf('}')) === false;
         };
 
-        var createPathElement = function(pathString, identifierString, prefixConverter, defaultModule) {
+        var createPathElement = function (pathString, identifierString, prefixConverter, defaultModule) {
             var pair = getModuleNodePair(pathString, defaultModule),
                 //module can be either prefix or module name, if it's module name we don't need to convert it
                 module = (prefixConverter && pair[0] !== defaultModule ? prefixConverter(pair[0]) : pair[0]),
@@ -61,16 +61,16 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             return new PathElem(name, module, identifierString);
         };
 
-        pathUtils.search = function(node, path) {
+        pathUtils.search = function (node, path) {
             var pathElem = path.shift(),
-                selNode = (pathElem.name === parentPath ?
-                    node.parent :
-                    arrayUtils.getFirstElementByCondition(node.children, function(child) {
-                        return pathElem.checkNode(child);
-                    }));
+                selNode = pathElem.name === parentPath ?
+                node.parent :
+                arrayUtils.getFirstElementByCondition(node.children, function (child) {
+                    return pathElem.checkNode(child);
+                });
 
-            if(selNode !== null) {
-                if(path.length) {
+            if (selNode !== null) {
+                if (path.length) {
                     return pathUtils.search(selNode, path);
                 } else {
                     return selNode;
@@ -81,22 +81,20 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             }
         };
 
-        pathUtils.translate = function(path, prefixConverter, defaultModule) {
+        pathUtils.translate = function (path, prefixConverter, defaultModule) {
             var lastUsedModule = defaultModule,
-
-                pathStrArray = path.split('/').filter(function(item) {
+                pathStrArray = path.split('/').filter(function (item) {
                     return item !== '';
                 }).slice(),
-
-                result = pathStrArray.map(function(item, index) {
-                    if(isIdentifier(item)) {
+                result = pathStrArray.map(function (item, index) {
+                    if (isIdentifier(item)) {
                         return null;
                     } else {
                         var identifier,
-                            pathElem;
+                                pathElem;
 
-                        if(pathStrArray.length > index+1 && isIdentifier(pathStrArray[index+1])) {
-                            identifier = pathStrArray[index+1].slice(1, -1);
+                        if (pathStrArray.length > index + 1 && isIdentifier(pathStrArray[index + 1])) {
+                            identifier = pathStrArray[index + 1].slice(1, -1);
                         }
 
                         pathElem = createPathElement(item, identifier, prefixConverter, lastUsedModule);
@@ -105,11 +103,98 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
                         return pathElem;
                     }
-                }).filter(function(item) {
+                }).filter(function (item) {
                     return item !== null;
                 });
 
-            return result;
+                return result;
+            };
+
+        var trimPath = function(pathString) {
+            var searchStr = 'restconf',
+                output = pathString;
+
+            if(pathString.indexOf(searchStr) > -1) {
+                output = pathString.slice(pathString.indexOf(searchStr)+searchStr.length+1);
+            }
+
+            return output;
+        };
+
+        var deleteRevision = function(s) {
+            return s.slice(0, s.indexOf(' rev.')).trim();
+        };
+
+
+        var expandTreeDataNode = function(treeApiNode, treeData) {
+            var sel = treeData.filter(function(d) {
+                return d.branch.uid === treeApiNode.uid;
+            });
+
+            if(sel.length === 1) {
+                sel[0].branch.expanded = true;
+            }
+        };
+
+
+        var getPathStrToArray = function(pathString) {
+            return pathArray = trimPath(pathString).split('/').filter(function(elem) {
+                    return elem !== '';
+                }).map(function(elem) {
+                    var pair = getModuleNodePair(elem, null);
+                    return new PathElem(pair[1], pair[0], null);
+                });
+        };
+
+        pathUtils.fillPath = function(pathArrayIn, pathString) {
+            var pathArray = getPathStrToArray(pathString);
+
+            for(var i = 0, j = 0; i < pathArrayIn.length; i++) {
+                var pathElem = pathArrayIn[i],
+                    inc = 1;
+                    
+                if(pathElem.hasIdentifier()) {
+                    pathElem.identifierValue = pathArray[j+1].name;
+                    inc = 2;
+                }
+
+                j = j + inc;
+            }
+        };
+
+        var getActElementChild = function(actElem, childLabel) {
+            var sel = actElem.children.filter(function(child) {
+                    return child.label === childLabel;
+                }),
+                ret = sel.length === 1 ? sel[0] : null;
+
+            return ret;
+        };
+
+        pathUtils.searchNodeByPath = function(pathString, treeApis, treeData) {
+            var pathArray = getPathStrToArray(pathString),
+                module = pathArray.length > 1 ? pathArray[1].module : null,
+                selectedTreeApi = module ? treeApis.filter(function(treeApi) {
+                    return deleteRevision(treeApi.label) === module;
+                })[0] : null,
+                retObj = null;
+
+            if(selectedTreeApi && pathArray.length) {
+                var actElem = selectedTreeApi;
+                
+                for(i = 0; i < pathArray.length && actElem; ) {
+                    expandTreeDataNode(actElem, treeData);
+                    actElem = getActElementChild(actElem, pathArray[i].name);
+
+                    i = i + (actElem.identifier ? 2 : 1);
+                }
+
+                if(actElem) {
+                    retObj = { indexApi: actElem.indexApi, indexSubApi: actElem.indexSubApi };
+                }
+            }
+
+            return retObj;
         };
 
         pathUtils.__test = {
@@ -125,39 +210,39 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
     yangUtils.factory('syncFact', function ($timeout) {
         var timeout = 10000;
 
-        var SyncObject = function() {
+        var SyncObject = function () {
             this.runningRequests = [];
             this.reqId = 0;
             this.timeElapsed = 0;
 
-            this.spawnRequest = function(digest) {
-                var id = digest+(this.reqId++).toString();
+            this.spawnRequest = function (digest) {
+                var id = digest + (this.reqId++).toString();
                 this.runningRequests.push(id);
                 //console.debug('adding request ',id,' total running requests  = ',this.runningRequests);
                 return id;
             };
 
-            this.removeRequest = function(id) {
+            this.removeRequest = function (id) {
                 var index = this.runningRequests.indexOf(id);
 
                 if (index > -1) {
                     this.runningRequests.splice(index, 1);
                     //console.debug('removing request ',id,' remaining requests = ',this.runningRequests);
                 } else {
-                    console.warn('cannot remove request',id,'from',this.runningRequests,'index is',index);
+                    console.warn('cannot remove request', id, 'from', this.runningRequests, 'index is', index);
                 }
             };
 
-            this.waitFor = function(callback) {
+            this.waitFor = function (callback) {
                 var t = 1000,
-                    processes = this.runningRequests.length,
-                    self = this;
+                        processes = this.runningRequests.length,
+                        self = this;
 
-                if(processes > 0 && self.timeElapsed < timeout) {
+                if (processes > 0 && self.timeElapsed < timeout) {
                     // console.debug('waitin on',processes,'processes',this.runningRequests);
-                    $timeout(function() { 
+                    $timeout(function () {
                         self.timeElapsed = self.timeElapsed + t;
-                        self.waitFor(callback); 
+                        self.waitFor(callback);
                     }, t);
                 } else {
                     callback();
@@ -166,7 +251,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         };
 
         return {
-            generateObj: function() {
+            generateObj: function () {
                 return new SyncObject();
             }
         };
@@ -174,28 +259,29 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
 
     yangUtils.factory('custFunct', function (reqBuilder) {
-        var CustFunctionality = function(label, node, callback) {
+        var CustFunctionality = function (label, node, callback, viewStr) {
             this.label = label;
             this.callback = callback;
+            this.viewStr = viewStr;
 
-            this.setCallback = function(callback) {
+            this.setCallback = function (callback) {
                 this.callback = callback;
             };
 
-            this.runCallback = function() {
-                if(this.callback) {
-                    this.callback();
+            this.runCallback = function (args) {
+                if (this.callback) {
+                    this.callback(args);
                 } else {
-                    console.warn('no callback set for custom functionality',this.label);
+                    console.warn('no callback set for custom functionality', this.label);
                 }
             };
         };
 
         custFunct = {};
 
-        custFunct.createNewFunctionality = function(label, node, callback) {
-            if(node && callback) {
-                return new CustFunctionality(label, node, callback);
+        custFunct.createNewFunctionality = function (label, node, callback, viewStr) {
+            if (node && callback) {
+                return new CustFunctionality(label, node, callback, viewStr);
             } else {
                 console.error('no node or callback is set for custom functionality');
             }
@@ -207,30 +293,23 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
     yangUtils.factory('reqBuilder', function () {
 
-        var namespace = 'flow-node-inventory';
-
         var builder = {
-            namespace: namespace,
-            createObj: function() {
+            createObj: function () {
                 return {};
             },
-
-            createList: function() {
+            createList: function () {
                 return [];
             },
-
-            insertObjToList: function(list, obj) {
+            insertObjToList: function (list, obj) {
                 list.push(obj);
             },
-
-            insertPropertyToObj: function(obj, propName, propData) {
+            insertPropertyToObj: function (obj, propName, propData) {
                 var data = propData ? propData : {},
-                    name = propName;
+                        name = propName;
 
                 obj[name] = data;
             },
-
-            resultToString: function(obj) {
+            resultToString: function (obj) {
                 return JSON.stringify(obj, null, 4);
             }
         };
@@ -239,150 +318,433 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
     });
 
-    yangUtils.factory('nodeWrapper', function (constants, $timeout, reqBuilder) {
 
-      var comparePropToElemByName = function comparePropToElemByName(propName, elemName) {
-          return (propName.indexOf(':') > -1 ? propName.split(':')[1] : propName) === elemName; //TODO also check by namespace - redundancy?
-      };
-
-      var equalArrays = function(arrA, arrB) {
-          var match = (arrA.length === arrB.length) && arrA.length > 0;
-
-          if(match) {
-              var i = 0;
-              while(i < arrA.length && match) {
-                  var valMatch = arrA[i] === arrB[i];
-                  match = match && valMatch;
-                  i++;
-              }
-          }
-
-          return match;
-      };
-
-      var equalListElems = function (listElemA, listElemB, refKey) {
-          var getKeyValue = function(data, label, module) {
-                  if(data && data.hasOwnProperty(label)) {
-                      return data[label];
-                  } else if(data && data.hasOwnProperty(module+':'+label)) {
-                      return data[module+':'+label];
-                  } else {
-                      return null;
-                  }
-              },
-              getKeyArrayValues = function(data, refKey) {
-                  return refKey.map(function(key) {
-                      return getKeyValue(data, key.label, key.module);
-                  }).filter(function(item) {
-                      return item !== null;
-                  });
-              },
-              keyValuesA = getKeyArrayValues(listElemA, refKey);
-              keyValuesB = getKeyArrayValues(listElemB, refKey);
-
-          return equalArrays(keyValuesA, keyValuesB);
-      };
-
-      var checkListElemKeys = function(listData, refKey) {
-          var doubleKeyIndexes = [],
-              checkedElems = [];
-
-          listData.forEach(function(item, index) {
-              var duplitactes = checkedElems.filter(function(checked) {
-                  var isDuplicate = equalListElems(item, checked.item, refKey);
-                  if(isDuplicate && doubleKeyIndexes.indexOf(checked.index) === -1) {
-                      doubleKeyIndexes.push(checked.index);
-                  }
-                  return isDuplicate;
-              });
-
-              if(duplitactes.length) {
-                  //item is already in checkedElems so we don't need to push it again
-                  doubleKeyIndexes.push(index); 
-              } else {
-                  checkedElems.push({index: index, item: item});
-              }
-          });
-
-          return doubleKeyIndexes;
-      };
+    yangUtils.factory('typeWrapper', function (restrictionsFact) {
+        var findLeafParent = function (node) {
+            if (node.type === 'leaf') {
+                return node;
+            } else {
+                if (node.parent) {
+                    return findLeafParent(node.parent);
+                } else {
+                    return null;
+                }
+            }
+        };
 
         var wrapper = {
+            wrapAll: function (node) {
+                if (node.type === 'type') {
+                    this._setDefaultProperties(node);
+                }
 
-            wrap: function(node) {
-                if(this.hasOwnProperty(node.type)) {
+                if(this.hasOwnProperty(node.label)) {
+                    this[node.label](node);
+                }
+            },
+            _setDefaultProperties: function (node) {
+                node.builtInChecks = [];
+                node.errors = [];
+                node.clear = function () {
+                };
+                node.fill = function () {
+                };
+                node.performRestrictionsCheck = function (value) {
+                    var patternRestrictions = node.getChildren('pattern'),
+                        patternCheck = function(value) {
+                            return patternRestrictions.map(function(patternNode) {
+                                return patternNode.restrictions[0];
+                            }).some(function(patternRestriction) {
+                                var condition = patternRestriction.check(value);
+                                if(condition === false) {
+                                    node.errors.push(patternRestriction.info);
+                                }
+                                return condition;
+                            });
+                        },
+                        lengthRestrictions = node.getChildren('length'),
+                        rangeRestrictions = node.getChildren('range'),
+                        lengthRangeCheck = function(restrictionsContainers, value) {
+                            return restrictionsContainers[0].restrictions.some(function(restriction) {
+                                var condition = restriction.check(value);
+                                if(condition === false) {
+                                    node.errors.push(restriction.info);
+                                }
+                                return condition;
+                            });
+                        };
+                    
+                    var patternCondition = patternRestrictions.length ? patternCheck(value) : true,
+                        lengthCondition = lengthRestrictions.length && value.length? lengthRangeCheck(lengthRestrictions, value.length) : true,
+                        rangeCondition = rangeRestrictions.length ? lengthRangeCheck(rangeRestrictions, value) : true;
+
+                    return patternCondition && lengthCondition && rangeCondition;
+                };
+                node.performBuildInChecks = function (value) {
+                    return node.builtInChecks.length ? node.builtInChecks.every(function (restriction) {
+                        var condition = restriction.check(value);
+                        if(condition === false) {
+                            node.errors.push(restriction.info);
+                        }
+                        return condition;
+                    }) : true;
+                };
+                node.check = function (value) {
+                    node.errors = [];
+                    var condition = value !== '' ? node.performBuildInChecks(value) && node.performRestrictionsCheck(value) : true;
+                    if(condition) {
+                        node.errors = [];
+                    }
+                    return condition;
+                };
+            },
+            // string: function (node) {
+            // },
+            // boolean: function (node) {
+            // },
+            enumeration: function (node) {
+                node.selEnum = null;
+                node.leafParent = findLeafParent(node);
+                
+                var childNames = [];
+                node.getChildren('enum').forEach(function(child) {
+                    childNames.push(child.label);
+                });
+                node.builtInChecks.push(restrictionsFact.isInArray(childNames));
+
+                node.setLeafValue = function (value) {
+                    if(value) {
+                        node.leafParent.value = value;
+                    }
+                };
+                
+                node.clear = function () {
+                    node.selEnum = null;
+                };
+
+                node.fill = function (value) {
+                    var selChild = node.getChildren('enum', value)[0];
+                    node.selEnum = selChild ? selChild : null;
+                };
+            },
+            bits: function (node) {
+                var actBitsLen = 0,
+                    i;
+
+                node.leafParent = findLeafParent(node);
+                node.maxBitsLen = node.getChildren('bit').length;
+                node.bitsValues = [];
+
+                node.builtInChecks.push(restrictionsFact.getIsUNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(0, 18446744073709551615));
+
+                for (i = 0; i < node.maxBitsLen; i++) {
+                    node.bitsValues[i] = '';
+                }
+
+                node.clear = function () {
+                    for (i = 0; i < node.bitsValues.length; i++) {
+                        node.bitsValues[i] = 0;
+                    }
+                };
+
+                node.fill = function () {
+                    
+                    var parseIntVal = parseInt(node.leafParent.value, 10),
+                        intVal = isNaN(parseIntVal) === false ? parseIntVal : 0;
+                    
+                    node.bitsValues = intVal.toString(2).split('').slice().reverse();
+                    actBitsLen = node.bitsValues.length;
+                    
+                    for (i = actBitsLen; i < node.maxBitsLen; i++) {
+                        node.bitsValues.push('');
+                    }
+                };
+
+                node.setLeafValue = function (values) {
+                    var bitString = values.map(function (value) {
+                        return value.length > 0 ? value : '0';
+                    });
+
+                    node.leafParent.value = parseInt(bitString.slice().reverse().join(''), 2).toString();
+                };
+            },
+            // binary: function (node) {
+            // },
+            // leafref: function (node) {
+            // },
+            // identityref: function (node) {
+            // },
+            // empty: function (node) {
+            // },
+            union: function (node) {
+                node.clear = function () {
+                    node.getChildren('type').forEach(function(child) {
+                        child.clear();
+                    });
+                };
+                node.fill = function (value) {
+                    node.getChildren('type').forEach(function(child) {
+                        child.fill(value);
+                    });
+                };
+
+                node.check = function (value) {
+                    var condition = false;
+                    node.getChildren('type').forEach(function (childType) {
+                        var childCondition = childType.check(value);
+                        condition = condition || childCondition;
+                    });
+                    return condition;
+                };
+
+                node.getChildren('type').forEach(function (childType) {
+                    wrapper.wrapAll(childType);
+                });
+            },
+            // 'instance-identifier': function (node) {
+            // },
+            decimal64: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsDecimalFnc());
+            },
+            int8: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(-128, 127));
+            },
+            int16: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(-32768, 32767));
+            },
+            int32: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(-2147483648, 2147483647));
+            },
+            int64: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(-9223372036854775808, 9223372036854775807));
+            },
+            uint8: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsUNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(0, 255));
+            },
+            uint16: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsUNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(0, 65535));
+            },
+            uint32: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsUNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(0, 4294967295));
+            },
+            uint64: function (node) {
+                node.builtInChecks.push(restrictionsFact.getIsUNumberFnc());
+                node.builtInChecks.push(restrictionsFact.getMinMaxFnc(0, 18446744073709551615));
+            }
+        };
+
+        wrapper.__test = {
+            findLeafParent: findLeafParent
+        };
+
+        return wrapper;
+
+    });
+
+    yangUtils.factory('nodeWrapper', function (constants, $timeout, reqBuilder, restrictionsFact, typeWrapper) {
+
+        var comparePropToElemByName = function comparePropToElemByName(propName, elemName) {
+            return (propName.indexOf(':') > -1 ? propName.split(':')[1] : propName) === elemName; //TODO also check by namespace - redundancy?
+        };
+
+        var equalArrays = function (arrA, arrB) {
+            var match = (arrA.length === arrB.length) && arrA.length > 0;
+
+            if (match) {
+                var i = 0;
+                while (i < arrA.length && match) {
+                    var valMatch = arrA[i] === arrB[i];
+                    match = match && valMatch;
+                    i++;
+                }
+            }
+            return match;
+        };
+
+        var equalListElems = function (listElemA, listElemB, refKey) {
+            var getKeyValue = function (data, label, module) {
+                    if (data && data.hasOwnProperty(label)) {
+                        return data[label];
+                    } else if (data && data.hasOwnProperty(module + ':' + label)) {
+                        return data[module + ':' + label];
+                    } else {
+                        return null;
+                    }
+                },
+                getKeyArrayValues = function (data, refKey) {
+                    return refKey.map(function (key) {
+                        return getKeyValue(data, key.label, key.module);
+                    }).filter(function (item) {
+                        return item !== null;
+                    });
+                },
+                keyValuesA = getKeyArrayValues(listElemA, refKey);
+                keyValuesB = getKeyArrayValues(listElemB, refKey);
+
+            return equalArrays(keyValuesA, keyValuesB);
+        };
+
+        var checkListElemKeys = function (listData, refKey) {
+            var doubleKeyIndexes = [],
+                checkedElems = [];
+
+            listData.forEach(function (item, index) {
+                var duplitactes = checkedElems.filter(function (checked) {
+                    var isDuplicate = equalListElems(item, checked.item, refKey);
+                    if (isDuplicate && doubleKeyIndexes.indexOf(checked.index) === -1) {
+                        doubleKeyIndexes.push(checked.index);
+                    }
+                    return isDuplicate;
+                });
+
+                if (duplitactes.length) {
+                    //item is already in checkedElems so we don't need to push it again
+                    doubleKeyIndexes.push(index);
+                } else {
+                    checkedElems.push({index: index, item: item});
+                }
+            });
+
+            return doubleKeyIndexes;
+        };
+
+        var parseRestrictText = function (text) {
+            return text.split('|').map(function (elem) {
+                var subElems = elem.split('..');
+                return subElems.length === 1 ? restrictionsFact.getEqualsFnc(subElems[0]) :
+                                               restrictionsFact.getMinMaxFnc(subElems[0], subElems[1]);
+            });
+        };
+
+
+        var getTypes = function (node) {
+            var types = [];
+
+            var getTypesRecursive = function (node, types) {
+                types.push(node);
+
+                node.getChildren('type').forEach(function (child) {
+                    getTypesRecursive(child, types);
+                });
+            };
+
+            node.getChildren('type').forEach(function (child) {
+                //console.info('child', child);
+                getTypesRecursive(child, types);
+            });
+
+            return types;
+        };
+
+        var wrapper = {
+            wrap: function (node) {
+                if (this.hasOwnProperty(node.type)) {
                     this[node.type](node);
                 }
             },
-
-            wrapAll: function(node) {
+            wrapAll: function (node) {
                 var self = this;
                 self.wrap(node);
-                node.children.forEach(function(child) {
+                node.children.forEach(function (child) {
                     self.wrapAll(child);
                 });
             },
-
-            leaf: function(node) {
+            leaf: function (node) {
                 node.value = '';
+                node.valueIsValid = true;
+                
+                var typeChild = node.getChildren('type')[0];
 
-                var fnToString = function(string){
+                var fnToString = function (string) {
                     var valueStr = '';
                     try {
                         valueStr = string.toString();
-                    } catch(e) {
-                        console.warn('cannot convert value',node.value);
+                    } catch (e) {
+                        console.warn('cannot convert value', node.value);
                     }
                     return valueStr;
                 };
 
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var valueStr = '';
                     valueStr = fnToString(node.value);
 
-                    if( valueStr ) {
+                    if (valueStr) {
                         builder.insertPropertyToObj(req, node.label, valueStr);
                         return true;
                     }
                     return false;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var match = comparePropToElemByName(name, node.label);
 
-                    if(match) {
+                    if (match) {
                         node.value = data;
+                        if (typeChild) {
+                            typeChild.fill(node.value);
+                        }
                     }
                     return match;
                 };
 
-                node.clear = function() {
+                node.clear = function () {
                     node.value = '';
-                    node.nodeType = constants.NODE_UI_DISPLAY;
+                    if (typeChild) {
+                        typeChild.clear();
+                    }
                 };
 
-                node.isFilled = function() {
+                node.isFilled = function () {
                     var filled = fnToString(node.value) ? true : false;
                     return filled;
                 };
 
+                node.checkValueType = function () {
+                    node.valueIsValid = typeChild ? typeChild.check(node.value) : true;
+                };
             },
-
-            container: function(node) {
+            type: function (node) {
+                typeWrapper.wrapAll(node);
+            },
+            length: function (node) {
+                node.restrictions = parseRestrictText(node.label);
+            },
+            range: function (node) {
+                node.restrictions = parseRestrictText(node.label);
+            },
+            pattern: function (node) {
+                node.restrictions = [restrictionsFact.getReqexpValidationFnc(node.label)];
+            },
+            // enum: function (node) {
+            // },
+            // bit: function (node) {
+            // },
+            // position: function (node) {
+            // },
+            container: function (node) {
                 node.expanded = false;
 
-                node.toggleExpand = function() {
+                node.toggleExpand = function () {
                     node.expanded = !node.expanded;
                 };
 
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var added = false,
-                        name = node.label,
-                        objToAdd = builder.createObj();
-                    
-                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
-                        
-                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                            name = node.label,
+                            objToAdd = builder.createObj(),
+                            builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+                    if (builderNodes.length) {
+                        builderNodes.forEach(function (child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -390,56 +752,56 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         added = true;
                     }
 
-                    if(added) {
+                    if (added) {
                         builder.insertPropertyToObj(req, name, objToAdd);
                     }
 
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                            nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
-                        nodesToFill.forEach(function(child) {
-                            for(var prop in data) {
+                        nodesToFill.forEach(function (child) {
+                            for (var prop in data) {
                                 child.fill(prop, data[prop]);
                             }
                         });
 
-                        node.expanded = true;
+                        node.expanded = match;
                     }
+
                     return match;
                 };
 
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
-                    if ( nodesToClear.length ) {
-                        nodesToClear.forEach(function(child) {
+                    if (nodesToClear.length) {
+                        nodesToClear.forEach(function (child) {
                             child.clear();
                         });
                     }
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
             },
-
-            rpc: function(node) {
+            rpc: function (node) {
                 node.expanded = true;
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var added = false,
-                        name = node.label;
-                    
-                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
-                        
-                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        name = node.label,
+                        builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+                    if (builderNodes.length) {
+                        builderNodes.forEach(function (child) {
                             var childAdded = child.buildRequest(builder, req);
                             added = added || childAdded;
                         });
@@ -450,11 +812,11 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var filled = false,
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
-                    nodesToFill.forEach(function(child) {
+                    nodesToFill.forEach(function (child) {
                         var childFilled = child.fill(name, data);
                         filled = filled || childFilled;
                     });
@@ -464,35 +826,34 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return filled;
                 };
 
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    node.nodeType = constants.NODE_UI_DISPLAY;
-
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+                    
                     if (nodesToClear.length) {
-                        nodesToClear.forEach(function(child) {
+                        nodesToClear.forEach(function (child) {
                             child.clear();
                         });
                     }
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
 
             },
-
-            input: function(node) {
+            input: function (node) {
                 node.expanded = true;
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var added = false,
                         name = node.label,
-                        objToAdd = builder.createObj();
-                    
-                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
-                        
-                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        objToAdd = builder.createObj(),
+                        builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+                    if (builderNodes.length) {
+
+                        builderNodes.forEach(function (child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -500,58 +861,56 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         added = true;
                     }
 
-                    if(added) {
+                    if (added) {
                         builder.insertPropertyToObj(req, name, objToAdd);
                     }
 
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
-                        nodesToFill.forEach(function(child) {
-                            for(var prop in data) {
+                        nodesToFill.forEach(function (child) {
+                            for (var prop in data) {
                                 child.fill(prop, data[prop]);
                             }
                         });
-
-                        node.expanded = true;
+                        node.expanded = match;
                     }
+
                     return match;
                 };
 
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    node.nodeType = constants.NODE_UI_DISPLAY;
-
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+                    
                     if (nodesToClear.length) {
-                        nodesToClear.forEach(function(child) {
+                        nodesToClear.forEach(function (child) {
                             child.clear();
                         });
                     }
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
 
             },
-
-            output: function(node) {
+            output: function (node) {
                 node.expanded = true;
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var added = false,
                         name = node.label,
-                        objToAdd = builder.createObj();
-                    
-                    if(node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).length) {
-                        
-                        node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                        objToAdd = builder.createObj(),
+                        builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+                    if (builderNodes.length) {
+                        builderNodes.forEach(function (child) {
                             var childAdded = child.buildRequest(builder, objToAdd);
                             added = added || childAdded;
                         });
@@ -559,53 +918,51 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         added = true;
                     }
 
-                    if(added) {
+                    if (added) {
                         builder.insertPropertyToObj(req, name, objToAdd);
                     }
 
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var match = comparePropToElemByName(name, node.label),
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
                     if (match && nodesToFill.length) {
-                        nodesToFill.forEach(function(child) {
-                            for(var prop in data) {
+                        nodesToFill.forEach(function (child) {
+                            for (var prop in data) {
                                 child.fill(prop, data[prop]);
                             }
                         });
-
-                        node.expanded = true;
+                        node.expanded = match;
                     }
+
                     return match;
                 };
 
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    node.nodeType = constants.NODE_UI_DISPLAY;
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
                     if (nodesToClear.length) {
-                        nodesToClear.forEach(function(child) {
+                        nodesToClear.forEach(function (child) {
                             child.clear();
                         });
                     }
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
 
             },
-
-            case: function(node) {
-                node.buildRequest = function(builder, req) {
+            case: function (node) {
+                node.buildRequest = function (builder, req) {
                     var added = false;
 
-                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildren(null, null, constants.NODE_UI_DISPLAY).forEach(function (child) {
                         var childAdded = child.buildRequest(builder, req);
                         added = added || childAdded;
                     });
@@ -613,11 +970,11 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var filled = false,
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
+                        nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
-                    nodesToFill.forEach(function(child) {
+                    nodesToFill.forEach(function (child) {
                         var childFilled = child.fill(name, data);
                         filled = filled || childFilled;
                     });
@@ -625,48 +982,46 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return filled;
                 };
 
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    node.nodeType = constants.NODE_UI_DISPLAY;
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
-                    nodesToClear.forEach(function(child) {
+                    nodesToClear.forEach(function (child) {
                         child.clear();
                     });
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
             },
-
-            choice: function(node) {
+            choice: function (node) {
                 node.choice = null;
                 node.expanded = true;
-                node.buildRequest = function(builder, req) {
-                    var added;
+                node.buildRequest = function (builder, req) {
+                    var added = false;
 
-                    if(node.choice) {
+                    if (node.choice) {
                         added = node.choice.buildRequest(builder, req);
                     }
 
                     return added;
                 };
 
-                node.fill = function(name, data) {
+                node.fill = function (name, data) {
                     var filled = false,
-                        nodesToFill = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    
-                    nodesToFill.forEach(function(child) {
+                            nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+                    nodesToFill.forEach(function (child) {
                         var childFilled = child.fill(name, data);
 
-                        if(childFilled) {
+                        if (childFilled) {
                             node.choice = child;
                         }
 
                         filled = filled || childFilled;
-                        if(filled) {
+                        if (filled) {
                             return false;
                         }
                     });
@@ -674,48 +1029,47 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     return filled;
                 };
 
-                node.clear = function() {
+                node.clear = function () {
                     node.nodeType = constants.NODE_UI_DISPLAY;
 
-                    if(node.choice) {
+                    if (node.choice) {
                         node.choice.clear();
                         node.choice = null;
                     }
                 };
 
-                node.isFilled = function() {
+                node.isFilled = function () {
                     return node.choice !== null;
                 };
             },
-
-            'leaf-list': function(node) {
+            'leaf-list': function (node) {
                 node.value = [];
                 node.expanded = true;
 
-                node.toggleExpand = function() {
+                node.toggleExpand = function () {
                     node.expanded = !node.expanded;
                 };
 
-                node.addListElem = function() {
+                node.addListElem = function () {
                     var newElement = {
                         value: ''
                     };
                     node.value.push(newElement);
                 };
 
-                node.removeListElem = function(elem){
-                    node.value.splice(node.value.indexOf(elem),1);
+                node.removeListElem = function (elem) {
+                    node.value.splice(node.value.indexOf(elem), 1);
                 };
 
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
 
                     var valueArray = [];
 
-                    for( var i=0; i < node.value.length; i++ ) {
+                    for (var i = 0; i < node.value.length; i++) {
                         valueArray.push(node.value[i].value);
                     }
 
-                    if(valueArray.length > 0) {
+                    if (valueArray.length > 0) {
                         builder.insertPropertyToObj(req, node.label, valueArray);
                         return true;
                     }
@@ -725,133 +1079,254 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
 
-                node.fill = function(name, array) {
+                node.fill = function (name, array) {
                     var match = comparePropToElemByName(name, node.label),
-                        newLeafListItem;
+                            newLeafListItem;
 
-                    if(match) {
-                        
-                        for ( var i=0; i< array.length; i++ ) {
+                    if (match) {
+
+                        for (var i = 0; i < array.length; i++) {
                             newLeafListItem = {
                                 value: array[i]
                             };
                             node.value.push(newLeafListItem);
                         }
-                        
+
                     }
                     return match;
-                }; 
+                };
 
-                node.clear = function() {
+                node.clear = function () {
                     node.nodeType = constants.NODE_UI_DISPLAY;
                     node.value = [];
                 };
 
-                node.isFilled = function() {
+                node.isFilled = function () {
                     return node.value.length > 0;
                 };
 
             },
-
-            key: function(node) {
+            key: function (node) {
                 // do this only on list, not on listElem because deepCopy on list doesn't copy property keys to listElem => don't do this when button for add new list is clicked
                 if (node.parent.hasOwnProperty('refKey')) {
                     var keyLabels = node.label.split(' ');
-                    node.parent.refKey = node.parent.getChildrenByNodeType(constants.NODE_UI_DISPLAY).filter(function(child) {
+                    node.parent.refKey = node.parent.getChildren(null, null, constants.NODE_UI_DISPLAY).filter(function (child) {
                         return keyLabels.indexOf(child.label) > -1;
                     });
                 }
             },
-
-            list: function(node) {
+            list: function (node) {
                 node.refKey = [];
                 node.doubleKeyIndexes = [];
-
                 node.actElemStructure = null;
                 node.actElemIndex = -1;
                 node.listData = [];
-
+                node.filters = [];
+                node.filteredListData = [];
                 node.expanded = true;
 
-                node.toggleExpand = function() {
+                node.toggleExpand = function () {
                     node.expanded = !node.expanded;
                 };
 
-                node.createStructure = function() {
-                    if(node.actElemStructure === null) {
+                node.createStructure = function () {
+                    if (node.actElemStructure === null) {
                         var copy = node.deepCopy();
                         wrapper._listElem(copy);
                         node.actElemStructure = copy;
+                        node.actElemStructure.getActElemIndex = node.getActElemIndex;
                     }
                 };
 
-                node.addListElem = function() {
+                node.getActElemIndex = function() {
+                    return node.actElemIndex;
+                };
+
+                node.addListElem = function () {
                     node.createStructure();
                     var newElemData = {};
                     node.listData.push(newElemData);
-                    node.changeActElementData(node.listData.length - 1);
+                    node.changeActElementData(node.listData.length - 1,true);
                 };
 
-                node.buildActElemData = function() {
+                node.showListFilterWin = function () {
+                    if(!(node.filters && node.filters.length)){
+                        var newFilter = node.getChildren('leaf',null,constants.NODE_UI_DISPLAY).map(function(element){
+                            var copy = element.deepCopy();
+                            wrapper.wrapAll(copy);
+                            return copy;
+                        });
+                        node.filters.push({name : 'Filter 1 name',filterNodes : newFilter});
+                    }
+                };
+
+                node.getFilterData = function () {
+                    node.filters[node.currentFilter].filteredValues = node.filters[node.currentFilter].filterNodes.filter(function(child){
+                        return child.value !== null && child.value !== "";
+                    }).map(function(element){
+                        return {id:element.id, value:element.value, label:element.label};
+                    });
+                };
+
+                node.switchFilter = function (showedFilter) {
+                    node.getFilterData();
+                    node.currentFilter = showedFilter;
+                };
+
+                node.createNewFilter = function () {
+                    node.getFilterData();
+                    var newFilter = node.getChildren('leaf',null,constants.NODE_UI_DISPLAY).map(function(element){
+                        return element.deepCopy();
+                    });
+                    node.filters.push({name : 'Filter ' + (node.filters.length+1) + ' name',filterNodes : newFilter});
+                    node.switchFilter(node.filters.length-1);
+                };
+
+                node.applyFilter = function () {
+                    node.getFilterData();
+                    node.filteredListData = node.listData.slice().filter(function(element){
+                        return node.filters.some(function(filter){
+                            return filter.filteredValues.every(function(filtervalue){
+                                return element[filtervalue.label] === filtervalue.value;
+                            });
+                        });
+                    });
+
+                    node.getActElementFilter();
+                };
+
+                node.clearFilterData = function (changeAct,filterForClear) {
+                    if(filterForClear){
+                        filterForClear--;
+                        if(node.filters.length === 1){
+                            node.filters = [];
+                            var newFilter = node.getChildren('leaf',null,constants.NODE_UI_DISPLAY).map(function(element){
+                              return element.deepCopy();
+                             });
+                            node.filters.push({name : 'Filter 1 name',filterNodes : newFilter});
+                        }else{
+                            node.filters.splice(filterForClear,1);
+                            node.currentFilter = 0;
+                        }
+                    }else{
+                        node.filters = [];
+                        node.filteredListData = [];
+                        node.currentFilter = 0;
+                    }
+
+                    if(changeAct){
+                        node.getActElementFilter();
+                    }
+
+                };
+
+                node.getActElementFilter = function () {
+
+                    var actData = [];
+                    
+                    if(node.filteredListData && node.filteredListData.length){
+                        node.actElemIndex = 0;
+                        actData = node.filteredListData[node.actElemIndex];
+                    }else{
+                        node.actElemIndex = 0;
+                        actData = node.listData[node.actElemIndex];
+                    }
+                    
+
+                    node.actElemStructure.clear();
+                    for (var prop in actData) {
+                        node.actElemStructure.fillListElement(prop, actData[prop]);
+                    }
+                };
+
+                node.buildActElemData = function () {
                     var list = [],
-                        result;
-                    if(node.actElemStructure) {
+                            result;
+                    if (node.actElemStructure) {
                         node.actElemStructure.listElemBuildRequest(reqBuilder, list);
                         result = list[0] ? list[0] : {};
                     }
                     return result;
                 };
 
-                node.changeActElementData = function(index) {
+                node.changeActElementData = function (index,fromAdd) {
                     var storeData = node.buildActElemData();
-
                     node.expanded = true;
-
-                    if(node.actElemIndex > -1) { //we are changing already existing data
-                        node.listData[node.actElemIndex] = storeData;
+                    // console.info('changeActElementData storeData',storeData);
+                    if (node.actElemIndex > -1) { //we are changing already existing data
+                        if(node.filteredListData && node.filteredListData.length){
+                            node.listData[node.listData.indexOf(node.filteredListData[node.actElemIndex])] = storeData;
+                            node.filteredListData[node.actElemIndex] = storeData;
+                            if(fromAdd){
+                               node.clearFilterData(true);
+                            }
+                        }else{
+                            node.listData[node.actElemIndex] = storeData;
+                        }
                     }
-
                     node.actElemIndex = index;
-                    var actData = node.listData[node.actElemIndex];
-                    
+
+                    var actData = null;
+                    if(!(node.filteredListData && node.filteredListData.length)){
+                        actData = node.listData[node.actElemIndex];
+                    }else{
+                        actData = node.listData[node.listData.indexOf(node.filteredListData[node.actElemIndex])];
+                    }
+                    //vymazu sa filtre, ale nie su ulozene v listData a tam by ich bolo treba mat aby sa potom dali do actElemStructure
                     node.actElemStructure.clear();
-                    for(var prop in actData) {
+                    for (var prop in actData) {
                         node.actElemStructure.fillListElement(prop, actData[prop]);
                     }
+
+                    // console.info('changeActElementData node',node);
                 };
 
-                node.removeListElem = function(elemIndex) {
+                node.removeListElem = function (elemIndex,fromFilter) {
+
+                    if(fromFilter){
+                        elemIndex = node.listData.indexOf(node.filteredListData[elemIndex]);
+                    }
+
                     node.listData.splice(elemIndex, 1);
                     node.actElemIndex = node.listData.length - 1;
 
-                    if(node.actElemIndex === -1) {
+                    if(fromFilter){
+                        node.clearFilterData(true);
+                    }
+
+                    if (node.actElemIndex === -1) {
                         node.actElemStructure = null;
                     } else {
                         var actData = node.listData[node.actElemIndex];
 
                         node.actElemStructure.clear();
-                        for(var prop in actData) {
+                        for (var prop in actData) {
                             node.actElemStructure.fillListElement(prop, actData[prop]);
                         }
                     }
                 };
 
-                node.buildRequest = function(builder, req) {
+                node.buildRequest = function (builder, req) {
                     var added = false;
 
                     //store entered data
                     var storeData = node.buildActElemData();
 
-                    if(node.actElemIndex > -1) {
-                        node.listData[node.actElemIndex] = storeData;
+                    if (node.actElemIndex > -1) {
+                        if(node.filteredListData && node.filteredListData.length){
+                            node.listData[node.listData.indexOf(node.filteredListData[node.actElemIndex])] = storeData;
+                            node.filteredListData[node.actElemIndex] = storeData;
+                        }else{
+                            node.listData[node.actElemIndex] = storeData;
+                        }
                     }
 
-                    added = node.listData.filter(function(data) {
+                    added = node.listData.filter(function (data) {
                         return $.isEmptyObject(data) === false;
                     }).length > 0;
 
-                    var buildedDataCopy = node.listData.slice().map(function(item){
-                        if(item && item.hasOwnProperty('$$hashKey')) {
+                    var buildedDataCopy = node.listData.slice().map(function (item) {
+                        if (item && item.hasOwnProperty('$$hashKey')) {
                             delete item['$$hashKey'];
                         }
                         return item;
@@ -860,32 +1335,38 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     // check of listElems keyValues duplicity
                     node.doubleKeyIndexes = checkListElemKeys(node.listData, node.refKey);
 
-                    if(added) {
+                    if (added) {
                         builder.insertPropertyToObj(req, node.label, buildedDataCopy);
                     }
-                    
+
                     return added;
                 };
 
-                node.fill = function(name, array) { //data is array
+                node.fill = function (name, array) { //data is array
+
                     var match = comparePropToElemByName(name, node.label);
 
-                    if(match && array.length) {
+                    if (match && array.length) {
                         node.createStructure();
                         node.listData = array.slice();
-                        
                         node.actElemIndex = node.listData.length - 1;
-                        for(var prop in node.listData[node.actElemIndex]) {
+                        for (var prop in node.listData[node.actElemIndex]) {
                             node.actElemStructure.fillListElement(prop, node.listData[node.actElemIndex][prop]);
                         }
                     }
-                    
+
                     return (match && array.length > 0);
                 };
 
-                node.clear = function() {
-                    while(node.listData.length > 0) {
+                node.clear = function () {
+                    while (node.listData.length > 0) {
                         node.listData.pop();
+                    }
+                    while (node.filteredListData.length > 0) {
+                        node.filteredListData.pop();
+                    }
+                    while (node.filters.length > 0) {
+                        node.filters.pop();
                     }
 
                     node.actElemIndex = -1;
@@ -893,77 +1374,95 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     node.nodeType = constants.NODE_UI_DISPLAY;
                 };
 
-                node.isFilled = function() {
+                node.isFilled = function () {
                     return node.listData.length > 0;
                 };
 
-                node.createListName = function(index) {
-                    var name = '', 
+                node.createListName = function (index) {
+                    var name = '',
                         val = '';
 
-                    if(index > -1) {
-                        node.refKey.forEach(function(key) {
-                            if (!($.isEmptyObject(node.listData[index]))) {
-                                val = node.listData[index][key.label] ? (key.label+':'+node.listData[index][key.label]) : (node.listData[index][key.module+':'+key.label] ? (key.label+':'+node.listData[index][key.module+':'+key.label]) : '');
-                                name = name ? (name + (val ? (' ' + val) : '')) : (name + (val ? (' <' + val) : ''));
+                    if(node.filteredListData && node.filteredListData.length){
+                        currentList = node.filteredListData;
+                    }else{
+                        currentList = node.listData;
+                    }
+
+                    if (index > -1) {
+                        node.actElemStructure.refKey.forEach(function (key) {
+                            var keyLabel = '';
+                            if(index === node.getActElemIndex()) {
+                                val = key.value !== '' ? key.label + ':' + key.value : '';
+                            } else {
+                                var prop = '';
+                                if (!($.isEmptyObject(currentList[index]))) {
+                                    if(currentList[index][key.label]) {
+                                        prop = key.label;
+                                    } else if(currentList[index][key.module + ':' + key.label]) {
+                                        prop = key.module + ':' + key.label;
+                                    }
+                                    val = prop ? key.label + ':' + currentList[index][prop] : prop;
+                                }
                             }
+
+                            name = name ? (name + (val ? (' ' + val) : '')) : (name + (val ? (' <' + val) : ''));
                         });
                     }
 
-                    if(name) {
+                    if (name) {
                         name = name + '>';
                     }
 
                     return name;
                 };
             },
+            _listElem: function (node) {
+                node.refKey = [];
 
-            _listElem: function(node) {
-                node.listElemBuildRequest = function(builder, req) {
+                node.listElemBuildRequest = function (builder, req) {
                     var added = false,
                         objToAdd = builder.createObj();
 
-                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildren(null, null, constants.NODE_UI_DISPLAY).forEach(function (child) {
                         var childAdded = child.buildRequest(builder, objToAdd);
                         added = added || childAdded;
                     });
 
-                    if(added) {
+                    if (added) {
                         builder.insertObjToList(req, objToAdd);
                     }
 
                     return added;
                 };
 
-                node.fillListElement = function(name, data) {
+                node.fillListElement = function (name, data) {
                     var filled = false;
 
-                    node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).forEach(function(child) {
+                    node.getChildren(null, null, constants.NODE_UI_DISPLAY).forEach(function (child) {
                         var childFilled = child.fill(name, data);
                         filled = filled || childFilled;
                     });
-                    
+
                     return filled;
                 };
 
-                node.isFilled = function() {
-                    return node.getChildrenByNodeType(constants.NODE_UI_DISPLAY).some(function(child) {
+                node.isFilled = function () {
+                    return node.getChildren(null, null, constants.NODE_UI_DISPLAY).some(function (child) {
                         return child.isFilled();
                     });
                 };
-                
-                node.clear = function() {
-                    var nodesToClear = node.getChildrenByNodeType(constants.NODE_UI_DISPLAY);
-                    node.nodeType = constants.NODE_UI_DISPLAY;
+
+                node.clear = function () {
+                    var nodesToClear = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
                     if (nodesToClear.length) {
-                        nodesToClear.forEach(function(child) {
+                        nodesToClear.forEach(function (child) {
                             child.clear();
                         });
                     }
                 };
 
-                node.children.forEach(function(child) {
+                node.children.forEach(function (child) {
                     wrapper.wrapAll(child);
                 });
             }
@@ -973,20 +1472,206 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             comparePropToElemByName: comparePropToElemByName,
             equalArrays: equalArrays,
             equalListElems: equalListElems,
-            checkListElemKeys: checkListElemKeys
+            checkListElemKeys: checkListElemKeys,
+            parseRestrictText: parseRestrictText,
+            getTypes: getTypes
         };
 
         return wrapper;
+    });
+
+    yangUtils.factory('restrictionsFact', function () {
+
+        var RestrictionObject = function(fnc, info) {
+            this.info = info;
+            this.check = fnc;
+        };
+
+        var convertToInteger = function(value) {
+            var strVal = typeof value === 'string' ? value : value.toString(),
+                radix = strVal.indexOf('0x') === 0 ? 16 : strVal.indexOf('0') === 0 ? 8 : 10;
+
+            return parseInt(strVal, radix);
+        };
+
+        var restrictions = {};
+
+        restrictions.getEqualsFnc = function (target) {
+            var intTarget = parseInt(target);
+            
+            return new RestrictionObject(
+                function (value) {
+                    var intVal = convertToInteger(value);
+                    return intVal === intTarget;
+                },
+                'Value must be equal to '+target
+            );
+        };
+
+        restrictions.getMinMaxFnc = function (min, max) {
+            var intMin = parseInt(min),
+                intMax = parseInt(max);
+            
+            return new RestrictionObject(
+                function (value) {
+                    var intVal = convertToInteger(value);
+                    return (intMin <= intVal) && (intVal <= intMax);
+                },
+                'Value must be in between '+min+' and '+max
+            );
+        };
+
+        restrictions.getReqexpValidationFnc = function (patternString) {
+            return new RestrictionObject(
+                function (value) {
+                    var pattern = new RegExp(patternString);
+                    return pattern.test(value.toString());
+                },
+                'Value must match '+patternString
+            );
+        };
+
+        restrictions.getIsNumberFnc = function () {
+            return new RestrictionObject(
+                function (value) {
+                    var pattern = new RegExp('^[+-]?((0x[0-9A-Fa-f]+)|(0[0-9]+)|([0-9]+))$');
+                    return pattern.test(value.toString());
+                },
+                'Value must be number (+/-, 0x and 0) prefixed are permitted'
+            );
+        };
+
+        restrictions.getIsUNumberFnc = function () {
+            return new RestrictionObject(
+                function (value) {
+                    var pattern = new RegExp('^[+]?((0x[0-9A-Fa-f]+)|(0[0-9]+)|([0-9]+))$');
+                    return pattern.test(value.toString());
+                },
+                'Value must be positive number (+, 0x and 0) prefixed are permitted'
+            );
+        };
+
+        restrictions.getIsDecimalFnc = function () {
+            return new RestrictionObject(
+                function (value) {
+                    var pattern = new RegExp("^[-]?[1-9]?[0-9]+[.|,]?[0-9]*$");
+                    return pattern.test(value.toString());
+                },
+                'Value must be decimal number - prefix is permitted'
+            );
+        };
+
+        restrictions.isInArray = function (array) {
+            return new RestrictionObject(
+                function (value) {
+                    return array.some(function(arrVal) {
+                        return arrVal === value;
+                    });
+                },
+                'Value must be in ' + array.toString()
+            );
+        };
+
+
+        return restrictions;
     });
 
     yangUtils.factory('yinParser', function ($http, syncFact, constants, arrayUtils, pathUtils) {
         var augmentType = 'augment';
         var path = './assets';
 
-        var Node = function(id, name, type, module, namespace, parent, nodeType, moduleRevision) {
+        var Module = function (name, revision, namespace) {
+            this._name = name;
+            this._revision = revision;
+            this._namespace = namespace;
+            this._statements = {};
+            this._roots = [];
+            this._augments = [];
+
+            this.getRoots = function () {
+                return this._roots;
+            };
+
+            this.getImportByPrefix = function (prefix) {
+                var importNode = null;
+
+                if (this._statements.hasOwnProperty('import')) {
+                    importNode = this._statements.import.filter(function (importItem) {
+                        return importItem._prefix === prefix;
+                    })[0];
+                }
+
+                return importNode;
+            };
+
+            this.getRawAugments = function () {
+                return this._augments;
+            };
+
+            this.getAugments = function () {
+                var self = this;
+
+                return this.getRawAugments().map(function (augNode) {
+                    var prefixConverter = function (prefix) {
+                        return self.getImportByPrefix(prefix).label;
+                    };
+
+                    augNode.path = pathUtils.translate(augNode.pathString, prefixConverter, self._name);
+
+                    return new Augmentation(augNode);
+                });
+            };
+
+            this.addChild = function (node) {
+                if (!this._statements.hasOwnProperty(node.type)) {
+                    this._statements[node.type] = [];
+                }
+
+                var duplicates = this._statements[node.type].filter(function (item) {
+                    return node.label === item.label && node.nodeType === item.nodeType;
+                });
+
+                if (duplicates && duplicates.length > 0) {
+                    console.warn('trying to add duplicate node', node, 'to module', this._statements);
+                } else {
+                    this._statements[node.type].push(node);
+
+                    if (node.nodeType === constants.NODE_UI_DISPLAY) {
+                        this._roots.push(node);
+                    }
+
+                    if (node.type === 'augment') {
+                        this._augments.push(node);
+                    }
+                }
+            };
+
+            this.searchNode = function (type, name) {
+                var searchResults = null,
+                        searchedNode = null;
+
+                if (this._statements[type]) {
+                    searchResults = this._statements[type].filter(function (node) {
+                        return name === node.label;
+                    });
+                }
+
+                if (searchResults && searchResults.length === 0) {
+                    console.warn('no nodes with type', type, 'and name', name, 'found in', this);
+                } else if (searchResults && searchResults.length > 1) {
+                    console.warn('multiple nodes with type', type, 'and name', name, 'found in', this);
+                } else if (searchResults && searchResults.length === 1) {
+                    searchedNode = searchResults[0];
+                }
+
+                return searchedNode;
+            };
+        };
+
+        var Node = function (id, name, type, module, namespace, parent, nodeType, moduleRevision) {
             this.id = id;
             this.label = name;
-            this.localeLabel = 'YANGUI_'+name.toUpperCase();
+            this.localeLabel = 'YANGUI_' + name.toUpperCase();
             this.type = type;
             this.module = module;
             this.children = [];
@@ -994,27 +1679,31 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             this.nodeType = nodeType;
             this.namespace = namespace;
             this.moduleRevision = moduleRevision;
+            this.currentFilter = 0;
 
-            this.allChildrenCount = function() {
-                var count = 0;
-                var cnt = function(node) {
-                    count = count + node.children.length;
-
-                    node.children.forEach(function(child) {
-                        cnt(child);
-                    });
-                };
-                cnt(this);
-                alert(count);
-            };
-
-            this.appendTo = function(parentNode) {
+            this.appendTo = function (parentNode) {
                 parentNode.children.push(this);
+                this.parent = parentNode;
             };
 
-            this.deepCopy = function deepCopy() {
-                var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision);
-                this.children.forEach(function(child) {
+            this.addChild = function (node) {
+                this.children.push(node);
+                node.parent = this;
+            };
+
+            this.deepCopy = function deepCopy(additionalProperties) {
+                var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision),
+                    self = this;
+
+                additionalProperties = additionalProperties || ['pathString'];
+
+                additionalProperties.forEach(function(prop) {
+                    if (prop !== 'children' && self.hasOwnProperty(prop) && copy.hasOwnProperty(prop) === false) {
+                        copy[prop] = self[prop];
+                    }
+                });
+
+                this.children.forEach(function (child) {
                     var childCopy = child.deepCopy();
                     childCopy.parent = copy;
                     copy.children.push(childCopy);
@@ -1022,27 +1711,15 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 return copy;
             };
 
-            this.getChildrenByNodeType = function(nodeType) {
-                if (nodeType instanceof Array) {
-                    return this.children.filter(function(child){
-                        return nodeType.indexOf(child.nodeType) > -1;
-                    });
-                } else {
-                    return this.children.filter(function(child){
-                        return child.nodeType === nodeType;
-                    });
-                }
-            };
-
-            this.getChildren = function(type, name, nodeType, property) {
-                var filteredChildren = this.children.filter(function(item) {
-                    return (name ? name === item.label : true) && (type ? type === item.type : true) && (nodeType ? nodeType === item.nodeType : true);
+            this.getChildren = function (type, name, nodeType, property) {
+                var filteredChildren = this.children.filter(function (item) {
+                    return (name != null ? name === item.label : true) && (type != null ? type === item.type : true) && (nodeType != null ? nodeType === item.nodeType : true);
                 });
 
-                if(property) {
-                    return filteredChildren.filter(function(item) {
+                if (property) {
+                    return filteredChildren.filter(function (item) {
                         return item.hasOwnProperty(property);
-                    }).map(function(item) {
+                    }).map(function (item) {
                         return item[property];
                     });
                 } else {
@@ -1052,35 +1729,36 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
         };
 
-        var Augmentation = function(node) {
+        var Augmentation = function (node) {
             this.node = node;
             this.path = (node.path ? node.path : []);
 
-            this.apply = function(nodeList) {
+            this.apply = function (nodeList) {
                 var targetNode = this.getTargetNodeToAugment(nodeList);
+                // console.info('applying augmentation',this.node.label,'-',this.getPathString());
 
-                if(targetNode) {
-                    this.node.children.forEach(function(child) {
+                if (targetNode) {
+                    this.node.children.forEach(function (child) {
                         child.appendTo(targetNode);
                     });
                 } else {
-                    console.warn('can\'t find target node for augmentation '+this.getPathString());
+                    console.warn(this.node.module + ' - can\'t find target node for augmentation ' + this.getPathString());
                 }
             };
 
-            this.getTargetNodeToAugment = function(nodeList) {
+            this.getTargetNodeToAugment = function (nodeList) {
                 return pathUtils.search({children: nodeList}, this.path.slice());
             };
 
-            this.getPathString = function() {
+            this.getPathString = function () {
                 return this.path.map(function (elem) {
-                    return elem.module+':'+elem.name;
+                    return elem.module + ':' + elem.name;
                 }).join('/');
             };
 
         };
 
-        var parentTag = function(xml){
+        var parentTag = function (xml) {
             if (xml.get(0).tagName.toLowerCase() === 'module') {
                 return xml.get(0);
             } else {
@@ -1091,578 +1769,335 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         var parseYang = function parseYang(yinPath, callback, errorCbk) {
             var yangParser = new YangParser();
 
-            $http.get(path+yinPath).success(function (data) {
-                var rootModule = $($.parseXML(data).documentElement).attr('name'),
-                    rootNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
-                    rootModuleRevision = $($.parseXML(data)).find('revision').attr('date');
+            $http.get(path + yinPath).success(function (data) {
+                var moduleName = $($.parseXML(data).documentElement).attr('name'),
+                    moduleNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
+                    moduleoduleRevision = $($.parseXML(data)).find('revision').attr('date'),
+                    moduleObj = new Module(moduleName, moduleoduleRevision, moduleNamespace);
 
-                yangParser.setCurrentModule(rootModule);
-                yangParser.setCurrentNamespace(rootNamespace);
-                yangParser.setModuleRevision(rootModuleRevision);
-                yangParser.parse($.parseXML(data).documentElement, null, false);
+                yangParser.setCurrentModuleObj(moduleObj);
+                yangParser.parse($.parseXML(data).documentElement, moduleObj);
 
-                yangParser.sync.waitFor(function() {
-                    callback(yangParser.getRoots(), yangParser.getAugments());
+                yangParser.sync.waitFor(function () {
+                    callback(moduleObj);
                 });
             }).error(function () {
-                console.warn('can\'t find module: '+yinPath);
+                console.warn('can\'t find module: ' + yinPath);
                 errorCbk();
                 return null;
             });
         };
 
-        var YangParser = function() {
-            this.currentModule = null;
-            this.currentNamespace = null;
+        var YangParser = function () {
             this.rootNodes = [];
             this.nodeIndex = 0;
             this.sync = syncFact.generateObj();
+            this.moduleObj = null;
 
-            this.moduleRevision = null;
-            
-            this.getRoots = function() {
-                return this.rootNodes.filter(function(node) {
-                    return node.type !== augmentType;
-                });
+            this.setCurrentModuleObj = function (moduleObj) {
+                this.moduleObj = moduleObj;
             };
 
-            this.getAugments = function() {
-                return this.rootNodes.filter(function(node) {
-                    return node.type === augmentType;
-                }).map(function(augNode) {
-                    return new Augmentation(augNode);
-                });
-            };
+            this.createNewNode = function (name, type, parentNode, nodeType) {
+                var node = new Node(this.nodeIndex++, name, type, this.moduleObj._name, this.moduleObj._namespace, parentNode, nodeType, this.moduleObj._revision);
 
-            this.setCurrentModule = function(module) {
-                this.currentModule = (module ? module : null);
-            };
-
-            this.setCurrentNamespace = function(namespace) {
-                if(namespace) {
-                    var namespaceArray = namespace.split(':');
-
-                    namespaceArray.splice(0,1);
-                    this.currentNamespace = namespaceArray.join('-');
-                } else {
-                    this.currentNamespace = null;
-                }
-            };
-
-            this.setModuleRevision = function(moduleRevision) {
-                this.moduleRevision = (moduleRevision ? moduleRevision : null);
-            };
-
-            this.getNamespace = function(namespace) {
-                if(namespace) {
-                    var namespaceArray = namespace.split(':');
-
-                    namespaceArray.splice(0,1);
-                    return namespaceArray.join('-');
-                } else {
-                    return null;
-                }
-            };
-
-            this.createNewNode = function(name, type, parentNode, nodeType, namespace, revision) {
-                var node = null;
-
-                if(parentNode) {
-                    node = new Node(this.nodeIndex++, name, type, this.currentModule, namespace !== null ? namespace : parentNode.namespace, parentNode, nodeType, revision !== null ? revision : parentNode.moduleRevision);
-                    parentNode.children.push(node);
-                } else {
-                    node = new Node(this.nodeIndex++, name, type, this.currentModule, this.currentNamespace, parentNode, nodeType, this.moduleRevision);
-                    this.rootNodes.push(node);
+                if (parentNode) {
+                    parentNode.addChild(node);
                 }
 
                 return node;
             };
 
-            this.parse = function(xml, parent, setGlobalVariables) {
+            this.parse = function (xml, parent) {
                 var self = this;
 
-                $(xml).children().each(function(_, item) {
+                $(xml).children().each(function (_, item) {
                     var prop = item.tagName.toLowerCase();
-                    if(self.hasOwnProperty(prop)) {
-                        self[prop](item, parent, setGlobalVariables);
+                    if (self.hasOwnProperty(prop)) {
+                        self[prop](item, parent);
                     } else {
                         // self.parse(this, parent);
                     }
                 });
             };
 
-            this.leaf = function(xml, parent, setGlobalVariables) {
+            this.leaf = function (xml, parent) {
                 var type = 'leaf',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                var node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this['leaf-list'] = function(xml, parent, setGlobalVariables) {
+            this['leaf-list'] = function (xml, parent) {
                 var type = 'leaf-list',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    namespace = null,
-                    revision = null,
-                    node;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this.container = function(xml, parent, setGlobalVariables) {   
+            this.container = function (xml, parent) {
                 var type = 'container',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-                
-                if($(xml).children().length === 0) { //if empty add as element
-                    this.createNewNode(name, type, parent, nodeType, namespace, revision);
-                }
-                else {
-                    var node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-                    this.parse(xml, node, setGlobalVariables);
-                }
+                this.parse(xml, node);
             };
 
-            this.choice = function(xml, parent, setGlobalVariables) {
+            this.choice = function (xml, parent) {
                 var type = 'choice',
                     name = $(xml).attr('name'),
-                    self = this,
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-
-                /*$(xml).children('case').each(function() {
-                    self._case(this, node, setGlobalVariables);
-                });*/
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this.case = function(xml, parent, setGlobalVariables) {
+            this.case = function (xml, parent) {
                 var type = 'case',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this.list = function(xml, parent, setGlobalVariables) {
+            this.list = function (xml, parent) {
                 var type = 'list',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            
-            this.key = function (xml, parent, setGlobalVariables) {
+
+            this.key = function (xml, parent) {
                 var type = 'key',
                     name = $(xml).attr('value'),
                     nodeType = constants.NODE_ALTER,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-                
-                this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                this.parse(xml, node);
             };
 
-            this.description = function (xml, parent, setGlobalVariables) {
+            this.description = function (xml, parent) {
                 var type = 'description',
                     name = $(xml).children('text:first').text(),
                     nodeType = constants.NODE_ALTER,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                this.createNewNode(name, type, parent, nodeType, namespace, revision);
+                this.parse(xml, node);
             };
 
-            this._grouping = function(xml, parent, groupingName, setGlobalVariables) {
-                var self = this;
+            this.typedef = function (xml, parent, typedefName) {
+                var type = 'typedef',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_LINK_TARGET,
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                $(xml).children('grouping[name=\''+groupingName+'\']').each(function() {
-                    self.parse(this, parent, setGlobalVariables);
-                });
+                this.parse(xml, node);
             };
 
-            this.uses = function(xml, parent, setGlobalVariables) {  
-                var self = this,
-                    $xml = $(xml),
-                    name = $xml.attr('name'),
-                    names = name.split(':'),
-                    importObject;
+            this.grouping = function (xml, parent, groupingName) {
+                var type = 'grouping',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_LINK_TARGET,
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                if (names[1] === undefined) { //same module
-                    self._grouping(parentTag($xml), parent, names[0], false);
-                }
-                else { //different module
-
-                    importObject = self._import(parentTag($xml), names[0]);
-
-                    if ( importObject.moduleName ) {
-
-                        var reqId = self.sync.spawnRequest(importObject.moduleName);
-                        $http.get(path+'/yang2xml/'+importObject.fileName+'.yang.xml').success(function (data) {
-                            self._grouping($.parseXML(data).documentElement, parent, names[1], true);
-                            self.sync.removeRequest(reqId);
-                        });
-
-                    }
-
-                }
+                this.parse(xml, node);
             };
 
-            this._namespace = function(xml, setGlobalVariables){
-                var $xml = $(xml),
-                    namespace = null;
+            this.uses = function (xml, parent) {
+                var type = 'uses',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_LINK,
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                if ( setGlobalVariables ) {
-
-                    namespace = $(parentTag($xml)).find('namespace').attr('uri');
-
-                    if(namespace) {
-                        var namespaceArray = namespace.split(':');
-
-                        namespaceArray.splice(0,1);
-                        namespace = namespaceArray.join('-');
-                    }
-
-                } 
-
-                return namespace;
+                this.parse(xml, node);
             };
 
-            this._revision = function(xml, setGlobalVariables){
-                var $xml = $(xml),
-                    revision = null;
+            this.import = function (xml, parent) {
+                var type = 'import',
+                    name = $(xml).attr('module'),
+                    nodeType = constants.NODE_ALTER,
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                if ( setGlobalVariables ) {
-
-                    revision = $(parentTag($xml)).find('revision').attr('date');
-
-                    if ( !revision ) {
-                        revision = null;
-                    }
-
-                }
-
-                return revision;
+                node._prefix = $(xml).children('prefix:first').attr('value');
+                node._revisionDate = $(xml).children('revision-date:first').attr('date');
             };
 
-            this._import = function(xml, prefixName) {
-
-                var self = this, 
-                    importTagModuleName,
-                    revisionDate,
-                    importObject = {};
-                    
-
-                $(xml).children('import').each(function() {
-                    var importTag = $(this),
-                        prefix = $(importTag.children('prefix[value=\''+prefixName+'\']'));
-                    
-                    importTagModuleName = prefix.parent().attr('module');
-
-                    if ( importTagModuleName ) {
-                        revisionDate = importTag.children('revision-date').attr('date');
-                        return false;
-                    } 
-                });
-
-
-                if ( revisionDate ) {
-
-                    /*var url = path+'/yang2xml/'+ importTagModuleName + '@' + revisionDate +'.yang.xml';
-
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        async: false
-                    })
-                    .done(function() { 
-                        importObject = {
-                            moduleName: importTagModuleName,
-                            revisionDate: revisionDate,
-                            fileName: importTagModuleName + '@' + revisionDate
-                        };
-                    }).fail(function() { 
-                        importObject = {
-                            moduleName: importTagModuleName,
-                            revisionDate: revisionDate,
-                            fileName: importTagModuleName
-                        };
-                    });*/
-
-                    importObject = {
-                        moduleName: importTagModuleName,
-                        revisionDate: revisionDate,
-                        fileName: importTagModuleName
-                    };
-
-                } else {
-                    importObject = {
-                        moduleName: importTagModuleName,
-                        revisionDate: revisionDate,
-                        fileName: importTagModuleName
-                    };
-                }
-
-                return importObject;
-            };
-
-            this.augment = function(xml, parent, setGlobalVariables) {  
+            this.augment = function (xml, parent) {
                 var type = augmentType,
                     nodeType = constants.NODE_ALTER,
-                    self = this,
-                    prefixConverter = function (prefix) {
-                        return self._import(parentTag($(xml)), prefix).moduleName;
-                    },
+                    augmentIndentifier = $(xml).children("ext\\:augment-identifier:first").attr('identifier'),
+                    name = augmentIndentifier ? augmentIndentifier : 'augment' + (this.nodeIndex + 1).toString(),
                     pathString = $(xml).attr('target-node'),
-                    path = pathUtils.translate(pathString, prefixConverter, this.currentModule),
-                    augmentRoot = null,
-                    namespace = null,
-                    revision = null;
+                    augmentRoot = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                augmentRoot= this.createNewNode(pathString, type, null, nodeType, namespace, revision);
-                augmentRoot.path = path;
-                this.parse(xml, augmentRoot, setGlobalVariables);
+                augmentRoot.pathString = pathString;
+                this.parse(xml, augmentRoot);
             };
 
-            /*this.when = function(xml, parent) {  
-                var type = 'when',
-                    name = $(xml).attr('condition'),
-                    nodeType = constants.NODE_CONDITIONAL,
-                    node = this.createNewNode(name, type, parent, nodeType),
-                    self = this,
-                    prefixConverter = function (prefix) {
-                        return self._import(parentTag($(xml)), prefix).moduleName;
-                    },
-                    getConditionResult = function(condition) {
-                        var firstElement = new ELement(-1, condition);
-                            //condition = '( ../connected = true and ../connected = true ) and ( ../connected = true and ../connected = true )';
-                            //firstElement = parentthesisParser(condition, firstElement, 0);
 
-                        firstElement = parseEqualCondition(firstElement);
-
-                        return [firstElement];
-                    },
-                    ELement = function(startPosition, condition){
-                                this.startPosition = startPosition;
-                                this.value = '';
-                                this.children = [];
-                                this.condition = condition;
-                    },
-                    parentthesisParser = function(string, parent, startPosition){
-                        var element;
-                        for (var i = startPosition; i < string.length; i++){
-                            if(string[i] === '(') {
-                                element = new ELement(i);
-                                parent.children.push(element);
-                                i = parentthesisParser(string, element, i + 1);
-                            } else {
-                                if(string[i] === ')') {
-                                    parent.endPosition = i;
-                                    parent.condition = string.substring(parent.startPosition + 1 ,parent.endPosition);
-                                    //this.parserAndOr(parent);
-                                    return i;
-                                }
-                            }
-                        }
-
-                        return parent;
-                    },
-                    parseEqualCondition = function(conditionChild){
-                        var equalStatement = conditionChild.condition.split('='),
-                            conditionNode = null;
-
-                        conditionChild.equalValue = equalStatement[1].replace(' ','');
-                        conditionChild.equalStatementPath = equalStatement[0].replace(' ','');
-                        conditionChild.status = false;
-                        conditionChild.pathElems = pathUtils.translate(conditionChild.equalStatementPath, prefixConverter, null);
-
-                        return conditionChild;
-                    };
-                    // parserAndOr = function(parent){
-                    //     if ( conditionChild.condition.indexOf('and') < 0 && name.indexOf('or') < 0 ) {
-                    //     }
-                    // };
-
-                    node.parseCondition = function(){
-                        //parent.nodeType = constants.NODE_UI_DISPLAY_HIDE;
-                        if ( name.indexOf('(') < 0 ) {
-                            if ( name.indexOf('and') < 0 && name.indexOf('or') < 0 ) {
-                                console.log(this.conditionTree.children[0]);
-                                parseEqualCondition(this.conditionTree.children[0]);
-                            }
-                        }
-
-                    };
-
-                    node.conditionTree = {
-                        children : getConditionResult(name),
-                        node: node,
-                    };
-            };*/
-
-            this.rpc = function(xml, parent, setGlobalVariables) {
+            this.rpc = function (xml, parent) {
                 var type = 'rpc',
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this.input = function(xml, parent, setGlobalVariables) {
+            this.input = function (xml, parent) {
                 var type = 'input',
                     name = 'input',
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
-
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
-
-                this.parse(xml, node, setGlobalVariables);
+                this.parse(xml, node);
             };
 
-            this.output = function(xml, parent, setGlobalVariables) {
+            this.output = function (xml, parent) {
                 var type = 'output',
                     name = 'output',
                     nodeType = constants.NODE_UI_DISPLAY,
-                    node = null,
-                    namespace = null,
-                    revision = null;
+                    node = this.createNewNode(name, type, parent, nodeType);
 
-                namespace = this._namespace(xml, setGlobalVariables);
-                revision = this._revision(xml, setGlobalVariables);
+                this.parse(xml, node);
+            };
 
-                node = this.createNewNode(name, type, parent, nodeType, namespace, revision);
+            this.pattern = function (xml, parent) {
+                var type = 'pattern',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_RESTRICTIONS;
 
-                this.parse(xml, node, setGlobalVariables);
+                this.createNewNode(name, type, parent, nodeType);
+            };
+
+            this.range = function (xml, parent) {
+                var type = 'range',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_RESTRICTIONS;
+
+                this.createNewNode(name, type, parent, nodeType);
+            };
+
+            this.length = function (xml, parent) {
+                var type = 'length',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_RESTRICTIONS;
+
+                this.createNewNode(name, type, parent, nodeType);
+            };
+
+            this.enum = function (xml, parent) {
+                var type = 'enum',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_ALTER;
+
+                this.createNewNode(name, type, parent, nodeType);
+            };
+
+            this.bit = function (xml, parent) {
+                var type = 'bit',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_ALTER,
+                    node = this.createNewNode(name, type, parent, nodeType);
+
+                this.parse(xml, node);
+            };
+
+            this.position = function (xml, parent) {
+                var type = 'position',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_ALTER;
+
+                this.createNewNode(name, type, parent, nodeType);
+            };
+
+            this.type = function (xml, parent) {
+                var type = 'type',
+                    name = $(xml).attr('name'),
+                    nodeType = constants.NODE_ALTER,
+                    node = this.createNewNode(name, type, parent, nodeType);
+
+                this.parse(xml, node);
             };
         };
 
         return {
             parse: parseYang,
+            createNewNode: parseYang,
             __test: {
                 path: path,
                 parentTag: parentTag,
                 yangParser: new YangParser(),
-                Augmentation: Augmentation
+                Augmentation: Augmentation,
+                Module: Module
             }
         };
     });
 
-
     yangUtils.factory('apiConnector', function ($http, syncFact, arrayUtils, pathUtils, custFunct) {
         var connector = {};
 
-        var apiPathElemsToString = function(apiPathElems) {
-            var s = apiPathElems.map(function(elem) {
+        var apiPathElemsToString = function (apiPathElems) {
+            var s = apiPathElems.map(function (elem) {
                 return elem.toString();
             }).join('');
 
             return s.slice(0, -1);
         };
 
-        var SubApi = function(pathTemplateString, operations) {
+        var SubApi = function (pathTemplateString, operations) {
             this.node = null;
             this.pathTemplateString = pathTemplateString;
             this.pathArray = [];
             this.operations = operations;
             this.custFunct = [];
-            
-            this.hasSetData = function() {
+
+            this.hasSetData = function () {
                 return this.node !== null && this.pathArray.length > 0;
             };
 
-            this.setNode = function(node) {
+            this.setNode = function (node) {
                 this.node = node;
             };
 
-            this.setPathArray = function(pathArray) {
+            this.setPathArray = function (pathArray) {
                 this.pathArray = pathArray;
             };
 
-            this.buildApiRequestString = function() {
+            this.buildApiRequestString = function () {
                 return apiPathElemsToString(this.pathArray);
             };
 
-            this.addCustomFunctionality = function(label, callback) {
-                var funct = custFunct.createNewFunctionality(label, this.node, callback);
+            this.addCustomFunctionality = function (label, callback, viewStr) {
+                var funct = custFunct.createNewFunctionality(label, this.node, callback, viewStr);
 
-                if(funct) {
+                if (funct) {
                     this.custFunct.push(funct);
                 }
             };
         };
 
-        var parseApiPath = function(path) {
+        var parseApiPath = function (path) {
             var moduleIndexStart = path.lastIndexOf('/'),
                 revisionIndexStart = path.lastIndexOf('(');
+
             return ({module: path.slice(moduleIndexStart + 1, revisionIndexStart), revision: path.slice(revisionIndexStart + 1, -1)});
         };
 
-        connector.processApis = function(apis, callback) {
+        connector.processApis = function (apis, callback) {
             var processedApis = [],
                 sync = syncFact.generateObj();
 
-            apis.forEach(function(api) {
+            apis.forEach(function (api) {
                 var data = parseApiPath(api.path),
                     reqID = sync.spawnRequest(api.path),
                     apiObj = {
@@ -1670,14 +2105,14 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         revision: data.revision
                     };
 
-                $http.get(api.path).success(function(data) {
+                $http.get(api.path).success(function (data) {
                     var subApis = [];
 
-                    data.apis.forEach(function(subApi) {
-                        var operations = subApi.operations.map(function(item) {
-                                return item.method;
-                            }),
-                            subApiElem = new SubApi(subApi.path, operations);
+                    data.apis.forEach(function (subApi) {
+                        var operations = subApi.operations.map(function (item) {
+                            return item.method;
+                        }),
+                                subApiElem = new SubApi(subApi.path, operations);
 
                         subApis.push(subApiElem);
                     });
@@ -1685,44 +2120,43 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                     apiObj.basePath = data.basePath;
                     apiObj.subApis = subApis;
 
+                    processedApis.push(apiObj);
                     sync.removeRequest(reqID);
-                }).error(function() {
+                }).error(function () {
                     sync.removeRequest(reqID);
                 });
-
-                processedApis.push(apiObj);
             });
 
-            sync.waitFor(function() {
+            sync.waitFor(function () {
                 callback(processedApis);
             });
         };
 
-        var getRootNodeByPath = function(module, nodeLabel, nodeList) {
-            var selNode = arrayUtils.getFirstElementByCondition(nodeList, function(item) {
+        var getRootNodeByPath = function (module, nodeLabel, nodeList) {
+            var selNode = arrayUtils.getFirstElementByCondition(nodeList, function (item) {
                 return item.module === module && item.label === nodeLabel; //&& item.revision === api.revision; //after revisions are implemented
             });
 
-            if(!selNode) {
-                console.warn('cannot find root node for module',module,'label',nodeLabel);
-            } 
+            if (!selNode) {
+                console.warn('cannot find root node for module', module, 'label', nodeLabel);
+            }
             return selNode;
         };
 
-       connector.linkApisToNodes = function(apiList, nodeList) {
-            return apiList.map(function(api) {
+        connector.linkApisToNodes = function (apiList, nodeList) {
+            return apiList.map(function (api) {
 
-                api.subApis = api.subApis.map(function(subApi) {
+                api.subApis = api.subApis.map(function (subApi) {
                     var pathArray = pathUtils.translate(subApi.pathTemplateString, null, null),
                         rootNode = pathArray && pathArray.length > 1 ? getRootNodeByPath(pathArray[1].module, pathArray[1].name, nodeList) : null;
 
-                    if(rootNode && pathArray) {
+                    if (rootNode && pathArray) {
                         subApi.setNode(pathArray.length > 2 ? pathUtils.search(rootNode, pathArray.slice(2)) : rootNode);
                         subApi.setPathArray(pathArray);
                     }
 
                     return subApi;
-                }).filter(function(subApi) {
+                }).filter(function (subApi) {
                     return subApi.hasSetData();
                 });
 
@@ -1730,13 +2164,13 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
             });
         };
 
-        connector.createCustomFunctionalityApis = function(apis, module, revision, pathString, label, callback) {
-            apis = apis.map(function(item) {
-                if((module ? item.module === module : true) && (revision ? item.revision === revision : true)) {
+        connector.createCustomFunctionalityApis = function (apis, module, revision, pathString, label, callback, viewStr) {
+            apis = apis.map(function (item) {
+                if ((module ? item.module === module : true) && (revision ? item.revision === revision : true)) {
 
-                    item.subApis = item.subApis.map(function(subApi) {
-                        if(subApi.pathTemplateString === pathString) {
-                            subApi.addCustomFunctionality(label, callback);
+                    item.subApis = item.subApis.map(function (subApi) {
+                        if (subApi.pathTemplateString === pathString) {
+                            subApi.addCustomFunctionality(label, callback, viewStr);
                         }
 
                         return subApi;
@@ -1757,118 +2191,287 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         return connector;
     });
 
-    yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, YangUtilsRestangular) {
+    yangUtils.factory('moduleConnector', function (constants) {
+
+        var isBuildInType = function (type) {
+            return ['int8', 'int16', 'int32', 'int64', 'uint8', 'uint16', 'uint32', 'uint64',
+                    'decimal64', 'string', 'boolean', 'enumeration', 'bits', 'binary',
+                    'leafref', 'identityref', 'empty', 'union', 'instance-identifier'].indexOf(type) > -1;
+        };
+
+        moduleConnector = {};
+
+        var linkFunctions = {};
+        linkFunctions.uses = function (usesNode, currentModule) {
+            var targetType = 'grouping';
+            return function (modules) {
+                var data = findLinkedStatement(usesNode, targetType, currentModule, modules),
+                    node = data.node,
+                    module = data.module,
+                    changed = false;
+
+                if (node && module) {
+                    usesNode.parent.children.splice(usesNode.parent.children.indexOf(usesNode), 1); //delete uses node
+                    for (var i = 0; i < node.children.length; i++) {
+                        applyLinks(node.children[i], module, modules);
+                    }
+                    appendChildren(usesNode.parent, node);
+                    changed = true;
+                }
+
+                return changed;
+            };
+        };
+
+        linkFunctions.type = function (typeNode, currentModule) {
+            var targetType = 'typedef';
+
+            if (isBuildInType(typeNode.label) === false) {
+                return function (modules) {
+                    var data = findLinkedStatement(typeNode, targetType, currentModule, modules),
+                        node = data.node ? data.node.getChildren('type')[0] : null,
+                        changed = false;
+
+                    if (node) {
+                        typeNode.parent.children.splice(typeNode.parent.children.indexOf(typeNode), 1); //delete referencing type node
+                        typeNode.parent.addChild(node);
+                        changed = true;
+                    }
+
+                    return changed;
+                };
+            } else {
+                return function (modules) {
+                    return false;
+                };
+            }
+        };
+
+        findLinkedStatement = function (node, targetType, currentModule, modules) {
+            var sourceNode,
+                sourceModule,
+                link = node.label;
+
+            if (link.indexOf(':') > -1) {
+                var parts = link.split(':'),
+                    targetImport = currentModule.getImportByPrefix(parts[0]);
+
+                sourceModule = targetImport ? searchModule(modules, targetImport.label) : null;
+                sourceNode = sourceModule ? sourceModule.searchNode(targetType, parts[1]) : null;
+            } else {
+                sourceModule = searchModule(modules, node.module);
+                sourceNode = sourceModule ? sourceModule.searchNode(targetType, link) : null;
+            }
+
+            return {node: sourceNode, module: sourceModule};
+        };
+
+        var appendChildren = function (targetNode, sourceNode) {
+            sourceNode.children.forEach(function (child) {
+                targetNode.addChild(child);
+            });
+        };
+
+        var searchModule = function (modules, moduleName, moduleRevision) {
+            var searchResults = modules.filter(function (item) {
+                    return (moduleName === item._name && (moduleRevision ? moduleRevision === item._revision : true));
+                }),
+                targetModule = (searchResults && searchResults.length) ? searchResults[0] : null;
+
+            return targetModule;
+        };
+        var applyLinks = function (node, module, modules) {
+            var changed = false;
+            if (linkFunctions.hasOwnProperty(node.type)) { //applying link function to uses.node
+                changed = linkFunctions[node.type](node, module)(modules);
+            }
+
+            for (var i = 0; i < node.children.length; i++) {
+                if (applyLinks(node.children[i], module, modules)) {
+                    i--; //need to repeat current index because we are deleting uses nodes, so in case there are more uses in row, it would skip second one
+                }
+            }
+
+            return changed;
+        };
+
+        var interConnectModules = function (modules) {
+            var rootNodes = [],
+                augments = [];
+
+            modules.forEach(function (module) {
+                module.getRoots().concat(module.getRawAugments()).forEach(function (node) {
+                    applyLinks(node, module, modules);
+                });
+            });
+
+            modules.forEach(function (module) {
+                module._roots = module.getRoots().map(function (node) {
+                    copy = node.deepCopy();
+                    return applyModuleName(copy, module._name);
+                });
+
+                module._augments = module.getRawAugments().map(function (node) {
+                    copy = node.deepCopy();
+                    return applyModuleName(copy, module._name);
+                });
+            });
+
+            return modules;
+        };
+
+        var applyModuleName = function (node, module) {
+            node.module = module;
+            node.children.map(function (child) {
+                return applyModuleName(child, module);
+            });
+
+            return node;
+        };
+
+        moduleConnector.processModuleObjs = function (modules) {
+            var rootNodes = [],
+                augments = [],
+                connectedModules = interConnectModules(modules.slice());
+
+            connectedModules.forEach(function (module) {
+                rootNodes = rootNodes.concat(module.getRoots());
+                augments = augments.concat(module.getAugments());
+            });
+
+            return {rootNodes: rootNodes, augments: augments};
+        };
+
+        moduleConnector.__test = {
+            isBuildInType: isBuildInType,
+            linkFunctions: linkFunctions,
+            findLinkedStatement: findLinkedStatement,
+            appendChildren: appendChildren,
+            searchModule: searchModule,
+            applyLinks: applyLinks,
+            interConnectModules: interConnectModules,
+            applyModuleName: applyModuleName
+        };
+
+        return moduleConnector;
+    });
+
+    yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, moduleConnector, YangUtilsRestangular) {
 
         var utils = {};
 
-        
+        // utils.exportModulesLocales = function(modules) {
+        //     var obj = {},
+        //         localeNodes = ['leaf','list','container','choice', 'leaf-list','rpc','input','output'];
 
-        utils.exportModulesLocales = function(modules) {
-            var obj = {},
-                localeNodes = ['leaf','list','container','choice', 'leaf-list','rpc','input','output'];
+        //     var process = function process(node) {
+        //         if(localeNodes.indexOf(node.type) >= 0 && obj.hasOwnProperty(node.localeLabel) === false) {
+        //             obj[node.localeLabel] = node.label;
+        //         }
 
-            var process = function process(node) {
-                if(localeNodes.indexOf(node.type) >= 0 && obj.hasOwnProperty(node.localeLabel) === false) {
-                    obj[node.localeLabel] = node.label;
-                }
+        //         node.children.forEach(function(child) {
+        //             process(child);
+        //         });
+        //     };
 
-                node.children.forEach(function(child) {
-                    process(child);
-                });
-            };
+        //     modules.forEach(function(module) {
+        //         process(module);
+        //     });
 
-            modules.forEach(function(module) {
-                process(module);
-            });
+        //     return JSON.stringify(obj, null, 4);
+        // };
 
-            return JSON.stringify(obj, null, 4);
-        };
-
-        utils.generateNodesToApis = function(callback, errorCbk) {
+        utils.generateNodesToApis = function (callback, errorCbk) {
             var allRootNodes = [],
                 apiModules = [],
                 topLevelSync = syncFact.generateObj(),
                 reqApis = topLevelSync.spawnRequest('apis'),
                 reqAll = topLevelSync.spawnRequest('all');
 
-            $http.get(YangUtilsRestangular.configuration.baseUrl+'/apidoc/apis/').success(function (data) {
-                apiConnector.processApis(data.apis, function(result) {
+            $http.get(YangUtilsRestangular.configuration.baseUrl + '/apidoc/apis/').success(function (data) {
+                apiConnector.processApis(data.apis, function (result) {
                     apiModules = result;
                     topLevelSync.removeRequest(reqApis);
                 });
-            }).error(function(result) {
-                console.error('Error getting API data from :'+YangUtilsRestangular.configuration.baseUrl+'/apidoc/apis/'+':'+result);
+            }).error(function (result) {
+                console.error('Error getting API data:', result);
                 topLevelSync.removeRequest(reqApis);
             });
 
-            $http.get(YangUtilsRestangular.configuration.baseUrl+'/restconf/modules/').success(function (data) {
-                allRootNodes = utils.processModules(data.modules, function(result) {
-                    allRootNodes = result;
+            $http.get(YangUtilsRestangular.configuration.baseUrl + '/restconf/modules/').success(function (data) {
+                utils.processModules(data.modules, function (result) {
+                    allRootNodes = result.map(function (node) {
+                        var copy = node.deepCopy();
+
+                        nodeWrapper.wrapAll(copy);
+                        return copy;
+                    });
                     topLevelSync.removeRequest(reqAll);
                 });
-            }).error(function(result) {
-                console.error('Error getting API data:',result);
+            }).error(function (result) {
+                console.error('Error getting API data:', result);
                 topLevelSync.removeRequest(reqAll);
             });
 
             topLevelSync.waitFor(function () {
                 try {
                     callback(apiConnector.linkApisToNodes(apiModules, allRootNodes), allRootNodes);
-                } catch(e) {
+                } catch (e) {
                     errorCbk(e);
                     throw(e); //do not lose debugging info
                 }
             });
-            
+
         };
 
-        utils.generateApiTreeData = function(apis, callback){
+        utils.generateApiTreeData = function (apis, callback) {
 
             var dataTree = [],
-                sync = syncFact.generateObj();
+                sync = syncFact.generateObj(),
+                add;
 
-            dataTree = apis.map(function(item, indexApi){
+            dataTree = apis.map(function (item, indexApi) {
 
-                var getApisAndPath = function(item, indexApi){
+                var getApisAndPath = function (item, indexApi) {
                     var childrenArray = [];
 
-                    item.subApis.map(function(itemSub, indexSubApi){
+                    item.subApis.map(function (itemSub, indexSubApi) {
                         var childIndex = 0;
 
-                        var fillPath = function(path, array, indexSubApi, indexApi, itemSub){
+                        var fillPath = function (path, array, indexSubApi, indexApi, itemSub) {
                             var existElemIndex = null,
                                 existElem,
                                 arrayIndex = null,
-                                newElem = function(path, array){
+                                newElem = function (path, array) {
                                     var element = {};
 
                                     element.label = path[childIndex - 1].name;
-                                    element.identifier = path[childIndex - 1].identifierName !== undefined ? ' {'+path[childIndex - 1].identifierName+'}': '';
+                                    element.identifier = path[childIndex - 1].identifierName !== undefined ? ' {' + path[childIndex - 1].identifierName + '}' : '';
                                     element.children = [];
                                     array.push(element);
                                     return array;
                                 };
-                            
+
                             childIndex++;
-                            if ( childIndex - 1 < path.length ){
-                                if ( array.length > 0 ) {
+                            if (childIndex - 1 < path.length) {
+                                if (array.length > 0) {
                                     existElem = false;
 
-                                    array.map(function(arrayItem, index){
-                                        if( arrayItem.label === path[childIndex - 1].name ){
+                                    array.map(function (arrayItem, index) {
+                                        if (arrayItem.label === path[childIndex - 1].name) {
                                             existElem = true;
                                             existElemIndex = index;
                                         }
                                     });
-                                    if( !existElem ) {
-                                        array = newElem(path,array);
+                                    if (!existElem) {
+                                        array = newElem(path, array);
                                     }
                                 } else {
-                                    array = newElem(path,array);
+                                    array = newElem(path, array);
                                 }
                                 arrayIndex = existElemIndex !== null ? existElemIndex : array.length - 1;
                                 var pathChildren = fillPath(path, array[arrayIndex].children, indexSubApi, indexApi, itemSub);
-                                if ( !pathChildren.length ){
+                                if (!pathChildren.length) {
                                     array[arrayIndex].indexApi = indexApi;
                                     array[arrayIndex].indexSubApi = indexSubApi;
                                     //array[arrayIndex].subApi = itemSub;
@@ -1879,174 +2482,168 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                                 return [];
                             }
                         };
-                            
+
                         childrenArray = fillPath(itemSub.pathArray, childrenArray, indexSubApi, indexApi, itemSub);
 
                     });
-                    
+
                     return childrenArray;
                 },
-                apisPath = getApisAndPath(item, indexApi);
+                        apisPath = getApisAndPath(item, indexApi);
 
-                return { 
+                return {
                     label: item.module + ' rev.' + item.revision,
                     children: apisPath
                 };
             });
 
-            dataTree.forEach(function(item){
-                var findSupApi = function(treeElem) {
+            dataTree.forEach(function (item) {
+                var findSupApi = function (treeElem) {
                         var apiInfo = null;
-                        if(treeElem.hasOwnProperty('indexApi') && treeElem.hasOwnProperty('indexSubApi') && apis[treeElem.indexApi].subApis[treeElem.indexSubApi].operations.indexOf('PUT') > -1) {
-                            apiInfo = { api: treeElem.indexApi, subApi: treeElem.indexSubApi };
+                        if (treeElem.hasOwnProperty('indexApi') && treeElem.hasOwnProperty('indexSubApi') && apis[treeElem.indexApi].subApis[treeElem.indexSubApi].operations.indexOf('PUT') > -1) {
+                            apiInfo = {api: treeElem.indexApi, subApi: treeElem.indexSubApi};
                         } else if (treeElem.children.length && apiInfo === null) {
                             var searchResult = null;
-                            for(var i = 0; i < treeElem.children.length && apiInfo === null; i++) {
+                            for (var i = 0; i < treeElem.children.length && apiInfo === null; i++) {
                                 apiInfo = findSupApi(treeElem.children[i]);
                             }
                         }
                         return apiInfo;
                     },
                     apiInfo = findSupApi(item),
-                    checkAPIValidity = function(api, subApi) {
-                        var fillDummyData = function(node) {
-                                var leaves = node.getChildren('leaf'),
-                                    filled = false,
-                                    childFilled,
-                                    i;
+                    checkAPIValidity = function (api, subApi) {
+                        var fillDummyData = function (node) {
+                            var leaves = node.getChildren('leaf'),
+                                filled = false,
+                                childFilled,
+                                i;
 
-                                if(leaves.length && node.type === 'list') {
-                                    node.addListElem();
-                                    node.actElemStructure.getChildren('leaf')[0].value = '0';
-                                    filled = true;
-                                } else if(leaves.length) {
-                                    leaves[0].value = '0';
-                                    filled = true;
-                                } else if (leaves.length === 0 && node.type === 'list'){
-                                    childFilled = false;
-                                    for(i = 0; i < node.actElemStructure.children.length && !childFilled; i++) {
-                                        childFilled = fillDummyData(node.actElemStructure.children[i]);
-                                    }
-                                    filled = childFilled;
-                                } else {
-                                    childFilled = false;
-                                    for(i = 0; i < node.children.length && !childFilled; i++) {
-                                        childFilled = fillDummyData(node.children[i]);
-                                    }
-                                    filled = childFilled;
+                            if (leaves.length && node.type === 'list') {
+                                node.addListElem();
+                                node.actElemStructure.getChildren('leaf')[0].value = '0';
+                                filled = true;
+                            } else if (leaves.length) {
+                                leaves[0].value = '0';
+                                filled = true;
+                            } else if (leaves.length === 0 && node.type === 'list') {
+                                childFilled = false;
+                                for (i = 0; i < node.actElemStructure.children.length && !childFilled; i++) {
+                                    childFilled = fillDummyData(node.actElemStructure.children[i]);
                                 }
+                                filled = childFilled;
+                            } else {
+                                childFilled = false;
+                                for (i = 0; i < node.children.length && !childFilled; i++) {
+                                    childFilled = fillDummyData(node.children[i]);
+                                }
+                                filled = childFilled;
+                            }
 
-                                return filled;
-                            },
-                            requestData = {},
-                            requestPath = api.basePath+'/'+subApi.buildApiRequestString(),
-                            reqID = sync.spawnRequest(requestPath);
+                            return filled;
+                        },
+                        requestData = {},
+                        requestPath = api.basePath + '/' + subApi.buildApiRequestString(),
+                        reqID = sync.spawnRequest(requestPath);
 
                         fillDummyData(subApi.node);
                         subApi.node.buildRequest(reqBuilder, requestData);
 
-                        $http({method: 'PUT', url: requestPath, data: requestData, headers: { "Content-Type": "application/yang.data+json"}}).
-                              success(function(data) {
-                                  // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- success'); //TODO entry deletion?
-                                  sync.removeRequest(reqID);
-                              }).
-                              error(function(data, status) {
-                                  // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- error');
-                                  item.toRemove = true;
-                                  sync.removeRequest(reqID);
-                              }
+                        $http({method: 'PUT', url: requestPath, data: requestData, headers: {"Content-Type": "application/yang.data+json"}}).
+                            success(function (data) {
+                                // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- success'); //TODO entry deletion?
+                                sync.removeRequest(reqID);
+                            }).
+                            error(function (data, status) {
+                                // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- error');
+                                item.toRemove = true;
+                                sync.removeRequest(reqID);
+                            }
                         );
                     };
 
-                if(apiInfo) {
-                    checkAPIValidity(apis[apiInfo.api] ,apis[apiInfo.api].subApis[apiInfo.subApi]);
-                } else {
-                    item.toRemove = true;
-                }
+                // if (apiInfo) {
+                //     checkAPIValidity(apis[apiInfo.api], apis[apiInfo.api].subApis[apiInfo.subApi]);
+                // } else {
+                //     item.toRemove = true;
+                // }
             });
 
-            sync.waitFor(function() {
-                callback(dataTree.filter(function(item) {
+            sync.waitFor(function () {
+                callback(dataTree.filter(function (item) {
                     return !item.hasOwnProperty('toRemove');
                 }));
             });
         };
 
-        utils.processModules = function(loadedModules, callback) {
-            var rootNodes = [],
+        utils.processModules = function (loadedModules, callback) {
+            console.time('processModules');
+
+            var modules = [],
+                rootNodes = [],
                 augments = [],
                 syncModules = syncFact.generateObj();
 
-                loadedModules.module.forEach(function(module) {
-                    var reqId = syncModules.spawnRequest(module.name);
-                    
-                    yinParser.parse('/yang2xml/'+module.name+'.yang.xml', function(nodes, moduleAugments) {
-                        if(nodes.length) {
-                            rootNodes = rootNodes.concat(nodes);
-                        }
+            loadedModules.module.forEach(function (module) {
+                var reqId = syncModules.spawnRequest(module.name);
 
-                        if(moduleAugments.length) {
-                            augments = augments.concat(moduleAugments);
-                        }
-
-                        syncModules.removeRequest(reqId);
-                    }, function() {
-                        syncModules.removeRequest(reqId);
-                    });
+                yinParser.parse('/yang2xml/' + module.name + '.yang.xml', function (module) {
+                    modules.push(module);
+                    syncModules.removeRequest(reqId);
+                }, function () {
+                    syncModules.removeRequest(reqId);
                 });
+            });
 
-            syncModules.waitFor(function() {
-                console.info(rootNodes.length+' modules loaded',rootNodes);
-                console.info(augments.length+' augments loaded',augments);
+            syncModules.waitFor(function () {
+                processedData = moduleConnector.processModuleObjs(modules);
+                rootNodes = processedData.rootNodes;
+                augments = processedData.augments;
 
-                var sortedAugments = augments.sort(function(a, b) {
+                console.info(modules.length + ' modulesObj loaded', modules);
+                console.info(rootNodes.length + ' rootNodes loaded', rootNodes);
+                console.info(augments.length + ' augments loaded', augments);
+
+                var sortedAugments = augments.sort(function (a, b) {
                     return a.path.length - b.path.length;
                 });
 
-                sortedAugments.map(function(elem) {
+                sortedAugments.map(function (elem) {
                     elem.apply(rootNodes);
                 });
 
-                callback(rootNodes.map(function(node) {
-                    var copy = node.deepCopy();
-                    
-                    nodeWrapper.wrapAll(copy);
-                    return copy;
-                }));
+                callback(rootNodes);
+                console.timeEnd('processModules');
             });
         };
 
-
-        utils.buildRequest = function(node) {
-            var request = reqBuilder.createObj();
-            node.buildRequest(reqBuilder, request);
-            return request.flows; //TODO use REST API explorer when it will be available
-        };
-
-        utils.getRequestString = function(node) {
+        utils.getRequestString = function (node) {
             var request = reqBuilder.createObj(),
                 reqStr = '';
 
             node.buildRequest(reqBuilder, request);
 
-            if(request && $.isEmptyObject(request) === false) {
+            if (request && $.isEmptyObject(request) === false) {
                 reqStr = reqBuilder.resultToString(request);
             }
             return reqStr;
         };
+        
+        utils.getPathString = function(basePath, selSubApi) {
+            return basePath+'/'+selSubApi.buildApiRequestString();
+        };
 
-        utils.transformTopologyData = function(data) {
+        utils.transformTopologyData = function (data) {
             var links = [],
                 nodes = [],
                 getNodeIdByText = function getNodeIdByText(inNodes, text) {
-                    var nodes = inNodes.filter(function(item, index) {
-                            return item.label === text;
-                        }),
-                        nodeId;
+                    var nodes = inNodes.filter(function (item, index) {
+                        return item.label === text;
+                    }),
+                            nodeId;
 
-                    if(nodes.length > 0 && nodes[0]) {
+                    if (nodes.length > 0 && nodes[0]) {
                         nodeId = nodes[0].id;
-                    }else{
+                    } else {
                         return null;
                     }
 
@@ -2054,22 +2651,22 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 };
 
 
-            if(data['network-topology'] && data['network-topology'].topology.length) {
+            if (data['network-topology'] && data['network-topology'].topology.length) {
                 var topoData = data['network-topology'].topology[0],
-                    nodeId = 0,
-                    linkId = 0;
+                        nodeId = 0,
+                        linkId = 0;
 
-                nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function(nodeData) {
-                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch',value:20,title:'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
+                nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function (nodeData) {
+                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
                 }) : [];
 
-                links = topoData.hasOwnProperty('link') ? topoData.link.map(function(linkData) {
+                links = topoData.hasOwnProperty('link') ? topoData.link.map(function (linkData) {
                     var srcId = getNodeIdByText(nodes, linkData.source["source-node"]),
-                        dstId = getNodeIdByText(nodes, linkData.destination["dest-node"]),
-                        srcPort = linkData.source["source-tp"],
-                        dstPort = linkData.destination["dest-tp"];
-                    if(srcId!=null && dstId!=null){
-                        return {id: (linkId++).toString(), 'from' : srcId, 'to': dstId, title:'Source Port: <b>' + srcPort + '</b><br>Dest Port: <b>'+dstPort+'</b>'};
+                            dstId = getNodeIdByText(nodes, linkData.destination["dest-node"]),
+                            srcPort = linkData.source["source-tp"],
+                            dstPort = linkData.destination["dest-tp"];
+                    if (srcId != null && dstId != null) {
+                        return {id: (linkId++).toString(), 'from': srcId, 'to': dstId, title: 'Source Port: <b>' + srcPort + '</b><br>Dest Port: <b>' + dstPort + '</b>'};
                     }
                 }) : [];
             }
@@ -2084,11 +2681,14 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
 
     });
 
-    yangUtils.factory('constants', function(){
+    yangUtils.factory('constants', function () {
         return  {
-            NODE_UI_DISPLAY : 1,
+            NODE_UI_DISPLAY: 1,
             NODE_ALTER: 2,
             NODE_CONDITIONAL: 3,
+            NODE_RESTRICTIONS: 4,
+            NODE_LINK: 5,
+            NODE_LINK_TARGET: 6
         };
     });
 });

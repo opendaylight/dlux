@@ -1,0 +1,16 @@
+<div ng-controller="containerCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+    <div class="topContainerPart">
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_CON' | translate }}" ng-click='toggleExpanded()'></button>
+        <button class=" btn-name btn-slim">
+            {{node.localeLabel | translate}}
+        </button>
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+    </div>
+    
+    <div ng-show="node.expanded">
+        <div ng-repeat="node in node.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'"></div>
+    </div>
+
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+</div>

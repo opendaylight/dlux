@@ -1,0 +1,56 @@
+<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+
+    <div class="topContainerPart">
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
+        <button class="btn-slim btn-name inlineBlock">
+            {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
+        </button>
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+
+        <div class="modalWrapper">
+            <button ng-click="showModalWin()" ng-show="node.listData.length > 0" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="yangButton iconList"></button>
+            <div class="listModal simpleContainer" ng-show="showModal">
+                <button class="close" ng-click="showModalWin()">&times;</button>
+                <div class="listWrapper">
+                    <ul>
+                        <li ng-repeat="_ in node.listData" class="pl30">
+                            <button class="yangButton iconView" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1"></button>
+                            <button class="btn btn-gray {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                                {{node.localeLabel | translate}}&nbsp;{{node.createListName($index)}}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="listItemWrapper">
+            <button ng-click="shiftDisplayPrev()" ng-show="showPrevButton()" tooltip="{{ 'LIST_PREV_ITEM' | translate }}" class="yangButton iconPrev"></button>
+            <div class="listButtonWrapper" ng-repeat="offset in displayOffsets" ng-if="currentDisplayIndex + offset > -1 && node.listData.length > currentDisplayIndex + offset">
+                <button  class="btn listElemButton add-row btn-gray {{ (currentDisplayIndex + offset === node.actElemIndex ? 'btn-selected':'') }} ng-scope btn-slim" ng-click="node.changeActElementData(currentDisplayIndex + offset)" tooltip="{{getListName(offset, false).tooltip}}">
+                    {{ node.localeLabel | translate}}&nbsp;{{ getListName(offset, false).name }}
+                </button>
+            </div>
+            <button ng-click="shiftDisplayNext()"  ng-show="showNextButton()" tooltip="{{ 'LIST_NEXT_ITEM' | translate }}" class="yangButton iconNext"></button>
+        </div>
+        
+        
+    </div>
+    
+
+
+    <!-- <button ng-repeat="_ in node.listData" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+        {{node.localeLabel | translate}}&nbsp;{{node.createListName($index)}}
+    </button> -->
+
+
+    <div ng-if="node.actElemStructure" ng-show="node.expanded"><!-- class="simpleContainer"  -->
+        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" >
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+</div>
