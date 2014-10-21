@@ -61,6 +61,7 @@ module.exports = {
       'vendor/vis/dist/vis.min.js',
       'vendor/jquery/jquery.js',
       'vendor/jquery-ui/ui/jquery-ui.js',
+      'vendor/jquery-ui/jquery-ui.min.js',
       'vendor/bootstrap/js/dropdown.js',
       'vendor/angular/angular.js',
       'vendor/requirejs/requirejs.js',
@@ -88,7 +89,8 @@ module.exports = {
       'vendor/footable/dist/footable.paginate.min.js',
       'vendor/footable/dist/footable.sort.min.js',
       'vendor/angular-translate/angular-translate.min.js',
-      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
+      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'vendor/angular-dragdrop/draganddrop.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',

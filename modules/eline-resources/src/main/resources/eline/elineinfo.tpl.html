@@ -1,0 +1,37 @@
+<div  class="elineListButtonsWrapper">
+    <button ng-repeat="(k, v) in provisionedElines" class="btn btn-gray btn-slim inlineBlock" ng-click="setSelectedEline(v, $event, k)">
+        {{k}}
+    </button>
+</div>
+
+<div ng-if="selectedEline" class="elineInfoWrapper">
+    <span class="col-md-2 status {{selectedEline.status ? 'up' : 'down'}}">
+      <span class="iconArrow"></span>
+      {{ selectedEline.status ? 'ELINE_UP' : 'ELINE_DOWN' | translate }}
+    </span>
+
+    <div class="col-md-10 inlineBlock ">
+        <span>{{ selectedEline.name }}</span>
+    </div>
+    <div class="clear"></div>
+
+    <div class="endPointsWrapper">
+        <div ng-repeat="ep in [selectedEline.ep1, selectedEline.ep2] track by $index">
+            <label>{{ 'ELINE_EP' | translate }} {{': '+ ep['endpoint-id'] }}</label>
+            <span class="col-md-2 status {{ep.status ? 'up' : 'down'}}">
+              <span class="iconArrow"></span>
+              {{ ep.status ? 'ELINE_UP' : 'ELINE_DOWN' | translate }}
+            </span>
+            <!-- {{ep}} -->
+            <div class="col-md-10 inlineBlock ">
+                <!-- {{selectedElineEP}} -->
+                <span class="block" ng-repeat="p in epProps" ng-if="ep[p.key] !== null && ep[p.key] !== undefined">
+                    {{p.label + ': ' + ep[p.key] }}
+                </span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+<div ng-if="areElinesEmpty()"><span>{{ 'ELINE_NO_ELINES' | translate }}</span></div>
