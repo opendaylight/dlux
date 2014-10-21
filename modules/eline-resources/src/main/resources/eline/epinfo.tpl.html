@@ -1,0 +1,25 @@
+<div class="epListWrapper">
+    <div  class="epButtons">
+        <div ng-repeat="ep in endpoints track by $index" class="btn btn-gray btn-slim {{ ep.matched && ep.matched === selectedElineEP['endpoint-id'] ? 'active' : '' }}" drag="ep" ui-draggable="true" ng-click="setData('selectedEP', ep, $event)">
+            {{'ELINE_EP_SHORT' | translate}} {{ $index + 1 }} {{ ep.hasOwnProperty('static') ? '(static)' : '' }}
+        </div>
+    </div>
+
+    <div class="textWrapper ">
+
+        <div ng-show="selectedEP">
+            <span class="col-md-2 status {{selectedEP.status ? 'up' : 'down'}}">
+              <span class="iconArrow"></span>
+              {{ selectedEP.status ? 'ELINE_UP' : 'ELINE_DOWN' | translate }}
+            </span>
+
+            <div class="col-md-10 inlineBlock ">
+                <span class="block" ng-repeat="p in epProps" ng-if="selectedEP[p.key] !== null">
+                    {{p.label + ': ' +selectedEP[p.key]}}
+                    <!-- {{p.label + ': ' + (p.base64 ? convertBase64toHex(selectedEP[p.key]) : selectedEP[p.key]) }} -->
+                <span>
+            </div>
+        </div>
+        <div ng-if="endpoints.length === 0"><span>{{'ELINE_NO_EP' | translate}}</span></div>
+    </div>
+</div>
