@@ -33,6 +33,7 @@ sd">
     <module>common-login-resources</module>
     <module>common-general-resources</module>
     <module>yangui-resources</module>
+    <module>eline-resources</module>
     <module>network-resources</module>
     <module>flow-resources</module>
     <module>container-resources</module>

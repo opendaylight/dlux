@@ -158,6 +158,7 @@ define(['app/topology/topology.module'], function(topology) {
             this.startPoll("containermanager/containers","container",timeout);
             this.startPoll("staticroute/default/routes","network",timeout);
             this.startPoll("","yangui",timeout);
+			this.startPoll("","eline",timeout);
         };
 
         svc.startPoll = function(url,typename,timeout){
@@ -165,7 +166,7 @@ define(['app/topology/topology.module'], function(topology) {
                 if(typename==="nodes" || typename==="topology"){
                     restObj = svc.mdsalbase().one(url).get();
                 }
-                else if(typename==="yangui"){
+                else if(["yangui", "eline"].indexOf(typename) > -1){
                     restObj = svc.yanguibase().get();
                 }
                 else{
