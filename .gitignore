@@ -1,6 +1,7 @@
 *.sw*
 *~
-assets/
+# assets/
+dlux-web/**/assets/
 build/
 bin/
 node_modules/

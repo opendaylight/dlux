@@ -38,6 +38,7 @@
       <common.topbar.resources.version>0.1.0-SNAPSHOT</common.topbar.resources.version>
       <common.login.resources.version>0.1.0-SNAPSHOT</common.login.resources.version>
       <common.yangutils.resources.version>0.1.0-SNAPSHOT</common.yangutils.resources.version>
+      <yangvisualizer.resources.version>0.1.0-SNAPSHOT</yangvisualizer.resources.version>
     </properties>
     <name>DLUX</name>
 

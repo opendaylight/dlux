@@ -1,0 +1,122 @@
+<div class="yangVisualizer ">
+    <div class="topLine col-md-12">
+      {{ 'YANGVISUALIZER_MODEL' | translate }} :
+      <select ng-model="currentTopologyNode" ng-change="updateTopologyData()" ng-options="node.label for node in filteredNodes">
+        <option value="">-</option>
+      </select>
+    </div>
+    <div class="col-md-12 sigma">
+      <div class="viewNav">
+        <ul class="navWrapper">
+          <li>View : </li>
+          <li><span class="active" ng-click="setColorScheme($event,'default')">Default</span></li>
+          <li><span  ng-click="setColorScheme($event,'type')">Types</span></li>
+          <li><span  ng-click="setColorScheme($event,'module')">Modules</span></li>
+          <li><span  ng-click="setColorScheme($event,'namespace')">Namespaces</span></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="legend" ng-show="legend">
+          <ul>
+            <li>Legend : </li>
+            <li ng-repeat="(key, value) in legend">
+              <div class="itemWrapper left">
+                <div class="color left" style="background: {{value}};"></div>
+                <div class="left text">{{key}}</div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <sigma-topology topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
+    </div>
+    <!-- <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert> -->
+
+    <!-- RIGHT PANEL -->
+    <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">
+      <div class="topButtons">
+        <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
+          {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
+        </button>
+        <button class="btn btn-show add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="show/hide panel" ng-click='triggerExpanded(panel, true)'>
+            <i class="icon-caret-right" ng-show="panel.show"></i>
+            <i class="icon-caret-left" ng-show="!panel.show"></i>
+        </button>
+      </div>
+      <label>Selected node :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th class="bigger">Name</th>
+            <th>Type</th>
+            <th class="bigger">Module</th>
+            <!-- <th>Revision</th>
+            <th>Namespace</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="link" ng-click="zoomToNode(selectedNode.graphId)">{{ selectedNode.id }}</span></td>
+            <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
+            <td>{{ selectedNode.type }}</td>
+            <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
+            <!-- <td>{{ selectedNode.moduleRevision }}</td>
+            <td>{{ selectedNode.namespace }}</td> -->
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Parent nodes :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th class="bigger">Name</th>
+            <th>Type</th>
+            <th class="bigger">Module</th>
+            <!-- <th>Revision</th>
+            <th>Namespace</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="node in parentNodes.list track by $index">
+            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+            <td>{{ node.type }}</td>
+            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+            <!-- <td>{{ selectedNode.moduleRevision }}</td>
+            <td>{{ selectedNode.namespace }}</td> -->
+          </tr>
+        </tbody>
+      </table>
+
+      <label>Children nodes :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th class="bigger">Name</th>
+            <th>Type</th>
+            <th class="bigger">Module</th>
+            <!-- <th>Revision</th>
+            <th>Namespace</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="node in childrenNodes.list track by $index">
+            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+            <td>{{ node.type }}</td>
+            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+            <!-- <td>{{ selectedNode.moduleRevision }}</td>
+            <td>{{ selectedNode.namespace }}</td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="clear"></div>
+
+</div>
