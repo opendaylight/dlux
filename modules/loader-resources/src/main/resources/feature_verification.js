@@ -28,3 +28,4 @@ poll("8080/controller/nb/v2/flowprogrammer/default","flow");
 poll("8080/controller/nb/v2/containermanager/containers","container");
 poll("8080/controller/nb/v2/staticroute/default/routes","network");
 poll("8181/apidoc/apis","yangui");
+poll("8181/restconf/modules","yangvisualizer");

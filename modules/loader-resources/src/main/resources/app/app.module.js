@@ -18,6 +18,7 @@ var module = [
   'app/container/container.module',
   'app/network/network.module',
   'app/yangui/yangui.module',
+  'app/yangvisualizer/yangvisualizer.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module',
@@ -37,6 +38,7 @@ var e = [
   'app.container',
   'app.networking',
   'app.yangui',
+  'app.yangvisualizer',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
