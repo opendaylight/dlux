@@ -48,7 +48,7 @@ module.exports = function ( grunt ) {
                       expand: true,
                       flatten: true,
                       src: ['./config/env.module.js'],
-                      dest: 'src/common/config/'
+                      dest: '<%= config_dest_dir%>'
                   }
               ]
           },
@@ -65,7 +65,7 @@ module.exports = function ( grunt ) {
                       expand: true,
                       flatten: true,
                       src: ['./config/env.module.js'],
-                      dest: 'src/common/config/'
+                      dest: '<%= config_dest_dir%>'
                   }
               ]
           }
@@ -679,18 +679,6 @@ module.exports = function ( grunt ) {
     });
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', { 
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
-          data: {
-            scripts: jsFiles,
-            styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
-          }
-        });
-      }
-    });
-
-    grunt.file.copy('src/login.html', this.data.dir + '/login.html', { 
       process: function ( contents, path ) {
         return grunt.template.process( contents, {
           data: {

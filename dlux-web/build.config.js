@@ -9,6 +9,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'target/generated-resources/pages',
+  config_dest_dir:'build/src/common/config/',
   
   /**
    * This is a collection of file patterns that refer to our app code (the
@@ -28,7 +29,7 @@ module.exports = {
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
-    html: [ 'src/index.html',  'src/login.html'],
+    html: [ 'src/index.html'],
     less: 'src/less/main.less',
     templates: ['src/**/*.tpl.html']
   },
