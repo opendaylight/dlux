@@ -28,7 +28,7 @@ module.exports = {
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
-    html: [ 'src/index.html',  'src/login.html'],
+    html: [ 'src/index.html'],
     less: 'src/less/main.less',
     templates: ['src/**/*.tpl.html']
   },

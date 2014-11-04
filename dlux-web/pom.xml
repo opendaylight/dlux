@@ -126,29 +126,29 @@
             <configuration>
               <filesets>
                 <fileset>
-                  <directory>src/app/node</directory>
-                  <directory>src/common/yangutils</directory>
-                  <directory>src/common/navigation</directory>
-                  <directory>src/common/layout</directory>
-                  <directory>src/common/authentification</directory>
-                  <directory>src/common/login</directory>
-                  <directory>src/common/general</directory>
-                  <directory>src/app/yangui</directory>
-                  <directory>src/app/network</directory>
-                  <directory>src/app/flow</directory>
-                  <directory>src/app/container</directory>
-                  <directory>src/app/topology</directory>
-                  <directory>src/</directory>
-                  <directory>src/app/connection_manager</directory>
-                  <directory>src/app/core</directory>
-                  <directory>src/common/topbar</directory>
+                  <directory>src</directory>
                   <includes>
-              		  <include></include>
+              		  <include>test-main.js</include>
               		  <include>index.html</include>
               		  <include>main.js</include>
               		  <include>app/app.controller.js</include>
               		  <include>app/app.module.js</include>
               		  <include>app/routingConfig.js</include>
+                      <include>app/node/</include>
+                      <include>app/yangui/</include>
+                      <include>app/network/</include>
+                      <include>app/flow/</include>
+                      <include>app/container/</include>
+                      <include>app/topology/</include>
+                      <include>app/connection_manager/</include>
+                      <include>app/core/</include>
+                      <include>common/yangutils/</include>
+                      <include>common/navigation/</include>
+                      <include>common/layout/</include>
+                      <include>common/authentification/</include>
+                      <include>common/login/</include>
+                      <include>common/general/</include>
+                      <include>common/topbar/</include>
               		  <include>assets/</include>
   		            </includes>
                   <excludes></excludes>
