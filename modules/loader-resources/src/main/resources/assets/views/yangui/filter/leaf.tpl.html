@@ -1,0 +1,11 @@
+<div class="leaf" ng-controller="leafCtrl">
+    <span class="treeBullet" ng-show="node !== selSubApi.node && (node.parent !== null)">&#8226;</span>
+    <span class="leaf-label col-md-2">
+        {{node.localeLabel | translate}}
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+    </span>
+
+    <div ng-controller="filterTypeCtrl" class="inlineBlock" ng-repeat="type in node.getChildren('type')" ng-include="currentPath+'/filter/types/'+node.getChildren('type')[0].label+'.tpl.html'"></div>
+
+    <div class="clear"></div>
+</div>

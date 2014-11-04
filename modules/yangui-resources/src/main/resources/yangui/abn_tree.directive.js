@@ -10,7 +10,8 @@ define(['app/yangui/yangui.module'], function(yangui) {
           treeData: '=',
           onSelect: '&',
           initialSelection: '@',
-          treeControl: '='
+          treeControl: '=',
+          treeRows: '='
         },
         link: function(scope, element, attrs) {
           var error, expand_all_parents, expand_level, for_all_ancestors, for_each_branch, get_parent, n, on_treeData_change, select_branch, selected_branch, tree;
@@ -171,6 +172,10 @@ define(['app/yangui/yangui.module'], function(yangui) {
             }
 
           };
+
+          scope.$watch('tree_rows', function() {
+              scope.treeRows = scope.tree_rows;
+          });
 
           scope.tree_rows = [];
           on_treeData_change = function() {

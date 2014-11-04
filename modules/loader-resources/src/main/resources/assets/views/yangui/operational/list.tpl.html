@@ -1,0 +1,98 @@
+<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+    <div class="topContainerPart">
+        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
+        <button class="btn-slim btn-name inlineBlock">
+            {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
+        </button>
+        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+
+        <div class="modalWrapper">
+            <button ng-click="showModalWin()" ng-show="node.listData.length > 0" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="yangButton iconList"></button>
+            <div class="listModal simpleContainer" ng-show="showModal">
+                <button class="close" ng-click="showModalWin()">&times;</button>
+                <div class="listWrapper">
+                    <ul>
+                        <li ng-repeat="_ in node.listData" class="pl30">
+                            <button class="yangButton iconView" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1"></button>
+                            <button class="btn btn-gray {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                                {{node.localeLabel | translate}}&nbsp;{{node.createListName($index)}}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <button class="yangButton inlineBlock" ng-class="node.filters.length > 0 ? 'iconFilterFull' : 'iconFilterEmpty'" ng-click="showListFilterWin()" ng-show="node.listData.length && !(showListFilter) && !showModal" ng-mouseenter="filterListHover = true" ng-mouseleave="filterListHover = false"></button>
+
+        <div class="modalWrapper" ng-show="filterListHover && !showListFilter && node.filters.length > 0">
+            <div class="listModal simpleContainer listFilterWindow">
+                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
+                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter">{{ filter.name }} </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modalWrapper">
+            <div ng-controller="filter" class="listModal simpleContainer ng-hide listFilterWindow filterWindowWidth" ng-show="showListFilter">
+                <button class="yangButton iconFilterFullBck inlineBlock iconFilterOver" ng-click="showListFilterWin()"></button>
+                <div class="leaf ng-scope">
+                    <button class="close" ng-click="showListFilterWin()">&times;</button>
+                    <button class="btn-slim btn-name inlineBlock">
+                        {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
+                    </button>
+                    <button class="yangButton iconPlus ng-scope" tooltip="Create new filter" ng-click="createNewFilter()"></button>
+                </div>
+
+                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
+                    <div ng-if="$index != node.currentFilter">
+                        <button class="btn add-row btn-gray ng-scope btn-slim btn-filter" ng-if="$index != node.currentFilter" ng-click="switchFilter($index)" tooltip="Switch filter">{{ filter.name }} </button>
+                        <button class="yangButton iconClose ng-scope" tooltip="Delete filter" ng-click="clearFilterData(false,($index+1))"></button>
+                    </div>
+                </div>
+
+                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
+                    <div ng-if="$index == node.currentFilter">
+                        <input type="text" class="leaf-input form-control input-small ng-scope ng-pristine ng-valid" ng-model="node.filters[node.currentFilter].name">
+                        <button class="yangButton iconClose ng-scope btn-filter-high" tooltip="Delete filter" ng-click="clearFilterData(false,($index+1))"></button>
+                    </div>
+                </div>
+
+                <div class="ng-scope">
+                    <!-- <div class="customContainer listContainer filterContainer"> -->
+                        <div ng-if="node" class="ng-scope filterContainer">
+                            <div ng-repeat="node in node.filters[node.currentFilter].filterNodes" ng-include="currentPath+'/filter/'+node.type+'.tpl.html'">
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+
+                <div class="leaf ng-scope">
+                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="applyFilter()">Ok</button>
+                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="clearFilterData(true)">Clear all</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="listItemWrapper" ng-include="currentPath+'/operational/list-data-top.tpl.html'" ng-if="!(node.filteredListData && node.filteredListData.length)"></div>
+        <div class="listItemWrapper" ng-include="currentPath+'/operational/list-filtered-data-top.tpl.html'" ng-if="(node.filteredListData && node.filteredListData.length)"></div>
+        
+    </div>
+    
+
+
+    <!-- <button ng-repeat="_ in node.listData" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+        {{node.localeLabel | translate}}&nbsp;{{node.createListName($index)}}
+    </button> -->
+
+
+    <div ng-if="node.actElemStructure" ng-show="node.expanded"><!-- class="simpleContainer"  -->
+        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" >
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    
+    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
+</div>
