@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba8cc1f7_082fd2a2",
+        "filename": "bundles/yangvisualizer/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "Use variables rather than hardcoded versions of dependencies.",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_88120261",
+        "filename": "modules/loader-resources/src/main/resources/feature_verification.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "No need to make this change, i am deleting this file in another patch",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_a817c650",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/index.tpl.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "I18 missing for span?",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_2803b610",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/index.tpl.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "I18 missing",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_c3ff8b00",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/index.tpl.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "same as above, fix i18 on whole page",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_8309832e",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/sigma.directive.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "can we use some class here?",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_a30e0733",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/yangvisualizer.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "remove any unused code",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba8cc1f7_6310ff4e",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/yangvisualizer.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2014-11-04T22:06:56Z",
+      "side": 1,
+      "message": "put all colors as variables in top, so its easy to change in future",
+      "revId": "220eacefa91365cc7b69f02cda86e1af063d8ee5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
