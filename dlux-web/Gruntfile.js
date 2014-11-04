@@ -689,18 +689,6 @@ module.exports = function ( grunt ) {
         });
       }
     });
-
-    grunt.file.copy('src/login.html', this.data.dir + '/login.html', { 
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
-          data: {
-            scripts: jsFiles,
-            styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
-          }
-        });
-      }
-    });
   });
 
   /**
