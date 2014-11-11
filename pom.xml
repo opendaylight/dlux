@@ -4,14 +4,14 @@
   <parent>
     <groupId>org.opendaylight.odlparent</groupId>
     <artifactId>odlparent</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.3-Helium-SR1</version>
     <relativePath></relativePath>
   </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-parent</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1-Helium-SR1</version>
     <packaging>pom</packaging>
     <properties>
       <nexus.repository.release>opendaylight.release</nexus.repository.release>
@@ -21,23 +21,23 @@
       <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy
 >
 
-      <commons.opendaylight.version>1.4.3-SNAPSHOT</commons.opendaylight.version>
-      <loader.resources.version>0.0.2-SNAPSHOT</loader.resources.version>
-      <core.resources.version>0.0.2-SNAPSHOT</core.resources.version>
-      <node.resources.version>0.0.2-SNAPSHOT</node.resources.version>
-      <connection_manager.resources.version>0.0.2-SNAPSHOT</connection_manager.resources.version>
-      <container.resources.version>0.0.2-SNAPSHOT</container.resources.version>
-      <flow.resources.version>0.0.2-SNAPSHOT</flow.resources.version>
-      <network.resources.version>0.0.2-SNAPSHOT</network.resources.version>
-      <topology.resources.version>0.0.2-SNAPSHOT</topology.resources.version>
-      <yangui.resources.version>0.0.2-SNAPSHOT</yangui.resources.version>
-      <common.authentication.resources.version>0.0.2-SNAPSHOT</common.authentication.resources.version>
-      <common.general.resources.version>0.0.2-SNAPSHOT</common.general.resources.version>
-      <common.navigation.resources.version>0.0.2-SNAPSHOT</common.navigation.resources.version>
-      <common.layout.resources.version>0.0.2-SNAPSHOT</common.layout.resources.version>
-      <common.topbar.resources.version>0.0.2-SNAPSHOT</common.topbar.resources.version>
-      <common.login.resources.version>0.0.2-SNAPSHOT</common.login.resources.version>
-      <common.yangutils.resources.version>0.0.2-SNAPSHOT</common.yangutils.resources.version>
+      <commons.opendaylight.version>1.4.3-Helium-SR1</commons.opendaylight.version>
+      <loader.resources.version>0.0.2-Helium-SR1</loader.resources.version>
+      <core.resources.version>0.0.2-Helium-SR1</core.resources.version>
+      <node.resources.version>0.0.2-Helium-SR1</node.resources.version>
+      <connection_manager.resources.version>0.0.2-Helium-SR1</connection_manager.resources.version>
+      <container.resources.version>0.0.2-Helium-SR1</container.resources.version>
+      <flow.resources.version>0.0.2-Helium-SR1</flow.resources.version>
+      <network.resources.version>0.0.2-Helium-SR1</network.resources.version>
+      <topology.resources.version>0.0.2-Helium-SR1</topology.resources.version>
+      <yangui.resources.version>0.0.2-Helium-SR1</yangui.resources.version>
+      <common.authentication.resources.version>0.0.2-Helium-SR1</common.authentication.resources.version>
+      <common.general.resources.version>0.0.2-Helium-SR1</common.general.resources.version>
+      <common.navigation.resources.version>0.0.2-Helium-SR1</common.navigation.resources.version>
+      <common.layout.resources.version>0.0.2-Helium-SR1</common.layout.resources.version>
+      <common.topbar.resources.version>0.0.2-Helium-SR1</common.topbar.resources.version>
+      <common.login.resources.version>0.0.2-Helium-SR1</common.login.resources.version>
+      <common.yangutils.resources.version>0.0.2-Helium-SR1</common.yangutils.resources.version>
     </properties>
     <name>DLUX</name>
 
@@ -54,7 +54,7 @@
          <dependency>
             <groupId>org.opendaylight.yangtools</groupId>
             <artifactId>features-test</artifactId>
-            <version>0.6.3-SNAPSHOT</version>
+            <version>0.6.3-Helium-SR1</version>
          </dependency>
       </dependencies>
     </dependencyManagement>
