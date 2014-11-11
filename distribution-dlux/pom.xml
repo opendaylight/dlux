@@ -4,7 +4,7 @@
   <parent>
     <artifactId>dlux-parent</artifactId>
     <groupId>org.opendaylight.dlux</groupId>
-    <version>0.1.1-Helium-SR1</version>
+    <version>0.1.2-SNAPSHOT</version>
   </parent>
   <!--
     Necessary TODO: Hookup your parent pom here, else you will not get necessary versions,
@@ -15,7 +15,7 @@
   <artifactId>distribution-dlux</artifactId>
   <groupId>org.opendaylight.dlux</groupId>
   <!-- Optional TODO: Uncomment version if you are not using a parent pom.xml
-  <version>0.1.1-Helium-SR1</version>
+  <version>0.1.2-SNAPSHOT</version>
   -->
   <packaging>pom</packaging>
   <prerequisites>
@@ -24,15 +24,15 @@
   <properties>
     <!-- Optional TODO: Move these properties to your parent pom and possibly
             DependencyManagement section of your parent pom -->
-    <branding.version>1.0.1-Helium-SR1</branding.version>
-    <karaf.resources.version>1.4.3-Helium-SR1</karaf.resources.version>
+    <branding.version>1.0.2-SNAPSHOT</branding.version>
+    <karaf.resources.version>1.4.4-SNAPSHOT</karaf.resources.version>
     <karaf.version>3.0.1</karaf.version>
-    <feature.mdsal.version>1.1.1-Helium-SR1</feature.mdsal.version>
-    <feature.dlux.version>0.1.1-Helium-SR1</feature.dlux.version>
-    <feature.flow.version>1.1.1-Helium-SR1</feature.flow.version>
-    <feature.yangtools.version>0.6.3-Helium-SR1</feature.yangtools.version>
-    <feature.adsal.version>0.8.2-Helium-SR1</feature.adsal.version>
-    <feature.nsf.version>0.4.3-Helium-SR1</feature.nsf.version>
+    <feature.mdsal.version>1.1.2-SNAPSHOT</feature.mdsal.version>
+    <feature.dlux.version>0.1.2-SNAPSHOT</feature.dlux.version>
+    <feature.flow.version>1.1.2-SNAPSHOT</feature.flow.version>
+    <feature.yangtools.version>0.6.4-SNAPSHOT</feature.yangtools.version>
+    <feature.adsal.version>0.8.3-SNAPSHOT</feature.adsal.version>
+    <feature.nsf.version>0.4.4-SNAPSHOT</feature.nsf.version>
   </properties>
 
   <dependencies>
@@ -110,7 +110,7 @@
     <dependency>
       <groupId>org.opendaylight.openflowplugin</groupId>
       <artifactId>features-openflowplugin</artifactId>
-      <version>0.0.4-Helium-SR1</version>
+      <version>0.0.5-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
       <scope>runtime</scope>
@@ -126,7 +126,7 @@
      <dependency>
       <groupId>org.opendaylight.l2switch</groupId>
       <artifactId>features-l2switch</artifactId>
-      <version>0.1.1-Helium-SR1</version>
+      <version>0.1.2-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
       <scope>runtime</scope>
@@ -134,7 +134,7 @@
     <dependency>
       <groupId>org.opendaylight.controller</groupId>
       <artifactId>features-adsal-compatibility</artifactId>
-      <version>1.4.3-Helium-SR1</version>
+      <version>1.4.4-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
       <scope>runtime</scope>
@@ -143,7 +143,7 @@
     <dependency>
       <groupId>org.opendaylight.aaa</groupId>
       <artifactId>features-aaa</artifactId>
-      <version>0.1.1-Helium-SR1</version>
+      <version>0.1.2-SNAPSHOT</version>
       <classifier>features</classifier>
       <type>xml</type>
       <scope>runtime</scope>
@@ -153,13 +153,13 @@
     <dependency>
       <groupId>org.opendaylight.yangtools</groupId>
       <artifactId>features-test</artifactId>
-      <version>0.6.3-Helium-SR1</version>
+      <version>0.6.4-SNAPSHOT</version>
     </dependency>
     <!-- dependency for opendaylight-karaf-empty for use by testing -->
     <dependency>
       <groupId>org.opendaylight.controller</groupId>
       <artifactId>opendaylight-karaf-empty</artifactId>
-      <version>1.4.3-Helium-SR1</version>
+      <version>1.4.4-SNAPSHOT</version>
       <type>zip</type>
     </dependency>
   </dependencies>
