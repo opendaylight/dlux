@@ -64,6 +64,9 @@
     "PROCESSING_MODULES_SUCCESS": "Loading completed successfully",
     "PROCESSING_MODULES_ERROR": "Error in loading modules... ",
 
+    "SUBMIT_BUTTON": "Submit",
+    "CANCEL_BUTTON": "Cancel",
+
     "YANGUI_MODULES": "modules",
     "YANGUI_MODULE": "module",
     "YANGUI_NAME": "name",
