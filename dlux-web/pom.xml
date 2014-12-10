@@ -230,21 +230,67 @@
           </executions>
         </plugin>
         <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.3.1</version>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>grunt</executable>
-                </configuration>
-            </plugin>
+          <groupId>pl.allegro</groupId>
+          <artifactId>grunt-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <executions>
+            <execution>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>create-resources</goal>
+                <goal>npm</goal>
+                <goal>bower</goal>
+                <goal>grunt</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <bowerExecutable>node_modules/bower/bin/bower</bowerExecutable>
+            <gruntExecutable>node_modules/grunt-cli/bin/grunt</gruntExecutable>
+            <sourceDirectory>.</sourceDirectory>
+            <jsSourceDirectory>.</jsSourceDirectory>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>copy-resources</id>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${basedir}/target/generated-resources</outputDirectory>
+                <resources>
+                  <resource>
+                    <directory>target-grunt/target/generated-resources</directory>
+                    <filtering>false</filtering>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <executions>
+            <execution>
+              <phase>process-resources</phase>
+              <goals>
+                <goal>run</goal>
+              </goals>
+              <configuration>
+                <target>
+                  <delete>
+                    <!-- Remove extra webapp directory we don't want to include in final jar -->
+                    <fileset dir="target/generated-resources/pages/src/main/webapp" />
+                  </delete>
+                </target>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
