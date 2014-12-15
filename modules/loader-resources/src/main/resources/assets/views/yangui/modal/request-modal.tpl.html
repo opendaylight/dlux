@@ -45,9 +45,12 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="yangButton iconPlus" ng-click='addHistoryItemToColl($index)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></button>
-                                    <button class="yangButton iconNext" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
-                                    <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                    <div class="requestActions">
+                                        <button class="yangButton iconPlus" ng-click='addHistoryItemToColl($index)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></button>
+                                        <button class="yangButton iconFillData" ng-if="req.receivedData" ng-click='fillApiAndData(req.path,req.receivedData)' tooltip="Fill data"></button>
+                                        <button class="yangButton iconNext" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
+                                        <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                    </div>
                                 </td>
                             </tr>
                             <tr ng-show="req.show">
@@ -96,6 +99,7 @@
                                 </td>
                                 <td>
                                     <button class="yangButton iconNext" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
+                                    <button class="yangButton iconFillData" ng-if="req.receivedData" ng-click='fillApiAndData(req.path,req.receivedData)' tooltip="Fill data"></button>
                                     <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                                 </td>
                             </tr>
