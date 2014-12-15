@@ -13,7 +13,7 @@
             <div class="listModal simpleContainer listFilterWindow" ng-show="showModal && node.listData.length > 0">
                 <button class="yangButton iconListBck inlineBlock iconFilterOver" ng-click="showModalWin()"></button>
                 <div class="leaf ng-scope">
-                    <span class="leaf-label list-title">List of nodes</span>
+                    <span class="leaf-label list-title">{{ 'YANGUI_LIST_OF_NODES' | translate }}</span>
                     <button class="close" ng-click="showModalWin()">&times;</button>
                 </div>
                 <div class="listWrapper">
@@ -31,52 +31,7 @@
             </div>
         </div>
 
-        <button class="yangButton inlineBlock" ng-class="node.filters.length > 0 ? 'iconFilterFull' : 'iconFilterEmpty'" ng-click="showListFilterWin()" ng-show="node.listData.length && !(showListFilter) && !showModal" ng-mouseenter="filterListHover = true" ng-mouseleave="filterListHover = false"></button>
-
-        <div class="modalWrapper" ng-show="filterListHover && !showListFilter && node.filters.length > 0">
-            <div class="listModal simpleContainer listFilterWindow">
-                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
-                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter">{{ filter.name }} </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="modalWrapper">
-            <div ng-controller="filter" class="listModal simpleContainer listFilterWindow" ng-show="showListFilter">
-                <button class="yangButton iconFilterFullBck inlineBlock iconFilterOver" ng-click="showListFilterWin()"></button>
-                <div class="leaf ng-scope">
-                    <button class="close" ng-click="showListFilterWin()">&times;</button>
-                    <button class="btn-slim btn-name inlineBlock">
-                        {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
-                    </button>
-                    <button class="yangButton iconPlus ng-scope" tooltip="Create new filter" ng-click="createNewFilter()"></button>
-                </div>
-
-                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
-                    <div ng-if="$index != node.currentFilter">
-                        <button class="btn add-row btn-gray ng-scope btn-slim btn-filter" ng-if="$index != node.currentFilter" ng-click="switchFilter($index)" tooltip="Switch filter">{{ filter.name }} </button>
-                        <button class="yangButton iconClose ng-scope" tooltip="Delete filter" ng-click="clearFilterData(false,($index+1))"></button>
-                    </div>
-                </div>
-
-                <div class="leaf ng-scope" ng-repeat="filter in node.filters">
-                    <div ng-if="$index == node.currentFilter">
-                        <input type="text" class="leaf-input form-control input-small ng-scope ng-pristine ng-valid" ng-model="node.filters[node.currentFilter].name">
-                        <button class="yangButton iconClose ng-scope btn-filter-high" tooltip="Delete filter" ng-click="clearFilterData(false,($index+1))"></button>
-                    </div>
-                </div>
-
-                <div ng-if="node" class="ng-scope filterContainer">
-                    <div ng-repeat="node in node.filters[node.currentFilter].filterNodes" ng-include="currentPath+'/filter/'+node.type+'.tpl.html'">
-                    </div>
-                </div>
-
-                <div class="leaf ng-scope">
-                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="applyFilter()">Ok</button>
-                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="clearFilterData(true)">Clear all</button>
-                </div>
-            </div>
-        </div>
+        <ng-include src="currentPath+'/filter.tpl.html'"></ng-include>
 
         <div class="listItemWrapper" ng-include="currentPath+'/list-data-top.tpl.html'" ng-if="!(node.filteredListData && node.filteredListData.length)"></div>
         <div class="listItemWrapper" ng-include="currentPath+'/list-filtered-data-top.tpl.html'" ng-if="(node.filteredListData && node.filteredListData.length)"></div>

@@ -22,7 +22,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
             module: 'network-topology',
             revision: null,
             pathString: '/operational/network-topology:network-topology/',
-            label: 'Display Topology',
+            label: 'YANGUI_CUST_TOPOLOGY',
             getCallback: fnc,
             view: './src/app/yangui/cf/cv/cvtopology.tpl.html'
         };

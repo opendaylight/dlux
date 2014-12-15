@@ -100,8 +100,15 @@ define(['app/yangui/yangui.module'], function(yangui) {
             }
           };
           scope.user_clicks_branch = function(branch) {
+            
+            scope.tree_rows.forEach(function(item){
+                item.branch.selected = false;
+            });
+
             if (branch !== selected_branch) {
               return select_branch(branch);
+            } else {
+              branch.selected = true;
             }
           };
 
