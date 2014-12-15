@@ -1,10 +1,12 @@
 define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
-    yangUtils.factory('YangUtilsRestangular', function (Restangular, ENV) {
-        return Restangular.withConfig(function (RestangularConfig) {
+    yangUtils.factory('YangUtilsRestangular', ['Restangular', 'ENV', function (Restangular, ENV) {
+        var r = Restangular.withConfig(function(RestangularConfig) {
             RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
         });
-    });
+
+        return r;
+    }]);
 
     yangUtils.factory('arrayUtils', function () {
 
@@ -208,7 +210,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
     });
 
     yangUtils.factory('syncFact', function ($timeout) {
-        var timeout = 10000;
+        var timeout = 180000;
 
         var SyncObject = function () {
             this.runningRequests = [];
@@ -305,7 +307,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             },
             insertPropertyToObj: function (obj, propName, propData) {
                 var data = propData ? propData : {},
-                        name = propName;
+                    name = propName;
 
                 obj[name] = data;
             },
@@ -413,7 +415,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 node.builtInChecks.push(restrictionsFact.isInArray(childNames));
 
                 node.setLeafValue = function (value) {
-                    if(value) {
+                    if(value !== null) {
                         node.leafParent.value = value;
                     }
                 };
@@ -461,12 +463,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }
                 };
 
-                node.setLeafValue = function (values) {
+                node.setLeafValue = function (values, fromFilter) {
                     var bitString = values.map(function (value) {
-                        return value.length > 0 ? value : '0';
-                    });
+                            return value.length > 0 ? value : '0';
+                        }),
+                        intValue = parseInt(bitString.slice().reverse().join(''), 2);
 
-                    node.leafParent.value = parseInt(bitString.slice().reverse().join(''), 2).toString();
+                    node.leafParent.value = intValue > 0 ? intValue.toString() : '';
+                    if(fromFilter){
+                        node.leafParent.filterBitsValue = intValue > 0 ? intValue.toString() : '';
+                    }
                 };
             },
             // binary: function (node) {
@@ -549,7 +555,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
     });
 
-    yangUtils.factory('nodeWrapper', function (constants, $timeout, reqBuilder, restrictionsFact, typeWrapper) {
+    yangUtils.factory('nodeWrapper', function (constants, $timeout, reqBuilder, restrictionsFact, typeWrapper, listFiltering) {
 
         var comparePropToElemByName = function comparePropToElemByName(propName, elemName) {
             return (propName.indexOf(':') > -1 ? propName.split(':')[1] : propName) === elemName; //TODO also check by namespace - redundancy?
@@ -657,6 +663,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     self.wrapAll(child);
                 });
             },
+            checkKeyDuplicity: function (listData, refKey) {
+                return checkListElemKeys(listData, refKey);
+            },
             leaf: function (node) {
                 node.value = '';
                 node.valueIsValid = true;
@@ -681,14 +690,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         builder.insertPropertyToObj(req, node.label, valueStr);
                         return true;
                     }
+
                     return false;
                 };
 
                 node.fill = function (name, data) {
-                    var match = comparePropToElemByName(name, node.label);
+                    var match = '';
 
+                    match = comparePropToElemByName(name, node.label);
                     if (match) {
-                        node.value = data;
+                        node.value = data.toString();
                         if (typeChild) {
                             typeChild.fill(node.value);
                         }
@@ -698,6 +709,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
                 node.clear = function () {
                     node.value = '';
+
                     if (typeChild) {
                         typeChild.clear();
                     }
@@ -1062,7 +1074,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 };
 
                 node.buildRequest = function (builder, req) {
-
                     var valueArray = [];
 
                     for (var i = 0; i < node.value.length; i++) {
@@ -1121,9 +1132,13 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 node.actElemStructure = null;
                 node.actElemIndex = -1;
                 node.listData = [];
-                node.filters = [];
-                node.filteredListData = [];
                 node.expanded = true;
+                node.filters = [];
+                node.filterNodes = [];
+                node.searchedPath = [];
+                node.referenceNode = null;
+                node.filteredListData = [];
+                node.currentFilter = 0;
 
                 node.toggleExpand = function () {
                     node.expanded = !node.expanded;
@@ -1149,115 +1164,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     node.changeActElementData(node.listData.length - 1,true);
                 };
 
-                node.showListFilterWin = function () {
-                    if(!(node.filters && node.filters.length)){
-                        var newFilter = node.getChildrenForFilter().map(function(element){
-                            var copy = element.deepCopyForFilter();
-                            wrapper.wrapAll(copy);
-                            return copy;
-                        });
-                        node.filters.push({name : 'Filter 1 name',filterNodes : newFilter});
-                    }
-                    console.info('showListFilterWin node',node,'node.filters',node.filters);
-                };
-
-                node.getFilterData = function (filterNodes) {
-                    node.filters[node.currentFilter].filteredValues = node.filters[node.currentFilter].filterNodes.map(function(element){
-                        var requestData = {};
-                        element.buildRequest(reqBuilder, requestData);
-                        return requestData;
-                    }).filter(function(item){
-                        return $.isEmptyObject(item) === false;
-                    });
-                };
-
-
-                node.switchFilter = function (showedFilter) {
-                    node.getFilterData();
-                    node.currentFilter = showedFilter;
-                };
-
-                node.createNewFilter = function () {
-                    node.getFilterData();
-                    var newFilter = node.getChildrenForFilter().map(function(element){
-                        var copy = element.deepCopyForFilter();
-                        wrapper.wrapAll(copy);
-                        return copy;
-                    });
-                    node.filters.push({name : 'Filter ' + (node.filters.length+1) + ' name',filterNodes : newFilter});
-                    node.switchFilter(node.filters.length-1);
-                };
-
-                node.getFilterResult = function(element,filterValue){
-                    for (var i in filterValue){
-                        if(typeof filterValue[i] == 'object'){
-                            node.getFilterResult(element[i],filterValue[i]);
-                        }else{
-                            filterResult = element ? element[i] === filterValue[i] : false;
-                        }
-                    } 
-                };
-
-                node.applyFilter = function () {
-                    node.getFilterData();
-
-                    node.filteredListData = node.listData.slice().filter(function(element){
-                        return node.filters.some(function(filter){
-                            return filter.filteredValues.every(function(filterValue){
-                                filterResult = null;
-                                node.getFilterResult(element,filterValue);
-                                return filterResult;
-                            });
-                        });
-                    });
-
-                    node.getActElementFilter();
-                };
-
-                node.clearFilterData = function (changeAct,filterForClear) {
-                    if(filterForClear){
-                        filterForClear--;
-                        if(node.filters.length === 1){
-                            node.filters = [];
-                            var newFilter = node.getChildren('leaf',null,constants.NODE_UI_DISPLAY).map(function(element){
-                              return element.deepCopy();
-                             });
-                            node.filters.push({name : 'Filter 1 name',filterNodes : newFilter});
-                        }else{
-                            node.filters.splice(filterForClear,1);
-                            node.currentFilter = 0;
-                        }
-                    }else{
-                        node.filters = [];
-                        node.filteredListData = [];
-                        node.currentFilter = 0;
-                    }
-
-                    if(changeAct){
-                        node.getActElementFilter();
-                    }
-
-                };
-
-                node.getActElementFilter = function () {
-
-                    var actData = [];
-                    
-                    if(node.filteredListData && node.filteredListData.length){
-                        node.actElemIndex = 0;
-                        actData = node.filteredListData[node.actElemIndex];
-                    }else{
-                        node.actElemIndex = 0;
-                        actData = node.listData[node.actElemIndex];
-                    }
-                    
-
-                    node.actElemStructure.clear();
-                    for (var prop in actData) {
-                        node.actElemStructure.fillListElement(prop, actData[prop]);
-                    }
-                };
-
                 node.buildActElemData = function () {
                     var list = [],
                             result;
@@ -1271,13 +1177,13 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 node.changeActElementData = function (index,fromAdd) {
                     var storeData = node.buildActElemData();
                     node.expanded = true;
-                    // console.info('changeActElementData storeData',storeData);
+
                     if (node.actElemIndex > -1) { //we are changing already existing data
                         if(node.filteredListData && node.filteredListData.length){
                             node.listData[node.listData.indexOf(node.filteredListData[node.actElemIndex])] = storeData;
                             node.filteredListData[node.actElemIndex] = storeData;
                             if(fromAdd){
-                               node.clearFilterData(true);
+                               listFiltering.clearFilterData(node, true, false);
                             }
                         }else{
                             node.listData[node.actElemIndex] = storeData;
@@ -1291,13 +1197,12 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }else{
                         actData = node.listData[node.listData.indexOf(node.filteredListData[node.actElemIndex])];
                     }
-                    //vymazu sa filtre, ale nie su ulozene v listData a tam by ich bolo treba mat aby sa potom dali do actElemStructure
+
                     node.actElemStructure.clear();
                     for (var prop in actData) {
                         node.actElemStructure.fillListElement(prop, actData[prop]);
                     }
 
-                    // console.info('changeActElementData node',node);
                 };
 
                 node.removeListElem = function (elemIndex,fromFilter) {
@@ -1310,7 +1215,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     node.actElemIndex = node.listData.length - 1;
 
                     if(fromFilter){
-                        node.clearFilterData(true);
+                        listFiltering.clearFilterData(node,true,false);
                     }
 
                     if (node.actElemIndex === -1) {
@@ -1327,7 +1232,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
                 node.buildRequest = function (builder, req) {
                     var added = false;
-
                     //store entered data
                     var storeData = node.buildActElemData();
 
@@ -1345,17 +1249,20 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }).length > 0;
 
                     var buildedDataCopy = node.listData.slice().map(function (item) {
-                        if (item && item.hasOwnProperty('$$hashKey')) {
-                            delete item['$$hashKey'];
+                        var newItem = {};
+                        for(var prop in item){
+                            if(prop != '$$hashKey'){
+                                newItem[prop] = item[prop];
+                            }
                         }
-                        return item;
+                        return newItem;
                     });
 
                     // check of listElems keyValues duplicity
                     if(node.filteredListData && node.filteredListData.length){
-                        node.doubleKeyIndexes = checkListElemKeys(node.filteredListData, node.refKey);
+                        node.doubleKeyIndexes = wrapper.checkKeyDuplicity(node.filteredListData, node.refKey);
                     }else{
-                        node.doubleKeyIndexes = checkListElemKeys(node.listData, node.refKey);
+                        node.doubleKeyIndexes = wrapper.checkKeyDuplicity(node.listData, node.refKey);
                     }
 
                     if (added) {
@@ -1387,9 +1294,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }
                     while (node.filteredListData.length > 0) {
                         node.filteredListData.pop();
-                    }
-                    while (node.filters.length > 0) {
-                        node.filters.pop();
                     }
 
                     node.actElemIndex = -1;
@@ -1437,6 +1341,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }
 
                     return name;
+                };
+
+                node.getNewFilterElement = function (){
+                    return node.getChildrenForFilter().map(function(element){
+                            nodeWrapperForFilter.init(element);
+                            var copy = element.deepCopyForFilter();
+                            wrapper.wrapAll(copy);
+                            nodeWrapperForFilter.wrapForFilter(copy);
+                        return copy;
+                    });
                 };
             },
             _listElem: function (node) {
@@ -1495,7 +1409,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             comparePropToElemByName: comparePropToElemByName,
             equalArrays: equalArrays,
             equalListElems: equalListElems,
-            checkListElemKeys: checkListElemKeys,
             parseRestrictText: parseRestrictText,
             getTypes: getTypes
         };
@@ -1599,7 +1512,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return restrictions;
     });
 
-    yangUtils.factory('yinParser', function ($http, syncFact, constants, arrayUtils, pathUtils) {
+    yangUtils.factory('yinParser', ['$http', 'syncFact', 'constants', 'arrayUtils', 'pathUtils', 'YangUtilsRestangular', function ($http, syncFact, constants, arrayUtils, pathUtils, YangUtilsRestangular) {
         var augmentType = 'augment';
         var path = './assets';
 
@@ -1702,7 +1615,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             this.nodeType = nodeType;
             this.namespace = namespace;
             this.moduleRevision = moduleRevision;
-            this.currentFilter = 0;
 
             this.appendTo = function (parentNode) {
                 parentNode.children.push(this);
@@ -1734,6 +1646,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 return copy;
             };
 
+            this.getCleanCopy = function(){
+                return new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision);
+            };
+
             this.getChildren = function (type, name, nodeType, property) {
                 var filteredChildren = this.children.filter(function (item) {
                     return (name != null ? name === item.label : true) && (type != null ? type === item.type : true) && (nodeType != null ? nodeType === item.nodeType : true);
@@ -1748,61 +1664,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 } else {
                     return filteredChildren;
                 }
-            };
-
-            this.childrenFilterConditions = function (children){
-                var typesAllowed = ['case','choice','container','input','leaf','output','rpc'],
-                    conditionTypes = function(item){
-                        return typesAllowed.some(function(elem){
-                            return elem === item.type;
-                    });},
-                    conditionEmptyChildren = function(item){
-                        return item.children.some(function(child){
-                            return (child.type != 'leaf-list' && child.type != 'list');
-                    });},
-                    conditionChildDescription = function(item){
-                        return !(item.children.every(function(childDes){
-                            return childDes.type == 'description';
-                    }));};
-
-                return children.filter(function(item){
-                    if(item.parent.type == 'leaf' || item.parent.parent.type == 'leaf'){
-                        return true;
-                    }else{
-                        return conditionTypes(item) && conditionEmptyChildren(item) && conditionChildDescription(item);
-                    }
-                });
-            };
-
-            this.getChildrenForFilter = function () {
-                return this.childrenFilterConditions(this.getChildren(null,null,constants.NODE_UI_DISPLAY,null));
-            };
-
-            this.deepCopyForFilter = function deepCopyForFilter(additionalProperties) {
-
-                var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision),
-                    self = this;
-
-                additionalProperties = additionalProperties || ['pathString'];
-
-                additionalProperties.forEach(function(prop) {
-                    if (prop !== 'children' && self.hasOwnProperty(prop) && copy.hasOwnProperty(prop) === false) {
-                        copy[prop] = self[prop];
-                    }
-                });
-
-                this.childrenFilterConditions(this.children).forEach(function (child) {
-                    var childCopy = null;
-                    if(child.type == 'leaf'){
-                        childCopy = child.deepCopy();
-                    }else{
-                        childCopy = child.deepCopyForFilter();
-                    }
-
-                    childCopy.parent = copy;
-                    copy.children.push(childCopy);
-                });
-                return copy;
             };
         };
 
@@ -1819,7 +1680,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         child.appendTo(targetNode);
                     });
                 } else {
-                    console.warn(this.node.module + ' - can\'t find target node for augmentation ' + this.getPathString());
+                    console.warn(this.node.module + ':' + this.node.label + ' - can\'t find target node for augmentation ' + this.getPathString());
                 }
             };
 
@@ -1843,26 +1704,63 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             }
         };
 
-        var parseYang = function parseYang(yinPath, callback, errorCbk) {
+        var parseModule = function(data, callback) {
             var yangParser = new YangParser();
 
-            $http.get(path + yinPath).success(function (data) {
-                var moduleName = $($.parseXML(data).documentElement).attr('name'),
-                    moduleNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
-                    moduleoduleRevision = $($.parseXML(data)).find('revision').attr('date'),
-                    moduleObj = new Module(moduleName, moduleoduleRevision, moduleNamespace);
+            var moduleName = $($.parseXML(data).documentElement).attr('name'),
+                moduleNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
+                moduleoduleRevision = $($.parseXML(data)).find('revision').attr('date'),
+                moduleObj = new Module(moduleName, moduleoduleRevision, moduleNamespace);
 
-                yangParser.setCurrentModuleObj(moduleObj);
-                yangParser.parse($.parseXML(data).documentElement, moduleObj);
+            yangParser.setCurrentModuleObj(moduleObj);
+            yangParser.parse($.parseXML(data).documentElement, moduleObj);
 
-                yangParser.sync.waitFor(function () {
-                    callback(moduleObj);
-                });
-            }).error(function () {
-                console.warn('can\'t find module: ' + yinPath);
+            yangParser.sync.waitFor(function () {
+                callback(moduleObj);
+            });
+        };
+
+        var loadStaticModule = function(name, callback, errorCbk) {
+            var yinPath = '/yang2xml/' + name + '.yang.xml';
+            $http.get(path + yinPath).success(function(data) {
+                    console.warn('cannot load '+ name + 'from controller, trying loading from static storage');
+                    parseModule(data, callback);
+            }).error(function() {
+                console.warn('cannot load file '+ yinPath + 'from static storage');
                 errorCbk();
                 return null;
             });
+        };
+
+        var parseYangMP = function parseYangMP(baseApiPath, name, rev, callback, errorCbk) {
+            //http://localhost:8181/restconf/modules/module/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/openflow-configuration/2014-06-30/schema
+            var path = baseApiPath + '/' + name + '/' + rev + '/schema';
+            YangUtilsRestangular.one('restconf').one('modules').one('module').customGET(path).then(
+                function (data) {
+                    if($.parseXML(data) !== null) {
+                        parseModule(data, callback);
+                    } else {
+                        loadStaticModule(name, callback, errorCbk);
+                    }
+                }, function () {
+                    loadStaticModule(name, callback, errorCbk);
+                }
+            );
+        };
+
+        var parseYang = function parseYang(name, rev, callback, errorCbk) {
+            //http://localhost:8181/restconf/modules/module/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/openflow-configuration/2014-06-30/schema
+            YangUtilsRestangular.one('restconf').one('modules').one('module').one(name).one(rev).one('schema').get().then(
+                function (data) {
+                    if($.parseXML(data) !== null) {
+                        parseModule(data, callback);
+                    } else {
+                        loadStaticModule(name, callback, errorCbk);
+                    }
+                }, function () {
+                    loadStaticModule(name, callback, errorCbk);
+                }
+            );
         };
 
         var YangParser = function () {
@@ -2108,8 +2006,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         return {
-            parse: parseYang,
-            createNewNode: parseYang,
+            parseYang: parseYang,
+            parseYangMP: parseYangMP,
             __test: {
                 path: path,
                 parentTag: parentTag,
@@ -2118,9 +2016,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 Module: Module
             }
         };
-    });
+    }]);
 
-    yangUtils.factory('apiConnector', function ($http, syncFact, arrayUtils, pathUtils, custFunct) {
+    yangUtils.factory('apiConnector', function (syncFact, arrayUtils, pathUtils, custFunct, YangUtilsRestangular) {
         var connector = {};
 
         var apiPathElemsToString = function (apiPathElems) {
@@ -2182,26 +2080,28 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         revision: data.revision
                     };
 
-                $http.get(api.path).success(function (data) {
-                    var subApis = [];
+                YangUtilsRestangular.one('apidoc').one('apis').customGET(api.path.slice(api.path.indexOf('apis') + 5)).then(
+                    function (data) {
+                        var subApis = [];
 
-                    data.apis.forEach(function (subApi) {
-                        var operations = subApi.operations.map(function (item) {
-                            return item.method;
-                        }),
-                                subApiElem = new SubApi(subApi.path, operations);
+                        data.apis.forEach(function (subApi) {
+                            var operations = subApi.operations.map(function (item) {
+                                return item.method;
+                            }),
+                                    subApiElem = new SubApi(subApi.path, operations);
 
-                        subApis.push(subApiElem);
-                    });
+                            subApis.push(subApiElem);
+                        });
 
-                    apiObj.basePath = data.basePath;
-                    apiObj.subApis = subApis;
+                        apiObj.basePath = data.basePath;
+                        apiObj.subApis = subApis;
 
-                    processedApis.push(apiObj);
-                    sync.removeRequest(reqID);
-                }).error(function () {
-                    sync.removeRequest(reqID);
-                });
+                        processedApis.push(apiObj);
+                        sync.removeRequest(reqID);
+                    }, function () {
+                        sync.removeRequest(reqID);
+                    }
+                );
             });
 
             sync.waitFor(function () {
@@ -2433,7 +2333,65 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return moduleConnector;
     });
 
-    yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, moduleConnector, YangUtilsRestangular) {
+    yangUtils.factory('mountPointsConnector', function (YangUtilsRestangular, nodeWrapper, yangUtils, constants) {
+
+        mp = {};
+
+        mp.getMPModulesAPI = function(api) {
+            console.info('api', api);
+            var node = api.slice(api.lastIndexOf('/') + 1);
+            return 'opendaylight-inventory:nodes/node/'+node+'/yang-ext:mount';
+        };
+
+        mp.discoverMountPoints = function(api, getModulesCbk, callback) {
+            var modulesCbk = getModulesCbk || function() { return []; },
+                mpNodes = [],
+                baseApiPath = mp.getMPModulesAPI(api);
+
+            YangUtilsRestangular.one('restconf').one('modules').customGET(baseApiPath).then(
+                function (data) {
+                    yangUtils.processModulesMP(data.modules, baseApiPath, function (result) {
+                        var allRootNodes = result.map(function (node) {
+                            var copy = node.deepCopy();
+
+                            nodeWrapper.wrapAll(copy);
+                            return copy;
+                        });
+
+                        var moduleNames = data.modules.module.map(function(m) {
+                            return m.name;
+                        });
+
+                        console.info('moduleNames', moduleNames, 'rootNodes', allRootNodes);
+
+                        allRootNodes.forEach(function(n) {
+                            if(moduleNames.indexOf(n.module) > -1 && ['container','list'].indexOf(n.type) > -1) {
+                                mpNodes.push(n);
+                            }
+                        });
+
+                        console.info('loaded mount point nodes', mpNodes);
+
+                        callback(mpNodes);
+                    });
+                }, function (result) {
+                    console.error('Error getting Mount point data:', result);
+                    callback([]);
+                }
+            );
+        };
+
+        mp.getMpPath = function(selSubApi){
+            var path = selSubApi.buildApiRequestString();
+            path = path.indexOf('config') === 0 ? 'operational'+ path.slice(6,path.length) : path;
+
+            return path;
+        };
+
+        return mp;
+    });
+
+    yangUtils.factory('yangUtils', function (yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, moduleConnector, YangUtilsRestangular) {
 
         var utils = {};
 
@@ -2465,30 +2423,34 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 reqApis = topLevelSync.spawnRequest('apis'),
                 reqAll = topLevelSync.spawnRequest('all');
 
-            $http.get(YangUtilsRestangular.configuration.baseUrl + '/apidoc/apis/').success(function (data) {
-                apiConnector.processApis(data.apis, function (result) {
-                    apiModules = result;
-                    topLevelSync.removeRequest(reqApis);
-                });
-            }).error(function (result) {
-                console.error('Error getting API data:', result);
-                topLevelSync.removeRequest(reqApis);
-            });
-
-            $http.get(YangUtilsRestangular.configuration.baseUrl + '/restconf/modules/').success(function (data) {
-                utils.processModules(data.modules, function (result) {
-                    allRootNodes = result.map(function (node) {
-                        var copy = node.deepCopy();
-
-                        nodeWrapper.wrapAll(copy);
-                        return copy;
+            YangUtilsRestangular.one('apidoc').one('apis').get().then(
+                function (data) {
+                    apiConnector.processApis(data.apis, function (result) {
+                        apiModules = result;
+                        topLevelSync.removeRequest(reqApis);
                     });
+                }, function (result) {
+                    console.error('Error getting API data:', result);
+                    topLevelSync.removeRequest(reqApis);
+                }
+            );
+
+            YangUtilsRestangular.one('restconf').one('modules').get().then(
+                function (data) {
+                    utils.processModules(data.modules, function (result) {
+                        allRootNodes = result.map(function (node) {
+                            var copy = node.deepCopy();
+
+                            nodeWrapper.wrapAll(copy);
+                            return copy;
+                        });
+                        topLevelSync.removeRequest(reqAll);
+                    });
+                }, function (result) {
+                    console.error('Error getting API data:', result);
                     topLevelSync.removeRequest(reqAll);
-                });
-            }).error(function (result) {
-                console.error('Error getting API data:', result);
-                topLevelSync.removeRequest(reqAll);
-            });
+                }
+            );
 
             topLevelSync.waitFor(function () {
                 try {
@@ -2574,80 +2536,17 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 };
             });
 
-            dataTree.forEach(function (item) {
-                var findSupApi = function (treeElem) {
-                        var apiInfo = null;
-                        if (treeElem.hasOwnProperty('indexApi') && treeElem.hasOwnProperty('indexSubApi') && apis[treeElem.indexApi].subApis[treeElem.indexSubApi].operations.indexOf('PUT') > -1) {
-                            apiInfo = {api: treeElem.indexApi, subApi: treeElem.indexSubApi};
-                        } else if (treeElem.children.length && apiInfo === null) {
-                            var searchResult = null;
-                            for (var i = 0; i < treeElem.children.length && apiInfo === null; i++) {
-                                apiInfo = findSupApi(treeElem.children[i]);
-                            }
-                        }
-                        return apiInfo;
-                    },
-                    apiInfo = findSupApi(item),
-                    checkAPIValidity = function (api, subApi) {
-                        var fillDummyData = function (node) {
-                            var leaves = node.getChildren('leaf'),
-                                filled = false,
-                                childFilled,
-                                i;
-
-                            if (leaves.length && node.type === 'list') {
-                                node.addListElem();
-                                node.actElemStructure.getChildren('leaf')[0].value = '0';
-                                filled = true;
-                            } else if (leaves.length) {
-                                leaves[0].value = '0';
-                                filled = true;
-                            } else if (leaves.length === 0 && node.type === 'list') {
-                                childFilled = false;
-                                for (i = 0; i < node.actElemStructure.children.length && !childFilled; i++) {
-                                    childFilled = fillDummyData(node.actElemStructure.children[i]);
-                                }
-                                filled = childFilled;
-                            } else {
-                                childFilled = false;
-                                for (i = 0; i < node.children.length && !childFilled; i++) {
-                                    childFilled = fillDummyData(node.children[i]);
-                                }
-                                filled = childFilled;
-                            }
-
-                            return filled;
-                        },
-                        requestData = {},
-                        requestPath = api.basePath + '/' + subApi.buildApiRequestString(),
-                        reqID = sync.spawnRequest(requestPath);
-
-                        fillDummyData(subApi.node);
-                        subApi.node.buildRequest(reqBuilder, requestData);
-
-                        $http({method: 'PUT', url: requestPath, data: requestData, headers: {"Content-Type": "application/yang.data+json"}}).
-                            success(function (data) {
-                                // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- success'); //TODO entry deletion?
-                                sync.removeRequest(reqID);
-                            }).
-                            error(function (data, status) {
-                                // console.debug('sending',reqBuilder.resultToString(requestData),'to',requestPath,'- error');
-                                item.toRemove = true;
-                                sync.removeRequest(reqID);
-                            }
-                        );
-                    };
-
-                // if (apiInfo) {
-                //     checkAPIValidity(apis[apiInfo.api], apis[apiInfo.api].subApis[apiInfo.subApi]);
-                // } else {
-                //     item.toRemove = true;
-                // }
-            });
-
             sync.waitFor(function () {
-                callback(dataTree.filter(function (item) {
-                    return !item.hasOwnProperty('toRemove');
+                callback(dataTree.sort(function(a, b) {
+                    var sortRes = 0;
+                    if(a.label < b.label) {
+                        sortRes = -1;
+                    }
+                    if(a.label > b.label) {
+                        sortRes = 1;
+                    }
+
+                    return sortRes;
                 }));
             });
         };
@@ -2662,8 +2561,47 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
             loadedModules.module.forEach(function (module) {
                 var reqId = syncModules.spawnRequest(module.name);
+                
+                yinParser.parseYang(module.name, module.revision, function (module) {
+                    modules.push(module);
+                    syncModules.removeRequest(reqId);
+                }, function () {
+                    syncModules.removeRequest(reqId);
+                });
+            });
 
-                yinParser.parse('/yang2xml/' + module.name + '.yang.xml', function (module) {
+            syncModules.waitFor(function () {
+                processedData = moduleConnector.processModuleObjs(modules);
+                rootNodes = processedData.rootNodes;
+                augments = processedData.augments;
+
+                console.info(modules.length + ' modulesObj loaded', modules);
+                console.info(rootNodes.length + ' rootNodes loaded', rootNodes);
+                console.info(augments.length + ' augments loaded', augments);
+
+                var sortedAugments = augments.sort(function (a, b) {
+                    return a.path.length - b.path.length;
+                });
+
+                sortedAugments.map(function (elem) {
+                    elem.apply(rootNodes);
+                });
+
+                callback(rootNodes);
+                console.timeEnd('processModules');
+            });
+        };
+
+        utils.processModulesMP = function (loadedModules, basePath, callback) {
+            var modules = [],
+                rootNodes = [],
+                augments = [],
+                syncModules = syncFact.generateObj();
+
+            loadedModules.module.forEach(function (module) {
+                var reqId = syncModules.spawnRequest(module.name);
+                
+                yinParser.parseYangMP(basePath, module.name, module.revision, function (module) {
                     modules.push(module);
                     syncModules.removeRequest(reqId);
                 }, function () {
@@ -2709,7 +2647,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return basePath+'/'+selSubApi.buildApiRequestString();
         };
 
-        utils.transformTopologyData = function (data) {
+        utils.transformTopologyData = function (data, callback) {
             var links = [],
                 nodes = [],
                 getNodeIdByText = function getNodeIdByText(inNodes, text) {
@@ -2729,9 +2667,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
             if (data['network-topology'] && data['network-topology'].topology.length) {
-                var topoData = data['network-topology'].topology[0],
-                        nodeId = 0,
-                        linkId = 0;
+                var topoData = callback ? callback(data['network-topology'].topology) : data['network-topology'].topology[0],
+                    nodeId = 0,
+                    linkId = 0;
 
                 nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function (nodeData) {
                     return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
