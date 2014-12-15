@@ -11,7 +11,7 @@
     <button class="close" ng-click="clearTopologyData()">&times;</button>
     <topology-simple topology-data="topologyData"></topology-simple>
   </div> -->
-  <div ng-if="selCustFunct && selCustFunct.viewStr" class='topologyContainer'>
+  <div ng-if="selCustFunct && selCustFunct.viewStr" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
     <button class="close" ng-click="unsetCustomFunctionality()">&times;</button>
     <div ng-include src="selCustFunct.viewStr"></div>
   </div>
@@ -30,7 +30,7 @@
             <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control yangInput input-small" ng-model="pathElem.identifierValue" ng-change="changePathInPreview()"></span>
         </span>
         <button ng-repeat="operation in selSubApi.operations" class="btn add-row btn-gray btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
-        <button ng-repeat="custFunct in selSubApi.custFunct" class="btn add-row btn-gray btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{custFunct.label}}</button>
+        <button ng-repeat="custFunct in selSubApi.custFunct" class="btn add-row btn-gray btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
 
         
       </div>
