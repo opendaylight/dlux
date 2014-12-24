@@ -35,6 +35,7 @@ define(['app/topology/topology.module', 'd3', 'vis'], function(topology) {
                   var options =
                   {
                       width:  '80%',
+                      height: '500px',
                       nodes: {
                           widthMin: 20,
                           widthMax: 64,
