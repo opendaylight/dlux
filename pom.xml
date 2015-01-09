@@ -13,6 +13,8 @@
     <artifactId>dlux-parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>dlux</name> <!-- Used by Sonar to set project name -->
+
     <properties>
       <nexus.repository.release>opendaylight.release</nexus.repository.release>
       <nexus.repository.snapshot>opendaylight.snapshot</nexus.repository.snapshot>
@@ -39,7 +41,6 @@
       <common.login.resources.version>0.1.0-SNAPSHOT</common.login.resources.version>
       <common.yangutils.resources.version>0.1.0-SNAPSHOT</common.yangutils.resources.version>
     </properties>
-    <name>DLUX</name>
 
     <modules>
        <module>modules</module>
