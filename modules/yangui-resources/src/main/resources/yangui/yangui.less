@@ -8,6 +8,16 @@
     overflow: hidden;
 }
 
+.mountPointsContainer {
+    position: fixed;
+    width: 800px;
+    max-height: 400px;
+    top: 50px;
+    right: 50px;
+    z-index: 1100;
+    overflow: hidden;
+}
+
 .simpleContainer {
     border: 1px solid #7a7a7a;
     margin: 5px;
@@ -87,13 +97,37 @@ INPUT.leaf-input{
 }
 
 .btn-filter-high{
-  margin-top: 5px !important;
+  margin-top: 3px !important;
 }
 
 .btn-filter-right{
   float: right;
   margin-left: 15px;
   margin-bottom: 10px;
+}
+
+.filterBitsIcon{
+  position: absolute !important;
+  left: 130px;
+  bottom: 55px;
+}
+
+.filterBitsValue{
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.bitCheckbox{
+  float: left;
+  margin: 4px 3px 0px 0px !important;
+}
+
+.adv-fil-sel{
+  width:80px !important;
+}
+
+.adv-fil-range{
+  width:148px !important;
 }
 
 .iconFilterOver{
@@ -211,6 +245,14 @@ INPUT.leaf-input{
     }
 }
 
+.treeWrapper{
+  .treeList{
+    margin: 10px 0;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+}
+
 .selSubApiPath{
     &.is-sticky{
         width: 100%;
@@ -282,6 +324,54 @@ div.popUpWrapperFix{
   top: 0;
   left: 0;
 }
+
+div.requestActions{
+  width: 130px;
+}
+
+div.mountPoints{
+  color: #FFFFFF !important;
+  .leaf-label{
+    cursor:pointer;
+  }
+  .mpInner{
+    overflow-y: scroll;
+    margin-top: 20px;
+    max-height: 300px;
+    margin-bottom: 20px;
+    .mpApi{
+      padding-right: 10px;
+      a{
+        color: #FFFFFF !important;
+        display: block;
+        padding-top: 3px;
+        padding-bottom: 3px;
+      }
+      a:HOVER{
+        background: #808285;
+        text-decoration: none;
+        cursor: pointer;
+        .roundedCorners(4px);
+      }
+      a:HOVER i{
+        color: #000000;
+      }
+      a.mpApiLink{
+        font-weight: bold;
+        padding-left: 10px;
+      }
+      span{
+        padding-left: 5px;
+      }
+      .mpSubApi{
+        a{
+          padding-left: 30px;
+        }
+      }
+    }
+  }
+}
+
 /* --------------------------------------------------------------------------------- YANG UI - END */
 
 
@@ -314,11 +404,14 @@ div.popUpWrapperFix{
   li{
     margin: 5px 0;
     position: relative;
-    .btn-remove{
+    .btn-remove,.btn-filter-active{
       position: absolute;
       right: 29px;
       top: 0;
       margin: 0;
+    }
+    .btn-filter-active{
+      right: 20px;
     }
     .btn-double-index{
       position: absolute;
@@ -423,6 +516,20 @@ div.popUpWrapperFix{
         }
       }
     }
+  }
+}
+
+.mountPointsContainer{
+ background: #393939;
+  border: 1px solid #7a7a7a;
+  border-radius: 5px;
+  padding: 20px;
+  z-index: 15;
+  button.close{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #C4C4C4;
   }
 }
 
@@ -549,11 +656,6 @@ div.popUpWrapperFix{
   /*overflow: hidden;*/
 }
 
-.filterModalWrapper{
-  
-}
-
-
 .listFilterWindow{
   left: -6px;
   top: -10px;
@@ -561,16 +663,13 @@ div.popUpWrapperFix{
 }
 
 .filterContainer .leaf{
-  min-width: 500px;
+  min-width: 585px;
 }
 
 .filterContainer{
   margin-top:20px;
   margin-right: 40px;
   margin-bottom: 20px;
-  /*max-width: 510px;*/
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 .filterContainer .col-md-2{
@@ -582,36 +681,7 @@ div.popUpWrapperFix{
 
 
 
-/* --------------------------------------------------------------------------------- MAIN MENU CHANGES */
-#side-menu.nav li{
-    a{
-    padding-left: 35px;
-    position: relative;
-    .transition(150ms);
-    i{
-      position: absolute;
-      left: 15px;
-      top: 8px;
-    }
-    &:hover{
-      i{
-        font-size: 18px;
-        top: 6px;
-        left: 11px;
-      }
-    }
-  }
-  &.active{
-    a{
-      i{
-        font-size: 14px;
-        top: 8px;
-        left: 15px;
-      }
-    }
-  }
-}
-/* --------------------------------------------------------------------------------- MAIN MENU CHANGES - END */
+
 
 
 @iconsRootPath : 'images/yang-ui-icons/';
@@ -639,6 +709,9 @@ button{
     &.iconArrowDown{
       background: transparent url('@{iconsRootPath}icon-arrow-down.png') no-repeat center top;
     }
+    &.iconFillData{
+      background: transparent url('@{iconsRootPath}icon-fill-data.png') no-repeat center top;
+    }
     &.iconArrowRight{
       background: transparent url('@{iconsRootPath}icon-arrow-right.png') no-repeat center top;
     }
@@ -659,6 +732,12 @@ button{
     }
     &.iconQuestion{
       background: transparent url('@{iconsRootPath}icon-question.png') no-repeat center top;
+    }
+    &.iconExpandBits{
+      background: transparent url('@{iconsRootPath}icon-expand-bits.png') no-repeat center top;
+    }
+    &.iconCollapseBits{
+      background: transparent url('@{iconsRootPath}icon-collapse-bits.png') no-repeat center top;
     }
     &.iconPrev{
       background: transparent url('@{iconsRootPath}icon-prev.png') no-repeat center top;
