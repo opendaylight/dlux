@@ -17,7 +17,12 @@ require.config({
     'footable' : '../vendor/footable/dist/footable.min',
     'd3' : '../vendor/d3/d3.min',
     'vis' : '../vendor/vis/dist/vis.min',
-    'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad' 
+    'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad',
+    'sigma' : '../assets/js/sigma/sigma.min',
+    'sigma-parsers-gexf' : '../assets/js/sigma/plugins/sigma.parsers.gexf.min',
+    'sigma-forceAtlas2' : '../assets/js/sigma/plugins/sigma.layout.forceAtlas2.min',
+    'sigma-dragNodes' : '../assets/js/sigma/plugins/sigma.plugins.dragNodes.min',
+    'sigma-customShapes' : '../assets/js/sigma/plugins/sigma.renderers.customShapes.min'
   },
 
   shim : {
@@ -37,7 +42,11 @@ require.config({
     'footable' : ['jquery'],
     'undescore' : {
       exports : '_'
-    }
+    },
+    'sigma-parsers-gexf' : ['sigma'],
+    'sigma-forceAtlas2' : ['sigma'],
+    'sigma-dragNodes' : ['sigma'],
+    'sigma-customShapes' : ['sigma']
   },
 
   deps : ['app/app.module']
