@@ -18,10 +18,12 @@ var module = [
   'app/container/container.module',
   'app/network/network.module',
   'app/yangui/yangui.module',
+  'app/yangvisualizer/yangvisualizer.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module',
-  'common/config/env.module']; //needed module
+  'common/config/env.module',
+  'common/sigmatopology/sigmatopology.module']; //needed module
 
 // The name of all angularjs module
 var e = [
@@ -37,9 +39,11 @@ var e = [
   'app.container',
   'app.networking',
   'app.yangui',
+  'app.yangvisualizer',
   'app.common.nav',
   'app.common.topbar',
-  'app.common.layout'];
+  'app.common.layout',
+  'app.common.sigmatopology'];
 //--------------------\\
 
 define(module, function(ng) {
