@@ -1,6 +1,7 @@
 var pluginsFactories = [
   'displayTopology',
-  'checkFlow'
+  'checkFlow',
+  'displayMountPoints'
 ];
 
 var pluginContollers = [

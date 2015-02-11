@@ -1,0 +1,55 @@
+<button class="yangButton inlineBlock" ng-class="node.referenceNode && node.referenceNode.filters.length > 0 ? 'iconFilterFull' : 'iconFilterEmpty'" ng-click="showListFilterWin()" ng-show="node.listData.length && !(showListFilter) && !showModal && !(selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS')" ng-mouseenter="filterListHover = true" ng-mouseleave="filterListHover = false"></button>
+
+<div class="modalWrapper" ng-show="filterListHover && !showListFilter && node.referenceNode && node.referenceNode.filters.length > 0">
+    <div class="listModal simpleContainer listFilterWindow">
+        <div class="listWrapper">
+            <ul>
+                <li ng-repeat="filter in node.referenceNode.filters" class="pr50 pl30">
+                    <button class="btn add-row btn-gray ng-scope btn-slim btn-filter">{{ filter.name }} </button>
+                    <button class="yangButton ng-scope btn-filter-high btn-filter-active" ng-class="filter.active == 1 ? 'iconFilterFull' : 'iconFilterEmpty'"></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="modalWrapper">
+    <div ng-controller="filter" class="listModal simpleContainer listFilterWindow" ng-show="node.listData.length && showListFilter && node.referenceNode && node.referenceNode.filters.length > 0">
+        <button class="yangButton iconFilterFullBck inlineBlock iconFilterOver" ng-click="showListFilterWin()"></button>
+        <div class="leaf ng-scope">
+            <button class="close" ng-click="showListFilterWin()">&times;</button>
+            <button class="btn-slim btn-name inlineBlock">
+                {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
+            </button>
+            <button class="yangButton iconPlus ng-scope" tooltip="{{ 'YANGUI_CREATE_NEW_FILTER' | translate }}" ng-click="createNewFilter()"></button>
+        </div>
+
+        <div class="leaf ng-scope" ng-repeat="filter in node.referenceNode.filters">
+            <div ng-if="$index != node.currentFilter">
+                <button class="btn add-row btn-gray ng-scope btn-slim btn-filter" ng-if="$index != node.currentFilter" ng-click="switchFilter($index)" tooltip="{{ 'YANGUI_SWITCH_FILTER' | translate }}">{{ filter.name }} </button>
+                <button class="yangButton iconClose ng-scope" tooltip="{{ 'YANGUI_REMOVE_FILTER' | translate }}" ng-click="clearFilterData(false,($index+1),false)"></button>
+                <button class="yangButton  ng-scope" ng-class="filter.active == 1 ? 'iconFilterFull' : 'iconFilterEmpty'" tooltip="{{ 'YANGUI_ACTIVATE_DEACTIVATE_FILTER' | translate }}" 
+                        ng-click="activeFilter(filter)"></button>
+            </div>
+        </div>
+
+        <div class="leaf ng-scope" ng-repeat="filter in node.referenceNode.filters">
+            <div ng-if="$index == node.currentFilter">
+                <input type="text" class="leaf-input form-control input-small ng-scope ng-pristine ng-valid" ng-model="node.referenceNode.filters[node.currentFilter].name">
+                <button class="yangButton iconClose ng-scope btn-filter-high" tooltip="{{ 'YANGUI_REMOVE_FILTER' | translate }}" ng-click="clearFilterData(false,($index+1),false)"></button>
+                <button class="yangButton ng-scope btn-filter-high" ng-class="filter.active == 1 ? 'iconFilterFull' : 'iconFilterEmpty'" tooltip="{{ 'YANGUI_ACTIVATE_DEACTIVATE_FILTER' | translate }}" ng-click="activeFilter(filter)"></button>
+            </div>
+        </div>
+
+        <div ng-if="node" class="ng-scope filterContainer">
+            <div ng-repeat="node in node.referenceNode.filterNodes" ng-include="currentPath+'/filter/'+node.type+'.tpl.html'">
+            </div>
+        </div>
+
+        <div class="leaf ng-scope">
+            <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="applyFilter()">{{ 'YANGUI_OK' | translate }}</button>
+            <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="clearFilterData(true,null,true)">{{ 'YANGUI_REMOVE_ALL' | translate }}</button>
+            <button class="btn add-row btn-gray ng-scope btn-slim btn-filter-right" ng-click="clearFilterData(true,null,false)">{{ 'YANGUI_DEACTIVATE_ALL' | translate }}</button>
+        </div>
+    </div>
+</div>
