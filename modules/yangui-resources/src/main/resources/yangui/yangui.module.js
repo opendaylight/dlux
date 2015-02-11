@@ -22,11 +22,11 @@ define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services'
     NavHelperProvider.addToMenu('yangui', {
       "link": "#/yangui/index",
       "active": "main.yangui",
-      "title": "Yang UI",
+      "title": "YANGUI_MENU_LABEL",
       "icon": "icon-level-down",
       "page": {
-        "title": "Yang UI",
-        "description": "Yang UI"
+        "title": "YANGUI_MENU_LABEL",
+        "description": "YANGUI_MENU_LABEL"
       }
     });
 
