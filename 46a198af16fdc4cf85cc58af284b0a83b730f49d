@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a96c907_3f6058ce",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "You should keep these types in configuration or atleast separate constant variable for whole service, no need to initialize variable again",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_5f5d2414",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "why not use \u003d\u003d\u003d?",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_ff9d10bd",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "same, use \u003d\u003d\u003d",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_dfa854dd",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "should be a constant variable, outside function",
+      "range": {
+        "startLine": 40,
+        "startChar": 20,
+        "endLine": 40,
+        "endChar": 45
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_ff84305f",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "you should check if name and data are valid parameters. Same applies for all the other functions which are exposed as service, where u see a wrong input can come and cause issues",
+      "range": {
+        "startLine": 221,
+        "startChar": 46,
+        "endLine": 221,
+        "endChar": 50
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_5fb44434",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "try to use \u003d\u003d\u003d else where also",
+      "range": {
+        "startLine": 349,
+        "startChar": 41,
+        "endLine": 349,
+        "endChar": 43
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_df7ff464",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "again constant arrays. they will get created for every call",
+      "range": {
+        "startLine": 577,
+        "startChar": 47,
+        "endLine": 577,
+        "endChar": 52
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_7f9820c0",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/yangutils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "All of these url creation seems so much buried in the code, we should think of moving them out to config/constant files",
+      "range": {
+        "startLine": 2343,
+        "startChar": 43,
+        "endLine": 2343,
+        "endChar": 48
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_9f95ec88",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/yangutils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2426,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-13T01:30:06Z",
+      "side": 1,
+      "message": "we should document the use of urls. Like a sample url and how we are using it and for what purpose",
+      "range": {
+        "startLine": 2426,
+        "startChar": 33,
+        "endLine": 2426,
+        "endChar": 36
+      },
+      "revId": "46a198af16fdc4cf85cc58af284b0a83b730f49d",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
