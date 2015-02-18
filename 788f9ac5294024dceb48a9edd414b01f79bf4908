@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a96c907_f2e697af",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-18T22:06:15Z",
+      "side": 1,
+      "message": "line is too long, divide into half to accommodate within 80 characters",
+      "range": {
+        "startLine": 174,
+        "startChar": 107,
+        "endLine": 174,
+        "endChar": 131
+      },
+      "revId": "788f9ac5294024dceb48a9edd414b01f79bf4908",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a96c907_12ec638e",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/listfiltering.services.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-02-18T22:06:15Z",
+      "side": 1,
+      "message": "try to keep lines with 80 character range",
+      "range": {
+        "startLine": 583,
+        "startChar": 64,
+        "endLine": 583,
+        "endChar": 69
+      },
+      "revId": "788f9ac5294024dceb48a9edd414b01f79bf4908",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
