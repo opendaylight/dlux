@@ -16,12 +16,8 @@
     <name>dlux</name> <!-- Used by Sonar to set project name -->
 
     <properties>
-      <nexus.repository.release>opendaylight.release</nexus.repository.release>
-      <nexus.repository.snapshot>opendaylight.snapshot</nexus.repository.snapshot>
-      <nexusproxy>http://nexus.opendaylight.org/content</nexusproxy>
       <releaseplugin.version>2.3.2</releaseplugin.version>
       <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy>
-
       <commons.opendaylight.version>1.5.0-SNAPSHOT</commons.opendaylight.version>
       <loader.resources.version>0.1.0-SNAPSHOT</loader.resources.version>
       <core.resources.version>0.1.0-SNAPSHOT</core.resources.version>
@@ -58,86 +54,7 @@
          </dependency>
       </dependencies>
     </dependencyManagement>
-    <repositories>
    
-    <!-- Opendaylight public group -->
-    <repository>
-      <id>opendaylight-public</id>
-      <name>opendaylight-public</name>
-      <url>${nexusproxy}/groups/public/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </repository>
-    <!-- OpenDayLight Released artifact -->
-    <repository>
-      <id>opendaylight-release</id>
-      <name>opendaylight-release</name>
-      <url>http://nexus.opendaylight.org/content/repositories/opendaylight.release/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <!-- OpenDayLight Snapshot artifact -->
-    <repository>
-      <id>opendaylight-snapshot</id>
-      <name>opendaylight-snapshot</name>
-      <url>http://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <!-- Opendaylight public group -->
-    <pluginRepository>
-      <id>opendaylight-public</id>
-      <name>opendaylight-public</name>
-      <url>${nexusproxy}/groups/public/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </pluginRepository>
-    <!-- OpenDayLight Released artifact -->
-    <pluginRepository>
-      <id>opendaylight-release</id>
-      <name>opendaylight-release</name>
-      <url>http://nexus.opendaylight.org/content/repositories/opendaylight.release/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </pluginRepository>
-    <!-- OpenDayLight Snapshot artifact -->
-    <pluginRepository>
-      <id>opendaylight-snapshot</id>
-      <name>opendaylight-snapshot</name>
-      <url>http://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
   <scm>
     <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>	    <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
     <tag>HEAD</tag>
