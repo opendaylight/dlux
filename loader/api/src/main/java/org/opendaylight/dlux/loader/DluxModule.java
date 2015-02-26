@@ -6,73 +6,113 @@ package org.opendaylight.dlux.loader;
 * terms of the Eclipse Public License v1.0 which accompanies this distribution,
 * and is available at http://www.eclipse.org/legal/epl-v10.html
 */
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
+import com.google.common.base.Preconditions;
+import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.opendaylight.dlux.loader.IDluxLoaderRegistration;
 import org.osgi.service.http.HttpService;
-import org.osgi.service.http.NamespaceException;
+
+/**
+ * At startup of each karaf bundle, each UI module creates an instance of this class
+ * via blueprint.
+ * Initalize method gets called at loading of bundle.
+ */
 
 public class DluxModule {
 
-    private HttpService httpService;
-    private IDluxLoaderRegistration loader;
     final static Logger logger = LoggerFactory.getLogger(DluxModule.class);
 
-    private String moduleName = "";
-    private String url = "";
-    private String directory = "";
-    private String requireJs = "";
-    private String angularJs = "";
+    /**
+     * http Service is required to register resources for the specified url.
+     */
+    private HttpService httpService;
+    /**
+     * loader to enable this module with dlux
+     */
+    private DluxModuleLoader loader;
 
-    public DluxModule() {}
+    /**
+     * Name of the dlux module
+     */
+    private String moduleName;
 
-    public void setHttpService(HttpService httpService){
+    /**
+     * url via the module can be accessed
+     */
+    private String url;
+
+    /**
+     * Location of resources to be registered
+     */
+    private String directory;
+
+    /**
+     * Name of the requireJS module
+     */
+    private String requireJs;
+
+    /**
+     * Name of the angularJs module
+     */
+    private String angularJs;
+
+    public void setHttpService(HttpService httpService) {
         this.httpService = httpService;
     }
 
-    public void setLoader(IDluxLoaderRegistration loader){
+    public void setLoader(DluxModuleLoader loader) {
         this.loader = loader;
     }
 
-    public void setModuleName(String moduleName){
+    public void setModuleName(String moduleName) {
         this.moduleName = moduleName;
     }
 
-    public void setUrl(String url){
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public void setDirectory(String directory){
+    public void setDirectory(String directory) {
         this.directory = directory;
     }
 
-    public void setRequireJs(String requireJs){
+    public void setRequireJs(String requireJs) {
         this.requireJs = requireJs;
     }
 
-    public void setAngularJs(String angularJs){
+    public void setAngularJs(String angularJs) {
         this.angularJs = angularJs;
     }
 
     public void initialize() {
+        Preconditions.checkNotNull(httpService, "Module can not start without http service");
+        Preconditions.checkNotNull(url, "module url is missing. Module can not be instantiated");
+        Preconditions.checkNotNull(directory, "resource directory is missing. Module can not be instantiated");
+
+        logger.info("Registering resources for url {}", url);
         try {
-        if(httpService != null) {
-            logger.info("Registering resources for %s",moduleName);
             httpService.registerResources(url, directory, null);
-        } else {
-            logger.error("httpService is null. Cannot register resources");
+        } catch (NamespaceException e) {
+            logger.error("Exception occurred while registering resources with http service.", e);
         }
-        if (httpService != null && loader != null) {
+
+        if(loader != null) {
+            Preconditions.checkNotNull(moduleName, "module name is missing. Module can not be registered with dlux");
+            Preconditions.checkNotNull(requireJs, "requireJs module name is missing. Module can not be registered with dlux");
+            Preconditions.checkNotNull(angularJs, "angularJs module name is missing. Module can not be registered with dlux");
+            logger.info("Registering angularJS and requireJs modules for {}", moduleName);
             loader.addModule(moduleName, url, requireJs, angularJs);
-        } else {
-            logger.error("loader is null. Cannot add core module to loader");
-        }}
-        catch(Exception e){
-            logger.error("Could not initialize",e);
+        }
+    }
+
+    public void clean() {
+        logger.info("Unregistering resources for url {}", url);
+
+        httpService.unregister(url);
+
+        if(loader != null) {
+            loader.removeModule(moduleName);
         }
     }
 }

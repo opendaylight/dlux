@@ -26,16 +26,16 @@ sd">
   </prerequisites>
   <modules>
     <module>core</module>
-    <module>connection_manager</module>
-	<module>container</module>
-    <module>network</module>
-    <module>yangui</module>
-    <module>flow</module>
     <module>navigation</module>
     <module>topbar</module>
-    <module>node</module>
-    <module>general</module>
 	<module>layout</module>
+    <module>login</module>
+    <module>general</module>
+    <module>authentication</module>
+    <module>node</module>
+    <module>topology</module>
+    <module>yangui</module>
+    <module>yangutils</module>
   </modules>
 
 </project>

@@ -27,8 +27,72 @@
          <type>zip</type>
       </dependency>
       <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+      </dependency>
+      <dependency>
           <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux-web</artifactId>
+          <artifactId>loader</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>loader.implementation</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.core</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.layout</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.login</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.authentication</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.navigation</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.topbar</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.general</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.node</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.topology</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.yangui</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.yangutils</artifactId>
           <version>${project.version}</version>
       </dependency>
   </dependencies>

@@ -30,6 +30,10 @@
 	<artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
@@ -69,7 +73,7 @@
           </configuration>
       </plugin>
       <!--Copy resources from the dlux-web/build dir-->
-      <!--<plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.6</version>
         <executions>
@@ -88,7 +92,8 @@
                       <include>src/main.js</include>
                       <include>src/app/app.controller.js</include>
                       <include>src/app/app.module.js</include>
-                      <include>src/app/app.routingConfig.js</include>
+                      <include>src/app/routingConfig.js</include>
+                      <include>src/common/config/env.module.js</include>
                       <include>vendor/**</include>
                       <include>assets/**</include>
                     </includes>
@@ -120,13 +125,12 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>-->
-     <plugin>
+      </plugin>
+    <!-- <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>2.6</version>
         <executions>
-     <!--loader Resources-->
           <execution>
             <id>unpack-loader-resources</id>
             <goals>
@@ -143,7 +147,7 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin> -->
     <plugin>
 
       <groupId>org.apache.maven.plugins</groupId>
@@ -162,7 +166,6 @@
           <instructions>
             <Import-Package>org.osgi.framework,
                             org.opendaylight.dlux.loader,
-                            org.opendaylight.dlux.loader.implementation,
                             org.osgi.service.http,
                             javax.servlet,
                             javax.servlet.http,*

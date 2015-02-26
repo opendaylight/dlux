@@ -2,6 +2,7 @@
 
 // This is provided by the server.
 // The path of all *.module.js go here. They are RequireJs module
+/*
 var module = [
   'angularAMD',
   'app/core/core.module',
@@ -41,6 +42,8 @@ var e = [
   'app.common.topbar',
   'app.common.layout'];
 //--------------------\\
+
+*/
 
 define(module, function(ng) {
   'use strict';

@@ -4,10 +4,10 @@
     <bean id="bundle" init-method="initialize" destroy-method="clean" class="org.opendaylight.dlux.loader.DluxModule">
     	<property name="httpService" ref="httpService"/>
     	<property name="loader" ref="loader"/>
-    	<property name="moduleName" value="layout"/>
-    	<property name="url" value="/src/common/layout"/>
-        <property name="directory" value="/layout"/>
-    	<property name="requireJs" value="common/layout/layout.module"/>
-    	<property name="angularJs" value="app.common.layout"/>
+    	<property name="moduleName" value="authentication"/>
+    	<property name="url" value="/src/common/authentification"/>
+        <property name="directory" value="/authentification"/>
+    	<property name="requireJs" value="common/authentification/auth.module"/>
+    	<property name="angularJs" value="app.common.auth"/>
     </bean>
 </blueprint>

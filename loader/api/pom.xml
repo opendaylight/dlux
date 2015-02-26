@@ -22,6 +22,10 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
+    <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+    </dependency>
   </dependencies>
  <build>
     <plugins>
@@ -31,7 +35,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Import-Package></Import-Package>
+            <Import-Package>*</Import-Package>
             <Export-Package>org.opendaylight.dlux.loader</Export-Package>
           </instructions>
         </configuration>

@@ -4,10 +4,10 @@
     <bean id="bundle" init-method="initialize" destroy-method="clean" class="org.opendaylight.dlux.loader.DluxModule">
     	<property name="httpService" ref="httpService"/>
     	<property name="loader" ref="loader"/>
-    	<property name="moduleName" value="yangui"/>
-    	<property name="url" value="/src/app/yangui"/>
-        <property name="directory" value="/yangui"/>
-    	<property name="requireJs" value="app/yangui/yangui.module"/>
-    	<property name="angularJs" value="app.yangui"/>
+    	<property name="moduleName" value="yangutils"/>
+    	<property name="url" value="/src/common/yangutils"/>
+        <property name="directory" value="/yangutils"/>
+    	<property name="requireJs" value="common/yangutils/yangutils.module"/>
+    	<property name="angularJs" value="app.common.yangUtils"/>
     </bean>
 </blueprint>
