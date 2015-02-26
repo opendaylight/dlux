@@ -5,9 +5,40 @@
    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
     <feature name='odl-dlux-all' version='${project.version}'>
        <feature>odl-dlux-core</feature>
+        <feature>odl-dlux-minimal</feature>
+        <feature>odl-dlux-node</feature>
+        <feature>odl-dlux-yangui</feature>
     </feature>
+
+
     <feature name='odl-dlux-core' version='${project.version}'>
-    	<feature>http</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux-web/${project.version}</bundle>
+        <feature>http</feature>
+        <bundle>mvn:com.google.guava/guava/${guava.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/loader/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/loader.implementation/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.core/${project.version}</bundle>
     </feature>
+
+    <feature name='odl-dlux-minimal' version='${project.version}'>
+        <feature>odl-dlux-core</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.layout/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.login/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.authentication/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.navigation/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.topbar/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.general/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.topology/${project.version}</bundle>
+    </feature>
+
+    <feature name="odl-dlux-node">
+        <feature>odl-dlux-core</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.node/${project.version}</bundle>
+    </feature>
+
+    <feature name="odl-dlux-yangui">
+        <feature>odl-dlux-core</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.yangui/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
+    </feature>
+
 </features>

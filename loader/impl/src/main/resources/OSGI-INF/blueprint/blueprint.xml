@@ -5,6 +5,6 @@
       <reference-listener ref="loaderImpl" bind-method="onBindService" unbind-method="onUnbindService"/>
     </reference>
 
-    <service id="serviceRegistration" interface="org.opendaylight.dlux.loader.IDluxLoaderRegistration" ref="loaderImpl"/>
+    <service id="serviceRegistration" interface="org.opendaylight.dlux.loader.DluxModuleLoader" ref="loaderImpl"/>
 
 </blueprint>

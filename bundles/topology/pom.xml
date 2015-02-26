@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.opendaylight.dlux</groupId>
-    <artifactId>bundles</artifactId>
+    <artifactId>dlux-parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
-  <artifactId>dlux.common.general</artifactId>
+  <artifactId>dlux.topology</artifactId>
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
@@ -33,23 +33,23 @@
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>loader</artifactId>
-      <version>${project.version}</version>
+        <version>${project.version}</version>
     </dependency>
-    <dependency>
+     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
-      <artifactId>dlux.common.general.resources</artifactId>
-      <version>${core.resources.version}</version>
+      <artifactId>dlux.topology.resources</artifactId>
+      <version>${topology.resources.version}</version>
     </dependency>
   </dependencies>
  <build>
-   <resources>
-      <resource>
-        <directory>target/generated-resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
+     <resources>
+         <resource>
+             <directory>target/generated-resources</directory>
+         </resource>
+         <resource>
+             <directory>src/main/resources</directory>
+         </resource>
+     </resources>
     <plugins>
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -66,7 +66,7 @@
             <configuration>
               <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
-              <includeArtifactIds>dlux.common.general.resources</includeArtifactIds>
+              <includeArtifactIds>dlux.topology.resources</includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>

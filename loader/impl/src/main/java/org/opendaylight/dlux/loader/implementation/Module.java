@@ -1,5 +1,13 @@
 package org.opendaylight.dlux.loader.implementation;
 
+/**
+ * Copyright (c) 2014 Inocybe Technologies, and others. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+
 public class Module {
     private String bundleName;
     private String url;
@@ -16,25 +24,13 @@ public class Module {
     public String getBundleName() {
         return bundleName;
     }
-    public void setBundleName(String bundleName) {
-        this.bundleName = bundleName;
-    }
     public String getUrl() {
         return url;
-    }
-    public void setUrl(String url) {
-        this.url = url;
     }
     public String getRequiredJs() {
         return requiredJs;
     }
-    public void setRequiredJs(String requiredJs) {
-        this.requiredJs = requiredJs;
-    }
     public String getAngularJs() {
         return angularJs;
-    }
-    public void setAngularJs(String angularJs) {
-        this.angularJs = angularJs;
     }
 }

@@ -8,7 +8,7 @@
     <relativePath>../</relativePath>
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
-  <artifactId>dlux.common.general</artifactId>
+  <artifactId>dlux.common.yangutils</artifactId>
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
@@ -33,12 +33,12 @@
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>loader</artifactId>
-      <version>${project.version}</version>
+        <version>${project.version}</version>
     </dependency>
-    <dependency>
+     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
-      <artifactId>dlux.common.general.resources</artifactId>
-      <version>${core.resources.version}</version>
+      <artifactId>dlux.common.yangutils.resources</artifactId>
+      <version>${yangui.resources.version}</version>
     </dependency>
   </dependencies>
  <build>
@@ -66,7 +66,7 @@
             <configuration>
               <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
-              <includeArtifactIds>dlux.common.general.resources</includeArtifactIds>
+              <includeArtifactIds>dlux.common.yangutils.resources</includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>

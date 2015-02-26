@@ -8,7 +8,7 @@
     <relativePath>../</relativePath>
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
-  <artifactId>dlux.container</artifactId>
+  <artifactId>dlux.common.authentication</artifactId>
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
@@ -33,23 +33,23 @@
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>loader</artifactId>
-      <version>1.1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
-      <artifactId>dlux.container.resources</artifactId>
-      <version>${container.resources.version}</version>
+      <artifactId>dlux.common.authentication.resources</artifactId>
+      <version>${common.authentication.resources.version}</version>
     </dependency>
   </dependencies>
  <build>
-  <resources>
-      <resource>
-        <directory>target/generated-resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
+     <resources>
+         <resource>
+             <directory>target/generated-resources</directory>
+         </resource>
+         <resource>
+             <directory>src/main/resources</directory>
+         </resource>
+     </resources>
     <plugins>
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -66,7 +66,7 @@
             <configuration>
               <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
               <groupId>org.opendaylight.dlux</groupId>
-              <includeArtifactIds>dlux.container.resources</includeArtifactIds>
+              <includeArtifactIds>dlux.common.authentication.resources</includeArtifactIds>
               <excludes>META-INF\/**</excludes>
               <excludeTransitive>true</excludeTransitive>
               <ignorePermissions>false</ignorePermissions>
