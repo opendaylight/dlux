@@ -39,6 +39,11 @@
   	</dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.common.sigmatopology.resources</artifactId>
+        <version>${common.sigmatopology.resources.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.navigation.resources</artifactId>
         <version>${common.navigation.resources.version}</version>
   	</dependency>
@@ -66,6 +71,11 @@
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.yangui.resources</artifactId>
         <version>${yangui.resources.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.yangvisualizer.resources</artifactId>
+        <version>${yangvisualizer.resources.version}</version>
     </dependency>
     <dependency>
         <groupId>org.opendaylight.dlux</groupId>
@@ -136,6 +146,7 @@
               		  <include>app/routingConfig.js</include>
                       <include>app/node/</include>
                       <include>app/yangui/</include>
+                      <include>app/yangvisualizer/</include>
                       <include>app/network/</include>
                       <include>app/flow/</include>
                       <include>app/container/</include>
@@ -143,6 +154,7 @@
                       <include>app/connection_manager/</include>
                       <include>app/core/</include>
                       <include>common/yangutils/</include>
+                      <include>common/sigmatopology/</include>
                       <include>common/navigation/</include>
                       <include>common/layout/</include>
                       <include>common/authentification/</include>
@@ -175,6 +187,7 @@
                 <includeArtifactIds>
                   dlux.node.resources,
                   dlux.yangui.resources,
+                  dlux.yangvisualizer.resources,
                   dlux.container.resources,
                   dlux.topology.resources,
                   dlux.connection_manager.resources,
@@ -199,6 +212,7 @@
                 <groupId>org.opendaylight.dlux</groupId>
                 <includeArtifactIds>
                   dlux.common.yangutils.resources,
+                  dlux.common.sigmatopology.resources,
                   dlux.common.navigation.resources,
                   dlux.common.layout.resources,
                   dlux.common.authentication.resources,

@@ -8,6 +8,7 @@
         <feature>odl-dlux-minimal</feature>
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
+		<feature>odl-dlux-yangvisualizer</feature>
     </feature>
 
 
@@ -39,6 +40,13 @@
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangui/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
+    </feature>
+	
+	<feature name="odl-dlux-yangvisualizer">
+        <feature>odl-dlux-core</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
+		<bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
     </feature>
 
 </features>
