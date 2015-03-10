@@ -17,8 +17,9 @@
 
   <dependencies>
       <dependency>
-         <groupId>org.opendaylight.yangtools</groupId>
+         <groupId>org.opendaylight.odlparent</groupId>
          <artifactId>features-test</artifactId>
+         <version>1.5.0-SNAPSHOT</version>
       </dependency>
       <dependency>
          <groupId>org.opendaylight.controller</groupId>
@@ -107,21 +108,6 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.16</version>
-        <configuration>
-          <systemPropertyVariables>
-            <karaf.distro.groupId>org.opendaylight.controller</karaf.distro.groupId>
-            <karaf.distro.artifactId>opendaylight-karaf-empty</karaf.distro.artifactId>
-            <karaf.distro.version>${commons.opendaylight.version}</karaf.distro.version>
-          </systemPropertyVariables>
-          <dependenciesToScan>
-           <dependency>org.opendaylight.yangtools:features-test</dependency>
-          </dependenciesToScan>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>
@@ -165,7 +151,7 @@
             <karaf.distro.version>${commons.opendaylight.version}</karaf.distro.version>
           </systemPropertyVariables>
           <dependenciesToScan>
-           <dependency>org.opendaylight.yangtools:features-test</dependency>
+           <dependency>org.opendaylight.odlparent:features-test</dependency>
           </dependenciesToScan>
         </configuration>
       </plugin>

@@ -46,15 +46,6 @@
        <module>features</module>
        <module>distribution-dlux</module>
     </modules>
-    <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>org.opendaylight.yangtools</groupId>
-            <artifactId>features-test</artifactId>
-            <version>0.7.0-SNAPSHOT</version>
-         </dependency>
-      </dependencies>
-    </dependencyManagement>
    
   <scm>
     <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>	    <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
