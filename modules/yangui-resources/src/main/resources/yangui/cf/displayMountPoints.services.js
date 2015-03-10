@@ -31,6 +31,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                         });
 
                         $scope.mountPointsStructure = mountPointsStructure;
+                        $scope.initMp();
                     } else {
                         $scope.mountPointsStructure = [];
                         $timeout(function(){

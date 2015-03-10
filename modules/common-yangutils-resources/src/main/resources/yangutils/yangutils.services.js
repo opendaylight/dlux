@@ -33,8 +33,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return YangUtilsRestangular.one('restconf').one('modules').one('module').one(name).one(rev).one('schema');
         };
 
-        apis.getSingleModuleInfo = function(path) {
-            return YangUtilsRestangular.one('restconf').one('modules').one('module').customGET(path);
+        apis.getSingleModuleInfo = function(modulePath) {
+            return YangUtilsRestangular.one('restconf').one('modules').one('module').customGET(modulePath);
         };
 
         apis.getAllApis = function() {
@@ -49,10 +49,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return YangUtilsRestangular.one('restconf').one('modules').customGET(baseApiPath);
         };
 
+        apis.getCustomModules = function(baseApiPath) {
+            return YangUtilsRestangular.one('restconf').one('modules').customGET(baseApiPath);
+        };
+
         return apis;
     });
 
-    yangUtils.factory('pathUtils', function (arrayUtils) {
+    yangUtils.factory('pathUtils', function (arrayUtils, syncFact) {
 
         var pathUtils = {},
             parentPath = '..';
@@ -1578,7 +1582,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return restrictions;
     });
 
-    yangUtils.factory('yinParser', ['$http', 'syncFact', 'constants', 'arrayUtils', 'pathUtils', 'YangUIApis', function ($http, syncFact, constants, arrayUtils, pathUtils, YangUIApis) {
+    yangUtils.factory('yinParser', ['$http','syncFact', 'constants', 'arrayUtils', 'pathUtils', 'YangUIApis', function ($http, syncFact, constants, arrayUtils, pathUtils, YangUIApis) {
         var augmentType = 'augment';
         var path = './assets';
 
@@ -2075,6 +2079,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return {
             parseYang: parseYang,
             parseYangMP: parseYangMP,
+            yangParser: new YangParser(),
+            Module: Module,
             __test: {
                 path: path,
                 parentTag: parentTag,
@@ -2448,7 +2454,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             );
         };
 
-        mp.getMpPath = function(selSubApi,mpIdentifier){
+        mp.getMpPath = function(selSubApi, mpIdentifier){
             var path = selSubApi.buildApiRequestString();
             path = path.indexOf('config') === 0 ? 'operational'+ path.slice(6,path.length) : path;
             path = path.replace(mpIdentifier,'{'+mpIdentifier+'}');
@@ -2739,7 +2745,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     linkId = 0;
 
                 nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function (nodeData) {
-                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
+                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: nodeData["node-id"].indexOf('host') === 0 ? 'host' : 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
                 }) : [];
 
                 links = topoData.hasOwnProperty('link') ? topoData.link.map(function (linkData) {

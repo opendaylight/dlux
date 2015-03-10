@@ -26,13 +26,11 @@
     <div sticky class="selSubApiPath">
       <div class="in" ng-show="selSubApi.pathArray.length">
         <label class="classic">{{ 'YANGUI_API_OP' | translate }}: </label>
-        <span ng-repeat="pathElem in selSubApi.pathArray">{{'/'+pathElem.name}}
+        <span ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.module ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
             <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control yangInput input-small" ng-model="pathElem.identifierValue" ng-change="changePathInPreview()"></span>
         </span>
         <button ng-repeat="operation in selSubApi.operations" ng-hide="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' && node === null" class="btn add-row btn-gray btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
         <button ng-repeat="custFunct in selSubApi.custFunct" class="btn add-row btn-gray btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
-
-        
       </div>
     </div>
 
@@ -66,7 +64,7 @@
 
   <br>
 
-  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert>
+  <alert type="{{status.type}}" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b><b>{{status.rawMsg}}</b></alert>
   <div class="form-inline">
     <div ng-if="node" ng-include src="currentPath+'/'+ apiType + node.type+'.tpl.html'"></div>
   </div>

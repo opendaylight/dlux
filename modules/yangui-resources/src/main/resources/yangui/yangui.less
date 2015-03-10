@@ -8,16 +8,6 @@
     overflow: hidden;
 }
 
-.mountPointsContainer {
-    position: fixed;
-    width: 800px;
-    max-height: 400px;
-    top: 50px;
-    right: 50px;
-    z-index: 1100;
-    overflow: hidden;
-}
-
 .simpleContainer {
     border: 1px solid #7a7a7a;
     margin: 5px;
@@ -457,6 +447,10 @@ div.mountPoints{
   .graph-frame{
     width: 100%!important;
   }
+  #graph-container{
+    min-height: 460px;
+    padding: 0;
+  }
   &.previewContainer{
     width: auto;
     height: auto;
@@ -520,11 +514,17 @@ div.mountPoints{
 }
 
 .mountPointsContainer{
- background: #393939;
+  background: #393939;
   border: 1px solid #7a7a7a;
   border-radius: 5px;
   padding: 20px;
-  z-index: 15;
+  position: fixed;
+  width: 800px;
+  max-height: 400px;
+  top: 50px;
+  right: 50px;
+  z-index: 2;
+  overflow: hidden;
   button.close{
     position: absolute;
     top: 5px;
