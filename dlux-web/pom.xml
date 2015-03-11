@@ -54,7 +54,7 @@
         <artifactId>dlux.common.login.resources</artifactId>
         <version>${common.login.resources.version}</version>
     </dependency>
-  	<dependency>
+    <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.general.resources</artifactId>
         <version>${common.general.resources.version}</version>
@@ -101,6 +101,11 @@
       </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.graph.resources</artifactId>
+        <version>${graph.resources.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.topbar.resources</artifactId>
         <version>${common.topbar.resources.version}</version>
       </dependency>
@@ -139,6 +144,7 @@
                       <include>app/topology/</include>
                       <include>app/connection_manager/</include>
                       <include>app/core/</include>
+                      <include>app/graph/</include>
                       <include>common/yangutils/</include>
                       <include>common/navigation/</include>
                       <include>common/layout/</include>
@@ -178,6 +184,7 @@
                   dlux.network.resources,
                   dlux.flow.resources,
                   dlux.core.resources,
+                  dlux.graph.resources,
                 </includeArtifactIds>
                 <excludes>META-INF\/**</excludes>
                 <excludeTransitive>true</excludeTransitive>

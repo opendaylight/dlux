@@ -9,6 +9,7 @@ module.exports = function ( grunt ) {
    * Load required Grunt tasks. These are installed based on the versions listed
    * in `package.json` when you do `npm install` in this directory.
    */
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -239,6 +240,17 @@ module.exports = function ( grunt ) {
         ]
       }
     },
+    browserify: {
+        dist: {
+            src: ['src/app/graph/index.js'],
+            dest: 'src/assets/js/graphRenderer.js',
+            options: {
+              browserifyOptions: {
+                standalone: 'DLUX'
+              }
+            }
+        }
+	},
 
     /**
      * `grunt concat` concatenates multiple source files into a single file.
@@ -633,7 +645,7 @@ module.exports = function ( grunt ) {
    */
   grunt.registerTask( 'common', [
       'clean', 'html2js', 'jshint', 'less:development',
-      'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+      'concat:build_css', 'browserify:dist', 'copy:build_app_assets', 'copy:build_vendor_assets',
       'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
