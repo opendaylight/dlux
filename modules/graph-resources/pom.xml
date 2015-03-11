@@ -17,17 +17,10 @@ sd">
     <relativePath>../../</relativePath>
   </parent>
 
-  <artifactId>dlux.topology.resources</artifactId>
+  <artifactId>dlux.graph.resources</artifactId>
   <name>${project.artifactId}</name>
-  <description>Topology Module Resources</description>
-  <version>${topology.resources.version}</version>
+  <description>Graph Module Resources</description>
+  <version>${graph.resources.version}</version>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.opendaylight.dlux</groupId>
-      <artifactId>dlux.graph.resources</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
 </project>
