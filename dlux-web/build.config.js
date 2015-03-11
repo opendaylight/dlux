@@ -30,6 +30,8 @@ module.exports = {
 
     html: [ 'src/index.html'],
     less: 'src/less/main.less',
+    graph_path: 'src/app/graph',
+    graph_entry_point: 'index.js',
     templates: ['src/**/*.tpl.html']
   },
 
@@ -88,7 +90,8 @@ module.exports = {
       'vendor/footable/dist/footable.paginate.min.js',
       'vendor/footable/dist/footable.sort.min.js',
       'vendor/angular-translate/angular-translate.min.js',
-      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js'
+      'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'vendor/pixi/bin/pixi.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',

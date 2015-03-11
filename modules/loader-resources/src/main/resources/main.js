@@ -15,9 +15,11 @@ require.config({
     'angular-translate-loader-static-files' : '../vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min',
     'jquery' : '../vendor/jquery/jquery',
     'footable' : '../vendor/footable/dist/footable.min',
+    'pixi': '../vendor/pixi/bin/pixi',
     'd3' : '../vendor/d3/d3.min',
+    'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad',
     'vis' : '../vendor/vis/dist/vis.min',
-    'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad' 
+    'graphRenderer' : '../assets/js/graphRenderer'
   },
 
   shim : {
@@ -31,6 +33,10 @@ require.config({
     'angular-translate': ['angular'],
     'angular-translate-loader-static-files' : ['angular-translate'],
     'ngload' : ['angularAMD'],
+    'pixi' : {
+        exports: 'PIXI'
+    },
+    'graphRenderer' : ['pixi'],
     'jquery' : {
       exports : '$'
     },

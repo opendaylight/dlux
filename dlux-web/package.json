@@ -17,6 +17,7 @@
     "bower": "~1.3.12",
     "grunt": "~0.4.5",
     "grunt-cli": "~0.1.13",
+    "grunt-browserify": "^3.4.0",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-coffee": "~0.7.0",
@@ -57,7 +58,13 @@
     "karma-coverage": "~0.2.6",
     "karma-phantomjs-launcher": "~0.1.4",
     "angular-mocks": "~1.2.22",
-    "jasmine": "~2.0.1"
+    "jasmine": "~2.0.1",
+    "ngraph.graph": "~0.0.8",
+    "ngraph.forcelayout": "0.0.16",
+    "ngraph.fromjson": "^0.1.4",
+    "ngraph.merge": "0.0.1",
+    "ngraph.physics.simulator": "0.0.10",
+    "node-transform-matrix": "^1.0.2"
   },
   "engines": {
     "node": ">=0.8.0"
