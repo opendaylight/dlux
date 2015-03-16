@@ -96,6 +96,16 @@
           <artifactId>dlux.common.yangutils</artifactId>
           <version>${project.version}</version>
       </dependency>
+	  <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.common.sigmatopology</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+	  <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.yangvisualizer</artifactId>
+          <version>${project.version}</version>
+      </dependency>
   </dependencies>
 
   <build>

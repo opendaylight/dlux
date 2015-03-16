@@ -14,30 +14,13 @@ sd">
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <relativePath>../../</relativePath>
   </parent>
 
-  <artifactId>bundles</artifactId>
-  <name>DLUX - Bundles</name>
-  <description>Resources</description>
-  <packaging>pom</packaging>
-  <prerequisites>
-    <maven>3.0</maven>
-  </prerequisites>
-  <modules>
-    <module>core</module>
-    <module>navigation</module>
-    <module>topbar</module>
-    <module>layout</module>
-    <module>login</module>
-    <module>general</module>
-    <module>authentication</module>
-    <module>node</module>
-    <module>topology</module>
-    <module>yangui</module>
-    <module>yangutils</module>
-    <module>yangvisualizer</module>
-    <module>sigmatopology</module>
-  </modules>
+  <artifactId>dlux.yangvisualizer.resources</artifactId>
+  <name>${project.artifactId}</name>
+  <description>Yang Visualizer Module Resources</description>
+  <version>${yangvisualizer.resources.version}</version>
+  <packaging>jar</packaging>
 
 </project>

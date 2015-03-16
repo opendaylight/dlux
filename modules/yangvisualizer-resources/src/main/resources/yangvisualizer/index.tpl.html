@@ -1,0 +1,114 @@
+<div class="yangVisualizer ">
+    <div class="topLine col-md-12">
+      {{ 'YANGVISUALIZER_MODEL' | translate }} :
+      <select ng-model="currentTopologyNode" ng-change="updateTopologyData()" ng-options="node.label for node in filteredNodes">
+        <option value="">-</option>
+      </select>
+    </div>
+    <div class="col-md-12 sigma">
+      <div class="viewNav">
+        <ul class="navWrapper">
+          <li>{{ 'YANGVISUALIZER_LABEL_VIEW' | translate }} : </li>
+          <li><span class="active" ng-click="setColorScheme($event,'default')">{{ 'YANGVISUALIZER_SHOW_DEFAULT' | translate }}</span></li>
+          <li><span  ng-click="setColorScheme($event,'type')">{{ 'YANGVISUALIZER_SHOW_TYPES' | translate }}</span></li>
+          <li><span  ng-click="setColorScheme($event,'module')">{{ 'YANGVISUALIZER_SHOW_MODULES' | translate }}</span></li>
+          <li><span  ng-click="setColorScheme($event,'namespace')">{{ 'YANGVISUALIZER_SHOW_NAMESPACES' | translate }}</span></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="legend" ng-show="legend">
+          <ul>
+            <li>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </li>
+            <li ng-repeat="(key, value) in legend">
+              <div class="itemWrapper left">
+                <div class="color left" style="background: {{value}};"></div>
+                <div class="left text">{{key}}</div>
+                <div class="clear"></div>
+              </div>
+              <div class="clear"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <sigma-topology topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
+    </div>
+    <!-- <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert> -->
+
+    <!-- RIGHT PANEL -->
+    <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">
+      <div class="topButtons">
+        <div style="position: absolute; right: 40px;">
+          <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
+            {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
+          </button>
+        </div>
+        <div style="position: absolute; right: 10px;">
+          <button class="btn btn-show add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="show/hide panel" ng-click='triggerExpanded(panel, true)'>
+              <i class="icon-caret-right" ng-show="panel.show"></i>
+              <i class="icon-caret-left" ng-show="!panel.show"></i>
+          </button>
+        </div>
+      </div>
+      <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="link" ng-click="zoomToNode(selectedNode.graphId)">{{ selectedNode.id }}</span></td>
+            <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
+            <td>{{ selectedNode.type }}</td>
+            <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>{{ 'YANGVISUALIZER_LABEL_PAR_NODE' | translate }} :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="node in parentNodes.list track by $index">
+            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+            <td>{{ node.type }}</td>
+            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <label>{{ 'YANGVISUALIZER_LABEL_CHILD_NODE' | translate }} :</label>
+      <table>
+        <thead>
+          <tr>
+            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="node in childrenNodes.list track by $index">
+            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+            <td>{{ node.type }}</td>
+            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="clear"></div>
+
+</div>

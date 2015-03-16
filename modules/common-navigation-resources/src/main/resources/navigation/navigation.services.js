@@ -34,6 +34,7 @@ define(['common/navigation/navigation.module'], function(nav) {
           this.startPoll("containermanager/containers","container",timeout);
           this.startPoll("staticroute/default/routes","network",timeout);
           this.startPoll("","yangui",timeout);
+          this.startPoll("","yangvisualizer",timeout);
       };
 
       svc.startPoll = function(url,typename,timeout){
@@ -41,7 +42,7 @@ define(['common/navigation/navigation.module'], function(nav) {
               if(typename==="nodes" || typename==="topology"){
                   restObj = svc.mdsalbase().one(url).get();
               }
-              else if(typename==="yangui"){
+              else if(typename==="yangui" || typename==="yangvisualizer"){
                   restObj = svc.yanguibase().get();
               }
               else{
