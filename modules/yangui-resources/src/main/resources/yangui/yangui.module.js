@@ -1,4 +1,4 @@
-define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','common/yangutils/listfiltering.services','ui-bootstrap', 'Restangular', 'angular-translate'], function() {
+define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','common/yangutils/listfiltering.services','ui-bootstrap', 'Restangular', 'angular-translate', 'jquery-ui'], function() {
 
   var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'app.common.listFiltering', 'ui.bootstrap', 'restangular', 'pascalprecht.translate']);
 

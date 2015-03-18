@@ -1,4 +1,4 @@
-<button class="btn add-row btn-gray ng-scope btn-slim" ng-click='reqHistoryFunc()'>
+<button class="btn btn-default ng-scope btn-slim" ng-click='reqHistoryFunc()'>
     {{ 'YANGUI_SHOW_HISTORY' | translate }}
 </button>
 <div class="popUpWrapperFix" ng-show="popupHistory.show">
@@ -17,7 +17,7 @@
             <div class="tab-content">
                 <div class="tab-pane active">
                   <div class="tableWrapper">
-                      <table class="table">
+                      <table class="table dataTable">
                         <thead>
                           <tr>
                             <th>{{ 'YANGUI_HISTORY_METHOD' | translate }}</th>
@@ -28,19 +28,19 @@
                             <th class="actions">{{ 'YANGUI_HISTORY_ACTION' | translate }}</th>
                           </tr>
                         </thead>
-                        <tbody class="table-striped table-hover" ng-repeat="req in requestList track by $index">
+                        <tbody  ng-repeat="req in requestList track by $index"><!--class="table-striped table-hover"-->
                             <tr>
                                 <!-- <td colspan="5"><pre>{{req}}</pre></td> -->
                                 <td>{{ req.method }}</td>
                                 <td>{{ req.path }}</td>
                                 <td>{{ req.status }}</td>
                                 <td>
-                                    <button class="btn add-row btn-gray ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
+                                    <button class="btn btn-primary ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
                                         {{ req.sentData ? 'YANGUI_HISTORY_SEND_DATA' : 'YANGUI_HISTORY_NO_SEND_DATA' | translate }}
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn add-row btn-gray ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
+                                    <button class="btn btn-primary ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
                                         {{ req.receivedData ? 'YANGUI_HISTORY_REC_DATA': 'YANGUI_HISTORY_NO_REC_DATA' | translate }}
                                     </button>
                                 </td>
@@ -64,13 +64,13 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn add-row btn-gray ng-scope btn-slim" ng-click='clearHistoryData()'>
+                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(true)'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>
                 <div class="tab-pane">
                    <div class="tableWrapper">
-                      <table class="table">
+                      <table class="table dataTable">
                         <thead>
                           <tr>
                             <th>{{ 'YANGUI_HISTORY_METHOD' | translate }}</th>
@@ -81,19 +81,19 @@
                             <th class="actions">{{ 'YANGUI_HISTORY_ACTION' | translate }}</th>
                           </tr>
                         </thead>
-                        <tbody class="table-striped table-hover" ng-repeat="req in collectionList track by $index">
-                            <tr>
+                        <tbody ng-repeat="req in collectionList track by $index"><!--class="table-striped table-hover"-->
+                        <tr>
                                 <!-- <td colspan="5"><pre>{{req}}</pre></td> -->
                                 <td>{{ req.method }}</td>
                                 <td>{{ req.path }}</td>
                                 <td>{{ req.status }}</td>
                                 <td>
-                                    <button class="btn add-row btn-gray ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
+                                    <button class="btn btn-primary ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
                                         {{ req.sentData ? 'YANGUI_HISTORY_SEND_DATA' : 'YANGUI_HISTORY_NO_SEND_DATA' | translate }}
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn add-row btn-gray ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
+                                    <button class="btn btn-primary ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
                                         {{ req.receivedData ? 'YANGUI_HISTORY_REC_DATA': 'YANGUI_HISTORY_NO_REC_DATA' | translate }}
                                     </button>
                                 </td>
@@ -114,7 +114,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn add-row btn-gray ng-scope btn-slim" ng-click='clearHistoryData()'>
+                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(false)'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>

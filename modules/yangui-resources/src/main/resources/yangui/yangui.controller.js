@@ -1,7 +1,7 @@
 define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/abn_tree.directive', 'app/yangui/sticky.directive', 'app/yangui/pluginHandler.services'], function(yangui) {
 
-  yangui.register.controller('yanguiCtrl', ['$scope', '$rootScope', '$http', 'YangUtilsRestangular', 'yangUtils', 'reqBuilder', 'apiConnector', 'pluginHandler', 'pathUtils', 'constants', 'nodeWrapper', 'mountPointsConnector', 'filterConstants','displayMountPoints','yinParser',
-    function ($scope, $rootScope, $http, YangUtilsRestangular, yangUtils, reqBuilder, apiConnector, pluginHandler, pathUtils, constants, nodeWrapper, mountPointsConnector, filterConstants, displayMountPoints, yinParser) {
+  yangui.register.controller('yanguiCtrl', ['$scope', '$rootScope', '$http', '$filter', 'YangUtilsRestangular', 'yangUtils', 'reqBuilder', 'apiConnector', 'pluginHandler', 'pathUtils', 'constants', 'nodeWrapper', 'mountPointsConnector', 'filterConstants','displayMountPoints','yinParser', 'designUtils',
+    function ($scope, $rootScope, $http, $filter, YangUtilsRestangular, yangUtils, reqBuilder, apiConnector, pluginHandler, pathUtils, constants, nodeWrapper, mountPointsConnector, filterConstants, displayMountPoints, yinParser, designUtils) {
       $rootScope['section_logo'] = 'logo_yangui';
 
       $scope.currentPath = './assets/views/yangui';
@@ -17,7 +17,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           type: 'noreq',
           msg: null
       };
-      // $scope.topologyData = { nodes: [], links: []};
 
       var processingModulesCallback = function() {
           $scope.status = {
@@ -57,10 +56,13 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           };
       };
 
-      var requestErrorCallback = function(e) {
+      var requestErrorCallback = function(e, resp) {
+        var errorMessages = yangUtils.errorMessages,
+            msg = errorMessages.method[resp.config.method] ? errorMessages.method[resp.config.method][resp.status] ? errorMessages.method[resp.config.method][resp.status] : 'SEND_ERROR' : 'SEND_ERROR';
+
           $scope.status = {
               type: 'danger',
-              msg: 'SEND_ERROR',
+              msg: msg,
               rawMsg: e.toString()
           };
       };
@@ -72,6 +74,11 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       var refreshSelSubApiPathArray = function(selSubApi){
           var pathArray = pathUtils.translate(selSubApi.pathTemplateString, null, null);
           selSubApi.pathArray = pathArray;
+      };
+
+      $scope.getNodeName = function(localeLabel, label) {
+          var localeResult = $filter('translate')(localeLabel);
+          return localeResult.indexOf(constants.LOCALE_PREFIX) === 0 ? label : localeResult;
       };
 
       $scope.unsetCustomFunctionality = function() {
@@ -150,6 +157,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           $scope.apiToFill = '';
 
           loadApis();
+          designUtils.setDraggablePopups();
       };
 
       $scope.executeOperation = function(operation, callback, reqPath) {
@@ -219,7 +227,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
                       }).join(', ');
                   }
 
-                  requestErrorCallback(errorMsg);
+                  requestErrorCallback(errorMsg, resp);
                   $scope.addRequestToList('error', resp.data, requestData, operation, requestPath);
 
                   console.info('error sending request to',$scope.selSubApi.buildApiRequestString(),'reqString',reqString,'got',resp.status,'data',resp.data);
@@ -262,11 +270,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       };
       
       $scope.changePathInPreview = function() {
-          // if($scope.node) {
-          //     $scope.previewValue = yangUtils.getPathString($scope.selApi.basePath, $scope.selSubApi) + '\r\n' + $scope.previewValue.substring($scope.previewValue.indexOf('{'), $scope.previewValue.length);
-          // } else {
-          //     $scope.previewValue = '';
-          // }
           $scope.preview();
       };
 
@@ -289,7 +292,9 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
         if(apiIndexes) {
           $scope.setApiNode(apiIndexes.indexApi, apiIndexes.indexSubApi);
 
-          console.info('set scope node to',$scope.node);
+          // console.info('set scope node to',$scope.node);//$scope.treeRows[apiIndexes.indexApi].children[apiIndexes.indexSubApi]
+          // console.log('$scope.treeApis', $scope.treeApis);
+          // console.log('apiIndexes', apiIndexes);
           if($scope.selSubApi) {
             pathUtils.fillPath($scope.selSubApi.pathArray, path);
           }
@@ -307,10 +312,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
                   console.info('filling',p,obj[p]);
                   $scope.node.fill(p, obj[p]);
               }
-          // } catch(e){
-          //     console.log(e);
-          //     throw(e);
-          // }
       };
 
       $scope.show_add_data_popup = function(){
@@ -562,7 +563,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
     $scope.executeCollectionRequest = function(req){
       if(req.path.indexOf('yang-ext:mount') === -1){
           $scope.fillApi(req.path);
-          // $scope.executeCustFunctionality($scope.selSubApi.custFunct[0]);
       }
       
       if ( req.sentData ) {
@@ -578,14 +578,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
   }]);
 
   yangui.register.controller('leafCtrl', function ($scope) {
-      // $scope.$watch('node.value', function() {
-          // console.info('filling',$scope.node);
-          // $scope.preview();
-          // $scope.node.checkValueType();
-          // $scope.node.fill($scope.node.label, $scope.node.value);
-      // });
-
-
   });
 
   yangui.register.controller('containerCtrl', function ($scope) {

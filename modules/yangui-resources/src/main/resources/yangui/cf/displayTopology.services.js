@@ -1,4 +1,4 @@
-define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils) {
+define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'common/sigmatopology/sigma.directive'], function(yangui, yangutils) {
 
     yangui.register.factory('displayTopology', function($http, reqBuilder, apiConnector, yangUtils) {
 
@@ -12,7 +12,35 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                 $scope.node.getChildren('list', 'topology')[0].actElemStructure.listElemBuildRequest(reqBuilder, dataList);
                 dataObj = {'network-topology': { 'topology': dataList }};
 
-                $scope.topologyData = yangUtils.transformTopologyData(dataObj);
+                var topoDataYang = yangUtils.transformTopologyData(dataObj),
+                    topoData = {
+                        nodes: [],
+                        links: []
+                    };
+
+                topoData.nodes = topoDataYang.nodes.map(function(node){
+                                    return {
+                                        'id': 'n' + node.id,
+                                        'label': node.label,
+                                        'size': 3,
+                                        'x': Math.random(),
+                                        'y': Math.random(),
+                                        'color': '#ffffff'
+                                    };
+                                });
+
+                topoData.links = topoDataYang.links.map(function(link){
+                                    return {
+                                        id: 'e' + link.id,
+                                        source: 'n' + link.from,
+                                        target: 'n' + link.to,
+                                        color: '#ffffff'
+                                    };
+                                });
+
+                // console.info('topoData', topoData);
+                $scope.topologyData = topoData;
+
             } else {
                 alert('No topology data to display');
             }

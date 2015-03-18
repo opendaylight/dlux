@@ -3,7 +3,7 @@
         <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node && (node.parent !== null)">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'></button>
         <button class="btn-name ng-scope btn-slim">
-            {{node.localeLabel | translate}}
+            {{getNodeName(node.localeLabel, node.label)}}
         </button>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
         <button class="yangButton iconPlus inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ITEM' | translate }}" title="{{ 'LEAF_LIST_ADD_ELEM' | translate }}"></button>
