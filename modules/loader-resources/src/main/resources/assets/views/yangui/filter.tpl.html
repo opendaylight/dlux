@@ -1,4 +1,4 @@
-<button class="yangButton inlineBlock" ng-class="node.referenceNode && node.referenceNode.filters.length > 0 ? 'iconFilterFull' : 'iconFilterEmpty'" ng-click="showListFilterWin()" ng-show="node.listData.length && !(showListFilter) && !showModal && !(selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS')" ng-mouseenter="filterListHover = true" ng-mouseleave="filterListHover = false"></button>
+<button class="yangButton inlineBlock" ng-class="node.referenceNode && node.referenceNode.filters.length > 0 ? 'iconFilterFull' : 'iconFilterEmpty'" ng-click="showListFilterWin()" ng-show="node.listData.length && !(showListFilter) && !showModal" ng-mouseenter="filterListHover = true" ng-mouseleave="filterListHover = false"></button>
 
 <div class="modalWrapper" ng-show="filterListHover && !showListFilter && node.referenceNode && node.referenceNode.filters.length > 0">
     <div class="listModal simpleContainer listFilterWindow">
@@ -19,7 +19,7 @@
         <div class="leaf ng-scope">
             <button class="close" ng-click="showListFilterWin()">&times;</button>
             <button class="btn-slim btn-name inlineBlock">
-                {{ node.localeLabel | translate}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
+                {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
             </button>
             <button class="yangButton iconPlus ng-scope" tooltip="{{ 'YANGUI_CREATE_NEW_FILTER' | translate }}" ng-click="createNewFilter()"></button>
         </div>

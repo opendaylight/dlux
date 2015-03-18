@@ -59,8 +59,9 @@ module.exports = {
   vendor_files: {
     js: [
       'vendor/vis/dist/vis.min.js',
-      'vendor/jquery/jquery.js',
-      'vendor/jquery-ui/ui/jquery-ui.js',
+      'vendor/jquery/jquery.min.js',
+      'vendor/jquery/jquery.min.map',
+      'vendor/jquery-ui/jquery-ui.min.js',
       'vendor/bootstrap/js/dropdown.js',
       'vendor/angular/angular.js',
       'vendor/requirejs/requirejs.js',

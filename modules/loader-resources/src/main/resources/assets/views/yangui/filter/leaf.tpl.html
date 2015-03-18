@@ -1,7 +1,7 @@
 <div class="leaf" ng-controller="leafCtrl">
     <span class="treeBullet" ng-show="node !== selSubApi.node && (node.parent !== null)">&#8226;</span>
     <span class="leaf-label col-md-2">
-        {{node.localeLabel | translate}}
+        {{getNodeName(node.localeLabel, node.label)}}
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
     </span>
 

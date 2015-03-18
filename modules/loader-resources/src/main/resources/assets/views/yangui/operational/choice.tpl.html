@@ -2,7 +2,7 @@
     <div class="topContainerPart">
         <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'></button>
-        <span>{{node.localeLabel | translate}}</span>
+        <span>{{getNodeName(node.localeLabel, node.label)}}</span>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
         <span><strong>{{node.choice.label}}</strong></span>
     </div>

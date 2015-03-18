@@ -31,6 +31,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                         });
 
                         $scope.mountPointsStructure = mountPointsStructure;
+                        $scope.initMp();
                     } else {
                         $scope.mountPointsStructure = [];
                         $timeout(function(){
@@ -44,9 +45,9 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
         };
 
         return {
-            module: 'opendaylight-inventory',
+            module: ['network-topology','opendaylight-inventory'],
             revision: null,
-            pathString: '/config/opendaylight-inventory:nodes/node/{id}/',
+            pathString: ['/config/network-topology:network-topology/topology/{topology-id}/','/config/opendaylight-inventory:nodes/node/{id}/'],
             label: 'YANGUI_CUST_MOUNT_POINTS',
             getCallback: fnc,
             view: './src/app/yangui/cf/cv/cvmountpoints.tpl.html'
