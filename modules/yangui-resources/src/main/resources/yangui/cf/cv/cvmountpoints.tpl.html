@@ -1,7 +1,7 @@
-<div ng-show="mountPointsStructure.length > 0" class="mountPoints" ng-init="showMP=true">
-    <span class="leaf-label list-title" ng-click="showMP = !showMP"">{{ 'YANGUI_MOUNT_POINT' | translate }}</span>
+<div ng-show="mountPointsStructure.length > 0" class="mountPoints">
+    <span class="leaf-label list-title" ng-click="resetMpModule()">{{ 'YANGUI_MOUNT_POINT' | translate }}</span>
 
-    <div class="mpInner" ng-show="showMP">
+    <div class="mpInner">
         <div class="mpApi" ng-repeat="mountPoint in mountPointsStructure">
             <a class="mpApiLink" ng-click="expand(mountPoint)">
                 <i class="icon-plus" ng-class="mountPoint.expanded ? 'icon-minus' : 'icon-plus'"></i>

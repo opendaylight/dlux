@@ -1,19 +1,9 @@
 .topologyContainer {
-    position: fixed;
+    position: absolute!important;
     width: 800px;
     height: 500px;
     top: 150px;
-    right: 100px;
-    z-index: 1100;
-    overflow: hidden;
-}
-
-.mountPointsContainer {
-    position: fixed;
-    width: 800px;
-    max-height: 400px;
-    top: 50px;
-    right: 50px;
+    left: calc(~"100% - 900px");
     z-index: 1100;
     overflow: hidden;
 }
@@ -69,12 +59,17 @@
   width: 300px;
   .inlineBlock;
   border: 2px solid #ebecec;
-  /*background-color: #414042!important;*/
   .roundedCorners(0px);
 }
 
+.dataPopup {
+  .leaf-input {
+    width: 100%;
+  }
+}
+
 INPUT.leaf-input{
-  height: 30px;
+//  height: 30px;
 }
 
 .clear{
@@ -88,6 +83,7 @@ INPUT.leaf-input{
 }
 
 .btn-slim {
+    font-weight: bold;
     padding-top: 2px;
     padding-bottom: 2px;
 }
@@ -524,7 +520,13 @@ div.mountPoints{
   border: 1px solid #7a7a7a;
   border-radius: 5px;
   padding: 20px;
-  z-index: 15;
+  position: fixed!important;
+  width: 800px;
+  max-height: 400px;
+  top: 150px;
+  right: 50px;
+  z-index: 2;
+  overflow: hidden;
   button.close{
     position: absolute;
     top: 5px;

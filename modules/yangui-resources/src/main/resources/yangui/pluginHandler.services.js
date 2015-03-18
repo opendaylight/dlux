@@ -34,7 +34,9 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'].conca
         plugAll: function(apis) {
           this.plugins.forEach(function(plugin) {
             console.info('adding plugin',plugin);
-            apiConnector.createCustomFunctionalityApis(apis, plugin.module, plugin.revision, plugin.pathString, plugin.label, plugin.getCallback, plugin.view);
+            plugin.module.forEach(function(plModule, i){
+                apiConnector.createCustomFunctionalityApis(apis, plModule, plugin.revision, plugin.pathString[i], plugin.label, plugin.getCallback, plugin.view);
+            });
           });
         }
     };

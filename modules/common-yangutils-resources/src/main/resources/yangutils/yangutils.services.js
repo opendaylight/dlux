@@ -33,8 +33,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return YangUtilsRestangular.one('restconf').one('modules').one('module').one(name).one(rev).one('schema');
         };
 
-        apis.getSingleModuleInfo = function(path) {
-            return YangUtilsRestangular.one('restconf').one('modules').one('module').customGET(path);
+        apis.getSingleModuleInfo = function(modulePath) {
+            return YangUtilsRestangular.one('restconf').one('modules').one('module').customGET(modulePath);
         };
 
         apis.getAllApis = function() {
@@ -49,10 +49,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return YangUtilsRestangular.one('restconf').one('modules').customGET(baseApiPath);
         };
 
+        apis.getCustomModules = function(baseApiPath) {
+            return YangUtilsRestangular.one('restconf').one('modules').customGET(baseApiPath);
+        };
+
         return apis;
     });
 
-    yangUtils.factory('pathUtils', function (arrayUtils) {
+    yangUtils.factory('pathUtils', function (arrayUtils, syncFact) {
 
         var pathUtils = {},
             parentPath = '..';
@@ -161,14 +165,22 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
 
-        var expandTreeDataNode = function(treeApiNode, treeData) {
+        var changeTreeDataNode = function(treeApiNode, treeData, prop, val) {
             var sel = treeData.filter(function(d) {
                 return d.branch.uid === treeApiNode.uid;
             });
 
             if(sel.length === 1) {
-                sel[0].branch.expanded = true;
+                sel[0].branch[prop] = val;
             }
+        };
+
+        var changeTreeDataByProp = function(treeData, props, vals) {
+            treeData.forEach(function(d, index) {
+                props.forEach(function(v, i){
+                    d.branch[v] = vals[i];
+                });
+            });
         };
 
         var getIdentifiersArray = function(pathArrayIn){
@@ -239,12 +251,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 })[0] : null,
                 retObj = null;
 
+                console.log('selectedTreeApi', selectedTreeApi, pathArray);
+
             if(selectedTreeApi && pathArray.length) {
                 var actElem = selectedTreeApi;
                 var isMP = false;
 
+                changeTreeDataByProp(treeData, ['expanded','selected'], [false, false]);
+
                 for(i = 0; i < pathArray.length && actElem && !isMP; ) {
-                    expandTreeDataNode(actElem, treeData);
+                    changeTreeDataNode(actElem, treeData, 'expanded', true);
                     actElem = getActElementChild(actElem, pathArray[i].name);
 
                     if(pathArray[i+2] && pathArray[i+2].name === 'mount'){
@@ -255,11 +271,12 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }
                 }
 
+                changeTreeDataNode(actElem, treeData, 'selected', true);
+
                 if(actElem) {
                     retObj = { indexApi: actElem.indexApi, indexSubApi: actElem.indexSubApi };
                 }
             }
-
             return retObj;
         };
 
@@ -1578,7 +1595,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return restrictions;
     });
 
-    yangUtils.factory('yinParser', ['$http', 'syncFact', 'constants', 'arrayUtils', 'pathUtils', 'YangUIApis', function ($http, syncFact, constants, arrayUtils, pathUtils, YangUIApis) {
+    yangUtils.factory('yinParser', ['$http','syncFact', 'constants', 'arrayUtils', 'pathUtils', 'YangUIApis', function ($http, syncFact, constants, arrayUtils, pathUtils, YangUIApis) {
         var augmentType = 'augment';
         var path = './assets';
 
@@ -1673,7 +1690,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         var Node = function (id, name, type, module, namespace, parent, nodeType, moduleRevision) {
             this.id = id;
             this.label = name;
-            this.localeLabel = 'YANGUI_' + name.toUpperCase();
+            this.localeLabel = constants.LOCALE_PREFIX + name.toUpperCase();
             this.type = type;
             this.module = module;
             this.children = [];
@@ -1799,7 +1816,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         var parseYangMP = function parseYangMP(baseApiPath, name, rev, callback, errorCbk) {
-            //http://localhost:8181/restconf/modules/module/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/openflow-configuration/2014-06-30/schema
             var path = baseApiPath + '/' + name + '/' + rev + '/schema';
 
             YangUIApis.getSingleModuleInfo(path).then(
@@ -1816,7 +1832,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         var parseYang = function parseYang(name, rev, callback, errorCbk) {
-            //http://localhost:8181/restconf/modules/module/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/openflow-configuration/2014-06-30/schema
             YangUIApis.getModuleSchema(name, rev).get().then(
                 function (data) {
                     if($.parseXML(data) !== null) {
@@ -2075,6 +2090,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return {
             parseYang: parseYang,
             parseYangMP: parseYangMP,
+            yangParser: new YangParser(),
+            Module: Module,
             __test: {
                 path: path,
                 parentTag: parentTag,
@@ -2406,8 +2423,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         mp = {};
 
         mp.getMPModulesAPI = function(api) {
-            var node = api.slice(api.lastIndexOf('/') + 1);
-            return 'opendaylight-inventory:nodes/node/'+node+'/yang-ext:mount';
+            var apiArray = api.split('/');
+            return apiArray.slice(1).join('/')+'/yang-ext:mount';
         };
 
         mp.discoverMountPoints = function(api, getModulesCbk, callback) {
@@ -2448,7 +2465,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             );
         };
 
-        mp.getMpPath = function(selSubApi,mpIdentifier){
+        mp.getMpPath = function(selSubApi, mpIdentifier){
             var path = selSubApi.buildApiRequestString();
             path = path.indexOf('config') === 0 ? 'operational'+ path.slice(6,path.length) : path;
             path = path.replace(mpIdentifier,'{'+mpIdentifier+'}');
@@ -2739,7 +2756,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     linkId = 0;
 
                 nodes = topoData.hasOwnProperty('node') ? topoData.node.map(function (nodeData) {
-                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
+                    return {'id': (nodeId++).toString(), 'label': nodeData["node-id"], group: nodeData["node-id"].indexOf('host') === 0 ? 'host' : 'switch', value: 20, title: 'Name: <b>' + nodeData["node-id"] + '</b><br>Type: Switch'};
                 }) : [];
 
                 links = topoData.hasOwnProperty('link') ? topoData.link.map(function (linkData) {
@@ -2756,6 +2773,20 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return {nodes: nodes, links: links};
         };
 
+        utils.errorMessages = {
+            'method' : 
+                    {
+                        'GET':
+                            {
+                                '401':'YANGUI_ERROR_GET_401',
+                                '403':'YANGUI_ERROR_GET_403',
+                                '404':'YANGUI_ERROR_GET_404',
+                                '500':'YANGUI_ERROR_GET_500',
+                                '503':'YANGUI_ERROR_GET_503'
+                            }
+                    }
+            };
+
         utils.__test = {
         };
 
@@ -2770,7 +2801,21 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             NODE_CONDITIONAL: 3,
             NODE_RESTRICTIONS: 4,
             NODE_LINK: 5,
-            NODE_LINK_TARGET: 6
+            NODE_LINK_TARGET: 6,
+            LOCALE_PREFIX: 'YANGUI_'
         };
+    });
+
+    yangUtils.factory('designUtils', function () {
+        var d = {};
+
+        d.setDraggablePopups = function(){
+            $( ".draggablePopup" ).draggable({
+                opacity: 0.35,
+                containment: "window"
+            });
+    };
+
+        return d;
     });
 });
