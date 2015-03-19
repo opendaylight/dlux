@@ -187,6 +187,9 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
                           $scope.node.fill(props[0], data[props[0]]);
                           dataFilled = true;
                       }
+
+                      $scope.node.fill($scope.node.label ,data);
+                      $scope.node.expanded = true;
                   }
                   
                   requestSuccessCallback();
@@ -252,15 +255,20 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           $scope.preview();
       };
 
-      $scope.fillApiAndData = function(path, data) {
-          console.info('filling',path, data);
+      $scope.fillApiAndData = function(path, rdata, sdata) {
+          console.info('filling',path, rdata);
           if(path) {
               if(path.indexOf('yang-ext:mount') === -1){
                 $scope.fillApi(path);
               }
-              if($scope.node && data) {
-                console.info('fillApiAndData: $scope.node is',$scope.node);
-                $scope.fillApiData(data);
+              if( $scope.node && (rdata || sdata) ) {
+                if ( rdata ) {
+                  $scope.fillApiData(rdata);
+                }
+
+                if ( sdata ) {
+                  $scope.fillApiData(sdata);
+                }
               }
           }
       };
@@ -365,14 +373,15 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       };
 
       var fillMpIdentifier = function(selSubApi,mpIdentifier){
-          selSubApi.pathArray.map(function(path){
-              if(path.identifierName !== undefined){
-                    path.identifierValue = mpIdentifier;
-                    path.identifierName = mpIdentifier;
-              }else{
-                    return path;
-              }
-          });
+          if(mpIdentifier){
+              var i = 0;
+              selSubApi.pathArray.forEach(function(path){
+                  if(path.identifierName !== undefined){
+                        path.identifierValue = mpIdentifier[i];
+                        i++;
+                  }
+              });
+          }
       };
 
       var getMpApiPathWithIdentifier = function(moduleNode, path, node){

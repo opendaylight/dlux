@@ -998,25 +998,25 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             output: function (node) {
                 node.expanded = true;
                 node.buildRequest = function (builder, req) {
-                    var added = false,
-                        name = node.label,
-                        objToAdd = builder.createObj(),
-                        builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+                    // var added = false,
+                    //     name = node.label,
+                    //     objToAdd = builder.createObj(),
+                    //     builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
-                    if (builderNodes.length) {
-                        builderNodes.forEach(function (child) {
-                            var childAdded = child.buildRequest(builder, objToAdd);
-                            added = added || childAdded;
-                        });
-                    } else {
-                        added = true;
-                    }
+                    // if (builderNodes.length) {
+                    //     builderNodes.forEach(function (child) {
+                    //         var childAdded = child.buildRequest(builder, objToAdd);
+                    //         added = added || childAdded;
+                    //     });
+                    // } else {
+                    //     added = true;
+                    // }
 
-                    if (added) {
-                        builder.insertPropertyToObj(req, name, objToAdd);
-                    }
+                    // if (added) {
+                    //     builder.insertPropertyToObj(req, name, objToAdd);
+                    // }
 
-                    return added;
+                    // return added;
                 };
 
                 node.fill = function (name, data) {
@@ -1331,14 +1331,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }).length > 0;
 
                     var buildedDataCopy = node.listData.slice().map(function (item) {
-                        var newItem = {};
-                        for(var prop in item){
-                            if(prop != '$$hashKey'){
-                                newItem[prop] = item[prop];
-                            }
-                        }
-                        return newItem;
-                    });
+                                                var newItem = {};
+                                                for(var prop in item){
+                                                    if(prop != '$$hashKey'){
+                                                        newItem[prop] = item[prop];
+                                                    }
+                                                }
+                                                return newItem;
+                                            }).filter(function(item){
+                                                return Object.keys(item).length !== 0;
+                                            });
 
                     // check of listElems keyValues duplicity
                     if(node.filteredListData && node.filteredListData.length){
@@ -2466,9 +2468,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         mp.getMpPath = function(selSubApi, mpIdentifier){
+            
             var path = selSubApi.buildApiRequestString();
             path = path.indexOf('config') === 0 ? 'operational'+ path.slice(6,path.length) : path;
-            path = path.replace(mpIdentifier,'{'+mpIdentifier+'}');
+            var oldpath = path.slice();
+            
+            if(mpIdentifier){
+                mpIdentifier.forEach(function(pathEl){
+                    path = path.replace(pathEl,'{'+pathEl+'}');
+                });
+            }
             return path;
         };
 
@@ -2776,14 +2785,25 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         utils.errorMessages = {
             'method' : 
                     {
-                        'GET':
-                            {
-                                '401':'YANGUI_ERROR_GET_401',
-                                '403':'YANGUI_ERROR_GET_403',
-                                '404':'YANGUI_ERROR_GET_404',
-                                '500':'YANGUI_ERROR_GET_500',
-                                '503':'YANGUI_ERROR_GET_503'
-                            }
+                        'GET': {
+                            '401':'YANGUI_ERROR_GET_401',
+                            '403':'YANGUI_ERROR_GET_403',
+                            '404':'YANGUI_ERROR_GET_404',
+                            '500':'YANGUI_ERROR_GET_500',
+                            '503':'YANGUI_ERROR_GET_503'
+                        },
+                        'POST': {
+                            '500':'YANGUI_ERROR_GET_500',
+                            '503':'YANGUI_ERROR_GET_503'
+                        },
+                        'PUT': {
+                            '500':'YANGUI_ERROR_GET_500',
+                            '503':'YANGUI_ERROR_GET_503'
+                        },
+                        'DELETE': {
+                            '500':'YANGUI_ERROR_GET_500',
+                            '503':'YANGUI_ERROR_GET_503'
+                        }
                     }
             };
 
@@ -2812,7 +2832,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         d.setDraggablePopups = function(){
             $( ".draggablePopup" ).draggable({
                 opacity: 0.35,
-                containment: "window"
+                containment: "document",
+                cancel: 'pre, input, textarea'
             });
     };
 

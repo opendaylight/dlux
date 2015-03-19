@@ -721,10 +721,10 @@
     "YANGUI_CUST_MOUNT_POINTS" : "Display mount point",
     "YANGUI_CUST_TOPOLOGY" : "Display Topology",
     "YANGUI_MOUNT_POINT" : "Mount point",
-    "YANGUI_ERROR_GET_401" : "application unauthorized : The request requires user authentication.",
-    "YANGUI_ERROR_GET_403" : "application forbidden : The server understood the request, but is refusing to fulfill it.",
-    "YANGUI_ERROR_GET_404" : "application data-missing : Request could not be completed because the relevant data model content does not exist.",
-    "YANGUI_ERROR_GET_500" : "application internal Server Error : The server encountered an unexpected condition which prevented it from fulfilling the request.",
-    "YANGUI_ERROR_GET_503" : "application Service Unavailable : The server is currently unable to handle the request due to a temporary overloading or maintenance of the server."
+    "YANGUI_ERROR_GET_401" : "Unauthorized : The request requires user authentication.",
+    "YANGUI_ERROR_GET_403" : "Forbidden : The server understood the request, but is refusing to fulfill it.",
+    "YANGUI_ERROR_GET_404" : "Data-missing : Request could not be completed because the relevant data model content does not exist.",
+    "YANGUI_ERROR_GET_500" : "Server Error : The server encountered an unexpected condition which prevented it from fulfilling the request.",
+    "YANGUI_ERROR_GET_503" : "Service Unavailable : The server is currently unable to handle the request due to a temporary overloading or maintenance of the server."
 
 }
