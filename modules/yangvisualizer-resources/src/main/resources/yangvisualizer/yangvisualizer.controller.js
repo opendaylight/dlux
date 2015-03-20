@@ -1,7 +1,7 @@
 define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisualizer.services', 'common/sigmatopology/sigma.directive'], function(yangvisualizer) {
 
-  yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils',
-    function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils) {
+  yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory',
+    function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory) {
       $rootScope['section_logo'] = 'logo_yangui';
 
       $scope.currentPath = './assets/views/yangvisualizerCtrl';
@@ -120,6 +120,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       $scope.topologyCustfunc = function(sigmaIstance, getSlowDownNum){
 
+        DesignVisualizerFactory.setMainClass();
+        
         $scope.sigma = sigmaIstance;
         getSlowDownNumFun = getSlowDownNum;
 
@@ -174,7 +176,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
         sigmaIstance.bind('outNode', function(e){
           var node = e.data.node;
-
+          
           if ( node.labelToShow !== null ) {
             if ( !node.expand && node.labelToShow.indexOf(']') ) {
               node.label = node.labelToShow.substring(node.labelToShow.indexOf(']') + 1);
@@ -196,17 +198,15 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
 
       $scope.loadController = function(){
-        if ( $('.yangVisualizer').length ) {
-          $('.yangVisualizer').closest('.col-xs-12').addClass('yangVisualizerWrapper');
-        }
+        
          processingNodesCallback();
 
          visualizerUtils.getAllnodes(function(allNodes){
             $scope.filteredNodes = allNodes.filter(function(node){
                     return node.nodeType === 1;
             });
-
-            $scope.currentTopologyNode = $scope.filteredNodes[0];
+            
+        $scope.currentTopologyNode = $scope.filteredNodes[0];
             processingNodesSuccessCallback();
             $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, maxLvlToSHow);
          }, function(e){
@@ -227,7 +227,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
         if ( mlts === undefined ) {
           $scope.selectedProperty = null;
-          angular.element('.yangVisualizerWrapper div.viewNav li span').removeClass('active').parent().eq(0).find('span').addClass('active');
+          $('.yangVisualizerWrapper div.viewNav li span').removeClass('active').parent().eq(0).find('span').addClass('active');
         }
       };
 
@@ -237,9 +237,10 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       $scope.setColorScheme = function(e,property){
         $scope.selectedProperty = property !== 'default' ? property : null;
+
         if ( e !== null ) {
-          angular.element('.yangVisualizerWrapper div.viewNav li span').removeClass('active');
-          angular.element(e.target).addClass('active');
+          $('.yangVisualizerWrapper div.viewNav li span').removeClass('active');
+          $(e.target).addClass('active');
         }
         
         $scope.legend = visualizerUtils.setNodesColor(property, $scope.sigma.graph.nodes(), $scope.currentTopologyNode);

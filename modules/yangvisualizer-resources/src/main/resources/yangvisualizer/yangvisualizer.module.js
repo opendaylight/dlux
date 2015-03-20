@@ -31,11 +31,11 @@ define(modules, function() {
     NavHelperProvider.addToMenu('yangvisualizer', {
       "link": "#/yangvisualizer/index",
       "active": "main.yangvisualizer",
-      "title": "YANGVISUALIZER_MENU_LABEL",
+      "title": "Yang Visualizer",
       "icon": "icon-eye-open",
       "page": {
-        "title": "YANGVISUALIZER_MENU_LABEL",
-        "description": "YANGVISUALIZER_MENU_LABEL"
+        "title": "Yang Visualizer",
+        "description": "Yang Visualizer"
       }
     });
 
