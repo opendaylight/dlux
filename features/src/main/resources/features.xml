@@ -4,11 +4,11 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
     <feature name='odl-dlux-all' version='${project.version}'>
-       <feature>odl-dlux-core</feature>
+        <feature>odl-dlux-core</feature>
         <feature>odl-dlux-minimal</feature>
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
-		<feature>odl-dlux-yangvisualizer</feature>
+        <feature>odl-dlux-yangvisualizer</feature>
     </feature>
 
 
@@ -41,7 +41,7 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.yangui/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
     </feature>
-	
+
 	<feature name="odl-dlux-yangvisualizer">
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/${project.version}</bundle>

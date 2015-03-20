@@ -16,14 +16,16 @@ require.config({
     'jquery' : '../vendor/jquery/jquery.min',
     'jquery-ui' : '../vendor/jquery-ui/jquery-ui.min',
     'footable' : '../vendor/footable/dist/footable.min',
+    'pixi': '../vendor/pixi/bin/pixi',
     'd3' : '../vendor/d3/d3.min',
-    'vis' : '../vendor/vis/dist/vis.min',
     'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad',
+    'vis' : '../vendor/vis/dist/vis.min',
     'sigma' : '../vendor/sigma/sigma.min',
     'sigma-parsers-gexf' : '../vendor/sigma/plugins/sigma.parsers.gexf.min',
     'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
-    'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min'
+    'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
+    'graphRenderer' : '../assets/js/graphRenderer'
   },
 
   shim : {
@@ -37,6 +39,10 @@ require.config({
     'angular-translate': ['angular'],
     'angular-translate-loader-static-files' : ['angular-translate'],
     'ngload' : ['angularAMD'],
+    'pixi' : {
+        exports: 'PIXI'
+    },
+    'graphRenderer' : ['pixi'],
     'jquery' : {
       exports : '$'
     },
