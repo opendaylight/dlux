@@ -9,6 +9,7 @@
       <div class="viewNav">
         <ul class="navWrapper">
           <li>{{ 'YANGVISUALIZER_LABEL_VIEW' | translate }} : </li>
+
           <li><span class="active" ng-click="setColorScheme($event,'default')">{{ 'YANGVISUALIZER_SHOW_DEFAULT' | translate }}</span></li>
           <li><span  ng-click="setColorScheme($event,'type')">{{ 'YANGVISUALIZER_SHOW_TYPES' | translate }}</span></li>
           <li><span  ng-click="setColorScheme($event,'module')">{{ 'YANGVISUALIZER_SHOW_MODULES' | translate }}</span></li>
@@ -16,12 +17,13 @@
         </ul>
         <div class="clear"></div>
         <div class="legend" ng-show="legend">
-          <ul>
-            <li>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </li>
+          <ul ng-init="showText = true">
+            <li><span>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </span></li>
+            <li><span>{{ 'YANGVISUALIZER_SHOW_ALL' | translate }}</span><input class="showChckbx" type="checkbox" ng-model="showText"></li>
             <li ng-repeat="(key, value) in legend">
               <div class="itemWrapper left">
                 <div class="color left" style="background: {{value}};"></div>
-                <div class="left text">{{key}}</div>
+                <div class="left text" ng-hide="!showText">{{key}}</div>
                 <div class="clear"></div>
               </div>
               <div class="clear"></div>
@@ -31,7 +33,6 @@
       </div>
       <sigma-topology topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
     </div>
-    <!-- <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }} </b><b>{{status.rawMsg}}</b></alert> -->
 
     <!-- RIGHT PANEL -->
     <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">

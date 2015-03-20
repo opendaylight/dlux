@@ -686,6 +686,8 @@
     "YANGVISUALIZER_TD_MODULE": "Module",
     "YANGVISUALIZER_LABEL_CHILD_NODE": "Children nodes",
     "YANGVISUALIZER_LABEL_PAR_NODE": "Parent nodes",
+    "YANGVISUALIZER_SHOW_ALL" : "Display all labels",
+
 
     "YANGUI_COLLAPSE_OTHERS": "Collapse others",
     "YANGUI_ADD_DATA": "Add data",
