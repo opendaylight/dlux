@@ -177,9 +177,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
             getChildrenArray(parentNode);
             return childrenArray;
             
-        },
-        //url for getting all modules from controller
-        allModulesUrl = YangUtilsRestangular.configuration.baseUrl+'/restconf/modules/';
+        };
         
 
     visualizerUtils.getTopologyData = function(node, lts, newModel, fromLvl){
@@ -285,7 +283,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
     };
 
     visualizerUtils.getAllnodes = function(callback, errorCbk){
-        $http.get(allModulesUrl).success(function (data) {
+        $http.get(YangUtilsRestangular.configuration.baseUrl+'/restconf/modules/').success(function (data) {
             yangUtils.processModules(data.modules, function(result) {
                 callback(result);
             });
@@ -344,5 +342,25 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
     return visualizerUtils;
   });
+
+    yangvisualizer.register.factory('DesignVisualizerFactory', function(){
+
+        var dvf = {};
+
+        dvf.setMainClass = function(){
+            if ( $('.yangVisualizer').length ) {
+                $('.yangVisualizer').closest('.col-xs-12').addClass('yangVisualizerWrapper');
+
+                $('#graph-container').height($(window).height() - 116);
+
+                $(window).resize(function(){
+                    $('#graph-container').height($(window).height() - 116);
+                });
+              }
+        };
+
+        return dvf;
+
+    });
 
 });

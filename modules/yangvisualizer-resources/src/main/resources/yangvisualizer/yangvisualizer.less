@@ -116,15 +116,22 @@
         }
         li{
           margin-bottom: 5px;
-          .text{
+          .textHidden{
             display: none;
+          }
+          .text{
             margin-left: 10px;
             line-height: 18px;
           }
+          .showChckbx{
+            position: relative;
+            top: 2px;
+            left: 5px;
+            }
           .itemWrapper{
             &:hover{
               .text{
-                display: block;
+                display: block !important;
               }
             }
           }
