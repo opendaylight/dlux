@@ -84,7 +84,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/src/main/resources/dlux</outputDirectory>
+              <outputDirectory>${project.basedir}/target/generated-resources/dlux</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.basedir}/../../dlux-web/build/</directory>
@@ -112,7 +112,7 @@
               <goal>copy-resources</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.basedir}/src/main/resources/index</outputDirectory>
+              <outputDirectory>${project.basedir}/target/generated-resources/index</outputDirectory>
               <resources>
                 <resource>
                   <directory>${project.basedir}/../../dlux-web/build/</directory>

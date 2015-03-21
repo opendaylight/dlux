@@ -3,25 +3,20 @@
 <features name="odl-dlux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
-    <feature name='odl-dlux-all' version='${project.version}'>
-        <feature>odl-dlux-core</feature>
-        <feature>odl-dlux-minimal</feature>
+
+    <feature name='odl-dlux-all' version='${project.version}' description="Opendaylight dlux all features">
+       <feature>odl-dlux-core</feature>
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
         <feature>odl-dlux-yangvisualizer</feature>
     </feature>
 
-
-    <feature name='odl-dlux-core' version='${project.version}'>
+    <feature name='odl-dlux-core' version='${project.version}' description="Opendaylight dlux minimal feature">
         <feature>http</feature>
         <bundle>mvn:com.google.guava/guava/${guava.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/loader/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/loader.implementation/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.core/${project.version}</bundle>
-    </feature>
-
-    <feature name='odl-dlux-minimal' version='${project.version}'>
-        <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.layout/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.login/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.authentication/${project.version}</bundle>
@@ -31,18 +26,19 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.topology/${project.version}</bundle>
     </feature>
 
-    <feature name="odl-dlux-node">
+
+    <feature name="odl-dlux-node" version='${project.version}' description="Enable nodes in Opendaylight dlux">
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.node/${project.version}</bundle>
     </feature>
 
-    <feature name="odl-dlux-yangui">
+    <feature name="odl-dlux-yangui" version='${project.version}' description="Enable Yang UI in Opendaylight dlux">
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangui/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
     </feature>
 
-	<feature name="odl-dlux-yangvisualizer">
+	<feature name="odl-dlux-yangvisualizer" version='${project.version}' description="Enable Yang visualizer in Opendaylight dlux">
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
