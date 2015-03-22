@@ -838,7 +838,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     node.expanded = !node.expanded;
                 };
 
-                node.buildRequest = function (builder, req) {
+                node.buildRequest = function (builder, req, addModule) {
                     var added = false,
                         name = node.label,
                         objToAdd = builder.createObj(),
@@ -858,8 +858,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
 
-                    if (added && checkEmptyContainer(node.parent.type, objToAdd)) {
-                        builder.insertPropertyToObj(req, name, objToAdd);
+                    if (added && checkEmptyContainer(node.parent ? node.parent.type : 'blanktype', objToAdd)) {
+                        builder.insertPropertyToObj(req, (addModule ? (node.module+':') : '') + name, objToAdd);
                     }
 
                     return added;

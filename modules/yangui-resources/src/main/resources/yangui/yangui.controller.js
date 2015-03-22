@@ -288,7 +288,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       $scope.fillApiData = function(data){
           var obj = null;
               obj = typeof data === "object" ? data : JSON.parse(data);
-              console.info('fillApiData: $scope.node is',$scope.node,'with',obj, typeof obj === "object");
 
               if (obj !== null && typeof obj === "object") {
                   var p = Object.keys(obj)[0];
@@ -438,6 +437,20 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           yangParser.setCurrentModuleObj(new yinParser.Module('M', 'R', 'NS'));
           node = yangParser.createNewNode('mount_point','container',null, constants.NODE_UI_DISPLAY);
           nodeWrapper.wrapAll(node);
+          node.buildRequest = function (builder, req) {
+              var added = false,
+                  name = node.label,
+                  builderNodes = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
+
+              if (builderNodes.length) {
+                  builderNodes.forEach(function (child) {
+                      var childAdded = child.buildRequest(builder, req);
+                  });
+              }
+
+              return added;
+          };
+
 
           $scope.mountPointsStructure.forEach(function(mp){
               if(mp.children.length){
