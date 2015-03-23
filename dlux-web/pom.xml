@@ -75,21 +75,6 @@
     </dependency>
     <dependency>
         <groupId>org.opendaylight.dlux</groupId>
-        <artifactId>dlux.network.resources</artifactId>
-        <version>${network.resources.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.opendaylight.dlux</groupId>
-        <artifactId>dlux.flow.resources</artifactId>
-        <version>${flow.resources.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.opendaylight.dlux</groupId>
-        <artifactId>dlux.container.resources</artifactId>
-        <version>${container.resources.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.topology.resources</artifactId>
         <version>${topology.resources.version}</version>
     </dependency>
@@ -98,11 +83,6 @@
         <artifactId>dlux.loader.resources</artifactId>
         <version>${loader.resources.version}</version>
     </dependency>
-    <dependency>
-        <groupId>org.opendaylight.dlux</groupId>
-        <artifactId>dlux.connection_manager.resources</artifactId>
-        <version>${connection_manager.resources.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.core.resources</artifactId>
@@ -148,11 +128,7 @@
                       <include>app/node/</include>
                       <include>app/yangui/</include>
                       <include>app/yangvisualizer/</include>
-                      <include>app/network/</include>
-                      <include>app/flow/</include>
-                      <include>app/container/</include>
                       <include>app/topology/</include>
-                      <include>app/connection_manager/</include>
                       <include>app/core/</include>
                       <include>app/graph/</include>
                       <include>common/yangutils/</include>
@@ -190,11 +166,7 @@
                   dlux.node.resources,
                   dlux.yangui.resources,
                   dlux.yangvisualizer.resources,
-                  dlux.container.resources,
                   dlux.topology.resources,
-                  dlux.connection_manager.resources,
-                  dlux.network.resources,
-                  dlux.flow.resources,
                   dlux.core.resources,
                   dlux.graph.resources,
                 </includeArtifactIds>
