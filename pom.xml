@@ -38,6 +38,8 @@
       <common.login.resources.version>0.1.0-SNAPSHOT</common.login.resources.version>
       <common.yangutils.resources.version>0.1.0-SNAPSHOT</common.yangutils.resources.version>
       <common.sigmatopology.resources.version>0.1.0-SNAPSHOT</common.sigmatopology.resources.version>
+      <l2switch.version>0.2.0-SNAPSHOT</l2switch.version>
+      <mdsal.version>1.2.0-SNAPSHOT</mdsal.version>
     </properties>
 
     <modules>
