@@ -1,9 +1,5 @@
 define(['common/navigation/navigation.module', 'app/core/core.services', 'common/navigation/navigation.services'], function(nav, services) {
-  nav.register.controller('NavCtrl', function($scope, NavHelper, pollSvc) {
-    if(window.PollFlag === undefined){
-        pollSvc.makePoll(250);
-        window.PollFlag = true;
-    }
+  nav.register.controller('NavCtrl', function($scope, NavHelper) {
     $scope.navList = NavHelper.getMenu();
   });
 
