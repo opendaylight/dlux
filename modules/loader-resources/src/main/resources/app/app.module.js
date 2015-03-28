@@ -1,7 +1,8 @@
-//----Temporary-------\\
 
-// This is provided by the server.
-// The path of all *.module.js go here. They are RequireJs module
+// These variables are provided by the server in karaf distribution.
+// The path of all *.module.js go here. They are RequireJs module.
+// You can uncomment them only for development purpose if you are not using
+//karaf based dlux deployment
 /*
 var module = [
   'angularAMD',
