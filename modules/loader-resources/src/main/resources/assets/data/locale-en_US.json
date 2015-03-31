@@ -672,7 +672,7 @@
     "PROCESSING_NODES_ERROR": "Error in loading nodes... ",
     "YANGVISUALIZER_MODEL": "Model",
     "YANGVISUALIZER_SHOW_NODES": "show all nodes",
-    "YANGVISUALIZER_HIDE_NODES": "hide all nodes",
+    "YANGVISUALIZER_HIDE_NODES": "hide nodes",
     "YANGVISUALIZER_LABEL_VIEW": "View",
     "YANGVISUALIZER_SHOW_DEFAULT": "Default",
     "YANGVISUALIZER_SHOW_TYPES": "Types",

@@ -114,14 +114,16 @@ define(modules, function(topologyModule) {
                 sigmaIstance.refresh();
               }
 
+              var dragListener = null;
+
               if ( $scope.dragNodes ) {
-                Sigma.plugins.dragNodes(sigmaIstance, sigmaIstance.renderers[0]);
+                dragListener = Sigma.plugins.dragNodes(sigmaIstance, sigmaIstance.renderers[0]);
               }
 
               sigmaIstance.startForceAtlas2(configAtlas);
 
               if ( $scope.topologyCustfunc && angular.isFunction($scope.topologyCustfunc) ) {
-                $scope.topologyCustfunc(sigmaIstance, getSlowDownNum);
+                $scope.topologyCustfunc(sigmaIstance, getSlowDownNum, dragListener);
               }
 
             }

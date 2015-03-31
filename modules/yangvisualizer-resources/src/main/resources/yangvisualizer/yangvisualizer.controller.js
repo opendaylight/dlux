@@ -118,6 +118,23 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
             
       };
 
+      var selectNode = function(node) {
+          var selNode = node,
+              edges = $scope.sigma.graph.edges();
+          if ( lastSelectedNode ) {
+              visualizerUtils.clearEdgeColors();
+          }
+
+          lastSelectedNode = selNode;
+          $scope.selectedNode = selNode.node;
+          $scope.childrenNodes.list = selNode.node.children.length ? selNode.node.children : [];
+          $scope.parentNodes.list = visualizerUtils.getParentNodes(selNode.node);
+          visualizerUtils.updateSelectedEdgesColors(edges, selNode);
+          selNode.size = selNode.node.parent !== null ? 10 : 20;
+          $scope.sigma.refresh();
+          $scope.$apply();
+      };
+
       $scope.topologyCustfunc = function(sigmaIstance, getSlowDownNum){
 
         DesignVisualizerFactory.setMainClass();
@@ -130,21 +147,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         });
 
         sigmaIstance.bind('clickNode', function(e) {
-          var selNode = e.data.node,
-              edges = sigmaIstance.graph.edges();
-          if ( lastSelectedNode ) {
-              visualizerUtils.clearEdgeColors();
-          }
-
-          lastSelectedNode = selNode;
-          $scope.selectedNode = selNode.node;
-          $scope.childrenNodes.list = selNode.node.children.length ? selNode.node.children : [];
-          $scope.parentNodes.list = visualizerUtils.getParentNodes(selNode.node);
-          visualizerUtils.updateSelectedEdgesColors(edges, selNode);
-          selNode.size = selNode.node.parent !== null ? 10 : 20;
-          sigmaIstance.refresh();
-          $scope.$apply();
-
+            selectNode(e.data.node);
         });
 
 
@@ -216,16 +219,16 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
       
       
 
-      $scope.updateTopologyData = function(mlts){
-        $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, mlts !== undefined ? mlts : maxLvlToSHow, true);
+      $scope.updateTopologyData = function(mlts, modelChanged){
+        $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, mlts !== null ? mlts : maxLvlToSHow, true);
         $scope.selectedNode = null;
         $scope.childrenNodes.list = [];
         $scope.parentNodes.list = [];
         lastSelectedNode = null;
-        $scope.expandedNodes = mlts !== undefined ? $scope.expandedNodes : false;
+        $scope.expandedNodes = !modelChanged ? $scope.expandedNodes : false;
         $scope.legend = [];
 
-        if ( mlts === undefined ) {
+        if ( modelChanged ) {
           $scope.selectedProperty = null;
           $('.yangVisualizerWrapper div.viewNav li span').removeClass('active').parent().eq(0).find('span').addClass('active');
         }
@@ -254,21 +257,9 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
                           });
         $scope.sigma.killForceAtlas2();
 
-        if ( nodeToZoom.length > 0 ) {
-
-          $scope.sigma.camera.goTo({
-            x: nodeToZoom[0]['read_cam0:x'],
-            y: nodeToZoom[0]['read_cam0:y'],
-            angle: 0,
-            ratio: 0.1
-          });
-
-          if ( nodeToZoom[0].expand ) {
-            expandNodeFunc(nodeToZoom[0], maxLvlToSHow);
-          }
-          
+        if(nodeToZoom.length > 0) {
+          selectNode(nodeToZoom[0]);
         }
-        
       };
 
       $scope.expandedNodes = false;
@@ -277,7 +268,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         if ( !$scope.expandedNodes ) {
           $scope.updateTopologyData(Infinity);
         } else {
-          $scope.updateTopologyData(0);
+          $scope.updateTopologyData(null);
         }
 
         $scope.expandedNodes = !$scope.expandedNodes;
