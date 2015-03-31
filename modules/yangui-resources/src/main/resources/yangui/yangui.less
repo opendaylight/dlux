@@ -118,9 +118,11 @@ INPUT.leaf-input{
   margin: 4px 3px 0px 0px !important;
 }
 
-.adv-fil-sel{
-  width:80px !important;
+.form-inline select.form-control.adv-fil-sel{
+  width:80px;
+  height: 34px;
 }
+
 
 .adv-fil-range{
   width:148px !important;
@@ -171,6 +173,9 @@ INPUT.leaf-input{
 .outline{ outline: 0 none;}
 .block{ display: block;}
 .blockNone{ display: none;}
+.displayTable{
+  display: table;
+}
 .inlineBlock {
     display: -moz-inline-stack;
     display: inline-block;
@@ -535,6 +540,13 @@ div.mountPoints{
   }
 }
 
+.alertInner{
+  margin-bottom: 10px;
+  span{
+    margin-left: 10px;
+  }
+}
+
 .modalWrapper{
   position: relative;
   .inlineBlock;
@@ -600,11 +612,42 @@ div.mountPoints{
   margin: 0 10px 0 20px;
   .inlineBlock;
   .listButtonWrapper{
-    margin: 2px 5px 0;
+    margin: 2px 15px 0 5px;
     .inlineBlock;
+    
     button.yangButton{
-      margin: 0;
+      margin: 0px;
     }
+
+    &:last-child{
+      margin-right: 0;
+    }
+
+    .btn-like-tab{
+      line-height: 1em;
+      outline: 0 none;
+      padding: 0 5px;
+      margin: 0;
+      height: 23px;
+    }
+
+    .iconClose, .iconDanger{
+      padding: 0;
+    }
+
+    // button.yangButton{
+    //   margin: 4px 0;
+    // }
+
+    // .iconDanger{
+    //   width: 10px;
+    //   margin: 4px 0;
+    //   height: 24px;
+    //   border: 0;
+    // }
+    // .iconClose{
+    //   width: 16px;
+    // }
   }
 }
 
@@ -697,6 +740,8 @@ button{
     margin: 2px;
     .inlineBlock;
     &.iconClose{
+      opacity: 1;
+      width: 24px;
       background: transparent url('@{iconsRootPath}icon-close.png') no-repeat center top;
     }
     &.iconNext{
@@ -724,7 +769,7 @@ button{
       background: transparent url('@{iconsRootPath}icon-filter-full.png') no-repeat center top;
     }
     &.iconFilterFullBck{
-      background: transparent url('@{iconsRootPath}icon-filter-full-bck.png') no-repeat center top;
+      background: transparent url('@{iconsRootPath}icon-filter-full.png') no-repeat center top;
     }
     &.iconList{
       background: transparent url('@{iconsRootPath}icon-list.png') no-repeat center top;
@@ -745,6 +790,7 @@ button{
       background: transparent url('@{iconsRootPath}icon-prev.png') no-repeat center top;
     }
     &.iconDanger{
+      width: 10px;
       background: transparent url('@{iconsRootPath}icon-danger.png') no-repeat center top;
       &:hover{
         background-position: 0 0!important;
@@ -799,3 +845,26 @@ button{
   }
 }
 /* --------------------------------------------------------------------------------- YANG UI TYPE UNION - END */
+
+
+@media screen and (max-height: 700px) {
+  .topologyContainer.previewContainer.historyPopUp{
+    height: 80%;
+
+    .tab-content{
+      height: 82%;
+      .tab-pane{
+        height: 100%;
+      }
+    }
+
+    .tabs{
+      height: 95%;
+    }
+
+    .tab-pane .tableWrapper{
+      max-height: 100%;
+      height: 100%;
+    }
+  }
+}

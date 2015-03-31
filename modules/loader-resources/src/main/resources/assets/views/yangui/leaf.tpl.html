@@ -5,7 +5,7 @@
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
     </span>
 
-    <div ng-controller="typeCtrl" class="inlineBlock" ng-repeat="type in node.getChildren('type')" ng-include="currentPath+'/types/'+node.getChildren('type')[0].label+'.tpl.html'"></div>
+    <div ng-controller="typeCtrl" class="inlineBlock" ng-repeat="type in node.getChildren('type')" ng-include="currentPath+'/types/'+getLeafType()+'.tpl.html'"></div>
 
     <div class="clear"></div>
 </div>

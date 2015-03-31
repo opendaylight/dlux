@@ -2,8 +2,8 @@
     {{ 'YANGUI_SHOW_HISTORY' | translate }}
 </button>
 <div class="popUpWrapperFix" ng-show="popupHistory.show">
-    <div class='topologyContainer previewContainer historyPopUp' ng-show="popupHistory.show">
-        <button class="close" ng-click="close_popup(popupHistory)">&times;</button>
+    <div class='topologyContainer previewContainer historyPopUp draggablePopup' ng-show="popupHistory.show">
+        <button class="yangButton iconClose close" ng-click="close_popup(popupHistory)"></button>
         <div class="tabs">
             <ul class="nav nav-tabs">
                 <li class="active" ng-click="tabs($event, 0)">
@@ -31,9 +31,9 @@
                         <tbody  ng-repeat="req in requestList track by $index"><!--class="table-striped table-hover"-->
                             <tr>
                                 <!-- <td colspan="5"><pre>{{req}}</pre></td> -->
-                                <td>{{ req.method }}</td>
-                                <td>{{ req.path }}</td>
-                                <td>{{ req.status }}</td>
+                                <td><span>{{ req.method }}</span></td>
+                                <td><span>{{ req.path }}</span></td>
+                                <td><span>{{ req.status }}</span></td>
                                 <td>
                                     <button class="btn btn-gray add-row ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
                                         {{ req.sentData ? 'YANGUI_HISTORY_SEND_DATA' : 'YANGUI_HISTORY_NO_SEND_DATA' | translate }}
@@ -47,7 +47,7 @@
                                 <td>
                                     <div class="requestActions">
                                         <button class="yangButton iconPlus" ng-click='addHistoryItemToColl($index)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></button>
-                                        <button class="yangButton iconFillData" ng-if="req.receivedData" ng-click='fillApiAndData(req.path,req.receivedData)' tooltip="Fill data"></button>
+                                        <button class="yangButton iconFillData" ng-if="req.receivedData || req.sentData" ng-click='fillApiAndData(req.path,req.receivedData, req.sentData)' tooltip="Fill data"></button>
                                         <button class="yangButton iconNext" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
                                         <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                                     </div>
@@ -64,7 +64,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(true)'>
+                  <button class="btn btn-gray ng-scope btn-slim" ng-click='clearHistoryData(true)'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>
@@ -84,22 +84,22 @@
                         <tbody ng-repeat="req in collectionList track by $index"><!--class="table-striped table-hover"-->
                         <tr>
                                 <!-- <td colspan="5"><pre>{{req}}</pre></td> -->
-                                <td>{{ req.method }}</td>
-                                <td>{{ req.path }}</td>
-                                <td>{{ req.status }}</td>
+                                <td><span>{{ req.method }}</span></td>
+                                <td><span>{{ req.path }}</span></td>
+                                <td><span>{{ req.status }}</span></td>
                                 <td>
-                                    <button class="btn btn-primary ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
+                                    <button class="btn btn-gray ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
                                         {{ req.sentData ? 'YANGUI_HISTORY_SEND_DATA' : 'YANGUI_HISTORY_NO_SEND_DATA' | translate }}
                                     </button>
                                 </td>
                                 <td>
-                                    <button class="btn btn-primary ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
+                                    <button class="btn btn-gray ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
                                         {{ req.receivedData ? 'YANGUI_HISTORY_REC_DATA': 'YANGUI_HISTORY_NO_REC_DATA' | translate }}
                                     </button>
                                 </td>
                                 <td>
                                     <button class="yangButton iconNext" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
-                                    <button class="yangButton iconFillData" ng-if="req.receivedData" ng-click='fillApiAndData(req.path,req.receivedData)' tooltip="Fill data"></button>
+                                    <button class="yangButton iconFillData" ng-if="req.receivedData || req.sentData" ng-click='fillApiAndData(req.path,req.receivedData, req.sentData)' tooltip="Fill data"></button>
                                     <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                                 </td>
                             </tr>
@@ -114,7 +114,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(false)'>
+                  <button class="btn btn-gray ng-scope btn-slim" ng-click='clearHistoryData(false)'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>

@@ -1,12 +1,14 @@
 <div>
   <br>
 
-  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b><b>{{status.rawMsg}}</b></alert>
+  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b>
+      <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
+  </alert>
 
   <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup'>
-    <button class="close" ng-click="hidePreview()">&times;</button>
+    <button class="yangButton iconClose close" ng-click="hidePreview()"></button>
     <div class="previewWrapper">
-      <pre>{{previewValue}}</pre>
+      <pre>{{previewValue.length ? previewValue : 'YANGUI_NO_DATA' | translate}}</pre>
     </div>
   </div>
 
@@ -16,7 +18,10 @@
     <topology-simple topology-data="topologyData"></topology-simple>
   </div> -->
   <div ng-show="selCustFunct && selCustFunct.viewStr" class="draggablePopup" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
-    <button class="close" ng-click="unsetCustomFunctionality()">&times;</button>
+    <div class="alertInner" ng-show="status.isWorking">
+      <i class="icon-refresh icon-spin ng-scope"></i><span>{{ 'OF_LOADING_DATA' | translate }}</span>
+    </div> 
+    <button class="yangButton iconClose close" ng-click="unsetCustomFunctionality()"></button>
     <div ng-include src="selCustFunct.viewStr"></div>
   </div>
 
@@ -31,7 +36,7 @@
       <div class="in" ng-show="selSubApi.pathArray.length">
         <label class="classic">{{ 'YANGUI_API_OP' | translate }}: </label>
         <span ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.module ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
-            <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control yangInput input-small" ng-model="pathElem.identifierValue" ng-change="changePathInPreview()"></span>
+            <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control input-small" ng-model="pathElem.identifierValue" ng-change="changePathInPreview()"></span>
         </span>
         <button ng-repeat="operation in selSubApi.operations" ng-hide="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' && node === null" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
         <button ng-repeat="custFunct in selSubApi.custFunct" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
@@ -51,7 +56,7 @@
                   {{ 'YANGUI_SET_CUSTOM_API' | translate }}
               </button>
               <div ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup'>
-                  <button class="close" ng-click="close_popup(popupData)">&times;</button>
+                  <button class="yangButton iconClose close" ng-click="close_popup(popupData)"></button>
                   <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
                   <input class="leaf-input form-control input-small" type="text" ng-model="apiToFill">
                   <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>

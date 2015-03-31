@@ -8,6 +8,41 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return r;
     }]);
 
+    yangUtils.factory('eventDispatcher', function () {
+
+        var eD = {};
+
+        var convertArgsToList = function(arg) {
+            var argList = [],
+                l = arg.length,
+                i = 0;
+
+            for(i = 0; i < l; i++) {
+                argList.push(arg[i]);
+            }
+
+            return argList;
+        };
+
+        eD.broadcastHandler = {};
+
+        eD.registerHandler = function(source, bcCallback) {
+            eD.broadcastHandler[source] = bcCallback;
+        };
+
+        eD.dispatch = function() {
+            var args = convertArgsToList(arguments),
+                argumentList = args.slice(1),
+                handler = eD.broadcastHandler[arguments[0]];
+
+            if(handler) {
+                handler(argumentList);
+            }
+        };
+
+        return eD;
+    });
+
     yangUtils.factory('arrayUtils', function () {
 
         var arrayUtils = {};
@@ -250,8 +285,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     return deleteRevision(treeApi.label) === module;
                 })[0] : null,
                 retObj = null;
-
-                console.log('selectedTreeApi', selectedTreeApi, pathArray);
 
             if(selectedTreeApi && pathArray.length) {
                 var actElem = selectedTreeApi;
@@ -2432,23 +2465,30 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return moduleConnector;
     });
 
-    yangUtils.factory('mountPointsConnector', function (YangUIApis, nodeWrapper, yangUtils, constants) {
+    yangUtils.factory('mountPointsConnector', function (YangUIApis, nodeWrapper, yangUtils, constants, eventDispatcher) {
 
         mp = {};
 
         mp.getMPModulesAPI = function(api) {
-            var apiArray = api.split('/');
-            return apiArray.slice(1).join('/')+'/yang-ext:mount';
+            var apiArray = api.split('/'),
+                yangExtMountStr = "yang-ext:mount";
+
+            if(apiArray[apiArray.length - 1] !== yangExtMountStr) {
+                apiArray.push(yangExtMountStr);
+            }
+
+            return apiArray.slice(1).join('/');
         };
 
         mp.discoverMountPoints = function(api, getModulesCbk, callback) {
             var modulesCbk = getModulesCbk || function() { return []; },
                 mpNodes = [],
                 baseApiPath = mp.getMPModulesAPI(api);
-
+                
             YangUIApis.getCustomModules(baseApiPath).then(
                 function (data) {
                     yangUtils.processModulesMP(data.modules, baseApiPath, function (result) {
+                        eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking modules to Apis');
                         var allRootNodes = result.map(function (node) {
                             var copy = node.deepCopy();
 
@@ -2469,7 +2509,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         });
 
                         console.info('loaded mount point nodes', mpNodes);
-
                         callback(mpNodes);
                     });
                 }, function (result) {
@@ -2496,7 +2535,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return mp;
     });
 
-    yangUtils.factory('yangUtils', function (yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, moduleConnector, YangUIApis) {
+    yangUtils.factory('yangUtils', function (yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, moduleConnector, YangUIApis, eventDispatcher) {
 
         var utils = {};
 
@@ -2530,6 +2569,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
             YangUIApis.getAllApis().get().then(
                 function (data) {
+                    eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Processing APIs');
                     apiConnector.processApis(data.apis, function (result) {
                         apiModules = result;
                         topLevelSync.removeRequest(reqApis);
@@ -2559,6 +2599,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
             topLevelSync.waitFor(function () {
                 try {
+                    eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking modules to Apis');
                     callback(apiConnector.linkApisToNodes(apiModules, allRootNodes), allRootNodes);
                 } catch (e) {
                     errorCbk(e);
@@ -2664,9 +2705,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 augments = [],
                 syncModules = syncFact.generateObj();
 
+            eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Processing modules');
             loadedModules.module.forEach(function (module) {
                 var reqId = syncModules.spawnRequest(module.name);
-                
+
                 yinParser.parseYang(module.name, module.revision, function (module) {
                     modules.push(module);
                     syncModules.removeRequest(reqId);
@@ -2676,9 +2718,12 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             });
 
             syncModules.waitFor(function () {
+                eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking uses and typedefs');
                 processedData = moduleConnector.processModuleObjs(modules);
                 rootNodes = processedData.rootNodes;
                 augments = processedData.augments;
+
+                eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking augments');
 
                 console.info(modules.length + ' modulesObj loaded', modules);
                 console.info(rootNodes.length + ' rootNodes loaded', rootNodes);
@@ -2703,6 +2748,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 augments = [],
                 syncModules = syncFact.generateObj();
 
+            eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Processing modules');
             loadedModules.module.forEach(function (module) {
                 var reqId = syncModules.spawnRequest(module.name);
                 
@@ -2715,9 +2761,12 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             });
 
             syncModules.waitFor(function () {
+                eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking uses and typedefs');
                 processedData = moduleConnector.processModuleObjs(modules);
                 rootNodes = processedData.rootNodes;
                 augments = processedData.augments;
+
+                eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking augments');
 
                 console.info(modules.length + ' modulesObj loaded', modules);
                 console.info(rootNodes.length + ' rootNodes loaded', rootNodes);
@@ -2794,6 +2843,32 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return {nodes: nodes, links: links};
         };
 
+        utils.objectHandler = function(obj, objCbk, vauleCbk, arrayCbk){
+            if ( Array.isArray(obj) ) {
+              if (angular.isFunction(arrayCbk)) {
+                arrayCbk(obj);
+              }
+                  
+              obj.forEach(function(item){
+                utils.objectHandler(item, objCbk, vauleCbk);
+              });
+            } else {
+              if ( obj !== null && Object.keys(obj).length > 0 && typeof obj !== 'string' ) {
+                  if (angular.isFunction(objCbk)) {
+                    objCbk(obj);
+                  }
+
+                  for(var property in obj){
+                    utils.objectHandler(obj[property], objCbk, vauleCbk);
+                  }
+              } else {
+                if (angular.isFunction(vauleCbk)) {
+                  vauleCbk(obj);
+                }
+              }
+            }
+        };
+
         utils.errorMessages = {
             'method' : 
                     {
@@ -2834,7 +2909,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             NODE_RESTRICTIONS: 4,
             NODE_LINK: 5,
             NODE_LINK_TARGET: 6,
-            LOCALE_PREFIX: 'YANGUI_'
+            LOCALE_PREFIX: 'YANGUI_',
+            EV_SRC_MAIN: 'EV_SRC_MAIN'
         };
     });
 
@@ -2845,7 +2921,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             $( ".draggablePopup" ).draggable({
                 opacity: 0.35,
                 containment: "document",
-                cancel: 'pre, input, textarea'
+                cancel: 'pre, input, textarea, span'
             });
     };
 

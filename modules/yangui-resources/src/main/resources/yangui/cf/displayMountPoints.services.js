@@ -32,14 +32,18 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
 
                         $scope.mountPointsStructure = mountPointsStructure;
                         $scope.initMp();
+                        $scope.processingModulesSuccessCallback();
                     } else {
+                        $scope.processingModulesErrorCallback();
                         $scope.mountPointsStructure = [];
                         $timeout(function(){
                             alert('No mount points to display');
+                            $scope.unsetCustomFunctionality();
                         },100);
                     }
                 };
 
+                $scope.mountPointsStructure = [];
                 var path = mountPointsConnector.getMpPath($scope.selSubApi);
                 mountPointsConnector.discoverMountPoints(path, getNodesMPData, createMPStructure);
         };

@@ -1,7 +1,9 @@
 define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/abn_tree.directive', 'app/yangui/sticky.directive', 'app/yangui/pluginHandler.services'], function(yangui) {
 
-  yangui.register.controller('yanguiCtrl', ['$scope', '$rootScope', '$http', '$filter', 'YangUtilsRestangular', 'yangUtils', 'reqBuilder', 'apiConnector', 'pluginHandler', 'pathUtils', 'constants', 'nodeWrapper', 'mountPointsConnector', 'filterConstants','displayMountPoints','yinParser', 'designUtils',
-    function ($scope, $rootScope, $http, $filter, YangUtilsRestangular, yangUtils, reqBuilder, apiConnector, pluginHandler, pathUtils, constants, nodeWrapper, mountPointsConnector, filterConstants, displayMountPoints, yinParser, designUtils) {
+  yangui.register.controller('yanguiCtrl', ['$scope', '$timeout', '$rootScope', '$http', '$filter', 'YangUtilsRestangular', 'yangUtils', 'reqBuilder', 'apiConnector',
+    'pluginHandler', 'pathUtils', 'constants', 'nodeWrapper', 'mountPointsConnector', 'filterConstants','displayMountPoints','yinParser', 'designUtils', 'eventDispatcher',
+    function ($scope, $timeout, $rootScope, $http, $filter, YangUtilsRestangular, yangUtils, reqBuilder, apiConnector, pluginHandler, pathUtils, constants, nodeWrapper, mountPointsConnector, 
+      filterConstants, displayMountPoints, yinParser, designUtils, eventDispatcher) {
       $rootScope['section_logo'] = 'logo_yangui';
 
       $scope.currentPath = './assets/views/yangui';
@@ -12,32 +14,43 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       $scope.mountNode = '';
       $scope.mountBckOperations = [];
       $scope.filterRootNode = null;
+      $scope.previewValidity = true;
+      $scope.previewDelay = 2000;
 
       $scope.status = {
           type: 'noreq',
           msg: null
       };
 
-      var processingModulesCallback = function() {
+      var statusChangeEvent = function(messages) {
+          // var newMessage = $scope.status.rawMsg + '\r\n' + messages.join('\r\n');
+          processingModulesCallback(messages[0]);
+      };
+
+      eventDispatcher.registerHandler(constants.EV_SRC_MAIN, statusChangeEvent);
+
+      var processingModulesCallback = function(e) {
           $scope.status = {
               isWorking: true,
               type: 'warning',
-              msg: 'PROCESSING_MODULES'
+              msg: 'PROCESSING_MODULES',
+              rawMsg: e || ''
           };
       };
 
-      var processingModulesSuccessCallback = function() {
+      $scope.processingModulesSuccessCallback = function(e) {
           $scope.status = {
               type: 'success',
-              msg: 'PROCESSING_MODULES_SUCCESS'
+              msg: 'PROCESSING_MODULES_SUCCESS',
+              rawMsg: e || ''
           };
       };
 
-      var processingModulesErrorCallback = function(e) {
+      $scope.processingModulesErrorCallback = function(e) {
           $scope.status = {
               type: 'danger',
               msg: 'PROCESSING_MODULES_ERROR',
-              rawMsg: e.toString()
+              rawMsg: e || ''
           };
       };
 
@@ -76,6 +89,47 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           selSubApi.pathArray = pathArray;
       };
 
+      $scope.invalidatePreview = function() {
+          $scope.previewValidity = false;
+      };
+
+      $scope.validatePreview = function() {
+          $scope.previewValidity = true;
+      };
+
+      $scope.isPreviewValid = function() {
+          return $scope.previewValidity;
+      };
+
+      $scope.preview = function() {
+          if($scope.isPreviewValid()) {
+              $scope.invalidatePreview();
+
+              $timeout(function () {
+                  $scope.buildPreview();
+                  $scope.validatePreview();
+              }, $scope.previewDelay);
+          }
+      };
+
+      $scope.buildPreview = function() {
+          if($scope.node) {
+              $scope.previewValue = $scope.applyMoutPoint(yangUtils.getPathString($scope.selApi.basePath, $scope.selSubApi), 'GET');
+              $scope.previewValue = $scope.previewValue + '\r\n' + yangUtils.getRequestString($scope.node);
+          } else {
+              $scope.previewValue = '';
+          }
+      };
+
+      $scope.stripAngularGarbage = function(obj) {
+          yangUtils.objectHandler(obj, function(item){
+            if ( item.hasOwnProperty('$$hashKey') ){
+              delete item['$$hashKey'];
+            }
+          });
+          return obj;
+      };
+
       $scope.getNodeName = function(localeLabel, label) {
           var localeResult = $filter('translate')(localeLabel);
           return localeResult.indexOf(constants.LOCALE_PREFIX) === 0 ? label : localeResult;
@@ -107,12 +161,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
                   $scope.treeApis = treeApis;
                   console.info('tree api', $scope.treeApis);
               });
-              processingModulesSuccessCallback();
+              $scope.processingModulesSuccessCallback();
 
               setCustFunct($scope.apis);
               console.timeEnd('generateNodesToApis');
           }, function(e) {
-              processingModulesErrorCallback(e);
+              $scope.processingModulesErrorCallback(e);
           });
       };
 
@@ -157,7 +211,11 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           $scope.apiToFill = '';
 
           loadApis();
-          designUtils.setDraggablePopups();
+
+          $rootScope.$on('$includeContentLoaded', function() {
+            designUtils.setDraggablePopups();
+          });
+          
       };
 
       $scope.executeOperation = function(operation, callback, reqPath) {
@@ -231,7 +289,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
 
       $scope.showPreview = function() {
           $scope.previewVisible = true;
-          $scope.preview();
+          $scope.buildPreview();
       };
 
       $scope.hidePreview = function() {
@@ -242,15 +300,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           $scope.node.buildRequest(reqBuilder, {});
       };
 
-      $scope.preview = function() {
-          if($scope.node) {
-              $scope.previewValue = $scope.applyMoutPoint(yangUtils.getPathString($scope.selApi.basePath, $scope.selSubApi), 'GET');
-              $scope.previewValue = $scope.previewValue + '\r\n' + yangUtils.getRequestString($scope.node);
-          } else {
-              $scope.previewValue = '';
-          }
-      };
-      
       $scope.changePathInPreview = function() {
           $scope.preview();
       };
@@ -351,6 +400,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       };
 
       $scope.resetMpModule = function(){
+          processingModulesCallback();
           $scope.mountModule = '';
           refreshMpOperations();
           $scope.initMp();
@@ -463,6 +513,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           $scope.node = node;
 
           getMPpathArray(false,null);
+          $scope.processingModulesSuccessCallback();
       };
 
       $scope.expand = function(mountPoint){
@@ -482,12 +533,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
 
       $scope.__test = {
           loadApis: loadApis,
-          processingModulesErrorCallback: processingModulesErrorCallback,
+          processingModulesErrorCallback: $scope.processingModulesErrorCallback,
           requestErrorCallback: requestErrorCallback,
           requestSuccessCallback: requestSuccessCallback,
           requestWorkingCallback: requestWorkingCallback,
           processingModulesCallback: processingModulesCallback,
-          processingModulesSuccessCallback: processingModulesSuccessCallback
+          processingModulesSuccessCallback: $scope.processingModulesSuccessCallback
       };
 
       $scope.loadController();
@@ -513,7 +564,9 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
     $scope.show_history_data = function(req, sended, noData){
 
       if ( !noData ) {
-        req.data = JSON.stringify(sended ? req.sentData : req.receivedData, null, 4);
+        var data = sended ? req.sentData : req.receivedData;
+        data = $scope.stripAngularGarbage(data);
+        req.data = JSON.stringify(data, null, 4);
         req.show = true;
       }
 
@@ -572,6 +625,32 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
   }]);
 
   yangui.register.controller('leafCtrl', function ($scope) {
+    var types = [
+                  'binary', 
+                  'bits', 
+                  'boolean', 
+                  'decimal64', 
+                  'enumeration', 
+                  'empty', 
+                  'identityref', 
+                  'instance-identifier', 
+                  'int16', 
+                  'int32', 
+                  'int64', 
+                  'int8', 
+                  'leafref', 
+                  'string', 
+                  'uint16', 
+                  'uint32', 
+                  'uint64', 
+                  'uint8', 
+                  'union'
+                ];
+
+      $scope.getLeafType = function(){
+        var label = $scope.node.getChildren('type')[0].label;
+        return types.indexOf(label) !== -1 ? label : 'default';
+      };
   });
 
   yangui.register.controller('containerCtrl', function ($scope) {
