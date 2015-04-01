@@ -1,7 +1,7 @@
 <div class="yangVisualizer ">
     <div class="topLine col-md-12">
       {{ 'YANGVISUALIZER_MODEL' | translate }} :
-      <select ng-model="currentTopologyNode" ng-change="updateTopologyData()" ng-options="node.label for node in filteredNodes">
+      <select ng-model="currentTopologyNode" ng-change="updateTopologyData(null, true)" ng-options="node.label for node in filteredNodes | orderBy:'label'">
         <option value="">-</option>
       </select>
     </div>
@@ -31,7 +31,7 @@
           </ul>
         </div>
       </div>
-      <sigma-topology topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
+      <sigma-topology drag-nodes="true" topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
     </div>
 
     <!-- RIGHT PANEL -->
@@ -61,7 +61,7 @@
         </thead>
         <tbody>
           <tr>
-            <td><span class="link" ng-click="zoomToNode(selectedNode.graphId)">{{ selectedNode.id }}</span></td>
+            <td>{{ selectedNode.id }}</td>
             <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
             <td>{{ selectedNode.type }}</td>
             <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
