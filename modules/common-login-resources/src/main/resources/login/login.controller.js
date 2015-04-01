@@ -17,13 +17,13 @@ define(['common/login/login.module', 'common/authentification/auth.services'], f
         $scope.rememberme = true;
 
         $scope.sendLogin = function () {
-            Auth.login($scope.login.username, $scope.login.password, $scope.success, $scope.error);
+            Auth.login($scope.login.username, $scope.login.password, $scope.success, $scope.errorDisplay);
         };
 
         $scope.success = function(response) {
             $window.location.href = 'index.html';
         };
-        $scope.error = function (error) {
+        $scope.errorDisplay = function (error) {
            $scope.error = "Unable to login";
 
         };
