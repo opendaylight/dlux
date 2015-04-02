@@ -59,6 +59,14 @@ define(['common/authentification/auth.module'], function(auth) {
                     cb(data);
                   })
                   .error(function (resp) {
+                    if(resp.errors) {
+                        var errorDetails = resp.errors.error[0];
+                        if(errorDetails && errorDetails["error-tag"] === "data-missing") {
+                            // Authentication succeed, but API does not have data, allow to enter
+                            cb(resp);
+                            return;
+                        }
+                    }
                     factory.unsetBasic();
                     eb(resp);
                   });
