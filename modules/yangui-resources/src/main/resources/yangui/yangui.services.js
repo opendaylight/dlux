@@ -6,4 +6,18 @@ define(['app/yangui/yangui.module'], function(yangui) {
     });
   });
 
+  yangui.register.factory('HistoryServices',['pathUtils', function(pathUtils){
+
+    var hs = {};
+
+    hs.checkPathAvailability = function(data, treeApis, treeRows){
+      data.forEach(function(item){
+        item.availability = pathUtils.searchNodeByPath(item.path, treeApis, treeRows) !== null ? true : false;
+      });
+    };
+
+    return hs;
+
+  }]);
+
 });

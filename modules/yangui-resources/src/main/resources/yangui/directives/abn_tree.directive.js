@@ -4,7 +4,7 @@ define(['app/yangui/yangui.module'], function(yangui) {
     '$timeout', function($timeout) {
       return {
         restrict: 'E',
-        templateUrl: 'src/app/yangui/abn-tree.tpl.html',
+        templateUrl: 'src/app/yangui/views/abn-tree.tpl.html',
         replace: true,
         scope: {
           treeData: '=',

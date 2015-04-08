@@ -36,7 +36,7 @@ define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services'
           abstract: true,
           views : {
             'content' : {
-              templateUrl: 'src/app/yangui/root.tpl.html'
+              templateUrl: 'src/app/yangui/views/root.tpl.html'
             }
           }
       });
@@ -47,7 +47,7 @@ define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services'
           views: {
               '': {
                   controller: 'yanguiCtrl',
-                  templateUrl: 'src/app/yangui/index.tpl.html'
+                  templateUrl: 'src/app/yangui/views/index.tpl.html'
               }
           }
       });

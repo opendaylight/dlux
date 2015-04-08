@@ -25,7 +25,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
                                         'size': 3,
                                         'x': Math.random(),
                                         'y': Math.random(),
-                                        'color': '#ffffff'
+                                        'color': '#464646'
                                     };
                                 });
 
@@ -34,7 +34,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
                                         id: 'e' + link.id,
                                         source: 'n' + link.from,
                                         target: 'n' + link.to,
-                                        color: '#ffffff'
+                                        color: '#464646'
                                     };
                                 });
 

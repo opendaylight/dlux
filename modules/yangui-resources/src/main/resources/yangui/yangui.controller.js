@@ -1,4 +1,4 @@
-define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/abn_tree.directive', 'app/yangui/sticky.directive', 'app/yangui/pluginHandler.services'], function(yangui) {
+define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/directives/abn_tree.directive', 'app/yangui/directives/sticky.directive', 'app/yangui/pluginHandler.services'], function(yangui) {
 
   yangui.register.controller('yanguiCtrl', ['$scope', '$timeout', '$rootScope', '$http', '$filter', 'YangUtilsRestangular', 'yangUtils', 'reqBuilder', 'apiConnector',
     'pluginHandler', 'pathUtils', 'constants', 'nodeWrapper', 'mountPointsConnector', 'filterConstants','displayMountPoints','yinParser', 'designUtils', 'eventDispatcher',
@@ -6,7 +6,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       filterConstants, displayMountPoints, yinParser, designUtils, eventDispatcher) {
       $rootScope['section_logo'] = 'logo_yangui';
 
-      $scope.currentPath = './assets/views/yangui';
+      $scope.currentPath = 'src/app/yangui/views/';
       $scope.apiType = '';
       $scope.constants = constants;
       $scope.filterConstants = filterConstants;
@@ -214,6 +214,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
 
           $rootScope.$on('$includeContentLoaded', function() {
             designUtils.setDraggablePopups();
+            designUtils.getHistoryPopUpWidth();
           });
           
       };
@@ -230,6 +231,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
           requestWorkingCallback();
 
           operation = operation === 'DELETE' ? 'REMOVE' : operation;
+
           YangUtilsRestangular.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, requestData).then(
               function(data) {
                   if(operation === 'REMOVE'){
@@ -323,7 +325,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       };
 
       $scope.fillApi = function(path) {
-        var apiIndexes = pathUtils.searchNodeByPath(path, $scope.treeApis, $scope.treeRows);
+        var apiIndexes = pathUtils.searchNodeByPath(path, $scope.treeApis, $scope.treeRows, true);
 
         if(apiIndexes) {
           $scope.setApiNode(apiIndexes.indexApi, apiIndexes.indexSubApi);
@@ -545,7 +547,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
 
       }]);
 
-  yangui.register.controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils', function ($scope, $rootScope, pathUtils) {
+  yangui.register.controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils','HistoryServices', function ($scope, $rootScope, pathUtils, HistoryServices) {
     
     $scope.popupHistory = { show: false};
     $scope.reqHistoryFunc = function(){
@@ -556,8 +558,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       var rList = JSON.parse(localStorage.getItem('requestList')),
           cList = JSON.parse(localStorage.getItem("collectionList"));
 
+
       $scope.requestList = rList !== null ? rList.list : [];
       $scope.collectionList = cList !== null ? cList.list : [];
+
+      HistoryServices.checkPathAvailability($scope.requestList, $scope.treeApis, $scope.treeRows);
+      HistoryServices.checkPathAvailability($scope.collectionList, $scope.treeApis, $scope.treeRows);
       $scope.requestList.show = false;
     };
 
@@ -586,6 +592,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
         cList.list.push(rList.list[index]);
         localStorage.setItem("collectionList", JSON.stringify(cList));
         $scope.collectionList = cList.list;
+        HistoryServices.checkPathAvailability($scope.collectionList, $scope.treeApis, $scope.treeRows);
       }
     };
 
@@ -847,6 +854,19 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/ab
       $scope.node.fill($scope.node.label, $scope.node.value);
     };
 
+  });
+
+  yangui.register.controller('typeEmptyCtrl', function($scope){
+    $scope.valueChanged = function(){
+      $scope.type.setLeafValue($scope.type.emptyValue);
+
+      if($scope.previewVisible) {
+          $scope.preview();
+      } else {
+          $scope.buildRoot();
+      }
+    };
+    
   });
 
   yangui.register.controller('typeEnumCtrl', function($scope){

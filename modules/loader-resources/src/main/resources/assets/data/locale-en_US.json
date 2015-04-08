@@ -701,6 +701,7 @@
     "YANGUI_HISTORY_SEND_DATA": "sent data",
     "YANGUI_HISTORY_NO_SEND_DATA": "no sent data",
     "YANGUI_HISTORY_ACTION": "ACTION",
+    "YANGUI_API_NOT_AVAILABLE": "API isn't available",
     "YANGUI_DELETE": "delete",
     "YANGUI_CLEAR_HISTORY" : "clear history data",
     "YANGUI_HISTORY_NO_REC_DATA": "no received data",

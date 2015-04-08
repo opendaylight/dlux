@@ -509,25 +509,35 @@ div.mountPoints{
       }
     }
     &.historyPopUp{
-      width: 70%;
-      margin-left: -35%;
+      min-width: 80%;
+      // width: 80%;
+      margin-left: -40%;
       left: 50%;
-      top: 50px;
+      top: 80px;
       min-height: 50px;
       position: absolute;
       z-index: 2;
       .tab-pane{
         .tableWrapper{
           overflow-y: scroll;
+          overflow-x: visible;
           max-height: 500px;
           margin-bottom: 10px;
         }
       }
+
+      td{
+        textarea{
+          width: 100%;
+          min-height: 400px;
+        }
+      }
+
       table{
         color: #fff;
         th{
           &.actions{
-            width: 120px;
+            width: 150px;
           }
         }
       }
@@ -537,6 +547,17 @@ div.mountPoints{
           color: #000;
         }
       }
+
+      td.pre{
+        position: relative;
+        button.close{
+          color: #000;
+          right: 30px;
+          top: 10px;
+        }
+      }
+
+      
     }
   }
 }
@@ -810,7 +831,6 @@ button{
       background: transparent url('@{iconsRootPath}icon-prev.png') no-repeat center top;
     }
     &.iconDanger{
-      width: 10px;
       background: transparent url('@{iconsRootPath}icon-danger.png') no-repeat center top;
       &:hover{
         background-position: 0 0!important;

@@ -201,9 +201,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
         var changeTreeDataNode = function(treeApiNode, treeData, prop, val) {
-            var sel = treeData.filter(function(d) {
-                return d.branch.uid === treeApiNode.uid;
-            });
+            var sel = treeApiNode ? treeData.filter(function(d) {
+                            return d.branch.uid === treeApiNode.uid;
+                        }) : [];
 
             if(sel.length === 1) {
                 sel[0].branch[prop] = val;
@@ -300,7 +300,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         i = i + (1);
                         isMP = true;
                     }else{
-                        i = i + (actElem.identifier ? 2 : 1);
+                        i = i + ( actElem && actElem.identifier ? 2 : 1);
                     }
                 }
 
@@ -460,6 +460,21 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 }
             },
             _setDefaultProperties: function (node) {
+                var fnToString = function (string) {
+                    var valueStr = '';
+
+                    if(string !== null) {
+                        try {
+                            valueStr = string.toString();
+                        } catch (e) {
+                            console.warn('cannot convert value', node.value);
+                        }
+                    }
+
+                    return valueStr;
+                };
+
+                node.leafParent = findLeafParent(node);
                 node.builtInChecks = [];
                 node.errors = [];
                 node.clear = function () {
@@ -514,14 +529,34 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     }
                     return condition;
                 };
+                node.getValue = function(){
+                    if(node.label === 'empty'){
+                        return node.leafParent.value === 'null' || node.leafParent.value === '' ? '' : {};
+                    }else{
+                        return fnToString(node.leafParent.value);
+                    }
+                };
             },
             // string: function (node) {
             // },
             // boolean: function (node) {
             // },
+            empty: function (node) {
+                node.setLeafValue = function (value) {
+                    node.leafParent.value = value === 1 ? {} : '';
+                };
+                
+                node.clear = function () {
+                    node.value = null;
+                };
+
+                node.fill = function (value) {
+                    node.emptyValue = value === '' ? 1 : ($.isEmptyObject(value) ? 1 : 0);
+                    node.leafParent.value = parseInt(node.emptyValue, 10) === 1 ? {} : '';
+                };
+            },
             enumeration: function (node) {
                 node.selEnum = null;
-                node.leafParent = findLeafParent(node);
                 
                 var childNames = [];
                 node.getChildren('enum').forEach(function(child) {
@@ -548,7 +583,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 var actBitsLen = 0,
                     i;
 
-                node.leafParent = findLeafParent(node);
                 node.maxBitsLen = node.getChildren('bit').length;
                 node.bitsValues = [];
 
@@ -794,22 +828,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 
                 var typeChild = node.getChildren('type')[0];
 
-                var fnToString = function (string) {
-                    var valueStr = '';
-                    try {
-                        valueStr = string.toString();
-                    } catch (e) {
-                        console.warn('cannot convert value', node.value);
-                    }
-                    return valueStr;
-                };
-
                 node.buildRequest = function (builder, req) {
-                    var valueStr = '';
-                    valueStr = node.getChildren('type')[0].label !== 'empty' ? fnToString(node.value) : {}; //TODO: move to typeWrapper
+                    var value = typeChild.getValue();
 
-                    if (valueStr) {
-                        builder.insertPropertyToObj(req, node.label, valueStr);
+                    if (value) {
+                        builder.insertPropertyToObj(req, node.label, value);
                         return true;
                     }
 
@@ -838,7 +861,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 };
 
                 node.isFilled = function () {
-                    var filled = fnToString(node.value) ? true : false;
+                    var filled = typeChild.getValue() ? true : false;
                     return filled;
                 };
 
@@ -2923,7 +2946,19 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 containment: "document",
                 cancel: 'pre, input, textarea, span'
             });
-    };
+        };
+
+        d.getHistoryPopUpWidth = function(){
+            var getWidth = function(){
+                return $('.topologyContainer.previewContainer.historyPopUp').width();
+            };
+
+
+            if ( getWidth() !== null ) {
+                console.log('getWidth', getWidth());
+                $('.topologyContainer.previewContainer.historyPopUp').css({'marginLeft':'-'+(getWidth()/2)+'px'});
+            }
+        };
 
         return d;
     });
