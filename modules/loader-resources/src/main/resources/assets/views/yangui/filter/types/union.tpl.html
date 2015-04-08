@@ -1,7 +1,7 @@
 <div class="tabs unionType">
     <ul class="nav nav-tabs">
-        <li class="{{$index === 0 ? 'active' : ''}}" ng-repeat="type in type.getChildren('type') track by $index" ng-click="tabs($event, $index)">
-            <a class="btn btn-gray btn-slim" data-target="{{'#' + type.label + type.id + $index}}" data-toggle="tab"><span>{{type.label}}</span></a>
+        <li class="{{$index === 0 ? 'active' : ''}} btn-like-tab" ng-repeat="type in type.getChildren('type') track by $index" ng-click="tabs($event, $index)">
+            <a data-target="{{'#' + type.label + type.id + $index}}" data-toggle="tab"><span>{{type.label}}</span></a>
         </li>
     </ul>
 

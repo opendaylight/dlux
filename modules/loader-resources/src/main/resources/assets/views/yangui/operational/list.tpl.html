@@ -13,13 +13,13 @@
                 <button class="yangButton iconListBck inlineBlock iconFilterOver" ng-click="showModalWin()"></button>
                 <div class="leaf ng-scope">
                     <span class="leaf-label list-title">{{ 'YANGUI_LIST_OF_NODES' | translate }}</span>
-                    <button class="close" ng-click="showModalWin()">&times;</button>
+                    <button class="yangButton icon-remove close" ng-click="showModalWin()"></button>
                 </div>
                 <div class="listWrapper">
                     <ul>
                         <li ng-repeat="_ in node.listData" class="pl30">
                             <button class="yangButton iconView" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1"></button>
-                            <button class="btn btn-gray {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                            <button class="btn btn-like-tab {{ (node.actElemIndex === $index ? 'btn-selected':'') }} {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }}" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
                                 {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{node.createListName($index)}}
                             </button>
                         </li>

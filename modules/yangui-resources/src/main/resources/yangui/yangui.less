@@ -121,6 +121,11 @@ INPUT.leaf-input{
 .form-inline select.form-control.adv-fil-sel{
   width:80px;
   height: 34px;
+
+  background-color: #58595B;
+  color: white;
+  border: 2px solid #ebecec;
+  border-radius: 0px;
 }
 
 
@@ -215,17 +220,33 @@ INPUT.leaf-input{
 
 
 /* --------------------------------------------------------------------------------- YANG UI */
-.btn-gray{
+.btn-primary{
+  border: none;
   font-weight: bold;
   background: #ebecec;
   .transition(100ms);
+  color: buttontext;
+
   &:hover{
-    background: #ffa500;
+    background: orange;
+    color: buttontext;
   }
+
   &.btn-selected{
     background: #ffa500;
   }
+
+  &.disabled {
+    background: #ebecec;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.65;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
 }
+
 .leaflist{
     .leafListValue{
         margin-top: 5px;
@@ -532,11 +553,16 @@ div.mountPoints{
   right: 50px;
   z-index: 2;
   overflow: hidden;
+
   button.close{
     position: absolute;
     top: 5px;
     right: 5px;
     color: #C4C4C4;
+  }
+
+  i.icon-refresh {
+    color: white;
   }
 }
 
@@ -623,13 +649,7 @@ div.mountPoints{
       margin-right: 0;
     }
 
-    .btn-like-tab{
-      line-height: 1em;
-      outline: 0 none;
-      padding: 0 5px;
-      margin: 0;
-      height: 23px;
-    }
+
 
     .iconClose, .iconDanger{
       padding: 0;
@@ -866,5 +886,26 @@ button{
       max-height: 100%;
       height: 100%;
     }
+  }
+}
+
+button.btn-like-tab{
+  line-height: 1em;
+  outline: 0 none;
+  height: 26px;
+  margin: 0;
+  border: none;
+  font-weight: bold;
+  background: #ebecec;
+  .transition(100ms);
+  color: buttontext;
+
+  &:hover{
+    background: orange;
+    color: buttontext;
+  }
+
+  &.btn-selected{
+    background: #ffa500;
   }
 }

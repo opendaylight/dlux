@@ -1,12 +1,13 @@
 <div>
   <br>
 
-  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b>
+  <alert type="{{status.type}}" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b>
       <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
   </alert>
 
   <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup'>
-    <button class="yangButton iconClose close" ng-click="hidePreview()"></button>
+    <label class="classic">Preview: </label>
+    <button class="yangButton icon-remove close" ng-click="hidePreview()"></button>
     <div class="previewWrapper">
       <pre>{{previewValue.length ? previewValue : 'YANGUI_NO_DATA' | translate}}</pre>
     </div>
@@ -19,9 +20,9 @@
   </div> -->
   <div ng-show="selCustFunct && selCustFunct.viewStr" class="draggablePopup" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
     <div class="alertInner" ng-show="status.isWorking">
-      <i class="icon-refresh icon-spin ng-scope"></i><span>{{ 'OF_LOADING_DATA' | translate }}</span>
+      <i class="icon-refresh icon-spin ng-scope"></i><span>{{ 'YANGUI_LOADING_DATA' | translate }}</span>
     </div> 
-    <button class="yangButton iconClose close" ng-click="unsetCustomFunctionality()"></button>
+    <button class="yangButton icon-remove close" ng-click="unsetCustomFunctionality()"></button>
     <div ng-include src="selCustFunct.viewStr"></div>
   </div>
 
@@ -56,7 +57,7 @@
                   {{ 'YANGUI_SET_CUSTOM_API' | translate }}
               </button>
               <div ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup'>
-                  <button class="yangButton iconClose close" ng-click="close_popup(popupData)"></button>
+                  <button class="yangButton icon-remove close" ng-click="close_popup(popupData)"></button>
                   <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
                   <input class="leaf-input form-control input-small" type="text" ng-model="apiToFill">
                   <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>

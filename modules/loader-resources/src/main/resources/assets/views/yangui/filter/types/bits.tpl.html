@@ -15,6 +15,6 @@
         <input class="leaf-input form-control input-small adv-fil-range" type="text" ng-model="node.filterRangeFrom" placeholder="From" ng-show="node.filterType === 'range'"></input>
         <input class="leaf-input form-control input-small adv-fil-range" type="text" ng-model="node.filterRangeTo" placeholder="To" ng-show="node.filterType === 'range'"></input>
 
-        <select class="form-control input-sm adv-fil-sel" ng-model="node.filterType" ng-options="value as value for value in filterConstants.ADVANCED_FILTERING_TYPES.number"></select>
+        <select class="form-control input-sm adv-fil-sel" ng-model="node.filterType" ng-options="value as value for value in filterConstants.ADVANCED_FILTERING_TYPES.string"></select>
     </div>
 </div>
