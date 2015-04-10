@@ -8,9 +8,9 @@
   div.rightPanel{
     background: #000;
     position: absolute;
-    min-height: calc(~'100% - 55px');
+    min-height: calc(~'100% - 100px');
     padding-top: 20px;
-    top: 55px;
+    top: 100px;
     border-left: 1px solid #7e8083;
     &.panel-show{
       right: 0;
@@ -72,6 +72,7 @@
     border-bottom: 1px solid #7e8083;
     line-height: 44px;
     padding-top: 10px;
+    min-height: 100%;
     select{
       background: transparent;
       color: #f4f3f5;
@@ -164,6 +165,30 @@
         padding: 10px;
       }
     }
+  }
+
+  .jslider_round.sliderCSS.jslider{
+    .jslider-pointer{
+      border: 1px solid #88838A;
+      -webkit-box-shadow:inset 0 0 1px 1px #88838A;
+      box-shadow:inset 0 0 1px 1px #88838A;
+    }
+
+    .jslider-value{
+      span{
+        color: buttontext; 
+      }
+      color: buttontext;
+    }
+
+    .jslider-label{
+      color: #fff;
+      .opacityDeph(1);
+    }
+  }
+
+  .slider{
+    padding-top: 15px;
   }
 }
 

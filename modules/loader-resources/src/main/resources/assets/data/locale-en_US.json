@@ -671,6 +671,7 @@
     "PROCESSING_NODES_SUCCESS": "Loading completed successfully",
     "PROCESSING_NODES_ERROR": "Error in loading nodes... ",
     "YANGVISUALIZER_MODEL": "Model",
+    "YANGVISUALIZER_SET_LVL": "Model depth from top",
     "YANGVISUALIZER_SHOW_NODES": "show all nodes",
     "YANGVISUALIZER_HIDE_NODES": "hide nodes",
     "YANGVISUALIZER_LABEL_VIEW": "View",
