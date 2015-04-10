@@ -25,7 +25,8 @@ require.config({
     'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
-    'graphRenderer' : '../assets/js/graphRenderer'
+    'graphRenderer' : '../assets/js/graphRenderer',
+    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
   },
 
   shim : {
@@ -59,7 +60,8 @@ require.config({
     'sigma-parsers-gexf' : ['sigma'],
     'sigma-forceAtlas2' : ['sigma'],
     'sigma-dragNodes' : ['sigma'],
-    'sigma-customShapes' : ['sigma']
+    'sigma-customShapes' : ['sigma'],
+    'ngSlider' : ['angular'],
   },
 
   deps : ['app/app.module']

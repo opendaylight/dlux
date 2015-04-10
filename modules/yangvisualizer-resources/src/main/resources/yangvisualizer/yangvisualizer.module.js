@@ -4,12 +4,13 @@ var modules = [
   'common/yangutils/yangutils.services',
   'ui-bootstrap', 
   'Restangular', 
-  'angular-translate'
+  'angular-translate',
+  'ngSlider'
 ];
 
 define(modules, function() {
 
-  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate']);
+  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngSlider']);
 
   yangvisualizer.register = yangvisualizer;
 
@@ -45,7 +46,7 @@ define(modules, function() {
           abstract: true,
           views : {
             'content' : {
-              templateUrl: 'src/app/yangvisualizer/root.tpl.html'
+              templateUrl: 'src/app/yangvisualizer/views/root.tpl.html'
             }
           }
       });
@@ -56,7 +57,7 @@ define(modules, function() {
           views: {
               '': {
                   controller: 'yangvisualizerCtrl',
-                  templateUrl: 'src/app/yangvisualizer/index.tpl.html'
+                  templateUrl: 'src/app/yangvisualizer/views/index.tpl.html'
               }
           }
       });

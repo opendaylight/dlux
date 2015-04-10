@@ -92,6 +92,7 @@ module.exports = {
       'vendor/footable/dist/footable.sort.min.js',
       'vendor/angular-translate/angular-translate.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
+      'vendor/ng-slider/dist/ng-slider.min.js',
       'vendor/sigma/sigma.min.js',
       'vendor/sigma/plugins/sigma.parsers.gexf.min.js',
       'vendor/sigma/plugins/sigma.layout.forceAtlas2.min.js',
@@ -105,7 +106,8 @@ module.exports = {
     'vendor/select2-bootstrap-css/select2-bootstrap.css',
     'vendor/footable/css/footable.core.min.css',
     'vendor/footable/css/footable.standalone.min.css',
-    'vendor/vis/dist/vis.min.css'
+    'vendor/vis/dist/vis.min.css',
+    'vendor/ng-slider/dist/css/ng-slider.min.css'
 
     ],
     images: [
