@@ -1,11 +1,13 @@
 <div>
   <br>
 
-  <alert type="status.type" ng-show="status.msg" close="dismissStatus()"><i ng-show="status.isWorking" class="icon-refresh icon-spin"></i><b> {{status.msg | translate }}</b>
-      <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
+  <alert type='status.type' ng-show="status.msg" close="dismissStatus()">
+    <i ng-show="status.isWorking" class="icon-refresh icon-spin"></i>
+    <b> {{status.msg | translate }}</b>
+    <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
   </alert>
 
-  <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup'>
+  <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup resizable' style='min-width:204px; min-height:97px;'>
     <label class="classic">Preview: </label>
     <button class="yangButton icon-remove close" ng-click="hidePreview()"></button>
     <div class="previewWrapper">
@@ -18,12 +20,12 @@
     <button class="close" ng-click="clearTopologyData()">&times;</button>
     <topology-simple topology-data="topologyData"></topology-simple>
   </div> -->
-  <div ng-show="selCustFunct && selCustFunct.viewStr" class="draggablePopup" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
+  <div ng-show="selCustFunct && selCustFunct.viewStr" class="draggablePopup resizable" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
     <div class="alertInner" ng-show="status.isWorking">
       <i class="icon-refresh icon-spin ng-scope"></i><span>{{ 'YANGUI_LOADING_DATA' | translate }}</span>
     </div> 
     <button class="yangButton icon-remove close" ng-click="unsetCustomFunctionality()"></button>
-    <div ng-include src="selCustFunct.viewStr"></div>
+    <div ng-include src="selCustFunct.viewStr" class="mountPointsWrapper"></div>
   </div>
 
   <div class="simpleContainer">
@@ -56,13 +58,15 @@
               <button class="btn btn-default ng-scope btn-slim" ng-click='show_add_data_popup()'>
                   {{ 'YANGUI_SET_CUSTOM_API' | translate }}
               </button>
-              <div ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup'>
+              <div id="customApi" ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup resizable' style="min-height: 322px;">
                   <button class="yangButton icon-remove close" ng-click="close_popup(popupData)"></button>
-                  <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
-                  <input class="leaf-input form-control input-small" type="text" ng-model="apiToFill">
-                  <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>
+                  <div>
+                    <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
+                    <input class="leaf-input form-control input-small" type="text" ng-model="apiToFill">
+                    <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>
+                  </div>
                   <textarea ng-model="dataToFill" ></textarea>
-                  <button class="btn btn-default ng-scope btn-slim" ng-click='fillApiAndData(apiToFill, dataToFill)'>
+                  <button class="btn btn-default ng-scope btn-slim" ng-click='fillApiAndData(apiToFill, dataToFill)' style="position: absolute; bottom: 20px;">
                     <i class="icon-upload-alt "></i>
                     {{ 'YANGUI_PUSH_CONFIG' | translate }}
                   </button>

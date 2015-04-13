@@ -20,4 +20,27 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
   }]);
 
+  yangui.register.factory('customFunctUnsetter',[function(pathUtils){
+
+    var cfu = {};
+
+    cfu['YANGUI_CUST_MOUNT_POINTS'] = function(scope){
+        scope.refreshSelSubApiPathArray(scope.selSubApi);
+        scope.setApiNode(scope.apis.indexOf(scope.selApi),scope.selApi.subApis.indexOf(scope.selSubApi), true);
+        scope.mountModule = '';
+        scope.selSubApi.operations = scope.mountBckOperations;
+        scope.mpDatastore = null;
+    };
+
+    cfu.unset = function(custFunct, scope) {
+        if(cfu.hasOwnProperty(custFunct.label)) {
+            cfu[custFunct.label](scope);
+        }
+    };
+
+    return cfu;
+
+  }]);
+
+
 });
