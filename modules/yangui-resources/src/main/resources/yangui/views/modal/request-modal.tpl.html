@@ -2,7 +2,7 @@
     {{ 'YANGUI_SHOW_HISTORY' | translate }}
 </button>
 <div class="popUpWrapperFix" ng-show="popupHistory.show">
-    <div class='topologyContainer previewContainer historyPopUp draggablePopup' ng-show="popupHistory.show">
+    <div class='topologyContainer previewContainer historyPopUp draggablePopup resizable' ng-show="popupHistory.show">
         <button class="yangButton icon-remove close" ng-click="close_popup(popupHistory)"></button>
         <div class="tabs">
             <ul class="nav nav-tabs">
@@ -56,7 +56,7 @@
                             </tr>
                             <tr ng-show="req.show">
                                 <td colspan="6" class="pre">
-                                    <button class="close" ng-click="close_popup(req)">&times;</button>
+                                    <button class="yangButton icon-remove close" ng-click="close_popup(req)"></button>
                                     <textarea disabled>
                                         {{ req.data }}
                                     </textarea>
@@ -124,4 +124,3 @@
         </div>
     </div>
 </div>
-<div class="overlay" ng-show="popupHistory.show"></div>

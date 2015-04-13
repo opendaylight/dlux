@@ -43,7 +43,7 @@
     </button> -->
 
     <div ng-if="node.actElemStructure" ng-show="node.expanded">
-        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY)" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts" ng-include="currentPath+'/'+node.type+'.tpl.html'">
             <div class="clear"></div>
         </div>
     </div>
