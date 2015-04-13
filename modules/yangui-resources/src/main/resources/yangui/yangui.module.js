@@ -4,7 +4,7 @@ define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services'
 
   yangui.register = yangui;
 
-  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
+  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider, $translateProvider, NavHelperProvider) {
 
     $translateProvider.useStaticFilesLoader({
       prefix: 'assets/data/locale-',
@@ -15,6 +15,7 @@ define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services'
       directive : $compileProvider.directive,
       controller : $controllerProvider.register,
       factory : $provide.factory,
+      filter: $filterProvider.register,
       service : $provide.service
     };
 

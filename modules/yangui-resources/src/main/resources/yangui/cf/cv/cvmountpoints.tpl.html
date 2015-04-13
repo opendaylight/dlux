@@ -1,11 +1,14 @@
 <div ng-show="mountPointsStructure.length > 0" class="mountPoints">
     <span class="leaf-label list-title" ng-click="resetMpModule()">{{ 'YANGUI_MOUNT_POINT' | translate }}</span>
 
+    <input type="radio" ng-model="mpDatastore" value="config" ng-click="changeMpDatastore('config')">{{ 'config' }}
+    <input type="radio" ng-model="mpDatastore" value="operational" ng-click="changeMpDatastore('operational')">{{ 'operational' }}<br/>
+
     <div class="mpInner">
         <div class="mpApi" ng-repeat="mountPoint in mountPointsStructure">
             <a class="mpApiLink" ng-click="expand(mountPoint)">
                 <i class="icon-plus" ng-class="mountPoint.expanded ? 'icon-minus' : 'icon-plus'"></i>
-                <span>{{mountPoint.module}}</span>
+                <span>{{mountPoint.module  + ' rev.' + mountPoint.revision}}</span>
             </a>
 
             <div class="mpSubApi" ng-show="mountPoint.expanded" ng-repeat="ch in mountPoint.children track by $index">

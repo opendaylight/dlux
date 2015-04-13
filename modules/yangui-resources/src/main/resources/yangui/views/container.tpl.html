@@ -9,7 +9,7 @@
     </div>
 
     <div ng-show="node.expanded">
-        <div ng-repeat="node in node.getChildren(null,null,constants.NODE_UI_DISPLAY)" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+        <div ng-repeat="node in node.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts" ng-include="currentPath+'/'+node.type+'.tpl.html'">
     </div>
     
     <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>

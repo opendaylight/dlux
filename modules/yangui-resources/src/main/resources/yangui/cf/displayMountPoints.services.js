@@ -2,6 +2,8 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
 
     yangui.register.factory('displayMountPoints', function(mountPointsConnector, $timeout) {
 
+        var loadId = 0;
+
         var fnc = function($scope) {
             var getNodesMPData = function(data) {
                     var node = data.node[0];
@@ -16,7 +18,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                         mpNodes.forEach(function(mpNode){
                             var ind = null;
                             var mpPresent = mountPointsStructure.some(function(el,index){
-                                var res = el.module === mpNode.module + ' rev.' + mpNode.moduleRevision;
+                                var res = el.module === mpNode.module && el.revision === mpNode.moduleRevision;
                                 if(res){
                                     ind = index;
                                 }
@@ -26,7 +28,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                             if(mpPresent){
                                 mountPointsStructure[ind].children.push(mpNode);
                             }else{
-                                mountPointsStructure.push({module : mpNode.module + ' rev.' + mpNode.moduleRevision, expanded : false, children:[mpNode]});
+                                mountPointsStructure.push({module : mpNode.module, revision: mpNode.moduleRevision, expanded : false, children:[mpNode]});
                             }
                         });
 
@@ -41,17 +43,21 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                             $scope.unsetCustomFunctionality();
                         },100);
                     }
-                };
 
-                $scope.mountPointsStructure = [];
-                var path = mountPointsConnector.getMpPath($scope.selSubApi);
-                mountPointsConnector.discoverMountPoints(path, getNodesMPData, createMPStructure);
+                    $scope.mpSynchronizer.removeRequest(reqId);
+                },
+                reqId = $scope.mpSynchronizer.spawnRequest(loadId++);
+
+            $scope.mountPointsStructure = [];
+            var path = mountPointsConnector.getMpPath($scope.selSubApi);
+            mountPointsConnector.discoverMountPoints(path, getNodesMPData, createMPStructure);
         };
 
         return {
-            module: ['network-topology','opendaylight-inventory'],
+            module: ['network-topology','opendaylight-inventory','network-topology','opendaylight-inventory'],
             revision: null,
-            pathString: ['/config/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','/config/opendaylight-inventory:nodes/node/{id}/'],
+            pathString: ['/config/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','/config/opendaylight-inventory:nodes/node/{id}/',
+                         '/operational/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','/operational/opendaylight-inventory:nodes/node/{id}/'],
             label: 'YANGUI_CUST_MOUNT_POINTS',
             getCallback: fnc,
             view: './src/app/yangui/cf/cv/cvmountpoints.tpl.html'
