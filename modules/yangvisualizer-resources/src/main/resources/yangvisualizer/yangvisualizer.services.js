@@ -177,8 +177,31 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
             getChildrenArray(parentNode);
             return childrenArray;
             
+        },
+        getNodeById = function(nodes, id){
+            var node = nodes.filter(function(item){
+                    return item.id === id;
+                });
+
+            return node.length ? node[0] : null;
         };
-        
+
+
+    visualizerUtils.getMaxNodeLvl = function(node){
+        var maxLvl = 0,
+            getLvl = function(node, lvl){
+            if ( node.children.length > 0 ) {
+                lvl++;
+                maxLvl = maxLvl > lvl ? maxLvl : lvl;
+                node.children.forEach(function(child){
+                    getLvl(child, lvl);
+                });
+            }
+        };
+
+        getLvl(node, 0);
+        return maxLvl;
+    };
 
     visualizerUtils.getTopologyData = function(node, lts, newModel, fromLvl){
         var topologyData = [],
@@ -245,6 +268,24 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
         lastEdgesId = topologyLinkId;
 
         return { nodes: nodeArray, links: linkArray };
+    };
+
+    visualizerUtils.setDefaultSigmaValues = function(sigmaInstance, lastSelectedNode){
+        var lsn = getNodeById(sigmaInstance.graph.nodes(), lastSelectedNode.id);
+            
+
+        if ( edgesToClear ){
+            var parentsEdgesArray = [],
+                childEdges = getAllEdgesByNodeId(sigmaInstance.graph.edges(),edgesToClear.node.id),
+                nodeToClear = getNodeById(sigmaInstance.graph.nodes(), edgesToClear.node.id);
+
+            findParentByChildId(sigmaInstance.graph.edges(), edgesToClear.node.id, parentsEdgesArray);
+
+            edgesToClear.node = nodeToClear ? nodeToClear : edgesToClear.node;
+            edgesToClear.edges = childEdges.concat(parentsEdgesArray);
+        }
+
+        return lsn ? lsn : lastSelectedNode;
     };
 
     visualizerUtils.updateSelectedEdgesColors = function(edges, node){
@@ -361,6 +402,27 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
         return dvf;
 
+    });
+
+    yangvisualizer.register.factory('yvConstants', function(){
+        var yvc = {};
+
+        yvc.sliderSettings = {
+                                from: 1,
+                                to: 10,
+                                step: 1,
+                                dimension: ' lvl',
+                                vertical: false,
+                                css: {
+                                    background: {'background-color': '#fff'},
+                                    before: {'background-color': '#f6a000'},
+                                    default: {'background-color': 'white'},
+                                    after: {'background-color': '#f6a000'},
+                                    pointer: {'background-color': '#fff'}
+                                }
+                            };
+
+        return yvc;
     });
 
 });

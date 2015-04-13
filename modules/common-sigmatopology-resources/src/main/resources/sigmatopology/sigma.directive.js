@@ -21,6 +21,7 @@ define(modules, function(topologyModule) {
           dragNodes: '=dragNodes',
           settings: '=settingsSigma',
           settingsAtlas: '=settingsAtlas',
+          triggerResizeSigma: '=triggerResizeSigma'
       },
       templateUrl: 'src/common/sigmatopology/sigma.tpl.html',
       link: function($scope, iElm, iAttrs, controller) {
@@ -61,6 +62,12 @@ define(modules, function(topologyModule) {
 
 
               return x;
+            },
+            Sigma = sigma,
+            defaulSettings = {
+              defaultLabelColor: '#fff',
+              doubleClickEnabled: false,
+              labelThreshold: 8
             };
 
           $scope.$watch('topologyData', function (ntdata) {
@@ -70,24 +77,12 @@ define(modules, function(topologyModule) {
               if ( sigmaIstance !== null ) {
                 sigmaIstance.kill();
               }
-              var configSigma = {
-                autoResize : false,
-                zoomMax: 5,
-                labelThreshold: 0
-              },
-              timeToStopAtlas;
+              var timeToStopAtlas;
 
               // Instantiate sigma:
               sigma.renderers.def = sigma.renderers.canvas;
 
-              var Sigma = sigma,
-                  defaulSettings = {
-                    defaultLabelColor: '#fff',
-                    doubleClickEnabled: false,
-                    labelThreshold: 8
-                  };
-
-              console.info('sigma topology data', ntdata, $scope.topologyData);
+              // console.info('sigma topology data', ntdata, $scope.topologyData);
               sigmaIstance = new Sigma({
                 graph: {
                   nodes: $scope.topologyData.nodes ? $scope.topologyData.nodes : [],
@@ -127,6 +122,49 @@ define(modules, function(topologyModule) {
               }
 
             }
+          });
+
+          $scope.$watch('triggerResizeSigma', function () {
+
+              var topoData = {
+                    nodes: [],
+                    links: []
+                  };
+
+              if ( sigmaIstance !== null ) {
+                topoData.nodes = sigmaIstance.graph.nodes();
+                topoData.links = sigmaIstance.graph.edges();
+                sigmaIstance.kill();
+              }
+
+              // Instantiate sigma:
+              sigma.renderers.def = sigma.renderers.canvas;
+
+              sigmaIstance = new Sigma({
+                graph: {
+                  nodes: topoData ? topoData.nodes : [],
+                  edges: topoData ? topoData.links : []
+                },
+                container: 'graph-container',
+                settings: $scope.settings ? $scope.settings : defaulSettings
+              });
+
+              if ( $scope.customShapes ) {
+                CustomShapes.init(sigmaIstance);
+                sigmaIstance.refresh();
+              }
+
+              var dragListener = null;
+
+              if ( $scope.dragNodes ) {
+                dragListener = Sigma.plugins.dragNodes(sigmaIstance, sigmaIstance.renderers[0]);
+              }
+
+              if ( $scope.topologyCustfunc && angular.isFunction($scope.topologyCustfunc) ) {
+                var resize = true;
+                $scope.topologyCustfunc(sigmaIstance, getSlowDownNum, dragListener, resize);
+              }
+
           });
 
       }

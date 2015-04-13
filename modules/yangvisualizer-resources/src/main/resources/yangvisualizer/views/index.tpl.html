@@ -1,11 +1,25 @@
 <div class="yangVisualizer ">
     <div class="topLine col-md-12">
-      {{ 'YANGVISUALIZER_MODEL' | translate }} :
-      <select ng-model="currentTopologyNode" ng-change="updateTopologyData(null, true)" ng-options="node.label for node in filteredNodes | orderBy:'label'">
-        <option value="">-</option>
-      </select>
+      <div class="clearfix">
+        <div class="col-md-2">{{ 'YANGVISUALIZER_MODEL' | translate }} :</div>
+        <div class="col-md-4">
+          <select ng-model="currentTopologyNode" ng-change="updateTopologyData(null, true)" ng-options="node.label for node in filteredNodes | orderBy:'label'">
+            <option value="">-</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="col-md-2">{{ 'YANGVISUALIZER_SET_LVL' | translate }} :</div>
+        <div class="col-md-4 slider">
+          <input ng-model="sliderValue" type="text" id="mySlider1" slider ng-change="updateTopologyData(null)" options="sliderSettings" />
+        </div>
+      </div>
+
+
+
     </div>
-    <div class="col-md-12 sigma">
+    <div class="sigma col-md-12">
       <div class="viewNav">
         <ul class="navWrapper">
           <li>{{ 'YANGVISUALIZER_LABEL_VIEW' | translate }} : </li>
@@ -31,19 +45,19 @@
           </ul>
         </div>
       </div>
-      <sigma-topology drag-nodes="true" topology-data="topologyData" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
+      <sigma-topology drag-nodes="true" topology-data="topologyData" trigger-resize-sigma="triggerResizeSigma" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
     </div>
 
     <!-- RIGHT PANEL -->
     <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">
       <div class="topButtons">
         <div style="position: absolute; right: 40px;">
-          <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
+          <!-- <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
             {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
-          </button>
+          </button> -->
         </div>
         <div style="position: absolute; right: 10px;">
-          <button class="btn btn-show add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="show/hide panel" ng-click='triggerExpanded(panel, true)'>
+          <button class="btn btn-show add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="show/hide panel" ng-click='triggerExpanded(panel, triggerResize)'>
               <i class="icon-caret-right" ng-show="panel.show"></i>
               <i class="icon-caret-left" ng-show="!panel.show"></i>
           </button>
