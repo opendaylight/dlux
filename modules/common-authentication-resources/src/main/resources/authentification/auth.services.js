@@ -54,7 +54,7 @@ define(['common/authentification/auth.module'], function(auth) {
           };*/
           factory.login = function (user, pw, cb, eb) {
               factory.setBasic(user, pw);
-              $http.get(ENV.getBaseURL("MD_SAL") + "/restconf/operational/network-topology:network-topology")
+              $http.get(ENV.getBaseURL("MD_SAL") + "/restconf/config/config:modules")
                   .success(function (data, status, headers, config) {
                     cb(data);
                   })
