@@ -1,5 +1,5 @@
 .topologyContainer {
-    position: absolute!important;
+    position: fixed !important;
     width: 800px;
     height: 500px;
     top: 150px;
@@ -46,6 +46,11 @@
     padding-top: 6px;
     button.iconQuestion{
       margin-top: -2px;
+    }
+
+    i.icon-key {
+      font-size: 1.3em;
+      padding-left:  5px;
     }
 }
 
@@ -317,8 +322,6 @@ label.classic{
   position: relative;
   .dataPopup{
     position: absolute;
-    left: 110%;
-    top: 0;
     right: auto;
   }
 }
@@ -339,9 +342,9 @@ div.overlay{
 
 div.popUpWrapperFix{
   position: fixed;
-  width: calc(~"100% - 250px");
+  //width: calc(~"100% - 250px");
   height: 100%;
-  margin-left: 250px;
+  //margin-left: 250px;
   z-index: 2;
   top: 0;
   left: 0;
@@ -353,13 +356,14 @@ div.requestActions{
 
 div.mountPoints{
   color: #FFFFFF !important;
+  height: 100%;
   .leaf-label{
     cursor:pointer;
   }
   .mpInner{
     overflow-y: scroll;
     margin-top: 20px;
-    max-height: 300px;
+    height: 100%;
     margin-bottom: 20px;
     .mpApi{
       padding-right: 10px;
@@ -483,12 +487,16 @@ div.mountPoints{
     width: auto;
     height: auto;
     .previewWrapper{
-      max-height: 500px;
       overflow-y: scroll;
+      min-height: 30px;
+      min-width: 162px;
+      height: calc(~"100% - 25px");
+
       pre{
         -webkit-border-radius: 0;
         border-radius: 0;
         margin: 0;
+        height:100%;
       }
     }
     .restUrl{
@@ -503,6 +511,8 @@ div.mountPoints{
         width: 100%;
         min-height: 150px;
         margin: 0px 0 10px;
+        resize: none;
+        height: calc(~"100% - 130px");
       }
       input{
         margin: 0px 0 10px;
@@ -517,12 +527,24 @@ div.mountPoints{
       min-height: 50px;
       position: absolute;
       z-index: 2;
-      .tab-pane{
-        .tableWrapper{
-          overflow-y: scroll;
-          overflow-x: visible;
-          max-height: 500px;
-          margin-bottom: 10px;
+
+      .tabs {
+        height: calc(~"100% - 40px");
+
+        .tab-content {
+          height: 100%;
+
+          .tab-pane{
+            height: 100%;
+
+            .tableWrapper{
+              overflow-y: scroll;
+              overflow-x: visible;
+              //max-height: 500px;
+              margin-bottom: 10px;
+              height: calc(~"100% - 40px");
+            }
+          }
         }
       }
 
@@ -567,13 +589,15 @@ div.mountPoints{
   border: 1px solid #7a7a7a;
   border-radius: 5px;
   padding: 20px;
-  position: fixed!important;
-  width: 800px;
-  max-height: 400px;
+  position: fixed;
+  width: 430px;
+  height: 215px;
+  min-height: 215px;
+  min-width: 430px;
   top: 150px;
-  right: 50px;
+  left: calc(~"100% - 700px");
   z-index: 2;
-  overflow: hidden;
+  //overflow: hidden;
 
   button.close{
     position: absolute;
@@ -862,15 +886,20 @@ button{
     li{
       margin: 0 2px;
       &.active{
-        a{
-          background: #ffa500!important;
+        a {
+          background: orange!important;
+        }
+      }
+      &:hover{
+        a {
+          background: orange!important;
         }
       }
       a{
         .roundedCorners(4px);
         border: 0;
         padding-top: 2px;
-        padding-bottom: 2px;
+        //padding-bottom: 2px;
         span{
           color: #000!important;
         }
@@ -925,7 +954,61 @@ button.btn-like-tab{
     color: buttontext;
   }
 
+  &.active {
+    background: orange;
+  }
+
   &.btn-selected{
     background: #ffa500;
   }
+}
+
+li.btn-like-tab{
+  line-height: 1em;
+  outline: 0 none;
+  height: 26px;
+  margin: 0;
+  border: none;
+  font-weight: bold;
+  background: #ebecec;
+  .transition(100ms);
+  color: buttontext;
+  border-radius: 4px;
+
+  &:hover{
+    background-color: orange;
+    color: buttontext;
+  }
+
+  &.active {
+    background: orange;
+  }
+
+  &.btn-selected{
+    background: #ffa500;
+  }
+}
+
+
+
+.ui-resizable-handle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  background: transparent url('images/resize_handle.gif') no-repeat;
+  cursor: se-resize;
+}
+
+.ui-resizable-se {
+  right: 5px;
+  bottom: 5px;
+}
+
+.mountPointsWrapper {
+  height: calc(~"100% - 45px");
+}
+
+#customApi {
+  top: 160px;
+  left: calc(~"100% - 850px");
 }

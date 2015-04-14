@@ -404,6 +404,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             }
         };
 
+        custFunct.getMPCustFunctionality = function(funcList) {
+            var mpCF = funcList.filter(function(cf) {
+                return cf.label === 'YANGUI_CUST_MOUNT_POINTS';
+            });
+
+            return mpCF[0];
+        };
+
         return custFunct;
     });
 
@@ -530,11 +538,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     return condition;
                 };
                 node.getValue = function(){
-                    if(node.label === 'empty'){
-                        return node.leafParent.value === 'null' || node.leafParent.value === '' ? '' : {};
-                    }else{
-                        return fnToString(node.leafParent.value);
-                    }
+                    return fnToString(node.leafParent.value);
                 };
             },
             // string: function (node) {
@@ -553,6 +557,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 node.fill = function (value) {
                     node.emptyValue = value === '' ? 1 : ($.isEmptyObject(value) ? 1 : 0);
                     node.leafParent.value = parseInt(node.emptyValue, 10) === 1 ? {} : '';
+                };
+
+                node.getValue = function(){
+                    return parseInt(node.emptyValue, 10) === 1 ? {} : '';
                 };
             },
             enumeration: function (node) {
@@ -636,8 +644,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             // leafref: function (node) {
             // },
             // identityref: function (node) {
-            // },
-            // empty: function (node) {
             // },
             union: function (node) {
                 node.clear = function () {
@@ -825,11 +831,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             leaf: function (node) {
                 node.value = '';
                 node.valueIsValid = true;
-                
-                var typeChild = node.getChildren('type')[0];
+                node.typeChild = node.getChildren('type')[0];
 
                 node.buildRequest = function (builder, req) {
-                    var value = typeChild.getValue();
+                    var value = node.typeChild.getValue();
 
                     if (value) {
                         builder.insertPropertyToObj(req, node.label, value);
@@ -845,8 +850,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     match = comparePropToElemByName(name, node.label);
                     if (match) {
                         node.value = data.toString();
-                        if (typeChild) {
-                            typeChild.fill(node.value);
+                        if (node.typeChild) {
+                            node.typeChild.fill(node.value);
                         }
                     }
                     return match;
@@ -855,18 +860,22 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 node.clear = function () {
                     node.value = '';
 
-                    if (typeChild) {
-                        typeChild.clear();
+                    if (node.typeChild) {
+                        node.typeChild.clear();
                     }
                 };
 
                 node.isFilled = function () {
-                    var filled = typeChild.getValue() ? true : false;
+                    var filled = node.typeChild.getValue() ? true : false;
                     return filled;
                 };
 
                 node.checkValueType = function () {
-                    node.valueIsValid = typeChild ? typeChild.check(node.value) : true;
+                    node.valueIsValid = node.typeChild ? node.typeChild.check(node.value) : true;
+                };
+
+                node.isKey = function() {
+                    return node.parent.type === 'list' && node.parent.refKey && node.parent.refKey.indexOf(node) !== -1;
                 };
             },
             type: function (node) {
@@ -1275,6 +1284,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         return keyLabels.indexOf(child.label) > -1;
                     });
                 }
+            },
+            config: function (node) {
+                node.parent.isConfigStm = (node.label === 'true');
             },
             list: function (node) {
                 node.refKey = [];
@@ -1948,6 +1960,13 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 });
             };
 
+            this.config = function(xml, parent) {
+                var type = 'config',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_ALTER,
+                    node = this.createNewNode(name, type, parent, nodeType);
+            };
+
             this.leaf = function (xml, parent) {
                 var type = 'leaf',
                     name = $(xml).attr('name'),
@@ -2224,6 +2243,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
         connector.processApis = function (apis, callback) {
             var processedApis = [],
+                configStr = '/config',
+                operStr = '/operational',
                 sync = syncFact.generateObj();
 
             apis.forEach(function (api) {
@@ -2239,13 +2260,17 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     function (data) {
                         var subApis = [];
 
-                        data.apis.forEach(function (subApi) {
+                        data.apis.filter(function(subApi) {
+                            return subApi.path.indexOf(operStr) !== 0;
+                        }).forEach(function (subApi) {
                             var operations = subApi.operations.map(function (item) {
-                                return item.method;
-                            }),
-                                    subApiElem = new SubApi(subApi.path, operations);
+                                    return item.method;
+                                }),
+                                subApiElem = new SubApi(subApi.path, operations),
+                                subApiElemOper = new SubApi(operStr + subApi.path.slice(configStr.length), ['GET']);
 
                             subApis.push(subApiElem);
+                            subApis.push(subApiElemOper);
                         });
 
                         apiObj.basePath = data.basePath;
@@ -2542,10 +2567,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         mp.getMpPath = function(selSubApi, mpIdentifier){
-            
-            var path = selSubApi.buildApiRequestString();
-            path = path.indexOf('config') === 0 ? 'operational'+ path.slice(6,path.length) : path;
-            var oldpath = path.slice();
+            var path = selSubApi.buildApiRequestString(),
+                oldpath = path.slice();
             
             if(mpIdentifier){
                 mpIdentifier.forEach(function(pathEl){
@@ -2582,6 +2605,20 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
         //     return JSON.stringify(obj, null, 4);
         // };
+
+        utils.switchConfigOper = function(apiStr, swtichTo) {
+            var c = 'config',
+                o = 'operational',
+                str = apiStr;
+
+            if(apiStr.indexOf(c) === 0) {
+                str = swtichTo + apiStr.slice(c.length);
+            } else if(apiStr.indexOf(o) === 0) {
+                str =  swtichTo + apiStr.slice(o.length);
+            } 
+
+            return str;
+        };
 
         utils.generateNodesToApis = function (callback, errorCbk) {
             var allRootNodes = [],
@@ -2946,6 +2983,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 containment: "document",
                 cancel: 'pre, input, textarea, span'
             });
+
+            $(function() {
+                $( ".resizable" ).resizable({ handles: 'se' });
+              });
         };
 
         d.getHistoryPopUpWidth = function(){
@@ -2955,7 +2996,6 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
             if ( getWidth() !== null ) {
-                console.log('getWidth', getWidth());
                 $('.topologyContainer.previewContainer.historyPopUp').css({'marginLeft':'-'+(getWidth()/2)+'px'});
             }
         };
