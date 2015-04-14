@@ -121,17 +121,17 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
             
       };
 
-      var selectedNodeColor = null;
+      $scope.selectedNodeColor = null;
 
       var selectNode = function(node) {
           var selNode = node,
               edges = $scope.sigma.graph.edges();
           if ( lastSelectedNode ) {
               visualizerUtils.clearEdgeColors();
-              lastSelectedNode.color = selectedNodeColor ? selectedNodeColor : lastSelectedNode.color;
+              lastSelectedNode.color = $scope.selectedNodeColor ? $scope.selectedNodeColor : lastSelectedNode.color;
           }
 
-          selectedNodeColor = selNode.color;
+          $scope.selectedNodeColor = selNode.color;
           selNode.color = '#ffffff';
           lastSelectedNode = selNode;
           $scope.selectedNode = selNode.node;
@@ -237,6 +237,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
             
             $scope.currentTopologyNode = $scope.filteredNodes[0];
             updateSliderSettings();
+            $scope.$broadcast('YV_MODEL_CHANGE');
 
             processingNodesSuccessCallback();
             $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, $scope.sliderValue);
@@ -263,6 +264,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         if ( modelChanged ) {
           $scope.selectedProperty = null;
           $('.yangVisualizerWrapper div.viewNav li span').removeClass('active').parent().eq(0).find('span').addClass('active');
+          $scope.$broadcast('YV_MODEL_CHANGE');
         }
       };
 
@@ -315,6 +317,15 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         $scope.expandedNodes = !$scope.expandedNodes;
       };
 
+      $scope.$on('YV_UPDATE_TOPODATA',function(event, data){
+        $scope.topologyData = data.topoData;
+        $scope.sliderValue = data.sv;
+      });
+
+      $scope.$on('YV_UPDATE_CTN', function(event, slider){
+        visualizerUtils.getTopologyData($scope.currentTopologyNode, slider, true);
+      });
+
       $scope.loadController();
 
       $scope.__test = {
@@ -326,6 +337,30 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         collapseNodeFunc: collapseNodeFunc
       };
       
+  }]);
+
+  yangvisualizer.register.controller('layoutCtrl',['$scope', '$rootScope','VizualiserLayoutFactory', function($scope, $rootScope, VizualiserLayoutFactory){
+
+    $scope.modelLayout = null;
+
+    $scope.setLayout = function(node){
+      $scope.modelLayout = VizualiserLayoutFactory.loadLayout($scope.currentTopologyNode);
+    };
+
+    $scope.saveLayout = function(){
+      $scope.modelLayout = VizualiserLayoutFactory.saveLayout($scope.currentTopologyNode, $scope.sigma, $scope.sliderValue, $scope.selectedNodeColor);
+    };
+
+    $scope.loadLayout = function(){
+      $scope.$emit('YV_UPDATE_CTN', $scope.modelLayout['slider-value']);
+      var topologyData = VizualiserLayoutFactory.getTopoData($scope.currentTopologyNode, $scope.modelLayout);
+      $scope.$emit('YV_UPDATE_TOPODATA', { topoData: topologyData, sv: $scope.modelLayout['slider-value'] });
+    };
+
+    $scope.$on('YV_MODEL_CHANGE', function(){
+      $scope.setLayout();
+    });
+
   }]);
 
 });

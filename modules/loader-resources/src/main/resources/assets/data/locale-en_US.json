@@ -688,6 +688,8 @@
     "YANGVISUALIZER_LABEL_CHILD_NODE": "Children nodes",
     "YANGVISUALIZER_LABEL_PAR_NODE": "Parent nodes",
     "YANGVISUALIZER_SHOW_ALL" : "Display all labels",
+    "YANGVISUALIZER_SAVE_MODEL": "save model layout",
+    "YANGVISUALIZER_LOAD_MODEL" : "load model layout",
 
 
     "YANGUI_COLLAPSE_OTHERS": "Collapse others",

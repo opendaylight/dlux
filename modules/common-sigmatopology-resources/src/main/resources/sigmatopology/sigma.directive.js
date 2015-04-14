@@ -115,7 +115,9 @@ define(modules, function(topologyModule) {
                 dragListener = Sigma.plugins.dragNodes(sigmaIstance, sigmaIstance.renderers[0]);
               }
 
+              if ( !$scope.topologyData.disabledAtlas ) {
               sigmaIstance.startForceAtlas2(configAtlas);
+              }
 
               if ( $scope.topologyCustfunc && angular.isFunction($scope.topologyCustfunc) ) {
                 $scope.topologyCustfunc(sigmaIstance, getSlowDownNum, dragListener);
