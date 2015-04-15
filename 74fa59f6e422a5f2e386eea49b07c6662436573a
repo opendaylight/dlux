@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0d159_36e7a8e6",
+        "filename": "modules/common-authentication-resources/src/main/resources/authentification/auth.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 992
+      },
+      "writtenOn": "2015-04-15T07:11:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be this /restconf/modules instead? I\u0027ve tried to do call to http://localhost:8181/restconf/config/config:modules, just with odl-restconf feature installed and get error 404 (Request could not be completed because the relevant data model content does not exist.). Call to http://localhost:8181/restconf/modules works fine. I\u0027m assuming we want to use API to get all modules.",
+      "range": {
+        "startLine": 57,
+        "startChar": 52,
+        "endLine": 57,
+        "endChar": 83
+      },
+      "revId": "74fa59f6e422a5f2e386eea49b07c6662436573a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
