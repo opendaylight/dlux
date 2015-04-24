@@ -5,6 +5,6 @@
         <i ng-if="node.isKey()" class="icon-key" tooltip="{{'key of '+node.parent.label+' list'}}"></i>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
     </span>
-    <span ng-show="displayValue()" class="leaf-label col-md-9"><strong>{{node.value}}</strong></span>
+    <span class="leaf-label col-md-9"><strong>{{node.value}}</strong></span>
     <div class="clear"></div>
 </div>

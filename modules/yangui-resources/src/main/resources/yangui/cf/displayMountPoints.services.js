@@ -49,15 +49,15 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                 reqId = $scope.mpSynchronizer.spawnRequest(loadId++);
 
             $scope.mountPointsStructure = [];
-            var path = mountPointsConnector.getMpPath($scope.selSubApi);
+            var path = $scope.selSubApi.buildApiRequestString();
             mountPointsConnector.discoverMountPoints(path, getNodesMPData, createMPStructure);
         };
 
         return {
             module: ['network-topology','opendaylight-inventory','network-topology','opendaylight-inventory'],
             revision: null,
-            pathString: ['/config/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','/config/opendaylight-inventory:nodes/node/{id}/',
-                         '/operational/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','/operational/opendaylight-inventory:nodes/node/{id}/'],
+            pathString: ['config/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','config/opendaylight-inventory:nodes/node/{id}/',
+                         'operational/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','operational/opendaylight-inventory:nodes/node/{id}/'],
             label: 'YANGUI_CUST_MOUNT_POINTS',
             getCallback: fnc,
             view: './src/app/yangui/cf/cv/cvmountpoints.tpl.html'

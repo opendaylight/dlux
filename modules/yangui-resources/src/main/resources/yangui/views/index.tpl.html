@@ -38,8 +38,12 @@
     <div sticky class="selSubApiPath">
       <div class="in" ng-show="selSubApi.pathArray.length">
         <label class="classic">{{ 'YANGUI_API_OP' | translate }}: </label>
-        <span ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.module ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
-            <span ng-show="pathElem.hasIdentifier()">/<input  type="text" class="form-control input-small" ng-model="pathElem.identifierValue" ng-change="changePathInPreview()"></span>
+        <span ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
+            <span ng-show="pathElem.hasIdentifier()">
+                <span ng-repeat="identifier in pathElem.identifiers">
+                  /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview()">
+                </span>
+            </span>
         </span>
         <button ng-repeat="operation in selSubApi.operations" ng-hide="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' && node === null" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
         <button ng-repeat="custFunct in selSubApi.custFunct" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
