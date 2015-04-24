@@ -308,14 +308,25 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
     };
 
-    visualizerUtils.clearEdgeColors = function(){
+    visualizerUtils.clearEdgeColors = function(edgesObj){
         
-        edgesToClear.node.size = edgesToClear.node.parent === null ? 20 : edgesToClear.node.expand ? 12 : 7;
+        edgesTC = edgesObj ? edgesObj : edgesToClear;
 
-        edgesToClear.edges.forEach(function(edge){
+        edgesTC.node.size = edgesTC.node.parent === null ? 20 : edgesTC.node.expand ? 12 : 7;
+
+        edgesTC.edges.forEach(function(edge){
             edge.color = colors.edges;
         });
 
+    };
+
+    visualizerUtils.getEdgesToClear = function(){
+        return {
+            node: edgesToClear.node,
+            edges: edgesToClear.edges.map(function(e){
+                        return e.id;
+                    })
+        };
     };
 
     visualizerUtils.getParentNodes = function(node){
@@ -383,6 +394,149 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
     return visualizerUtils;
   });
+
+    yangvisualizer.register.factory('VizualiserLayoutFactory', ['visualizerUtils', function(visualizerUtils){
+        var vl = {},
+            removeNodesObj = function(nodes){
+                var changedNodes = [];
+                nodes.forEach(function(n){
+                    var nodeObj = n.node,
+                        copyN = {};
+                    n.node = n.node.localeLabel;
+                    angular.copy(n, copyN);
+                    changedNodes.push(copyN);
+                    n.node = nodeObj;
+                });
+                return changedNodes;
+            },
+            clearNode = function(node, lnodes, color){
+                var nodeTCHC = lnodes.filter(function(ln){
+                                    return ln.id === node.id;
+                                });
+
+                if ( nodeTCHC.length ){
+                    nodeTCHC[0].color = color;
+                    nodeTCHC[0].size = nodeTCHC[0].parent === null ? 20 : nodeTCHC[0].expand ? 12 : 7;
+                }
+            },
+            clearEdges = function(edges, edgesIds){
+                var edgesTC = edges.filter(function(e){
+                        return edgesIds.indexOf(e.id) !== -1;
+                    }),
+                    obj = {
+                        node: {},
+                        edges: edgesTC
+                    };
+
+                visualizerUtils.clearEdgeColors(obj);
+            };
+
+        vl.loadLayout = function(node){
+            if(typeof(Storage) !== "undefined") {
+                var lList = JSON.parse(localStorage.getItem("modelLayouts"));
+                lList = lList !== null ? lList : {};
+                return lList[node.label] ? lList[node.label] : null;
+            } else {
+                return null;
+            }
+        };
+
+        vl.getTopoData = function(node, model){
+            var topoNodes = [],
+                topoLinks = [],
+                modelCopy = {},
+                createNodes = function(n){
+                    var findNode = function(){
+                            var node = modelCopy.nodes.filter(function(i){
+                                            return (i.id === n.graphId) && (i.node === n.localeLabel);
+                                        });
+                            return node.length ? node[0] : null;
+                        },
+                        gNode = findNode();
+
+                    if ( n.children.length ){
+                        n.children.forEach(function(child){
+                            createNodes(child);
+                        });
+                    }
+
+                    if ( gNode ) {
+                        gNode.node = n;
+                        topoNodes.push(gNode);
+                    }
+                },
+                createEdges = function(){
+                    var nodes = [],
+                        verifyNode = function(node){
+                            var addNode = function(nodeId){
+                                nodes.push(nodeId);
+                                return true;
+                            };
+
+                            if ( nodes.indexOf(node) !== -1 ){
+                                return true;
+                            } else {
+                                var nd = topoNodes.filter(function(n){
+                                            return n.id === node;
+                                        });
+
+                                return nd.length ? addNode(node) : false;
+                            }
+                        };
+
+                    modelCopy.edges.forEach(function(e){
+                        if ( verifyNode(e.source) && verifyNode(e.target) ){
+                            topoLinks.push(e);
+                        } 
+                    });
+                };
+
+            angular.copy(model, modelCopy);
+
+            createNodes(node);
+            createEdges();
+
+            return {
+                nodes: topoNodes,
+                links: topoLinks,
+                disabledAtlas: true
+            };
+        };
+
+        vl.saveLayout = function(node, sigma, sliderValue, nodeColor){
+            var edgesCopy = [];
+
+            angular.copy(sigma.graph.edges(), edgesCopy);
+
+            var layout = {
+                    nodes: sigma.graph.nodes(),
+                    edges: edgesCopy,
+                    'slider-value': sliderValue
+                },
+                edgesToClearObj = visualizerUtils.getEdgesToClear();
+
+            clearEdges(layout.edges, edgesToClearObj.edges);
+            layout.nodes = removeNodesObj(layout.nodes);
+            clearNode(edgesToClearObj.node, layout.nodes, nodeColor);
+
+            if(typeof(Storage) !== "undefined") {
+                var lList = JSON.parse(localStorage.getItem("modelLayouts"));
+                lList = lList !== null ? lList : {};
+                lList[node.label] = layout;
+
+                try {
+                    localStorage.setItem("modelLayouts", JSON.stringify(lList));
+                    return lList[node.label];
+                } catch(e) {
+                    console.info('DataStorage error:', e);
+                }
+            } else {
+                return null;
+            }
+        };
+
+        return vl;
+    }]);
 
     yangvisualizer.register.factory('DesignVisualizerFactory', function(){
 
