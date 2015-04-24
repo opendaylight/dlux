@@ -46,7 +46,7 @@
                                 </td>
                                 <td>
                                     <div class="requestActions">
-                                        <button ng-disabled="!req.availability" class="yangButton iconPlus {{ req.availability ? '' : 'disabled' }}" ng-click='addHistoryItemToColl($index)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></button>
+                                        <button class="yangButton iconPlus" ng-click='addHistoryItemToColl($index)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></button>
                                         <button ng-disabled="!req.availability" class="yangButton iconFillData {{ req.availability ? '' : 'disabled' }}" ng-if="req.receivedData || req.sentData" ng-click='fillApiAndData(req.path,req.receivedData, req.sentData)' tooltip="Fill data"></button>
                                         <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)' tooltip="{{ 'YANGUI_RUN' | translate }}"></button>
                                         <button class="yangButton iconClose" ng-click="deleteRequestItem($index, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
@@ -65,7 +65,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(true)'>
+                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData("requestList")'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>
@@ -116,7 +116,7 @@
                         </tbody>
                       </table>
                   </div>
-                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData(false)'>
+                  <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData("collectionList")'>
                     {{ 'YANGUI_CLEAR_HISTORY' | translate }}
                   </button>
                 </div>

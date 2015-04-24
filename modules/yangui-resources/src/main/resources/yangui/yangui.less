@@ -525,6 +525,7 @@ div.mountPoints{
       left: 50%;
       top: 80px;
       min-height: 50px;
+      height: 80%;
       position: absolute;
       z-index: 2;
 
@@ -546,6 +547,15 @@ div.mountPoints{
             }
           }
         }
+      }
+
+      .btn-like-tab{
+        .roundedCorners(0);
+        margin-left: 2px;
+      }
+
+      .nav-tabs li a{
+        margin-right: 0;
       }
 
       td{
@@ -811,6 +821,10 @@ button{
     }
     &.iconNext{
       background: transparent url('@{iconsRootPath}icon-next.png') no-repeat center top;
+      &.disabled{
+        background-position: center top!important;
+        .opacityDeph(0.6);
+      }
     }
     &.iconPlus{
       background: transparent url('@{iconsRootPath}icon-plus.png') no-repeat center top;
@@ -823,6 +837,10 @@ button{
     }
     &.iconFillData{
       background: transparent url('@{iconsRootPath}icon-fill-data.png') no-repeat center top;
+      &.disabled{
+        background-position: center top!important;
+        .opacityDeph(0.6);
+      }
     }
     &.iconArrowRight{
       background: transparent url('@{iconsRootPath}icon-arrow-right.png') no-repeat center top;
@@ -966,7 +984,7 @@ button.btn-like-tab{
 li.btn-like-tab{
   line-height: 1em;
   outline: 0 none;
-  height: 26px;
+  // height: 26px;
   margin: 0;
   border: none;
   font-weight: bold;
