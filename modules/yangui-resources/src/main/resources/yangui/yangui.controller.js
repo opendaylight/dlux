@@ -86,9 +86,20 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           pluginHandler.plugAll($scope.apis, $scope);
       };
 
-      $scope.refreshSelSubApiPathArray = function(selSubApi){
-          var pathArray = pathUtils.translate(selSubApi.pathTemplateString, null, null);
-          selSubApi.pathArray = pathArray;
+      $scope.removeMountPointPath = function(pathArray){
+          var mpPathIndex = pathArray.length;
+
+          pathArray.some(function(pathElem, index) {
+              var isMPElem = pathElem.name === 'yang-ext:mount';
+              if(isMPElem) {
+                  mpPathIndex = index;
+              }
+
+              return isMPElem;
+          });
+
+          var pathCopy = pathArray.slice(0, mpPathIndex);
+          return pathCopy;
       };
 
       $scope.invalidatePreview = function() {
@@ -116,7 +127,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
       $scope.buildPreview = function() {
           if($scope.node) {
-              $scope.previewValue = yangUtils.getPathString($scope.selApi.basePath, $scope.selSubApi);
+              $scope.previewValue = $scope.selApi.basePath+$scope.selSubApi.buildApiRequestString();
               $scope.previewValue = $scope.previewValue + '\r\n' + yangUtils.getRequestString($scope.node);
           } else {
               $scope.previewValue = '';
@@ -150,7 +161,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           $scope.treeApis = [];
 
           processingModulesCallback();
-          console.time('generateNodesToApis');
           yangUtils.generateNodesToApis(function(apis, allNodes) {
               $scope.apis = apis;
               $scope.allNodes = allNodes;
@@ -162,7 +172,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
               $scope.processingModulesSuccessCallback();
 
               setCustFunct($scope.apis);
-              console.timeEnd('generateNodesToApis');
           }, function(e) {
               $scope.processingModulesErrorCallback(e);
           });
@@ -220,17 +229,19 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.executeOperation = function(operation, callback, reqPath) {
           var reqString = $scope.selSubApi.buildApiRequestString(),
               requestData = {},
+              preparedRequestData = {},
               headers = { "Content-Type": "application/yang.data+json"};
 
           reqString = reqPath ? reqPath.slice($scope.selApi.basePath.length+1, reqPath.length) : reqString;
-          var requestPath = $scope.selApi.basePath+'/'+reqString;
-
+          var requestPath = $scope.selApi.basePath + reqString;
           $scope.node.buildRequest(reqBuilder, requestData);
+          angular.copy(requestData, preparedRequestData);
+          preparedRequestData = yangUtils.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
           requestWorkingCallback();
 
           operation = operation === 'DELETE' ? 'REMOVE' : operation;
 
-          YangUtilsRestangular.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, requestData).then(
+          YangUtilsRestangular.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData).then(
               function(data) {
                   if(operation === 'REMOVE'){
                       $scope.node.clear();
@@ -317,20 +328,19 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       };
 
       $scope.fillApi = function(path) {
-        var apiIndexes = pathUtils.searchNodeByPath(path, $scope.treeApis, $scope.treeRows, true);
-
+        var apiIndexes = pathUtils.searchNodeByPath(path, $scope.treeApis, $scope.treeRows);
         //standard api - fill indentifiers and path
         if(apiIndexes) {
             $scope.setApiNode(apiIndexes.indexApi, apiIndexes.indexSubApi);
-
             if($scope.selSubApi) {
               pathUtils.fillPath($scope.selSubApi.pathArray, path);
             }
         }
 
-        //fill mountpoints
+        //fill mountpoints - need rework
         if(path.indexOf('yang-ext:mount') !== -1) {
-            $scope.selectMP(path);
+            $scope.selSubApi.pathArray = $scope.removeMountPointPath($scope.selSubApi.pathArray);
+            $scope.selectMP();
 
             $scope.mpSynchronizer.waitFor(function () {
                 $scope.fillMPApi(path);
@@ -339,7 +349,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
         
       };
 
-      $scope.selectMP = function(path) {
+      $scope.selectMP = function() {
           var mpCF = custFunctFact.getMPCustFunctionality($scope.selSubApi.custFunct);
           
           if(mpCF) {
@@ -393,11 +403,11 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.tabs = function(event, index){
         var tabDom = $(event.target).closest('.tabs');
 
-        tabDom.find('.tab-content .tab-pane')
+        tabDom.find(' > .tab-content').children('.tab-pane')
           .removeClass('active')
           .eq(index).addClass('active');
 
-        tabDom.find('.nav-tabs li')
+        tabDom.find('> .nav-tabs').children('li')
           .removeClass('active')
           .eq(index).addClass('active');
       };
@@ -442,81 +452,43 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           $scope.initMp();
       };
 
-      $scope.loadMountPointData = function(node, api) {
+      $scope.loadMountPointData = function(node) {
           $scope.node = node;
           $scope.filterRootNode = node;
           $scope.node.clear();
+
+          $scope.selSubApi.pathArray = getMPpathArray(node);
       };
 
       $scope.changeMpDatastore = function(datastore) {
           if($scope.mpDatastore !== datastore) {
               $scope.mpDatastore = datastore;
-              var switchedPath = yangUtils.switchConfigOper($scope.selSubApi.buildApiRequestString(), datastore),
-                  apiStr = $scope.selApi.basePath + '/' + switchedPath;
 
-              $scope.fillApi(apiStr);
+              var pathStrArray = $scope.selSubApi.buildApiRequestString().split('/');
+              pathStrArray[0] = $scope.mpDatastore;
+
+              var path = $scope.selApi.basePath+pathStrArray.join('/');
+
+              $scope.fillApi(path);
           }
       };
 
-      var getMpIdentifier = function(selSubApi){
-          return selSubApi.pathArray.filter(function(path){
-              return path.identifierName !== undefined;
-          }).map(function(el){
-              return el.identifierValue;
-          });
-      };
+      var getMPpathArray = function(node){
+          var pathCopy = $scope.removeMountPointPath($scope.selSubApi.pathArray);
 
-      var fillMpIdentifier = function(selSubApi,mpIdentifier){
-          if(mpIdentifier){
-              var i = 0;
-              selSubApi.pathArray.forEach(function(path){
-                  if(path.identifierName !== undefined){
-                        path.identifierValue = mpIdentifier[i];
-                        i++;
-                  }
-              });
-          }
-      };
+          pathCopy.push(pathUtils.createPathElement('yang-ext:mount', '', null, false));
 
-      var getMpApiPathWithIdentifier = function(moduleNode, path, node){
-          return moduleNode ? path + node.module+':'+node.label : path;
-      };
-
-      var getMPpathArray = function(moduleNode, node){
-          var path,mpIdentifier,apiPath,pathArray;
-
-          var checkMp = $scope.selSubApi.pathArray.some(function(path){
-              return path.name === 'mount';
-          });
-
-          mpIdentifier = getMpIdentifier($scope.selSubApi);
-
-          if(checkMp){
-              $scope.refreshSelSubApiPathArray($scope.selSubApi);
-              fillMpIdentifier($scope.selSubApi,mpIdentifier);
+          if(node && node.label !== 'mount_point') {
+              pathCopy.push(pathUtils.createPathElement(node.label, node.module, null, true));
           }
 
-          path = mountPointsConnector.getMpPath($scope.selSubApi,mpIdentifier) + '/yang-ext:mount/';
-          apiPath = getMpApiPathWithIdentifier(moduleNode, path, node);
-
-          pathArray = pathUtils.translate(apiPath, null, null);
-
-          pathArray = pathArray.map(function(path){
-              if(path.identifierName){
-                  path.identifierValue = path.identifierName;
-              }
-              return path;
-          });
-
-          $scope.selSubApi.pathArray = pathArray;
-
-          return apiPath;
+          return pathCopy;
       };
 
       $scope.showMountPoint = function(node){
           $scope.mountModule = node.module;
           $scope.$broadcast('EV_REFRESH_LIST_INDEX');
-          $scope.loadMountPointData(node, getMPpathArray(true, node));
+          $scope.loadMountPointData(node);
       };
 
       $scope.initMp = function(){
@@ -550,8 +522,8 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           });
 
           $scope.node = node;
-          $scope.mpDatastore = $scope.selSubApi.pathArray[0].name;
-          getMPpathArray(false,null);
+          $scope.mpDatastore = $scope.selSubApi.storage;
+          $scope.selSubApi.pathArray = getMPpathArray(null);
           $scope.processingModulesSuccessCallback();
       };
 
@@ -629,15 +601,11 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           localStorage.setItem(type, JSON.stringify(rlist));
     };
 
-    $scope.clearHistoryData = function(fromHistory){
+    $scope.clearHistoryData = function(list){
         var rlist = {'list':[]};
-        if(!fromHistory){
-            $scope.collectionList = [];
-            localStorage.setItem('collectionList', JSON.stringify(rlist));
-        }else{
-            $scope.requestList = [];
-            localStorage.setItem('requestList', JSON.stringify(rlist));
-        }
+
+        $scope[list] = [];
+        localStorage.setItem(list, JSON.stringify(rlist));
     };
 
     $scope.executeCollectionRequest = function(req){
@@ -967,12 +935,12 @@ yangui.register.controller('typeBitCtrl', function($scope){
     
   });
 
-  yangui.register.filter('onlyConfigStmts', function(){
+  yangui.register.filter('onlyConfigStmts', function(nodeUtils){
         return function(nodes){
             
             if(nodes.length) {
                 nodes = nodes.filter(function(n){
-                    return n.hasOwnProperty('isConfigStm') ? n.isConfigStm !== false : true;
+                    return nodeUtils.isOnlyOperationalNode(n);
                 });
             }
 

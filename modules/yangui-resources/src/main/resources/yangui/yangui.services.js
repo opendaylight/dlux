@@ -12,7 +12,7 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
     hs.checkPathAvailability = function(data, treeApis, treeRows){
       data.forEach(function(item){
-        item.availability = pathUtils.searchNodeByPath(item.path, treeApis, treeRows) !== null ? true : false;
+        item.availability = pathUtils.searchNodeByPath(item.path, treeApis, treeRows, true) !== null ? true : false;
       });
     };
 
@@ -25,11 +25,12 @@ define(['app/yangui/yangui.module'], function(yangui) {
     var cfu = {};
 
     cfu['YANGUI_CUST_MOUNT_POINTS'] = function(scope){
-        scope.refreshSelSubApiPathArray(scope.selSubApi);
+        scope.selSubApi.pathArray = scope.removeMountPointPath(scope.selSubApi.pathArray);
         scope.setApiNode(scope.apis.indexOf(scope.selApi),scope.selApi.subApis.indexOf(scope.selSubApi), true);
         scope.mountModule = '';
         scope.selSubApi.operations = scope.mountBckOperations;
         scope.mpDatastore = null;
+        scope.mountPointsStructure.length = 0;
     };
 
     cfu.unset = function(custFunct, scope) {

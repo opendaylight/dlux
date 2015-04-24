@@ -1,6 +1,6 @@
 <div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
-        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
         <button class="btn-slim btn-name inlineBlock">
             {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
@@ -10,7 +10,7 @@
 
         <div class="modalWrapper">
             <button ng-click="showModalWin()" ng-show="node.listData.length > 0 && !showModal" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="yangButton iconList"></button>
-            <div class="listModal simpleContainer listFilterWindow" ng-show="showModal && node.listData.length > 0">
+            <div class="listModal simpleContainer listFilterWindow" ng-if="showModal && node.listData.length > 0">
                 <button class="yangButton iconListBck inlineBlock iconFilterOver" ng-click="showModalWin()"></button>
                 <div class="leaf ng-scope">
                     <span class="leaf-label list-title">{{ 'YANGUI_LIST_OF_NODES' | translate }}</span>
