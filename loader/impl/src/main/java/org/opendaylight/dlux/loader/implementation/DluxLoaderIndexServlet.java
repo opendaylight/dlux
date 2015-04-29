@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.base.Preconditions;
+import org.opendaylight.dlux.loader.Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +47,15 @@ public class DluxLoaderIndexServlet extends HttpServlet{
 
     private String JAVASCRIPT_REPLACE_STRING = "global variables";
 
+    private String APPLICATION_CSS_VARIABLE = "application CSS";
+
     private String INDEX_HTML_LOC = "/index/index.html";
 
     private String RESPONSE_CONTENT_TYPE = "text/html";
+
+    private String CSS_LINK_START = "<link rel=\"stylesheet\" href=\"";
+
+    private String CSS_LINK_END = "\" />";
 
     public DluxLoaderIndexServlet(DluxLoader loader) {
         this.loader = loader;
@@ -77,6 +84,11 @@ public class DluxLoaderIndexServlet extends HttpServlet{
                     inputStringBuilder.append(NEWLINE);
                 }
 
+                if(line.contains(APPLICATION_CSS_VARIABLE)) {
+                    inputStringBuilder.append(getCSSString());
+                    inputStringBuilder.append(NEWLINE);
+                }
+
                 line = bufferedReader.readLine();
             }
 
@@ -94,13 +106,27 @@ public class DluxLoaderIndexServlet extends HttpServlet{
         StringBuilder angularBuilder = new StringBuilder();
         requireJsBuilder.append(defaultRequireJSModules);
         angularBuilder.append(defaultAngularJSModules);
-        for (Module module: loader.getModules().values()){
-            requireJsBuilder.append(COMMA_QUOTE).append(module.getRequiredJs()).append(QUOTE);
+        for (Module module: loader.getModules()){
+            requireJsBuilder.append(COMMA_QUOTE).append(module.getRequireJs()).append(QUOTE);
             angularBuilder.append(COMMA_QUOTE).append(module.getAngularJs()).append(QUOTE);
         }
         requireJsBuilder.append(end).append(NEWLINE);
         angularBuilder.append(end);
 
         return requireJsBuilder.toString() + angularBuilder.toString();
+    }
+
+    private String getCSSString() {
+        StringBuilder cssBuilder = new StringBuilder();
+        for(Module module : loader.getModules()) {
+            if(module.getCssDependencies() == null) {
+                continue;
+            }
+            for(String cssDependency : module.getCssDependencies()) {
+                cssBuilder.append(CSS_LINK_START).append(cssDependency).append(CSS_LINK_END).append(NEWLINE);
+            }
+        }
+
+        return cssBuilder.toString();
     }
 }

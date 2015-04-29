@@ -11,13 +11,14 @@ import javax.servlet.ServletException;
 
 import com.google.common.base.Preconditions;
 import org.opendaylight.dlux.loader.DluxModuleLoader;
+import org.opendaylight.dlux.loader.Module;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DluxLoader implements DluxModuleLoader {
 
@@ -27,7 +28,7 @@ public class DluxLoader implements DluxModuleLoader {
     /**
      * List of modules registered with dlux
      */
-    private Map<String, Module> modules = new HashMap<>();
+    private List<Module> modules = new ArrayList<>();
 
     private String RESOURCE_URL = "/";
 
@@ -36,16 +37,16 @@ public class DluxLoader implements DluxModuleLoader {
     private String SERVLET_URL = "/index.html";
 
     @Override
-    public void addModule(String bundleName, String url, String requiredJs, String angularJs){
-        modules.put(bundleName, new Module(bundleName, url, requiredJs, angularJs));
+    public void addModule(Module module){
+        modules.add(module);
     }
 
     @Override
-    public void removeModule(String bundleName) {
-        modules.remove(bundleName);
+    public void removeModule(Module module) {
+        modules.remove(module);
     }
 
-    public Map<String, Module> getModules() {
+    public List<Module> getModules() {
         return modules;
     }
 

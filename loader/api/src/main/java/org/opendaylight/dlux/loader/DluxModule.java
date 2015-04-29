@@ -14,13 +14,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.osgi.service.http.HttpService;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * At startup of each karaf bundle, each UI module creates an instance of this class
  * via blueprint.
- * Initalize method gets called at loading of bundle.
+ * Initialize method gets called at loading of bundle.
  */
 
-public class DluxModule {
+public class DluxModule extends Module {
 
     final static Logger logger = LoggerFactory.getLogger(DluxModule.class);
 
@@ -33,30 +36,6 @@ public class DluxModule {
      */
     private DluxModuleLoader loader;
 
-    /**
-     * Name of the dlux module
-     */
-    private String moduleName;
-
-    /**
-     * url via the module can be accessed
-     */
-    private String url;
-
-    /**
-     * Location of resources to be registered
-     */
-    private String directory;
-
-    /**
-     * Name of the requireJS module
-     */
-    private String requireJs;
-
-    /**
-     * Name of the angularJs module
-     */
-    private String angularJs;
 
     public void setHttpService(HttpService httpService) {
         this.httpService = httpService;
@@ -66,25 +45,7 @@ public class DluxModule {
         this.loader = loader;
     }
 
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
-    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setDirectory(String directory) {
-        this.directory = directory;
-    }
-
-    public void setRequireJs(String requireJs) {
-        this.requireJs = requireJs;
-    }
-
-    public void setAngularJs(String angularJs) {
-        this.angularJs = angularJs;
-    }
 
     public void initialize() {
         Preconditions.checkNotNull(httpService, "Module can not start without http service");
@@ -103,7 +64,7 @@ public class DluxModule {
             Preconditions.checkNotNull(requireJs, "requireJs module name is missing. Module can not be registered with dlux");
             Preconditions.checkNotNull(angularJs, "angularJs module name is missing. Module can not be registered with dlux");
             logger.info("Registering angularJS and requireJs modules for {}", moduleName);
-            loader.addModule(moduleName, url, requireJs, angularJs);
+            loader.addModule(this);
         }
     }
 
@@ -113,7 +74,7 @@ public class DluxModule {
         httpService.unregister(url);
 
         if(loader != null) {
-            loader.removeModule(moduleName);
+            loader.removeModule(this);
         }
     }
 }
