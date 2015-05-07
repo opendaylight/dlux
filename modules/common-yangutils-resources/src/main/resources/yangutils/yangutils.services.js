@@ -1609,8 +1609,10 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
     });
 
 
-    yangUtils.factory('apiConnector', function ($http, syncFact, arrayUtils, pathUtils, custFunct) {
+    yangUtils.factory('apiConnector', function ($http, syncFact, arrayUtils, pathUtils, custFunct, Base64, $window) {
         var connector = {};
+        var encoded = 'Basic ' + Base64.encode($window.sessionStorage.odlUser + ':' + $window.sessionStorage.odlPass);
+        var apiAuthConfig = {withCredentials: true, headers: {'Authorization': encoded}};
 
         var apiPathElemsToString = function(apiPathElems) {
             var s = apiPathElems.map(function(elem) {
@@ -1670,7 +1672,7 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                         revision: data.revision
                     };
 
-                $http.get(api.path).success(function(data) {
+                $http.get(api.path, apiAuthConfig).success(function(data) {
                     var subApis = [];
 
                     data.apis.forEach(function(subApi) {
@@ -1757,11 +1759,12 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
         return connector;
     });
 
-    yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, YangUtilsRestangular) {
+    yangUtils.factory('yangUtils', function ($http, yinParser, nodeWrapper, reqBuilder, syncFact, apiConnector, constants, pathUtils, YangUtilsRestangular, Base64, $window) {
 
         var utils = {};
+        var encoded = 'Basic ' + Base64.encode($window.sessionStorage.odlUser + ':' + $window.sessionStorage.odlPass);
+        //console.log("BASE64 ENCODED WITHIN YANGUI:", encoded);
 
-        
 
         utils.exportModulesLocales = function(modules) {
             var obj = {},
@@ -1790,18 +1793,19 @@ define(['common/yangutils/yangutils.module'], function(yangUtils) {
                 topLevelSync = syncFact.generateObj(),
                 reqApis = topLevelSync.spawnRequest('apis'),
                 reqAll = topLevelSync.spawnRequest('all');
-
-            $http.get(YangUtilsRestangular.configuration.baseUrl+'/apidoc/apis/').success(function (data) {
+            var apisUrl = '/apidoc/apis/';
+            $http.get(YangUtilsRestangular.configuration.baseUrl+apisUrl, apiAuthConfig).success(function (data) {
                 apiConnector.processApis(data.apis, function(result) {
                     apiModules = result;
                     topLevelSync.removeRequest(reqApis);
                 });
             }).error(function(result) {
-                console.error('Error getting API data from :'+YangUtilsRestangular.configuration.baseUrl+'/apidoc/apis/'+':'+result);
+                console.error('Error getting API data from :'+YangUtilsRestangular.configuration.baseUrl+apisUrl+':'+result);
                 topLevelSync.removeRequest(reqApis);
             });
 
-            $http.get(YangUtilsRestangular.configuration.baseUrl+'/restconf/modules/').success(function (data) {
+            var restconfModulesUrl = '/restconf/modules/';
+            $http.get(YangUtilsRestangular.configuration.baseUrl+restconfModulesUrl, apiAuthConfig).success(function (data) {
                 allRootNodes = utils.processModules(data.modules, function(result) {
                     allRootNodes = result;
                     topLevelSync.removeRequest(reqAll);
