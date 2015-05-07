@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.opendaylight.dlux.swig.xsql</groupId>
+  <artifactId>dlux-swing-xsql-query-gui</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>XSQL Query Executor GUI</name>
+  <description>XSQL Query Executor GUI</description>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.opendaylight.controller</groupId>
+  		<artifactId>sal-dom-xsql</artifactId>
+  		<version>1.3.0-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  <build>
+    <plugins>
+	<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <source>1.7</source>
+        <target>1.7</target>
+        <showDeprecation>true</showDeprecation>
+        <showWarnings>true</showWarnings>
+        <executable>/usr/bin/javac</executable>
+        <fork>true</fork>
+    </configuration>
+	</plugin>
+    </plugins>	
+  </build>
+</project>
