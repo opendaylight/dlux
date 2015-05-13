@@ -1,0 +1,38 @@
+<div ng-controller="classifierRefCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_CLASSIFIER_REF' | translate}}</h2>  -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+    
+    <section ng-show="view.classifierRef">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newClassifierRefObj.name" ng-disabled="view.edit" />
+        </div>
+        
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_INSTANCE_NAME' | translate}}:</span></label>
+            <select class="form-control" ng-model="newClassifierRefObj['instance-name']" ng-options="c.name as c.name for c in instanceNames">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DIRECTION' | translate}}:</span></label>
+            <select class="form-control" ng-model="newClassifierRefObj.direction" ng-options="c for c in formDirections">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_CONN_TRACK' | translate}}:</span></label>
+            <select class="form-control" ng-model="newClassifierRefObj['connection-tracking']" ng-options="c for c in formConnectionTracking">
+                <option>--</option>
+            </select>
+        </div>
+        
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+</div>

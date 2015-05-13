@@ -1,0 +1,69 @@
+<div ng-controller="contractCtrl" ng-init="init()">
+
+    <h2 class="text-center">{{'GBP_CONTRACTS' | translate}}</h2> 
+
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="contractView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block">{{ 'GBP_ADD_CONTRACT' | translate}}</label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newContractObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newContractObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_PARENT' | translate}}:</span></label>
+            <select class="form-control" ng-model="newContractObj.parent" ng-options="d.id as d[displayLabel] for d in list">
+                <option>--</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedContract">
+        <div ng-include src="view_path+'clause.tpl.html'"></div>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedContract">
+        <div ng-include src="view_path+'subjects.tpl.html'"></div>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">{{'GBP_BACK' | translate}}</button>
+
+</div>
+
+
+
+
+
+<!-- <div class="moduleWindow">
+    <div>
+        <h1>{{'GBP_CONTRACTS' | translate}}</h1>
+    </div>
+
+     <div class="buttons middleButtons">
+        <div>
+            <button class="btn btn-primary ng-scope ng-binding" ng-click="add()" tooltip="{{'GBP_ADD_TT' | translate}}" >{{'GBP_ADD' | translate}}</button>
+            <button class="btn btn-primary ng-scope ng-binding" ng-click="modify()" tooltip="{{'GBP_MODIFY_TT' | translate}}" >{{'GBP_MODIFY' | translate}}</button>
+            <button class="btn btn-primary ng-scope ng-binding noLeftMargin" ng-click="delete()" tooltip="{{'GBP_DELETE_TT' | translate}}" >{{'GBP_DELETE' | translate}}</button>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="buttons bottomButtons">
+        <div>
+            <button class="btn btn-primary ng-scope ng-binding" ng-click="toggleExpanded('basic')" tooltip="{{'GBP_SHOW_BASIC_MENU_TT' | translate}}" >{{'GBP_SHOW_BASIC_MENU' | translate}}</button>
+            <button class="btn btn-primary ng-scope ng-binding noLeftMargin" ng-click="save()" tooltip="{{'GBP_SAVE_TT' | translate}}" >{{'GBP_SAVE' | translate}}</button>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div> -->

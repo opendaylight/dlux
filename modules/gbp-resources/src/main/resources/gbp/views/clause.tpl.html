@@ -1,0 +1,31 @@
+<div ng-controller="clauseCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_CLAUSE' | translate}}</h2> -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.clause">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newClauseObj.name" ng-disabled="view.edit" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="basicLabel"><span>{{ 'GBP_INPUT_CLAUSE_SUBJECTS' | translate}}:</span></label>
+            <button class="btn btn-primary btn-slim" ng-click="addNewElem()"><i class="icon-plus"></i></button>
+
+            <div ng-repeat="subjectRef in newClauseObj['subject-refs'] track by $index">
+                <div class="selectWrapper col-md-11">
+                    <select class="form-control" ng-model="subjectRef" ng-change="updateAt($index, subjectRef)" ng-options="s.name as s.name for s in subjects">
+                        <option>--</option>
+                    </select>
+                </div>
+                <button class="btn btn-danger col-md-1" ng-click="deleteElemAt($index)"><i class="icon-remove"></i></button>
+            </div>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+</div>

@@ -1,0 +1,32 @@
+<div ng-controller="tenantCtrl" ng-init="init()">
+
+    <h2 class="text-center">{{'GBP_TENANTS' | translate}}</h2> 
+
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="tenantView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_TENANT' | translate}}</span></label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newTenantObj.id" disabled/>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newTenantObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newTenantObj.description" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">{{'GBP_BACK' | translate}}</button>
+
+</div>

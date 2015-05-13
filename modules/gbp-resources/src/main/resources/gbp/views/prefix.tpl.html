@@ -1,0 +1,17 @@
+<div ng-controller="prefixCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_CLAUSE' | translate}}</h2> -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.prefix">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_PREFIX' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newPrefixObj.prefix" ng-disabled="view.edit" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+</div>

@@ -1,0 +1,94 @@
+<div ng-controller="endpointCtrl" ng-init="init()">
+
+    <h2 class="text-center">{{'GBP_REGISTER_ENDPOINT' | translate}}</h2> 
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="endpointView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_NETWORK_CONTAINMENT' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEndpointObj['network-containment']"/>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_ENDPOINT_GROUP' | translate}}:</span></label>
+            <select class="form-control" ng-model="newEndpointObj['endpoint-group']"  ng-options="c.id as c.name for c in epgOptions">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="basicLabel"><span>{{ 'GBP_ENDPOINT_GROUPS' | translate}}:</span></label>
+            <button class="btn btn-primary btn-slim" ng-click="addNewLeafListEl('endpoint-groups')"><i class="icon-plus"></i></button>
+
+            <div ng-repeat="epGroups in newEndpointObj['endpoint-groups'] track by $index">
+                <div class="selectWrapper col-md-11">
+                    <div class="rowWrapper">
+                        <select class="form-control" ng-model="epGroups"  ng-change="updateLeafListEl($index, epGroups, 'endpoint-groups')" ng-options="c.id as c.name for c in epgOptions">
+                            <option>--</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-danger col-md-1" ng-click="deleteNewLeafListEl($index,'endpoint-groups')"><i class="icon-remove"></i></button>
+            </div>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="basicLabel"><span>{{ 'GBP_CONDITION' | translate}}:</span></label>
+            <button class="btn btn-primary btn-slim" ng-click="addNewLeafListEl('condition')"><i class="icon-plus"></i></button>
+
+            <div ng-repeat="condition in newEndpointObj['condition'] track by $index">
+                <div class="selectWrapper col-md-11">
+                    <div class="rowWrapper">
+                        <input class="form-control" type="text" ng-model="condition" ng-change="updateLeafListEl($index, condition, 'condition')"/>
+                    </div>
+                </div>
+                <button class="btn btn-danger col-md-1" ng-click="deleteNewLeafListEl($index,'condition')"><i class="icon-remove"></i></button>
+            </div>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_L2_CONTEXT' | translate}}:</span></label>
+            <select class="form-control" ng-model="newEndpointObj['l2-context']" ng-options="c.id as c.name for c in l2contextOptions">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_MAC_ADDRESS' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEndpointObj['mac-address']"/>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="basicLabel"><span>{{ 'GBP_L3_ADDRESS' | translate}}:</span></label>
+            <button class="btn btn-primary btn-slim" ng-click="addNewL3address()"><i class="icon-plus"></i></button>
+
+            <div ng-repeat="l3address in newEndpointObj['l3-address'] track by $index">
+                <div class="separator col-md-11">
+                    <div class="inner-separator"></div>
+                </div>
+                <div class="selectWrapper col-md-11">
+                    <div class="rowWrapper">
+                        <label class="block basicLabel"><span>{{ 'GBP_L3CONTEXT' | translate}}:</span></label>
+                        <select class="form-control" ng-model="l3address['l3-context']" ng-options="c.id as c.name for c in l3contextOptions">
+                            <option>--</option>
+                        </select>
+                    </div>
+
+                    <div class="rowWrapper">
+                        <label class="block basicLabel"><span>{{ 'GBP_IP_ADDRESS' | translate}}:</span></label>
+                        <input class="form-control" type="text" ng-model="l3address['ip-address']"/>
+                    </div>
+                </div>
+                <button class="btn btn-danger col-md-1 btn-list" ng-click="deleteNewL3address($index)"><i class="icon-remove"></i></button>
+            </div>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('endpoints')">{{'GBP_BACK' | translate}}</button>
+
+</div>
