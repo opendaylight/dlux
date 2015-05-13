@@ -1,0 +1,36 @@
+<div ng-controller="tenantCtrl" ng-init="init()">
+
+    <h2 class="text-center">Tenants</h2> 
+
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="tenantView">
+        <form name="tenantForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+            <label class="block">Add Tenant</label>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel">Id:</label>
+                <input class="form-control" type="text" ng-model="newTenantObj.id" disabled/>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel">Name:
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="tenantForm.name.$error.required"></i>
+                </label>
+                <input class="form-control" type="text" name="name" ng-model="newTenantObj.name" ng-required="true" />
+            </div>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel">Description:</label>
+                <input class="form-control" type="text" ng-model="newTenantObj.description" />
+            </div>
+
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">Back</button>
+
+</div>

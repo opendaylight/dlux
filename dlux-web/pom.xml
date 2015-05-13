@@ -72,6 +72,11 @@
         <artifactId>dlux.yangvisualizer.resources</artifactId>
         <version>${yangvisualizer.resources.version}</version>
     </dependency>
+	<dependency>
+        <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.gbp.resources</artifactId>
+        <version>${gbp.resources.version}</version>
+    </dependency>
     <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.topology.resources</artifactId>
@@ -127,6 +132,7 @@
                       <include>app/node/</include>
                       <include>app/yangui/</include>
                       <include>app/yangvisualizer/</include>
+					  <include>app/gbp/</include>
                       <include>app/topology/</include>
                       <include>app/core/</include>
                       <include>app/graph/</include>
@@ -165,6 +171,7 @@
                   dlux.node.resources,
                   dlux.yangui.resources,
                   dlux.yangvisualizer.resources,
+				  dlux.gbp.resources,
                   dlux.topology.resources,
                   dlux.core.resources,
                   dlux.graph.resources,

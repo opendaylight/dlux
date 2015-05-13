@@ -1,0 +1,34 @@
+<div ng-controller="cnsCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.cns">
+        <form name="cnsForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel">Name:
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="cnsForm.name.$error.required"></i>
+                </label>
+                <input class="form-control" type="text" name="name" ng-model="newCNSObj.name" ng-disabled="view.edit" ng-required="true" />
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel">Contracts:</label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewElem()"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="contractRef in newCNSObj.contract track by $index">
+                    <div class="selectWrapper col-md-10">
+                        <select class="form-control" ng-model="contractRef" ng-change="updateAt($index, contractRef)" ng-options="c.id as getDisplayLabel(c, contracts.labels) for c in contracts.options">
+                            <option>--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger col-md-2" ng-click="deleteElemAt($index)"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+</div>

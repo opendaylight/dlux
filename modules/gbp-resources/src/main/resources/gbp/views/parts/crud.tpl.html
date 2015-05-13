@@ -1,0 +1,16 @@
+<section class="rowWrapper clearfix" ng-controller="crudCtrl">
+    <label class="block"><span>{{ crudLabel }}</span></label>
+
+    <div class="selectWrapper col-md-6">
+        <!-- <select class="form-control" ng-model="selectedObj" ng-change="reload(selectedObj)" ng-options="d[displayLabel] for d in list"> -->
+        <select class="form-control" ng-model="selectedObj" ng-change="reload(selectedObj)" ng-options="getDisplayLabel(d, displayLabel) for d in list">
+            <option value="">Select option</option>
+        </select>
+    </div>
+
+    <div class="btn-group col-md-6" role="group">
+      <button type="button" class="btn btn-primary col-md-4" ng-click="add()">Add</button>
+      <button type="button" class="btn btn-primary col-md-4" ng-click="modify()">Edit</button>
+      <button type="button" class="btn btn-primary col-md-4" ng-click="delete()">Delete</button>
+    </div>
+</section>

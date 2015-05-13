@@ -10,6 +10,7 @@
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
         <feature>odl-dlux-yangvisualizer</feature>
+		<feature>odl-dlux-gbp</feature>
     </feature>
 
     <feature name='odl-dlux-core' version='${project.version}' description="Opendaylight dlux minimal feature">
@@ -45,6 +46,13 @@
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
+		<bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
+    </feature>
+	
+	<feature name="odl-dlux-gbp" version='${project.version}' description="Enable GBP in Opendaylight dlux">
+        <feature>odl-dlux-core</feature>		
+        <bundle>mvn:org.opendaylight.dlux/dlux.gbp/${project.version}</bundle>
+		<bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
 		<bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
     </feature>
 

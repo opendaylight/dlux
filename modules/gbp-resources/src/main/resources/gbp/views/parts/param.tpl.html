@@ -1,0 +1,5 @@
+<div ng-controller="paramCtrl">
+    <label class="block basicLabel">{{ param.name }} :</label>
+    <input type="text" style="width:50px;" ng-model="param.string" ng-change="changeParam(param.string)"></input>
+    <input type="text" style="width:50px;" ng-model="param.int"  ng-change="changeParam(param.int)"></input>
+</div>

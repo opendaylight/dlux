@@ -1,0 +1,44 @@
+<div ng-controller="contractCtrl" ng-init="init()">
+
+    <h2 class="text-center">Contracts</h2> 
+
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="contractView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block">Add contract</label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>Id:</span></label>
+            <input class="form-control" type="text" ng-model="newContractObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>Description:</span></label>
+            <input class="form-control" type="text" ng-model="newContractObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>Parent:</span></label>
+            <select class="form-control" ng-model="newContractObj.parent" ng-options="d.id as getDisplayLabel(d, displayLabel) for d in list">
+                <option>--</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedContract">
+        <div ng-include src="view_path+'clause.tpl.html'"></div>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedContract">
+        <div ng-include src="view_path+'subjects.tpl.html'"></div>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">Back</button>
+
+</div>
+
+

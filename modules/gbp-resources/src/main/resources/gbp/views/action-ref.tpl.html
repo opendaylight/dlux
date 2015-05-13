@@ -1,0 +1,27 @@
+<div ng-controller="actionRefCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section ng-show="view.actionRef">
+        <form name="actionRefForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+            
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Name:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="actionRefForm.name.$error.required"></i>
+                </label>
+                <select class="form-control" ng-model="newActionRefObj.name" ng-options="c.name as getDisplayLabel(c, actionInstanceNames.labels) for c in actionInstanceNames.options" name="name" ng-required="true" ng-disabled="view.edit">
+                    <option>--</option>
+                </select>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Order:</span></label>
+                <input class="form-control" type="text" ng-model="newActionRefObj.order" />
+            </div>
+            
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+</div>

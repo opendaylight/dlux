@@ -1,0 +1,126 @@
+<div ng-controller="l3EndpointCtrl" ng-init="init()">
+
+    <h2 class="text-center">L3 Prefix Endpoint</h2> 
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="endpointView">
+        <form name="l3EndpointForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Endpoint group:</span></label>
+                <select class="form-control" ng-model="newEndpointObj['endpoint-group']"  ng-options="c.id as getDisplayLabel(c, epg.labels) for c in epg.options">
+                    <option>--</option>
+                </select>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>Endpoint groups:</span></label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewLeafListEl('endpoint-groups')"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="epGroups in newEndpointObj['endpoint-groups'] track by $index">
+                    <div class="selectWrapper col-md-10">
+                        <div class="rowWrapper">
+                            <select class="form-control" ng-model="epGroups"  ng-change="updateLeafListEl($index, epGroups, 'endpoint-groups')" ng-options="c.id as getDisplayLabel(c, epg.labels) for c in epg.options">
+                                <option>--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger col-md-2" ng-click="deleteNewLeafListEl($index,'endpoint-groups')"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>Condition:</span></label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewLeafListEl('condition')"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="condition in newEndpointObj['condition'] track by $index">
+                    <div class="selectWrapper col-md-10">
+                        <div class="rowWrapper">
+                            <input class="form-control" type="text" ng-model="condition" ng-change="updateLeafListEl($index, condition, 'condition')"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger col-md-2" ng-click="deleteNewLeafListEl($index,'condition')"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>L3 Context:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="l3EndpointForm.l3context.$error.required"></i>
+                </label>
+                <select class="form-control" ng-model="newEndpointObj['l3-context']" name="l3context" ng-required="true"  ng-options="c.id as getDisplayLabel(c, l3context.labels) for c in l3context.options">
+                    <option>--</option>
+                </select>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>L2 gateways:</span></label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewL2gateways()"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="l2gateways in newEndpointObj['endpoint-l2-gateways'] track by $index">
+                    <div class="separator col-md-11">
+                        <div class="inner-separator"></div>
+                    </div>
+                    <div class="selectWrapper col-md-10">
+                        <div class="rowWrapper">
+                            <label class="block basicLabel"><span>L2 context:</span></label>
+                            <select class="form-control" ng-model="l2gateways['l2-context']" ng-options="c.id as getDisplayLabel(c, l2context.labels) for c in l2context.options">
+                                <option>--</option>
+                            </select>
+                        </div>
+
+                        <div class="rowWrapper">
+                            <label class="block basicLabel"><span>MAC Address:</span>
+                                <i class="icon-exclamation-sign red" tooltip="Invalid pattern" ng-show="l3EndpointForm.macAddress.$error.pattern"></i>
+                            </label>
+                            <input class="form-control" type="text" name="macAddress" ng-pattern="/^([0-9a-fA-F]{2}(:[0-9a-fA-F]{2}){5})$/" ng-model="l2gateways['mac-address']"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger col-md-2 btn-list" ng-click="deleteNewL2gateways($index)"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>L3 gateways:</span></label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewL3gateways()"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="l3gateways in newEndpointObj['endpoint-l3-gateways'] track by $index">
+                    <div class="separator col-md-11">
+                        <div class="inner-separator"></div>
+                    </div>
+                    <div class="selectWrapper col-md-10">
+                        <div class="rowWrapper">
+                            <label class="block basicLabel"><span>L3 Context:</span></label>
+                            <select class="form-control" ng-model="l3gateways['l3-context']" ng-options="c.id as getDisplayLabel(c, l3context.labels) for c in l3context.options">
+                                <option>--</option>
+                            </select>
+                        </div>
+
+                        <div class="rowWrapper">
+                            <label class="block basicLabel"><span>IP Address:</span>
+                                <i class="icon-exclamation-sign red" tooltip="Invalid pattern" ng-show="l3EndpointForm.ipAddress.$error.pattern"></i>
+                            </label>
+                            <input class="form-control" type="text" name="ipAddress" ng-pattern="/^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$/" ng-model="l3gateways['ip-address']"/>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger col-md-2 btn-list" ng-click="deleteNewL3gateways($index)"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>IP prefix:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Invalid pattern" ng-show="l3EndpointForm.ipprefix.$error.pattern"></i>
+                </label>
+                <input class="form-control" type="text" name="ipprefix" ng-model="newEndpointObj['ip-prefix']" ng-pattern="/^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))$/" />
+            </div>
+
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('endpoints')">Back</button>
+
+</div>

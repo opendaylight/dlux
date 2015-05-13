@@ -1,0 +1,35 @@
+<div ng-controller="ruleCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section ng-show="view.rule">
+        <form name="rulesForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+            
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Name:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="rulesForm.name.$error.required"></i>
+                </label>
+                <input class="form-control" type="text" ng-model="newRuleObj.name" name="name" ng-required="true" ng-disabled="view.edit" />
+            </div>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Order:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="rulesForm.order.$error.required"></i>
+                </label>
+                <input class="form-control" type="text" name="order" ng-required="true" ng-model="newRuleObj.order" />
+            </div>
+            
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedRule">
+        <div ng-include src="view_path+'action-ref.tpl.html'"></div>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedRule">
+        <div ng-include src="view_path+'classifier-ref.tpl.html'"></div>
+    </section>
+
+</div>

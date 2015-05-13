@@ -1,0 +1,187 @@
+/*GBP*/
+.gbpGlobalWrapper {
+  background: #f5f5f5;
+  margin-bottom: 0!important;
+  min-height: 100%;
+  padding-bottom: 60px;
+}
+.gbpGlobalWrapper span,
+.gbpGlobalWrapper label {
+  color: #393939;
+}
+.gbpGlobalWrapper h2 {
+  color: #666;
+}
+.gbpGlobalWrapper .form-control,
+.gbpGlobalWrapper .main input[type="text"] {
+  background: #fff;
+  color: #858585;
+}
+.gbpGlobalWrapper .form-control[disabled],
+.gbpGlobalWrapper .main input[type="text"][disabled] {
+  background: #eeeeee;
+}
+.gbpGlobalWrapper .form-control.narrow-input-left {
+  width: 45%;
+  float: left;
+}
+.gbpGlobalWrapper .form-control.narrow-input-right {
+  width: 45%;
+  float: right;
+}
+.gbpGlobalWrapper .row-param {
+  margin-bottom: 15px;
+  float: left;
+}
+.gbpGlobalWrapper .param-label {
+  width: 100%;
+  float: left;
+}
+.gbpWrapper .btn-primary {
+  color: #ffffff;
+  background-color: #428bca;
+  border-color: #357ebd;
+  font-weight: normal;
+}
+.gbpWrapper .noPadding {
+  padding: 0!important;
+}
+.gbpWrapper .basicLabel {
+  padding: 0;
+  font-weight: normal;
+}
+.gbpWrapper .rowWrapper {
+  margin-bottom: 5px;
+}
+.gbpWrapper aside.col-md-3 {
+  min-height: 100%;
+}
+.gbpWrapper .panelWrapper {
+  padding: 20px 0;
+}
+.gbpWrapper .panelWrapper button.btn {
+  margin-bottom: 5px;
+}
+.gbpWrapper .panelWrapper button.btn-list {
+  margin-top: 25px;
+}
+.gbpWrapper section.sigmaWrapper div.legend {
+  margin-bottom: 25px;
+}
+.gbpWrapper section.sigmaWrapper div.legend span,
+.gbpWrapper section.sigmaWrapper div.legend .text {
+  color: #fff;
+}
+.gbpWrapper section.sigmaWrapper div.legend ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.gbpWrapper section.sigmaWrapper div.legend li {
+  margin-bottom: 5px;
+}
+.gbpWrapper section.sigmaWrapper div.legend li .textHidden {
+  display: none;
+}
+.gbpWrapper section.sigmaWrapper div.legend li .text {
+  margin-left: 10px;
+  line-height: 18px;
+}
+.gbpWrapper section.sigmaWrapper div.legend li .showChckbx {
+  position: relative;
+  top: 2px;
+  left: 5px;
+}
+.gbpWrapper section.sigmaWrapper div.legend li .itemWrapper:hover .text {
+  display: block !important;
+}
+.gbpWrapper section.sigmaWrapper div.legend div.color {
+  /*margin-right: 15px;*/
+  width: 18px;
+  height: 18px;
+  -webkit-border-radius: 9px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.gbpWrapper #graph-container {
+  padding: 0;
+}
+.gbpWrapper .selectWrapper {
+  padding-left: 0;
+}
+.gbpWrapper .selectWrapper.col-md-12 {
+  padding: 0;
+  margin-bottom: 5px;
+}
+.gbpWrapper .inputWrapper.leftInput {
+  padding-left: 0;
+}
+.gbpWrapper .inputWrapper.rightInput {
+  padding-right: 0;
+}
+.gbpWrapper .separator {
+  padding-bottom: 10px;
+  margin-top: 15px;
+  height: 1px;
+  padding-left: 0px;
+  padding-right: 15px;
+}
+.gbpWrapper .inner-separator {
+  border-bottom: 1px solid #858585;
+  width: 100%;
+  float: left;
+}
+.gbpWrapper .btn-group {
+  padding: 0;
+}
+.gbpWrapper .formWrapper {
+  margin: 20px 0;
+}
+.gbpWrapper .icon-remove.align-right {
+  float: right;
+}
+.gbpWrapper .icon-exclamation-sign.red {
+  color: red;
+}
+.gbpWrapper .sigmaWrapper {
+  position: relative;
+}
+.gbpWrapper .sigmaWrapper .sigmaModalWrapper {
+  position: absolute;
+  top: 30px;
+  left: 45px;
+  z-index: 1;
+}
+.gbpWrapper .sigmaWrapper .sigmaModalWrapper .icon-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.gbpWrapper .sigmaWrapper .sigmaModalWrapper .tableWrapper {
+  position: relative;
+  background: #f5f5f5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  min-width: 400px;
+  min-height: 100px;
+  margin-top: 20px;
+  padding: 20px;
+}
+.gbpWrapper .sigmaWrapper .sigmaModalWrapper .tableWrapper .dataWrapper {
+  overflow-y: scroll;
+  max-height: 350px;
+}
+.gbpWrapper .sigmaWrapper .sigmaModalWrapper .tableWrapper .rowWrapper {
+  padding: 10px;
+  margin-bottom: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid #d5d5d5;
+}
+/*GBP END*/

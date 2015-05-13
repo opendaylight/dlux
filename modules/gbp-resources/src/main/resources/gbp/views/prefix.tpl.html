@@ -1,0 +1,21 @@
+<div ng-controller="prefixCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.prefix">
+	    <form name="prefixForm" novalidate="novalidate">
+	        <i class="icon-remove align-right" ng-click="close()"></i>
+
+	        <div class="rowWrapper">
+	            <label class="block basicLabel">Prefix:
+	            	<i class="icon-exclamation-sign red" tooltip="Invalid pattern" ng-show="prefixForm.prefix.$error.pattern"></i>
+	            	<i class="icon-exclamation-sign red" tooltip="Required field" ng-show="prefixForm.prefix.$error.required"></i>
+	            </label>
+	            <input class="form-control" type="text" ng-model="newPrefixObj.prefix" ng-disabled="view.edit" name="prefix" ng-pattern="/^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])/(([0-9])|([1-2][0-9])|(3[0-2]))$/" ng-required="true"/>
+	        </div>
+
+	        <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+</div>

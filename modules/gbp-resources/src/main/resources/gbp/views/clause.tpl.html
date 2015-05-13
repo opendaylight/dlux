@@ -1,0 +1,34 @@
+<div ng-controller="clauseCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.clause">
+        <form name="clauseForm" novalidate="novalidate">
+            <i class="icon-remove align-right" ng-click="close()"></i>
+
+            <div class="rowWrapper">
+                <label class="block basicLabel"><span>Name:</span>
+                    <i class="icon-exclamation-sign red" tooltip="Required field" ng-show="clauseForm.name.$error.required"></i>
+                </label>
+                <input class="form-control" type="text" ng-model="newClauseObj.name" name="name" ng-required="true" ng-disabled="view.edit" />
+            </div>
+
+            <div class="rowWrapper">
+                <label class="basicLabel"><span>Clause subjects:</span></label>
+                <button class="btn btn-primary btn-slim" ng-click="addNewElem()"><i class="icon-plus"></i></button>
+
+                <div ng-repeat="subjectRef in newClauseObj['subject-refs'] track by $index">
+                    <div class="selectWrapper col-md-10">
+                        <select class="form-control" ng-model="subjectRef" ng-change="updateAt($index, subjectRef)" ng-options="s.name as getDisplayLabel(s, subjects.labels) for s in subjects.options">
+                            <option>--</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger col-md-2" ng-click="deleteElemAt($index)"><i class="icon-remove"></i></button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary col-md-12" ng-click="save()">Save</button>
+        </form>
+    </section>
+
+</div>
