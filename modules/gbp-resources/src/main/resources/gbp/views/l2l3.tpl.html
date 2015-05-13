@@ -1,0 +1,150 @@
+<div ng-controller="l3ContextCtrl" ng-init="init()">
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="l3ContextView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_L3CONTEXT' | translate}}</span></label>
+
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL3ContextObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL3ContextObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL3ContextObj.description" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+</div>
+
+<br/><br/>
+
+<div ng-controller="l2BridgeCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="l2BridgeView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_L2BRIDGE' | translate}}</span></label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2BridgeObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2BridgeObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2BridgeObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_PARENT' | translate}}:</span></label>
+            <select class="form-control" ng-model="newL2BridgeObj.parent" ng-change="reload()" ng-options="d.id as d.name for d in l3ContextList">
+                <option value="">{{ 'GBP_SEL_OP' | translate}}</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+</div>
+
+<br/><br/>
+
+<div ng-controller="l2FloodCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="l2FloodView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_L2FLOOD' | translate}}</span></label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2FloodObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2FloodObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newL2FloodObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_PARENT' | translate}}:</span></label>
+            <select class="form-control" ng-model="newL2FloodObj.parent" ng-change="reload()" ng-options="d.id as d.name for d in l2BridgeList">
+                <option value="">{{ 'GBP_SEL_OP' | translate}}</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+</div>
+
+<br/><br/>
+
+<div ng-controller="subnetCtrl" ng-init="init()">
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="subnetView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_SUBNET' | translate}}</span></label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">{{ 'GBP_INPUT_ID' | translate}}:</label>
+            <input class="form-control" type="text" ng-model="newSubnetObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">* {{ 'GBP_INPUT_NAME' | translate}}:</label>
+            <input class="form-control" type="text" ng-model="newSubnetObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">{{ 'GBP_INPUT_DESC' | translate}}:</label>
+            <input class="form-control" type="text" ng-model="newSubnetObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">{{ 'GBP_INPUT_PARENT' | translate}}:</label>
+            <select class="form-control" ng-model="newSubnetObj.parent" ng-change="reload()" ng-options="d.id as d.name for d in l2L3List">
+                <option value="">{{ 'GBP_SEL_OP' | translate}}</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">{{ 'GBP_INPUT_IP_PREFIX' | translate}}:</label>
+            <input class="form-control" type="text" ng-model="newSubnetObj['ip-prefix']" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel">{{ 'GBP_INPUT_VIRTUAL_ROUTER' | translate}}:</label>
+            <input class="form-control" type="text" ng-model="newSubnetObj['virtual-router-ip']" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedSubnet">
+        <div ng-include src="view_path+'gateway.tpl.html'"></div>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">{{'GBP_BACK' | translate}}</button>
+</div>

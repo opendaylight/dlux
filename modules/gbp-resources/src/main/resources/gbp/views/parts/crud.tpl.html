@@ -1,0 +1,16 @@
+<section class="rowWrapper clearfix" ng-controller="crudCtrl">
+    <label class="block"><span>{{ crudLabel | translate}}</span></label>
+
+    <div class="selectWrapper col-md-6">
+        <!-- <select class="form-control" ng-model="selectedObj" ng-change="reload(selectedObj)" ng-options="d[displayLabel] for d in list"> -->
+        <select class="form-control" ng-model="selectedObj" ng-change="reload(selectedObj)" ng-options="getDisplayLabel(d, displayLabel) for d in list">
+            <option value="">{{ 'GBP_SEL_OP' | translate}}</option>
+        </select>
+    </div>
+
+    <div class="btn-group col-md-6" role="group">
+      <button type="button" class="btn btn-primary col-md-4" ng-click="add()">{{'GBP_BTN_ADD' | translate}}</button>
+      <button type="button" class="btn btn-primary col-md-4" ng-click="modify()">{{'GBP_BTN_EDIT' | translate}}</button>
+      <button type="button" class="btn btn-primary col-md-4" ng-click="delete()">{{'GBP_BTN_DELETE' | translate}}</button>
+    </div>
+</section>

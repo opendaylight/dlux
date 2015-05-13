@@ -1,0 +1,56 @@
+<div ng-controller="epgCtrl" ng-init="init()">
+    <h2 class="text-center">{{'GBP_EPG' | translate}}</h2>
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="epgView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ID' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEpgObj.id" disabled />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEpgObj.name" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_DESC' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEpgObj.description" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_INTRA_GROUP_POLICY' | translate}}:</span></label>
+            <select class="form-control" ng-model="newEpgObj['intra-group-policy']" ng-options="opt for opt in igpOpts">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_NETWORK_DOMAIN' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newEpgObj['network-domain']" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_PARENT' | translate}}:</span></label>
+            <select class="form-control" ng-model="newContractObj.parent" ng-options="d.id as d[displayLabel] for d in list">
+                <option>--</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedEpg">
+        <div ng-include src="view_path+'cns.tpl.html'"></div>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedEpg">
+        <div ng-include src="view_path+'pns.tpl.html'"></div>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('policy')">{{'GBP_BACK' | translate}}</button>
+
+</div>

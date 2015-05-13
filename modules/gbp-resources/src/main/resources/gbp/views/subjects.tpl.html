@@ -1,0 +1,25 @@
+<div ng-controller="subjectCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_SUBJECTS' | translate}}</h2>  -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section ng-show="view.subject">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newSubjectObj.name" ng-disabled="view.edit" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{ 'GBP_INPUT_ORDER' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newSubjectObj.order" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+    
+    <section class="formWrapper clearfix" ng-show="selectedSubject">
+        <div ng-include src="view_path+'rules.tpl.html'"></div>
+    </section>
+</div>

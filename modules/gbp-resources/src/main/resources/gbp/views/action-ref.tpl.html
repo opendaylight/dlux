@@ -1,0 +1,24 @@
+<div ng-controller="actionRefCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_ACTION_REF' | translate}}</h2>  -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section ng-show="view.actionRef">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_NAME' | translate}}:</span></label>
+            <select class="form-control" ng-model="newActionRefObj.name" ng-options="c.name as c.name for c in actionInstanceNames" ng-disabled="view.edit">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_ORDER' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newActionRefObj.order" />
+        </div>
+        
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+</div>

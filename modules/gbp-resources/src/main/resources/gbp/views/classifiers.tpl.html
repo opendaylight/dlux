@@ -1,0 +1,34 @@
+<div ng-controller="classifiersCtrl" ng-init="init()">
+    <h2 class="text-center">{{'GBP_CLASSIFIERS' | translate}}</h2> 
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+     <section class="formWrapper clearfix" ng-show="classifiersView">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+        <label class="block"><span>{{ 'GBP_ADD_CLASSIFIERS' | translate}}</label>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>* {{'GBP_GROUP_NAME' | translate}}</span></label>
+            <input class="form-control" type="text" ng-model="newClassifierObj.name" ng-disabled="edit" />
+        </div>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{'GBP_DEFINITION' | translate}}</span></label>
+            <select class="form-control" ng-model="newClassifierObj['classifier-definition-id']" ng-options="d.id as d.name for d in classifierDefinitions">
+                <option>--</option>
+            </select>
+        </div>
+
+        <div class="rowWrapper">
+            <div ng-repeat="param in getDefinitionObjParams(newClassifierObj['classifier-definition-id'])">
+                <div ng-controller="paramCtrl" ng-init="init(param, newClassifierObj['parameter-value'])">
+                    <label><span>{{ parameter.name + ' (' + parameter.type + ')' }}:</span></label>
+                    <input class="form-control" type="text" ng-model="value"></input>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <button class="btn btn-primary col-md-12" ng-click="save()" ng-show="classifiersView && selectedTenant.id">{{'GBP_SAVE' | translate}}</button>
+    <button class="btn btn-primary col-md-12" ng-click="toggleExpanded('renderers')">{{'GBP_BACK' | translate}}</button>
+</div>

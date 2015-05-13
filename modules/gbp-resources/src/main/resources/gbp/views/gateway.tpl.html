@@ -1,0 +1,21 @@
+<div ng-controller="gatewayCtrl" ng-init="init()">
+    <!-- <h2 class="text-center">{{'GBP_CLAUSE' | translate}}</h2> -->
+
+    <div ng-include src="view_path+'parts/crud.tpl.html'"></div>
+
+    <section class="formWrapper clearfix" ng-show="view.gateway">
+        <i class="icon-remove align-right" ng-click="close()"></i>
+
+        <div class="rowWrapper">
+            <label class="block basicLabel"><span>{{ 'GBP_INPUT_GATEWAY' | translate}}:</span></label>
+            <input class="form-control" type="text" ng-model="newGatewayObj.gateway" ng-disabled="view.edit" />
+        </div>
+
+        <button class="btn btn-primary col-md-12" ng-click="save()">{{'GBP_SAVE' | translate}}</button>
+    </section>
+
+    <section class="formWrapper clearfix" ng-show="selectedGateway">
+        <div ng-include src="view_path+'prefix.tpl.html'"></div>
+    </section>
+
+</div>
