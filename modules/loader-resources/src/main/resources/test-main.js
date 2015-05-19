@@ -35,12 +35,19 @@ var test = require.config({
     'angular-translate' : '../vendor/angular-translate/angular-translate.min',
     'angular-translate-loader-static-files' : '../vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min',
     'jquery' : '../vendor/jquery/jquery',
+    'jquery-ui' : '../vendor/jquery-ui/jquery-ui.min',
     'footable' : '../vendor/footable/dist/footable.min',
     'pixi': '../vendor/pixi/bin/pixi',
     'd3' : '../vendor/d3/d3.min',
     'vis' : '../vendor/vis/dist/vis.min',
     'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad',
-    'graphRenderer' : '../assets/js/graphRenderer'
+    'sigma' : '../vendor/sigma/sigma.min',
+    'sigma-parsers-gexf' : '../vendor/sigma/plugins/sigma.parsers.gexf.min',
+    'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
+    'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
+    'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
+    'graphRenderer' : '../assets/js/graphRenderer',
+    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
   },
 
   shim : {
@@ -66,7 +73,13 @@ var test = require.config({
     'footable' : ['jquery'],
     'undescore' : {
       exports : '_'
-    }
+    },
+    'sticky' : ['jquery', 'angular'],
+    'sigma-parsers-gexf' : ['sigma'],
+    'sigma-forceAtlas2' : ['sigma'],
+    'sigma-dragNodes' : ['sigma'],
+    'sigma-customShapes' : ['sigma'],
+    'ngSlider' : ['angular']
   },
 
   deps : ['angular', 'angular-mocks'],
