@@ -3,6 +3,23 @@ module.exports = function() {
     var GraphRenderer = require('./renderer.js');
     var topology = null;
 
+    function _load(nodes, links) {
+        nodes.forEach(function (node) {
+            topology.addNode(node.id, {
+                title:node.title,
+                group:node.group,
+                label:node.label,
+                value:node.value
+            });
+        });
+        links.forEach(function (link) {
+            topology.addLink(link.from, link.to, {
+                id: link.id,
+                title: link.title
+            });
+        });
+    }
+
     // public API
     return {
         start : function(id) {
@@ -17,27 +34,17 @@ module.exports = function() {
                 console.error(e.name, e.message);
             }
         },
-        refresh: function() {
-            //TODO : Implement me (:
+        refresh: function(nodes, links) {
+            //tmp
+            topology.beginUpdate();
+            topology.clear();
+            _load(nodes, links);
+            topology.endUpdate();
+            renderer.refresh(topology);
         },
         loadGraph: function(nodes, links) {
             topology = new Graph();
-
-            nodes.forEach(function (node) {
-                topology.addNode(node.id, {
-                    title:node.title,
-                    group:node.group,
-                    label:node.label,
-                    value:node.value
-                });
-            });
-
-            links.forEach(function (link) {
-                topology.addLink(link.from, link.to, {
-                    id: link.id,
-                    title: link.title
-                });
-            });
+            _load(nodes, links);
         }
     };
 };
