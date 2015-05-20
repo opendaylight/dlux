@@ -77,16 +77,28 @@ module.exports = function(id, graph, config) {
         }
     };
 
+    function displayGraph() {
+        // step the layout to make a good looking graph
+        // remove after cause it's heavy for nothing
+        for (var i = 0; i < 1000; ++i) {
+            layout.step();
+        }
+        layout.dispose();
+        centerGraph();
+    }
+
     // public API
     return {
         run : function() {
-            // step the layout to make a good looking graph
-            // remove after cause it's heavy for nothing
-            for (var i = 0; i < 1000; ++i) {
-                layout.step();
-            }
-            layout.dispose();
-            centerGraph();
+            displayGraph();
+            requestAnimFrame(loop);
+        },
+        refresh: function(topology) {
+            cancelAnimationFrame(loop);
+            stage.removeChildren();
+            topology.forEachNode(initializeNode);
+            topology.forEachLink(initializeLink);
+            displayGraph();
             requestAnimFrame(loop);
         }
     };

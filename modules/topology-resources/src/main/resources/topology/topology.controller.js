@@ -15,9 +15,13 @@ define(['app/topology/topology.module','app/topology/topology.services', 'graphR
 
           var inNodes = data.nodes;
           var inEdges = data.links;
-          graphRenderer = new GraphRenderer();
-          graphRenderer.loadGraph(inNodes, inEdges);
-          graphRenderer.start('topology_simple');
+          if (!graphRenderer) {
+            graphRenderer = new GraphRenderer();
+            graphRenderer.loadGraph(inNodes, inEdges);
+            graphRenderer.start('topology_simple');
+          } else {
+            graphRenderer.refresh(inNodes, inEdges);
+          }
       });
     };
 
