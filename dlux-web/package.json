@@ -64,7 +64,7 @@
     "ngraph.fromjson": "^0.1.4",
     "ngraph.merge": "0.0.1",
     "ngraph.physics.simulator": "0.0.10",
-    "node-transform-matrix": "^1.0.2"
+    "transformatrix": "^1.1.1"
   },
   "engines": {
     "node": ">=0.8.0"
