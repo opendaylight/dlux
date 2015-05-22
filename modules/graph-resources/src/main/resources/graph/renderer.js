@@ -14,7 +14,7 @@ var defaultConfig = {
 };
 module.exports = function(id, graph, config) {
     var merge = require('ngraph.merge');
-    var Matrix = require('node-transform-matrix');
+    var Matrix = require('transformatrix');
     var container = validateContainer(id);
 
     // merge current config with default
