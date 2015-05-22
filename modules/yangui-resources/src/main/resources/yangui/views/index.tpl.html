@@ -1,13 +1,6 @@
-<div>
-  <br>
+<div class="mt20">
 
-  <alert type='status.type' ng-show="status.msg" close="dismissStatus()">
-    <i ng-show="status.isWorking" class="icon-refresh icon-spin"></i>
-    <b> {{status.msg | translate }}</b>
-    <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
-  </alert>
-
-  <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup resizable' style='min-width:204px; min-height:97px;'>
+  <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup resizable-se' style='min-width:204px; min-height:97px;'>
     <label class="classic">Preview: </label>
     <button class="yangButton icon-remove close" ng-click="hidePreview()"></button>
     <div class="previewWrapper">
@@ -15,54 +8,52 @@
     </div>
   </div>
 
-
-  <!-- <div ng-show='topologyData.nodes.length > 0' class='topologyContainer'>
-    <button class="close" ng-click="clearTopologyData()">&times;</button>
-    <topology-simple topology-data="topologyData"></topology-simple>
-  </div> -->
-  <div ng-show="selCustFunct && selCustFunct.viewStr" class="draggablePopup resizable" ng-class="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' ? 'mountPointsContainer' : 'topologyContainer'">
-    <div class="alertInner" ng-show="status.isWorking">
-      <i class="icon-refresh icon-spin ng-scope"></i><span>{{ 'YANGUI_LOADING_DATA' | translate }}</span>
-    </div> 
-    <button class="yangButton icon-remove close" ng-click="unsetCustomFunctionality()"></button>
-    <div ng-include src="selCustFunct.viewStr" class="mountPointsWrapper"></div>
+  <!-- Custom plugins views -->
+  <div ng-show="selCustFunct && selCustFunct.viewStr">
+    <div ng-include src="selCustFunct.viewStr"></div>
   </div>
 
-  <div class="simpleContainer">
-    <div>
-      <span><strong>{{ 'MODULE' | translate }}</strong></span>
+  <!-- ABN TREE -->
+  <div class="simpleContainer resizable-s treeContainer">
 
-      <abn-tree tree-data="treeApis" tree-rows="treeRows" on-select="setApiNode(branch.indexApi, branch.indexSubApi)"></abn-tree>
-    </div>
-    
-    <div sticky class="selSubApiPath">
-      <div class="in" ng-show="selSubApi.pathArray.length">
+    <span><strong>{{ 'MODULE' | translate }}</strong></span>
+    <abn-tree tree-data="treeApis" tree-rows="treeRows" on-select="setApiNode(branch.indexApi, branch.indexSubApi)"></abn-tree>
+  </div>
+
+  <!-- ACTIONS BUTTON -->
+  <div sticky class="actionBtnApiPathWrapper simpleContainer">
+
+    <div class="in">
+
+      <div class="selSubApiPath mb10" ng-show="selSubApi.pathArray.length">
         <label class="classic">{{ 'YANGUI_API_OP' | translate }}: </label>
         <span ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
             <span ng-show="pathElem.hasIdentifier()">
                 <span ng-repeat="identifier in pathElem.identifiers">
-                  /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview()">
+                  /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)">
                 </span>
             </span>
         </span>
-        <button ng-repeat="operation in selSubApi.operations" ng-hide="selCustFunct && selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS' && node === null" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeOperation(operation)">{{operation}}</button>
-        <button ng-repeat="custFunct in selSubApi.custFunct" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
-      </div>
-    </div>
 
-    <div class="actionButtons">
-      <div class="in">
+        <select class="form-control input-sm inline" style="width:100px" ng-hide="node === null" ng-model="selectedOperation" ng-change="updateAt($index, contractRef)" ng-options="operation for operation in selSubApi.operations">
+        </select>
+        <button ng-hide="node === null || selectedOperation === null" class="btn btn-default btn-slim" style="margin-right: 5px" ng-click="executeOperation(selectedOperation)">{{ 'YANGUI_SEND' | translate }}</button>
+
+        <button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
+      </div>
+
+      <div class="actionButtons">
         <label class="classic">{{ 'YANGUI_ACTIONS' | translate }}: </label>
         <button ng-click="showPreview()" class="btn btn-default ng-scope btn-slim">{{ 'SHOW_PREVIEW' | translate }}</button>
         <!-- HISTORY REQUEST COLLECTIONS -->
-        <div ng-controller="requestHistoryCtrl" class="requestModal inlineBlock" ng-include src="currentPath+'/modal/request-modal.tpl.html'"></div>
+        <div class="requestModal inlineBlock" ng-include src="currentPath+'/modal/request-modal.tpl.html'"></div>
 
         <!-- WIN FOR ADDING DATA + BUTTON -->
         <div class="inlineBlock dataPopupWrapper">
               <button class="btn btn-default ng-scope btn-slim" ng-click='show_add_data_popup()'>
                   {{ 'YANGUI_SET_CUSTOM_API' | translate }}
               </button>
-              <div id="customApi" ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup resizable' style="min-height: 322px;">
+              <div id="customApi" ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup resizable-se' style="min-height: 322px;">
                   <button class="yangButton icon-remove close" ng-click="close_popup(popupData)"></button>
                   <div>
                     <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
@@ -70,15 +61,23 @@
                     <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>
                   </div>
                   <textarea ng-model="dataToFill" ></textarea>
-                  <button class="btn btn-default ng-scope btn-slim" ng-click='fillApiAndData(apiToFill, dataToFill)' style="position: absolute; bottom: 20px;">
+                  <button class="btn btn-default ng-scope btn-slim" ng-click='fillApiAndData({path: apiToFill, sentData: dataToFill})' style="position: absolute; bottom: 20px;">
                     <i class="icon-upload-alt "></i>
                     {{ 'YANGUI_PUSH_CONFIG' | translate }}
                   </button>
               </div>
         </div>
       </div>
+
     </div>
+
   </div>
+
+  <alert type='status.type' ng-show="status.msg" close="dismissStatus()">
+    <i ng-show="status.isWorking" class="icon-refresh icon-spin"></i>
+    <b> {{status.msg | translate }}</b>
+    <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
+  </alert>
 
   <div class="form-inline">
     <div ng-if="node" ng-include src="currentPath+'/'+ apiType + node.type+'.tpl.html'"></div>
