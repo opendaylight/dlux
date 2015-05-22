@@ -1,6 +1,6 @@
 define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils) {
 
-  yangui.register.factory('checkFlow', function($http, reqBuilder, apiConnector, yangUtils, YangUtilsRestangular) {
+  yangui.register.factory('checkFlow', function($http, reqBuilder, yangUtils, YangUtilsRestangular) {
 
       var fnc = function($scope) {
           var requestPath = $scope.selSubApi.buildApiRequestString().replace('config','operational'),
@@ -28,7 +28,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
       return {
         module: ['opendaylight-inventory'],
         revision: null,
-        pathString: ['/config/opendaylight-inventory:nodes/node/{id}/flow-node-inventory:table/{id}/flow/{id}/'],
+        pathString: ['config/opendaylight-inventory:nodes/node/{id}/flow-node-inventory:table/{id}/flow/{id}/'],
         label: 'Verify operational flow', 
         getCallback: fnc
       };
