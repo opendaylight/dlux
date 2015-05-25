@@ -250,7 +250,7 @@ module.exports = function ( grunt ) {
               }
             }
         }
-	},
+    },
 
     /**
      * `grunt concat` concatenates multiple source files into a single file.
@@ -425,7 +425,8 @@ module.exports = function ( grunt ) {
         port: 9877 // IMPORTANT!
       },
       continuous: {
-        singleRun: true
+        singleRun: true,
+        browsers: ['PhantomJS']
       }
     },
 
@@ -649,13 +650,13 @@ module.exports = function ( grunt ) {
       'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
-  grunt.registerTask( 'build', ['replace:development', 'common']);
+  grunt.registerTask( 'build', ['replace:development', 'common', 'karma:continuous']);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', ['replace:production', 'common', 'ngAnnotate', 'shell:requirejs']);
+  grunt.registerTask( 'compile', ['replace:production', 'common', 'karma:continuous', 'ngAnnotate', 'shell:requirejs']);
 
   /**
    * A utility function to get all app JavaScript sources.
