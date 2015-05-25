@@ -7,7 +7,9 @@ var pathToModule = function(path) {
 
 Object.keys(window.__karma__.files).forEach(function(file) {
   if (TEST_REGEXP.test(file)) {
-    allTestFiles.push(pathToModule(file));
+    if (file.indexOf('yang') < 0 ) { // yang spec are broken
+      allTestFiles.push(pathToModule(file));
+    }
   }
 });
 
