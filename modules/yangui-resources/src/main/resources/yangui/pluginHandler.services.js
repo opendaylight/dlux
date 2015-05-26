@@ -14,7 +14,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'].conca
     return 'app/yangui/cf/cv/'+ctrl+'.controller';
 })), function(yangui, yangutils) {
 
-  yangui.register.factory('pluginHandler', function($http, $injector, reqBuilder, apiConnector, yangUtils, displayTopology, checkFlow) {
+  yangui.register.factory('pluginHandler', function($http, $injector, reqBuilder, custFunct, yangUtils, displayTopology, checkFlow) {
 
     var pluginHandler = {
         plugins: [],
@@ -35,7 +35,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'].conca
           this.plugins.forEach(function(plugin) {
             console.info('adding plugin',plugin);
             plugin.module.forEach(function(plModule, i){
-                apiConnector.createCustomFunctionalityApis(apis, plModule, plugin.revision, plugin.pathString[i], plugin.label, plugin.getCallback, plugin.view);
+                custFunct.createCustomFunctionalityApis(apis, plModule, plugin.revision, plugin.pathString[i], plugin.label, plugin.getCallback, plugin.view);
             });
           });
         }
