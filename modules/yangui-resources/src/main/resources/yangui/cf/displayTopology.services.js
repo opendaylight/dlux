@@ -1,6 +1,6 @@
 define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'common/sigmatopology/sigma.directive'], function(yangui, yangutils) {
 
-    yangui.register.factory('displayTopology', function($http, reqBuilder, apiConnector, yangUtils) {
+    yangui.register.factory('displayTopology', function($http, reqBuilder, yangUtils) {
 
         var fnc = function($scope) {
             if($scope.node && 
@@ -49,7 +49,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
         return {
             module: ['network-topology'],
             revision: null,
-            pathString: ['/operational/network-topology:network-topology/'],
+            pathString: ['operational/network-topology:network-topology/'],
             label: 'YANGUI_CUST_TOPOLOGY',
             getCallback: fnc,
             view: './src/app/yangui/cf/cv/cvtopology.tpl.html'
