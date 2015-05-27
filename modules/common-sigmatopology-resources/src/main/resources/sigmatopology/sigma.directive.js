@@ -80,7 +80,17 @@ define(modules, function(topologyModule) {
               var timeToStopAtlas;
 
               // Instantiate sigma:
-              sigma.renderers.def = sigma.renderers.canvas;
+              Sigma.renderers.def = Sigma.renderers.canvas;
+
+              Sigma.prototype.resetZoom = function(camera){
+                  if(typeof camera == "undefined"){
+                      camera = this.cameras[0];
+                  }
+                  camera.ratio = 1;
+                  camera.x = 0;
+                  camera.y = 0;   
+                  this.refresh();
+              };
 
               // console.info('sigma topology data', ntdata, $scope.topologyData);
               sigmaIstance = new Sigma({
@@ -116,7 +126,7 @@ define(modules, function(topologyModule) {
               }
 
               if ( !$scope.topologyData.disabledAtlas ) {
-              sigmaIstance.startForceAtlas2(configAtlas);
+                sigmaIstance.startForceAtlas2(configAtlas);
               }
 
               if ( $scope.topologyCustfunc && angular.isFunction($scope.topologyCustfunc) ) {
