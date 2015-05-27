@@ -34,7 +34,6 @@ define(['common/yangutils/listfiltering.module'], function (listFiltering) {
             };
 
             node.deepCopyForFilter = function (additionalProperties) {
-
                 var copy = node.getCleanCopy(),
                     self = this,
                     allowedLeafTypesForFilter = filterConstants.ALLOWED_LEAF_TYPES_FOR_FILTER,
@@ -488,7 +487,6 @@ define(['common/yangutils/listfiltering.module'], function (listFiltering) {
                 listFiltering.getFilterData(node);
                 listFiltering.removeEmptyFilters(node);
             }
-            // console.info('showListFilterWin node',node,'node.referenceNode.filterNodes',node.referenceNode.filterNodes,'node.referenceNode.filters',node.referenceNode.filters);
         };
 
         listFiltering.createNewFilter = function (node) {
