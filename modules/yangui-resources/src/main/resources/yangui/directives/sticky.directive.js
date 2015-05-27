@@ -15,7 +15,7 @@ define(['app/yangui/yangui.module'], function(yangui) {
                         stickyLine,
                         scrollTop,
                         randomNum = Math.floor((Math.random() * 1000) + 1),
-                        $wrapper = $('<div class="sticky-element'+randomNum+' mt20"></div>');
+                        $wrapper = $('<div class="sticky-element'+randomNum+'"></div>');
 
 
                     // Set the top offset
@@ -60,8 +60,8 @@ define(['app/yangui/yangui.module'], function(yangui) {
                     // Handle the resize event
                     //
                     function resize(){
-                        $elem.css('position', initialPositionStyle);
-                        $timeout(setInitial);
+                        // $elem.css('position', initialPositionStyle);
+                        // $timeout(setInitial);
                     }
 
 
