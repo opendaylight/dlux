@@ -309,9 +309,9 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
     };
 
     visualizerUtils.clearEdgeColors = function(edgesObj){
-        
-        edgesTC = edgesObj ? edgesObj : edgesToClear;
 
+        edgesTC = edgesObj ? edgesObj : edgesToClear;
+        
         edgesTC.node.size = edgesTC.node.parent === null ? 20 : edgesTC.node.expand ? 12 : 7;
 
         edgesTC.edges.forEach(function(edge){
@@ -376,6 +376,14 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
             numOfChildren : getNumberOfChildren(parentNode.node),
             nodesArray : getAllChildrenByNode(parentNode.node)
         };
+    };
+
+    visualizerUtils.getNodeById = function(nodes, id){
+        var nodesArray = nodes.filter(function(node){
+            return node.node.graphId === id;
+          });
+
+        return nodesArray.length ? nodesArray[0] : null;
     };
 
     visualizerUtils.__test = {
@@ -524,6 +532,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
                 lList = lList !== null ? lList : {};
                 lList[node.label] = layout;
 
+                console.log('lList', lList);
+
                 try {
                     localStorage.setItem("modelLayouts", JSON.stringify(lList));
                     return lList[node.label];
@@ -546,10 +556,10 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
             if ( $('.yangVisualizer').length ) {
                 $('.yangVisualizer').closest('.col-xs-12').addClass('yangVisualizerWrapper');
 
-                $('#graph-container').height($(window).height() - 116);
+                $('#graph-container').height($(window).height() - 206);
 
                 $(window).resize(function(){
-                    $('#graph-container').height($(window).height() - 116);
+                    $('#graph-container').height($(window).height() - 206);
                 });
               }
         };
