@@ -1,6 +1,6 @@
 define(['angularAMD', 'app/core/core.module' ,'app/core/core.services','Restangular', 'common/config/env.module'], function (ng) {
   var nav = angular.module('app.common.nav', ['app.core','restangular', 'config']);
-
+  nav.register = nav;
   nav.config( function($stateProvider, $controllerProvider,$compileProvider, $provide, NavHelperProvider) {
 
     // use the register because the app is already bootstraped
