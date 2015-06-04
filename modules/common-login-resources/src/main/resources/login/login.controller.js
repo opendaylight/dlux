@@ -8,7 +8,7 @@
 
 define(['common/login/login.module', 'common/authentification/auth.services'], function(login) {
 
-  login.register.controller('LoginCtrl', function ($cookieStore, $scope, $http, $window, Auth, $location) {
+  login.register.controller('LoginCtrl', function ($scope, $http, $window, Auth, $location) {
         // default values
         $scope.login = {};
         $scope.login.username = "";

@@ -7,9 +7,10 @@
  */
 
 define(['angularAMD', 'jquery', 'common/authentification/auth.services', 'ocLazyLoad'], function(ng, $) {
-  var login = angular.module('app.common.login', ['ngCookies', 'app.common.auth', 'ui.router.state']);
+  var login = angular.module('app.common.login', ['app.common.auth', 'ui.router.state']);
+  login.register = login;
 
-  login.config(function($stateProvider, $compileProvider, $controllerProvider, $provide, $httpProvider, $translateProvider) {
+  login.config(function($stateProvider, $compileProvider, $controllerProvider, $provide, $httpProvider) {
 
     login.register = {
       controller : $controllerProvider.register,
