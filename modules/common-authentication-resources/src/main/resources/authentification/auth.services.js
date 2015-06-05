@@ -8,7 +8,7 @@
 
 define(['common/authentification/auth.module'], function(auth) {
 
-  auth.factory('Auth', function($http, $window, $cookieStore, Base64, ENV){
+  auth.factory('Auth', function($http, $window, Base64, ENV){
           var factory = {};
           // Set Authorization header to username + password
           factory.setBasic = function(user, pw) {
