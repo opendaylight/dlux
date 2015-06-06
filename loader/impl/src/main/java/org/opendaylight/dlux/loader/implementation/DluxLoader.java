@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import com.google.common.base.Preconditions;
 import org.opendaylight.dlux.loader.DluxModuleLoader;
 import org.opendaylight.dlux.loader.Module;
+import org.opendaylight.dlux.loader.exception.DluxLoaderException;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public class DluxLoader implements DluxModuleLoader {
         index = null;
     }
 
-    public void onBindService(HttpService httpService) throws ServletException, NamespaceException {
+    public void onBindService(HttpService httpService) throws ServletException, NamespaceException, DluxLoaderException {
         Preconditions.checkNotNull(httpService,
             "Unable to inject HttpService into DluxLoader. dlux modules won't work without httpService");
 
