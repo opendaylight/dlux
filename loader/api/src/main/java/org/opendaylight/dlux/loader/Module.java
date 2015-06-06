@@ -1,7 +1,6 @@
 package org.opendaylight.dlux.loader;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Copyright (c) 2014 Inocybe Technologies, and others. All rights reserved.
