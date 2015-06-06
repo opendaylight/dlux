@@ -14,9 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.osgi.service.http.HttpService;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * At startup of each karaf bundle, each UI module creates an instance of this class
  * via blueprint.

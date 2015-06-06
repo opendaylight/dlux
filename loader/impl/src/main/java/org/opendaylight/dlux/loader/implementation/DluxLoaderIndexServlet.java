@@ -7,105 +7,139 @@ package org.opendaylight.dlux.loader.implementation;
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
+import org.opendaylight.dlux.loader.Module;
+import org.opendaylight.dlux.loader.exception.DluxLoaderException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.common.base.Preconditions;
-import org.opendaylight.dlux.loader.Module;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class DluxLoaderIndexServlet extends HttpServlet{
 
     private static final long serialVersionUID = 1L;
     private static Logger logger = LoggerFactory.getLogger(DluxLoaderIndexServlet.class);
 
-    private String defaultRequireJSModules = "var module = [\'angularAMD\', \'ocLazyLoad\', \'angular-ui-router\'," +
-        "\'angular-translate\', \'angular-translate-loader-static-files\', \'common/config/env.module\',\'angular-css-injector\'";
+    private String REQUIREJS_PROPERTY = "requireJS";
 
-    private String defaultAngularJSModules = "var e = [ \'oc.lazyLoad\', \'ui.router\', \'pascalprecht.translate\', \'angular.css.injector\'";
+    private String ANGULARJS_PROPERTY = "angularJS";
 
-    private String end = "];";
+    private final String REQUIREJS_START = "var module = [";
 
-    private String COMMA_QUOTE = ",\'";
+    private final String ANGULARJS_START = "var e = [";
 
-    private String QUOTE = "\'";
+    private final String end = "];";
 
-    private String NEWLINE = "\n";
+    private final String COMMA_QUOTE = ",\'";
 
-    private DluxLoader loader;
+    private final String QUOTE = "\'";
 
-    private String UTF_CHARSET = "UTF-8";
+    private final String NEWLINE = "\n";
 
-    private String JAVASCRIPT_REPLACE_STRING = "global variables";
+    private final DluxLoader loader;
 
-    private String APPLICATION_CSS_VARIABLE = "application CSS";
+    private final String UTF_CHARSET = "UTF-8";
 
-    private String INDEX_HTML_LOC = "/index/index.html";
+    private final String JAVASCRIPT_REPLACE_PROPERTY = "javascriptReplaceString";
 
-    private String RESPONSE_CONTENT_TYPE = "text/html";
+    private final String CSS_REPLACE_PROPERTY = "cssReplaceString";
 
-    private String CSS_LINK_START = "<link rel=\"stylesheet\" href=\"";
+    private final String INDEX_HTML_LOC = "index/index.html";
 
-    private String CSS_LINK_END = "\" />";
+    private final String RESPONSE_CONTENT_TYPE = "text/html";
 
-    public DluxLoaderIndexServlet(DluxLoader loader) {
+    private final String CSS_LINK_START = "<link rel=\"stylesheet\" href=\"";
+
+    private final String CSS_LINK_END = "\" />";
+
+    private final Properties prop;
+
+    private final List<String> indexHTML;
+
+    public DluxLoaderIndexServlet(final DluxLoader loader) throws DluxLoaderException {
+        Preconditions.checkNotNull(loader, "Loader service can not be null");
         this.loader = loader;
+        this.prop = loadProperties();
+        this.indexHTML = loadStaticHTML();
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+    private Properties loadProperties() throws DluxLoaderException {
 
-        response.setContentType(RESPONSE_CONTENT_TYPE);
-        InputStream input = DluxLoader.class.getClassLoader().getResourceAsStream(INDEX_HTML_LOC);
+        Properties prop = new Properties();
 
-        Preconditions.checkNotNull(input, "Error while generating the page. Could not read the index.html file.");
+        try(InputStream inputStream = DluxLoaderIndexServlet.class.getClassLoader().getResourceAsStream("CommonAppModules.properties")){
+            Preconditions.checkNotNull(inputStream, "Could not load the module properties file");
+            prop.load(inputStream);
 
-        try(BufferedReader bufferedReader = new BufferedReader(
-            new InputStreamReader(input, UTF_CHARSET));) {
-            StringBuilder inputStringBuilder = new StringBuilder();
+        } catch (IOException e) {
+            logger.error("Could not load properties from input stream", e);
+            throw new DluxLoaderException("Dlux Loader Servlet initialization failed. ", e);
+        }
+        return prop;
+    }
 
+    private List<String> loadStaticHTML() throws DluxLoaderException{
+        List<String> indexHTMLContent = new ArrayList<>();
+        try(InputStream indexHTMLStream = DluxLoaderIndexServlet.class.getClassLoader().getResourceAsStream(INDEX_HTML_LOC);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(indexHTMLStream, UTF_CHARSET))) {
             String line = bufferedReader.readLine();
-
-            while (line != null) {
-                inputStringBuilder.append(line);
-                inputStringBuilder.append(NEWLINE);
-
-                if(line.contains(JAVASCRIPT_REPLACE_STRING)) {
-                // add global variables
-                    inputStringBuilder.append(getModulesString());
-                    inputStringBuilder.append(NEWLINE);
-                }
-
-                if(line.contains(APPLICATION_CSS_VARIABLE)) {
-                    inputStringBuilder.append(getCSSString());
-                    inputStringBuilder.append(NEWLINE);
-                }
-
+            while(line != null) {
+                indexHTMLContent.add(line);
                 line = bufferedReader.readLine();
             }
 
-            PrintWriter out = response.getWriter();
-            out.print(inputStringBuilder.toString());
-
         } catch (IOException e) {
-            logger.error("There was an error reading index.html :{}", e);
+            logger.error("Could not load index html from input stream", e);
+            throw new DluxLoaderException("Dlux Loader Servlet initialization failed. ", e);
         }
+        return indexHTMLContent;
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+        String jsReplace = prop.getProperty(JAVASCRIPT_REPLACE_PROPERTY);
+        String cssReplace = prop.getProperty(CSS_REPLACE_PROPERTY);
+        Preconditions.checkNotNull(jsReplace, "Global requireJS replace string should be present in properties file");
+        Preconditions.checkNotNull(cssReplace, "Global css replace string should be present in properties file");
+        Preconditions.checkArgument(indexHTML.size() > 0, "HTML file was not loaded properly at servlet initialization");
+
+        StringBuilder inputStringBuilder = new StringBuilder();
+        for (String line : this.indexHTML) {
+            // add global variables
+            if(line.contains(jsReplace)) {
+                inputStringBuilder.append(getModulesString());
+                inputStringBuilder.append(NEWLINE);
+            }
+
+            if(line.contains(cssReplace)) {
+                inputStringBuilder.append(getCSSString());
+                inputStringBuilder.append(NEWLINE);
+            }
+            inputStringBuilder.append(line);
+            inputStringBuilder.append(NEWLINE);
+
+        }
+        response.setContentType(RESPONSE_CONTENT_TYPE);
+        PrintWriter out = response.getWriter();
+        out.print(inputStringBuilder.toString());
     }
 
     private String getModulesString() {
-
         StringBuilder requireJsBuilder = new StringBuilder();
         StringBuilder angularBuilder = new StringBuilder();
-        requireJsBuilder.append(defaultRequireJSModules);
-        angularBuilder.append(defaultAngularJSModules);
+        requireJsBuilder.append(REQUIREJS_START).append(prop.getProperty(REQUIREJS_PROPERTY));
+        angularBuilder.append(ANGULARJS_START).append(prop.getProperty(ANGULARJS_PROPERTY));
         for (Module module: loader.getModules()){
             requireJsBuilder.append(COMMA_QUOTE).append(module.getRequireJs()).append(QUOTE);
             angularBuilder.append(COMMA_QUOTE).append(module.getAngularJs()).append(QUOTE);
@@ -128,5 +162,15 @@ public class DluxLoaderIndexServlet extends HttpServlet{
         }
 
         return cssBuilder.toString();
+    }
+
+    @VisibleForTesting
+    public Properties getProp() {
+        return this.prop;
+    }
+
+    @VisibleForTesting
+    public List<String> getIndexHTML() {
+        return indexHTML;
     }
 }
