@@ -27,6 +27,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       $scope.sliderValue = 4;
       $scope.sliderSettings = yvConstants.sliderSettings;
+      $scope.clickedNodesHistory = [];
 
       var lastSelectedNode = null,
           maxLvlToSHow = 4,
@@ -168,6 +169,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
         sigmaIstance.bind('clickNode', function(e) {
             selectNode(e.data.node);
+            $scope.clickedNodesHistory = [e.data.node.id];
         });
 
 
@@ -260,6 +262,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         lastSelectedNode = null;
         $scope.expandedNodes = !modelChanged ? $scope.expandedNodes : false;
         $scope.legend = [];
+        $scope.clickedNodesHistory = [];
 
         if ( modelChanged ) {
           $scope.selectedProperty = null;
@@ -293,15 +296,32 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         $scope.triggerResizeSigma = !$scope.triggerResizeSigma;
       };
 
+      var selectGraphNode = function(node) {
+          selectNode(node);
+          setCameraToNode(node);
+      };
+
       $scope.zoomToNode = function(id){
-        var nodeToZoom = $scope.sigma.graph.nodes().filter(function(node){
-                            return node.node.graphId === id;
-                          });
+        var nodeToZoom = visualizerUtils.getNodeById($scope.sigma.graph.nodes(), id);
         $scope.sigma.killForceAtlas2();
 
-        if(nodeToZoom.length > 0) {
-          selectNode(nodeToZoom[0]);
-          setCameraToNode(nodeToZoom[0]);
+        $scope.clickedNodesHistory.push(id);
+
+        if( nodeToZoom ) {
+          selectGraphNode(nodeToZoom);
+        }
+      };
+
+      $scope.backToNode =  function(){
+        $scope.clickedNodesHistory.pop();
+
+        if ( $scope.clickedNodesHistory.length ){
+          var nodeId = $scope.clickedNodesHistory[$scope.clickedNodesHistory.length - 1],
+              nodeObjToBack = visualizerUtils.getNodeById($scope.sigma.graph.nodes(), nodeId);
+
+          if ( nodeObjToBack ) {
+            selectGraphNode(nodeObjToBack);
+          }
         }
       };
 
@@ -320,6 +340,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
       $scope.$on('YV_UPDATE_TOPODATA',function(event, data){
         $scope.topologyData = data.topoData;
         $scope.sliderValue = data.sv;
+        console.log('data', data);
       });
 
       $scope.$on('YV_UPDATE_CTN', function(event, slider){
@@ -343,18 +364,29 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
     $scope.modelLayout = null;
 
+    var configAtlas = {
+      adjustSizes: true,
+      gravity: 1
+    };
+
     $scope.setLayout = function(node){
       $scope.modelLayout = VizualiserLayoutFactory.loadLayout($scope.currentTopologyNode);
+      console.log('$scope.modelLayout', $scope.modelLayout);
     };
 
     $scope.saveLayout = function(){
       $scope.modelLayout = VizualiserLayoutFactory.saveLayout($scope.currentTopologyNode, $scope.sigma, $scope.sliderValue, $scope.selectedNodeColor);
+      console.log('$scope.modelLayout', $scope.modelLayout);
     };
 
     $scope.loadLayout = function(){
       $scope.$emit('YV_UPDATE_CTN', $scope.modelLayout['slider-value']);
       var topologyData = VizualiserLayoutFactory.getTopoData($scope.currentTopologyNode, $scope.modelLayout);
       $scope.$emit('YV_UPDATE_TOPODATA', { topoData: topologyData, sv: $scope.modelLayout['slider-value'] });
+    };
+
+    $scope.resetLayout = function(){
+      $scope.sigma.startForceAtlas2(configAtlas);
     };
 
     $scope.$on('YV_MODEL_CHANGE', function(){

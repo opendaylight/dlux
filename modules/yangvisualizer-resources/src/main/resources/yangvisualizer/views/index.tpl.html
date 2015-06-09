@@ -20,6 +20,7 @@
         <div class="col-md-4 col-md-offset-2">
           <button ng-show="currentTopologyNode" class="btn btn-orange btn-slim" ng-click="saveLayout()">{{ 'YANGVISUALIZER_SAVE_MODEL' | translate }}</button>
           <button ng-show="modelLayout" class="btn btn-orange btn-slim" ng-click="loadLayout()">{{ 'YANGVISUALIZER_LOAD_MODEL' | translate }}</button>
+          <button ng-show="currentTopologyNode" class="btn btn-orange btn-slim" ng-click="resetLayout()">{{ 'YANGVISUALIZER_RESET_MODEL' | translate }}</button>
         </div>
       </div>
 
@@ -58,17 +59,17 @@
     <!-- RIGHT PANEL -->
     <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">
       <div class="topButtons">
-        <div style="position: absolute; right: 40px;">
-          <!-- <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
-            {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
-          </button> -->
-        </div>
-        <div style="position: absolute; right: 10px;">
-          <button class="btn btn-show add-row btn-orange ng-scope btn-slim btn-show-custom" tooltip="show/hide panel" ng-click='triggerExpanded(panel, triggerResize)'>
+          <button class="btn btn-show add-row btn-orange btn-slim btn-show-custom" ng-click='triggerExpanded(panel, triggerResize)'>
               <i class="icon-caret-right" ng-show="panel.show"></i>
               <i class="icon-caret-left" ng-show="!panel.show"></i>
           </button>
-        </div>
+          <div class="clear mt20"></div>
+          <!-- <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
+            {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
+          </button> -->
+          <button class="btn btn-orange btn-slim btn-graph" ng-click="sigma.resetZoom()">
+            <i class="icon-resize-full"></i>
+          </button>
       </div>
       <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
       <table>
@@ -129,6 +130,8 @@
           </tr>
         </tbody>
       </table>
+
+      <button ng-show="clickedNodesHistory.length > 1" ng-click="backToNode()" class="btn btn-orange btn-slim">{{ 'YANGVISUALIZER_BTN_BACK' | translate }}</button>
     </div>
 
     <div class="clear"></div>
