@@ -36,10 +36,8 @@ module.exports = function() {
         },
         refresh: function(nodes, links) {
             //tmp
-            topology.beginUpdate();
             topology.clear();
             _load(nodes, links);
-            topology.endUpdate();
             renderer.refresh(topology);
         },
         loadGraph: function(nodes, links) {

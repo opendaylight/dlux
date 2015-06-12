@@ -43,16 +43,15 @@ module.exports = function(id, graph, config) {
     var hostTexture = new PIXI.Texture.fromImage(config.host.src);
 
     // add a physic layout to place the node in the screen
-    var layoutCreator = require('ngraph.forcelayout'),
-        physics = require('ngraph.physics.simulator');
+    var layoutCreator = require('ngraph.forcelayout');
 
-    var layout = layoutCreator(graph, physics({
+    var layout = layoutCreator(graph, {
         springLength: 100,
         springCoeff: 0.0008,
-        dragCoeff: 0.01,
-        gravity: -1.2,
+        dragCoeff: 0.001,
+        gravity: -1.8,
         theta: 1
-    }));
+    });
 
     // link renderer
     var graphics = new PIXI.Graphics();
@@ -77,13 +76,19 @@ module.exports = function(id, graph, config) {
         }
     };
 
+    function clearGraph() {
+      stage.camera.transform.reset();
+      stage.removeChildren();
+      nodes = {};
+      links = {};
+    }
+
     function displayGraph() {
         // step the layout to make a good looking graph
         // remove after cause it's heavy for nothing
         for (var i = 0; i < 1000; ++i) {
             layout.step();
         }
-        layout.dispose();
         centerGraph();
     }
 
@@ -95,7 +100,7 @@ module.exports = function(id, graph, config) {
         },
         refresh: function(topology) {
             cancelAnimationFrame(loop);
-            stage.removeChildren();
+            clearGraph();
             topology.forEachNode(initializeNode);
             topology.forEachLink(initializeLink);
             displayGraph();
@@ -119,13 +124,9 @@ module.exports = function(id, graph, config) {
             font : '11px Arial'
         });
 
-        var centerWidth = width * 0.5;
-        var centerHeight = height * 0.5;
-
         nodeSprite.anchor.set(0.5, 0.5);
 
-        layout.setNodePosition(node.id, Math.random() * centerWidth, Math.random() * centerHeight);
-        nodeSprite.position.set(centerWidth, centerHeight);
+        layout.setNodePosition(node.id, Math.random(), Math.random());
 
         // text is a child of the sprite, we don't need to apply a transform
         text.anchor.set(0.5, 0.5);
@@ -194,36 +195,12 @@ module.exports = function(id, graph, config) {
     }
 
     // Move the graph near the center.
-    // TODO : use a better algorithm like finding the centroid and move based on that position
     function centerGraph() {
-        var size = getGraphSize();
-        var moveX = Math.abs(config.width - size[0]) * 0.5;
-        var moveY = Math.abs(config.height - size[1]) * 0.5;
+        var rect = layout.getGraphRect();
+        var size = [rect.x2 - rect.x1, rect.y2 - rect.y1];
+        var moveX = Math.abs(config.width - size[0]) * 0.5 - rect.x1;
+        var moveY = Math.abs(config.height - size[1]) * 0.5 - rect.y1;
         stage.camera.transform.translate(moveX, moveY);
-    }
-
-    // get the size of the graph by finding min and max pos
-    function getGraphSize() {
-        var minX = 10000,
-            minY = 10000,
-            maxX = -1,
-            maxY = -1;
-
-        for (var key in nodes) {
-            var node = nodes[key];
-            if (node.pos.x < minX) {
-                minX = node.pos.x;
-            } else if (node.pos.x > maxX) {
-                maxX = node.pos.x;
-            }
-            if (node.pos.y < minY) {
-                minY = node.pos.y;
-            } else if (node.pos.y > maxY) {
-                maxY = node.pos.y;
-            }
-        }
-
-        return [maxX - minX, maxY - minY];
     }
 
     // check if the given id exist
