@@ -60,10 +60,10 @@
     "angular-mocks": "~1.2.22",
     "jasmine": "~2.0.1",
     "ngraph.graph": "~0.0.8",
-    "ngraph.forcelayout": "0.0.16",
+    "ngraph.forcelayout": "~0.0.16",
     "ngraph.fromjson": "^0.1.4",
-    "ngraph.merge": "0.0.1",
-    "ngraph.physics.simulator": "0.0.10",
+    "ngraph.merge": "~0.0.1",
+    "ngraph.physics.simulator": "~0.0.10",
     "transformatrix": "^1.1.1"
   },
   "engines": {
