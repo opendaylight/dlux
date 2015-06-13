@@ -12,6 +12,11 @@
   <dependencies>
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>dlux-web</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
       <artifactId>loader</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
