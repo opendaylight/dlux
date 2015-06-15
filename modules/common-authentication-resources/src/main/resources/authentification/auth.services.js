@@ -168,7 +168,7 @@ define(['common/authentification/auth.module'], function(auth) {
     return {
       request : function(config) {
           // Use AAA basic authentication
-        if (config.url.indexOf('restconf') != -1 || config.url.indexOf('controller/nb/v2') != -1) {
+        if (config.url.indexOf('restconf') != -1 || config.url.indexOf('apidoc') != -1) {
           config.headers = config.headers || {};
           if ($window.sessionStorage.odlUser && $window.sessionStorage.odlPass) {
             var encoded = Base64.encode($window.sessionStorage.odlUser + ':' + $window.sessionStorage.odlPass);
