@@ -24,7 +24,7 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.common.navigation/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.topbar/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.general/${project.version}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.layout/${project.version}</bundle>
+        <bundle start-level="90">mvn:org.opendaylight.dlux/dlux.common.layout/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.topology/${project.version}</bundle>
     </feature>
 
