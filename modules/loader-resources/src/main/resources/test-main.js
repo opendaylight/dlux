@@ -68,6 +68,9 @@ var test = require.config({
     'pixi' : {
         exports: 'PIXI'
     },
+    'vis' : {
+        exports: 'vis'
+    },
     'graphRenderer' : ['pixi'],
     'jquery' : {
       exports : '$'
