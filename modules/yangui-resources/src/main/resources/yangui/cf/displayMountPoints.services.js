@@ -1,6 +1,6 @@
-define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils) {
+define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils, $filter) {
 
-    yangui.register.factory('displayMountPoints', function(mountPointsConnector, $timeout, yangUtils, apiBuilder) {
+    yangui.register.factory('displayMountPoints', function(mountPointsConnector, $timeout, yangUtils, $filter, apiBuilder) {
 
         var loadId = 0;
 
@@ -88,6 +88,19 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                     }
 
                     $scope.mpSynchronizer.removeRequest(reqId);
+                    
+                    var pathItems = path.split('/');
+                    $scope.treeName = pathItems[pathItems.length-1] + ' [  ' + $filter('translate')('YANGUI_MOUNT_POINT') + ' ] ';
+                    
+                    $scope.selCustFunctButts.push(mountPointsConnector.createCustomButton(
+                        'YANGUI_CANCEL_MP', 
+                        function(){
+                            return $scope.selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS';
+                        }, 
+                        function(){
+                            $scope.unsetCustomFunctionality();
+                        })
+                    );
                 },
                 reqId = $scope.mpSynchronizer.spawnRequest(loadId++);
 
@@ -100,7 +113,8 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
             revision: null,
             pathString: ['operational/network-topology:network-topology/topology/{topology-id}/node/{node-id}/','operational/opendaylight-inventory:nodes/node/{id}/'],
             label: 'YANGUI_CUST_MOUNT_POINTS',
-            view: './src/app/yangui/cf/cv/cvmountpoints.tpl.html',
+//            view: './src/app/yangui/cf/cv/cvmountpoints.tpl.html',
+            hideButtonOnSelect: true,
             getCallback: fnc
             
         };
