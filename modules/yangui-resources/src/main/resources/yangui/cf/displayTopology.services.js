@@ -52,6 +52,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
             pathString: ['operational/network-topology:network-topology/'],
             label: 'YANGUI_CUST_TOPOLOGY',
             getCallback: fnc,
+            hideButtonOnSelect: false,
             view: './src/app/yangui/cf/cv/cvtopology.tpl.html'
         };
     });

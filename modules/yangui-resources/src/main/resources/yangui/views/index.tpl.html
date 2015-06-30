@@ -19,7 +19,7 @@
   <!-- ABN TREE -->
   <div class="simpleContainer resizable-s treeContainer">
 
-    <span><strong>{{ 'MODULE' | translate }}</strong></span>
+    <span><strong>{{ treeName }}</strong></span>
     <abn-tree tree-data="treeApis" tree-rows="treeRows" on-select="setApiNode(branch.indexApi, branch.indexSubApi)"></abn-tree>
   </div>
 
@@ -29,24 +29,24 @@
     <div class="in">
 
       <div class="actionButtons">
-        <label class="classic">{{ 'YANGUI_ACTIONS' | translate }}: </label>
-
+        <label class="classic">{{ 'YANGUI_PATH' | translate }}: </label>
         <div class="selSubApiPath" ng-show="selSubApi.pathArray.length">
-          <span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
-            <span ng-show="pathElem.hasIdentifier()">
-                <span ng-repeat="identifier in pathElem.identifiers">
-                  /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)">
+            <span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
+                <span ng-show="pathElem.hasIdentifier()">
+                    <span ng-repeat="identifier in pathElem.identifiers">
+                      /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)">
+                    </span>
                 </span>
             </span>
-        </span>
 
-        <select class="form-control input-sm inline" style="width:100px" ng-hide="node === null" ng-model="selectedOperation" ng-change="updateAt($index, contractRef)" ng-options="operation for operation in selSubApi.operations">
-        </select>
-        <button ng-hide="node === null || selectedOperation === null" class="btn btn-default btn-slim" style="margin-right: 5px" ng-click="executeOperation(selectedOperation)">{{ 'YANGUI_SEND' | translate }}</button>
+            <select class="form-control input-sm inline" style="width:100px" ng-hide="node === null" ng-model="selectedOperation" ng-change="updateAt($index, contractRef)" ng-options="operation for operation in selSubApi.operations">
+            </select>
+            <button ng-hide="node === null || selectedOperation === null" class="btn btn-default btn-slim" style="margin-right: 5px" ng-click="executeOperation(selectedOperation)">{{ 'YANGUI_SEND' | translate }}</button>
 
-        <button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
-      </div>
-
+            <!--<button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>-->
+            <button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton() || !custFunct.hideButtonOnSelect" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
+        </div>
+        <button ng-repeat="selCustFuncButt in selCustFunctButts" ng-show="selCustFuncButt.show()" ng-click="selCustFuncButt.onclick()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px">{{ selCustFuncButt.label | translate }}</button>
         <button ng-click="showPreview()" class="btn btn-default ng-scope btn-slim">{{ 'SHOW_PREVIEW' | translate }}</button>
 
         <!-- HISTORY REQUEST BUTON -->
@@ -55,7 +55,7 @@
         <!-- WIN FOR ADDING DATA + BUTTON -->
         <div class="dataPopupWrapper inline">
               <button class="btn btn-default ng-scope btn-slim" ng-click='show_add_data_popup()'>
-                  {{ 'YANGUI_SET_CUSTOM_API' | translate }}
+                  {{ 'YANGUI_CUSTOM_API_REQUEST' | translate }}
               </button>
               <div id="customApi" ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup resizable-se' style="min-height: 322px;">
                   <button class="yangButton icon-remove close" ng-click="close_popup(popupData)"></button>
