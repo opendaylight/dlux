@@ -15,8 +15,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.previewValidity = true;
       $scope.previewDelay = 2000;
       $scope.selCustFunct = null;
+      $scope.selCustFunctButts = [];
       $scope.mpSynchronizer = syncFact.generateObj();
       $scope.baseMpApi = '';
+      $scope.defaultTreeName = $filter('translate')('YANGUI_ROOT');
+      $scope.treeName = $scope.defaultTreeName;
+      
 
       $scope.status = {
           type: 'noreq',
@@ -177,11 +181,17 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           return $scope.selCustFunct === null;
       };
 
+      $scope.showCustFunctCancelButton = function() {
+          return $scope.selCustFunct !== null;
+      };
+
       $scope.unsetCustomFunctionality = function() {
           if($scope.selCustFunct) {
               customFunctUnsetter.unset($scope.selCustFunct, $scope);
           }
           $scope.selCustFunct = null;
+          $scope.treeName = $scope.defaultTreeName;
+          $scope.selCustFunctButts = [];
       };
 
       var loadApis = function loadApis() {
@@ -253,7 +263,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
           $rootScope.$on('$includeContentLoaded', function() {
               designUtils.setDraggablePopups();
-              designUtils.getHistoryPopUpWidth();
+              //designUtils.getHistoryPopUpWidth();
           });
       };
 
@@ -270,8 +280,10 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           preparedRequestData = yangUtils.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
           requestWorkingCallback();
 
+
           operation = operation === 'DELETE' ? 'REMOVE' : operation;
 
+          
           YangUtilsRestangular.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData).then(
               function(data) {
                   if(operation === 'REMOVE'){
@@ -296,7 +308,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
                   $scope.$broadcast('YUI_ADD_TO_HISTORY', 'success', data, requestData, operation, requestPath);
 
                   if ( angular.isFunction(callback) ) {
-                    callback(data);
+                      callback(data);
                   }
 
               }, function(resp) {
@@ -403,7 +415,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
       $scope.selectMP = function() {
           var mpCF = custFunctFact.getMPCustFunctionality($scope.selSubApi.custFunct);
-          
           if(mpCF) {
               $scope.executeCustFunctionality(mpCF);
           } else {
@@ -414,7 +425,6 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.fillMPApi = function(path) {
           var mpPath = mountPointsConnector.alterMpPath(path),
               apiIndexes = pathUtils.searchNodeByPath(mpPath, $scope.treeApis, $scope.treeRows);
-
           if(apiIndexes) {
               $scope.setApiNode(apiIndexes.indexApi, apiIndexes.indexSubApi);
               if($scope.selSubApi) {
@@ -491,7 +501,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
     $scope.popupHistory = { show: false};
 
-    $scope.showAddBox = false;
+    $scope.showCollBox = false;
     
 
     $scope.$on('YUI_ADD_TO_HISTORY', function(event, status, data, requestData, operation, requestPath) {
@@ -545,23 +555,29 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
     };
 
     $scope.saveParametrizedData = function(req, list){
-      req.parametrizedPath = pathUtils.translatePathArray(req.api.clonedPathArray).join('/');
-      list.saveToStorage();
+        var parametrizedPath = pathUtils.translatePathArray(req.api.clonedPathArray).join('/'),
+            newReq = req.copyWithParametrizationAsNatural(parametrizedPath, getApiCallback);
+
+        req.clearParametrizedData();
+
+        list.addRequestToList(newReq);
+        list.saveToStorage();
+        
+        req.show = false;
     };
 
-    $scope.showAddCollBox = function(event){
-
-      $('.addCollBox').hide();
+    $scope.showCollBox = function(event){
+      $('.changeCollBox').hide();
       $(event.target)
-        .closest('.addButtonBox')
-        .find('.addCollBox').show()
+        .closest('.historyRequestBox')
+        .find('.collBox').show()
         .find('input').val('');
-
       $scope.$broadcast('COLL_CLEAR_VAL');
     };
+    
 
-    $scope.hideAddCollBox = function(event){
-      $(event.target).closest('.addCollBox').hide();
+    $scope.hideCollBox = function(event){
+      $(event.target).closest('.collBox').hide();
     };
 
     $scope.saveElemToList = function(elem) {
@@ -635,6 +651,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
         // var requestPath = req.path;
 
         $scope.executeOperation(req.method, function(data){
+
             if ( !data &&  req.receivedData ){
               $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
             }
@@ -670,7 +687,8 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
   }]);
 
-  yangui.register.controller('addCollBoxCtrl', ['$scope','HistoryServices',function ($scope, HistoryServices) {
+  yangui.register.controller('collBoxCtrl', ['$scope','HistoryServices',function ($scope, HistoryServices) {
+    
     $scope.collection = {
       name: '',
       group: ''
@@ -681,12 +699,21 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
         HistoryServices.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToAdd);
         $scope.saveElemToList(elemToAdd);
-        $(event.target).closest('.addCollBox').hide();
+        $(event.target).closest('.collBox').hide();
+    };
+
+    $scope.moveHistoryItemToGroup = function(elem, event){
+        var elemToMove = elem.clone();
+
+        HistoryServices.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToMove);
+        $scope.saveElemToList(elemToMove);
+        $scope.deleteRequestItem(elem, 'collectionList');
+        $(event.target).closest('.collBox').hide();
     };
 
     $scope.$on('COLL_CLEAR_VAL', function(){
-      $scope.collection.name = '';
-      $scope.collection.group = '';
+        $scope.collection.name = '';
+        $scope.collection.group = '';
     });
 
   }]);

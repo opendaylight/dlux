@@ -262,9 +262,22 @@ define(['app/yangui/yangui.module'], function(yangui) {
             this.setDataForView(true);
             this.clonePathArray();
         };
-
+        
         this.clone = function() {
             return new HistoryRequest(this.sentData, this.receivedData, this.parametrizedData, this.status, this.path, this.parametrizedPath, this.method, this.api, this.name, this.groupName);
+        };
+        
+        this.copyWithParametrizationAsNatural = function(parametrizedPath, getApiFunction){
+            var result = new HistoryRequest(this.sentData, this.receivedData, this.parametrizedData, this.status, this.path, parametrizedPath, this.method, this.api, this.name, this.groupName);
+            
+            result.sentData = result.parametrizedData;
+            result.parametrizedData = {};
+            result.path = result.parametrizedPath;
+            result.parametrizedPath = '';
+            
+            result.api = getApiFunction ? getApiFunction(result.path) : nullFunction();
+            
+            return result;
         };
 
     };
@@ -291,6 +304,9 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
         if(group) {
             elem.groupName = group;
+        }
+        else{
+            elem.groupName = '';
         }
     };
 

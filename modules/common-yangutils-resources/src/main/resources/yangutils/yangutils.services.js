@@ -450,10 +450,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
     yangUtils.factory('custFunct', function (reqBuilder) {
-        var CustFunctionality = function (label, node, callback, viewStr) {
+        var CustFunctionality = function (label, node, callback, viewStr, hideButtonOnSelect) {
             this.label = label;
             this.callback = callback;
             this.viewStr = viewStr;
+            this.hideButtonOnSelect = hideButtonOnSelect;
 
             this.setCallback = function (callback) {
                 this.callback = callback;
@@ -475,9 +476,9 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
         custFunct = {};
 
-        custFunct.createNewFunctionality = function (label, node, callback, viewStr) {
+        custFunct.createNewFunctionality = function (label, node, callback, viewStr, hideButtonOnSelect) {
             if (node && callback) {
-                return new CustFunctionality(label, node, callback, viewStr);
+                return new CustFunctionality(label, node, callback, viewStr, hideButtonOnSelect);
             } else {
                 console.error('no node or callback is set for custom functionality');
             }
@@ -491,14 +492,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return mpCF[0];
         };
 
-        custFunct.createCustomFunctionalityApis = function (apis, module, revision, pathString, label, callback, viewStr) {
+        custFunct.createCustomFunctionalityApis = function (apis, module, revision, pathString, label, callback, viewStr, hideButtonOnSelect) {
             apis = apis.map(function (item) {
                 if ((module ? item.module === module : true) && (revision ? item.revision === revision : true)) {
 
                     item.subApis = item.subApis.map(function (subApi) {
                         
                         if (cmpApiToTemplatePath(subApi, pathString)) {
-                            subApi.addCustomFunctionality(label, callback, viewStr);
+                            subApi.addCustomFunctionality(label, callback, viewStr, hideButtonOnSelect);
                         }
 
                         return subApi;
@@ -1907,13 +1908,15 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             this.moduleRevision = moduleRevision;
 
             this.appendTo = function (parentNode) {
-                parentNode.children.push(this);
-                this.parent = parentNode;
+                parentNode.addChild(this);
             };
 
             this.addChild = function (node) {
-                this.children.push(node);
-                node.parent = this;
+                if (this.children.indexOf(node) === -1) {
+                    this.children.push(node);
+                    node.parent = this;
+                }
+                
             };
 
             this.deepCopy = function deepCopy(additionalProperties) {
@@ -2358,8 +2361,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 return pathUtils.translatePathArray(this.pathArray).join('/');
             };
 
-            this.addCustomFunctionality = function (label, callback, viewStr) {
-                var funct = custFunct.createNewFunctionality(label, this.node, callback, viewStr);
+            this.addCustomFunctionality = function (label, callback, viewStr, hideButtonOnSelect) {
+                var funct = custFunct.createNewFunctionality(label, this.node, callback, viewStr, hideButtonOnSelect);
 
                 if (funct) {
                     this.custFunct.push(funct);
@@ -2907,6 +2910,15 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 }
             );
         };
+        
+        mp.createCustomButton = function(label, show, click){
+            return {
+                label: label, 
+                show: show,
+                onclick: click
+            };
+        };
+        
 
         return mp;
     });

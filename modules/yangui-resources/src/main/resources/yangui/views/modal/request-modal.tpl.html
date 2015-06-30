@@ -50,10 +50,10 @@
                                             </div>
                                             <div class="tddiv rh-col7">
                                                 <div class="requestActions">
-                                                    <div class="inlineBlock addButtonBox">
-                                                        <div class="yangButton iconPlus inlineBlock" ng-click='showAddCollBox($event)' tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}"></div>
-                                                        <div class="addCollBox popupContainer" ng-controller="addCollBoxCtrl">
-                                                            <button class="yangButton icon-remove close" ng-click="hideAddCollBox($event)"></button>
+                                                    <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}">
+                                                        <div class="yangButton iconPlus inlineBlock" ng-click='showCollBox($event)'></div>
+                                                        <div class="collBox popupContainer" ng-controller="collBoxCtrl">
+                                                            <button class="yangButton icon-remove close" ng-click="hideCollBox($event)"></button>
 
                                                             <label>{{'YANGUI_HISTORY_NAME' | translate}}:</label>
                                                             <input class="form-control" ng-model="collection.name" type="text">
@@ -119,7 +119,7 @@
                                 <div class="thdiv">
                                     <div class="tddiv rh-col1"></div>
                                     <div class="tddiv rh-col2">{{ 'YANGUI_HISTORY_METHOD' | translate }}</div>
-                                    <div class="tddiv rh-col8">{{ 'YANGUI_HISTORY_NAME' | translate }}</div>
+                                    <div class="tddiv rh-col8">{{ 'YANGUI_HISTORY_NAME_CAPITAL' | translate }}</div>
                                     <div class="tddiv rh-col3c">{{ 'YANGUI_HISTORY_PATH' | translate }}</div>
                                     <div class="tddiv rh-col4">{{ 'YANGUI_HISTORY_STATUS' | translate }}</div>
                                     <div class="tddiv rh-col5"></div>
@@ -150,17 +150,36 @@
                                                 </div>
                                             </div>
                                             <div class="tddiv rh-col7">
-                                                <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
-                                                    </button>
-                                                </div>
+                                                <div class="requestActions">
+                                                    <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                    <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
+                                                        </button>
+                                                    </div>
 
-                                                <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                    <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
-                                                    </button>
-                                                </div>
+                                                    <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                        <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
+                                                        </button>
+                                                    </div>
 
-                                                <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                                    <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_CHANGE_GROUP' | translate }}">
+                                                        <div class="yangButton iconChangeGroup inlineBlock" ng-click="showCollBox($event)"></div>
+                                                        <div class="collBox changeGroup popupContainer" ng-controller="collBoxCtrl">
+                                                            <button class="yangButton icon-remove close" ng-click="hideCollBox($event)"></button>
+
+                                                            <label>{{'YANGUI_HISTORY_SELECT_GROUP' | translate}}:</label>
+                                                            {{collectionGroup}}
+                                                            <select class="form-control" ng-model="collection.group" ng-options="group for group in collectionList.groupsKeys">
+                                                                <option value="">{{ 'YANGUI_SEL_OPTION' | translate }}</option>
+                                                            </select>
+
+                                                            <label>{{'YANGUI_HISTORY_ADD_GROUP' | translate}}:</label>
+                                                            <input class="form-control" ng-model="collection.group" type="text">
+
+                                                            <button class="btn btn-primary btn-slim mt10" ng-click="moveHistoryItemToGroup(req, $event)">{{'YANGUI_HISTORY_CHANGE_GROUP' | translate}}</button>
+                                                        </div>
+                                                    </div>
+                                                    <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                                </div>
                                             </div>
                                         </div>
                                     
@@ -212,17 +231,37 @@
                                                     </div>
                                                 </div>
                                                 <div class="tddiv rh-col7">
-                                                    <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                    <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
-                                                        </button>
-                                                    </div>
+                                                    <div class="requestActions">
+                                                        <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                        <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
+                                                            </button>
+                                                        </div>
 
-                                                    <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                        <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
-                                                        </button>
-                                                    </div>
+                                                        <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                            <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
+                                                            </button>
+                                                        </div>
 
-                                                    <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                                        <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_CHANGE_GROUP' | translate }}">
+                                                            <div class="yangButton iconChangeGroup inlineBlock" ng-click="showCollBox($event)"></div>
+                                                            <div class="collBox changeGroup popupContainer" ng-controller="collBoxCtrl">
+                                                                <button class="yangButton icon-remove close" ng-click="hideCollBox($event)"></button>
+
+                                                                <label>{{'YANGUI_HISTORY_SELECT_GROUP' | translate}}:</label>
+                                                                {{collectionGroup}}
+                                                                <select class="form-control" ng-model="collection.group" ng-options="group for group in collectionList.groupsKeys">
+                                                                    <option value="">{{ 'YANGUI_SEL_OPTION' | translate }}</option>
+                                                                </select>
+
+                                                                <label>{{'YANGUI_HISTORY_ADD_GROUP' | translate}}:</label>
+                                                                <input class="form-control" ng-model="collection.group" type="text">
+
+                                                                <button class="btn btn-primary btn-slim mt10" ng-click="moveHistoryItemToGroup(req, $event)">{{'YANGUI_HISTORY_CHANGE_GROUP' | translate}}</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'collectionList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         
@@ -253,7 +292,7 @@
 
                             </div>
                             <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData("collectionList")'>
-                                {{ 'YANGUI_CLEAR_HISTORY' | translate }}
+                                {{ 'YANGUI_CLEAR_COLLECTION' | translate }}
                             </button>
                             <span class="ml30">
                                 {{ 'YANGUI_IMPORT_COLLECTION' | translate }} :
