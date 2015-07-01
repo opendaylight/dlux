@@ -352,6 +352,7 @@ input[type="file"].upload-collection{
         width: 150px;
         display: inline!important;
         margin-left: 5px;
+        height: 26px;
     }
     
 }
@@ -369,7 +370,7 @@ label.classic{
   }
 
   select.input-sm{
-    height: 34px;
+    height: 26px;
     line-height: 34px;
     vertical-align: top;
   }
@@ -417,15 +418,18 @@ div.popUpWrapperFix{
 
 div.requestActions{
   width: 150px;
-  .addButtonBox{
+  .historyRequestBox{
     position: relative;
-    .addCollBox{
+    .collBox{
       position: absolute;
       display: none;
       width: 450px;
       top: 0;
       left: -300px;
       z-index: 1;
+    }
+    .changeGroup{
+        left: -365px;
     }
   }
 }
@@ -611,8 +615,10 @@ div.mountPoints{
     &.historyPopUp{
       min-width: 870px;
       width: auto;
-      margin-left: -40%;
-      left: 50%;
+     /*margin-left: -40%;*/
+      margin-left: 0;
+      /*left: 50%;*/
+      left: 30%;
       max-height: 80%;
       height: 500px;
       top: 80px;
@@ -739,6 +745,7 @@ div.mountPoints{
                 }
                 .rh-col3c{
                   width: calc(~"100% - 786px");
+                  min-width: 100px;
                 }
                 .rh-col4{
                   width: 80px;
@@ -821,6 +828,10 @@ div.mountPoints{
   i.icon-refresh {
     color: white;
   }
+}
+
+i.icon-spinner{
+  margin: 3px 3px 0px 0px;
 }
 
 .alertInner{
@@ -1031,6 +1042,9 @@ button, div{
     }
     &.iconPlus{
       background: transparent url('@{iconsRootPath}icon-plus.png') no-repeat center top;
+    }
+    &.iconChangeGroup{
+      background: transparent url('@{iconsRootPath}icon-expand-bits.png') no-repeat center top;
     }
     &.iconArrowUp{
       background: transparent url('@{iconsRootPath}icon-arrow-up.png') no-repeat center top;
