@@ -305,7 +305,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
                   if(operation === 'GET'){
                       requestData = {};
                   }
-                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'success', data, requestData, operation, requestPath);
+                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'success', data, preparedRequestData, operation, requestPath);
 
                   if ( angular.isFunction(callback) ) {
                       callback(data);
@@ -330,7 +330,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
                   if(operation === 'GET'){
                       requestData = {};
                   }
-                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'error', resp.data, requestData, operation, requestPath);
+                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'error', resp.data, preparedRequestData, operation, requestPath);
 
                   console.info('error sending request to',$scope.selSubApi.buildApiRequestString(),'reqString',reqString,'got',resp.status,'data',resp.data);
               }
