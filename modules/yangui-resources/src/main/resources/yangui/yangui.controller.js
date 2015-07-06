@@ -305,7 +305,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
                   if(operation === 'GET'){
                       requestData = {};
                   }
-                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'success', data, requestData, operation, requestPath);
+                  $scope.$broadcast('YUI_ADD_TO_HISTORY', 'success', data, preparedRequestData, operation, requestPath);
 
                   if ( angular.isFunction(callback) ) {
                       callback(data);

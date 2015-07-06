@@ -50,6 +50,10 @@
                                             </div>
                                             <div class="tddiv rh-col7">
                                                 <div class="requestActions">
+                                                    <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                        <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'></button>
+                                                    </div>
+
                                                     <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}">
                                                         <div class="yangButton iconPlus inlineBlock" ng-click='showCollBox($event)'></div>
                                                         <div class="collBox popupContainer" ng-controller="collBoxCtrl">
@@ -75,9 +79,7 @@
                                                 <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'></button>
                                                     </div>
 
-                                                    <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                        <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'></button>
-                                                    </div>
+                                                    
 
                                                     <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                                                 </div>
@@ -151,13 +153,14 @@
                                             </div>
                                             <div class="tddiv rh-col7">
                                                 <div class="requestActions">
-                                                    <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                    <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
-                                                        </button>
-                                                    </div>
 
                                                     <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
                                                         <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                                    <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
                                                         </button>
                                                     </div>
 
