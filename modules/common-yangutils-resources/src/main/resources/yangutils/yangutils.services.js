@@ -14,9 +14,20 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         return nu;
     });
 
-    yangUtils.factory('YangUtilsRestangular', ['Restangular', 'ENV', function (Restangular, ENV) {
+    yangUtils.factory('YangUtilsRestangular', ['Restangular', 'ENV', 'constants', function (Restangular, ENV, constants) {
+        var isEmptyElement = function(element) {
+            return element.id === undefined;
+        };
+
         var r = Restangular.withConfig(function(RestangularConfig) {
             RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
+            RestangularConfig.setRequestInterceptor(function(elem, operation) {
+                if (operation === 'post' && isEmptyElement(elem)) {
+                    return null;
+                } else {
+                    return elem;
+                }
+            });
         });
 
         return r;
@@ -516,6 +527,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
     yangUtils.factory('reqBuilder', function () {
 
+        var transformPropData = function(data) {
+            // return data || {};
+            return data;
+        };
+
         var builder = {
             createObj: function () {
                 return {};
@@ -527,7 +543,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 list.push(obj);
             },
             insertPropertyToObj: function (obj, propName, propData) {
-                var data = propData ? propData : {},
+                var data = transformPropData(propData),
                     name = propName;
 
                 obj[name] = data;
@@ -1081,6 +1097,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         });
                     } else {
                         added = true;
+                        objToAdd = constants.NULL_DATA;
                     }
 
                     if (added) {
@@ -3274,6 +3291,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return operation === 'POST' ? postRequestData(requestData, reqString, subApi) : requestData;
         };
 
+        utils.prepareOperation = function(operation){
+            return operation === 'DELETE' ? 'REMOVE' : operation;
+        };
+
+        utils.prepareHeaders = function(requestData){
+            return requestData === constants.NULL_DATA ? { "Content-Type": undefined} : { "Content-Type": "application/yang.data+json"};
+        };
+
         utils.errorMessages = {
             'method' : 
                     {
@@ -3318,7 +3343,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             EV_SRC_MAIN: 'EV_SRC_MAIN',
             EV_FILL_PATH: 'EV_FILL_PATH',
             EV_LIST_CHANGED: 'EV_LIST_CHANGED',
-            MPPREFIX: 'yang-ext:mount'
+            MPPREFIX: 'yang-ext:mount',
+            NULL_DATA: null
         };
     });
 
