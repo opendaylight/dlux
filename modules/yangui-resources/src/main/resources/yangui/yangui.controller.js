@@ -311,6 +311,10 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
                       callback(data);
                   }
 
+                  if($scope.previewVisible === true){
+                      $scope.preview();
+                  }
+
               }, function(resp) {
                   var errorMsg = '';
 
