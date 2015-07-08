@@ -165,8 +165,18 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
       $scope.buildPreview = function() {
           if($scope.node) {
-              $scope.previewValue = $scope.selApi.basePath+$scope.selSubApi.buildApiRequestString();
-              $scope.previewValue = $scope.previewValue + '\r\n' + yangUtils.getRequestString($scope.node);
+              var reqString = $scope.selSubApi.buildApiRequestString(),
+                  requestData = {};
+
+              // create request
+              $scope.node.buildRequest(reqBuilder, requestData);
+              // update request data (remove envelope from POST request etc.)
+              requestData = yangUtils.prepareRequestData(requestData, $scope.selectedOperation, reqString, $scope.selSubApi);
+
+              var jsonRequestData = requestData ? JSON.stringify(requestData, null, 4) : '';
+              // preview data
+              $scope.previewValue = $scope.selApi.basePath + reqString;
+              $scope.previewValue = $scope.previewValue + '\r\n' + jsonRequestData;
           } else {
               $scope.previewValue = '';
           }
@@ -271,19 +281,20 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           var reqString = $scope.selSubApi.buildApiRequestString(),
               requestData = {},
               preparedRequestData = {},
-              headers = { "Content-Type": "application/yang.data+json"};
+              headers = null;
 
           reqString = reqPath ? reqPath.slice($scope.selApi.basePath.length, reqPath.length) : reqString;
           var requestPath = $scope.selApi.basePath + reqString;
+
           $scope.node.buildRequest(reqBuilder, requestData);
           angular.copy(requestData, preparedRequestData);
+
           preparedRequestData = yangUtils.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
+          operation = yangUtils.prepareOperation(operation);
+          headers = yangUtils.prepareHeaders(preparedRequestData);
+
           requestWorkingCallback();
 
-
-          operation = operation === 'DELETE' ? 'REMOVE' : operation;
-
-          
           YangUtilsRestangular.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData).then(
               function(data) {
                   if(operation === 'REMOVE'){
