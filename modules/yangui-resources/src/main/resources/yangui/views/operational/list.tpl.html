@@ -1,15 +1,20 @@
 <div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
     <div class="topContainerPart">
-        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
+        <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
         <button class="btn-slim btn-name inlineBlock">
             {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
         </button>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
 
+        <!-- Augmentation control -->
+        <div class="modalWrapper" ng-if="node.augmentionGroups.length" ng-include src="currentPath + 'modal/augmentation-modal.tpl.html'"></div>
+        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }}">A</span>
+        <!-- Augmentation control end -->
+
         <div class="modalWrapper">
             <button ng-click="showModalWin()" ng-show="node.listData.length > 0  && !showModal" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="yangButton iconList"></button>
-            <div class="listModal simpleContainer listFilterWindow" ng-show="showModal && node.listData.length > 0">
+            <div class="listModal simpleContainer listFilterWindow" ng-if="showModal && node.listData.length > 0">
                 <button class="yangButton iconListBck inlineBlock iconFilterOver" ng-click="showModalWin()"></button>
                 <div class="leaf ng-scope">
                     <span class="leaf-label list-title">{{ 'YANGUI_LIST_OF_NODES' | translate }}</span>
@@ -39,7 +44,7 @@
     </button> -->
 
     <div ng-if="node.actElemStructure" ng-show="node.expanded"><!-- class="simpleContainer"  -->
-        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" >
+        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded" >
             <div class="clear"></div>
         </div>
     </div>
