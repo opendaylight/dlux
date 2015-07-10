@@ -1,0 +1,15 @@
+<div class="paramBox popupContainer draggablePopup" ng-controller="paramBoxCtrl" ng-show="boxView">
+    <button class="yangButton icon-remove close" ng-click="hideParamBox()"></button>
+    <form name="paramForm" novalidate="novalidate">
+        <label>
+            {{'YANGUI_PARAMETER_NAME_LC' | translate}}
+            <i class="icon-exclamation-sign red" tooltip="{{paramForm.name.$error.required ? 'Required field' : paramForm.name.$error.pattern ? 'Name must contain only alphanumeric characters without spaces.' : ''}}" ng-show="paramForm.name.$error.required || paramForm.name.$error.pattern"></i>
+        </label>
+        <input class="form-control" ng-model="paramObj.name" type="text" name="name" ng-required="true" ng-pattern="/^[a-zA-Z0-9]*$/">
+
+        <label>{{'YANGUI_PARAMETER_VALUE_LC' | translate}}</label>
+        <input class="form-control" ng-model="paramObj.value" type="text">
+
+        <button class="btn btn-primary btn-slim mt10" ng-click="saveParam()" ng-disabled="paramForm.$invalid">{{'YANGUI_SAVE_PARAMETER' | translate}}</button>
+    </form>
+</div>

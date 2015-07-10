@@ -6,9 +6,28 @@ define(['app/yangui/yangui.module'], function(yangui) {
     });
   });
 
-  yangui.register.factory('HistoryServices',['pathUtils','yangUtils', function(pathUtils, yangUtils){
+  yangui.register.factory('HistoryServices', ['pathUtils','yangUtils', '$filter', 'eventDispatcher', 'constants', function(pathUtils, yangUtils, $filter, eventDispatcher, constants){
 
     var hs = {};
+
+    hs.replaceStringInText = function(text, strToReplace, newStr) {
+        var replacedText = text;
+        if(text.indexOf(strToReplace) > -1) {
+            replacedText = text.split(strToReplace).join(newStr);
+        }
+        return replacedText;
+    };
+
+    hs.parametrizeData = function(parameters, data) {
+        var dataStr = JSON.stringify(data);
+        
+        parameters.forEach(function(param){
+            dataStr = hs.replaceStringInText(dataStr, '<<' + param.name + '>>', param.value);
+        });
+        data = JSON.parse(dataStr);
+        
+        return data;
+    };
 
     hs.validateCollectionFile = function(data){
         try {
@@ -28,16 +47,26 @@ define(['app/yangui/yangui.module'], function(yangui) {
     var BaseList = function(name) {
         this.name = name;
 
+        this.createEntry = function(elem) {
+            return elem;
+        };
+
         this.addRequestToList = function() {};
 
-        this.loadListFromStorage = function(getApiFunction){
+        this.refresh = function() {};
+
+        this.successfullEditCbk = function() {};
+
+        this.errorEditCbk = function() {};
+
+        this.loadListFromStorage = function(){
             var storageList = localStorage.getItem(this.name),
                 self = this;
 
             if(storageList){
                 self.clear();
                 JSON.parse(storageList).map(function(elem) {
-                    return hs.createHistoryRequest(elem.sentData, elem.receivedData, elem.parametrizedData, elem.path, elem.parametrizedPath, elem.method, elem.status, elem.name, elem.group, getApiFunction);
+                    return self.createEntry(elem);
                 }).forEach(function(elem) {
                     self.addRequestToList(elem);
                 });
@@ -52,22 +81,35 @@ define(['app/yangui/yangui.module'], function(yangui) {
             }
         };
 
-        this.addFromJSON = function(json, getApiFunction) {
+        this.addFromJSON = function(json) {
             var self = this;
 
             json.forEach(function(elem) {
-                var req = hs.createHistoryRequest(elem.sentData, elem.receivedData, null, elem.path, null, elem.method, elem.status, elem.name, elem.group, getApiFunction);
+                var req = self.createEntry(elem);
                 self.addRequestToList(req);
             });
         };
     };
 
-    var HistoryList = function(name){
+    var HistoryList = function(name, getApiFunction){
         BaseList.call(this, name);
         this.list = [];
+        this.getApiFunction = getApiFunction;
+
+        this.createEntry = function(elem) {
+            return hs.createHistoryRequestFromElement(elem, this.getApiFunction);
+        };
 
         this.addRequestToList = function(reqObj){
             this.list.push(reqObj);
+        };
+
+        this.refresh = function() {
+            var self = this;
+            
+            this.list.forEach(function(elem) {
+                elem.refresh(self.getApiFunction);
+            });
         };
 
         this.deleteRequestItem = function(elem){
@@ -86,11 +128,16 @@ define(['app/yangui/yangui.module'], function(yangui) {
     };
     HistoryList.prototype = Object.create(BaseList.prototype);
 
-    var CollectionList = function(name){
+    var CollectionList = function(name, getApiFunction){
         BaseList.call(this, name);
         this.groups = {};
         this.groupsKeys = [];
         this.ungrouped = [];
+        this.getApiFunction = getApiFunction;
+
+        this.createEntry = function(elem) {
+            return hs.createHistoryRequestFromElement(elem, this.getApiFunction);
+        };
 
         this.hasGroupKey = function(key) {
             return this.groupsKeys.indexOf(key) !== -1 && this.groups.hasOwnProperty(key);
@@ -111,6 +158,19 @@ define(['app/yangui/yangui.module'], function(yangui) {
             } else {
                 this.ungrouped.push(reqObj);
             }
+        };
+
+        this.refresh = function() {
+            var self = this;
+            this.groupsKeys.forEach(function(key) {
+                self.groups[key].forEach(function(elem) {
+                    elem.refresh(self.getApiFunction);
+                });
+            });
+
+            this.ungrouped.forEach(function(elem) {
+                elem.refresh(self.getApiFunction);
+            });
         };
 
         this.deleteRequestItem = function(elem){
@@ -159,13 +219,13 @@ define(['app/yangui/yangui.module'], function(yangui) {
             });
         };
 
-        this.loadListFromFile = function(data, getApiFunction){
+        this.loadListFromFile = function(data){
             var self = this;
 
             if(data){
                 self.clear();
                 JSON.parse(data).map(function(elem) {
-                    return hs.createHistoryRequest(elem.sentData, elem.receivedData, elem.parametrizedData, elem.path, elem.parametrizedPath, elem.method, elem.status, elem.name, elem.group, getApiFunction);
+                    return hs.createHistoryRequest(elem.sentData, elem.receivedData, elem.parametrizedData, elem.path, elem.parametrizedPath, elem.method, elem.status, elem.name, elem.group, self.getApiFunction);
                 }).forEach(function(elem) {
                     self.addRequestToList(elem);
                 });
@@ -174,8 +234,103 @@ define(['app/yangui/yangui.module'], function(yangui) {
     };
     CollectionList.prototype = Object.create(BaseList.prototype);
 
+    var ParameterList = function(name){
+        HistoryList.call(this, name);
+        this.list = [];
+
+        this.successfullEditCbk = function() {
+            eventDispatcher.dispatch(constants.EV_PARAM_EDIT_SUCC);
+        };
+
+        this.errorEditCbk = function() {
+            alert($filter('translate')('YANGUI_EXISTING_PARAMETER'));
+        };
+
+        this.createEntry = function(elem) {
+            return new Parameter(elem.name, elem.value);
+        };
+        
+        this.getParamListObjsByName = function(wantedName, exceptObj){
+            return this.list.filter(function(o){
+                if(exceptObj){
+                    return o.name === wantedName && o != exceptObj;
+                }
+                else{
+                    return o.name === wantedName;
+                }
+            });
+        };
+        
+        this.saveRequestToList = function(reqObj, oldReqObj){
+            if(oldReqObj instanceof Parameter && oldReqObj.name){
+                var oldParamObjsInList = this.getParamListObjsByName(oldReqObj.name),
+                    existingObjsWithSameName = this.getParamListObjsByName(reqObj.name, oldReqObj);
+                
+                if(oldParamObjsInList.length === 1 && existingObjsWithSameName.length === 0){
+                    this.editRequestInList(reqObj, oldParamObjsInList[0]);
+                }
+                else{
+                    this.errorEditCbk();
+                }
+            }
+            else{
+                if(this.getParamListObjsByName(reqObj.name).length){
+                    this.errorEditCbk();
+                }
+                else{
+                    this.addRequestToList(reqObj);
+                    this.successfullEditCbk();
+                }
+            }
+        };
+        
+        this.editRequestInList = function(reqObj, oldReqObjInList){
+            oldReqObjInList.name = reqObj.name;
+            oldReqObjInList.value = reqObj.value;
+            this.successfullEditCbk();
+        };
+
+        this.addRequestToList = function(reqObj, oldReqObj){
+            this.list.push(reqObj);
+            this.successfullEditCbk();
+        };
+
+        this.deleteRequestItem = function(elem){
+            this.list.splice(this.list.indexOf(elem), 1);
+        };
+
+        this.clear = function() {
+            this.list = [];
+        };
+
+        this.toJSON = function() {
+            return this.list.map(function(elem) {
+                return elem.toJSON();
+            });
+        };
+    };
+    ParameterList.prototype = Object.create(HistoryList.prototype);
+
     var nullFunction = function() {
         return null;
+    };
+
+    var Parameter = function(name, value) {
+        this.name = name;
+        this.value = value;
+
+        this.toJSON = function() {
+            var obj = {
+                name: this.name,
+                value: this.value
+            };
+
+            return obj;
+        };
+
+        this.clone = function() {
+            return new Parameter(this.name, this.value);
+        };
     };
 
     var HistoryRequest = function(sentData, receivedData, parametrizedData, status, path, parametrizedPath, operation, api, name, group){
@@ -203,6 +358,13 @@ define(['app/yangui/yangui.module'], function(yangui) {
             });
 
             return identifiers;
+        };
+
+        this.refresh = function(getApiFunction) {
+            var refreshedApi = getApiFunction(this.path);
+            
+            this.api = refreshedApi;
+            this.availability = (refreshedApi !== null);
         };
 
         this.toJSON = function() {
@@ -251,7 +413,6 @@ define(['app/yangui/yangui.module'], function(yangui) {
                 } else {
                     this.clonePathArray();
                 }
-
             }
 
         };
@@ -282,6 +443,10 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
     };
 
+    hs.createHistoryRequestFromElement = function(elem, getApiFunction) {
+        return hs.createHistoryRequest(elem.sentData, elem.receivedData, elem.parametrizedData, elem.path, elem.parametrizedPath, elem.method, elem.status, elem.name, elem.group, getApiFunction);
+    };
+
     hs.createHistoryRequest = function(sentData, receivedData, parametrizedData, path, parametrizedPath, operation, status, name, group, getApiFunction){
         var api = getApiFunction ? getApiFunction(path) : nullFunction(),
             receivedDataProcessed = status === "success" ? receivedData : null;
@@ -289,12 +454,20 @@ define(['app/yangui/yangui.module'], function(yangui) {
         return new HistoryRequest(sentData, receivedDataProcessed, parametrizedData, status, path, parametrizedPath, operation, api, name, group);
     };
 
-    hs.createEmptyHistoryList = function(name){
-        return new HistoryList(name);
+    hs.createEmptyHistoryList = function(name, getApiFunction){
+        return new HistoryList(name, getApiFunction);
     };
 
-    hs.createEmptyCollectionList = function(name){
-        return new CollectionList(name);
+    hs.createEmptyCollectionList = function(name, getApiFunction){
+        return new CollectionList(name, getApiFunction);
+    };
+    
+    hs.createParameter = function(name, value){
+        return new Parameter(name, value);
+    };
+
+    hs.createEmptyParamList = function(name){
+        return new ParameterList(name);
     };
 
     hs.setNameAndGroup = function(name, group, elem) {
@@ -319,9 +492,11 @@ define(['app/yangui/yangui.module'], function(yangui) {
     var cfu = {};
 
     cfu['YANGUI_CUST_MOUNT_POINTS'] = function(scope){
-        dataBackuper.getToScope(['treeApis', 'treeRows', 'apis', 'node', 'selApi', 'selSubApi'], scope);
+        dataBackuper.getToScope(['treeApis', 'treeRows', 'apis', 'node', 'selApi', 'selSubApi', 'augmentations'], scope);
 
         scope.baseMpApi = '';
+        
+        scope.$broadcast('REFRESH_HISTORY_REQUEST_APIS');
 
         var path = scope.selApi.basePath+scope.selSubApi.buildApiRequestString();
         pathUtils.searchNodeByPath(path, scope.treeApis, scope.treeRows);

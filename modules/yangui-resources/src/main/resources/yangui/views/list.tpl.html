@@ -6,6 +6,12 @@
             {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
         </button>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+
+        <!-- Augmentation control -->
+        <div class="modalWrapper" ng-if="node.augmentionGroups.length" ng-include src="currentPath + 'modal/augmentation-modal.tpl.html'"></div>
+        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }}">A</span>
+        <!-- Augmentation control end -->
+
         <button class="yangButton iconPlus inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ELEM' | translate }}"></button>
 
         <div class="modalWrapper">
@@ -43,7 +49,7 @@
     </button> -->
 
     <div ng-if="node.actElemStructure" ng-show="node.expanded">
-        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts" ng-include="currentPath+'/'+node.type+'.tpl.html'">
+        <div ng-repeat="node in node.actElemStructure.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts" ng-include="currentPath+'/'+node.type+'.tpl.html'" ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded">
             <div class="clear"></div>
         </div>
     </div>
