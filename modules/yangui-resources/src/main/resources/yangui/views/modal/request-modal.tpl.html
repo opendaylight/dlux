@@ -11,9 +11,13 @@
                     <li class="btn-like-tab" ng-click="tabs($event, 1)">
                         <a><span>COLLECTION</span></a>
                     </li>
+                    <li class="btn-like-tab" ng-click="tabs($event, 2)">
+                        <a><span>PARAMETERS</span></a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
+                    
                     <div class="tab-pane active">
                         <div class="tableWrapper">
                             <div class="table dataTable reqHistory">
@@ -76,7 +80,7 @@
                                                     </div>
 
                                                     <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
-                                                <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'></button>
+                                                        <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'></button>
                                                     </div>
 
                                                     
@@ -101,8 +105,7 @@
                                                 <button class="btn btn-primary btn-slim ml20" ng-click="req.clearParametrizedData()">{{'YANGUI_CLEAR_PAR_DATA_BTN' | translate}}</button>
                                                 <button class="btn btn-primary btn-slim" ng-click="saveParametrizedData(req, requestList)">{{'YANGUI_SAVE_PAR_DATA_BTN' | translate}}</button>
                                             </div>
-
-                                            <textarea disabled>{{ req.data }}</textarea>
+                                            <textarea ng-disabled="req.sentData === null" ng-model="req.data"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -112,6 +115,7 @@
                               </button>
                         </div>
                     </div>
+
 
 
 
@@ -158,7 +162,7 @@
                                                         <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'>
                                                         </button>
                                                     </div>
-
+                                                    
                                                     <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
                                                     <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'>
                                                         </button>
@@ -203,7 +207,7 @@
                                                 <button class="btn btn-primary btn-slim" ng-click="saveParametrizedData(req, collectionList)">{{'YANGUI_SAVE_PAR_DATA_BTN' | translate}}</button>
                                             </div>
 
-                                            <textarea disabled>{{ req.data }}</textarea>
+                                            <textarea ng-disabled="req.sentData === null" ng-model="req.data">{{ req.data }}</textarea>
                                         </div>
                                     </div>
 
@@ -285,7 +289,7 @@
                                                     <button class="btn btn-primary btn-slim" ng-click="saveParametrizedData(req, collectionList)">{{'YANGUI_SAVE_PAR_DATA_BTN' | translate}}</button>
                                                 </div>
 
-                                                <textarea disabled>{{ req.data }}</textarea>
+                                                <textarea ng-disabled="req.sentData === null" ng-model="req.data">{{ req.data }}</textarea>
                                             </div>
                                         </section>
 
@@ -304,6 +308,44 @@
                             <button class="btn btn-primary ng-scope btn-slim" ng-click='exportHistoryData()' ng-href="{{ url }}">
                                 {{ 'YANGUI_EXPORT_COLLECTION' | translate }}
                             </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane">
+                        <div class="tableWrapper">
+                            <div class="table dataTable reqParams">
+                                <div class="thdiv">
+                                    <div class="tddiv rh-col1"></div>
+                                    <div class="tddiv rh-col2">{{ 'YANGUI_PARAMETER_NAME' | translate }}</div>
+                                    <div class="tddiv rh-col3">{{ 'YANGUI_PARAMETER_VALUE' | translate }}</div>
+                                    <div class="tddiv actions rh-col4">{{ 'YANGUI_ACTION' | translate }}</div>
+                                </div>
+                                
+                                <div class="scroll">
+                                    <div ng-repeat="param in parameterList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
+                                        <div>
+                                            <div class="tddiv rh-col1"><span></span></div>
+                                            <div class="tddiv rh-col2"><span><<{{ param.name }}>></span></div>
+                                            <div class="tddiv rh-col3"><span>{{ param.value }}</span></div>
+                                            <div class="tddiv rh-col4">
+                                                <div class="requestActions">
+                                                    <div ng-controller="historyParamCtrl">
+                                                        <button class="yangButton iconEdit" ng-click="showParamBox(param)" tooltip="{{ 'YANGUI_EDIT' | translate }}"><span class="icon-edit"></span></button>
+                                                        <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                                        <div class="inlineBlock parameterEditBox" tooltip="{{ 'YANGUI_EDIT_PARAMETER' | translate }}" ng-include src="currentPath + 'parts/param-box.tpl.html'"></div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-controller="historyParamCtrl">
+                                <button class="btn btn-primary ng-scope btn-slim" ng-click='showParamBox(createNewParam())'>
+                                    {{ 'YANGUI_ADD_PARAMETER' | translate }}
+                                </button>
+                                <div class="inlineBlock newParamBox" tooltip="{{ 'YANGUI_EDIT_PARAMETER' | translate }}" ng-include src="currentPath + 'parts/param-box.tpl.html'"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

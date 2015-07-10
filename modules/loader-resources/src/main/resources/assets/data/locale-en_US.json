@@ -69,6 +69,7 @@
 
     "YANGUI_MODULES": "modules",
     "YANGUI_MODULE": "module",
+    "YANGUI_PREVIEW" : "Preview",
     "YANGUI_NAME": "name",
     "YANGUI_TYPE": "type",
     "YANGUI_CONFIGURATION": "configuration",
@@ -664,7 +665,6 @@
     "LIST_DELETE_ITEM": "delete item",
     "NOT_VALID_VALUE": "value is not valid",
     "YANGUI_EXPORT_COLLECTION" : "Export collection",
-    "YANGUI_IMPORT_COLLECTION": "Import collection",
     "YANGUI_CLEAR_PAR_DATA_BTN" : "Reset parametrized data",
     "YANGUI_SAVE_PAR_DATA_BTN" : "Save parametrized data",
     "YANGUI_SEL_OPTION" : "Select option",
@@ -673,6 +673,19 @@
     "YANGUI_HISTORY_CHANGE_GROUP" : "Move",
     "YANGUI_IMPORT_COLLECTION" : "Import collection",
     "YANGUI_CANCEL_MP" : "Back from mountpoint",
+    "YANGUI_PARAMETER_NAME" : "NAME",
+    "YANGUI_PARAMETER_VALUE" : "VALUE",
+    "YANGUI_PARAMETER_NAME_LC" : "Name",
+    "YANGUI_PARAMETER_VALUE_LC" : "Value",
+    "YANGUI_IS_AUGMENT": "This node is augment.",
+    "YANGUI_CASE_IS_AUGMENT": "This case is augment.",
+    "YANGUI_HAS_AUGMENT": "This node is augmented. Click to show/hide augmentation's groups.",
+    "YANGUI_LIST_OF_AUGMENTATIONS" :"List of augmentations",
+    "YANGUI_ACTION" : "ACTION",
+    "YANGUI_ADD_PARAMETER" : "Add new parameter",
+    "YANGUI_EDIT_PARAMETER" : "Edit parameter values",
+    "YANGUI_SAVE_PARAMETER" : "Save",
+    "YANGUI_EXISTING_PARAMETER" : "Parameter with this name already exists!",
     
     "YANGUI_BACK": "Back",
     "YANGVISUALIZER_MENU_LABEL": "Yang Visualizer",
@@ -705,7 +718,9 @@
     "YANGVISUALIZER_SHOW_WHOLE_MODEL" : "Show whole model",
     "YANGVISUALIZER_BTN_BACK" : "Back",
 
-
+    "YANGUI_HISTORY_TAB" : "HISTORY",
+    "YANGUI_COLLECTION_TAB" : "COLLECTION",
+    "YANGUI_PARAMETERS_TAB" : "PARAMETERS",
     "YANGUI_COLLAPSE_OTHERS": "Collapse others",
     "YANGUI_ADD_DATA": "Add data",
     "YANGUI_CUSTOM_API_REQUEST" : "Custom API request",
@@ -725,6 +740,7 @@
     "YANGUI_HISTORY_ADD_BUTTON": "Add",
     "YANGUI_API_NOT_AVAILABLE": "API isn't available",
     "YANGUI_DELETE": "Delete",
+    "YANGUI_EDIT": "Edit",
     "YANGUI_CLEAR_HISTORY" : "Clear history data",
     "YANGUI_CLEAR_COLLECTION" : "Clear collection data",
     "YANGUI_HISTORY_NO_REC_DATA": "No received data",
@@ -760,6 +776,8 @@
     "YANGUI_ERROR_GET_503" : "Service Unavailable : The server is currently unable to handle the request due to a temporary overloading or maintenance of the server.",
     "YANGUI_NO_DATA" : "No data to display",
     "YANGUI_LOADING_DATA": "Loading data",
-    "YANGUI_SEND": "Send"
+    "YANGUI_SEND": "Send",
+    "YANGUI_ERROR_PARSING_JSON": "Parsing JSON error"
+
 
 }

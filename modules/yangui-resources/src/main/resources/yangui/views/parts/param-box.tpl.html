@@ -1,0 +1,10 @@
+<div class="paramBox popupContainer" ng-controller="paramBoxCtrl" ng-show="boxView">
+    <button class="yangButton icon-remove close" ng-click="hideParamBox()"></button>
+    <label>{{'YANGUI_PARAMETER_NAME_LC' | translate}}:</label>
+    <input class="form-control" ng-model="paramObj.name" type="text">
+
+    <label>{{'YANGUI_PARAMETER_VALUE_LC' | translate}}:</label>
+    <input class="form-control" ng-model="paramObj.value" type="text">
+
+    <button class="btn btn-primary btn-slim mt10" ng-click="saveParam()">{{'YANGUI_SAVE_PARAMETER' | translate}}</button>
+</div>

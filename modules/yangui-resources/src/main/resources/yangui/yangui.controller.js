@@ -20,11 +20,23 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.baseMpApi = '';
       $scope.defaultTreeName = $filter('translate')('YANGUI_ROOT');
       $scope.treeName = $scope.defaultTreeName;
-      
 
       $scope.status = {
           type: 'noreq',
           msg: null
+      };
+
+      $scope.mainTabs = {
+        api: true,
+        history : false,
+        collection : false,
+        parameters : false
+      };
+
+      $scope.showTabs = function(tabs, tabName){
+        for(var prop in tabs){
+          tabs[prop] = tabName === prop;
+        }
       };
 
       var mountPrefix = constants.MPPREFIX;
@@ -208,17 +220,20 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           $scope.apis = [];
           $scope.allNodes = [];
           $scope.treeApis = [];
+          $scope.augmentations = {};
 
           processingModulesCallback();
-          yangUtils.generateNodesToApis(function(apis, allNodes) {
+          yangUtils.generateNodesToApis(function(apis, allNodes, augGroups) {
               $scope.apis = apis;
               $scope.allNodes = allNodes;
-              console.info('got data',$scope.apis, allNodes);
+              $scope.augmentations = augGroups;
+              console.info('got data', $scope.apis, $scope.allNodes, $scope.augmentations);
               $scope.treeApis = yangUtils.generateApiTreeData(apis);
               console.info('tree api', $scope.treeApis);
               $scope.processingModulesSuccessCallback();
 
               setCustFunct($scope.apis);
+              $scope.$broadcast('LOAD_REQ_DATA');
           }, function(e) {
               $scope.processingModulesErrorCallback(e);
           });
@@ -290,6 +305,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           angular.copy(requestData, preparedRequestData);
 
           preparedRequestData = yangUtils.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
+          
           operation = yangUtils.prepareOperation(operation);
           headers = yangUtils.prepareHeaders(preparedRequestData);
 
@@ -391,7 +407,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
               }
 
               if ( sdata ) {
-                $scope.fillApiData(sdata);
+                $scope.fillApiData(sdata); 
               }
             }
         }
@@ -449,8 +465,16 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       };
 
       $scope.fillApiData = function(data){
+          var parameterList = null; //TODO get parameters
+          
+          $scope.$broadcast('GET_PARAMETER_LIST', function(parameters) {
+              parameterList = parameters;
+          });
+              
+          var parametrizedData = HistoryServices.parametrizeData(parameterList.list, data);
+
           var obj = null;
-              obj = typeof data === "object" ? data : JSON.parse(data);
+              obj = typeof parametrizedData === "object" ? parametrizedData : JSON.parse(parametrizedData);
 
               if (obj !== null && typeof obj === "object") {
                   var p = Object.keys(obj)[0];
@@ -478,19 +502,24 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
           .eq(index).addClass('btn-selected');
       };
 
-      $scope.initMp = function(mountPointStructure, mountPointTreeApis, mountPointApis, baseMpApi){
-          dataBackuper.storeFromScope(['treeApis', 'treeRows', 'apis', 'node', 'selApi', 'selSubApi'], $scope);
+      $scope.initMp = function(mountPointStructure, mountPointTreeApis, mountPointApis, baseMpApi, augmentations){
+          dataBackuper.storeFromScope(['treeApis', 'treeRows', 'apis', 'node', 'selApi', 'selSubApi', 'augmentations'], $scope);
           $scope.filterRootNode = null;
           $scope.node = null;
           $scope.treeApis = mountPointTreeApis;
           $scope.apis = mountPointApis;
           $scope.processingModulesSuccessCallback();
           $scope.baseMpApi = baseMpApi;
+          $scope.augmentations = augmentations;
       };
 
       $scope.showModalRequestWin = function(){
-        $scope.$broadcast('LOAD_REQ_WIN');
+        $scope.$broadcast('LOAD_REQ_DATA');
       };
+
+      $scope.$on('SET_SCOPE_TREE_ROWS', function(e, rows){
+        $scope.treeRows = rows;
+      });
 
       $scope.__test = {
           loadApis: loadApis,
@@ -506,33 +535,10 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
     }]);
 
-  yangui.register.controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils','HistoryServices', 'handleFile', 'yangUtils', 'constants', 'mountPointsConnector',
-    function ($scope, $rootScope, pathUtils, HistoryServices, handleFile, yangUtils, constants, mountPointsConnector) {
+  yangui.register.controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils','HistoryServices', 'handleFile', 'yangUtils', 'constants', 'mountPointsConnector', '$filter',
+    function ($scope, $rootScope, pathUtils, HistoryServices, handleFile, yangUtils, constants, mountPointsConnector, $filter) {
 
     var mountPrefix = constants.MPPREFIX;
-
-    $scope.requestList = HistoryServices.createEmptyHistoryList('requestList');
-    $scope.collectionList = HistoryServices.createEmptyCollectionList('collectionList');
-
-    $scope.popupHistory = { show: false};
-
-    $scope.showCollBox = false;
-    
-
-    $scope.$on('YUI_ADD_TO_HISTORY', function(event, status, data, requestData, operation, requestPath) {
-        $scope.addRequestToList(status, data, requestData, operation, requestPath);
-    });
-
-    $scope.addRequestToList = function(status, receivedData, sentData, operation, path) {
-        if(typeof(Storage) !== "undefined") {
-
-            var rList = HistoryServices.createEmptyHistoryList(),
-                reqObj = HistoryServices.createHistoryRequest(sentData, receivedData, null, path, null, operation, status, null, null, getApiCallback);
-
-            $scope.requestList.addRequestToList(reqObj);
-            $scope.requestList.saveToStorage();
-        }
-    };
 
     var getApiCallback = function(pathString) {
         var normalizedPath = mountPointsConnector.alterMpPath(pathString), //if the path is for mountpoint then normalize it
@@ -553,12 +559,41 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
         return copiedApi;
     };
 
-    $scope.reqHistoryFunc = function(){
-      $scope.popupHistory.show = !$scope.popupHistory.show;
+    $scope.requestList = HistoryServices.createEmptyHistoryList('requestList', getApiCallback);
+    $scope.collectionList = HistoryServices.createEmptyCollectionList('collectionList', getApiCallback);
+    $scope.parameterList = HistoryServices.createEmptyParamList('parameterList');
+    $scope.parameterList.loadListFromStorage();
+    
+    $scope.popupHistory = { show: false};
 
-      $scope.requestList.loadListFromStorage(getApiCallback);
-      $scope.collectionList.loadListFromStorage(getApiCallback);
-      $scope.requestList.show = false;
+    $scope.showCollBox = false;
+    
+    $scope.$on('GET_PARAMETER_LIST', function(event, callback){
+        callback($scope.parameterList);
+    });
+
+    $scope.$on('YUI_ADD_TO_HISTORY', function(event, status, data, requestData, operation, requestPath) {
+        $scope.addRequestToList(status, data, requestData, operation, requestPath);
+    });
+
+    $scope.addRequestToList = function(status, receivedData, sentData, operation, path) {
+        if(typeof(Storage) !== "undefined") {
+
+            var rList = HistoryServices.createEmptyHistoryList(),
+                reqObj = HistoryServices.createHistoryRequest(sentData, receivedData, null, path, null, operation, status, null, null, getApiCallback);
+
+            $scope.requestList.addRequestToList(reqObj);
+            $scope.requestList.saveToStorage();
+
+        }
+    };
+    
+    $scope.reqHistoryFunc = function(){
+        $scope.popupHistory.show = !$scope.popupHistory.show;
+
+        $scope.requestList.loadListFromStorage();
+        $scope.collectionList.loadListFromStorage();
+        $scope.requestList.show = false;
     };
 
     $scope.show_history_data = function(req, sent, noData){
@@ -570,15 +605,37 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
     };
 
     $scope.saveParametrizedData = function(req, list){
-        var parametrizedPath = pathUtils.translatePathArray(req.api.clonedPathArray).join('/'),
-            newReq = req.copyWithParametrizationAsNatural(parametrizedPath, getApiCallback);
-
-        req.clearParametrizedData();
-
-        list.addRequestToList(newReq);
-        list.saveToStorage();
+        var parametrizedPath = req.api.parent.basePath + pathUtils.translatePathArray(req.api.clonedPathArray).join('/'),
+            newReq = req.copyWithParametrizationAsNatural(parametrizedPath, getApiCallback),
+            d = '';
         
-        req.show = false;
+        ParsingException = function(msg){
+            this.msg = msg;
+        };
+        
+        try{
+            try{
+                d = JSON.parse(req.data);
+            }catch(e){
+                throw new ParsingException(e.message);
+            }
+            newReq.sentData = d;
+
+            req.clearParametrizedData();
+
+            list.addRequestToList(newReq);
+            list.saveToStorage();
+
+            req.show = false;
+            return true;
+        }
+        catch(e){
+            if(e instanceof ParsingException){
+                alert($filter('translate')('YANGUI_ERROR_PARSING_JSON') + ': ' + e.msg);
+            }
+            return false;
+        }
+
     };
 
     $scope.showCollBox = function(event){
@@ -596,8 +653,18 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
     };
 
     $scope.saveElemToList = function(elem) {
-      $scope.collectionList.addRequestToList(elem);
-      $scope.collectionList.saveToStorage();
+        $scope.collectionList.addRequestToList(elem);
+        $scope.collectionList.saveToStorage();
+    };
+
+    $scope.saveParamToList = function(elem, oldElem) {
+        if($scope.parameterList.saveRequestToList(elem, oldElem)){
+            $scope.parameterList.saveToStorage();
+            return true;
+        }
+        else{
+            return false;
+        }
     };
 
     $scope.deleteRequestItem = function(elem, list){
@@ -631,7 +698,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
         if(data && HistoryServices.validateCollectionFile(data)){
             try {
-              $scope.collectionList.loadListFromFile(data, getApiCallback);
+              $scope.collectionList.loadListFromFile(data);
               $scope.collectionList.saveToStorage();
               $scope.setStatusMessage('success', 'LOAD_COLLECTIONS_SUCCESS');
               clearFileInputValue();
@@ -645,8 +712,13 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
             clearFileInputValue();
         }
     };
-
+    
+        
     $scope.executeCollectionRequest = function(req) {
+        
+//        var oldSentData = req.sentData;
+//        req.sentData = HistoryServices.parametrizeData($scope.parameterList.list, req.sentData);
+        
         var sdata = !$.isEmptyObject(req.parametrizedData) && req.show ? req.parametrizedData : req.sentData,
             path = req.parametrizedPath && req.show ? pathUtils.translatePathArray(req.api.clonedPathArray).join('/') : req.api.buildApiRequestString(),
             pathStrParts = path.split('/');
@@ -671,6 +743,8 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
               $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
             }
         }, requestPath);
+        
+//        req.sentData = oldSentData;
     };
 
     $scope.fillRequestData = function(req, pathElem, identifier) {
@@ -696,7 +770,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
         $scope.groupView[key] = !$scope.groupView[key];
     };
 
-    $scope.$on('LOAD_REQ_WIN', function(){
+    $scope.$on('LOAD_REQ_DATA', function(){
       $scope.reqHistoryFunc();
     });
 
@@ -731,6 +805,45 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
         $scope.collection.group = '';
     });
 
+  }]);
+  
+  yangui.register.controller('historyParamCtrl',['$scope','HistoryServices', function($scope, HistoryServices){
+          
+    $scope.showParamBox = function(param){
+        $scope.$broadcast('HISTORY_INIT_PARAM', param);
+    };
+    
+    $scope.createNewParam = function(){
+        return HistoryServices.createParameter('','');
+    };
+    
+    
+  }]);
+
+  yangui.register.controller('paramBoxCtrl', ['$scope','HistoryServices',function ($scope, HistoryServices) {
+    $scope.paramObj = null;
+    $scope.oldParam = null;
+    $scope.boxView = false;
+    
+    $scope.saveParam = function(){
+        if($scope.saveParamToList($scope.paramObj, $scope.oldParam)){
+            $scope.hideParamBox();
+        }
+    };
+    
+    $scope.hideParamBox = function(){
+        $scope.boxView = false;
+        $scope.paramObj = $scope.createNewParam();
+    };
+    
+    
+    $scope.$on('HISTORY_INIT_PARAM', function(e, obj){
+        if ( obj ){
+            $scope.paramObj = obj.clone();
+            $scope.oldParam = obj;
+            $scope.boxView = true;
+        }       
+    });
   }]);
 
   yangui.register.controller('leafCtrl', function ($scope) {
@@ -767,6 +880,12 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
   });
 
   yangui.register.controller('containerCtrl', function ($scope) {
+      $scope.augModalView = false;
+
+      $scope.toggleExpandedAugModal = function(){
+        $scope.augModalView = !$scope.augModalView;
+      };
+
       $scope.toggleExpanded = function() {
           $scope.node.expanded = !$scope.node.expanded;
       };
@@ -774,12 +893,34 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
 
   yangui.register.controller('caseCtrl', function ($scope) {
       $scope.empty = ($scope.case.children.length === 0 || ($scope.case.children.length === 1 && $scope.case.children[0].children.length ===0));
+
+      $scope.augModalView = false;
+
+      $scope.toggleExpandedAugModal = function(){
+        $scope.augModalView = !$scope.augModalView;
+      };
   });
+
+  yangui.register.controller('augmentationModalCtrl', ['$scope', function($scope){
+    $scope.init = function(node){
+      $scope.node = node;
+    };
+  }]);
 
   yangui.register.controller('choiceCtrl', function ($scope, constants) {
     $scope.constants = constants;
+    $scope.augModalView = false;
+
+    $scope.toggleExpandedAugModal = function(){
+      $scope.augModalView = !$scope.augModalView;
+    };
+
     $scope.toggleExpanded = function() {
         $scope.node.expanded = !$scope.node.expanded;
+    };
+
+    $scope.caseShowing = function (node) {
+      return !node.augmentationId ? true : $scope.augmentations.getAugmentation(node.parent, node.augmentationId).expanded;
     };
   });
 
@@ -790,12 +931,24 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
   });
 
   yangui.register.controller('inputCtrl', function ($scope) {
+    $scope.augModalView = false;
+
+    $scope.toggleExpandedAugModal = function(){
+      $scope.augModalView = !$scope.augModalView;
+    };
+
     $scope.toggleExpanded = function() {
         $scope.node.expanded = !$scope.node.expanded;
     };
   });
 
   yangui.register.controller('outputCtrl', function ($scope) {
+    $scope.augModalView = false;
+
+    $scope.toggleExpandedAugModal = function(){
+      $scope.augModalView = !$scope.augModalView;
+    };
+
     $scope.toggleExpanded = function() {
         $scope.node.expanded = !$scope.node.expanded;
     };
@@ -808,6 +961,11 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
       $scope.filterListHover = 0;
       $scope.currentDisplayIndex = 1;
       $scope.displayOffsets = [-1, 0, 1];
+      $scope.augModalView = false;
+
+      $scope.toggleExpandedAugModal = function(){
+        $scope.augModalView = !$scope.augModalView;
+      };
 
       $scope.$on('EV_REFRESH_LIST_INDEX', function(event) {
           $scope.currentDisplayIndex = 1;

@@ -182,6 +182,7 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
           scope.$watch('tree_rows', function() {
               scope.treeRows = scope.tree_rows;
+              scope.$emit('SET_SCOPE_TREE_ROWS', scope.treeRows);
           });
 
           scope.tree_rows = [];

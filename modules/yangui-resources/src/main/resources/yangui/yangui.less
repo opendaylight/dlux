@@ -1,17 +1,6 @@
-.topologyContainer {
-    position: fixed !important;
-    width: 800px;
-    height: 500px;
-    top: 150px;
-    left: calc(~"100% - 900px");
-    z-index: 1100;
-    overflow: hidden;
-}
-
 .simpleContainer {
     border: 1px solid #7a7a7a;
     margin: 5px;
-    border-radius: 5px;
     padding: 5px;
     z-index: 10;
     width:auto;
@@ -19,6 +8,7 @@
 
     &.treeContainer{
       height: 450px;
+      margin-top: 0px;
     }
 }
 
@@ -40,6 +30,14 @@
     word-wrap: normal;
     white-space: pre;
 }*/
+
+.previewContainer{
+    position: fixed;
+    top: 150px;
+    right: 10px;
+    min-width:200px; 
+    min-height:100px;
+}
 
 .leaf {
     margin: 5px;
@@ -77,6 +75,10 @@
 }
 
 .dataPopup {
+  top: 160px;
+  left: calc(~"100% - 850px");
+  min-height: 322px;
+
   .leaf-input {
     width: 100%;
   }
@@ -303,6 +305,33 @@ input[type="file"].upload-collection{
     }
 }
 
+.mainTabsWrapper{
+  .nav-tabs{
+    border-bottom: 0;
+    margin: 0 5px;
+
+    li{
+      .roundedCorners(0px);
+      margin-right: 3px;
+
+      &:hover{
+        // background-color: #e4e6e9;
+      }
+
+      a{
+        background: none;
+        border: 0;
+        .outline;
+      }
+    }
+  }
+
+  .tab-panel{
+    height: 100%;
+  }
+
+}
+
 .treeWrapper{
   height: calc(~"100% - 20px");
   .treeList{
@@ -425,7 +454,7 @@ div.requestActions{
       display: none;
       width: 450px;
       top: 0;
-      left: -300px;
+      left: -325px;
       z-index: 1;
     }
     .changeGroup{
@@ -433,6 +462,28 @@ div.requestActions{
     }
   }
 }
+
+.paramBox{
+    position: absolute;
+    width: 450px;
+    top: 0;
+    left: -360px;
+    z-index: 1;
+}
+
+.parameterEditBox{
+  position: relative;
+  
+}
+
+.newParamBox{
+  .paramBox{
+      left: 50%;
+      top: 50%;
+      margin-left: -225px;
+      margin-top: -98px;
+  }
+}   
 
 div.mountPoints{
   // color: #fff!important;
@@ -547,6 +598,13 @@ div.mountPoints{
     overflow-y: scroll;
     max-height: 200px;
   }
+
+  &.augmentationModal{
+    padding-left: 15px;
+    left: -6px;
+    top: -10px;
+    border: 1px solid #7a7a7a;
+  }
 }
 
 .popupContainer{
@@ -556,6 +614,190 @@ div.mountPoints{
   padding: 20px;
 }
 
+.historyPopUp{
+  height: 100%;
+  color: #fff;
+
+  .groupWrapper{
+    .groupHeader{
+      font-weight: bold;
+      border-bottom: 2px solid #dddddd;
+      padding: 8px;
+      cursor: pointer;
+    }
+  }
+
+
+  .tableWrapper{
+    margin-bottom: 10px;
+    max-height: calc(~"100% - 51px");
+    height: 90000px;
+
+    .reqHistory,.reqParams{
+
+      width:100%;
+      height: 100%;
+      display:block;
+
+      .tddiv{
+        /*border: 1px dotted brown;*/
+        display: inline-block;
+      }
+
+      .thdiv{
+        border-bottom: 2px solid #dddddd;
+
+        .tddiv{
+          padding: 8px;
+          text-align: left;
+          vertical-align: bottom;
+          font-weight: bold;
+        }
+
+        .rh-col3{
+          width: calc(~"100% - 660px");
+        }
+
+        .rh-col3c{
+          width: calc(~"100% - 804px");
+        }
+      }
+
+      .scroll{
+        overflow-y: scroll;
+        height: calc(~"100% - 50px"); 
+      }
+
+
+      .trdiv{
+        border-top: 2px solid #dddddd;
+        &.no-border{
+          border: 0;
+        }
+        .tddiv{
+          padding: 8px;
+          text-align: left;
+          vertical-align: top;
+          word-wrap: break-word;
+          line-height: 26px;
+        }
+        &.pre-div{
+          position: relative;
+          border: 0;
+          margin-bottom: 20px;
+          padding: 0px 10px;
+          button.close{
+            color: #000;
+            right: 30px;
+            top: 10px;
+          }
+          button.white-cross{
+            color: #fff;
+          }
+
+          .api{
+            padding: 10px;
+
+            input[type=text]{
+              width: 100px;
+              .inlineBlock;
+              margin-left: 5px;
+              vertical-align: middle;
+            }
+          }
+
+          textarea{
+            width: 100%;
+            min-height: 50px;
+            overflow-y: scroll;
+            height: 200px;
+            max-width: 100%;
+          }
+        }
+      }
+
+      .rh-col1{
+        width: 27px;
+      }
+      .rh-col2{
+        width: 90px;
+      }
+      .rh-col3{
+        width: calc(~"100% - 641px");
+      }
+      .rh-col3c{
+        width: calc(~"100% - 786px");
+        min-width: 100px;
+      }
+      .rh-col4{
+        width: 80px;
+      }
+      .rh-col5{
+        width: 110px;
+      }
+      .rh-col6{
+        width: 140px;
+      }
+      .rh-col7{
+        width: 170px;
+      }
+      .rh-col8{
+        width: 140px;
+      }
+    }
+
+
+    .reqParams {
+          
+      .thdiv{
+        .rh-col3{
+          width: calc(~"100% - 450px");
+        }
+      }
+        
+      .rh-col2{
+        width: 250px;
+      }
+      .rh-col3{
+        width: calc(~"100% - 450px");
+      }
+      .rh-col4{
+        width: 100px;
+      }
+    }
+  }
+
+  .btn-like-tab{
+    .roundedCorners(0);
+    margin-left: 2px;
+  }
+
+  .nav-tabs li a{
+    margin-right: 0;
+  }
+
+  td{
+    textarea{
+      width: 100%;
+      min-height: 400px;
+    }
+  }
+
+  table{
+    color: #fff;
+    th{
+      &.actions{
+        width: 150px;
+      }
+    }
+  }
+  pre{
+    position: relative;
+    button.close{
+      color: #000;
+    }
+  }
+}
 
 .topologyContainer{
   background: #393939;
@@ -563,6 +805,9 @@ div.mountPoints{
   border-radius: 5px;
   padding: 20px;
   z-index: 15;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   button.close{
     position: absolute;
     top: 5px;
@@ -611,194 +856,6 @@ div.mountPoints{
       input{
         margin: 0px 0 10px;
       }
-    }
-    &.historyPopUp{
-      min-width: 870px;
-      width: auto;
-     /*margin-left: -40%;*/
-      margin-left: 0;
-      /*left: 50%;*/
-      left: 30%;
-      max-height: 80%;
-      height: 500px;
-      top: 80px;
-      min-height: 200px;
-      position: absolute;
-      z-index: 2;
-      color: #fff;
-
-      .groupWrapper{
-        .groupHeader{
-          font-weight: bold;
-          border-bottom: 2px solid #dddddd;
-          padding: 8px;
-          cursor: pointer;
-        }
-      }
-
-      .tabs {
-        height: calc(~"100% - 40px");
-        max-height: 100%;
-
-        .tab-content {
-          height: 100%;
-
-          .tab-pane{
-            height: 100%;
-
-            .tableWrapper{
-              margin-bottom: 10px;
-              max-height: calc(~"100% - 51px");
-              height: 90000px;
-
-              .reqHistory{
-
-                width:100%;
-                height: 100%;
-                display:block;
-
-                .tddiv{
-                  /*border: 1px dotted brown;*/
-                  display: inline-block;
-                }
-
-                .thdiv{
-                  border-bottom: 2px solid #dddddd;
-
-                  .tddiv{
-                    padding: 8px;
-                    text-align: left;
-                    vertical-align: bottom;
-                    font-weight: bold;
-                  }
-
-                  .rh-col3{
-                    width: calc(~"100% - 660px");
-                  }
-
-                  .rh-col3c{
-                    width: calc(~"100% - 804px");
-                  }
-                }
-
-                .scroll{
-                  overflow-y: scroll;
-                  height: calc(~"100% - 50px"); 
-                }
-
-
-                .trdiv{
-                  border-top: 2px solid #dddddd;
-                  &.no-border{
-                    border: 0;
-                  }
-                  .tddiv{
-                    padding: 8px;
-                    text-align: left;
-                    vertical-align: top;
-                    word-wrap: break-word;
-                    line-height: 26px;
-                  }
-                  &.pre-div{
-                    position: relative;
-                    border: 0;
-                    margin-bottom: 20px;
-                    padding: 0px 10px;
-                    button.close{
-                      color: #000;
-                      right: 30px;
-                      top: 10px;
-                    }
-                    button.white-cross{
-                      color: #fff;
-                    }
-
-                    .api{
-                      padding: 10px;
-
-                      input[type=text]{
-                        width: 100px;
-                        .inlineBlock;
-                        margin-left: 5px;
-                        vertical-align: middle;
-                      }
-                    }
-
-                    textarea{
-                      width: 100%;
-                      min-height: 50px;
-                      overflow-y: scroll;
-                      height: 200px;
-                      max-width: 100%;
-                    }
-                  }
-                }
-
-                .rh-col1{
-                  width: 27px;
-                }
-                .rh-col2{
-                  width: 90px;
-                }
-                .rh-col3{
-                  width: calc(~"100% - 641px");
-                }
-                .rh-col3c{
-                  width: calc(~"100% - 786px");
-                  min-width: 100px;
-                }
-                .rh-col4{
-                  width: 80px;
-                }
-                .rh-col5{
-                  width: 110px;
-                }
-                .rh-col6{
-                  width: 140px;
-                }
-                .rh-col7{
-                  width: 170px;
-                }
-                .rh-col8{
-                  width: 140px;
-                }
-              }
-            }
-          }
-        }
-      }
-
-      .btn-like-tab{
-        .roundedCorners(0);
-        margin-left: 2px;
-      }
-
-      .nav-tabs li a{
-        margin-right: 0;
-      }
-
-      td{
-        textarea{
-          width: 100%;
-          min-height: 400px;
-        }
-      }
-
-      table{
-        color: #fff;
-        th{
-          &.actions{
-            width: 150px;
-          }
-        }
-      }
-      pre{
-        position: relative;
-        button.close{
-          color: #000;
-        }
-      }
-
     }
   }
 }
@@ -1033,6 +1090,16 @@ button, div{
       width: 24px;
       background: transparent url('@{iconsRootPath}icon-close.png') no-repeat center top;
     }
+    &.closeSentData{
+      position: absolute;
+      top: 0;
+      right: 32px;
+    }
+    &.closeReceivedData{
+      position: absolute;
+      top: 47px;
+      right: 32px;
+    }
     &.iconNext{
       background: transparent url('@{iconsRootPath}icon-next.png') no-repeat center top;
       &.disabled{
@@ -1089,6 +1156,12 @@ button, div{
     &.iconPrev{
       background: transparent url('@{iconsRootPath}icon-prev.png') no-repeat center top;
     }
+    &.iconEdit{
+      background: none;
+      span{
+        vertical-align: text-top;
+      }
+    }
     &.iconDanger{
       background: transparent url('@{iconsRootPath}icon-danger.png') no-repeat center top;
       &:hover{
@@ -1108,6 +1181,45 @@ button, div{
       .opacityDeph(0.8);
     }*/
   }
+}
+
+.augmentIcon{
+  .inlineBlock;
+  background: transparent;
+  font-weight: bold;
+  color: #ebecec;
+  border: 2px solid #ebecec;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  line-height: 22px;
+  .boxSizing;
+  .roundedCorners(13px);
+  text-align: center;
+  margin-left: 5px;
+
+  &:hover, &.active{
+    color: #000;
+    border-color: orange;
+    background: orange;
+  }
+
+  &.reversed{
+    color: #F5F5F5;
+    // background: #393939;
+    border-color:orange;
+    width: 20px;
+    height: 20px;
+    line-height: 16px;
+    margin-top: 4px;
+    font-size: 12px;
+  }
+}
+
+.modalIconOver{
+  position: absolute!important;
+  top: 9px;
+  left: -16px;
 }
 /* --------------------------------------------------------------------------------- YANG UI BUTTONS - END */
 
@@ -1267,9 +1379,4 @@ li.btn-like-tab{
 
 .mountPointsWrapper {
   height: calc(~"100% - 45px");
-}
-
-#customApi {
-  top: 160px;
-  left: calc(~"100% - 850px");
 }

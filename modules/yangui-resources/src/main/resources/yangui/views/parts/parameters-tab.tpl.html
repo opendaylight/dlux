@@ -1,0 +1,35 @@
+<div class="tableWrapper">
+    <div class="table dataTable reqParams">
+        <div class="thdiv">
+            <div class="tddiv rh-col1"></div>
+            <div class="tddiv rh-col2">{{ 'YANGUI_PARAMETER_NAME' | translate }}</div>
+            <div class="tddiv rh-col3">{{ 'YANGUI_PARAMETER_VALUE' | translate }}</div>
+            <div class="tddiv actions rh-col4">{{ 'YANGUI_ACTION' | translate }}</div>
+        </div>
+        
+        <div class="scroll">
+            <div ng-repeat="param in parameterList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
+                <div>
+                    <div class="tddiv rh-col1"><span></span></div>
+                    <div class="tddiv rh-col2"><span><<{{ param.name }}>></span></div>
+                    <div class="tddiv rh-col3"><span>{{ param.value }}</span></div>
+                    <div class="tddiv rh-col4">
+                        <div class="requestActions">
+                            <div ng-controller="historyParamCtrl">
+                                <button class="yangButton iconEdit" ng-click="showParamBox(param)" tooltip="{{ 'YANGUI_EDIT' | translate }}"><span class="icon-edit"></span></button>
+                                <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                <div class="inlineBlock parameterEditBox" tooltip="{{ 'YANGUI_EDIT_PARAMETER' | translate }}" ng-include src="currentPath + 'parts/param-box.tpl.html'"></div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-controller="historyParamCtrl">
+        <button class="btn btn-primary ng-scope btn-slim" ng-click='showParamBox(createNewParam())'>
+            {{ 'YANGUI_ADD_PARAMETER' | translate }}
+        </button>
+        <div class="inlineBlock newParamBox" ng-include src="currentPath + 'parts/param-box.tpl.html'"></div>
+    </div>
+</div>
