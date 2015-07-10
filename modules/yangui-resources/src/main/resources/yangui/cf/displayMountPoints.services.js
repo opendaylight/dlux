@@ -28,7 +28,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
 
                     return firstConfigSubApiIndex;
                 },
-                createMPStructure = function(mpNodes) {
+                createMPStructure = function(mpNodes, mpAugments) {
                     if(mpNodes.length){
                         var mountPointStructure = [];
 
@@ -76,7 +76,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                         var mountPointTreeApis = yangUtils.generateApiTreeData(mountPointApis);
 
                         mountPointsConnector.updateMountPointApis($scope.selSubApi.pathArray, mountPointApis);
-                        $scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, getMpBasePathWOStorage(path));
+                        $scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, getMpBasePathWOStorage(path), mpAugments);
                         $scope.processingModulesSuccessCallback();
                     } else {
                         $scope.processingModulesErrorCallback();
