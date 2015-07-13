@@ -1,0 +1,7 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+2: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-by: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-at: Mon, 13 Jul 2015 13:02:15 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/23858
+Project: dlux
+Branch: refs/heads/stable/lithium
