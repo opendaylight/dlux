@@ -39,6 +39,7 @@
         <feature version="${mdsal.version}">odl-mdsal-apidocs</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangui/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
     </feature>
 
 	<feature name="odl-dlux-yangvisualizer" version='${project.version}' description="Enable Yang visualizer in Opendaylight dlux">
