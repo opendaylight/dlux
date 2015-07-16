@@ -34,6 +34,7 @@
     <module>node</module>
     <module>topology</module>
     <module>yangui</module>
+    <module>sfc</module>
     <module>yangutils</module>
     <module>yangvisualizer</module>
     <module>sigmatopology</module>
