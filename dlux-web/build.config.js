@@ -98,7 +98,17 @@ module.exports = {
       'vendor/sigma/plugins/sigma.layout.forceAtlas2.min.js',
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
       'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
-      'vendor/pixi/bin/pixi.js'
+      'vendor/pixi/bin/pixi.js',
+      'vendor/ngstorage/ngStorage.min.js',
+      'vendor/angular-xeditable/dist/js/xeditable.js',
+      'vendor/angular-ui-sortable/sortable.js',
+      'vendor/angular-ui-utils/modules/unique/unique.js',
+      'vendor/angular-sanitize/angular-sanitize.js',
+      'vendor/ng-table/ng-table.min.js',
+      'vendor/ng-table/ng-table.map',
+      'vendor/angular-dragdrop/draganddrop.js',
+      'vendor/select2/select2.js',
+      'vendor/angular-ui-select2/index.js',
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
@@ -107,7 +117,8 @@ module.exports = {
     'vendor/footable/css/footable.core.min.css',
     'vendor/footable/css/footable.standalone.min.css',
     'vendor/vis/dist/vis.min.css',
-    'vendor/ng-slider/dist/css/ng-slider.min.css'
+    'vendor/ng-slider/dist/css/ng-slider.min.css',
+    'vendor/ng-table/ng-table.min.css',
 
     ],
     images: [
