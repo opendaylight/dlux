@@ -93,6 +93,11 @@
       </dependency>
       <dependency>
           <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.sfc</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
           <artifactId>dlux.common.yangutils</artifactId>
           <version>${project.version}</version>
       </dependency>

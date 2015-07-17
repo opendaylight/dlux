@@ -42,11 +42,17 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
     </feature>
 
-	<feature name="odl-dlux-yangvisualizer" version='${project.version}' description="Enable Yang visualizer in Opendaylight dlux">
+    <feature name="odl-dlux-yangvisualizer" version='${project.version}' description="Enable Yang visualizer in Opendaylight dlux">
         <feature>odl-dlux-core</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
-		<bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/${project.version}</bundle>
+    </feature>
+
+    <feature name="odl-dlux-sfc" version='${project.version}' description="Enable Service function chaining UI in Opendaylight dlux">
+        <feature>odl-dlux-core</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.sfc/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/${project.version}</bundle>
     </feature>
 
 </features>
