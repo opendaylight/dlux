@@ -40,7 +40,7 @@ define(['app/node/nodes.module', 'app/node/nodes.controller', 'angular-ui-router
       var stateName = 'main.node';
       
       $controller('rootNodeCtrl', {$scope: scope, $state: state});
-      expect(state.href(stateName, {})).toBe('#/node');
+      expect(state.href(stateName, {})).toBe('/node');
     }));
 
 
@@ -51,7 +51,7 @@ define(['app/node/nodes.module', 'app/node/nodes.controller', 'angular-ui-router
       $controller( 'allNodesCtrl', { $scope: scope, $state:state, NodeInventorySvc:nodeServiceMock });
       rootScope.$digest();
 
-      expect(state.href(stateName, {})).toBe('#/node/index');
+      expect(state.href(stateName, {})).toBe('/node/index');
       expect(nodeServiceMock.getAllNodes).toHaveBeenCalled();
       expect(scope.data).toBe('node1');
     }));
@@ -69,7 +69,7 @@ define(['app/node/nodes.module', 'app/node/nodes.controller', 'angular-ui-router
         $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
         rootScope.$digest();
         
-        expect(state.href(stateName, stateParams)).toBe('#/node/%d/detail'.replace('%d', stateParams.nodeId));
+        expect(state.href(stateName, stateParams)).toBe('/node/%d/detail'.replace('%d', stateParams.nodeId));
         expect(nodeServiceMock.getCurrentData).toHaveBeenCalled();
         expect(scope.data.id).toEqual(2);
     }));
@@ -82,7 +82,7 @@ define(['app/node/nodes.module', 'app/node/nodes.controller', 'angular-ui-router
         $controller( 'nodeConnectorCtrl', { $scope: scope, $stateParams : stateParams, NodeInventorySvc:nodeServiceMock });
         rootScope.$digest();
         
-        expect(state.href(stateName, stateParams)).toBe('#/node/%d/detail'.replace('%d',stateParams.nodeId));
+        expect(state.href(stateName, stateParams)).toBe('/node/%d/detail'.replace('%d',stateParams.nodeId));
         expect(nodeServiceMock.getNode).toHaveBeenCalled();
         expect(scope.data.id).toEqual(3);
     }));
