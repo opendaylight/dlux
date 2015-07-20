@@ -2,7 +2,7 @@ define(['app/topology/topology.module','app/topology/topology.services', 'graphR
   window.PIXI = PIXI; // attach pixijs to global scope
 
   topology.register.controller('TopologyCtrl', ['$scope', '$rootScope', 'NetworkTopologySvc' ,  function ($scope, $rootScope, NetworkTopologySvc) {
-    $rootScope['section_logo'] = 'logo_topology';
+    $rootScope['section_logo'] = 'assets/images/logo_topology.gif';
     var graphRenderer = null;
     $scope.createTopology = function() {
 

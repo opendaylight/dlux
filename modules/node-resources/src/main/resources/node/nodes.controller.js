@@ -9,7 +9,7 @@
 define(['app/node/nodes.module','app/node/nodes.services'], function(node) {
 
   node.register.controller('rootNodeCtrl', function($rootScope) {
-    $rootScope['section_logo'] = 'logo_node';
+    $rootScope['section_logo'] = 'assets/images/logo_node.gif';
    // $rootScope.$apply();
   });
 
