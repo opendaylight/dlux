@@ -5,7 +5,7 @@ define(['app/yangui/yangui.module', 'app/yangui/yangui.services', 'app/yangui/di
     'customFunctUnsetter', 'HistoryServices', 'dataBackuper',
     function ($scope, $timeout, $rootScope, $http, $filter, YangUtilsRestangular, yangUtils, reqBuilder, custFunctFact, pluginHandler, pathUtils, constants, nodeWrapper, mountPointsConnector, 
       filterConstants, displayMountPoints, yinParser, designUtils, eventDispatcher, syncFact, customFunctUnsetter, HistoryServices, dataBackuper) {
-      $rootScope['section_logo'] = 'logo_yangui';
+      $rootScope['section_logo'] = 'assets/images/logo_yangui.gif';
 
       $scope.currentPath = 'src/app/yangui/views/';
       $scope.apiType = '';

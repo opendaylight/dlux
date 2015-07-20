@@ -1,7 +1,7 @@
 define(['app/topology/topology.module','app/topology/topology.services', 'app/topology/topology.directives'], function(topology, service) {
 
   topology.register.controller('TopologyCtrl', ['$scope', '$rootScope', 'NetworkTopologySvc' ,  function ($scope, $rootScope, NetworkTopologySvc) {
-    $rootScope['section_logo'] = 'logo_topology';
+    $rootScope['section_logo'] = 'assets/images/logo_topology.gif';
     var graphRenderer = null;
     $scope.createTopology = function() {
 

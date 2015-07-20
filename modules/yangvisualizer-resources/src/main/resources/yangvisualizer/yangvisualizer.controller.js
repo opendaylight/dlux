@@ -2,7 +2,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
   yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants',
     function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory, yvConstants) {
-      $rootScope['section_logo'] = 'logo_yangui';
+      $rootScope['section_logo'] = 'assets/images/logo_yangui.gif';
 
       $scope.currentPath = './assets/views/yangvisualizerCtrl';
       $scope.topologyData = { nodes: [], edges: []};
