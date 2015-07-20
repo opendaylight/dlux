@@ -1,12 +1,10 @@
 {
   "author": "Mathieu Lemay",
   "name": "opendaylight-dlux",
+  "description": "openDayLight User eXperience",
   "version": "0.2.0",
   "homepage": "http://opendaylight.org",
-  "licenses": {
-    "type": "Open source",
-    "url": ""
-  },
+  "license": "EPL-1.0",
   "bugs": "https://bugs.opendaylight.org/",
   "repository": {
     "type": "git",
