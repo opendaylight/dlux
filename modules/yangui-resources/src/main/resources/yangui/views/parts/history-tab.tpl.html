@@ -1,0 +1,81 @@
+<div class="tableWrapper">
+    <div class="table dataTable reqHistory">
+        <div class="thdiv">
+            <div class="tddiv rh-col1"></div>
+            <div class="tddiv rh-col2">{{ 'YANGUI_HISTORY_METHOD' | translate }}</div>
+            <div class="tddiv rh-col3">{{ 'YANGUI_HISTORY_PATH' | translate }}</div>
+            <div class="tddiv rh-col4">{{ 'YANGUI_HISTORY_STATUS' | translate }}</div>
+            <div class="tddiv rh-col5"></div>
+            <div class="tddiv rh-col6"></div>
+            <div class="tddiv actions rh-col7">{{ 'YANGUI_HISTORY_ACTION' | translate }}</div>
+        </div>
+
+        <div class="scroll">
+            <div ng-repeat="req in requestList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
+                <div>
+                    <div class="tddiv rh-col1"><button class="yangButton iconDanger" tooltip="{{ 'YANGUI_API_NOT_AVAILABLE' | translate }}" ng-hide="req.availability"></button></div>
+                    <div class="tddiv rh-col2"><span>{{ req.method }}</span></div>
+                    <div class="tddiv rh-col3"><span>{{ req.path }}</span></div>
+                    <div class="tddiv rh-col4"><span>{{ req.status }}</span></div>
+                    <div class="tddiv rh-col5">
+                        <div tooltip="{{ req.sentData ? '' : 'YANGUI_HISTORY_NO_SEND_DATA_TT' | translate }}">
+                            <button class="btn btn-primary ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='show_history_data(req, true, req.sentData ? false : true)'>
+                            {{ 'YANGUI_HISTORY_SEND_DATA' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tddiv rh-col6">
+                        <div tooltip="{{ req.receivedData ? '' : 'YANGUI_HISTORY_NO_REC_DATA_TT' | translate }}">
+                            <button class="btn btn-primary ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='show_history_data(req, false, req.receivedData ? false : true)'>
+                                {{ 'YANGUI_HISTORY_REC_DATA' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="tddiv rh-col7">
+                        <div class="requestActions">
+                            <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click='executeCollectionRequest(req)'></button>
+                            </div>
+
+                            <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}">
+                                <div class="yangButton iconPlus inlineBlock" ng-click='showCollBox(req)'></div>
+                            </div>
+
+                            <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                                <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-click='fillApiAndData(req)'></button>
+                            </div>
+
+                            
+
+                            <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="req.show" class="trdiv pre-div">
+                    <!-- <button class="yangButton icon-remove close" ng-class="req.sentData && req.api ? 'white-cross' : ''" ng-click="close_popup(req)"></button> -->
+
+                    <div class="api" ng-show="req.sentData && req.api">
+                        <span><strong>{{'YANGUI_API_PATH' | translate}}:</strong>
+                        <span ng-repeat="pathElem in req.api.clonedPathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
+                            <span ng-show="pathElem.hasIdentifier()">
+                                <span ng-repeat="identifier in pathElem.identifiers">
+                                  /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="fillRequestData(req, pathElem, identifier)">
+                                </span>
+                            </span>
+                        </span>
+
+                        <button class="btn btn-primary btn-slim ml20" ng-click="req.clearParametrizedData()">{{'YANGUI_CLEAR_PAR_DATA_BTN' | translate}}</button>
+                        <button class="btn btn-primary btn-slim" ng-click="saveParametrizedData(req, requestList)">{{'YANGUI_SAVE_PAR_DATA_BTN' | translate}}</button>
+                    </div>
+                    <div class="textareaWrapper">
+                        <textarea ng-disabled="!req.sentDataView" ng-model="req.data">{{ req.data }}</textarea>
+                        <button class="yangButton icon-remove close closeData ng-scope" ng-click="close_history_data(req)" tooltip="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData("requestList")'>
+    {{ 'YANGUI_CLEAR_HISTORY' | translate }}
+    </button>
+</div>

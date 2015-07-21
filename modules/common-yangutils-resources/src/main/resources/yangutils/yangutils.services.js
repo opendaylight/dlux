@@ -132,13 +132,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             this.value = value || '';
         };
 
-        var PathElem = function (name, module, identifierNames, moduleChanged) {
+        var PathElem = function (name, module, identifierNames, moduleChanged, revision) {
             this.name = name;
             this.module = module;
             this.identifiers = identifierNames ? identifierNames.map(function(name) {
                 return new Idenfitier(name);
             }) : [];
             this.moduleChanged = moduleChanged || false;
+            this.revision = revision;
 
             this.equals = function(comparedElem, compareIdentifierValues) {
                 var result = this.name === comparedElem.name && this.module === comparedElem.module && this.identifiers.length === comparedElem.identifiers.length;
@@ -177,7 +178,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             };
 
             this.checkNode = function (node) {
-                return (this.module ? this.module === node.module : true) && (this.name ? this.name === node.label : true);
+                return (this.module ? this.module === node.module : true) && (this.name ? this.name === node.label : true) && (this.revision ? this.revision === node.moduleRevision : true);
             };
         };
 
@@ -189,8 +190,21 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             return (item.indexOf('{') === item.indexOf('}')) === false;
         };
 
-        pathUtils.createPathElement = function (name, module, identifierStrings, moduleChanged) {
-            return new PathElem(name, module, identifierStrings, moduleChanged);
+        var searchForRevisionInImportNodes = function(module, importNodes) {
+            var revision = null,
+                node = importNodes.filter(function(i) {
+                    return i.label === module;
+                })[0];
+
+            if(node) {
+                revision = node._revisionDate;
+            }
+
+            return revision;
+        };
+
+        pathUtils.createPathElement = function (name, module, identifierStrings, moduleChanged, revision) {
+            return new PathElem(name, module, identifierStrings, moduleChanged, revision);
         };
 
         pathUtils.search = function (node, path) {
@@ -208,12 +222,12 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     return selNode;
                 }
             } else {
-                // console.warn('cannot find element ',pathElem,'in node',node);
+                console.warn('pathUtils.search: cannot find element ',pathElem,'in node',node);
                 return null;
             }
         };
 
-        pathUtils.translate = function(path, prefixConverter) {
+        pathUtils.translate = function(path, prefixConverter, importNodes, getDefaultModuleCallback) {
             var pathStrElements = path.split('/').filter(function(e) {
                     return e !== '';
                 }),
@@ -239,9 +253,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 } else {
                 
                     var lastElemModule = getElementModule(lastElem),
-                        pair = getModuleNodePair(actElem, lastElemModule),
+                        defaultModule = getDefaultModuleCallback ? getDefaultModuleCallback() : lastElemModule,
+                        pair = getModuleNodePair(actElem, defaultModule),
                         processedModule = (prefixConverter && pair[0] !== lastElemModule) ? prefixConverter(pair[0]) : pair[0],
-                        pathElem = pathUtils.createPathElement(pair[1], processedModule, null, getModuleChange(processedModule, lastElemModule));
+                        revision = importNodes ? searchForRevisionInImportNodes(processedModule, importNodes) : null,
+                        pathElem = pathUtils.createPathElement(pair[1], processedModule, null, getModuleChange(processedModule, lastElemModule), revision);
 
                     pathArrayElements.push(pathElem);
                 }
@@ -1140,6 +1156,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             },
             input: function (node) {
                 node.expanded = true;
+
                 node.buildRequest = function (builder, req) {
                     var added = false,
                         name = node.label,
@@ -1198,6 +1215,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             },
             output: function (node) {
                 node.expanded = true;
+
                 node.buildRequest = function (builder, req) {
                     // var added = false,
                     //     name = node.label,
@@ -1254,6 +1272,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
             },
             case: function (node) {
+
                 node.buildRequest = function (builder, req) {
                     var added = false;
 
@@ -1294,6 +1313,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             choice: function (node) {
                 node.choice = null;
                 node.expanded = true;
+
                 node.buildRequest = function (builder, req) {
                     var added = false;
 
@@ -1447,7 +1467,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
                 node.createStructure = function () {
                     if (node.actElemStructure === null) {
-                        var copy = node.deepCopy();
+                        var copy = node.deepCopy(['augmentionGroups', 'augmentationId']);
                         wrapper._listElem(copy);
                         node.actElemStructure = copy;
                         node.actElemStructure.getActElemIndex = node.getActElemIndex;
@@ -1857,10 +1877,14 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
                 return this.getRawAugments().map(function (augNode) {
                     var prefixConverter = function (prefix) {
-                        return self.getImportByPrefix(prefix).label;
-                    };
+                            var importNode = self.getImportByPrefix(prefix);
+                            return importNode ? importNode.label : null;
+                        },
+                        getDefaultModule = function() {
+                            return null;
+                        };
 
-                    augNode.path = pathUtils.translate(augNode.pathString, prefixConverter);
+                    augNode.path = pathUtils.translate(augNode.pathString, prefixConverter, self._statements.import, getDefaultModule);
 
                     return new Augmentation(augNode);
                 });
@@ -1940,7 +1964,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision),
                     self = this;
 
-                additionalProperties = additionalProperties || ['pathString'];
+                additionalProperties = (additionalProperties || []).concat(['pathString']);
 
                 additionalProperties.forEach(function(prop) {
                     if (prop !== 'children' && self.hasOwnProperty(prop) && copy.hasOwnProperty(prop) === false) {
@@ -1949,7 +1973,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 });
 
                 this.children.forEach(function (child) {
-                    var childCopy = child.deepCopy();
+                    var childCopy = child.deepCopy(additionalProperties);
                     childCopy.parent = copy;
                     copy.children.push(childCopy);
                 });
@@ -1975,22 +1999,63 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     return filteredChildren;
                 }
             };
+
+        };
+
+
+
+        var AugmentationsGroup = function(){
+            this.obj = {};
+
+            this.addAugumentation = function(augumentation){
+                this.obj[augumentation.id] = augumentation;
+            };
+        };
+
+        var Augmentations = function(){
+            this.groups = {};
+
+            this.addGroup  = function(groupId){
+                this.groups[groupId] = !this.groups.hasOwnProperty(groupId) ? new AugmentationsGroup() : this.groups[groupId];
+            };
+
+            this.getAugmentation = function(node, augId) {
+                return this.groups[node.module + ':' + node.label] ? this.groups[node.module + ':' + node.label].obj[augId] : null;
+            };
         };
 
         var Augmentation = function (node) {
+            var self = this;
             this.node = node;
             this.path = (node.path ? node.path : []);
+            this.id = node.module + ':' + node.label;
+            this.expanded = true;
 
-            this.apply = function (nodeList) {
+            this.toggleExpand = function () {
+                this.expanded = !this.expanded;
+            };
+
+            this.setAugmentationGroup = function(targetNode, augumentations){
+                var targetNodeId = targetNode.module + ':' + targetNode.label;
+                targetNode.augmentionGroups = targetNode.augmentionGroups ? targetNode.augmentionGroups : [];
+                targetNode.augmentionGroups.push(self.id);
+
+                augumentations.addGroup(targetNodeId);
+                augumentations.groups[targetNodeId].addAugumentation(self);
+            };
+
+            this.apply = function (nodeList, augumentations) {
                 var targetNode = this.getTargetNodeToAugment(nodeList);
-                // console.info('applying augmentation',this.node.label,'-',this.getPathString());
 
                 if (targetNode) {
+                    this.setAugmentationGroup(targetNode, augumentations);
+
                     this.node.children.forEach(function (child) {
                         child.appendTo(targetNode);
+                        child.augmentationId = self.id;
                     });
                 } else {
-                    console.warn(this.node.module + ':' + this.node.label + ' - can\'t find target node for augmentation ' + this.getPathString());
+                    console.warn(this, ' - can\'t find target node for augmentation ', this.getPathString(), ' in ', nodeList);
                 }
             };
 
@@ -2325,6 +2390,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             parseYang: parseYang,
             parseYangMP: parseYangMP,
             yangParser: new YangParser(),
+            Augmentations: Augmentations,
             Module: Module,
             __test: {
                 path: path,
@@ -2640,10 +2706,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 var parts = link.split(':'),
                     targetImport = currentModule.getImportByPrefix(parts[0]);
 
-                sourceModule = targetImport ? searchModule(modules, targetImport.label) : null;
+                sourceModule = targetImport ? searchModule(modules, targetImport.label, targetImport.revisionDate) : null;
                 sourceNode = sourceModule ? sourceModule.searchNode(targetType, parts[1]) : null;
             } else {
-                sourceModule = searchModule(modules, node.module);
+                sourceModule = searchModule(modules, node.module, node.moduleRevision);
                 sourceNode = sourceModule ? sourceModule.searchNode(targetType, link) : null;
             }
 
@@ -2692,22 +2758,24 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             modules.forEach(function (module) {
                 module._roots = module.getRoots().map(function (node) {
                     copy = node.deepCopy();
-                    return applyModuleName(copy, module._name);
+                    return applyModuleRevision(copy, module._name, module._revision);
                 });
 
                 module._augments = module.getRawAugments().map(function (node) {
                     copy = node.deepCopy();
-                    return applyModuleName(copy, module._name);
+                    return applyModuleRevision(copy, module._name, module._revision);
                 });
             });
 
             return modules;
         };
 
-        var applyModuleName = function (node, module) {
+        var applyModuleRevision = function (node, module, revision) {
             node.module = module;
+            node.moduleRevision = revision;
+
             node.children.map(function (child) {
-                return applyModuleName(child, module);
+                return applyModuleRevision(child, module, revision);
             });
 
             return node;
@@ -2734,7 +2802,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             searchModule: searchModule,
             applyLinks: applyLinks,
             interConnectModules: interConnectModules,
-            applyModuleName: applyModuleName
+            applyModuleRevision: applyModuleRevision
         };
 
         return moduleConnector;
@@ -2899,10 +2967,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 
             YangUIApis.getCustomModules(baseApiPath).then(
                 function (data) {
-                    yangUtils.processModulesMP(data.modules, baseApiPath, function (result) {
+                    yangUtils.processModulesMP(data.modules, baseApiPath, function (result, augments) {
                         eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Linking modules to Apis');
                         var allRootNodes = result.map(function (node) {
-                            var copy = node.deepCopy();
+                            var copy = node.deepCopy(['augmentionGroups', 'augmentationId']);
 
                             nodeWrapper.wrapAll(copy);
                             return copy;
@@ -2919,7 +2987,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         });
 
                         console.info('loaded mount point nodes', mpNodes);
-                        callback(mpNodes);
+                        callback(mpNodes, augments);
                     });
                 }, function (result) {
                     console.error('Error getting Mount point data:', result);
@@ -2981,13 +3049,15 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         utils.generateNodesToApis = function (callback, errorCbk) {
             var allRootNodes = [],
                 topLevelSync = syncFact.generateObj(),
-                reqAll = topLevelSync.spawnRequest('all');
+                reqAll = topLevelSync.spawnRequest('all'),
+                allAugmentationGroups = {};
 
             YangUIApis.getAllModules().get().then(
                 function (data) {
-                    utils.processModules(data.modules, function (result) {
+                    utils.processModules(data.modules, function (result, aGroups) {
+                        allAugmentationGroups = aGroups;
                         allRootNodes = result.map(function (node) {
-                            var copy = node.deepCopy();
+                            var copy = node.deepCopy(['augmentionGroups', 'augmentationId']);
 
                             nodeWrapper.wrapAll(copy);
                             return copy;
@@ -3004,7 +3074,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 try {
                     eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Building apis');
                     var abApis = apiBuilder.processAllRootNodes(allRootNodes);
-                    callback(abApis, allRootNodes);
+                    callback(abApis, allRootNodes, allAugmentationGroups);
                 } catch (e) {
                     errorCbk(e);
                     throw(e); //do not lose debugging info
@@ -3104,7 +3174,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             var modules = [],
                 rootNodes = [],
                 augments = [],
-                syncModules = syncFact.generateObj();
+                syncModules = syncFact.generateObj(),
+                augmentionGroups = new yinParser.Augmentations();
 
             eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Processing modules');
             loadedModules.module.forEach(function (module) {
@@ -3131,10 +3202,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 });
 
                 sortedAugments.map(function (elem) {
-                    elem.apply(rootNodes);
+                    elem.apply(rootNodes, augmentionGroups);
                 });
 
-                callback(rootNodes);
+                callback(rootNodes, augmentionGroups);
             });
         };
 
@@ -3142,7 +3213,8 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             var modules = [],
                 rootNodes = [],
                 augments = [],
-                syncModules = syncFact.generateObj();
+                syncModules = syncFact.generateObj(),
+                augmentionGroups = new yinParser.Augmentations();
 
             eventDispatcher.dispatch(constants.EV_SRC_MAIN, 'Processing modules');
             loadedModules.module.forEach(function (module) {
@@ -3169,10 +3241,10 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                 });
 
                 sortedAugments.map(function (elem) {
-                    elem.apply(rootNodes);
+                    elem.apply(rootNodes, augmentionGroups);
                 });
 
-                callback(rootNodes);
+                callback(rootNodes, augmentionGroups);
             });
         };
 
@@ -3288,7 +3360,16 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             };
 
         utils.prepareRequestData = function(requestData, operation, reqString, subApi){
-            return operation === 'POST' ? postRequestData(requestData, reqString, subApi) : requestData;
+            var preparedData = requestData;
+
+            if(operation === 'GET'){
+                preparedData = null;
+            }
+            else if(operation === 'POST'){
+                return postRequestData(requestData, reqString, subApi);
+            }
+
+            return preparedData;
         };
 
         utils.prepareOperation = function(operation){
@@ -3339,10 +3420,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
             NODE_RESTRICTIONS: 4,
             NODE_LINK: 5,
             NODE_LINK_TARGET: 6,
-            LOCALE_PREFIX: 'YANGUI_',
+            LOCALE_PREFIX: 'YANGUI_FORM_',
             EV_SRC_MAIN: 'EV_SRC_MAIN',
             EV_FILL_PATH: 'EV_FILL_PATH',
             EV_LIST_CHANGED: 'EV_LIST_CHANGED',
+            EV_PARAM_EDIT_SUCC: 'EV_PARAM_EDIT_SUCC',
             MPPREFIX: 'yang-ext:mount',
             NULL_DATA: null
         };
