@@ -1,26 +1,51 @@
 <div class="mt20">
 
-  <!-- History modal -->
-  <div class="requestModal inline" ng-include src="currentPath+'/modal/request-modal.tpl.html'"></div>
+  <div class="tabs mainTabsWrapper">
+    <ul class="nav nav-tabs">
+        <li class="btn-like-tab {{ mainTabs['api'] ? 'btn-selected' : '' }}" ng-click="showTabs(mainTabs, 'api')">
+            <a><span>{{'API' | translate}}</span></a>
+        </li>
+        <li class="btn-like-tab {{ mainTabs['history'] ? 'btn-selected' : '' }}" ng-click="showTabs(mainTabs, 'history')">
+            <a><span>{{'YANGUI_HISTORY_TAB' | translate}}</span></a>
+        </li>
+        <li class="btn-like-tab {{ mainTabs['collection'] ? 'btn-selected' : '' }}" ng-click="showTabs(mainTabs, 'collection')">
+            <a><span>{{'YANGUI_COLLECTION_TAB' | translate}}</span></a>
+        </li>
+        <li class="btn-like-tab {{ mainTabs['parameters'] ? 'btn-selected' : '' }}" ng-click="showTabs(mainTabs, 'parameters')">
+            <a><span>{{'YANGUI_PARAMETERS_TAB' | translate}}</span></a>
+        </li>
+    </ul>
 
-  <div ng-show='previewVisible' class='topologyContainer previewContainer draggablePopup resizable-se' style='min-width:204px; min-height:97px;'>
-    <label class="classic">Preview: </label>
-    <button class="yangButton icon-remove close" ng-click="hidePreview()"></button>
-    <div class="previewWrapper">
-      <pre>{{previewValue.length ? previewValue : 'YANGUI_NO_DATA' | translate}}</pre>
+    <div class="tab-content simpleContainer resizable-s treeContainer">
+      <!-- APIS -->
+      <div class="tab-panel" ng-include src="currentPath + 'parts/apis-tab.tpl.html'" ng-show="mainTabs.api"></div>
+
+      <section ng-controller="requestHistoryCtrl" class="historyPopUp" ng-hide="mainTabs.api">
+        <!-- HISTORY -->
+        <div class="tab-panel" ng-include src="currentPath + 'parts/history-tab.tpl.html'" ng-show="mainTabs.history"></div>
+        <!-- COLLECTION -->
+        <div class="tab-panel" ng-include src="currentPath + 'parts/collection-tab.tpl.html'" ng-show="mainTabs.collection"></div>
+        <!-- PARAMETERS -->
+        <div class="tab-panel" ng-include src="currentPath + 'parts/parameters-tab.tpl.html'" ng-show="mainTabs.parameters"></div>
+
+        <!-- ADD/EDIT BOX REQ TO COLL -->
+        <div class="collBox popupContainer draggablePopup" ng-include src="currentPath + 'parts/add-collection-box.tpl.html'" ng-show="collectionBoxView"></div>
+      </section>
+      
     </div>
   </div>
+
+
+
+
+  <!-- Preview box -->
+  <div ng-show="previewVisible" class="topologyContainer previewContainer draggablePopup resizable-se" ng-include src="currentPath+'/parts/preview-box.tpl.html'"></div>
+  <!-- Custom api box -->
+  <div ng-show="popupData.show" ng-include src="currentPath + 'parts/custom-request-box.tpl.html'" class="topologyContainer previewContainer dataPopup draggablePopup resizable-se"></div>
 
   <!-- Custom plugins views -->
   <div ng-show="selCustFunct && selCustFunct.viewStr">
     <div ng-include src="selCustFunct.viewStr"></div>
-  </div>
-
-  <!-- ABN TREE -->
-  <div class="simpleContainer resizable-s treeContainer">
-
-    <span><strong>{{ treeName }}</strong></span>
-    <abn-tree tree-data="treeApis" tree-rows="treeRows" on-select="setApiNode(branch.indexApi, branch.indexSubApi)"></abn-tree>
   </div>
 
   <!-- ACTIONS BUTTON -->
@@ -29,15 +54,15 @@
     <div class="in">
 
       <div class="actionButtons">
-        <label class="classic">{{ 'YANGUI_PATH' | translate }}: </label>
-        <div class="selSubApiPath" ng-show="selSubApi.pathArray.length">
-            <span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}
-                <span ng-show="pathElem.hasIdentifier()">
-                    <span ng-repeat="identifier in pathElem.identifiers">
-                      /<input  type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)">
-                    </span>
-                </span>
-            </span>
+        <label class="classic">{{ 'YANGUI_PATH' | translate }}:</label><!--
+        --><div class="selSubApiPath" ng-show="selSubApi.pathArray.length"><!--
+            --><span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}<!--
+                --><span ng-show="pathElem.hasIdentifier()" class="pathWrapper"><!--
+                    --><span ng-repeat="identifier in pathElem.identifiers"><!--
+                        -->/<input type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)"><!--
+                    --></span><!--
+                --></span><!--
+            --></span>
 
             <select class="form-control input-sm inline" style="width:100px" ng-hide="node === null" ng-model="selectedOperation" ng-change="updateAt($index, contractRef)" ng-options="operation for operation in selSubApi.operations">
             </select>
@@ -49,28 +74,13 @@
         <button ng-repeat="selCustFuncButt in selCustFunctButts" ng-show="selCustFuncButt.show()" ng-click="selCustFuncButt.onclick()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px">{{ selCustFuncButt.label | translate }}</button>
         <button ng-click="showPreview()" class="btn btn-default ng-scope btn-slim">{{ 'SHOW_PREVIEW' | translate }}</button>
 
-        <!-- HISTORY REQUEST BUTON -->
-        <button class="btn btn-default ng-scope btn-slim" ng-click='showModalRequestWin()'>{{ 'YANGUI_SHOW_HISTORY' | translate }}</button>
-
         <!-- WIN FOR ADDING DATA + BUTTON -->
         <div class="dataPopupWrapper inline">
               <button class="btn btn-default ng-scope btn-slim" ng-click='show_add_data_popup()'>
                   {{ 'YANGUI_CUSTOM_API_REQUEST' | translate }}
               </button>
-              <div id="customApi" ng-show='popupData.show' class='topologyContainer previewContainer dataPopup draggablePopup resizable-se' style="min-height: 322px;">
-                  <button class="yangButton icon-remove close" ng-click="close_popup(popupData)"></button>
-                  <div>
-                    <label class="block classic">{{ 'YANGUI_API_PATH' | translate }}:</label>
-                    <input class="leaf-input form-control input-small" type="text" ng-model="apiToFill">
-                    <label class="block classic">{{ 'YANGUI_API_DATA' | translate }}:</label>
-                  </div>
-                  <textarea ng-model="dataToFill" ></textarea>
-                  <button class="btn btn-default ng-scope btn-slim" ng-click='fillApiAndData({path: apiToFill, sentData: dataToFill})' style="position: absolute; bottom: 20px; right:20px;">
-                    <i class="icon-upload-alt "></i>
-                    {{ 'YANGUI_PUSH_CONFIG' | translate }}
-                  </button>
-              </div>
         </div>
+        <!-- WIN FOR ADDING DATA + BUTTON - END -->
       </div>
 
     </div>

@@ -4,6 +4,7 @@
         {{getNodeName(node.localeLabel, node.label)}}
         <i ng-if="node.isKey()" class="icon-key" tooltip="{{'key of '+node.parent.label+' list'}}"></i>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
+        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }}">A</span>
     </span>
 
     <div ng-controller="typeCtrl" class="inlineBlock" ng-repeat="type in node.getChildren('type')" ng-include="currentPath+'/types/'+getLeafType()+'.tpl.html'"></div>
