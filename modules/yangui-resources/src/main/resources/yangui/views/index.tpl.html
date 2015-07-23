@@ -1,4 +1,4 @@
-<div class="mt20">
+<div class="mt20 yangUIwrapper">
 
   <div class="tabs mainTabsWrapper">
     <ul class="nav nav-tabs">
@@ -87,7 +87,7 @@
 
   </div>
 
-  <alert type='status.type' ng-show="status.msg" close="dismissStatus()">
+  <alert type="{{status.type}}" ng-show="status.msg" close="dismissStatus()">
     <i ng-show="status.isWorking" class="icon-refresh icon-spin"></i>
     <b> {{status.msg | translate }}</b>
     <b>{{ status.rawMsg ? (' - ' + status.rawMsg) : ''}}</b>
