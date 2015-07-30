@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>bundles</artifactId>
-    <version>0.1.4-Helium-SR4</version>
+    <version>0.1.5-SNAPSHOT</version>
     <relativePath>../</relativePath>
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>loader</artifactId>
-      <version>1.0.4-Helium-SR4</version>
+      <version>1.0.5-SNAPSHOT</version>
     </dependency>
      <dependency>
       <groupId>org.opendaylight.dlux</groupId>
