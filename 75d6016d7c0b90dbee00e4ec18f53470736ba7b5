@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a7ca5a3_649574e3",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2046
+      },
+      "writtenOn": "2015-08-03T09:55:50Z",
+      "side": 1,
+      "message": "Does the bump below means the comment is no longer relevant?",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 16
+      },
+      "revId": "75d6016d7c0b90dbee00e4ec18f53470736ba7b5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
