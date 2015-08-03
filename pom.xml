@@ -64,11 +64,13 @@
        <module>bundles</module>
        <module>features</module>
        <module>distribution-dlux</module>
+       <module>archetype</module>
     </modules>
    
   <scm>
-    <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>	    <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
-    <tag>HEAD</tag>
-    <url>https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main</url>  
+      <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>
+      <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
+      <tag>HEAD</tag>
+      <url>https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main</url>
   </scm>
 </project>
