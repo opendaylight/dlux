@@ -1,10 +1,9 @@
-define(['app/topology/topology.module', 'd3', 'vis'], function(topology) {
+define(['app/topology/topology.module', 'vis'], function(topology, vis) {
 
   topology.register.directive('topologySimple', function() {
     // constants
     var width = 800,
-        height = 800,
-        fill = d3.scale.category20();
+      height = 800;
 
     return {
       restrict: 'E',
