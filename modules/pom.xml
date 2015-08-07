@@ -40,7 +40,6 @@
     <module>topology-resources</module>
     <module>loader-resources</module>
     <module>connection_manager-resources</module>
-    <module>graph-resources</module>
     <module>core-resources</module>
     <module>common-topbar-resources</module>
   </modules>

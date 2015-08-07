@@ -30,8 +30,6 @@ module.exports = {
 
     html: [ 'src/index.html'],
     less: 'src/less/main.less',
-    graph_path: 'src/app/graph',
-    graph_entry_point: 'index.js',
     templates: ['src/**/*.tpl.html']
   },
 
@@ -97,8 +95,7 @@ module.exports = {
       'vendor/sigma/plugins/sigma.parsers.gexf.min.js',
       'vendor/sigma/plugins/sigma.layout.forceAtlas2.min.js',
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
-      'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
-      'vendor/pixi/bin/pixi.js'
+      'vendor/sigma/plugins/sigma.renderers.customShapes.min.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
