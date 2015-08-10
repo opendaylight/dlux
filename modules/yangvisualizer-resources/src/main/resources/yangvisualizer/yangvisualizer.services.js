@@ -312,7 +312,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
         edgesTC = edgesObj ? edgesObj : edgesToClear;
         
-        edgesTC.node.size = edgesTC.node.parent === null ? 20 : edgesTC.node.expand ? 12 : 7;
+        edgesTC.node.size = edgesTC.node.size === 100 ? 100 : edgesTC.node.parent === null ? 20 : edgesTC.node.expand ? 12 : 7;
 
         edgesTC.edges.forEach(function(edge){
             edge.color = colors.edges;

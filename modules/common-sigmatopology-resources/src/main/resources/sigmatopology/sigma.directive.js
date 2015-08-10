@@ -137,7 +137,6 @@ define(modules, function(topologyModule) {
           });
 
           $scope.$watch('triggerResizeSigma', function () {
-
               var topoData = {
                     nodes: [],
                     links: []
@@ -150,7 +149,7 @@ define(modules, function(topologyModule) {
               }
 
               // Instantiate sigma:
-              sigma.renderers.def = sigma.renderers.canvas;
+              Sigma.renderers.def = Sigma.renderers.canvas;
 
               sigmaIstance = new Sigma({
                 graph: {
@@ -160,6 +159,8 @@ define(modules, function(topologyModule) {
                 container: 'graph-container',
                 settings: $scope.settings ? $scope.settings : defaulSettings
               });
+
+
 
               if ( $scope.customShapes ) {
                 CustomShapes.init(sigmaIstance);
