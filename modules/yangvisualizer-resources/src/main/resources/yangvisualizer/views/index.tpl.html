@@ -37,13 +37,21 @@
           <li><span  ng-click="setColorScheme($event,'module')">{{ 'YANGVISUALIZER_SHOW_MODULES' | translate }}</span></li>
           <li><span  ng-click="setColorScheme($event,'namespace')">{{ 'YANGVISUALIZER_SHOW_NAMESPACES' | translate }}</span></li>
         </ul>
+      </div>
+      <div class="viewNav margin-legend">
         <div class="clear"></div>
         <div class="legend" ng-show="legend">
           <ul ng-init="showText = true">
-            <li><span>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </span></li>
-            <li><span>{{ 'YANGVISUALIZER_SHOW_ALL' | translate }}</span><input class="showChckbx" type="checkbox" ng-model="showText"></li>
+            <li>
+              <span>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </span>
+            </li>
+            <li>
+              <button ng-show="isSelectedSpecificType" class="btn btn-orange btn-slim btn-graph" ng-click="resetSize()" tooltip="{{ 'YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE' | translate }}">
+                <i class="icon-rotate-right"></i>
+              </button>
+              <span>{{ 'YANGVISUALIZER_SHOW_ALL' | translate }}</span><input class="showChckbx" type="checkbox" ng-model="showText"></li>
             <li ng-repeat="(key, value) in legend">
-              <div class="itemWrapper left">
+              <div class="itemWrapper left cursor-pointer" ng-click="clickLegend(value, key)" tooltip="{{ 'YANGVISUALIZER_BTN_TT_HIGHLIGHT_TYPE' | translate }}">
                 <div class="color left" style="background: {{value}};"></div>
                 <div class="left text" ng-hide="!showText">{{key}}</div>
                 <div class="clear"></div>
@@ -71,67 +79,102 @@
             <i class="icon-resize-full"></i>
           </button>
       </div>
-      <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
-      <table>
-        <thead>
-          <tr>
-            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
-            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ selectedNode.id }}</td>
-            <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
-            <td>{{ selectedNode.type }}</td>
-            <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
-          </tr>
-        </tbody>
-      </table>
 
-      <label>{{ 'YANGVISUALIZER_LABEL_PAR_NODE' | translate }} :</label>
-      <table>
-        <thead>
-          <tr>
-            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
-            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="node in parentNodes.list track by $index">
-            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
-            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
-            <td>{{ node.type }}</td>
-            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="inner-content">
+        <table>
+          <thead>
+            <th colspan="2">{{ 'YANGVISUALIZER_SEL_NODE_DETAIL' | translate }}</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_ID' | translate }}</td>
+              <td>{{ selectedNode.id }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_NAME' | translate }}</td>
+              <td>{{ selectedNode.label }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</td>
+              <td>{{ selectedNode.type }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</td>
+              <td>{{ selectedNode.module }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_NAMESPACE' | translate }}</td>
+              <td>{{ selectedNode.namespace }}</td>
+            </tr>
+            <tr>
+              <td>{{ 'YANGVISUALIZER_TD_REVISION' | translate }}</td>
+              <td>{{ selectedNode.moduleRevision }}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <label>{{ 'YANGVISUALIZER_LABEL_CHILD_NODE' | translate }} :</label>
-      <table>
-        <thead>
-          <tr>
-            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
-            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
-            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="node in childrenNodes.list track by $index">
-            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
-            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
-            <td>{{ node.type }}</td>
-            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
-          </tr>
-        </tbody>
-      </table>
+        <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+              <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ selectedNode.id }}</td>
+              <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
+              <td>{{ selectedNode.type }}</td>
+              <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <button ng-show="clickedNodesHistory.length > 1" ng-click="backToNode()" class="btn btn-orange btn-slim">{{ 'YANGVISUALIZER_BTN_BACK' | translate }}</button>
+        <label>{{ 'YANGVISUALIZER_LABEL_PAR_NODE' | translate }} :</label>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+              <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="node in parentNodes.list track by $index">
+              <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+              <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+              <td>{{ node.type }}</td>
+              <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <label>{{ 'YANGVISUALIZER_LABEL_CHILD_NODE' | translate }} :</label>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+              <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+              <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="node in childrenNodes.list track by $index">
+              <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+              <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+              <td>{{ node.type }}</td>
+              <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button ng-show="clickedNodesHistory.length > 1" ng-click="backToNode()" class="btn btn-orange btn-slim">{{ 'YANGVISUALIZER_BTN_BACK' | translate }}</button>
+      </div>
     </div>
 
     <div class="clear"></div>
