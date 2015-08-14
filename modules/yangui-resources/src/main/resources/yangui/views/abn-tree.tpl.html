@@ -1,11 +1,11 @@
-<div class="treeWrapper mb10">
+<div class="treeWrapper">
 
-    <button class="btn btn-primary ng-scope btn-slim" ng-click='expand_collapse_all_items()'>
+    <button class="btn btn-primary btn-slim" ng-click='expand_collapse_all_items()'>
         <i class="icon-caret-down" ng-show="expandedTree"></i>
         <i class="icon-caret-right" ng-show="!expandedTree"></i>
         {{ expandedTree ? "Collapse all" : "Expand all" }}
     </button>
-    <button class="btn btn-primary ng-scope btn-slim" ng-click='collapse_others()'>
+    <button class="btn btn-primary btn-slim" ng-click='collapse_others()'>
         {{ 'YANGUI_COLLAPSE_OTHERS' | translate }}
     </button>
 
@@ -19,4 +19,5 @@
             </li>
         </ul>
     </div>
+
 </div>
