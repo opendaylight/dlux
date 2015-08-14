@@ -579,7 +579,7 @@ module.exports = function ( grunt ) {
           '<%= app_files.atpl %>',
           '<%= app_files.ctpl %>'
         ],
-        tasks: [ 'html2js' ]
+        tasks: ['copy:copy_template']/*[ 'html2js' ]*/
       },
 
       /**
@@ -633,8 +633,8 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'common', [
-      'clean', 'html2js', 'jshint', 'less:development',
-      'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+      'clean', 'html2js', 'jshint', 'concat:build_css', 'less:development',
+      'copy:build_app_assets', 'copy:build_vendor_assets',
       'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
