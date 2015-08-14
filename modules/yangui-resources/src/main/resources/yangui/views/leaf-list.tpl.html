@@ -6,7 +6,7 @@
             {{getNodeName(node.localeLabel, node.label)}}
         </button>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
-        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }}">A</span>
+        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}">A</span>
         <button class="yangButton iconPlus inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ITEM' | translate }}" title="{{ 'LEAF_LIST_ADD_ELEM' | translate }}"></button>
     </div>
 

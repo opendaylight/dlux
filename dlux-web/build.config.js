@@ -98,7 +98,9 @@ module.exports = {
       'vendor/sigma/plugins/sigma.layout.forceAtlas2.min.js',
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
       'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
-      'vendor/pixi/bin/pixi.js'
+      'vendor/pixi/bin/pixi.js',
+      'vendor/ng-clip/src/ngClip.js',
+      'vendor/zeroclipboard/dist/ZeroClipboard.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
@@ -116,7 +118,7 @@ module.exports = {
     'vendor/select2/select2x2.png'
     ],
     assets: [
-    
+    'vendor/zeroclipboard/dist/ZeroClipboard.swf'
     ],
     font: [
       'vendor/font-awesome/font/*',
