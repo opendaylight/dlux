@@ -5,21 +5,25 @@
 //karaf based dlux deployment
 /*
 var module = [
-  'angularAMD',
-  'app/core/core.module',
+  'angular',
   'angular-translate',
   'angular-translate-loader-static-files',
   'angular-ui-router',
   'ocLazyLoad',
   'angular-css-injector',
+];
+
+var deps = [
+  'app/core/core.module',
   'app/node/nodes.module',
   'app/topology/topology.module',
-  'common/login/login.module',
   'app/yangui/yangui.module',
+  'common/login/login.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module',
-  'common/config/env.module']; //needed module
+  'common/config/env.module'
+];
 
 // The name of all angularjs module
 var e = [
@@ -27,6 +31,7 @@ var e = [
   'oc.lazyLoad',
   'pascalprecht.translate',
   'angular.css.injector',
+  'app',
   'app.nodes',
   'app.topology',
   'app.common.login',
@@ -38,14 +43,26 @@ var e = [
 
 */
 
-define(module, function(ng) {
+define(module, function(angular) {
   'use strict';
+  var preboot = [],
+    register = {},
+    dlux_angular = {},
+    orig_angular = angular,
+    app = angular.module('app', []);
 
-  var app = angular.module('app', e);
+  angular.extend(dlux_angular, orig_angular);
 
+  dlux_angular.module = function(name, deps) {
+    var module = orig_angular.module(name, deps);
+    preboot.push(module);
+    return module;
+  };
+
+  window.angular = dlux_angular; // backward compatibility
 
   // The overal config he is done here.
-  app.config(function ($stateProvider, $urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, cssInjectorProvider) {
+  app.config(function ($urlRouterProvider, $ocLazyLoadProvider, $translateProvider, $controllerProvider, $compileProvider, $provide, cssInjectorProvider) {
 
     $urlRouterProvider.otherwise("/topology"); // set the default route
 
@@ -56,13 +73,36 @@ define(module, function(ng) {
       debug: true,
       asyncLoader: require
     });
+    
+    // the only way to add a dynamic module
+    register = {
+        controller : $controllerProvider.register,
+        directive : $compileProvider.directive,
+        factory : $provide.factory,
+        service : $provide.service
+    };
 
     $translateProvider.preferredLanguage('en_US');
+     
+    app.register = {};
+    angular.extend(app.register, register);
   });
 
-  ng.bootstrap(app);
-
-  console.log('bootstrap done (: ');
+  /* --- define vs require war --- 
+   * From my understanding, we use require when
+   * we want to load a dependency and run it. Define
+   * is only to define the dependency for a module.
+   */
+  require(deps, function() {
+    angular.element(document).ready(function() {
+      angular.bootstrap(document, e).invoke(function() {
+        preboot.forEach(function(m) {
+            angular.extend(m, register);
+        });
+        console.log('bootstrap done (: ');
+      });
+    });
+  });
 
   return app;
 });

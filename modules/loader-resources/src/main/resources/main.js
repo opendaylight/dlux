@@ -2,10 +2,7 @@ require.config({
   baseUrl : 'src',
   paths : {
     'angular' : '../vendor/angular/angular',
-    'angularAMD' : '../vendor/angularAMD/angularAMD',
-    'ngload' : '../vendor/angularAMD/ngload',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
-    'domReady' : '../vendor/requirejs-domready/domReady',
     'Restangular' : '../vendor/restangular/dist/restangular.min',
     'underscore' : '../vendor/underscore/underscore',
     'angular-ui-router' : '../vendor/angular-ui-router/release/angular-ui-router',
@@ -25,12 +22,14 @@ require.config({
     'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
-    'graphRenderer' : '../assets/js/graphRenderer',
     'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
   },
-
+  map: {
+    '*': {
+      'angularAMD': 'angular'
+    }
+  },
   shim : {
-    'angularAMD' : ['angular'],
     'ocLazyLoad' : ['angular'],
     'Restangular' : ['angular', 'underscore'],
     'ui-bootstrap' : ['angular'],
@@ -39,14 +38,9 @@ require.config({
     'angular-cookies' : ['angular'],
     'angular-translate': ['angular'],
     'angular-translate-loader-static-files' : ['angular-translate'],
-    'ngload' : ['angularAMD'],
-    'pixi' : {
-        exports: 'PIXI'
-    },
     'vis' : {
         exports: 'vis'
     },
-    'graphRenderer' : ['pixi'],
     'jquery' : {
       exports : '$'
     },
