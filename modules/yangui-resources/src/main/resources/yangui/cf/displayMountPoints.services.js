@@ -76,7 +76,8 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                         var mountPointTreeApis = yangUtils.generateApiTreeData(mountPointApis);
 
                         mountPointsConnector.updateMountPointApis($scope.selSubApi.pathArray, mountPointApis);
-                        $scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, getMpBasePathWOStorage(path), mpAugments);
+                        //$scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, mpAugments, getMpBasePathWOStorage(path));
+                        $scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, mpAugments);
                         $scope.processingModulesSuccessCallback();
                     } else {
                         $scope.processingModulesErrorCallback();

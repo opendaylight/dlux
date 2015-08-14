@@ -1,22 +1,30 @@
-define(['angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','common/yangutils/listfiltering.services','ui-bootstrap', 'Restangular', 'angular-translate', 'jquery-ui'], function() {
+var ZeroClipboard = null;
 
-  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'app.common.listFiltering', 'ui.bootstrap', 'restangular', 'pascalprecht.translate']);
+define(['ZeroClipboard', 'angularAMD', 'app/routingConfig', 'common/yangutils/yangutils.services','common/yangutils/listfiltering.services','ui-bootstrap', 'Restangular', 'angular-translate', 'jquery-ui', 'codemirror', 'codeMirror-showHint', 'codeMirror-yanguiJsonHint', 'codeMirror-javascriptMode', 'codeMirror-matchBrackets', 'ngClip'],
+    function(ZC) {
+
+  ZeroClipboard = ZC;
+
+  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'app.common.listFiltering', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngClipboard']);
 
   yangui.register = yangui;
 
-  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider, $translateProvider, NavHelperProvider) {
+  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider, $translateProvider, NavHelperProvider, ngClipProvider) {
 
     $translateProvider.useStaticFilesLoader({
       prefix: 'assets/data/locale-',
       suffix: '.json'
     });
 
+    ngClipProvider.setPath("assets/ZeroClipboard.swf");
+
     yangui.register = {
       directive : $compileProvider.directive,
       controller : $controllerProvider.register,
       factory : $provide.factory,
       filter: $filterProvider.register,
-      service : $provide.service
+      service : $provide.service,
+      constant : $provide.constant
     };
 
     NavHelperProvider.addControllerUrl('app/yangui/yangui.controller');

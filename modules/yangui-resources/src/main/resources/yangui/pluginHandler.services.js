@@ -33,7 +33,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'].conca
         },
         plugAll: function(apis) {
           this.plugins.forEach(function(plugin) {
-            console.info('adding plugin',plugin);
+            console.info('adding plugin',plugin.label);
             plugin.module.forEach(function(plModule, i){
                 custFunct.createCustomFunctionalityApis(apis, plModule, plugin.revision, plugin.pathString[i], plugin.label, plugin.getCallback, plugin.view, plugin.hideButtonOnSelect);
             });
