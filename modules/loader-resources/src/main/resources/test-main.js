@@ -25,10 +25,7 @@ var test = require.config({
   paths : {
     'angular' : '../vendor/angular/angular',
     'angular-mocks' : '../vendor/angular-mocks/angular-mocks',
-    'angularAMD' : '../vendor/angularAMD/angularAMD',
-    'ngload' : '../vendor/angularAMD/ngload',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
-    'domReady' : '../vendor/requirejs-domready/domReady',
     'Restangular' : '../vendor/restangular/dist/restangular.min',
     'underscore' : '../vendor/underscore/underscore',
     'angular-ui-router' : '../vendor/angular-ui-router/release/angular-ui-router',
@@ -39,7 +36,6 @@ var test = require.config({
     'jquery' : '../vendor/jquery/jquery',
     'jquery-ui' : '../vendor/jquery-ui/jquery-ui.min',
     'footable' : '../vendor/footable/dist/footable.min',
-    'pixi': '../vendor/pixi/bin/pixi',
     'd3' : '../vendor/d3/d3.min',
     'vis' : '../vendor/vis/dist/vis.min',
     'ocLazyLoad' : '../vendor/ocLazyLoad/dist/ocLazyLoad',
@@ -48,14 +44,16 @@ var test = require.config({
     'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
-    'graphRenderer' : '../assets/js/graphRenderer',
     'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
   },
-
+  map:{
+    '*': {
+      'angularAMD': 'angular'
+    }        
+  },
   shim : {
     'angular' : ['jquery'],
     'angular-mocks' : ['angular'],
-    'angularAMD' : ['angular'],
     'ocLazyLoad' : ['angular'],
     'Restangular' : ['angular', 'underscore'],
     'ui-bootstrap' : ['angular'],
@@ -64,14 +62,9 @@ var test = require.config({
     'angular-cookies' : ['angular'],
     'angular-translate': ['angular'],
     'angular-translate-loader-static-files' : ['angular-translate'],
-    'ngload' : ['angularAMD'],
-    'pixi' : {
-        exports: 'PIXI'
-    },
     'vis' : {
         exports: 'vis'
     },
-    'graphRenderer' : ['pixi'],
     'jquery' : {
       exports : '$'
     },

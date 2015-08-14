@@ -10,10 +10,7 @@
         name: "main",
         exclude: [
           "angular",
-          "angularAMD",
-          "ngload",
           "ui-bootstrap",
-          "domReady",
           "Restangular",
           "underscore",
           "angular-ui-router",
