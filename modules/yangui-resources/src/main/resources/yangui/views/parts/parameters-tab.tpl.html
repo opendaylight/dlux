@@ -11,7 +11,7 @@
             <div class="tddiv actions rh-col4">{{ 'YANGUI_ACTION' | translate }}</div>
         </div>
         
-        <div class="scroll">
+        <perfect-scrollbar class="scroll">
             <div ng-repeat="param in parameterList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
                 <div>
                     <div class="tddiv rh-col1"><span></span></div>
@@ -24,15 +24,26 @@
                                 <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
-        </div>
+        </perfect-scrollbar>
+
+
     </div>
     <div>
         <button class="btn btn-primary ng-scope btn-slim" ng-click="showParamBox(createNewParam())">
             {{ 'YANGUI_ADD_PARAMETER' | translate }}
         </button>
-        
+        <button class="btn btn-primary ng-scope btn-slim" ng-click='clearHistoryData("parameterList")'>
+            {{ 'YANGUI_CLEAR_PARAMETERS' | translate }}
+        </button>
+        <span class="ml30">
+            {{ 'YANGUI_IMPORT_PARAMETERS' | translate }} :
+        </span>
+        <input class="btn btn-primary ng-scope btn-slim upload-collection" id="upload-parameters" type="file" on-read-file="readParametersFromFile($fileContent)"/>
+        <button class="btn btn-primary ng-scope btn-slim" ng-click='exportParametersData()' ng-href="{{ url }}">
+            {{ 'YANGUI_EXPORT_PARAMETERS' | translate }}
+        </button>
     </div>
 </div>
