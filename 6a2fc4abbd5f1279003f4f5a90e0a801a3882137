@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a79b1b5_b56888f6",
+        "filename": "modules/common-layout-resources/src/main/resources/layout/index.tpl.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-08-14T18:15:29Z",
+      "side": 1,
+      "message": "Can we move these inline styles into less files alos? and the one above",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "6a2fc4abbd5f1279003f4f5a90e0a801a3882137",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
