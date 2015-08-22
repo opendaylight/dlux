@@ -18,8 +18,7 @@ define(['angularAMD' ,'angular-ui-router', 'ocLazyLoad', 'common/general/common.
           controller: 'NavCtrl'
         },
         'topbar@main' : {
-          template : TopBarHelperProvider.getViews(),
-          controller: 'TopbarCtrl'
+          template : TopBarHelperProvider.getViews()
         },
         'content@main' : {
           template : ContentHelperProvider.getViews()

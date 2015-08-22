@@ -1,12 +1,5 @@
 define(['common/topbar/topbar.module'], function(topbar) {
 
-    topbar.register.controller('TopbarCtrl', function() {
-        $('#toggleMenu').click(function(e) {
-          e.preventDefault();
-          $('#wrapper').toggleClass('toggled');
-        });
-    });
-
     topbar.register.controller('topBarTasksCtrl',function ($scope, taskFactory) {
         $scope.tasks = taskFactory.getTaskData();
     });
