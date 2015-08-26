@@ -1,21 +1,72 @@
+/*PLUGINS importing*/
+@import '../src/app/yangui/assets/js/codemirror/lib/codemirror.css';
+@import '../src/app/yangui/assets/js/codemirror/theme/eclipse.css';
+@import '../src/app/yangui/assets/js/codemirror/theme/eclipse-disabled.css';
+@import '../src/app/yangui/assets/js/codemirror/addon/hint/show-hint.css';
+/*PLUGINS importing END*/
+
+/******** WINDOW SCROLLBARS *****/
+::-webkit-scrollbar {
+  width: 13px;
+  height: 13px;
+}
+
+::-webkit-scrollbar-corner {
+  background: #000;
+}
+
+::-webkit-scrollbar-corner:window-inactive {
+  background: #fff;
+}
+
+::-webkit-scrollbar-track-piece:disabled {
+  display: none !important;
+}
+
+::-webkit-scrollbar-button:disabled {
+  display: none !important;
+}
+
+::-webkit-scrollbar-track:disabled {
+  margin: 6px;
+}
+
+/* Horizontal Scrollbar Styles */
+
+::-webkit-scrollbar:horizontal {
+  background: #b3b2b3;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: #807f80;
+  min-width: 20px;
+}
+
+/* Vertical Scrollbar Styles */
+
+::-webkit-scrollbar:vertical {
+  background: #b3b2b3;
+}
+
+
+::-webkit-scrollbar-thumb:vertical {
+  background: #807f80;
+  min-height: 20px;
+}
+/******** WINDOW SCROLLBARS END *****/
+
 .simpleContainer {
     border: 1px solid #7a7a7a;
     margin: 5px;
-    padding: 5px;
-    z-index: 10;
+    padding: 10px;
+    z-index: 11;
     width:auto;
     position: relative;
 
     &.treeContainer{
       height: 450px;
-      margin-top: 0px;
       position: relative;
-      z-index: 11;
     }
-}
-
-.overflow-visible{
-  overflow: visible;
 }
 
 /*.previewContainer {
@@ -245,57 +296,115 @@ input[type="file"].upload-collection{
 
 
 /* --------------------------------------------------------------------------------- YANG UI */
-.yangUIwrapper {
+.yangUIwrapper{
 
-  .alert {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
 
-    .close {
-      span {
+  .alert{
+    .roundedCorners(0px);
+
+    .close{
+      span{
         color: @text-color;
       }
     }
   }
 
-}
-
-.form-control {
-  &.inline {
-    width: 100px;
-    display: inline;
+  .btn, .form-control{
+    .roundedCorners(3px);
   }
-}
 
-.btn-primary{
-  border: none;
-  font-weight: bold;
-  background: #ebecec;
-  .transition(100ms);
-  color: buttontext;
+  input[type=text].form-control{
+    .roundedCorners(0px);
+  }
 
-  &:hover{
+  .btn-orange{
     background: orange;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  button.btn-like-tab{
+    //line-height: 1em;
+    outline: 0 none;
+    //height: 30px;
+    margin: 0;
+    border: none;
+    font-weight: bold;
+    background: transparent;
+    .transition(100ms);
+    color: #fff;
+    margin-bottom: 2px;
+    padding-top: 0;
+
+    &:hover, &.active, &.btn-selected{
+      border-bottom: 2px solid orange;
+      margin-bottom: 0px;
+    }
+
+  }
+
+  li.btn-like-tab{
+    line-height: 1em;
+    outline: 0 none;
+    margin: 0;
+    border: none;
+    font-weight: bold;
+    .transition(100ms);
     color: buttontext;
+    background: transparent;
+
+    &.btn-selected, &:hover{
+      border-bottom: 2px solid orange;
+    }
   }
 
-  &.btn-selected{
-    background: #ffa500;
+  .form-control {
+    &.inline {
+      width: 100px;
+      display: inline;
+    }
   }
 
-  &.disabled, &[disabled] {
-    background: #ebecec;
-    cursor: not-allowed;
-    pointer-events: none;
-    opacity: 0.65;
-    filter: alpha(opacity=65);
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
+  .btn-primary{
+    font-weight: bold;
+    background: #fff;
+    .roundedCorners(0px);
+    .transition(100ms);
+    color: buttontext;
+    border-bottom: 3px solid orange;
+    border-width: 0 0 3px 0;
 
-  &:focus { 
+    &:hover{
+      background: orange;
+      color: #fff;
+    }
+
+    &.btn-selected{
+      background: #ffa500;
+    }
+
+    &.disabled, &[disabled] {
+      background: #ebecec;
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.65;
+      filter: alpha(opacity=65);
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    &:focus {
       background: #ebecec;
       color: buttontext;
+    }
   }
 }
+
+
 
 .leaflist{
     .leafListValue{
@@ -318,6 +427,15 @@ input[type="file"].upload-collection{
 }
 
 .mainTabsWrapper{
+
+  .simpleContainer{
+    margin: 5px 0;
+
+    &.treeContainer{
+      margin-top: 0;
+    }
+  }
+
   .nav-tabs{
     border-bottom: 0;
     margin: 0 5px;
@@ -346,56 +464,38 @@ input[type="file"].upload-collection{
 
 .treeWrapper{
   height: calc(~"100% - 20px");
+  margin: 10px 0;
+
   .treeList{
     margin: 10px 0;
     height: calc(~"100% - 40px");
-    overflow-y: scroll;
-    position: relative;
+    overflow-y: auto;
   }
 }
 
 .actionBtnApiPathWrapper{
-    &.is-sticky{
-        width: 100%;
-      .boxSizing;
-      padding: 0 20px 0 270px;
-        right: 0;
-        z-index: 100;
-      margin: 0;
-      border: 0;
-      div.in{
-          border: 1px solid #7a7a7a;
-            -webkit-border-radius: 0 0 5px 5px;
-            border-radius: 0 0 5px 5px;
-            background: #414042;
-            padding-left: 15px;
-        }
-    }
+
+  &.simpleContainer{
+    margin: 5px 0;
+  }
+
+  &.is-sticky{
+    width: 100%;
+    .boxSizing;
+    padding: 0 20px 0 270px;
+    right: 0;
+    z-index: 100;
+    margin: 0;
+    border: 0;
 
     div.in{
-        padding: 10px;
-    }
-
-  .actionButtons{
-      white-space: nowrap;
-      overflow-x: scroll;
-      max-width: 100%;
-      padding-bottom: 10px;
+      border: 1px solid #7a7a7a;
+      background: #414042;
+      padding-left: 15px;
+      padding-top: 10px;
+      }
   }
-}
 
-.selSubApiPath{
-    
-    // .inlineBlock;
-    display: inline;
-
-    input[type="text"]{
-        width: 150px;
-        display: inline!important;
-        margin-left: 5px;
-        height: 26px;
-    }
-    
 }
 
 label.classic{
@@ -403,27 +503,80 @@ label.classic{
   min-width: 120px;
 }
 
-.actionButtons{
+.actionButtons, .api{
+  white-space: nowrap;
+  overflow-x: auto;
+  max-width: 100%;
+  //padding-bottom: 10px;
+  height: 50px;
 
+  input[type="text"]{
+    width: 150px;
+    display: inline!important;
+    margin: 0 5px;
+    height: 34px;
+    .roundedCorners(0px);
+    border: 0;
+  }
   
   label.classic{
     min-width: 90px;
   }
 
-  select.input-sm{
-    height: 26px;
+  span.input-sm{
     line-height: 34px;
-    vertical-align: top;
+    .inlineBlock;
+    padding: 0 10px;
   }
 
-  // button{
-  //   margin-top: 3px;
-  // }
+  .input-sm{
+    height: 34px;
+    display: inline;
+    line-height: 34px;
+    background: @text-color;
+    color: #fff;
+    border: 0;
+    width: 100px;
+    -webkit-border-radius: 3px 0 0 3px;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .btn{
+    display: inline;
+  }
+
+  .pathWrapper{
+    //display: inline;
+    .inlineBlock;
+    background: #58595B;
+    padding: 0 5px;
+    margin-right: 5px;
+    height: 34px;
+    -webkit-border-radius: 0px 3px 3px 0px;
+    border-radius: 0px 3px 3px 0px;
+
+    input[type=text]{
+      border: 2px solid #ebecec;
+    }
+
+    .pathElem{
+      line-height: 33px;
+    }
+  }
 
   div.in{
     padding: 0 10px;
   }
 }
+
+//.api{
+//  .input-sm{
+//    padding-top: 0;
+//    padding-bottom: 0;
+//    font-weight: bold;
+//    width: auto;
+//  }
+//}
 
 .dataPopupWrapper{
   position: relative;
@@ -464,7 +617,7 @@ div.popUpWrapperFix{
   left: 50%;
   margin-left: -225px;
   margin-top: -127px;
-  z-index: 1;
+  z-index: 5;
 }
 
 div.requestActions{
@@ -674,13 +827,19 @@ div.mountPoints{
       }
 
       .scroll{
-        overflow-y: scroll;
+        overflow-y: auto;
+        position: relative;
         height: calc(~"100% - 50px"); 
       }
 
 
       .trdiv{
         border-top: 2px solid #dddddd;
+
+        &:first-child{
+          border-top: 0;
+        }
+
         &.no-border{
           border: 0;
         }
@@ -694,40 +853,77 @@ div.mountPoints{
         &.pre-div{
           position: relative;
           border: 0;
-          margin-bottom: 20px;
+          margin: 10px 0 20px;
           padding: 0px 10px;
+
           button.close{
             color: #000;
             right: 30px;
             top: 10px;
+            z-index: 3;
+            width: 15px;
+            height: 15px;
+            background: transparent url('@{iconsRootPath}icon-close-small.png') no-repeat center center;
+            .opacityDeph(1);
+
+            &:before{
+              content: "";
+            }
+
+            &:hover{
+              background-position: center center!important;
+              .opacityDeph(1);
+            }
           }
+
           button.white-cross{
             color: #fff;
           }
 
-          .api{
-            padding: 10px;
-
-            input[type=text]{
-              width: 100px;
-              .inlineBlock;
-              margin-left: 5px;
-              vertical-align: middle;
-            }
-          }
-
           .textareaWrapper{
             position: relative;
+            border: 1px solid silver;
+
+            span{
+              color: auto;
+            }
             
-          textarea{
-            width: 100%;
-            min-height: 50px;
-            overflow-y: scroll;
-            height: 200px;
-            max-width: 100%;
+            pre span{
+                color: auto;
+            }
+            
+            
+            textarea{
+              width: 100%;
+              min-height: 50px;
+              overflow-y: scroll;
+              height: 200px;
+              max-width: 100%;
+            }
+
+            .paramsBox{
+              position: absolute;
+              right: 55px;
+              top: 12px;
+
+              z-index: 4;
+              color: @text-color;
+
+              .line{
+                color: @text-color;
+                padding: 4px 30px 4px 20px;
+                background: #cdcdce;
+                margin-bottom: 1px;
+                font-size: 12px;
+              }
+              
+              span{
+                color: @text-color;
+              }
+
+            }
           }
         }
-      }
       }
 
       .rh-col1{
@@ -823,7 +1019,6 @@ div.mountPoints{
   overflow: hidden;
   background: #393939;
   border: 1px solid #7a7a7a;
-  .roundedCorners(5px);
   padding: 20px;
   z-index: 15;
   button.close{
@@ -1246,40 +1441,28 @@ button, div{
 /* --------------------------------------------------------------------------------- YANG UI TYPE UNION */
 .unionType.tabs{
   margin: 10px 0;
+
   .nav-tabs{
     border: 0;
+
     li{
-      margin: 0 2px;
-      background-color: #ebecec!important;
-      border: 0;
-      &.btn-selected{
-        background: orange!important;
-      }
-      &.btn-selected a{
-        background: orange!important;
-      }
-      &:hover{
-        background: orange!important;
-      }
-      &:hover a{
-        background: orange!important;
-      }
+      margin-right: 2px;
+
       a{
-        background-color: #ebecec!important;
-        .roundedCorners(4px);
         border: 0;
-        padding-top: 2px;
-        span{
-          color: #000!important;
+      }
+
+      &.btn-selected, &:hover{
+
+        a{
+          background: transparent;
         }
       }
     }
   }
+
   div.tab-content{
-    border: 2px solid #ebecec;
-    .boxSizing;
-    padding: 22px 10px 10px;
-    margin-top: -12px;
+    margin: 0;
   }
 }
 /* --------------------------------------------------------------------------------- YANG UI TYPE UNION - END */
@@ -1317,58 +1500,7 @@ button, div{
   }
 }
 
-button.btn-like-tab{
-  line-height: 1em;
-  outline: 0 none;
-  height: 26px;
-  margin: 0;
-  border: none;
-  font-weight: bold;
-  background: #ebecec;
-  .transition(100ms);
-  color: buttontext;
 
-  &:hover{
-    background: orange;
-    color: buttontext;
-  }
-
-  &.active {
-    background: orange;
-  }
-
-  &.btn-selected{
-    background: #ffa500;
-  }
-}
-
-li.btn-like-tab{
-  line-height: 1em;
-  outline: 0 none;
-  // height: 26px;
-  margin: 0;
-  border: none;
-  font-weight: bold;
-  .transition(100ms);
-  color: buttontext;
-  border-radius: 4px;
-
-  &:hover{
-    background-color: orange;
-    color: buttontext;
-  }
-
-  &.active {
-    /*background: orange;*/
-  }
-
-  &.btn-selected{
-    /*background: #ffa500;*/
-    background-color: transparent;
-    border: 1px solid #fff;
-    border-bottom: 0;
-  }
-}
 
 .ui-resizable-handle {
   &.ui-resizable-se{
