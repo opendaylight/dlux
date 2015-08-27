@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a79b1b5_4064adb8",
+        "filename": "modules/loader-resources/src/main/resources/main.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1903
+      },
+      "writtenOn": "2015-08-27T15:56:37Z",
+      "side": 1,
+      "message": "Do you still need to define these packages and other code mirror things in loader -resources?",
+      "range": {
+        "startLine": 6,
+        "startChar": 15,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "54d6fa1bfe72c2ccfdc2b4eafb2e21d93168b06c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
