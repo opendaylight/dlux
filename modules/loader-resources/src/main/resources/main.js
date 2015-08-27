@@ -1,5 +1,10 @@
 require.config({
   baseUrl : 'src',
+  packages: [{
+    name: "codemirror",
+    location: "../assets/js/codemirror",
+    main: "lib/codemirror"
+  }],
   paths : {
     'angular' : '../vendor/angular/angular',
     'angularAMD' : '../vendor/angularAMD/angularAMD',
@@ -26,7 +31,13 @@ require.config({
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
     'graphRenderer' : '../assets/js/graphRenderer',
-    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
+    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min',
+    'codeMirror-showHint' : '../assets/js/codemirror/addon/hint/show-hint',
+    'codeMirror-yanguiJsonHint' : '../assets/js/codemirror/addon/hint/yangui-json-hint',
+    'codeMirror-javascriptMode' : '../assets/js/codemirror/mode/javascript/javascript',
+    'codeMirror-matchBrackets' : '../assets/js/codemirror/addon/edit/matchbrackets',
+    'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
+    'ngClip' : '../vendor/ng-clip/src/ngClip'
   },
 
   shim : {
@@ -65,6 +76,12 @@ require.config({
     'sigma-dragNodes' : ['sigma'],
     'sigma-customShapes' : ['sigma'],
     'ngSlider' : ['angular'],
+    'codeMirros_showHint': ['codemirror'],
+    'codeMirros_javascriptHint': ['codemirror'],
+    'codeMirror_javascriptMode': ['codemirror'],
+    'codeMirror_matchBrackets': ['codemirror'],
+    'ZeroClipboard': ['angular'],
+    'ngClip' : ['angular','ZeroClipboard']
   },
 
   deps : ['app/app.module']

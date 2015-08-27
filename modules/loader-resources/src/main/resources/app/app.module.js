@@ -15,7 +15,7 @@ var module = [
   'app/node/nodes.module',
   'app/topology/topology.module',
   'common/login/login.module',
-  'app/yangui/yangui.module',
+  'app/yangui/main',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module',

@@ -9,7 +9,7 @@
 
         <!-- Augmentation control -->
         <div class="modalWrapper" ng-if="node.augmentionGroups.length" ng-include src="currentPath + 'modal/augmentation-modal.tpl.html'"></div>
-        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }}">A</span>
+        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}">A</span>
         <!-- Augmentation control end -->
     </div>
     
