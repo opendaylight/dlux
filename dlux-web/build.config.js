@@ -24,13 +24,16 @@ module.exports = {
     jsunit: [ 'src/**/*.spec.js' ],
     js_common: [ 'src/common/**/*.js', '!src/common/**/*.spec.js', '!src/common/assets/**/*.js'  ],
     js_app: [ 'src/app/**/*.js', '!src/app/**/*.spec.js', '!src/app/assets/**/*.js'  ],
+    app_assets: [ '! src/app/yangui/assets/js/**/*.js' ],
 
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
 
     html: [ 'src/index.html'],
     less: 'src/less/main.less',
-    templates: ['src/**/*.tpl.html']
+    css: ['src/app/**/*.css'],
+    templates: ['src/**/*.tpl.html'],
+    images: ['src/app/**/assets/images/*.*']
   },
 
   /**
@@ -95,7 +98,9 @@ module.exports = {
       'vendor/sigma/plugins/sigma.parsers.gexf.min.js',
       'vendor/sigma/plugins/sigma.layout.forceAtlas2.min.js',
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
-      'vendor/sigma/plugins/sigma.renderers.customShapes.min.js'
+      'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
+      'vendor/ng-clip/src/ngClip.js',
+      'vendor/zeroclipboard/dist/ZeroClipboard.js'
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
@@ -113,7 +118,7 @@ module.exports = {
     'vendor/select2/select2x2.png'
     ],
     assets: [
-    
+    'vendor/zeroclipboard/dist/ZeroClipboard.swf'
     ],
     font: [
       'vendor/font-awesome/font/*',

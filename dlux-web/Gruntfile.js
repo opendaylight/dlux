@@ -170,7 +170,7 @@ module.exports = function ( grunt ) {
       build_appjs: {
         files: [
           {
-            src: [ '<%= app_files.js %>' ],
+            src: [ '<%= app_files.js %>', '<%= app_files.css %>' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -191,6 +191,16 @@ module.exports = function ( grunt ) {
         files: [
           {
             src: [ '<%= vendor_files.js %>' ],
+            dest: '<%= build_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      },
+      build_appimages: {
+        files: [
+          {
+            src: [ '<%= app_files.images %>' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -349,7 +359,8 @@ module.exports = function ( grunt ) {
      */
     jshint: {
       src: [
-        '<%= app_files.js %>'
+        '<%= app_files.js %>',
+        '<%= app_files.app_assets %>',
       ],
       test: [
         '<%= app_files.jsunit %>'
@@ -579,7 +590,7 @@ module.exports = function ( grunt ) {
           '<%= app_files.atpl %>',
           '<%= app_files.ctpl %>'
         ],
-        tasks: [ 'html2js' ]
+        tasks: ['copy:copy_template']/*[ 'html2js' ]*/
       },
 
       /**
@@ -633,9 +644,9 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'common', [
-      'clean', 'html2js', 'jshint', 'less:development',
-      'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-      'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
+      'clean', 'html2js', 'jshint', 'concat:build_css', 'less:development',
+      'copy:build_app_assets', 'copy:build_vendor_assets',
+      'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_appimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
   grunt.registerTask( 'build', ['replace:development', 'common', 'karma:continuous']);

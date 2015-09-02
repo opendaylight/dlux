@@ -7,7 +7,7 @@
     	<property name="moduleName" value="yangui"/>
     	<property name="url" value="/src/app/yangui"/>
         <property name="directory" value="/yangui"/>
-    	<property name="requireJs" value="app/yangui/yangui.module"/>
+    	<property name="requireJs" value="app/yangui/main"/>
     	<property name="angularJs" value="app.yangui"/>
     </bean>
 </blueprint>

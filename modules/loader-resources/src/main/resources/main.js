@@ -26,7 +26,9 @@ require.config({
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
     'graphRenderer' : '../assets/js/graphRenderer',
-    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
+    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min',
+    'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
+    'ngClip' : '../vendor/ng-clip/src/ngClip'
   },
 
   shim : {
@@ -65,6 +67,8 @@ require.config({
     'sigma-dragNodes' : ['sigma'],
     'sigma-customShapes' : ['sigma'],
     'ngSlider' : ['angular'],
+    'ZeroClipboard': ['angular'],
+    'ngClip' : ['angular','ZeroClipboard']
   },
 
   deps : ['app/app.module']
