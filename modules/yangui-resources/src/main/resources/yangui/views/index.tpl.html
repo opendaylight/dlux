@@ -1,6 +1,6 @@
 <div class="mt20 yangUIwrapper">
 
-  <div class="tabs mainTabsWrapper">
+  <section class="tabs mainTabsWrapper">
     <ul class="nav nav-tabs">
         <li class="btn-like-tab {{ mainTabs['api'] ? 'btn-selected' : '' }}" ng-click="showTabs(mainTabs, 'api')">
             <a><span>{{'API' | translate}}</span></a>
@@ -33,10 +33,7 @@
       </section>
       
     </div>
-  </div>
-
-
-
+  </section>
 
   <!-- Preview box -->
   <div ng-show="previewVisible" class="topologyContainer previewContainer draggablePopup resizable-se" ng-include src="currentPath+'/parts/preview-box.tpl.html'"></div>
@@ -53,35 +50,34 @@
 
     <div class="in">
 
-      <div class="actionButtons">
-        <label class="classic">{{ 'YANGUI_PATH' | translate }}:</label><!--
-        --><div class="selSubApiPath" ng-show="selSubApi.pathArray.length"><!--
-            --><span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}<!--
-                --><span ng-show="pathElem.hasIdentifier()" class="pathWrapper"><!--
-                    --><span ng-repeat="identifier in pathElem.identifiers"><!--
-                        -->/<input type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)"><!--
+        <div class="actionButtons">
+            <div ng-show="selSubApi.pathArray.length" class="inline">
+
+                <select class="form-control input-sm" ng-hide="node === null" ng-model="selectedOperation" ng-options="operation for operation in selSubApi.operations"></select>
+
+                <div class="pathWrapper"><!--
+                --><span class="pathElem" ng-repeat="pathElem in selSubApi.pathArray">{{pathElem.moduleChanged ? '/'+pathElem.module+':': '/'}}{{pathElem.name}}<!--
+                  --><span ng-show="pathElem.hasIdentifier()"><!--
+                        --><span class="" ng-repeat="identifier in pathElem.identifiers"><!--
+                            -->/<input type="text" class="form-control input-small" ng-model="identifier.value" ng-change="changePathInPreview(); fillNodeData(pathElem, identifier)"><!--
+                        --></span><!--
                     --></span><!--
-                --></span><!--
-            --></span>
+                --></span>
+                </div>
+                <!-- copy to clipboard -->
+                <div class="inlineBlock">
+                    <button clip-click-fallback="fallback(copyReqPathToClipboard())" clip-copy="copyReqPathToClipboard()" class="btn btn-primary" tooltip="{{ 'YANGUI_COPY_TO_CLIPBOARD' | translate }}"><i class="icon-paste"></i></button>
+                </div>
+                <!-- send button -->
+                <button ng-hide="node === null || selectedOperation === null" class="btn btn-primary" ng-click="executeOperation(selectedOperation)">{{ 'YANGUI_SEND' | translate }}</button>
+                <!-- preview button -->
+                <button ng-click="showPreview()" class="btn btn-primary" tooltip="{{ 'SHOW_PREVIEW' | translate }}"><i class="icon-eye-open"></i></button>
+            </div>
+            <button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton() || !custFunct.hideButtonOnSelect" class="btn btn-primary" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
+            <button ng-repeat="selCustFuncButt in selCustFunctButts" ng-show="selCustFuncButt.show()" ng-click="selCustFuncButt.onclick()" class="btn btn-primary">{{ selCustFuncButt.label | translate }}</button>
 
-            <select class="form-control input-sm inline" style="width:100px" ng-hide="node === null" ng-model="selectedOperation" ng-change="updateAt($index, contractRef)" ng-options="operation for operation in selSubApi.operations">
-            </select>
-            <button ng-hide="node === null || selectedOperation === null" class="btn btn-default btn-slim" style="margin-right: 5px" ng-click="executeOperation(selectedOperation)">{{ 'YANGUI_SEND' | translate }}</button>
-
-            <!--<button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>-->
-            <button ng-repeat="custFunct in selSubApi.custFunct" ng-show="showCustFunctButton() || !custFunct.hideButtonOnSelect" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px" ng-click="executeCustFunctionality(custFunct)">{{ custFunct.label | translate }}</button>
+            <button class="btn btn-primary" ng-click='show_add_data_popup()'>{{ 'YANGUI_CUSTOM_API_REQUEST' | translate }}</button>
         </div>
-        <button ng-repeat="selCustFuncButt in selCustFunctButts" ng-show="selCustFuncButt.show()" ng-click="selCustFuncButt.onclick()" class="btn btn-default btn-slim ng-scope" style="margin-right: 5px">{{ selCustFuncButt.label | translate }}</button>
-        <button ng-click="showPreview()" class="btn btn-default ng-scope btn-slim">{{ 'SHOW_PREVIEW' | translate }}</button>
-
-        <!-- WIN FOR ADDING DATA + BUTTON -->
-        <div class="dataPopupWrapper inline">
-              <button class="btn btn-default ng-scope btn-slim" ng-click='show_add_data_popup()'>
-                  {{ 'YANGUI_CUSTOM_API_REQUEST' | translate }}
-              </button>
-        </div>
-        <!-- WIN FOR ADDING DATA + BUTTON - END -->
-      </div>
 
     </div>
 
