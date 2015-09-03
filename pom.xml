@@ -37,6 +37,7 @@
       <common.login.resources.version>0.2.0-SNAPSHOT</common.login.resources.version>
       <common.yangutils.resources.version>0.2.0-SNAPSHOT</common.yangutils.resources.version>
       <common.sigmatopology.resources.version>0.2.0-SNAPSHOT</common.sigmatopology.resources.version>
+      <restconf.version>1.3.0-SNAPSHOT</restconf.version>
       <l2switch.version>0.3.0-SNAPSHOT</l2switch.version>
       <mdsal.version>1.3.0-SNAPSHOT</mdsal.version>
       <branding.version>1.2.0-SNAPSHOT</branding.version>
