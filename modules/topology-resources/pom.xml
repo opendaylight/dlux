@@ -21,12 +21,4 @@
   <description>Topology Module Resources</description>
   <version>${topology.resources.version}</version>
   <packaging>jar</packaging>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.opendaylight.dlux</groupId>
-      <artifactId>dlux.graph.resources</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
 </project>

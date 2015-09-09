@@ -20,7 +20,6 @@
       <commons.opendaylight.version>1.6.0-SNAPSHOT</commons.opendaylight.version>
       <loader.resources.version>0.2.0-SNAPSHOT</loader.resources.version>
       <core.resources.version>0.2.0-SNAPSHOT</core.resources.version>
-      <graph.resources.version>0.2.0-SNAPSHOT</graph.resources.version>
       <node.resources.version>0.2.0-SNAPSHOT</node.resources.version>
       <connection_manager.resources.version>0.2.0-SNAPSHOT</connection_manager.resources.version>
       <container.resources.version>0.2.0-SNAPSHOT</container.resources.version>
