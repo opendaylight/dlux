@@ -107,9 +107,9 @@
           <version>${project.version}</version>
       </dependency>
       <dependency>
-          <groupId>org.opendaylight.controller</groupId>
+          <groupId>org.opendaylight.netconf</groupId>
           <artifactId>features-restconf</artifactId>
-          <version>${mdsal.version}</version>
+          <version>${restconf.version}</version>
           <classifier>features</classifier>
           <type>xml</type>
       </dependency>
