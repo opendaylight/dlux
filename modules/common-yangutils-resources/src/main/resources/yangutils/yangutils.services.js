@@ -1112,6 +1112,11 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                         checkEmptyContainer = function(type, obj) { //TODO: absolete after when statement is implemented
                             return !!(type === 'case' || !$.isEmptyObject(objToAdd));
                         },
+                        checkPresence = function(containerNode) {
+                            return containerNode.children.some(function(ch) {
+                                return ch.type === 'presence';
+                            });
+                        },
                         labelWithModule = (module !== node.module ? node.module + ':' : '') + node.label;
 
                     if (builderNodes.length) {
@@ -1125,7 +1130,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
 
 
 
-                    if (added && checkEmptyContainer(node.parent ? node.parent.type : 'blanktype', objToAdd)) {
+                    if (added && (checkEmptyContainer(node.parent ? node.parent.type : 'blanktype', objToAdd) || checkPresence(node))) {
                         builder.insertPropertyToObj(req, labelWithModule, objToAdd);
                     }
 
@@ -2256,6 +2261,13 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
                     node = this.createNewNode(name, type, parent, nodeType);
             };
 
+            this.presence = function(xml, parent) {
+                var type = 'presence',
+                    name = $(xml).attr('value'),
+                    nodeType = constants.NODE_ALTER,
+                    node = this.createNewNode(name, type, parent, nodeType);
+            };
+
             this.leaf = function (xml, parent) {
                 var type = 'leaf',
                     name = $(xml).attr('name'),
@@ -2594,7 +2606,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         var addNodePathStr = function(node) {
-            return (node.parent.module !== node.module ? node.module + ':' : '') + node.label;
+            return (!node.parent || (node.parent.module !== node.module) ? node.module + ':' : '') + node.label;
         };
 
         var getBasePath = function() {
@@ -2719,7 +2731,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         };
 
         ab.processSingleRootNode = function(node) {
-            var templateStr = node.module+':'+node.label+'/',
+            var templateStr = nodePathStringCreator[node.type](node, ''),
                 subApis = createSubApis(node, templateStr);
 
             node.children.forEach(function(ch) {
