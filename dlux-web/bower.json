@@ -31,7 +31,8 @@
     "ng-slider": "2.2.2",
     "ng-tiny-scrollbar": "~0.9.0",
     "zeroclipboard": "~2.2.0",
-    "ng-clip": "~0.2.6"
+    "ng-clip": "~0.2.6",
+    "angular-translate-loader-partial": "~2.7.2"
   },
   "devDependencies": {
     "angular": "~1.4.0",
@@ -46,6 +47,7 @@
     "grunt-shell": "~0.7.0"
   },
   "resolutions": {
-    "angular": "~1.4.0"
+    "angular": "~1.4.0",
+    "angular-translate": "~2.7.2"
   }
 }

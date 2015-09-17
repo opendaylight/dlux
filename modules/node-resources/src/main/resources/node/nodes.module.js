@@ -19,11 +19,6 @@ define(['angularAMD', 'app/routingConfig', 'Restangular', 'angular-translate', '
 
     };
 
-    $translateProvider.useStaticFilesLoader({
-      prefix: 'assets/data/locale-',
-      suffix: '.json'
-    });
-
     NavHelperProvider.addControllerUrl('app/node/nodes.controller');
     NavHelperProvider.addToMenu('nodes', {
      "link" : "#/node/index",
