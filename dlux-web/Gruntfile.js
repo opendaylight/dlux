@@ -170,7 +170,7 @@ module.exports = function ( grunt ) {
       build_appjs: {
         files: [
           {
-            src: [ '<%= app_files.js %>', '<%= app_files.css %>' ],
+            src: [ '<%= app_files.js %>', '<%= app_files.css %>', '<%= app_files.lang %>' ],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -558,7 +558,7 @@ module.exports = function ( grunt ) {
        */
       jssrc: {
         files: [
-          '<%= app_files.js %>'
+          '<%= app_files.js %>', '<%= app_files.lang %>'
         ],
         tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
       },

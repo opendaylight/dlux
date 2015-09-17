@@ -32,6 +32,7 @@ module.exports = {
     html: [ 'src/index.html'],
     less: 'src/less/main.less',
     css: ['src/app/**/*.css'],
+    lang: ['src/app/**/assets/data/*.json'],
     templates: ['src/**/*.tpl.html'],
     images: ['src/app/**/assets/images/*.*']
   },
@@ -92,6 +93,7 @@ module.exports = {
       'vendor/footable/dist/footable.paginate.min.js',
       'vendor/footable/dist/footable.sort.min.js',
       'vendor/angular-translate/angular-translate.min.js',
+      'vendor/angular-sanitize/angular-sanitize.min.js',
       'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js',
       'vendor/ng-slider/dist/ng-slider.min.js',
       'vendor/sigma/sigma.min.js',
@@ -100,7 +102,8 @@ module.exports = {
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
       'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
       'vendor/ng-clip/src/ngClip.js',
-      'vendor/zeroclipboard/dist/ZeroClipboard.js'
+      'vendor/zeroclipboard/dist/ZeroClipboard.js',
+      'vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',

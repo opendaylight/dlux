@@ -14,6 +14,7 @@ var modules = [
         'ngClip',
         'common/yangutils/yangutils.services',
         'common/yangutils/listfiltering.services',
+        'angular-translate-loader-partial'
     ],
     ZeroClipboard = null;
 
@@ -24,12 +25,9 @@ define(modules, function(ZC) {
 
   yangui.register = yangui;
 
-  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider, $translateProvider, NavHelperProvider, ngClipProvider) {
+  yangui.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider, $translateProvider,$translatePartialLoaderProvider, NavHelperProvider, ngClipProvider) {
 
-    $translateProvider.useStaticFilesLoader({
-      prefix: 'assets/data/locale-',
-      suffix: '.json'
-    });
+    $translatePartialLoaderProvider.addPart('app/yangui/assets/data/locale');
 
     ngClipProvider.setPath("assets/ZeroClipboard.swf");
 
