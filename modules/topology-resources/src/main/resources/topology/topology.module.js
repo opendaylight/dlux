@@ -11,11 +11,6 @@ define(['angularAMD', 'app/routingConfig', 'app/core/core.services','Restangular
       factory : $provide.factory
     };
 
-    $translateProvider.useStaticFilesLoader({
-      prefix: 'assets/data/locale-',
-      suffix: '.json'
-    });
-
     NavHelperProvider.addControllerUrl('app/topology/topology.controller');
     NavHelperProvider.addToMenu('topology', {
       "link": "#/topology",

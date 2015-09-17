@@ -28,7 +28,8 @@ require.config({
     'graphRenderer' : '../assets/js/graphRenderer',
     'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min',
     'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
-    'ngClip' : '../vendor/ng-clip/src/ngClip'
+    'ngClip' : '../vendor/ng-clip/src/ngClip',
+    'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial',
   },
 
   shim : {
@@ -68,7 +69,8 @@ require.config({
     'sigma-customShapes' : ['sigma'],
     'ngSlider' : ['angular'],
     'ZeroClipboard': ['angular'],
-    'ngClip' : ['angular','ZeroClipboard']
+    'ngClip' : ['angular','ZeroClipboard'],
+    'angular-translate-loader-partial': ['angular']
   },
 
   deps : ['app/app.module']

@@ -9,6 +9,7 @@ var module = [
   'app/core/core.module',
   'angular-translate',
   'angular-translate-loader-static-files',
+  'angular-translate-loader-partial',
   'angular-ui-router',
   'ocLazyLoad',
   'angular-css-injector',
@@ -16,6 +17,8 @@ var module = [
   'app/topology/topology.module',
   'common/login/login.module',
   'app/yangui/main',
+  'app/yangvisualizer/yangvisualizer.module',
+    'common/sigmatopology/sigmatopology.module',
   'common/navigation/navigation.module',
   'common/topbar/topbar.module',
   'common/layout/layout.module',
@@ -31,6 +34,8 @@ var e = [
   'app.topology',
   'app.common.login',
   'app.yangui',
+    'app.yangvisualizer',
+    'app.common.sigmatopology',
   'app.common.nav',
   'app.common.topbar',
   'app.common.layout'];
@@ -45,7 +50,7 @@ define(module, function(ng) {
 
 
   // The overal config he is done here.
-  app.config(function ($stateProvider, $urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, cssInjectorProvider) {
+  app.config(function ($stateProvider, $urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider, cssInjectorProvider) {
 
     $urlRouterProvider.otherwise("/topology"); // set the default route
 
@@ -57,6 +62,11 @@ define(module, function(ng) {
       asyncLoader: require
     });
 
+    $translateProvider.useLoader('$translatePartialLoader', {
+      urlTemplate: '/src/{part}-{lang}.json'
+    });
+
+    $translatePartialLoaderProvider.addPart('../assets/data/locale');
     $translateProvider.preferredLanguage('en_US');
   });
 

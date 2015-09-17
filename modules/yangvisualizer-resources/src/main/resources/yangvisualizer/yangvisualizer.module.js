@@ -14,12 +14,9 @@ define(modules, function() {
 
   yangvisualizer.register = yangvisualizer;
 
-  yangvisualizer.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
+  yangvisualizer.config(function ($stateProvider, $compileProvider, $controllerProvider, $provide, $translateProvider, $translatePartialLoaderProvider, NavHelperProvider) {
 
-    $translateProvider.useStaticFilesLoader({
-      prefix: 'assets/data/locale-',
-      suffix: '.json'
-    });
+    $translatePartialLoaderProvider.addPart('app/yangvisualizer/assets/data/locale');
 
     yangvisualizer.register = {
       directive : $compileProvider.directive,

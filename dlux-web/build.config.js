@@ -32,6 +32,7 @@ module.exports = {
     html: [ 'src/index.html'],
     less: 'src/less/main.less',
     css: ['src/app/**/*.css'],
+    lang: ['src/app/**/assets/data/*.json'],
     templates: ['src/**/*.tpl.html'],
     images: ['src/app/**/assets/images/*.*']
   },
@@ -100,7 +101,8 @@ module.exports = {
       'vendor/sigma/plugins/sigma.plugins.dragNodes.min.js',
       'vendor/sigma/plugins/sigma.renderers.customShapes.min.js',
       'vendor/ng-clip/src/ngClip.js',
-      'vendor/zeroclipboard/dist/ZeroClipboard.js'
+      'vendor/zeroclipboard/dist/ZeroClipboard.js',
+      'vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
