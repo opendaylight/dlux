@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a79b1b5_c8f746f4",
+        "filename": "modules/loader-resources/src/main/resources/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2015-09-18T16:11:43Z",
+      "side": 1,
+      "message": "indent is 2 spaces not 4",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 48
+      },
+      "revId": "a5693b0fc15a7390573802c90d65741e48772d5f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79b1b5_68de326f",
+        "filename": "modules/loader-resources/src/main/resources/app/app.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2015-09-18T16:11:43Z",
+      "side": 1,
+      "message": "index is 2 spaces not 4",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 31
+      },
+      "revId": "a5693b0fc15a7390573802c90d65741e48772d5f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a79b1b5_28e83a0f",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/yangui.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2015-09-18T16:11:43Z",
+      "side": 1,
+      "message": "indent",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 79
+      },
+      "revId": "a5693b0fc15a7390573802c90d65741e48772d5f",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
