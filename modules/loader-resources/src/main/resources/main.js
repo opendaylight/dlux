@@ -72,7 +72,7 @@ require.config({
     'ngSlider' : ['angular'],
     'ZeroClipboard': ['angular'],
     'ngClip' : ['angular','ZeroClipboard'],
-    'angular-translate-loader-partial': ['angular']
+    'angular-translate-loader-partial': ['angular-translate']
   },
 
   deps : ['app/app.module']
