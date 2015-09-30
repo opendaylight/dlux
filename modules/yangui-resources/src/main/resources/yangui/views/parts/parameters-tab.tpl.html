@@ -20,8 +20,12 @@
                     <div class="tddiv rh-col4">
                         <div class="requestActions">
                             <div >
-                                <button class="yangButton iconEdit" ng-click="showParamBox(param)" tooltip="{{ 'YANGUI_EDIT' | translate }}"></button>
-                                <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_EDIT' | translate }}">
+                                    <button class="yangButton iconEdit" ng-click="showParamBox(param)"></button>
+                                </div>
+                                <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_DELETE' | translate }}">
+                                    <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
