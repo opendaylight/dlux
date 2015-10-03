@@ -1,0 +1,8 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+1: Thanh Ha <thanh.ha@linuxfoundation.org>
+Code-Review+2: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-by: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-at: Sat, 03 Oct 2015 23:21:17 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/27873
+Project: dlux
+Branch: refs/heads/master
