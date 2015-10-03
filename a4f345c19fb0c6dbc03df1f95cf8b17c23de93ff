@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8a10b24f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2759
+      },
+      "writtenOn": "2015-10-03T20:29:54Z",
+      "side": 1,
+      "message": "So that it links back to bugzilla. Please add above \"Change-Id:\" a line for:\n\n Bug: 4405",
+      "revId": "a4f345c19fb0c6dbc03df1f95cf8b17c23de93ff",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
