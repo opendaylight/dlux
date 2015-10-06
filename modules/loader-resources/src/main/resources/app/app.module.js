@@ -69,7 +69,7 @@ define(module, function(angular) {
   window.angular = dlux_angular; // backward compatibility
 
   // The overal config he is done here.
-  app.config(function ($urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider, $controllerProvider, $compileProvider, $provide, cssInjectorProvider) {
+  app.config(function ($urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider, $controllerProvider, $compileProvider, $provide, $filterProvider, cssInjectorProvider) {
 
     $urlRouterProvider.otherwise("/topology"); // set the default route
 
@@ -94,6 +94,7 @@ define(module, function(angular) {
         controller : $controllerProvider.register,
         directive : $compileProvider.directive,
         factory : $provide.factory,
+        filter: $filterProvider.register,
         service : $provide.service
     };
 
@@ -101,7 +102,7 @@ define(module, function(angular) {
     angular.extend(app.register, register);
   });
 
-  /* --- define vs require war --- 
+  /* --- define vs require war ---
    * From my understanding, we use require when
    * we want to load a dependency and run it. Define
    * is only to define the dependency for a module.

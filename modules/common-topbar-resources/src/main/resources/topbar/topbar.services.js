@@ -1,5 +1,5 @@
 define(['common/topbar/topbar.module'], function(topbar) {
-    topbar.register.factory('taskFactory',function () {
+    topbar.factory('taskFactory',function () {
         var factory = {};
         factory.getTaskData = function () {
             return {
@@ -32,7 +32,7 @@ define(['common/topbar/topbar.module'], function(topbar) {
         return factory;
     });
 
-    topbar.register.factory('messageFactory', function () {
+    topbar.factory('messageFactory', function () {
         var factory = {};
         factory.getMessageData = function () {
             return {
@@ -62,7 +62,7 @@ define(['common/topbar/topbar.module'], function(topbar) {
         return factory;
     });
 
-    topbar.regiser.factory('notifsFactory', function () {
+    topbar.factory('notifsFactory', function () {
         var factory = {};
         factory.getNotifsData = function () {
             return {

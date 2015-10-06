@@ -1,12 +1,12 @@
 define(['common/topbar/topbar.module'], function(topbar) {
-   topbar.register.directive('mcTopBar', function () {
+   topbar.directive('mcTopBar', function () {
         return {
             replace: true,
             templateUrl: 'topbar/topbar.tpl.html',
         };
     });
 
-    topbar.register.directive('mcTopBarTasks', function () {
+    topbar.directive('mcTopBarTasks', function () {
         return {
             replace: true,
             controller: 'topBarTasksCtrl',
@@ -14,7 +14,7 @@ define(['common/topbar/topbar.module'], function(topbar) {
         };
     });
 
-    topbar.register.directive('mcTopBarNotifications', function () {
+    topbar.directive('mcTopBarNotifications', function () {
         return {
             replace: true,
             controller: 'topBarNotifsCtrl',
@@ -22,7 +22,7 @@ define(['common/topbar/topbar.module'], function(topbar) {
         };
     });
 
-    topbar.register.directive('mcTopBarMessages', function () {
+    topbar.directive('mcTopBarMessages', function () {
         return {
             replace: true,
             controller: 'topBarMessagesCtrl',
@@ -30,11 +30,11 @@ define(['common/topbar/topbar.module'], function(topbar) {
         };
     });
 
-    topbar.register.directive('mcTopBarUserMenu', function () {
+    topbar.directive('mcTopBarUserMenu', function () {
         return {
             replace: true,
             controller: 'topBarUserMenuCtrl',
             templateUrl: 'topbar/user_menu.tpl.html'
         };
     });
-}); 
+});

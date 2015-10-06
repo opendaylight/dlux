@@ -8,18 +8,8 @@
 
 define(['angularAMD', 'jquery', 'common/authentification/auth.services', 'ocLazyLoad'], function(ng, $) {
   var login = angular.module('app.common.login', ['app.common.auth', 'ui.router.state']);
-  login.register = login;
 
-  login.config(function($stateProvider, $compileProvider, $controllerProvider, $provide, $httpProvider) {
-
-    login.register = {
-      controller : $controllerProvider.register,
-      directive : $compileProvider.directive,
-      factory : $provide.factory,
-      service : $provide.service
-
-    };
-
+  login.config(function($stateProvider, $httpProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
