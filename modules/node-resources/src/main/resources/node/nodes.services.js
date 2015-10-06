@@ -8,7 +8,7 @@
 
 define(['app/node/nodes.module'],function(node) {
 
-  node.register.factory('nodeConnectorFactory', function() {
+  node.factory('nodeConnectorFactory', function() {
     var factory = {};
 
     factory.getActiveFlow = function(flowTable, index) {
@@ -20,13 +20,13 @@ define(['app/node/nodes.module'],function(node) {
     return factory;
   });
 
-  node.register.factory('NodeRestangular', function(Restangular, ENV) {
+  node.factory('NodeRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
       RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
     });
   });
 
-  node.register.factory('NodeInventorySvc', function(NodeRestangular) {
+  node.factory('NodeInventorySvc', function(NodeRestangular) {
     var svc = {
       base: function() {
         return NodeRestangular.one('restconf').one('operational').one('opendaylight-inventory:nodes');

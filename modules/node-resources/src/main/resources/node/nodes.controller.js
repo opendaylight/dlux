@@ -8,12 +8,12 @@
 
 define(['app/node/nodes.module','app/node/nodes.services'], function(node) {
 
-  node.register.controller('rootNodeCtrl', function($rootScope) {
+  node.controller('rootNodeCtrl', function($rootScope) {
     $rootScope['section_logo'] = 'assets/images/logo_node.gif';
    // $rootScope.$apply();
   });
 
-  node.register.controller('allNodesCtrl', function($scope, NodeInventorySvc, $timeout) {
+  node.controller('allNodesCtrl', function($scope, NodeInventorySvc, $timeout) {
     NodeInventorySvc.getAllNodes().then(function(data) {
       $scope.data = data[0].node;
     });
@@ -35,7 +35,7 @@ define(['app/node/nodes.module','app/node/nodes.services'], function(node) {
     });
   });
 
-  node.register.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, $timeout, nodeConnectorFactory) {
+  node.controller('nodeConnectorCtrl', function($scope, $stateParams, NodeInventorySvc, $timeout, nodeConnectorFactory) {
     var currentData = NodeInventorySvc.getCurrentData();
     if(currentData != null) {
       currentData.then(function(data) {

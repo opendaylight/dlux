@@ -1,6 +1,6 @@
 define(['app/network/network.module', 'jquery', 'footable', 'app/network/network.services'], function(network, $) {
 
-  network.register.controller('NetworkCtrl', function($rootScope, $scope, $state) {
+  network.controller('NetworkCtrl', function($rootScope, $scope, $state) {
     $rootScope['section_logo'] = 'logo_network';
     $scope.isState = function(name) {
       return $state.includes(name);
@@ -11,7 +11,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
   });
 
 
-  network.register.controller('StaticRouteCtrl', ['$scope', 'StaticRouteSvc', function ($scope, StaticRouteSvc) {
+  network.controller('StaticRouteCtrl', ['$scope', 'StaticRouteSvc', function ($scope, StaticRouteSvc) {
     StaticRouteSvc.routesUrl(null).getList().then(
       function (data) {
         $scope.data = data;
@@ -33,7 +33,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
 
   }]);
 
-  network.register.controller('StaticRouteCreateCtrl', ['$scope', 'StaticRouteSvc', '$state', function ($scope, StaticRouteSvc, $state) {
+  network.controller('StaticRouteCreateCtrl', ['$scope', 'StaticRouteSvc', '$state', function ($scope, StaticRouteSvc, $state) {
     $scope.submit = function () {
        StaticRouteSvc.routeUrl(null, $scope.data.name).customPUT($scope.data).then(
         function (data) {
@@ -45,7 +45,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
     };
   }]);
 
-  network.register.controller('StaticRouteEditCtrl', ['$scope', 'StaticRouteSvc', '$state', '$stateParams', function ($scope, StaticRouteSvc, $state, $stateParams) {
+  network.controller('StaticRouteEditCtrl', ['$scope', 'StaticRouteSvc', '$state', '$stateParams', function ($scope, StaticRouteSvc, $state, $stateParams) {
     $scope.submit = function () {
       console.log(StaticRouteSvc.routeUrl(null, $scope.data.name));
       StaticRouteSvc.routeUrl(null, $scope.data.name).customPOST($scope.data).then(
@@ -63,7 +63,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
     );
   }]);
 
-  network.register.controller('SubnetCtrl', ['$scope', 'SubnetSvc', function ($scope, SubnetSvc) {
+  network.controller('SubnetCtrl', ['$scope', 'SubnetSvc', function ($scope, SubnetSvc) {
     SubnetSvc.subnetsUrl(null).getList().then(
       function (data) {
         $scope.data = data;
@@ -83,7 +83,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
     });
   }]);
 
- network.register.controller('SubnetCreateCtrl', ['$scope', 'SubnetSvc', '$state', function ($scope, SubnetSvc, $state) {
+ network.controller('SubnetCreateCtrl', ['$scope', 'SubnetSvc', '$state', function ($scope, SubnetSvc, $state) {
     $scope.submit = function () {
       SubnetSvc.subnetUrl(null, $scope.data.name).customPUT($scope.data).then(
         function(data) {
@@ -95,7 +95,7 @@ define(['app/network/network.module', 'jquery', 'footable', 'app/network/network
     };
   }]);
 
-  network.register.controller('SubnetEditCtrl', ['$scope', 'SubnetSvc', '$state', '$stateParams', function ($scope, SubnetSvc, $state, $stateParams) {
+  network.controller('SubnetEditCtrl', ['$scope', 'SubnetSvc', '$state', '$stateParams', function ($scope, SubnetSvc, $state, $stateParams) {
     SubnetSvc.subnetUrl(null, $stateParams.name).get().then(
       function(data) {
         $scope.data = data;

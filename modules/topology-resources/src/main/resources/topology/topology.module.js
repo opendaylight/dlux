@@ -2,14 +2,7 @@ define(['angularAMD', 'app/routingConfig', 'app/core/core.services','Restangular
 
   var topology = angular.module('app.topology', ['ui.router.state','app.core','restangular', 'config']);
 
-  topology.config(function($stateProvider, $controllerProvider, $compileProvider, $provide, $translateProvider, NavHelperProvider) {
-
-    topology.register = {
-      controller : $controllerProvider.register,
-      directive : $compileProvider.directive,
-      service : $provide.service,
-      factory : $provide.factory
-    };
+  topology.config(function($stateProvider, $translateProvider, NavHelperProvider) {
 
     NavHelperProvider.addControllerUrl('app/topology/topology.controller');
     NavHelperProvider.addToMenu('topology', {

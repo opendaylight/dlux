@@ -1,14 +1,14 @@
 var modules = [
   'common/sigmatopology/sigmatopology.module',
-  'sigma', 
-  'sigma-parsers-gexf', 
-  'sigma-forceAtlas2', 
+  'sigma',
+  'sigma-parsers-gexf',
+  'sigma-forceAtlas2',
   'sigma-dragNodes',
   'sigma-customShapes'
 ];
 
 define(modules, function(topologyModule) {
-  topologyModule.register.directive('sigmaTopology', function() {
+  topologyModule.directive('sigmaTopology', function() {
     // constants
     return {
       restrict: 'E',
@@ -88,7 +88,7 @@ define(modules, function(topologyModule) {
                   }
                   camera.ratio = 1;
                   camera.x = 0;
-                  camera.y = 0;   
+                  camera.y = 0;
                   this.refresh();
               };
 

@@ -1,13 +1,13 @@
 define(['app/network/network.module'], function(network) {
 
-  network.register.factory('NetworkRestangular', function(Restangular, ENV) {
+  network.factory('NetworkRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
       RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 
 
-  network.register.factory('StaticRouteSvc', function (NetworkRestangular) {
+  network.factory('StaticRouteSvc', function (NetworkRestangular) {
     var svc = {
       base: function (container) {
         container = container || 'default';
@@ -31,7 +31,7 @@ define(['app/network/network.module'], function(network) {
   });
 
 
-  network.register.factory('SubnetSvc', function (NetworkRestangular) {
+  network.factory('SubnetSvc', function (NetworkRestangular) {
     var svc = {
       base: function (container) {
         container = container || 'default';

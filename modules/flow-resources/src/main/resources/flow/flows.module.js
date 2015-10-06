@@ -2,13 +2,7 @@ define(['angularAMD', 'Restangular', 'app/routingConfig', 'common/general/finish
     'common/general/common.general.services', 'common/config/env.module'], function (ng) {
   var flows = angular.module('app.flows', ['ui.router.state', 'app.core', 'restangular', 'app.common.finishRender','app.common.general', 'config']);
 
-  flows.config(function($controllerProvider, $compileProvider, $provide, $stateProvider, $translateProvider, NavHelperProvider) {
-    flows.register = {
-      controller : $controllerProvider.register,
-      directive : $compileProvider.directive,
-      service : $provide.service,
-      factory : $provide.factory
-    };
+  flows.config(function($stateProvider, $translateProvider, NavHelperProvider) {
 
     $translateProvider.useStaticFilesLoader({
       prefix: 'assets/data/locale-',

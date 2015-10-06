@@ -1,17 +1,17 @@
 define (['app/connection_manager/connection_manager.module', 'app/connection_manager/connection_manager.services'], function(connection_manager) {
 
-  connection_manager.register.controller('rootConnectionManagerCtrl', ['$rootScope', function($rootScope) {
+  connection_manager.controller('rootConnectionManagerCtrl', ['$rootScope', function($rootScope) {
     $rootScope['section_logo'] = 'logo_connection_manager';
   }]);
 
-  connection_manager.register.controller('ConnectionManagerCtrl',  ['$scope', 'ConnectionManagerSvc', function ($scope, ConnectionManagerSvc) {
+  connection_manager.controller('ConnectionManagerCtrl',  ['$scope', 'ConnectionManagerSvc', function ($scope, ConnectionManagerSvc) {
     $scope.svc = ConnectionManagerSvc;
     ConnectionManagerSvc.getAll(null).then(function(data) {
       $scope.data = data[0];
     });
   }]);
 
-  connection_manager.register.controller('ConnectionManagerDiscoveryCtrl', ['$scope', 'ConnectionManagerSvc', '$state', function ($scope, ConnectionManagerSvc, $state) {
+  connection_manager.controller('ConnectionManagerDiscoveryCtrl', ['$scope', 'ConnectionManagerSvc', '$state', function ($scope, ConnectionManagerSvc, $state) {
     $scope.nodePort = 6633;
     $scope.doDiscover = function () {
       ConnectionManagerSvc.discover($scope.nodeId, $scope.nodeAddress, $scope.nodePort).then(

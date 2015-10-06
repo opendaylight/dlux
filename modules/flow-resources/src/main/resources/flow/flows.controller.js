@@ -1,13 +1,13 @@
 define(['app/flow/flows.module', 'jquery', 'footable', 'app/flow/flows.services', 'common/general/common.general.filters'], function(flows, $) {
 
-  flows.register.controller('rootFlowCtrl', function($rootScope, $scope) {
+  flows.controller('rootFlowCtrl', function($rootScope, $scope) {
     $rootScope['section_logo'] = 'logo_flow';
     $scope.getText = function(text) { // firefox use textContent while chrome use innerText...
       return text.innerText||text.textContent;
     };
   });
 
-  flows.register.controller('ListAllFlowCtrl',  ['$scope', 'FlowSvc', function ($scope, FlowSvc) {
+  flows.controller('ListAllFlowCtrl',  ['$scope', 'FlowSvc', function ($scope, FlowSvc) {
 
     $scope.svc = FlowSvc;
     FlowSvc.getAll(null).then(function(data) {
@@ -31,7 +31,7 @@ define(['app/flow/flows.module', 'jquery', 'footable', 'app/flow/flows.services'
       });
   }]);
 
-  flows.register.controller('ListNodeFlowCtrl', ['$scope', 'FlowSvc', function ($scope, FlowSvc) {
+  flows.controller('ListNodeFlowCtrl', ['$scope', 'FlowSvc', function ($scope, FlowSvc) {
     FlowSvc.nodeflowUrl(null, $scope.$stateParams.nodeType, $scope.$stateParams.nodeId).getList().then(
       function (data) {
         $scope.flow = data.flowConfig;
@@ -39,7 +39,7 @@ define(['app/flow/flows.module', 'jquery', 'footable', 'app/flow/flows.services'
     );
   }]);
 
-  flows.register.controller('ShowDetailCtrl', ['$scope', 'FlowSvc', '$stateParams', function ($scope, FlowSvc, $stateParams) {
+  flows.controller('ShowDetailCtrl', ['$scope', 'FlowSvc', '$stateParams', function ($scope, FlowSvc, $stateParams) {
 
     FlowSvc.staticFlowUrl(null, $stateParams.nodeType, $stateParams.nodeId, $stateParams.flowName).get().then(
       function (data) {
@@ -49,7 +49,7 @@ define(['app/flow/flows.module', 'jquery', 'footable', 'app/flow/flows.services'
 
   }]);
 
-  flows.register.controller('EditStateCtrl', ['$scope', 'FlowSvc', '$stateParams', 'SwitchSvc', function ($scope, FlowSvc, $stateParams, SwitchSvc) {
+  flows.controller('EditStateCtrl', ['$scope', 'FlowSvc', '$stateParams', 'SwitchSvc', function ($scope, FlowSvc, $stateParams, SwitchSvc) {
 
             $scope.actionActive = []; //erase the data (does a prevent default behavior)
   $scope.chosedOptions = []; // use for everything
@@ -153,7 +153,7 @@ define(['app/flow/flows.module', 'jquery', 'footable', 'app/flow/flows.services'
   }]);
 
 
-  flows.register.controller('FlowCreateCtrl', function ($scope, $http, FlowSvc, SwitchSvc, $state) {
+  flows.controller('FlowCreateCtrl', function ($scope, $http, FlowSvc, SwitchSvc, $state) {
     // The current flow
     $scope.flow = {installInHw: true};
     // These are the available actions
