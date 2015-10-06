@@ -8,7 +8,7 @@
 
 define(['common/login/login.module', 'common/authentification/auth.services'], function(login) {
 
-  login.register.controller('LoginCtrl', function ($scope, $http, $window, Auth, $location) {
+  login.controller('LoginCtrl', function ($scope, $http, $window, Auth, $location) {
         // default values
         $scope.login = {};
         $scope.login.username = "";
@@ -29,7 +29,7 @@ define(['common/login/login.module', 'common/authentification/auth.services'], f
         };
     });
 
-    login.register.controller('forgotPasswordCtrl', function ($scope, $http) {
+    login.controller('forgotPasswordCtrl', function ($scope, $http) {
         $scope.recover = {};
         $scope.recover.email = "";
         $scope.sendForgotPassword = function () {
@@ -45,7 +45,7 @@ define(['common/login/login.module', 'common/authentification/auth.services'], f
         };
     });
 
-   login.register.controller('registerCtrl', function ($scope, $http) {
+   login.controller('registerCtrl', function ($scope, $http) {
         $scope.register = {};
         $scope.register.email = "";
         $scope.register.username = "";

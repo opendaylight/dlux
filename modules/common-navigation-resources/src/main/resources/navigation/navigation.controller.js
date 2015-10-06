@@ -1,9 +1,9 @@
 define(['common/navigation/navigation.module', 'app/core/core.services', 'common/navigation/navigation.services'], function(nav, services) {
-  nav.register.controller('NavCtrl', function($scope, NavHelper) {
+  nav.controller('NavCtrl', function($scope, NavHelper) {
     $scope.navList = NavHelper.getMenu();
   });
 
-  nav.register.controller('navItemCtrl', function($scope, NavHelper) {
+  nav.controller('navItemCtrl', function($scope, NavHelper) {
     $scope.display = 'none';
     $scope.isOpen = false;
 
