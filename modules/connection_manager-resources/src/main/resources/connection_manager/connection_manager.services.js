@@ -1,12 +1,12 @@
 define(['app/connection_manager/connection_manager.module'], function(connection_manager) {
 
-  connection_manager.register.factory('ConnectionManagerRestangular', function(Restangular, ENV) {
+  connection_manager.factory('ConnectionManagerRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
       RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 
-  connection_manager.register.factory('ConnectionManagerSvc', function (ConnectionManagerRestangular) {
+  connection_manager.factory('ConnectionManagerSvc', function (ConnectionManagerRestangular) {
     var svc = {
       base: function() {
         return ConnectionManagerRestangular.one('controller/nb/v2');

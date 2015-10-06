@@ -1,12 +1,7 @@
 define(['angularAMD', 'app/routingConfig','app/core/core.services', 'common/general/common.general.services', 'common/config/env.module'], function(ng) {
   var container = angular.module('app.container', ['app.core', 'app.common.general','ui.router.state', 'restangular', 'config']);
 
-  container.config(function ($stateProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
-
-    container.register = {
-      controller : $controllerProvider.register,
-      factory : $provide.factory
-    };
+  container.config(function ($stateProvider, $translateProvider, NavHelperProvider) {
 
     $translateProvider.useStaticFilesLoader({
       prefix: 'assets/data/locale-',

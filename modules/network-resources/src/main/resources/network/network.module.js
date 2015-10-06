@@ -1,18 +1,12 @@
 define(['angularAMD', 'app/routingConfig', 'app/core/core.services', 'Restangular', 'common/config/env.module'], function(ng) {
   var network = angular.module('app.networking', ['ui.router.state','app.core','restangular', 'config']);
 
-  network.config(function ($stateProvider, $controllerProvider, $provide, $translateProvider, NavHelperProvider) {
+  network.config(function ($stateProvider, $translateProvider, NavHelperProvider) {
 
     $translateProvider.useStaticFilesLoader({
       prefix: 'assets/data/locale-',
       suffix: '.json'
     });
-
-    network.register = {
-      controller : $controllerProvider.register,
-      factory : $provide.factory,
-      service : $provide.service
-    };
 
     NavHelperProvider.addControllerUrl('app/network/network.controller');
     NavHelperProvider.addToMenu('network', {

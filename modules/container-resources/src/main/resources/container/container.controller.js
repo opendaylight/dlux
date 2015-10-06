@@ -1,13 +1,13 @@
 define(['app/container/container.module', 'jquery', 'footable', 'app/container/container.services', 'common/general/common.general.filters'], function(container, $) {
 
-  container.register.controller('rootContainerCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
+  container.controller('rootContainerCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
     $rootScope['section_logo'] = 'logo_container';
     $scope.getText = function(text) { // firefox use textContent while chrome use innerText.
       return text.innerText||text.textContent;
     };
   }]);
 
-  container.register.controller('ViewContainerCtrl', ['$scope', 'ContainerSvc', function ($scope, ContainerSvc) {
+  container.controller('ViewContainerCtrl', ['$scope', 'ContainerSvc', function ($scope, ContainerSvc) {
     $scope.svc = ContainerSvc;
     ContainerSvc.getAll().then(function(data) {
       $scope.data = data[0];
@@ -26,7 +26,7 @@ define(['app/container/container.module', 'jquery', 'footable', 'app/container/c
       });
   }]);
 
-  container.register.controller('ViewDetailContainerCtrl', ['$scope', 'ContainerSvc', '$stateParams', function ($scope, ContainerSvc, $stateParams) {
+  container.controller('ViewDetailContainerCtrl', ['$scope', 'ContainerSvc', '$stateParams', function ($scope, ContainerSvc, $stateParams) {
     ContainerSvc.containerUrl($stateParams.container).get().then(
       function (data) {
         $scope.data = data;
@@ -36,7 +36,7 @@ define(['app/container/container.module', 'jquery', 'footable', 'app/container/c
     );
   }]);
 
-  container.register.controller('EditContainerCtrl', ['$scope', 'ContainerSvc', '$stateParams', 'SwitchSvc', function ($scope, ContainerSvc, $stateParams, SwitchSvc) {
+  container.controller('EditContainerCtrl', ['$scope', 'ContainerSvc', '$stateParams', 'SwitchSvc', function ($scope, ContainerSvc, $stateParams, SwitchSvc) {
     $scope.submit = function () {
       ContainerSvc.containerUrl($stateParams.container).customPOST($scope.data).then(
         function () {
@@ -86,7 +86,7 @@ define(['app/container/container.module', 'jquery', 'footable', 'app/container/c
     });
   }]);
 
-  container.register.controller('CreateContainerCtrl', ['$scope', 'ContainerSvc', 'SwitchSvc' , '$state', function ($scope, ContainerSvc, SwitchSvc, $state) {
+  container.controller('CreateContainerCtrl', ['$scope', 'ContainerSvc', 'SwitchSvc' , '$state', function ($scope, ContainerSvc, SwitchSvc, $state) {
     // Build the request
     $scope.data = {};
 

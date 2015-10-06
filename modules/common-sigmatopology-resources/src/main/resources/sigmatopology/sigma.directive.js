@@ -1,14 +1,14 @@
 var modules = [
   'common/sigmatopology/sigmatopology.module',
-  'sigma', 
-  'sigma-parsers-gexf', 
-  'sigma-forceAtlas2', 
+  'sigma',
+  'sigma-parsers-gexf',
+  'sigma-forceAtlas2',
   'sigma-dragNodes',
   'sigma-customShapes'
 ];
 
 define(modules, function(topologyModule) {
-  topologyModule.register.directive('sigmaTopology', ['$timeout',function($timeout) {
+  topologyModule.directive('sigmaTopology', ['$timeout',function($timeout) {
     // constants
     return {
       restrict: 'E',
@@ -184,7 +184,6 @@ define(modules, function(topologyModule) {
               }
 
           });
-
       }
     };
   }]);

@@ -1,12 +1,12 @@
 define(['app/flow/flows.module'], function(flows) {
 
-  flows.register.factory('FlowRestangular', function(Restangular, ENV) {
+  flows.factory('FlowRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
       RestangularConfig.setBaseUrl(ENV.getBaseURL("AD_SAL"));
     });
   });
 
-  flows.register.factory('FlowSvc', function (FlowRestangular) {
+  flows.factory('FlowSvc', function (FlowRestangular) {
     var svc = {
       base: function (container) {
         container = container || 'default';
