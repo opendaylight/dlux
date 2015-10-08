@@ -63,9 +63,7 @@
        <module>loader/impl</module>
        <module>bundles</module>
        <module>features</module>
-       <!-- TEMPORARILY DISABLE DLUX DISTRIBUTION FOR CYCLIC DEPENDENCY
        <module>distribution-dlux</module>
-       -->
        <module>archetype</module>
     </modules>
    
