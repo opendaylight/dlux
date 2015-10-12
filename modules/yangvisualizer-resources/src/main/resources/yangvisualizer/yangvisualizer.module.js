@@ -5,7 +5,8 @@ var modules = [
   'ui-bootstrap', 
   'Restangular', 
   'angular-translate',
-  'ngSlider'
+  'ngSlider',
+  'angular-translate-loader-partial'
 ];
 
 define(modules, function() {
