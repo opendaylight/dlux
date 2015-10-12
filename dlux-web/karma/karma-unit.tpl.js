@@ -22,12 +22,18 @@ module.exports = function ( karma ) {
 
     preprocessors: {
       '**/*.coffee': 'coffee',
+      'src/**/**/*.js': 'coverage'
+    },
+
+    coverageReporter: {
+      type : 'html',
+      dir : 'coverage/'
     },
 
     /**
      * How to report, by default.
      */
-    reporters: 'dots',
+    reporters: ['dots', 'coverage'],
 
     /**
      * On which port should the browser connect, on which port is the test runner

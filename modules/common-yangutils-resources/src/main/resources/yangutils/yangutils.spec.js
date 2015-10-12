@@ -9,6 +9,7 @@
  * 
  */
 
+/*
 define(['common/yangutils/yangutils.module', 'common/config/env.module'], function() {
 
     describe('app.common.yangUtils', function(){
@@ -1291,7 +1292,7 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
                 });
                 
             });
-/*
+/!*
             describe('length', function(){
                 var node, nodeChild;
                 
@@ -1335,7 +1336,7 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
                     expect(angular.isFunction(nodeChild.restrict.ifs[0])).toBe(true);
                 });
             });
-*/
+*!/
             describe('container', function(){
 
                 var req = {},
@@ -3737,4 +3738,4 @@ define(['common/yangutils/yangutils.module', 'common/config/env.module'], functi
 
     });
 
-});
+});*/

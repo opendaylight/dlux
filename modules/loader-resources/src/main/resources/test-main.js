@@ -7,9 +7,9 @@ var pathToModule = function(path) {
 
 Object.keys(window.__karma__.files).forEach(function(file) {
   if (TEST_REGEXP.test(file)) {
-    if (file.indexOf('yang') < 0 ) { // yang spec are broken
+    //if (file.indexOf('yang') < 0 ) { // yang spec are broken
       allTestFiles.push(pathToModule(file));
-    }
+    //}
   }
 });
 
@@ -44,7 +44,10 @@ var test = require.config({
     'sigma-forceAtlas2' : '../vendor/sigma/plugins/sigma.layout.forceAtlas2.min',
     'sigma-dragNodes' : '../vendor/sigma/plugins/sigma.plugins.dragNodes.min',
     'sigma-customShapes' : '../vendor/sigma/plugins/sigma.renderers.customShapes.min',
-    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min'
+    'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min',
+    'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
+    'ngClip' : '../vendor/ng-clip/src/ngClip',
+    'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial'
   },
   map:{
     '*': {
@@ -77,7 +80,10 @@ var test = require.config({
     'sigma-forceAtlas2' : ['sigma'],
     'sigma-dragNodes' : ['sigma'],
     'sigma-customShapes' : ['sigma'],
-    'ngSlider' : ['angular']
+    'ngSlider' : ['angular'],
+    'ZeroClipboard': ['angular'],
+    'ngClip' : ['angular','ZeroClipboard'],
+    'angular-translate-loader-partial': ['angular-translate']
   },
 
   deps : ['angular', 'angular-mocks'],
