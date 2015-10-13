@@ -25,7 +25,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
                                         'size': 3,
                                         'x': Math.random(),
                                         'y': Math.random(),
-                                        'color': '#464646'
+                                        'color': '#fff'
                                     };
                                 });
 
@@ -34,12 +34,13 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'comm
                                         id: 'e' + link.id,
                                         source: 'n' + link.from,
                                         target: 'n' + link.to,
-                                        color: '#464646'
+                                        color: '#fff'
                                     };
                                 });
 
                 // console.info('topoData', topoData);
                 $scope.topologyData = topoData;
+                $scope.topologyData.delay = 500;
 
             } else {
                 alert('No topology data to display');

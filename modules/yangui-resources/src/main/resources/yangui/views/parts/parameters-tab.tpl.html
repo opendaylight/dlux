@@ -15,13 +15,17 @@
             <div ng-repeat="param in parameterList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
                 <div>
                     <div class="tddiv rh-col1"><span></span></div>
-                    <div class="tddiv rh-col2"><span><<{{ param.name }}>></span></div>
+                    <div class="tddiv rh-col2"><span>&lt;&lt;{{ param.name }}&gt;&gt;</span></div>
                     <div class="tddiv rh-col3"><span>{{ param.value }}</span></div>
                     <div class="tddiv rh-col4">
                         <div class="requestActions">
                             <div >
-                                <button class="yangButton iconEdit" ng-click="showParamBox(param)" tooltip="{{ 'YANGUI_EDIT' | translate }}"></button>
-                                <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_EDIT' | translate }}">
+                                    <button class="yangButton iconEdit" ng-click="showParamBox(param)"></button>
+                                </div>
+                                <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_DELETE' | translate }}">
+                                    <button class="yangButton iconClose" ng-click="deleteRequestItem(param, 'parameterList')" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
