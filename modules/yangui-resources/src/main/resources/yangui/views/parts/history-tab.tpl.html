@@ -11,21 +11,21 @@
         </div>
 
         <div class="scroll">
-            <div ng-repeat="req in requestList.list" class="trdiv">
+            <div ng-repeat="req in requestList.list track by $index" class="trdiv">
                 <div ng-controller="reqInHistoryCtrl" ng-init="init(requestList)">
-                    <div class="tddiv rh-col1"><button class="yangButton iconDanger" tooltip="{{ 'YANGUI_API_NOT_AVAILABLE' | translate }}" ng-hide="req.availability"></button></div>
+                    <div class="tddiv rh-col1"><button class="yangButton iconDanger" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_API_NOT_AVAILABLE' | translate }}" ng-hide="req.availability"></button></div>
                     <div class="tddiv rh-col2"><span>{{ req.method }}</span></div>
                     <div class="tddiv rh-col3"><span>{{ req.path }}</span></div>
                     <div class="tddiv rh-col4"><span>{{ req.status }}</span></div>
                     <div class="tddiv rh-col5">
-                        <div tooltip="{{ req.sentData ? '' : 'YANGUI_HISTORY_NO_SEND_DATA_TT' | translate }}">
+                        <div tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ req.sentData ? '' : 'YANGUI_HISTORY_NO_SEND_DATA_TT' | translate }}">
                             <button class="btn btn-primary ng-scope btn-slim {{!req.sentData ? 'disabled' : ''}}" ng-click='showShistoryData()'>
                                 {{ 'YANGUI_HISTORY_SEND_DATA' | translate }}
                             </button>
                         </div>
                     </div>
                     <div class="tddiv rh-col6">
-                        <div tooltip="{{ req.receivedData ? '' : 'YANGUI_HISTORY_NO_REC_DATA_TT' | translate }}">
+                        <div tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ req.receivedData ? '' : 'YANGUI_HISTORY_NO_REC_DATA_TT' | translate }}">
                             <button class="btn btn-primary ng-scope btn-slim {{!req.receivedData ? 'disabled' : ''}}" ng-click='showRhistoryData()'>
                                 {{ 'YANGUI_HISTORY_REC_DATA' | translate }}
                             </button>
@@ -33,20 +33,20 @@
                     </div>
                     <div class="tddiv rh-col7">
                         <div class="requestActions">
-                            <div class="inlineBlock" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                            <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ req.availability ? 'YANGUI_RUN' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
                                 <button ng-disabled="!req.availability" class="yangButton iconNext {{ req.availability ? '' : 'disabled' }}" ng-click="executeRequest()"></button>
                             </div>
 
-                            <div class="inlineBlock historyRequestBox" tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}">
+                            <div class="inlineBlock historyRequestBox" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_ADD_TO_COLLECTION' | translate }}">
                                 <div class="yangButton iconPlus inlineBlock" ng-click='showCollBox(req)'></div>
                             </div>
 
-                            <div class="inlineBlock" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
+                            <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ req.availability ? (req.receivedData || req.sentData) ? 'YANGUI_FILL_DATA_TT' : 'YANGUI_REC_SENT_DATA_ERROR_TT' : 'YANGUI_API_NA_ERROR_TT' | translate }}">
                                 <button class="yangButton iconFillData {{ req.availability && (req.receivedData || req.sentData) ? '' : 'disabled' }}" ng-disabled="!req.availability 
                                 || !(req.receivedData || req.sentData)" ng-click="fillRequest()"></button>
                             </div>
 
-                            <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'requestList')" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
+                            <button class="yangButton iconClose" ng-click="deleteRequestItem(req, 'requestList')" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_DELETE' | translate }}"></button>
                             
                         </div>
                     </div>
