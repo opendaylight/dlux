@@ -1,9 +1,9 @@
 var lrSnippet = require('connect-livereload')();
 var mountFolder = function (connect, dir) {
-    return connect.static(require('path').resolve(dir));
+  return connect.static(require('path').resolve(dir));
 };
 
-module.exports = function ( grunt ) {
+module.exports = function (grunt) {
 
   /**
    * Load required Grunt tasks. These are installed based on the versions listed
@@ -30,46 +30,46 @@ module.exports = function ( grunt ) {
   /**
    * Load in our build configuration file.
    */
-  var userConfig = require( './build.config.js' );
+  var userConfig = require('./build.config.js');
 
   var envConfig = {
 
-      replace: {
-          development: {
-              options: {
-                  patterns: [
-                      {
-                          json: grunt.file.readJSON('./config/development.json')
+    replace: {
+      development: {
+        options: {
+          patterns: [
+            {
+              json: grunt.file.readJSON('./config/development.json')
                       }
                   ]
-              },
-              files: [
-                  {
-                      expand: true,
-                      flatten: true,
-                      src: ['./config/env.module.js'],
-                      dest: 'src/common/config/'
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ['./config/env.module.js'],
+            dest: 'src/common/config/'
                   }
               ]
-          },
-          production: {
-              options: {
-                  patterns: [
-                      {
-                          json: grunt.file.readJSON('./config/production.json')
+      },
+      production: {
+        options: {
+          patterns: [
+            {
+              json: grunt.file.readJSON('./config/production.json')
                       }
                   ]
-              },
-              files: [
-                  {
-                      expand: true,
-                      flatten: true,
-                      src: ['./config/env.module.js'],
-                      dest: 'src/common/config/'
+        },
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ['./config/env.module.js'],
+            dest: 'src/common/config/'
                   }
               ]
-          }
       }
+    }
   }
 
   /**
@@ -89,8 +89,7 @@ module.exports = function ( grunt ) {
      * pairs are evaluated based on this very configuration object.
      */
     meta: {
-      banner:
-        '/**\n' +
+      banner: '/**\n' +
         ' * <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' * <%= pkg.homepage %>\n' +
         ' *\n' +
@@ -149,7 +148,7 @@ module.exports = function ( grunt ) {
       build_app_assets: {
         files: [
           {
-            src: [ '**' ],
+            src: ['**'],
             dest: '<%= build_dir %>/assets/',
             cwd: 'src/assets',
             expand: true
@@ -159,7 +158,7 @@ module.exports = function ( grunt ) {
       build_vendor_assets: {
         files: [
           {
-            src: [ '<%= vendor_files.assets %>' ],
+            src: ['<%= vendor_files.assets %>'],
             dest: '<%= build_dir %>/assets/',
             cwd: '.',
             expand: true,
@@ -170,7 +169,7 @@ module.exports = function ( grunt ) {
       build_appjs: {
         files: [
           {
-            src: [ '<%= app_files.js %>', '<%= app_files.css %>', '<%= app_files.lang %>' ],
+            src: ['<%= app_files.js %>', '<%= app_files.css %>', '<%= app_files.lang %>'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -190,7 +189,7 @@ module.exports = function ( grunt ) {
       build_vendorjs: {
         files: [
           {
-            src: [ '<%= vendor_files.js %>' ],
+            src: ['<%= vendor_files.js %>'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -200,7 +199,7 @@ module.exports = function ( grunt ) {
       build_appimages: {
         files: [
           {
-            src: [ '<%= app_files.images %>' ],
+            src: ['<%= app_files.images %>'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -210,7 +209,7 @@ module.exports = function ( grunt ) {
       build_vendorimages: {
         files: [
           {
-            src: [ '<%= vendor_files.images %>' ],
+            src: ['<%= vendor_files.images %>'],
             dest: '<%= build_dir %>/',
             cwd: '.',
             expand: true
@@ -220,7 +219,7 @@ module.exports = function ( grunt ) {
       build_vendorcss: {
         files: [
           {
-            src: [ '<%= vendor_files.css %>' ],
+            src: ['<%= vendor_files.css %>'],
             dest: '<%= build_dir %>',
             cwd: '.',
             expand: true
@@ -230,7 +229,7 @@ module.exports = function ( grunt ) {
       compile_assets: {
         files: [
           {
-            src: [ '**' ],
+            src: ['**'],
             dest: '<%= compile_dir %>/assets',
             cwd: '<%= build_dir %>/assets',
             expand: true
@@ -241,7 +240,7 @@ module.exports = function ( grunt ) {
       compile_font: {
         files: [
           {
-            src: [ '**' ],
+            src: ['**'],
             dest: '<%= compile_dir %>/font',
             cwd: '<%= build_dir %>/font',
             expand: true
@@ -291,12 +290,12 @@ module.exports = function ( grunt ) {
      */
     ngAnnotate: {
       options: {
-        singleQuotes:true
+        singleQuotes: true
       },
       app: {
         files: [
           {
-            src: [ '<%= app_files.js %>' ],
+            src: ['<%= app_files.js %>'],
             cwd: '<%= build_dir %>',
             dest: '<%= build_dir %>',
             expand: true
@@ -319,35 +318,35 @@ module.exports = function ( grunt ) {
       }
     },
 
-      /**
-       * `less` less plugin handles the LESS compilation and minification automatically
-       * this has been changed to the LESS plugin from recess plugin above because of
-       * out of memory issues with the original plugin.
-       */
+    /**
+     * `less` less plugin handles the LESS compilation and minification automatically
+     * this has been changed to the LESS plugin from recess plugin above because of
+     * out of memory issues with the original plugin.
+     */
 
-      less: {
-          development: {
-              options: {
-                  paths: ["assets/css"],
-                  compress: false,
-                  syncImport: true,
-                  strictImports: true
-              },
-              files: {
-                  '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
-                  }
-          },
-          production: {
-              options: {
-                  paths: ["assets/css"],
-                  compress: true,
-                  cleancss: true
-              },
-              files: {
-                  '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
-              }
-          }
+    less: {
+      development: {
+        options: {
+          paths: ["assets/css"],
+          compress: false,
+          syncImport: true,
+          strictImports: true
+        },
+        files: {
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
+        }
       },
+      production: {
+        options: {
+          paths: ["assets/css"],
+          compress: true,
+          cleancss: true
+        },
+        files: {
+          '<%= build_dir %>/assets/<%= pkg.name %>-<%= pkg.version %>.css': '<%= app_files.less %>'
+        }
+      }
+    },
 
     /**
      * `jshint` defines the rules of our linter as well as which files we
@@ -395,7 +394,7 @@ module.exports = function ( grunt ) {
         options: {
           base: 'src/app'
         },
-        src: [ '<%= app_files.atpl %>' ],
+        src: ['<%= app_files.atpl %>'],
         dest: '<%= build_dir %>/templates-app.js'
       },
 
@@ -406,7 +405,7 @@ module.exports = function ( grunt ) {
         options: {
           base: 'src/common'
         },
-        src: [ '<%= app_files.ctpl %>' ],
+        src: ['<%= app_files.ctpl %>'],
         dest: '<%= build_dir %>/templates-common.js'
       }
     },
@@ -483,7 +482,7 @@ module.exports = function ( grunt ) {
         ]
       }
     },
-     connect: {
+    connect: {
       livereload: {
         options: {
           port: 9000,
@@ -546,7 +545,7 @@ module.exports = function ( grunt ) {
        */
       gruntfile: {
         files: 'OriginalGruntfile.js',
-        tasks: [ 'jshint:gruntfile' ],
+        tasks: ['jshint:gruntfile'],
         options: {
           livereload: false
         }
@@ -560,7 +559,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.js %>', '<%= app_files.lang %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
+        tasks: ['jshint:src', 'karma:unit:run', 'copy:build_appjs']
       },
 
       /**
@@ -571,15 +570,15 @@ module.exports = function ( grunt ) {
         files: [
           'src/assets/**/*'
         ],
-        tasks: [ 'copy:build_app_assets' ]
+        tasks: ['copy:build_app_assets']
       },
 
       /**
        * When index.html changes, we need to compile it.
        */
       html: {
-        files: [ '<%= app_files.html %>' ],
-        tasks: [ 'index:build' ]
+        files: ['<%= app_files.html %>'],
+        tasks: ['index:build']
       },
 
       /**
@@ -590,15 +589,15 @@ module.exports = function ( grunt ) {
           '<%= app_files.atpl %>',
           '<%= app_files.ctpl %>'
         ],
-        tasks: ['copy:copy_template']/*[ 'html2js' ]*/
+        tasks: ['copy:copy_template'] /*[ 'html2js' ]*/
       },
 
       /**
        * When the CSS files change, we need to compile and minify them.
        */
       less: {
-        files: [ 'src/**/*.less' ],
-        tasks: [ 'less:development' ]
+        files: ['src/**/*.less'],
+        tasks: ['less:development']
       },
 
       /**
@@ -609,20 +608,20 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.jsunit %>'
         ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
+        tasks: ['jshint:test', 'karma:unit:run'],
         options: {
           livereload: false
         }
       }
     },
-    shell : {
+    shell: {
       requirejs: {
         command: "node node_modules/requirejs/bin/r.js -o optimize.js"
       }
     }
   };
 
-  grunt.initConfig( grunt.util._.extend( taskConfig, userConfig, envConfig ) );
+  grunt.initConfig(grunt.util._.extend(taskConfig, userConfig, envConfig));
 
   /**
    * In order to make it safe to just compile or copy *only* what was changed,
@@ -631,47 +630,47 @@ module.exports = function ( grunt ) {
    * `delta`) and then add a new task called `watch` that does a clean build
    * before watching for changes.
    */
-  grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
+  grunt.renameTask('watch', 'delta');
+  grunt.registerTask('watch', ['build', 'karma:unit', 'delta']);
 
   grunt.registerTask('live', ['build', 'connect:dev', 'delta']);
   /**
    * The default task is to build and compile.
    */
-  grunt.registerTask( 'default', [ 'compile' ] );
+  grunt.registerTask('default', ['compile']);
 
   /**
    * The `build` task gets your app ready to run for development and testing.
    */
-  grunt.registerTask( 'common', [
+  grunt.registerTask('common', [
       'clean', 'html2js', 'jshint', 'concat:build_css', 'less:development',
       'copy:build_app_assets', 'copy:build_vendor_assets',
       'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_appimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
   ]);
 
-  grunt.registerTask( 'build', ['replace:development', 'common', 'karma:continuous']);
+  grunt.registerTask('build', ['replace:development', 'common' /*, 'karma:continuous'*/ ]);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', ['replace:production', 'common', 'karma:continuous', 'ngAnnotate', 'shell:requirejs']);
+  grunt.registerTask('compile', ['replace:production', 'common', 'karma:continuous', 'ngAnnotate', 'shell:requirejs']);
 
   /**
    * A utility function to get all app JavaScript sources.
    */
-  function filterForJS ( files ) {
-    return files.filter( function ( file ) {
-      return file.match( /\.js$/ );
+  function filterForJS(files) {
+    return files.filter(function (file) {
+      return file.match(/\.js$/);
     });
   }
 
   /**
    * A utility function to get all app CSS sources.
    */
-  function filterForCSS ( files ) {
-    return files.filter( function ( file ) {
-      return file.match( /\.css$/ );
+  function filterForCSS(files) {
+    return files.filter(function (file) {
+      return file.match(/\.css$/);
     });
   }
 
@@ -681,22 +680,22 @@ module.exports = function ( grunt ) {
    * the list into variables for the template to use and then runs the
    * compilation.
    */
-  grunt.registerMultiTask( 'index', 'Process index.html template', function () {
-    var dirRE = new RegExp( '^('+grunt.config('build_dir')+'|'+grunt.config('compile_dir')+')\/', 'g' );
-    var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+  grunt.registerMultiTask('index', 'Process index.html template', function () {
+    var dirRE = new RegExp('^(' + grunt.config('build_dir') + '|' + grunt.config('compile_dir') + ')\/', 'g');
+    var jsFiles = filterForJS(this.filesSrc).map(function (file) {
+      return file.replace(dirRE, '');
     });
-    var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+    var cssFiles = filterForCSS(this.filesSrc).map(function (file) {
+      return file.replace(dirRE, '');
     });
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
+      process: function (contents, path) {
+        return grunt.template.process(contents, {
           data: {
             scripts: jsFiles,
             styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
+            version: grunt.config('pkg.version')
           }
         });
       }
@@ -708,12 +707,12 @@ module.exports = function ( grunt ) {
    * run, we use grunt to manage the list for us. The `karma/*` files are
    * compiled as grunt templates for use by Karma. Yay!
    */
-  grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
-    var jsFiles = filterForJS( this.filesSrc );
+  grunt.registerMultiTask('karmaconfig', 'Process karma config templates', function () {
+    var jsFiles = filterForJS(this.filesSrc);
 
-    grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', {
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
+    grunt.file.copy('karma/karma-unit.tpl.js', grunt.config('build_dir') + '/karma-unit.js', {
+      process: function (contents, path) {
+        return grunt.template.process(contents, {
           data: {
             scripts: jsFiles
           }

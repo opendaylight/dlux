@@ -41,6 +41,7 @@
     <module>loader-resources</module>
     <module>connection_manager-resources</module>
     <module>core-resources</module>
+    <module>view-resources</module>
     <module>common-topbar-resources</module>
   </modules>
 

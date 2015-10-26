@@ -1,19 +1,14 @@
-<a href="{{item.link}}" ng-if="isValid(item.submenu)" target="_self" ng-click="updateTemplate($event, item)">
-    <i class="{{item.icon}}"></i>
-    {{item.title | translate}}
-    <span ng-show="isValid(item.submenu)" class="arrow icon-angle-down"></span>
+<a href="{{item.href}}" ng-if="item.submenu.length > 0" target="_self" ng-click="updateTemplate($event, item)">
+  <i class="{{item.icon}}"></i> {{item.title | translate}}
+  <span ng-show="item.submenu.length > 0" class="arrow icon-angle-down"></span>
 </a>
-<a href="{{item.link}}" target="_self" ng-if="!isValid(item.submenu)">
-    <i class="{{item.icon}}"></i>
-    {{item.title | translate}}
+<a href="{{item.href}}" target="_self" ng-if="item.submenu.length === 0">
+  <i class="{{item.icon}}"></i> {{item.title | translate}}
 </a>
 
 <ul class="nav nav-second-level collapse" style="display: {{display}}">
 
-  <li ng-class="{ active: (isState(item.active) && !isValid(item.submenu)) }" ng-controller="navItemCtrl" ng-repeat="item in item.submenu"
-        ng-include="'src/common/navigation/nav_item_template.tpl.html'">
+  <li ng-class="{ active: (isState(item.active)) }" ng-controller="navItemCtrl" ng-repeat="item in item.submenu" ng-include="'src/common/navigation/nav_item_template.tpl.html'">
 
-    </li>
-
-
+  </li>
 </ul>

@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-sm-4">
+    <input type="text" class="trans-input" ng-model="newViewName" placeholder="New View Name Here" />
+  </div>
+  <div class="col-sm-4">
+    <h3 style="text-align:center;">DLUX Module</h3>
+  </div>
+  <div class="col-sm-4">
+    <h3 style="text-align:center;">DLUX Views</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <div id="NewViewContainer" class="dlux-view-container">
+      <div ng-repeat="module in newViewModule" post-repeat="dluxNewModuleLoaded">
+        <i class="icon-remove" ng-click="removeFromView(module.id)"></i>
+        <h4>{{module.name}}</h4>
+        <p style="color:white;">Lorem ipsum dolar it amet</p>
+      </div>
+    </div>
+    <button class="btn btn-orange btn-slim" ng-click="saveView()" ng-disabled="newViewName.length === 0">Save</button>
+  </div>
+  <div class="col-sm-4">
+    <div id="DluxModuleContainer" class="dlux-view-container">
+      <div ng-repeat="module in dluxModules" post-repeat="dluxModuleLoaded" data-id="{{module.id}}">
+        <i class="icon-plus" ng-click="addToView(module.id)"></i>
+        <h4>{{module.name}}</h4>
+        <p style="color:white;">Lorem ipsum dolar it amet</p>
+      </div>
+    </div>
+    <button class="btn btn-orange btn-slim" ng-click="resetModule()">Reset</button>
+  </div>
+  <div class="col-sm-4">
+    <div id="DluxViewContainer" class="dlux-view-container">
+      <div ng-repeat="view in dluxViews" post-repeat="viewLoaded">
+        <i class="icon-remove" ng-click="deleteView(view.id)"></i>
+        <h4 style="text-align:center;">{{view.name}}</h4>
+      </div>
+    </div>
+  </div>
+</div>
