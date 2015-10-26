@@ -2,12 +2,31 @@ define(['underscore'], function (_) {
   'use strict';
 
   /** @ignore */
-  var idIncrement = 0;
+  var idIncrement = 0,
+    focusId = -1;
 
   /** @ignore */
   function getNextId() {
     return (idIncrement += 1);
   }
+
+  // private module use to get
+  // arguments from a stringify function
+  var Reflection = (function(Reflect) {
+    var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg,
+      ARGUMENT_NAMES = /([^\s,]+)/g;
+
+    Reflect.getFuncParamNames = function(func) {
+      var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+      var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+      if(result === null) {
+        result = [];
+      }
+      return result;
+    };
+
+    return Reflect;
+  })({});
 
   var DLUXModule = (function () {
     /** @lends DLUX.Module */
@@ -109,8 +128,41 @@ define(['underscore'], function (_) {
      * @param {String} name controller name
      * @param {Function} cb   the callback function
      */
-    DLUXModule.prototype.config = function (name, cb) {
-      this.ng.config(name, cb);
+    DLUXModule.prototype.config = function (cb) {
+      var self = this;
+
+
+
+      function invoke(cb) {
+        if (_.isArray(cb)) {
+          // find the function and extend it
+          // objects dependency already provided only have to foward those.
+          _.each(cb, function (elem, index) {
+            if (_.isFunction(elem)) {
+              var fn = elem;
+              cb[index] = function () {
+                focusId = self.id;
+                fn.apply(self, arguments);
+              };
+            }
+          });
+        } else {
+          // for anonymous function, get parameters name
+          // to inject them with angular $injector
+          var fn = cb;
+          var args = Reflection.getFuncParamNames(cb);
+          cb = ['$injector', function($injector) {
+            args = args.map(function(a) {
+              return $injector.get(a);
+            });
+            fn.apply(self.ng, args);
+          }];
+          focusId = self.id;
+        }
+        return cb;
+      }
+
+      this.ng.config(invoke(cb));
     };
 
     /**
@@ -118,8 +170,8 @@ define(['underscore'], function (_) {
      * @param {String} name controller name
      * @param {Function} cb   the callback function
      */
-    DLUXModule.prototype.run = function (name, cb) {
-      this.ng.run(name, cb);
+    DLUXModule.prototype.run = function (cb) {
+      this.ng.run(cb);
     };
 
     return DLUXModule;
@@ -407,6 +459,25 @@ define(['underscore'], function (_) {
       return _.filter(modules, function (m) {
         return !m.internal;
       });
+    };
+
+    /**
+     * @memberof DLUX
+     * @returns {DLUX.Module} the DLUXModule according to the id
+     * @see {@link DLUX.Module}
+     */
+    DLUX.getModuleById = function(id) {
+      return _.find(modules, function(m) {
+        return m.id === id;
+      });
+    };
+
+    /**
+     * @memberof DLUX
+     * @returns {Number} processed module id
+     */
+    DLUX.getProcessedModule = function() {
+      return focusId;
     };
 
     /**

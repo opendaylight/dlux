@@ -25,6 +25,7 @@
   </prerequisites>
   <modules>
     <module>core</module>
+    <module>view</module>
     <module>navigation</module>
     <module>topbar</module>
     <module>layout</module>

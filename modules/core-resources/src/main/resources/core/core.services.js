@@ -126,7 +126,10 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
       };
 
       // TODO: Multiple lvl support for module linking
-      this.addToMenu = function (depth, obj, module) {
+      this.addToMenu = function (depth, obj) {
+        var moduleId = DLUX.getProcessedModule(),
+          module = DLUX.getModuleById(moduleId);
+
         var menuItem = setMenuItems(depth, obj);
         if (module) {
           menuItem.linkedModule = module;
@@ -145,7 +148,7 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
 
     return persistentProvider;
 
-   });
+  });
 
   core.provider('ContentHelper', function() {
     var ids = [];

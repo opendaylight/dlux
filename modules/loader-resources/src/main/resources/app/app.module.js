@@ -18,6 +18,7 @@ var module = [
 
 var deps = [
   'app/core/core.module',
+  'app/view/view.module',
   'app/node/nodes.module',
   'app/topology/topology.module',
   'common/login/login.module',
@@ -38,6 +39,7 @@ var e = [
   'ngSanitize',
   'angular.css.injector',
   'app',
+  'app.view',
   'app.nodes',
   'app.topology',
   'app.common.login',

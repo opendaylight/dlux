@@ -28,6 +28,10 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.topology/${project.version}</bundle>
     </feature>
 
+    <feature name="odl-dlux-view-system" version='${project.version}' description="Enable view system in Opendaylight dlux">
+      <feature>odl-dlux-core</feature>
+      <bundle>mvn:org.opendaylight.dlux/dlux.view/${project.version}</bundle>
+    </feature>
 
     <feature name="odl-dlux-node" version='${project.version}' description="Enable nodes in Opendaylight dlux">
         <feature>odl-dlux-core</feature>

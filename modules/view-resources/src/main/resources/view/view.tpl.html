@@ -1,0 +1,15 @@
+<div id="ViewsMgr" class="container" style="position:relative; width:inherit; margin-bottom:15px;" ng-controller="ViewCtrl">
+  <div id="ViewContainer" class="row" style="margin-top:5px;">
+    <div ng-repeat="view in views">
+      <div ng-if="$index % 4 == 0" class="clearfix"></div>
+      <div class="col-sm-3">
+        <button data-toggle="tooltip" data-placement="bottom" title="{{view.name}}" class="btn btn-orange btn-slim" ng-click="changeView()">{{$index + 1}}</button>
+      </div>
+      <div ng-if="(($index % 4 == 0) && $last && $last > 1)" class="clearfix"></div>
+      <div class="col-sm-3" ng-if="$last">
+        <button data-toggle="tooltip" data-placement="bottom" title="View Manager"" class="btn btn-orange btn-slim" ng-click="createView()"><i class="icon-wrench"></i> </button>
+      </div>
+    </div>
+  </div>
+  <i ng-class="visible ? 'icon-angle-up' : 'icon-angle-down'" ng-click="toggleViewMgr()" style="position:absolute; font-size: 1.2em; top:0; right:0; color:white; cursor:pointer; margin-right:5px; margin-bottom: -15px;"></i>
+</div>

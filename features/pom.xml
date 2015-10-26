@@ -48,6 +48,11 @@
       </dependency>
       <dependency>
           <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.view</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
           <artifactId>dlux.common.layout</artifactId>
           <version>${project.version}</version>
       </dependency>

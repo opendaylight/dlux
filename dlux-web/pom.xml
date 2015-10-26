@@ -89,6 +89,11 @@
       </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.view.resources</artifactId>
+        <version>${view.resources.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.topbar.resources</artifactId>
         <version>${common.topbar.resources.version}</version>
       </dependency>
@@ -124,7 +129,7 @@
                   <include>app/yangvisualizer/</include>
                   <include>app/topology/</include>
                   <include>app/core/</include>
-                  <include>app/graph/</include>
+                  <include>app/view/</include>
                   <include>common/yangutils/</include>
                   <include>common/sigmatopology/</include>
                   <include>common/navigation/</include>
@@ -157,7 +162,12 @@
                 <outputDirectory>${project.basedir}/src/app/</outputDirectory>
                 <groupId>org.opendaylight.dlux</groupId>
                 <includeArtifactIds>
-                  dlux.node.resources, dlux.yangui.resources, dlux.yangvisualizer.resources, dlux.topology.resources, dlux.core.resources,
+                  dlux.node.resources,
+                  dlux.yangui.resources,
+                  dlux.yangvisualizer.resources,
+                  dlux.topology.resources,
+                  dlux.view.resources,
+                  dlux.core.resources,
                 </includeArtifactIds>
                 <excludes>META-INF\/**</excludes>
                 <excludeTransitive>true</excludeTransitive>
