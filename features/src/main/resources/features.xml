@@ -19,6 +19,7 @@
         <bundle>mvn:org.opendaylight.dlux/loader/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/loader.implementation/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.core/${project.version}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.view/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.login/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.authentication/${project.version}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.navigation/${project.version}</bundle>

@@ -1,33 +1,33 @@
-define(['app/core/core.module', 'jquery'], function(core, $) {
+define(['app/core/core.module', 'DLUX', 'jquery', 'underscore'], function (core, DLUX, $, _) {
   core.provider('TopBarHelper', function TopBarHelperProvider() {
     var ids = [];
     var ctrls = [];
 
-    this.addToView = function(url) {
-        $.ajax({
-          url : url,
-          method: 'GET',
-          async : false
-        }).done(function(data) {
-          ids.push(data);
-        });
+    this.addToView = function (url) {
+      $.ajax({
+        url: url,
+        method: 'GET',
+        async: false
+      }).done(function (data) {
+        ids.push(data);
+      });
     };
 
-    this.getViews = function() {
+    this.getViews = function () {
       var template = "";
 
-      for(var i = 0; i < ids.length; ++i) {
+      for (var i = 0; i < ids.length; ++i) {
         template += ids[i];
       }
 
       return template;
     };
 
-    this.addControllerUrl = function(url) {
+    this.addControllerUrl = function (url) {
       ctrls.push(url);
     };
 
-    this.getControllers = function() {
+    this.getControllers = function () {
       return ctrls;
     };
 
@@ -37,48 +37,48 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
 
   });
 
-  core.provider('NavHelper', function() {
-    var ids = [];
-    var ctrls = [];
-    var menu = [];
+  core.provider('NavHelper', function () {
+    var ids = [],
+      ctrls = [],
+      menu = new DLUX.Menu('Navigation Menu');
 
     function NavHelperProvider() {
-      this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
+      this.addToView = function (url) {
+        $.ajax({
+          url: url,
+          method: 'GET',
+          async: false
+        }).done(function (data) {
+          ids.push(data);
+        });
       };
 
-      this.getViews = function() {
+      this.getViews = function () {
         var template = "";
 
-        for(var i = 0; i < ids.length; ++i) {
+        for (var i = 0; i < ids.length; ++i) {
           template += ids[i];
         }
 
         return template;
       };
 
-      this.addControllerUrl = function(url) {
+      this.addControllerUrl = function (url) {
         ctrls.push(url);
       };
 
-      this.getControllers = function() {
+      this.getControllers = function () {
         return ctrls;
       };
 
-      getMenuWithId = function(menu, level) {
-        if(menu === undefined) {
+      getMenuWithId = function (menu, level) {
+        if (menu === undefined) {
           return null;
         }
         var currentLevel = level[0];
 
-        var menuItem = $.grep(menu, function(item) {
-          return item.id == currentLevel;
+        var menuItem = $.grep(menu, function (item) {
+          return item.depth == currentLevel;
         })[0];
 
         if (level.length === 1) {
@@ -88,37 +88,54 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         }
       };
 
-      this.addToMenu = function(id, obj) {
-        var lvl = id.split(".");
-        obj["id"] = lvl.pop();
-
-        if (lvl.length === 0) {
-          menu.push(obj);
+      createDLUXMenuItem = function (obj) {
+        if (obj) {
+          return new DLUX.MenuItem(obj.depth, obj.title, obj.href, obj.icon, obj.active, obj.page);
         } else {
-          var menuItem = getMenuWithId(menu, lvl);
-
-        if(menuItem) {
-          if(!menuItem.submenu) {
-            menuItem.submenu = [];
-          }
-          menuItem.submenu.push(obj);
-        } else {
-           var submenu = {
-              "id" : lvl[0],
-              "title" : lvl[0],
-              "active" : "",
-              "submenu" : [obj]
-            };
-            menu.push(submenu);
-          }
+          return null;
         }
       };
 
-      this.getMenu = function() {
-        return menu;
+      setMenuItems = function (depth, obj) {
+        var lvl = depth.split("."),
+          menuItem = null;
+        obj["depth"] = lvl.pop();
+
+        if (lvl.length === 0) {
+          menuItem = createDLUXMenuItem(obj);
+          menu.addMenuItem(menuItem);
+        } else {
+          menuItem = getMenuWithId(menu.items, lvl);
+
+          if (menuItem) {
+            menuItem.submenu.push(createDLUXMenuItem(obj));
+          } else {
+            menuItem = new DLUX.MenuItem(
+              lvl[0],
+              lvl[0],
+              '',
+              '',
+              '', {}, [obj]
+            );
+            menu.addMenuItem(menuItem);
+          }
+        }
+        return menuItem;
       };
 
-      this.$get =  function NavHelperFactory() {
+      // TODO: Multiple lvl support for module linking
+      this.addToMenu = function (depth, obj, module) {
+        var menuItem = setMenuItems(depth, obj);
+        if (module) {
+          menuItem.linkedModule = module;
+        }
+      };
+
+      this.getMenu = function () {
+        return menu.items;
+      };
+
+      this.$get = function NavHelperFactory() {
         return new NavHelperProvider();
       };
     }
@@ -126,42 +143,42 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
 
     return persistentProvider;
 
-   });
+  });
 
-  core.provider('ContentHelper', function() {
+  core.provider('ContentHelper', function () {
     var ids = [];
     var ctrls = [];
 
     function ContentHelperProvider() {
-      this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
+      this.addToView = function (url) {
+        $.ajax({
+          url: url,
+          method: 'GET',
+          async: false
+        }).done(function (data) {
+          ids.push(data);
+        });
       };
 
-      this.getViews = function() {
+      this.getViews = function () {
         var template = "";
 
-        for(var i = 0; i < ids.length; ++i) {
+        for (var i = 0; i < ids.length; ++i) {
           template += ids[i];
         }
 
         return template;
       };
 
-      this.addControllerUrl = function(url) {
+      this.addControllerUrl = function (url) {
         ctrls.push(url);
       };
 
-      this.getControllers = function() {
+      this.getControllers = function () {
         return ctrls;
       };
 
-      this.$get =  function ContentHelperFactory() {
+      this.$get = function ContentHelperFactory() {
         return new ContentHelperProvider();
       };
     }
@@ -169,5 +186,5 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
 
     return persistentProvider;
 
-   });
+  });
 });
