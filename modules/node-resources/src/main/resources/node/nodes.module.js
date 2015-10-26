@@ -6,29 +6,29 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
 
-define(['angularAMD', 'app/routingConfig', 'Restangular', 'angular-translate', 'angular-translate-loader-static-files', 'app/core/core.services', 'common/config/env.module'], function(ng) {
+define(['angularAMD', 'app/routingConfig', 'Restangular', 'angular-translate', 'angular-translate-loader-static-files', 'app/core/core.services', 'common/config/env.module'], function (ng) {
   var nodes = angular.module('app.nodes', ['app.core', 'pascalprecht.translate', 'ui.router.state', 'restangular', 'config']);
 
   nodes.config(function($stateProvider, NavHelperProvider, $translateProvider) {
 
     NavHelperProvider.addControllerUrl('app/node/nodes.controller');
     NavHelperProvider.addToMenu('nodes', {
-     "link" : "#/node/index",
-     "active" : "main.node.*",
-     "title" : "NODES",
-     "icon" : "icon-sitemap",
-     "page" : {
-        "title" : "NODES",
-        "description" : "NODES"
-     }
-    });
+      "link": "#/node/index",
+      "active": "main.node.*",
+      "title": "NODES",
+      "icon": "icon-sitemap",
+      "page": {
+        "title": "NODES",
+        "description": "NODES"
+      }
+    }, nodes);
 
     var access = routingConfig.accessLevels;
     $stateProvider.state('main.node', {
       url: 'node',
       abstract: true,
-      views : {
-        'content' : {
+      views: {
+        'content': {
           templateUrl: 'src/app/node/root.tpl.html',
           controller: 'rootNodeCtrl'
         }
