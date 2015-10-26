@@ -1,6 +1,6 @@
-    <div class="sidebar-collapse">
-    <ul id="side-menu" class="nav">
-        <!--
+<div class="sidebar-collapse">
+  <ul id="side-menu" class="nav">
+    <!--
 
         We don't need the side-search for now...
         <li class="sidebar-search">
@@ -12,13 +12,12 @@
                     </button>
                 </span>
             </div>
-        </li>          
-                   --> 
-        <li ng-class="{ active: (isState(item.active) && !isValid(item.submenu))}" ng-controller="navItemCtrl" ng-repeat="item in navList"
-            ng-include="'src/common/navigation/nav_item_template.tpl.html'" ng-type="{{item.id}}">
-
-
         </li>
+                   -->
+    <li ng-class="{ active: (isState(item.active))}" ng-controller="navItemCtrl" ng-repeat="item in navList" ng-include="'src/common/navigation/nav_item_template.tpl.html'" ng-type="{{item.depth}}" ng-show="(item.linkedModule) ? item.linkedModule.visible : true">
 
-    <ul>
+
+    </li>
+
+  </ul>
 </div>
