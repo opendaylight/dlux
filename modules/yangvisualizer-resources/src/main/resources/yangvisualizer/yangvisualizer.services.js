@@ -272,7 +272,6 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
 
     visualizerUtils.setDefaultSigmaValues = function(sigmaInstance, lastSelectedNode){
         var lsn = getNodeById(sigmaInstance.graph.nodes(), lastSelectedNode.id);
-            
 
         if ( edgesToClear ){
             var parentsEdgesArray = [],
@@ -286,6 +285,10 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
         }
 
         return lsn ? lsn : lastSelectedNode;
+    };
+
+    visualizerUtils.setEdgesToClear = function(value){
+        edgesToClear = value;
     };
 
     visualizerUtils.updateSelectedEdgesColors = function(edges, node){
@@ -332,6 +335,15 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
     visualizerUtils.getParentNodes = function(node){
         var parentsArray = [];
         return node ? getParentsByNode(node, parentsArray) : [];
+    };
+
+    visualizerUtils.testGettingData = function(cbk){
+        $http.get('/ahoj/cau').success(
+            function(data){
+                cbk(data);
+            }
+        );
+
     };
 
     visualizerUtils.getAllnodes = function(callback, errorCbk){
@@ -399,6 +411,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
         getMonochromeColors: getMonochromeColors,
         getMaxLvl: getMaxLvl
     };
+
+
 
     return visualizerUtils;
   });
