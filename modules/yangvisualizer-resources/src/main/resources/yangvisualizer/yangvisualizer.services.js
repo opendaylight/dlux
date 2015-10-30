@@ -16,8 +16,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
         edgesToClear = {node: {}, edges: []},
         monochromeColorsArray = [],
         colors = {
-            edges: '#856700',
-            monochrome: '#f39222',
+            edges: '#795548',
+            monochrome: '#607D8B',
             edgeParent: '#BE3E3B',
             edgeChild: '#3ea64d'
         },

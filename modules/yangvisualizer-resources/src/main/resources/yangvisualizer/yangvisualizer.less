@@ -1,7 +1,9 @@
 .yangVisualizerWrapper.col-xs-12{
   margin-bottom: 0px!important;
-  background: #000;
-  color: #f4f3f5;
+  /*background: #000;*/
+  background: @primaryTextColor;
+  /*color: #f4f3f5;*/
+  color: @lightPrimaryColor;
   height: 100%;
   padding: 0;
   position: relative;
@@ -17,7 +19,7 @@
     cursor: pointer;
   }
 
-  div.rightPanel{
+  /*div.rightPanel{
     background: #000;
     position: absolute;
     height: calc(~'100% - 143px');
@@ -83,27 +85,33 @@
         }
       }
     }
-  }
+  }*/
   div.main{
     top: 0;
   }
   div.topLine{
-    border-bottom: 1px solid #7e8083;
+    /*border-bottom: 1px solid #7e8083;*/
+    border-bottom: 1px solid @secondaryTextColor;
     line-height: 44px;
     padding-top: 10px;
     min-height: 100%;
     select{
       background: transparent;
-      color: #f4f3f5;
+      /*color: #f4f3f5;*/
+      color: @lightPrimaryColor;
       border: 0;
       option{
-        color: #000;
-        background: #fff;
+        /*color: #000;*/
+        color: @primaryTextColor;
+        /*background: #fff;*/
+        background: @textPrimaryColor;
       }
     }
   }
-  div.sigma{
+
+  .sigma{
     position: relative;
+
     div.viewNav{
       position: absolute;
       z-index: 1;
@@ -112,6 +120,7 @@
       &.margin-legend{
         margin-top: 40px;
       }
+
       ul.navWrapper{
         margin: 0;
         padding: 0;
@@ -120,16 +129,19 @@
           span{
             .transition(150ms);
             cursor: pointer;
-            color: #f4f3f5;
+            /*color: #f4f3f5;*/
+            color: @lightPrimaryColor;
             outline: 0 none;
             text-decoration: none;
             margin-left: 10px;
             &:hover, &.active{
-              color: #f6a000;
+              /*color: #f6a000;*/
+              color: @accentColor;
             }
           }
         }
       }
+
       div.legend{
         ul{
           padding: 0;
@@ -170,11 +182,13 @@
       }
     }
   }
+
   .yangVisualizer{
     .childrenForm{
-      color: #fff;
+      /*color: #fff;*/
+      color: @textPrimaryColor;
     }
-    .portlet{
+    /*.portlet{
       border: 1px solid orange;
       .title{
         padding: 5px 10px;
@@ -185,14 +199,17 @@
       .bodyWrapper{
         padding: 10px;
       }
-    }
+    }*/
   }
 
   .jslider_round.sliderCSS.jslider{
     .jslider-pointer{
-      border: 1px solid #88838A;
-      -webkit-box-shadow:inset 0 0 1px 1px #88838A;
-      box-shadow:inset 0 0 1px 1px #88838A;
+      /*border: 1px solid #88838A;*/
+      border: 1px solid @dividerColor;
+      /*-webkit-box-shadow:inset 0 0 1px 1px #88838A;*/
+      -webkit-box-shadow:inset 0 0 1px 1px @dividerColor;
+      /*box-shadow:inset 0 0 1px 1px #88838A;*/
+      box-shadow:inset 0 0 1px 1px @dividerColor;
     }
 
     .jslider-value{
@@ -204,7 +221,8 @@
     }
 
     .jslider-label{
-      color: #fff;
+      /*color: #fff;*/
+      color: @textPrimaryColor;
       .opacityDeph(1);
     }
   }
@@ -216,15 +234,189 @@
 
 
 
-#graph-container {
+/*#graph-container {
   min-height: 550px;
   height: 100%;
   background: #000;
-  /*width: 100%;*/
-}
+  /!*width: 100%;*!/
+}*/
 
 
 body{
   position: relative;
   overflow-x: hidden;
+}
+
+/* general classes */
+.md-autocomplete-suggestions{
+  li{
+    span{
+      color: @primaryTextColor;
+    }
+  }
+}
+
+.animate-hide {
+  transition: all linear 0.5s;
+  opacity: 1;
+}
+
+.animate-hide.ng-hide {
+  opacity: 0;
+}
+
+.md-default-theme{
+
+  h5, span, label{
+    color: @primaryTextColor;
+  }
+
+  md-slider .md-thumb-text{
+    /*color: #fff;*/
+    color: @textPrimaryColor;
+  }
+}
+
+md-tooltip.md-default-theme span{
+  /*color: #fff;*/
+  color: @textPrimaryColor;
+}
+
+
+.no-padding{
+  padding: 0!important;
+}
+
+.md-fab{
+  md-icon{
+    font-size: 20px;
+  }
+}
+
+.md-button.md-fab.md-xs{
+  line-height:30px;
+  width:35px;
+  height:30px
+}
+
+a.md-button.md-fab md-icon,
+.md-button.md-fab md-icon{
+  /*color: #fff;*/
+  color: @textPrimaryColor;
+}
+
+.md-button.md-primary.md-raised, {
+  margin: 0px;
+}
+
+md-chips{
+
+  &.md-chips-small{
+
+    .md-chips{
+      font-size: 14px;
+
+      .md-chip{
+        height: 28px;
+        line-height: 28px;
+        cursor: pointer;
+        &:hover,
+        &.active{
+          background: @primaryColor;
+          /*color: #fff;*/
+          color: @textPrimaryColor;
+        }
+      }
+    }
+  }
+}
+
+md-menu-item>.md-button span{
+    color: @primaryColor;
+}
+/* general classes end */
+
+.yangVisualizer{
+
+  /*general*/
+  *[class^="icon-"],*[class*=" icon-"]{
+    vertical-align: middle;
+  }
+  /*general - end*/
+
+  .topTooltipBar{
+    min-height: 105px;
+  }
+
+  md-progress-circular{
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -50px;
+    z-index: 1;
+  }
+
+  md-toast{
+
+    span{
+      /*color:#fff;*/
+      color:@textPrimaryColor;
+    }
+  }
+
+  .bottom-content{
+    min-height: 200px;
+  }
+
+  .right-panel{
+    position: relative;
+
+    .inner-content{
+      overflow-x: hidden;
+
+      .link{
+        padding: 3px;
+        /*background: #795548;*/
+        background: @accentColor;
+        /*color: #fff;*/
+        color: @textPrimaryColor;
+        .roundedCorners(14px);
+        .inlineBlock;
+        min-width: 25px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+
+    .button-panel{
+      position: absolute;
+      top: 10px;
+      left: -60px;
+    }
+  }
+
+  #graph-container {
+    min-height: 550px;
+    height: 100%;
+    background: transparent;
+    /*width: 100%;*/
+  }
+
+  .sigma{
+
+    md-chips{
+
+      &.inlineBlock{
+        vertical-align: middle;
+      }
+
+      .md-chips{
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+    }
+  }
+
 }
