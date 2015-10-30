@@ -102,8 +102,10 @@
       }
     }
   }
-  div.sigma{
+
+  .sigma{
     position: relative;
+
     div.viewNav{
       position: absolute;
       z-index: 1;
@@ -112,6 +114,7 @@
       &.margin-legend{
         margin-top: 40px;
       }
+
       ul.navWrapper{
         margin: 0;
         padding: 0;
@@ -130,6 +133,7 @@
           }
         }
       }
+
       div.legend{
         ul{
           padding: 0;
@@ -170,6 +174,7 @@
       }
     }
   }
+
   .yangVisualizer{
     .childrenForm{
       color: #fff;
@@ -216,15 +221,180 @@
 
 
 
-#graph-container {
+/*#graph-container {
   min-height: 550px;
   height: 100%;
   background: #000;
-  /*width: 100%;*/
-}
+  /!*width: 100%;*!/
+}*/
 
 
 body{
   position: relative;
   overflow-x: hidden;
+}
+
+/* general classes */
+.md-autocomplete-suggestions{
+  li{
+    span{
+      color: @primaryTextColor;
+    }
+  }
+}
+
+.animate-hide {
+  transition: all linear 0.5s;
+  opacity: 1;
+}
+
+.animate-hide.ng-hide {
+  opacity: 0;
+}
+
+.md-default-theme{
+
+  h5, span, label{
+    color: @primaryTextColor;
+  }
+
+  md-slider .md-thumb-text{
+    color: #fff;
+  }
+}
+
+md-tooltip.md-default-theme span{
+  color: #fff;
+}
+
+
+.no-padding{
+  padding: 0!important;
+}
+
+.md-fab{
+  md-icon{
+    font-size: 20px;
+  }
+}
+
+.md-button.md-fab.md-xs{
+  line-height:30px;
+  width:35px;
+  height:30px
+}
+
+a.md-button.md-fab md-icon,
+.md-button.md-fab md-icon{
+  color: #fff;
+}
+
+.md-button.md-primary.md-raised, {
+  margin: 0px;
+}
+
+md-chips{
+
+  &.md-chips-small{
+
+    .md-chips{
+      font-size: 14px;
+
+      .md-chip{
+        height: 28px;
+        line-height: 28px;
+        cursor: pointer;
+
+        &:hover,
+        &.active{
+          background: @primaryColor;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+/* general classes end */
+
+.yangVisualizer{
+
+  /*general*/
+  *[class^="icon-"],*[class*=" icon-"]{
+    vertical-align: middle;
+  }
+  /*general - end*/
+
+  .topTooltipBar{
+    min-height: 105px;
+  }
+
+  md-progress-circular{
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -50px;
+    z-index: 1;
+  }
+
+  md-toast{
+
+    span{
+      color:#fff;
+    }
+  }
+
+  .bottom-content{
+    min-height: 200px;
+  }
+
+  .right-panel{
+    position: relative;
+
+    .inner-content{
+      overflow-x: hidden;
+
+      .link{
+        padding: 3px;
+        background: #795548;
+        color: #fff;
+        .roundedCorners(14px);
+        .inlineBlock;
+        min-width: 25px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+
+    .button-panel{
+      position: absolute;
+      top: 10px;
+      left: -60px;
+    }
+  }
+
+  #graph-container {
+    min-height: 550px;
+    height: 100%;
+    background: transparent;
+    /*width: 100%;*/
+  }
+
+  .sigma{
+
+    md-chips{
+
+      &.inlineBlock{
+        vertical-align: middle;
+      }
+
+      .md-chips{
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+    }
+  }
+
 }

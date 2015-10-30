@@ -25,13 +25,14 @@
   "YANGVISUALIZER_TD_REVISION": "Revision",
   "YANGVISUALIZER_LABEL_CHILD_NODE": "Children nodes",
   "YANGVISUALIZER_LABEL_PAR_NODE": "Path to root",
-  "YANGVISUALIZER_SHOW_ALL" : "Display all labels",
+  "YANGVISUALIZER_SHOW_ALL" : "display all labels",
   "YANGVISUALIZER_SAVE_MODEL": "save model layout",
   "YANGVISUALIZER_LOAD_MODEL" : "load model layout",
   "YANGVISUALIZER_RESET_MODEL" : "reset model layout",
   "YANGVISUALIZER_SHOW_WHOLE_MODEL" : "Show whole model",
   "YANGVISUALIZER_BTN_BACK" : "Back",
   "YANGVISUALIZER_BTN_TT_HIGHLIGHT_TYPE" : "Highlight specific type of nodes",
-  "YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE" : "Remove highlighting of specific type of nodes"
+  "YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE" : "Remove highlighting of specific type of nodes",
+  "YANGVISUALIZER_SELECT_NO_SELECTED" : "No selected ..."
 
 }
