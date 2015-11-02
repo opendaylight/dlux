@@ -1,33 +1,305 @@
-<div class="yangVisualizer ">
-    <div class="topLine col-md-12">
-      <div class="clearfix">
-        <div class="col-md-2">{{ 'YANGVISUALIZER_MODEL' | translate }} :</div>
-        <div class="col-md-4">
-          <select ng-model="currentTopologyNode" ng-change="updateTopologyData(null, true)" ng-options="node.label for node in filteredNodes | orderBy:'label'">
-            <option value="">-</option>
-          </select>
+<div class="yangVisualizer">
+
+    <md-content class="md-padding">
+
+        <md-whiteframe md-toolbar layout="row" class="topTooltipBar md-whiteframe-2dp md-primary md-padding clearfix" layout-wrap>
+            <md-progress-circular class="animate-hide" ng-show="modulesLoadingStatus" md-mode="indeterminate" md-diameter="60"></md-progress-circular>
+
+            <div class="col-md-4 clearfix" ng-controller="selectCtrl">
+                <label class="col-md-12 no-padding">Select Yang model</label>
+                <md-autocomplete class="col-md-12 no-padding"
+                                 ng-disabled="selectDisabled"
+                                 md-selected-item="currentTopologyNode"
+                                 md-search-text-change="searchTextChange(selectSearchText)"
+                                 md-search-text="selectSearchText"
+                                 md-selected-item-change="selectedItemChange(node, 'selectCurrentNode')"
+                                 md-items="node in querySearch(selectSearchText) | orderBy:'label'"
+                                 md-item-text="node.label"
+                                 md-min-length="0"
+                                 placeholder="{{'YANGVISUALIZER_SELECT_NO_SELECTED' | translate}}">
+                    <md-item-template>
+                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{node.label}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No states matching "{{ctrl.searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
+            </div>
+
+            <div class="col-md-4">
+                <label class="col-md-12">Select depth of shown model</label>
+                <md-slider class="default col-md-12" md-discrete ng-model="sliderValue" step="1" min="1" max="{{sliderSettings.to}}" aria-label="rating"></md-slider>
+            </div>
+
+            <div class="col-md-4" layout layout-align="start center">
+                <md-menu>
+                    <md-button class="md-fab" ng-disabled="!currentTopologyNode" ng-click="$mdOpenMenu($event)" aria-label="More layout actions">
+                        <md-icon md-font-icon="icon-reorder"></md-icon>
+                        <md-tooltip md-direction="right">
+                            More actions
+                        </md-tooltip>
+                    </md-button>
+                    <md-menu-content width="4" ng-controller="layoutCtrl">
+                        <md-menu-item>
+                            <md-button ng-click="saveLayout()">
+                                <md-icon md-font-icon="icon-save"></md-icon>
+                                <span md-menu-align-target>{{ 'YANGVISUALIZER_SAVE_MODEL' | translate }}</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="loadLayout()">
+                                <md-icon md-font-icon="icon-upload-alt"></md-icon>
+                                <span md-menu-align-target>{{ 'YANGVISUALIZER_LOAD_MODEL' | translate }}</span>
+                            </md-button>
+                        </md-menu-item>
+
+                        <md-menu-item>
+                            <md-button ng-click="resetLayout()">
+                                <md-icon md-font-icon="icon-refresh"></md-icon>
+                                <span md-menu-align-target>{{ 'YANGVISUALIZER_RESET_MODEL' | translate }}</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+
+        </md-whiteframe>
+
+        <div layout="row" class="bottom-content" layout-wrap>
+            <md-whiteframe flex="{{panel[panel.view].left}}" class="md-whiteframe-2dp md-padding sigma">
+                <div class="viewNav clearfix">
+                    <label>{{ 'YANGVISUALIZER_LABEL_VIEW' | translate }} :</label>
+
+                    <md-chips class="inlineBlock md-chips-small">
+                        <md-chip class="active" ng-click="setColorScheme($event,'default')">{{ 'YANGVISUALIZER_SHOW_DEFAULT' | translate }}</md-chip>
+                        <md-chip ng-click="setColorScheme($event,'type')">{{ 'YANGVISUALIZER_SHOW_TYPES' | translate }}</md-chip>
+                        <md-chip ng-click="setColorScheme($event,'module')">{{ 'YANGVISUALIZER_SHOW_MODULES' | translate }}</md-chip>
+                        <md-chip ng-click="setColorScheme($event,'namespace')">{{ 'YANGVISUALIZER_SHOW_NAMESPACES' | translate }}</md-chip>
+                    </md-chips>
+
+                    <div class="clear"></div>
+
+                    <div class="legend md-whiteframe-1dp mt10 md-padding pull-left" ng-show="legend.view">
+                        <ul ng-init="showLegend = true">
+                            <li>
+                                <label>{{ 'YANGVISUALIZER_LABEL_LEGEND' | translate }} : </label>
+                            </li>
+                            <li>
+                                <button ng-show="isSelectedSpecificType" class="btn btn-orange btn-slim btn-graph" ng-click="resetSize()" tooltip="{{ 'YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE' | translate }}">
+                                    <i class="icon-rotate-right"></i>
+                                </button>
+                                <md-switch ng-model="showLegend" aria-label="{{ 'YANGVISUALIZER_SHOW_ALL' | translate }}">{{ 'YANGVISUALIZER_SHOW_ALL' | translate }}</md-switch>
+                                <hr ng-show="showLegend">
+                            </li>
+                            <li ng-repeat="(key, value) in legend.data" ng-show="showLegend">
+                                <div class="itemWrapper left cursor-pointer" ng-click="clickLegend(value, key)" tooltip="{{ 'YANGVISUALIZER_BTN_TT_HIGHLIGHT_TYPE' | translate }}">
+                                    <div class="color left" style="background: {{value}};"></div>
+                                    <div class="left text">{{key}}</div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+<<<<<<< HEAD
+
+                <sigma-topology drag-nodes="true" topology-data="topologyData" settings-sigma="settingsSigma" trigger-resize-sigma="triggerResizeSigma" panel="panel" topology-custfunc="topologyCustfunc"></sigma-topology>
+            </md-whiteframe>
+
+            <md-whiteframe flex="{{panel[panel.view].right}}" class="right-panel md-whiteframe-2dp md-padding clearfix">
+                <section class="button-panel">
+                    <md-button class="md-fab md-xs" ng-click="showRightPanel()" >
+=======
+
+                <sigma-topology drag-nodes="true" topology-data="topologyData" settings-sigma="settingsSigma" trigger-resize-sigma="triggerResizeSigma" panel="panel" topology-custfunc="topologyCustfunc"></sigma-topology>
+            </md-whiteframe>
+
+            <md-whiteframe flex="{{panel[panel.view].right}}" class="right-panel md-whiteframe-2dp md-padding clearfix">
+                <section class="button-panel">
+                    <md-button class="md-fab md-xs" ng-click="showRightPanel()">
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                        <md-icon class="{{panel.view === 'show' ? 'icon-caret-right' : 'icon-caret-left'}}"></md-icon>
+                        <md-tooltip md-direction="left">
+                            Show/Hide right panel
+                        </md-tooltip>
+                    </md-button>
+
+                    <div></div>
+
+                    <md-button class="md-fab md-xs" ng-click="sigma.resetZoom()">
+                        <md-icon class="icon-resize-full"></md-icon>
+                        <md-tooltip md-direction="left">
+                            Reset zoom
+                        </md-tooltip>
+                    </md-button>
+                </section>
+
+
+<<<<<<< HEAD
+                <section class="inner-content selectedNode">
+                    <h2>{{ 'YANGVISUALIZER_SEL_NODE_DETAIL' | translate }}</h2>
+                    <md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_ID' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.id" readonly="readonly" />
+                    </md-input-container><md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_NAME' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.label" readonly="readonly" />
+                    </md-input-container><md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_TYPE' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.type" readonly="readonly" />
+                    </md-input-container><md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_MODULE' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.module" readonly="readonly" />
+                    </md-input-container><md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_NAMESPACE' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.namespace" readonly="readonly" />
+                    </md-input-container><md-input-container>
+                        <label>{{'YANGVISUALIZER_TD_REVISION' | translate}}</label>
+                        <input type="text" ng-model="selectedNode.moduleRevision" readonly="readonly" />
+                    </md-input-container>
+                    
+
+                    <!-- <table class="table table-striped">
+=======
+                <section class="inner-content">
+                    <table class="table table-striped">
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                        <thead>
+                        <th colspan="2">{{ 'YANGVISUALIZER_SEL_NODE_DETAIL' | translate }}</th>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_ID' | translate }}</strong></td>
+                            <td>{{ selectedNode.id }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_NAME' | translate }}</strong></td>
+                            <td>{{ selectedNode.label }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</strong></td>
+                            <td>{{ selectedNode.type }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</strong></td>
+                            <td>{{ selectedNode.module }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_NAMESPACE' | translate }}</strong></td>
+                            <td>{{ selectedNode.namespace }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>{{ 'YANGVISUALIZER_TD_REVISION' | translate }}</strong></td>
+                            <td>{{ selectedNode.moduleRevision }}</td>
+                        </tr>
+                        </tbody>
+<<<<<<< HEAD
+                    </table> -->
+
+                    <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
+                    <table class="mdTable">
+=======
+                    </table>
+
+                    <label>{{ 'YANGVISUALIZER_LABEL_SEL_NODE' | translate }} :</label>
+                    <table class="table table-striped">
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                        <thead>
+                        <tr>
+                            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+                            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ selectedNode.id }}</td>
+                            <td>{{ selectedNode.label.length > 30 ? selectedNode.label.substring(0,26) + '...' : selectedNode.label }}</td>
+                            <td>{{ selectedNode.type }}</td>
+                            <td>{{ selectedNode.module.length > 30 ? selectedNode.module.substring(0,26) + '...' : selectedNode.module }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <label>{{ 'YANGVISUALIZER_LABEL_PAR_NODE' | translate }} :</label>
+<<<<<<< HEAD
+                    <table class="mdTable">
+                        <thead>
+                        <tr>
+                            <th><!-- {{ 'YANGVISUALIZER_TD_ID' | translate }} --></th>
+=======
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+                            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="node in parentNodes.list track by $index">
+<<<<<<< HEAD
+                            <td><span class="select" ng-click="zoomToNode(node.graphId)">SELECT</span></td>
+=======
+                            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+                            <td>{{ node.type }}</td>
+                            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <label>{{ 'YANGVISUALIZER_LABEL_CHILD_NODE' | translate }} :</label>
+<<<<<<< HEAD
+                    <table class="mdTable">
+                        <thead>
+                        <tr>
+                            <th><!-- {{ 'YANGVISUALIZER_TD_ID' | translate }} --></th>
+=======
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'YANGVISUALIZER_TD_ID' | translate }}</th>
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_NAME' | translate }}</th>
+                            <th>{{ 'YANGVISUALIZER_TD_TYPE' | translate }}</th>
+                            <th class="bigger">{{ 'YANGVISUALIZER_TD_MODULE' | translate }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="node in childrenNodes.list track by $index">
+<<<<<<< HEAD
+                            <td><span class="select" ng-click="zoomToNode(node.graphId)">select</span></td>
+=======
+                            <td><span class="link" ng-click="zoomToNode(node.graphId)">{{ node.id }}</span></td>
+>>>>>>> 295a001... Yangvisualizer - material design - BOWER INSTALL NEEDED!!
+                            <td>{{ node.label.length > 30 ? node.label.substring(0,26) + '...' : node.label }}</td>
+                            <td>{{ node.type }}</td>
+                            <td>{{ node.module.length > 30 ? node.module.substring(0,26) + '...' : node.module }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- <button ng-show="clickedNodesHistory.length > 1" ng-click="backToNode()" class="btn btn-orange btn-slim">{{ 'YANGVISUALIZER_BTN_BACK' | translate }}</button> -->
+                    <md-button ng-show="clickedNodesHistory.length > 1" ng-click="backToNode()" class="md-raised md-primary">{{ 'YANGVISUALIZER_BTN_BACK' | translate }}</button>
+                </section>
+
+
+            </md-whiteframe>
         </div>
-      </div>
-
-      <div class="clearfix">
-        <div class="col-md-2">{{ 'YANGVISUALIZER_SET_LVL' | translate }} :</div>
-        <div class="col-md-4 slider">
-          <input ng-model="sliderValue" type="text" id="mySlider1" slider ng-change="updateTopologyData(null)" options="sliderSettings" />
-        </div>
-      </div>
-
-      <div class="clearfix" ng-controller="layoutCtrl">
-        <div class="col-md-4 col-md-offset-2">
-          <button ng-show="currentTopologyNode" class="btn btn-orange btn-slim" ng-click="saveLayout()">{{ 'YANGVISUALIZER_SAVE_MODEL' | translate }}</button>
-          <button ng-show="modelLayout" class="btn btn-orange btn-slim" ng-click="loadLayout()">{{ 'YANGVISUALIZER_LOAD_MODEL' | translate }}</button>
-          <button ng-show="currentTopologyNode" class="btn btn-orange btn-slim" ng-click="resetLayout()">{{ 'YANGVISUALIZER_RESET_MODEL' | translate }}</button>
-        </div>
-      </div>
 
 
 
-    </div>
-    <div class="sigma col-md-12">
+    </md-content>
+
+
+    <!--<div class="sigma col-md-12">
       <div class="viewNav">
         <ul class="navWrapper">
           <li>{{ 'YANGVISUALIZER_LABEL_VIEW' | translate }} : </li>
@@ -61,10 +333,10 @@
           </ul>
         </div>
       </div>
-      <sigma-topology drag-nodes="true" topology-data="topologyData" trigger-resize-sigma="triggerResizeSigma" panel="panel" topology-custfunc="topologyCustfunc"></sigma-toppology>
+      <sigma-topology drag-nodes="true" topology-data="topologyData" trigger-resize-sigma="triggerResizeSigma" panel="panel" topology-custfunc="topologyCustfunc"></sigma-topology>
     </div>
 
-    <!-- RIGHT PANEL -->
+    &lt;!&ndash; RIGHT PANEL &ndash;&gt;
     <div class="rightPanel {{ panel.show ? 'panel-show' : 'panel-hide' }} col-md-6">
       <div class="topButtons">
           <button class="btn btn-show add-row btn-orange btn-slim btn-show-custom" ng-click='triggerExpanded(panel, triggerResize)'>
@@ -72,9 +344,9 @@
               <i class="icon-caret-left" ng-show="!panel.show"></i>
           </button>
           <div class="clear mt20"></div>
-          <!-- <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
+          &lt;!&ndash; <button class="btn add-row btn-orange btn-slim ng-scope" ng-click="expandAllNodes()">
             {{ expandedNodes ? 'YANGVISUALIZER_HIDE_NODES' : 'YANGVISUALIZER_SHOW_NODES' | translate }}
-          </button> -->
+          </button> &ndash;&gt;
           <button class="btn btn-orange btn-slim btn-graph" ng-click="sigma.resetZoom()">
             <i class="icon-resize-full"></i>
           </button>
@@ -177,6 +449,6 @@
       </div>
     </div>
 
-    <div class="clear"></div>
+    <div class="clear"></div>-->
 
 </div>
