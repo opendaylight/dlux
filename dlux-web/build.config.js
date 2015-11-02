@@ -73,6 +73,9 @@ module.exports = {
       'vendor/angular-css-injector/angular-css-injector.js',
       'vendor/angular-route/angular-route.js',
       'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
+      'vendor/angular-animate/angular-animate.min.js',
+      'vendor/angular-aria/angular-aria.min.js',
+      'vendor/angular-material/angular-material.min.js',
       'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
       'vendor/angular-ui-router/release/angular-ui-router.js',
       'vendor/angular-ui-utils/modules/route/route.js',
@@ -103,6 +106,7 @@ module.exports = {
       'vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
     ],
     css: [
+    'vendor/angular-material/angular-material.min.css',
     'vendor/ng-grid/ng-grid.min.css',
     'vendor/select2/select2.css',
     'vendor/select2-bootstrap-css/select2-bootstrap.css',

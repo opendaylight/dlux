@@ -32,7 +32,10 @@
     "ng-tiny-scrollbar": "~0.9.0",
     "zeroclipboard": "~2.2.0",
     "ng-clip": "~0.2.6",
-    "angular-translate-loader-partial": "~2.7.2"
+    "angular-translate-loader-partial": "~2.7.2",
+    "angular-material": "~0.11.3",
+    "angular-aria": "~1.4.7",
+    "angular-animate": "~1.4.0"
   },
   "devDependencies": {
     "angular": "~1.4.0",
@@ -47,6 +50,8 @@
   },
   "resolutions": {
     "angular": "~1.4.0",
-    "angular-translate": "~2.7.2"
+    "angular-translate": "~2.7.2",
+    "angular-aria": "~1.4.0",
+    "angular-animate": "~1.4.0"
   }
 }

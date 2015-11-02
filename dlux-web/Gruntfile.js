@@ -560,7 +560,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.js %>', '<%= app_files.lang %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
+        tasks: [ 'jshint:src', /*'karma:unit:run',*/ 'copy:build_appjs' ]
       },
 
       /**
@@ -609,7 +609,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= app_files.jsunit %>'
         ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
+        tasks: [ 'jshint:test'/*, 'karma:unit:run' */],
         options: {
           livereload: false
         }
