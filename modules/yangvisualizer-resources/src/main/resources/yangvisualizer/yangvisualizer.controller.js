@@ -1,61 +1,112 @@
 define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisualizer.services', 'common/sigmatopology/sigma.directive'], function(yangvisualizer) {
 
-  yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants',
-    function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory, yvConstants) {
-      $rootScope['section_logo'] = 'logo_yangvis';
+    yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants', '$mdToast', '$filter', '$mdDialog',
+        function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory, yvConstants, $mdToast, $filter, $mdDialog) {
+            $rootScope['section_logo'] = 'assets/images/logo_yangvis.gif';
 
-      $scope.currentPath = './assets/views/yangvisualizerCtrl';
-      $scope.topologyData = { nodes: [], edges: []};
-      $scope.currentTopologyNode = {};
-      $scope.filteredNodes = [];
-      $scope.selectedProperty = null;
-      $scope.selectedNode = null;
-      $scope.isSelectedSpecificType = false;
-      $scope.childrenNodes = {
-        list: [],
-        show: true
-      };
-      $scope.parentNodes = {
-        list: [],
-        show: true
-      };
-      $scope.panel = {
-        show: false
-      };
-      $scope.sigma = null;
-      $scope.triggerResizeSigma = false;
-      $scope.legend = [];
+            $scope.currentPath = './assets/views/yangvisualizerCtrl';
+            $scope.topologyData = { nodes: [], edges: []};
+            $scope.currentTopologyNode = null;
+            $scope.filteredNodes = [];
+            $scope.selectedProperty = null;
+            $scope.selectedNode = null;
+            $scope.isSelectedSpecificType = false;
 
-      $scope.sliderValue = 4;
-      $scope.sliderSettings = yvConstants.sliderSettings;
-      $scope.clickedNodesHistory = [];
+            $scope.modulesLoadingStatus = false;
 
-      var lastSelectedNode = null,
-          maxLvlToSHow = 4,
-          getSlowDownNumFun;
+            $scope.childrenNodes = {
+                list: [],
+                show: true
+            };
+            $scope.parentNodes = {
+                list: [],
+                show: true
+            };
+            $scope.panel = {
+                view: 'hide',
+                hide: {
+                    left: 80,
+                    right: 20,
+                },
+                show:{
+                    left: 50,
+                    right: 50,
+                }
+            };
+            $scope.sigma = null;
+            $scope.triggerResizeSigma = false;
+            $scope.legend = {
+                view: false,
+                data: {}
+            };
 
-      var processingNodesCallback = function() {
-          $scope.status = {
-              isWorking: true,
-              type: 'warning',
-              msg: 'PROCESSING_NODES'
-          };
-      };
+            $scope.sliderValue = 4;
+            $scope.sliderSettings = yvConstants.sliderSettings;
+            $scope.clickedNodesHistory = [];
 
-      var processingNodesSuccessCallback = function() {
-          $scope.status = {
-              type: 'success',
-              msg: 'PROCESSING_NODES_SUCCESS'
-          };
-      };
+            $scope.settingsSigma = {
+                defaultLabelColor: '#212121',
+                doubleClickEnabled: false,
+                labelThreshold: 8
+            };
 
-      var processingNodesErrorCallback = function(e) {
-          $scope.status = {
-              type: 'danger',
-              msg: 'PROCESSING_NODES_ERROR',
-              rawMsg: e.toString()
-          };
-      };
+
+            var clearLegend = function(){
+                $scope.legend.view = false;
+                $scope.legend.data = {};
+            };
+
+
+            var lastSelectedNode = null,
+                maxLvlToSHow = 4,
+                getSlowDownNumFun;
+
+            var processingNodesCallback = function() {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content($filter('translate')('PROCESSING_NODES'))
+                        .position('top right')
+                        .parent('div.yangVisualizer')
+                        .hideDelay(3000)
+                );
+            };
+
+            var processingNodesSuccessCallback = function() {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content($filter('translate')('PROCESSING_NODES_SUCCESS'))
+                        .position('top right')
+                        .parent('div.yangVisualizer')
+                        .hideDelay(3000)
+                );
+            };
+
+            var processingNodesErrorCallback = function(e) {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content($filter('translate')('PROCESSING_NODES_SUCCESS') + ':' + e.toString())
+                        .position('top right')
+                        .parent('div.yangVisualizer')
+                        .hideDelay(10000)
+                );
+            };
+
+            $scope.showToast = function(text, translate, delay){
+                var d = delay ? delay : 3000,
+                    t = translate ? $filter('translate')(text) : text;
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content(t)
+                        .position('top right')
+                        .parent('div.yangVisualizer')
+                        .hideDelay(d)
+                );
+            };
+
+            $scope.selectCurrentNode = function(node){
+                $scope.currentTopologyNode = node;
+                $scope.updateTopologyData(null, true);
+            };
 
       var expandNodeFunc = function(expandNode, mlts){
         var nodeCounter = 0;
@@ -98,6 +149,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       };
 
+
+
       var collapseNodeFunc = function(collapseNode){
         var nodes = $scope.sigma.graph.nodes(),
             nodeChildren = visualizerUtils.getAllChildrenArray(collapseNode);
@@ -134,7 +187,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
           }
 
           $scope.selectedNodeColor = selNode.color;
-          selNode.color = '#ffffff';
+          selNode.color = '#9E9E9E';
           lastSelectedNode = selNode;
           $scope.selectedNode = selNode.node;
           $scope.childrenNodes.list = selNode.node.children.length ? selNode.node.children : [];
@@ -142,8 +195,13 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
           visualizerUtils.updateSelectedEdgesColors(edges, selNode);
           selNode.size = selNode.size === 100 ? 100 : selNode.node.parent !== null ? 10 : 20;
           $scope.sigma.refresh();
-          $scope.$apply();
+          
+          if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+              $scope.$apply();
+          }
       };
+
+
 
       var setCameraToNode = function(node){
         $scope.sigma.camera.goTo({
@@ -223,55 +281,65 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
       };
 
 
-      var updateSliderSettings = function(){
-        $scope.sliderSettings.to = visualizerUtils.getMaxNodeLvl($scope.currentTopologyNode);
-        $scope.sliderValue = 4;
-      };
+        var updateSliderSettings = function(){
+            $scope.sliderSettings.to = visualizerUtils.getMaxNodeLvl($scope.currentTopologyNode);
+            $scope.sliderValue = $scope.sliderSettings.to < 4 ? $scope.sliderSettings.to : 4;
+        };
 
 
-      $scope.loadController = function(){
-        
-         processingNodesCallback();
+        $scope.loadController = function(){
+            $scope.modulesLoadingStatus = true;
+            processingNodesCallback();
 
-         visualizerUtils.getAllnodes(function(allNodes){
-            $scope.filteredNodes = allNodes.filter(function(node){
-                    return node.nodeType === 1;
+            visualizerUtils.getAllnodes(function(allNodes){
+
+                $scope.modulesLoadingStatus = false;
+                $scope.$broadcast('SEL_DISABLED', false);
+
+                $scope.filteredNodes = allNodes.filter(function(node){
+                        return node.nodeType === 1;
+                });
+
+                $scope.currentTopologyNode = $scope.filteredNodes[0];
+                updateSliderSettings();
+                $scope.$broadcast('YV_MODEL_CHANGE');
+
+                processingNodesSuccessCallback();
+                $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, $scope.sliderValue);
+
+            }, function(e){
+                processingNodesErrorCallback(e);
             });
-            
-            $scope.currentTopologyNode = $scope.filteredNodes[0];
-            updateSliderSettings();
-            $scope.$broadcast('YV_MODEL_CHANGE');
-
-            processingNodesSuccessCallback();
-            $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, $scope.sliderValue);
-         }, function(e){
-            processingNodesErrorCallback(e);
-         });
-      };
-      
-      
+        };
 
       $scope.updateTopologyData = function(mlts, modelChanged){
-        if ( modelChanged ) {
-          updateSliderSettings();
-        }
 
-        $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, mlts !== null ? mlts : $scope.sliderValue, true);
-        $scope.selectedNode = null;
-        $scope.childrenNodes.list = [];
-        $scope.parentNodes.list = [];
-        lastSelectedNode = null;
-        $scope.expandedNodes = !modelChanged ? $scope.expandedNodes : false;
-        $scope.legend = [];
-        $scope.clickedNodesHistory = [];
+          if ( $scope.currentTopologyNode ) {
 
-        if ( modelChanged ) {
-          $scope.selectedProperty = null;
-          $('.yangVisualizerWrapper div.viewNav li span').removeClass('active').parent().eq(0).find('span').addClass('active');
-          $scope.$broadcast('YV_MODEL_CHANGE');
-        }
+              if ( modelChanged ) {
+                  updateSliderSettings();
+              }
 
-        $scope.isSelectedSpecificType = false;
+              $scope.topologyData = visualizerUtils.getTopologyData($scope.currentTopologyNode, mlts !== null ? mlts : $scope.sliderValue, true);
+              $scope.selectedNode = null;
+              $scope.childrenNodes.list = [];
+              $scope.parentNodes.list = [];
+              lastSelectedNode = null;
+              $scope.expandedNodes = !modelChanged ? $scope.expandedNodes : false;
+              clearLegend();
+              $scope.clickedNodesHistory = [];
+
+              if ( modelChanged ) {
+                  $scope.selectedProperty = null;
+                  $('.yangVisualizerWrapper md-chips.md-chips-small .md-chip').removeClass('active')
+                                                                                .parent()
+                                                                                .children('md-chip').eq(0)
+                                                                                .addClass('active');
+                  $scope.$broadcast('YV_MODEL_CHANGE');
+              }
+
+              $scope.isSelectedSpecificType = false;
+          }
       };
 
       $scope.triggerExpanded = function(nodes,cbk){
@@ -288,15 +356,22 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         }
       };
 
+        $scope.showRightPanel = function () {
+            $scope.panel.view = $scope.panel.view === 'hide' ? 'show' : 'hide';
+
+            $scope.triggerResize();
+        };
+
       $scope.setColorScheme = function(e,property){
         $scope.selectedProperty = property !== 'default' ? property : null;
 
         if ( e !== null ) {
-          $('.yangVisualizerWrapper div.viewNav li span').removeClass('active');
-          $(e.target).addClass('active');
+            $(e.target).parent().children('md-chip').removeClass('active');
+            $(e.target).addClass('active');
         }
         
-        $scope.legend = visualizerUtils.setNodesColor(property, $scope.sigma.graph.nodes(), $scope.currentTopologyNode);
+        $scope.legend.data = visualizerUtils.setNodesColor(property, $scope.sigma.graph.nodes(), $scope.currentTopologyNode);
+        $scope.legend.view = property === 'default' ? false : true;
         $scope.sigma.refresh();
       };
 
@@ -389,16 +464,20 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         visualizerUtils.getTopologyData($scope.currentTopologyNode, slider, true);
       });
 
-      $scope.loadController();
+        $scope.loadController();
 
-      $scope.__test = {
-        processingNodesErrorCallback: processingNodesErrorCallback,
-        processingNodesSuccessCallback: processingNodesSuccessCallback,
-        processingNodesCallback: processingNodesCallback,
-        lastSelectedNode: lastSelectedNode,
-        expandNodeFunc: expandNodeFunc,
-        collapseNodeFunc: collapseNodeFunc
-      };
+        $scope.$watch('sliderValue', function(){
+            $scope.updateTopologyData(null);
+        });
+
+        $scope.__test = {
+            processingNodesErrorCallback: processingNodesErrorCallback,
+            processingNodesSuccessCallback: processingNodesSuccessCallback,
+            processingNodesCallback: processingNodesCallback,
+            lastSelectedNode: lastSelectedNode,
+            expandNodeFunc: expandNodeFunc,
+            collapseNodeFunc: collapseNodeFunc
+        };
       
   }]);
 
@@ -418,17 +497,20 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
     $scope.saveLayout = function(){
       $scope.modelLayout = VizualiserLayoutFactory.saveLayout($scope.currentTopologyNode, $scope.sigma, $scope.sliderValue, $scope.selectedNodeColor);
+      $scope.showToast('Layout saved');
       console.log('$scope.modelLayout', $scope.modelLayout);
     };
 
     $scope.loadLayout = function(){
       $scope.$emit('YV_UPDATE_CTN', $scope.modelLayout['slider-value']);
       var topologyData = VizualiserLayoutFactory.getTopoData($scope.currentTopologyNode, $scope.modelLayout);
+      $scope.showToast('Layout loaded');
       $scope.$emit('YV_UPDATE_TOPODATA', { topoData: topologyData, sv: $scope.modelLayout['slider-value'] });
     };
 
     $scope.resetLayout = function(){
       $scope.sigma.startForceAtlas2(configAtlas);
+      $scope.showToast('Layout reset');
     };
 
     $scope.$on('YV_MODEL_CHANGE', function(){
@@ -436,5 +518,45 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
     });
 
   }]);
+
+    yangvisualizer.register.controller('selectCtrl',['$scope', '$q','$timeout',
+        function($scope, $q, $timeout){
+            $scope.selectDisabled = true;
+            $scope.selectSearchText = null;
+            $scope.simulateQuery = false;
+
+            var createFilterFor = function(query){
+                var q = query.toLowerCase();
+                return function(item){
+                  return item.label.toLowerCase().indexOf(q) !== -1;
+                };
+            };
+
+            $scope.querySearch = function(query) {
+                var results = query ? $scope.filteredNodes.filter( createFilterFor(query) ) : $scope.filteredNodes,
+                    deferred;
+
+                if ($scope.simulateQuery) {
+                    deferred = $q.defer();
+                    $timeout(function () { deferred.resolve( results ); }, Math.random() * 1000, false);
+                    return deferred.promise;
+                } else {
+                    return results;
+                }
+            };
+
+            $scope.searchTextChange = function(text) {
+                console.info('Text changed to ' + text);
+            };
+
+            $scope.selectedItemChange = function(item, method) {
+                $scope[method](item);
+            };
+
+            $scope.$on('SEL_DISABLED',function(e, val){
+                $scope.selectDisabled = val;
+            });
+        }
+    ]);
 
 });

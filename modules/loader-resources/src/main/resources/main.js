@@ -11,6 +11,10 @@ require.config({
     'angular-translate' : '../vendor/angular-translate/angular-translate.min',
     'angular-sanitize' : '../vendor/angular-sanitize/angular-sanitize.min',
     'angular-translate-loader-static-files' : '../vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.min',
+    'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial',
+    'angular-animate' : '../vendor/angular-animate/angular-animate.min',
+    'angular-aria' : '../vendor/angular-aria/angular-aria.min',
+    'angular-material' : '../vendor/angular-material/angular-material.min',
     'jquery' : '../vendor/jquery/jquery.min',
     'jquery-ui' : '../vendor/jquery-ui/jquery-ui.min',
     'footable' : '../vendor/footable/dist/footable.min',
@@ -26,7 +30,6 @@ require.config({
     'ngSlider' : '../vendor/ng-slider/dist/ng-slider.min',
     'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
     'ngClip' : '../vendor/ng-clip/src/ngClip',
-    'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial',
   },
   map: {
     '*': {
