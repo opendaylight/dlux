@@ -30,8 +30,13 @@
   "YANGVISUALIZER_LOAD_MODEL" : "load model layout",
   "YANGVISUALIZER_RESET_MODEL" : "reset model layout",
   "YANGVISUALIZER_SHOW_WHOLE_MODEL" : "Show whole model",
+  "YANGVISUALIZER_ZOOM_TO_NODE" : "Select node",
   "YANGVISUALIZER_BTN_BACK" : "Back",
   "YANGVISUALIZER_BTN_TT_HIGHLIGHT_TYPE" : "Highlight specific type of nodes",
-  "YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE" : "Remove highlighting of specific type of nodes"
+  "YANGVISUALIZER_BTN_TT_REMOVE_HIGHLIGHTING_TYPE" : "Remove highlighting of specific type of nodes",
+  "YANGVISUALIZER_REMOVE_HIGHLIGHT" : "Back",
+  "YANGVISUALIZER_SHOW_LEGEND_DATA" : "Show legend",
+  "YANGVISUALIZER_NO_ROOT_PATH" : "Selected node is the root element.",
+  "YANGVISUALIZER_NO_CHILDREN" : "Selected node does not contain any children."
 
 }

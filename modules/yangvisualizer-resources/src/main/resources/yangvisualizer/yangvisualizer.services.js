@@ -16,8 +16,12 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
         edgesToClear = {node: {}, edges: []},
         monochromeColorsArray = [],
         colors = {
-            edges: '#856700',
-            monochrome: '#f39222',
+            // edges: '#856700',
+            // monochrome: '#f39222',
+            // edgeParent: '#BE3E3B',
+            // edgeChild: '#3ea64d'
+            edges: '#6B6B6B',
+            monochrome: '#3D3D3D',
             edgeParent: '#BE3E3B',
             edgeChild: '#3ea64d'
         },
@@ -578,11 +582,14 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
                                 dimension: ' lvl',
                                 vertical: false,
                                 css: {
-                                    background: {'background-color': '#fff'},
-                                    before: {'background-color': '#f6a000'},
-                                    default: {'background-color': 'white'},
-                                    after: {'background-color': '#f6a000'},
-                                    pointer: {'background-color': '#fff'}
+                                    background: {'background-color': '#C8C8C8'},
+                                    // before: {'background-color': '#f6a000'},
+                                    before: {'background-color': '#40C4FF'},
+                                    default: {'background-color': '#C8C8C8'},
+                                    // after: {'background-color': '#f6a000'},
+                                    after: {'background-color': '#C8C8C8'},
+                                    // pointer: {'background-color': '#fff'}
+                                    pointer: {'background-color': '#40C4FF', 'width': '16px', 'height':'16px', 'cursor': 'pointer', 'border': 'none', 'box-shadow': 'none', 'top': '-6px'}
                                 }
                             };
 
