@@ -10,7 +10,7 @@ var modules = [
 
 define(modules, function() {
 
-  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngSlider']);
+  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'app.common.general', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngSlider']);
 
   yangvisualizer.register = yangvisualizer;
 
