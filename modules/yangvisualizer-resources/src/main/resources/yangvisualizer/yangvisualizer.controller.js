@@ -1,4 +1,4 @@
-define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisualizer.services', 'common/sigmatopology/sigma.directive'], function(yangvisualizer) {
+define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisualizer.services', 'common/sigmatopology/sigma.directive', 'common/general/common.general.filters'], function(yangvisualizer) {
 
   yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants',
     function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory, yvConstants) {
@@ -6,11 +6,12 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       $scope.currentPath = './assets/views/yangvisualizerCtrl';
       $scope.topologyData = { nodes: [], edges: []};
-      $scope.currentTopologyNode = {};
+            $scope.currentTopologyNode = null;
       $scope.filteredNodes = [];
       $scope.selectedProperty = null;
       $scope.selectedNode = null;
       $scope.isSelectedSpecificType = false;
+            $scope.modulesLoadingStatus = false;
       $scope.childrenNodes = {
         list: [],
         show: true
@@ -20,16 +21,30 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         show: true
       };
       $scope.panel = {
-        show: false
+        show: 'prev'
       };
       $scope.sigma = null;
       $scope.triggerResizeSigma = false;
-      $scope.legend = [];
+      $scope.legend = {
+          view: false,
+          data: {}
+      };
 
       $scope.sliderValue = 4;
       $scope.sliderSettings = yvConstants.sliderSettings;
       $scope.clickedNodesHistory = [];
 
+            $scope.settingsSigma = {
+                // defaultLabelColor: '#212121',
+                defaultLabelColor: '#212121',
+                doubleClickEnabled: false,
+                labelThreshold: 8
+            };
+
+            var clearLegend = function(){
+                $scope.legend.view = false;
+                $scope.legend.data = {};
+            };
       var lastSelectedNode = null,
           maxLvlToSHow = 4,
           getSlowDownNumFun;
@@ -55,6 +70,16 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
               msg: 'PROCESSING_NODES_ERROR',
               rawMsg: e.toString()
           };
+            $scope.selectCurrentNode = function(node){
+                $scope.currentTopologyNode = node;
+                $scope.updateTopologyData(null, true);
+            };
+
+      };
+
+      $scope.shownTab = 'pathToRoot';
+      $scope.showPreviewTab = function(tab){
+        $scope.shownTab = tab;
       };
 
       var expandNodeFunc = function(expandNode, mlts){
@@ -134,7 +159,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
           }
 
           $scope.selectedNodeColor = selNode.color;
-          selNode.color = '#ffffff';
+          // selNode.color = '#9E9E9E';
+          selNode.color = '#000000';
           lastSelectedNode = selNode;
           $scope.selectedNode = selNode.node;
           $scope.childrenNodes.list = selNode.node.children.length ? selNode.node.children : [];
@@ -142,7 +168,9 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
           visualizerUtils.updateSelectedEdgesColors(edges, selNode);
           selNode.size = selNode.size === 100 ? 100 : selNode.node.parent !== null ? 10 : 20;
           $scope.sigma.refresh();
+          if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
           $scope.$apply();
+          }
       };
 
       var setCameraToNode = function(node){
@@ -225,15 +253,17 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
 
       var updateSliderSettings = function(){
         $scope.sliderSettings.to = visualizerUtils.getMaxNodeLvl($scope.currentTopologyNode);
-        $scope.sliderValue = 4;
+            $scope.sliderValue = $scope.sliderSettings.to < 4 ? $scope.sliderSettings.to : 4;
       };
 
 
       $scope.loadController = function(){
-        
+            $scope.modulesLoadingStatus = true;
          processingNodesCallback();
 
          visualizerUtils.getAllnodes(function(allNodes){
+                $scope.modulesLoadingStatus = false;
+                $scope.$broadcast('SEL_DISABLED', false);
             $scope.filteredNodes = allNodes.filter(function(node){
                     return node.nodeType === 1;
             });
@@ -252,6 +282,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
       
 
       $scope.updateTopologyData = function(mlts, modelChanged){
+          if ( $scope.currentTopologyNode ) {
         if ( modelChanged ) {
           updateSliderSettings();
         }
@@ -272,21 +303,26 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
         }
 
         $scope.isSelectedSpecificType = false;
+          }
       };
 
       $scope.triggerExpanded = function(nodes,cbk){
         if($('#graph-container').hasClass('col-md-12')){
             $('#graph-container').removeClass('col-md-12').addClass('col-md-6');
+            $scope.panel.show = 'show';
         }else{
             $('#graph-container').removeClass('col-md-6').addClass('col-md-12');
+            $scope.panel.show = 'prev';
         }
 
-        nodes.show = !nodes.show;
+        // nodes.show = !nodes.show;
 
         if ( angular.isFunction(cbk) ){
           cbk();
         }
       };
+
+
 
       $scope.setColorScheme = function(e,property){
         $scope.selectedProperty = property !== 'default' ? property : null;
@@ -296,7 +332,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
           $(e.target).addClass('active');
         }
         
-        $scope.legend = visualizerUtils.setNodesColor(property, $scope.sigma.graph.nodes(), $scope.currentTopologyNode);
+        $scope.legend.data = visualizerUtils.setNodesColor(property, $scope.sigma.graph.nodes(), $scope.currentTopologyNode);
+        $scope.legend.view = property === 'default' ? false : true;
         $scope.sigma.refresh();
       };
 
@@ -390,6 +427,10 @@ define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisu
       });
 
       $scope.loadController();
+
+      $scope.$watch('sliderValue', function(){
+          $scope.updateTopologyData(null);
+      });
 
       $scope.__test = {
         processingNodesErrorCallback: processingNodesErrorCallback,
