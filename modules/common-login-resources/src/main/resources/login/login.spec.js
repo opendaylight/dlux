@@ -1,37 +1,43 @@
-define(['common/login/login.controller'], function() {
-  describe('Login Module', function() {
+define(['common/login/login.controller'], function () {
+  describe('Login Module', function () {
     var scope, state, controller, location, _AuthMock;
     var url = '/test';
 
     beforeEach(module('ui.router'));
     beforeEach(module('app.common.layout'));
-    beforeEach(module('app.common.login', function($provide) {
+    beforeEach(module('app.common.login', function ($provide) {
       AuthMock = {
-        isAuthed: function() {},
-        login: function() {}
+        isAuthed: function () {},
+        login: function () {}
       };
       $provide.value('Auth', AuthMock);
     }));
 
-    beforeEach(inject( function($rootScope, $controller, $state, $location) {
+    beforeEach(inject(function ($rootScope, $controller, $state, $location) {
       scope = $rootScope.$new();
       controller = $controller;
       state = $state;
       location = $location;
     }));
 
-    it('Should load the login state', function() {
+    it('Should load the login state', function () {
       var stateName = 'login';
 
-      controller('LoginCtrl', {$scope: scope, $state: state});
+      controller('LoginCtrl', {
+        $scope: scope,
+        $state: state
+      });
       expect(state.href(stateName, {})).toBe('#/login');
     });
 
-    it('Should redirect any url to login if not logged', function() {
+    it('Should redirect any url to login if not logged', function () {
       var stateName = 'login';
-      spyOn(AuthMock,'isAuthed').andReturn(false);
+      spyOn(AuthMock, 'isAuthed').and.returnValue(false);
       location.url(url);
-      controller('LoginCtrl', {$scope: scope, $state: state});
+      controller('LoginCtrl', {
+        $scope: scope,
+        $state: state
+      });
       state.go('main');
 
       expect(AuthMock.isAuthed).toHaveBeenCalled();
@@ -39,10 +45,13 @@ define(['common/login/login.controller'], function() {
       expect(location.url()).toEqual('/login');
     });
 
-    it('Should not redirect if logged', function() {
-      spyOn(AuthMock,'isAuthed').andReturn(true);
+    it('Should not redirect if logged', function () {
+      spyOn(AuthMock, 'isAuthed').and.returnValue(true);
       location.url(url);
-      controller('LoginCtrl', {$scope: scope, $state: state});
+      controller('LoginCtrl', {
+        $scope: scope,
+        $state: state
+      });
       state.go('main');
 
       expect(AuthMock.isAuthed).toHaveBeenCalled();
@@ -50,9 +59,12 @@ define(['common/login/login.controller'], function() {
       expect(location.url()).toEqual(url);
     });
 
-    it('Should call the Auth module', function() {
-      spyOn(AuthMock,'login');
-      controller('LoginCtrl', {$scope: scope, $state: state});
+    it('Should call the Auth module', function () {
+      spyOn(AuthMock, 'login');
+      controller('LoginCtrl', {
+        $scope: scope,
+        $state: state
+      });
 
       scope.sendLogin();
       expect(AuthMock.login).toHaveBeenCalled();
