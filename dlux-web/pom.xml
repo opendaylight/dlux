@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <parent>
     <groupId>org.opendaylight.dlux</groupId>
@@ -14,14 +14,14 @@
     <name>DLUX - DLUX Static Web </name>
 
     <dependencies>
-       <dependency>
-         <groupId>org.osgi</groupId>
-         <artifactId>org.osgi.core</artifactId>
-       </dependency>
-       <dependency>
-         <groupId>org.osgi</groupId>
-         <artifactId>org.osgi.compendium</artifactId>
-       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.core</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.compendium</artifactId>
+      </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.node.resources</artifactId>
@@ -31,7 +31,7 @@
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.yangutils.resources</artifactId>
         <version>${common.yangutils.resources.version}</version>
-  	</dependency>
+      </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.sigmatopology.resources</artifactId>
@@ -41,47 +41,47 @@
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.navigation.resources</artifactId>
         <version>${common.navigation.resources.version}</version>
-  	</dependency>
-  	<dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.layout.resources</artifactId>
         <version>${common.layout.resources.version}</version>
-  	</dependency>
-  	<dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.authentication.resources</artifactId>
         <version>${common.authentication.resources.version}</version>
       </dependency>
-  	<dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.login.resources</artifactId>
         <version>${common.login.resources.version}</version>
-    </dependency>
-    <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.common.general.resources</artifactId>
         <version>${common.general.resources.version}</version>
-    </dependency>
-    <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.yangui.resources</artifactId>
         <version>${yangui.resources.version}</version>
-    </dependency>
-    <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.yangvisualizer.resources</artifactId>
         <version>${yangvisualizer.resources.version}</version>
-    </dependency>
-    <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.topology.resources</artifactId>
         <version>${topology.resources.version}</version>
-    </dependency>
-    <dependency>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.loader.resources</artifactId>
         <version>${loader.resources.version}</version>
-    </dependency>
+      </dependency>
       <dependency>
         <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.core.resources</artifactId>
@@ -95,58 +95,58 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>target/generated-resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
-        <plugins>
+      <resources>
+        <resource>
+          <directory>target/generated-resources</directory>
+          <includes>
+            <include>**/*</include>
+          </includes>
+        </resource>
+      </resources>
+      <plugins>
         <!--Clean extracted resources-->
         <plugin>
-            <artifactId>maven-clean-plugin</artifactId>
-            <version>2.5</version>
-            <configuration>
-              <filesets>
-                <fileset>
-                  <directory>src</directory>
-                  <includes>
-              		  <include>test-main.js</include>
-              		  <include>index.html</include>
-              		  <include>main.js</include>
-              		  <include>app/app.controller.js</include>
-              		  <include>app/app.module.js</include>
-              		  <include>app/routingConfig.js</include>
-                      <include>app/node/</include>
-                      <include>app/yangui/</include>
-                      <include>app/yangvisualizer/</include>
-                      <include>app/topology/</include>
-                      <include>app/core/</include>
-                      <include>app/graph/</include>
-                      <include>common/yangutils/</include>
-                      <include>common/sigmatopology/</include>
-                      <include>common/navigation/</include>
-                      <include>common/layout/</include>
-                      <include>common/authentification/</include>
-                      <include>common/login/</include>
-                      <include>common/general/</include>
-                      <include>common/topbar/</include>
-              		  <include>assets/</include>
-  		            </includes>
-                  <excludes></excludes>
-                  <followSymlinks>false</followSymlinks>
-                </fileset>
-              </filesets>
-            </configuration>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <filesets>
+              <fileset>
+                <directory>src</directory>
+                <includes>
+                  <include>test-main.js</include>
+                  <include>index.html</include>
+                  <include>main.js</include>
+                  <include>app/app.controller.js</include>
+                  <include>app/app.module.js</include>
+                  <include>app/routingConfig.js</include>
+                  <include>app/node/</include>
+                  <include>app/yangui/</include>
+                  <include>app/yangvisualizer/</include>
+                  <include>app/topology/</include>
+                  <include>app/core/</include>
+                  <include>app/graph/</include>
+                  <include>common/yangutils/</include>
+                  <include>common/sigmatopology/</include>
+                  <include>common/navigation/</include>
+                  <include>common/layout/</include>
+                  <include>common/authentification/</include>
+                  <include>common/login/</include>
+                  <include>common/general/</include>
+                  <include>common/topbar/</include>
+                  <include>assets/</include>
+                </includes>
+                <excludes></excludes>
+                <followSymlinks>false</followSymlinks>
+              </fileset>
+            </filesets>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>2.6</version>
           <executions>
-  	  <!--src/app/ Resources-->
+            <!--src/app/ Resources-->
             <execution>
               <id>unpack-core-resources</id>
               <goals>
@@ -168,7 +168,7 @@
                 <ignorePermissions>false</ignorePermissions>
               </configuration>
             </execution>
-  	  <!--src/common Resources-->
+            <!--src/common Resources-->
             <execution>
               <id>unpack-general-resources</id>
               <goals>
@@ -193,7 +193,7 @@
                 <ignorePermissions>false</ignorePermissions>
               </configuration>
             </execution>
-  	  <!--loader Resources-->
+            <!--loader Resources-->
             <execution>
               <id>unpack-loader-resources</id>
               <goals>
@@ -238,10 +238,10 @@
             </execution>
           </executions>
           <configuration>
-            <nodeVersion>v0.12.7</nodeVersion>
-            <npmVersion>3.1.3</npmVersion>
+            <nodeVersion>v4.2.6</nodeVersion>
+            <npmVersion>3.3.12</npmVersion>
           </configuration>
         </plugin>
-        </plugins>
+      </plugins>
     </build>
-</project>
+  </project>
