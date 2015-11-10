@@ -1,4 +1,4 @@
-define(['app/core/core.module', 'jquery'], function(core, $) {
+define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
   core.provider('TopBarHelper', function TopBarHelperProvider() {
     var ids = [];
     var ctrls = [];
@@ -38,9 +38,9 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
   });
 
   core.provider('NavHelper', function() {
-    var ids = [];
-    var ctrls = [];
-    var menu = [];
+    var ids = [],
+      ctrls = [],
+      menu = new DLUX.Menu('Navigation Menu');
 
     function NavHelperProvider() {
       this.addToView = function(url) {
@@ -71,14 +71,14 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         return ctrls;
       };
 
-      getMenuWithId = function(menu, level) {
-        if(menu === undefined) {
+      var getMenuWithId = function(dluxMenu, level) {
+        if(dluxMenu === undefined) {
           return null;
         }
         var currentLevel = level[0];
 
-        var menuItem = $.grep(menu, function(item) {
-          return item.id == currentLevel;
+        var menuItem = $.grep(dluxMenu, function(item) {
+          return item.depth === currentLevel;
         })[0];
 
         if (level.length === 1) {
@@ -88,34 +88,53 @@ define(['app/core/core.module', 'jquery'], function(core, $) {
         }
       };
 
-      this.addToMenu = function(id, obj) {
-        var lvl = id.split(".");
-        obj["id"] = lvl.pop();
-
-        if (lvl.length === 0) {
-          menu.push(obj);
+      var createDLUXMenuItem = function (obj) {
+        if (obj) {
+          return new DLUX.MenuItem(obj.depth, obj.title, obj.link, obj.icon, obj.active, obj.page);
         } else {
-          var menuItem = getMenuWithId(menu, lvl);
-
-        if(menuItem) {
-          if(!menuItem.submenu) {
-            menuItem.submenu = [];
-          }
-          menuItem.submenu.push(obj);
-        } else {
-           var submenu = {
-              "id" : lvl[0],
-              "title" : lvl[0],
-              "active" : "",
-              "submenu" : [obj]
-            };
-            menu.push(submenu);
-          }
+          return null;
         }
       };
 
-      this.getMenu = function() {
-        return menu;
+      var setMenuItems = function (depth, obj) {
+        var lvl = depth.split("."),
+          menuItem = null;
+        obj["depth"] = lvl.pop();
+        if (!(obj instanceof DLUX.MenuItem)) {
+          obj = createDLUXMenuItem(obj);
+        }
+        if (lvl.length === 0) {
+          menuItem = obj;
+          menu.addMenuItem(menuItem);
+        } else {
+          menuItem = getMenuWithId(menu.items, lvl);
+
+          if (menuItem) {
+            menuItem.submenu.push(obj);
+          } else {
+            menuItem = new DLUX.MenuItem(
+              lvl[0],
+              lvl[0],
+              '',
+              '',
+              '', {}, [obj]
+            );
+            menu.addMenuItem(menuItem);
+          }
+        }
+        return menuItem;
+      };
+
+      // TODO: Multiple lvl support for module linking
+      this.addToMenu = function (depth, obj, module) {
+        var menuItem = setMenuItems(depth, obj);
+        if (module) {
+          menuItem.linkedModule = module;
+        }
+      };
+
+      this.getMenu = function () {
+        return menu.items;
       };
 
       this.$get =  function NavHelperFactory() {

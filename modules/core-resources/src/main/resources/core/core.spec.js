@@ -1,4 +1,4 @@
-define(['app/core/core.module', 'app/core/core.services'], function () {
+define(['DLUX', 'underscore', 'app/core/core.module', 'app/core/core.services'], function (DLUX, _) {
   describe("Core Module", function () {
 
     beforeEach(angular.mock.module('app.core'));
@@ -29,20 +29,21 @@ define(['app/core/core.module', 'app/core/core.services'], function () {
     });
 
     describe(':: Menu management method', function () {
-      var menu = {
-        "id": 'menu',
-        "title": 'lvl0 menu',
-        "active": '',
-        "submenu": []
-      };
+      var menu = new DLUX.MenuItem(
+        'menu',
+        '',
+        '',
+        'lvl0 menu',
+        '', {}
+      );
 
-      var submenu = {
-        "id": 'sub menu',
-        "title": 'lvl1 menu',
-        "active": '',
-        "submenu": []
-      };
-
+      var submenu = new DLUX.MenuItem(
+        'sub menu',
+        '',
+        '',
+        'lvl1 menu',
+        '', {}
+      );
 
       beforeEach(angular.mock.inject(function (NavHelper) {
         _NavHelper = NavHelper;
@@ -50,17 +51,19 @@ define(['app/core/core.module', 'app/core/core.services'], function () {
 
 
       it('Should add a child even if there no parent', function () {
-        var menus = null;
+        var menus = null,
+          menuToCompare = new DLUX.MenuItem(
+          'root',
+          'root',
+          '',
+          '',
+          '', {}, [submenu]
+        );
         _NavHelper.addToMenu('root.lvl1', submenu);
 
         menus = _NavHelper.getMenu();
 
-        expect(menus[0]).toEqual({
-          "id": 'root',
-          "title": 'root',
-          "active": '',
-          "submenu": [submenu]
-        });
+        expect(menus[0]).toEqual(menuToCompare);
       });
 
       it('Should add a item to the root menu', function () {

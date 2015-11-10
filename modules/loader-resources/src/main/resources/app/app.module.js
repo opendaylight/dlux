@@ -5,6 +5,7 @@
 //karaf based dlux deployment
 /*
 var module = [
+  'DLUX',
   'angular',
   'angular-translate',
   'angular-sanitize',
@@ -50,18 +51,28 @@ var e = [
 
 */
 
-define(module, function(angular) {
+define(module, function(DLUX, angular) {
   'use strict';
   var preboot = [],
     register = {},
+    original_angular = angular,
     dlux_angular = {},
-    orig_angular = angular,
     app = angular.module('app', []);
 
-  angular.extend(dlux_angular, orig_angular);
+  dlux_angular = DLUX.extendAngularContext(original_angular);
 
-  dlux_angular.module = function(name, deps) {
-    var module = orig_angular.module(name, deps);
+  // Keep separate the preboot process with all modules
+  dlux_angular.module = function (name, deps) {
+    var module = null;
+
+    // To avoid modules to have a new api
+    // this if statement replace each dlux module from doing the call DLUX.createModule
+    if (DLUX.isDLUXModule(name)) {
+      module = DLUX.createModule(name, deps, DLUX.IsInternalModule(name));
+    } else {
+      module = angular.module(name, deps);
+    }
+
     preboot.push(module);
     return module;
   };
@@ -107,11 +118,15 @@ define(module, function(angular) {
    * we want to load a dependency and run it. Define
    * is only to define the dependency for a module.
    */
-  require(deps, function() {
-    angular.element(document).ready(function() {
-      angular.bootstrap(document, e).invoke(function() {
-        preboot.forEach(function(m) {
+  require(deps, function () {
+    angular.element(document).ready(function () {
+      angular.bootstrap(document, e).invoke(function () {
+        preboot.forEach(function (m) {
+          if (m instanceof DLUX.Module) {
+            angular.extend(m.ng, register);
+          } else {
             angular.extend(m, register);
+          }
         });
         console.log('bootstrap done (: ');
       });
