@@ -5,7 +5,7 @@
 //karaf based dlux deployment
 /*
 var module = [
-  'DLUX',
+  'DLUXLAYOUT',
   'angular',
   'angular-translate',
   'angular-sanitize',
@@ -80,9 +80,9 @@ define(module, function(DLUX, angular) {
   window.angular = dlux_angular; // backward compatibility
 
   // The overal config he is done here.
-  app.config(function ($urlRouterProvider,  $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider, $controllerProvider, $compileProvider, $provide, $filterProvider, cssInjectorProvider) {
+  app.config(function ($urlRouterProvider, $ocLazyLoadProvider, $translateProvider, $translatePartialLoaderProvider, $controllerProvider, $compileProvider, $provide, $filterProvider, cssInjectorProvider) {
 
-    $urlRouterProvider.otherwise("/topology"); // set the default route
+    $urlRouterProvider.otherwise('/topology'); // set the default route
 
     cssInjectorProvider.setSinglePageMode(true); // remove all added CSS files when the page change
 
@@ -102,11 +102,11 @@ define(module, function(DLUX, angular) {
 
     // the only way to add a dynamic module
     register = {
-        controller : $controllerProvider.register,
-        directive : $compileProvider.directive,
-        factory : $provide.factory,
-        filter: $filterProvider.register,
-        service : $provide.service
+      controller: $controllerProvider.register,
+      directive: $compileProvider.directive,
+      factory: $provide.factory,
+      filter: $filterProvider.register,
+      service: $provide.service
     };
 
     app.register = {};
@@ -130,6 +130,7 @@ define(module, function(DLUX, angular) {
         });
         console.log('bootstrap done (: ');
       });
+      DLUX.Layout.resolveViews();
     });
   });
 

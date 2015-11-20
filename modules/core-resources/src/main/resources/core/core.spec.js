@@ -12,13 +12,19 @@ define(['DLUX', 'underscore', 'app/core/core.module', 'app/core/core.services'],
         deferred = jQuery.Deferred();
       }));
 
-      it(':: Should be do an ajax call and add the view to the list', function () {
+      it(':: Should be do an ajax call and add the view to the list', function (done) {
         spyOn($, 'ajax').and.returnValue(deferred);
         _ContentHelper.addToView(url);
         deferred.resolve(url);
 
         expect($.ajax.calls.mostRecent().args[0]["url"]).toEqual(url);
-        expect(_ContentHelper.getViews()).toContain(url);
+        _ContentHelper.getViews().then(
+         function (content) {
+           expect(content).toContain(url);
+           done();
+         }
+       );
+       DLUX.Layout.resolveViews();
       });
 
       it('Should add a controller to the list', function () {

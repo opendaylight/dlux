@@ -1,26 +1,21 @@
-define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
+define(['app/core/core.module', 'DLUXLAYOUT', 'jquery'], function (core, DLUX, $) {
+  'use strict';
   core.provider('TopBarHelper', function TopBarHelperProvider() {
-    var ids = [];
-    var ctrls = [];
+    var ctrls = [],
+      componentId = DLUX.Layout.Components.TOP_BAR;
 
     this.addToView = function(url) {
-        $.ajax({
-          url : url,
-          method: 'GET',
-          async : false
-        }).done(function(data) {
-          ids.push(data);
-        });
+      $.ajax({
+        url: url,
+        method: 'GET',
+        async: false
+      }).done(function(data) {
+        DLUX.Layout.addTemplate(componentId, data);
+      });
     };
 
     this.getViews = function() {
-      var template = "";
-
-      for(var i = 0; i < ids.length; ++i) {
-        template += ids[i];
-      }
-
-      return template;
+      return DLUX.Layout.getView(componentId);
     };
 
     this.addControllerUrl = function(url) {
@@ -38,29 +33,23 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
   });
 
   core.provider('NavHelper', function() {
-    var ids = [],
-      ctrls = [],
+    var ctrls = [],
+      componentId = DLUX.Layout.Components.NAVIGATION_BAR,
       menu = new DLUX.Menu('Navigation Menu');
 
     function NavHelperProvider() {
       this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
+        $.ajax({
+          url: url,
+          method: 'GET',
+          async: false
+        }).done(function(data) {
+          DLUX.Layout.addTemplate(componentId, data);
+        });
       };
 
       this.getViews = function() {
-        var template = "";
-
-        for(var i = 0; i < ids.length; ++i) {
-          template += ids[i];
-        }
-
-        return template;
+        return DLUX.Layout.getView(componentId);
       };
 
       this.addControllerUrl = function(url) {
@@ -137,7 +126,7 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
         return menu.items;
       };
 
-      this.$get =  function NavHelperFactory() {
+      this.$get =  function () {
         return new NavHelperProvider();
       };
     }
@@ -145,31 +134,25 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
 
     return persistentProvider;
 
-   });
+  });
 
   core.provider('ContentHelper', function() {
-    var ids = [];
-    var ctrls = [];
+    var ctrls = [],
+      componentId = DLUX.Layout.Components.CONTENT;
 
     function ContentHelperProvider() {
       this.addToView = function(url) {
-          $.ajax({
-            url : url,
-            method: 'GET',
-            async : false
-          }).done(function(data) {
-            ids.push(data);
-          });
+        $.ajax({
+          url: url,
+          method: 'GET',
+          async: false
+        }).done(function(data) {
+          DLUX.Layout.addTemplate(componentId, data);
+        });
       };
 
       this.getViews = function() {
-        var template = "";
-
-        for(var i = 0; i < ids.length; ++i) {
-          template += ids[i];
-        }
-
-        return template;
+        return DLUX.Layout.getView(componentId);
       };
 
       this.addControllerUrl = function(url) {
@@ -187,6 +170,5 @@ define(['app/core/core.module', 'DLUX', 'jquery'], function (core, DLUX, $) {
     var persistentProvider = new ContentHelperProvider();
 
     return persistentProvider;
-
-   });
+  });
 });

@@ -21,9 +21,10 @@ var run = function() {
 };
 
 var test = require.config({
-  baseUrl: '/base/src',
-  paths: {
+  baseUrl : '/base/src',
+  paths : {
     'DLUX': 'app/core/dlux',
+    'DLUXLAYOUT': 'app/core/dlux-layout',
     'angular': '../vendor/angular/angular',
     'angular-mocks': '../vendor/angular-mocks/angular-mocks',
     'ui-bootstrap': '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
@@ -53,7 +54,10 @@ var test = require.config({
     }
   },
   shim: {
-    'angular': ['jquery'],
+    'angular': {
+      deps: ['jquery', 'jquery-ui'],
+      exports: 'angular'
+     },
     'angular-mocks': ['angular'],
     'ocLazyLoad': ['angular'],
     'Restangular': ['angular', 'underscore'],
@@ -64,7 +68,7 @@ var test = require.config({
     'angular-translate': ['angular'],
     'angular-translate-loader-static-files': ['angular-translate'],
     'vis': {
-        exports: 'vis'
+      exports: 'vis'
     },
     'jquery': {
       exports: '$'

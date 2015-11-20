@@ -2,6 +2,7 @@ require.config({
   baseUrl: 'src',
   paths: {
     'DLUX': 'app/core/dlux',
+    'DLUXLAYOUT': 'app/core/dlux-layout',
     'angular': '../vendor/angular/angular',
     'ui-bootstrap': '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
     'Restangular': '../vendor/restangular/dist/restangular.min',
