@@ -312,4 +312,17 @@
     <tag>HEAD</tag>
     <url>https://git.opendaylight.org/gerrit/gitweb?p=dlux.git;a=summary</url>
   </scm>
+   <repositories>
+        <repository>
+          <id>opendaylight-snapshot</id>
+          <name>opendaylight-snapshot</name>
+          <url>http://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/</url>
+          <releases>
+            <enabled>false</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
 </project>
