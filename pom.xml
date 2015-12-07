@@ -65,47 +65,9 @@
        <module>archetype</module>
     </modules>
 
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>${jacoco.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>org.opendaylight.dlux.loader.*</include>
-                    </includes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pre-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>post-test</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <phase>test</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-   
   <scm>
     <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>	    <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
     <tag>HEAD</tag>
-    <url>https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main</url>  
+    <url>https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main</url>
   </scm>
 </project>
