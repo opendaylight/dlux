@@ -303,7 +303,7 @@ define(['common/yangutils/yangutils.module'], function (yangUtils) {
         pathUtils.translatePathArray = function(pathArray) {
             var getIdentifiersValues = function(identifiers) {
                     return identifiers.map(function(i) {
-                        return i.value;
+                        return i.value.replace('/', '%2F');
                     }).join('/');
                 },
                 getLastElem = function(i) {
