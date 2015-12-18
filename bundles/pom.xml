@@ -23,6 +23,13 @@
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
+
+  <properties>
+    <dlux.compile.path>${project.basedir}/../../dlux-web/target/generated-resources/pages</dlux.compile.path>
+    <dlux.app.path>${dlux.compile.path}/src/app</dlux.app.path>
+    <dlux.common.path>${dlux.compile.path}/src/common</dlux.common.path>
+  </properties>
+
   <modules>
     <module>core</module>
     <module>navigation</module>
@@ -38,5 +45,103 @@
     <module>yangvisualizer</module>
     <module>sigmatopology</module>
   </modules>
+
+   <dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.compendium</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.osgi.compendium</artifactId>
+      <version>${apache.felix.osgi.compendium.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>org.opendaylight.dlux</groupId>
+      <artifactId>loader</artifactId>
+      <version>${project.version}</version>
+  </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>loader.implementation</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+  </dependencies>
+ <build>
+   <resources>
+      <resource>
+        <directory>target/generated-resources</directory>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+    <plugins>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-module-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.basedir}/target/generated-resources/${module.name}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${module.path}/${module.name}/</directory>
+                  <includes>
+                    <include>**</include>
+                  </includes>
+                  <filtering>false</filtering>
+                 </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+              <Import-Package>org.osgi.service.http,
+                  org.osgi.framework;version="1.0.0",
+                  org.opendaylight.dlux.loader,
+                  org.slf4j
+              </Import-Package>
+            <Export-Package></Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <scm>
+    <connection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</connection>
+    <developerConnection>scm:git:ssh://git.opendaylight.org:29418/dlux.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://wiki.opendaylight.org/view/OpenDaylight_dlux:Main</url>
+  </scm>
 
 </project>

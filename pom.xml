@@ -56,13 +56,11 @@
     </properties>
 
     <modules>
-       <module>modules</module>
        <module>dlux-web</module>
        <module>loader/api</module>
        <module>loader/impl</module>
        <module>bundles</module>
        <module>features</module>
-       <module>distribution-dlux</module>
        <module>archetype</module>
     </modules>
 

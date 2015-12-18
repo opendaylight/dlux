@@ -9,6 +9,9 @@
   </parent>
   <artifactId>loader.implementation</artifactId>
   <packaging>bundle</packaging>
+  <properties>
+    <dlux.compile.path>${project.basedir}/../../dlux-web/target/generated-resources/pages</dlux.compile.path>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.opendaylight.dlux</groupId>
@@ -100,7 +103,7 @@
               <outputDirectory>${project.basedir}/target/generated-resources/dlux</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/../../dlux-web/build/</directory>
+                  <directory>${dlux.compile.path}</directory>
                     <includes>
                       <include>src/main.js</include>
                       <include>src/app/app.controller.js</include>
@@ -128,7 +131,7 @@
               <outputDirectory>${project.basedir}/target/generated-resources/index</outputDirectory>
               <resources>
                 <resource>
-                  <directory>${project.basedir}/../../dlux-web/build/</directory>
+                  <directory>${dlux.compile.path}</directory>
                     <includes>
                       <include>index.html</include>
                     </includes>
@@ -139,28 +142,6 @@
           </execution>
         </executions>
       </plugin>
-    <!-- <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <id>unpack-loader-resources</id>
-            <goals>
-              <goal>unpack-dependencies</goal>
-            </goals>
-            <phase>generate-resources</phase>
-            <configuration>
-              <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
-              <groupId>org.opendaylight.dlux</groupId>
-              <includeArtifactIds>dlux.loader.resources</includeArtifactIds>
-              <excludes>META-INF\/**</excludes>
-              <excludeTransitive>true</excludeTransitive>
-              <ignorePermissions>false</ignorePermissions>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin> -->
     <plugin>
 
       <groupId>org.apache.maven.plugins</groupId>
