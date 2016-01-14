@@ -34,12 +34,26 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives), functio
           type: 'noreq',
           msg: null
       };
-      
+
       $scope.mainTabs = {
         api: true,
         history : false,
         collection : false,
         parameters : false
+      };
+
+      $scope.cmPrevInstance = null;
+      $scope.prevCMOpts = {
+        mode: 'javascript',
+        lineNumbers: true,
+        theme:'eclipse',
+        readOnly: true,
+        lineWrapping : true,
+        matchBrackets: true,
+        onLoad : function(cmInstance){
+            cmInstance.data = {parameterListObj:$scope.parameterList};
+            $scope.cmPrevInstance = cmInstance;
+        }
       };
 
       $scope.showTabs = function(tabs, tabName){

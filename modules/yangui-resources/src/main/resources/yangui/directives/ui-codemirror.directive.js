@@ -45,6 +45,13 @@ define(['app/yangui/yangui.module'], function(yangui) {
 
         configUiRefreshAttribute(codemirror, iAttrs.uiRefresh, scope);
 
+        scope.$watch(function(){return iAttrs.uiRefresh;}, function(newVal, oldVal) {
+          if(ngModel.$viewValue !== newVal){
+            ngModel.$viewValue = newVal;
+            ngModel.$render();
+          }
+        });
+
         // Allow access to the CodeMirror instance through a broadcasted event
         // eg: $broadcast('CodeMirror', function(cm){...});
         scope.$on('CodeMirror', function(event, callback) {
@@ -141,9 +148,10 @@ define(['app/yangui/yangui.module'], function(yangui) {
       }
 
       function configUiRefreshAttribute(codeMirror, uiRefreshAttr, scope) {
+
         if (!uiRefreshAttr) { return; }
 
-        scope.$watch(uiRefreshAttr, function(newVal, oldVal) {
+        scope.$watch('uiRefreshAttr', function(newVal, oldVal) {
           // Skip the initial watch firing
           if (newVal !== oldVal) {
             $timeout(function() {
