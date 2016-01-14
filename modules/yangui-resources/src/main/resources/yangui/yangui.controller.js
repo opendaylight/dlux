@@ -42,6 +42,20 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives), functio
         parameters : false
       };
 
+      $scope.cmPrevInstance = null;
+      $scope.prevCMOpts = {
+        mode: 'javascript',
+        lineNumbers: true,
+        theme:'eclipse',
+        readOnly: true,
+        lineWrapping : true,
+        matchBrackets: true,
+        onLoad : function(cmInstance){
+            cmInstance.data = {parameterListObj:$scope.parameterList};
+            $scope.cmPrevInstance = cmInstance;
+        }
+      };
+
       $scope.showTabs = function(tabs, tabName){
         for(var prop in tabs){
           tabs[prop] = tabName === prop;
