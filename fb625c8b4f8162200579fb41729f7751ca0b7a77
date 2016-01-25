@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_41b180f7",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/directives/ui-codemirror.directive.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-01-25T13:59:09Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 8
+      },
+      "revId": "fb625c8b4f8162200579fb41729f7751ca0b7a77",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a195ec41",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/yangui.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-01-25T13:59:09Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "fb625c8b4f8162200579fb41729f7751ca0b7a77",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
