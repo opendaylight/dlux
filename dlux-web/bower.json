@@ -10,7 +10,7 @@
     "angular-resource": "~1.4.0",
     "angular-cookies": "~1.4.0",
     "angular-sanitize": "~1.4.0",
-    "angular-ui-date": "latest",
+    "angular-ui-date": "~0.0.11",
     "requirejs": "~2.1.14",
     "font-awesome": "~4.0.3",
     "bootstrap": "~3.0.2",
@@ -18,11 +18,11 @@
     "angular-ui-utils": "~0.0.3",
     "d3": "~3.3.2",
     "restangular": "1.2.1",
-    "angular-ui-select2": "https://raw.github.com/angular-ui/ui-select2/master/src/select2.js",
-    "underscore": "latest",
-    "underscore.string": "latest",
-    "select2": "master",
-    "select2-bootstrap-css": "https://github.com/fk/select2-bootstrap-css/archive/master.zip",
+    "angular-ui-select2": "~0.0.5",
+    "underscore": "~1.8.3",
+    "underscore.string": "~3.2.1",
+    "select2": "^3.3.2",
+    "select2-bootstrap-css": "~1.2.5",
     "footable": "2.0.1",
     "angular-translate": "2.2.0",
     "angular-translate-loader-static-files": "2.2.0",
@@ -47,6 +47,7 @@
   },
   "resolutions": {
     "angular": "~1.4.0",
-    "angular-translate": "~2.7.2"
+    "angular-translate": "~2.7.2",
+    "select2": "^3.3.2"
   }
 }
