@@ -1,14 +1,14 @@
-define(['common/authentification/auth.services'], function() {
-  describe('Auth Module', function() {
+define(['common/authentification/auth.module'], function () {
+  describe('Auth Module', function () {
     var _Auth, httpBackend, deferred;
     beforeEach(module('app.common.auth'));
 
-    beforeEach(inject(function($injector) {
+    beforeEach(inject(function ($injector) {
       _Auth = $injector.get('Auth');
       httpBackend = $injector.get('$httpBackend');
     }));
 
-    it('Should have defined function facilate the authentication process', function() {
+    it('Should have defined function facilate the authentication process', function () {
       expect(_Auth.setBasic).toBeDefined();
       expect(_Auth.unsetBasic).toBeDefined();
       expect(_Auth.getUser).toBeDefined();
@@ -19,16 +19,16 @@ define(['common/authentification/auth.services'], function() {
       expect(_Auth.logout).toBeDefined();
     });
 
-    describe(':: Authentication header', function() {
+    describe(':: Authentication header', function () {
       var username = 'john',
-          password = 'abc123',
-          _window = null;
+        password = 'abc123',
+        _window = null;
 
-      beforeEach(inject(function($window) {
+      beforeEach(inject(function ($window) {
         _window = $window;
       }));
 
-      it('Should set the basic authenticate header', function() {
+      it('Should set the basic authenticate header', function () {
         _Auth.setBasic(username, password);
 
         expect(_window.sessionStorage.odlUser).toBeDefined();
@@ -38,7 +38,7 @@ define(['common/authentification/auth.services'], function() {
         expect(_window.sessionStorage.odlPass).toEqual(password);
       });
 
-      it('Should unset the basic authenticate header', inject(function($http) {
+      it('Should unset the basic authenticate header', inject(function ($http) {
         _Auth.setBasic(username, password);
         _Auth.unsetBasic();
 
@@ -48,11 +48,11 @@ define(['common/authentification/auth.services'], function() {
       }));
     });
 
-    describe(':: Login management', function() {
+    describe(':: Login management', function () {
       var username = 'john',
-          password = 'abc123';
+        password = 'abc123';
 
-      it('Should return the current user or null otherwise', function() {
+      it('Should return the current user or null otherwise', function () {
         var user = _Auth.getUser();
         expect(user).toBeNull();
 
@@ -60,8 +60,8 @@ define(['common/authentification/auth.services'], function() {
         expect(user).toEqual(user);
       });
 
-      it('Should set the authentication header and send a callback if success', function() {
-        httpBackend.expect('GET',/.*/).respond(200, '');
+      it('Should set the authentication header and send a callback if success', function () {
+        httpBackend.expect('GET', /.*/).respond(200, '');
         var successSpy = jasmine.createSpy("successSpy");
         var errorSpy = jasmine.createSpy("errorSpy");
         spyOn(_Auth, 'setBasic');
@@ -74,8 +74,8 @@ define(['common/authentification/auth.services'], function() {
         expect(errorSpy).not.toHaveBeenCalled();
       });
 
-      it('Should unset the authentication header and send a callback if error', function() {
-        httpBackend.expect('GET',/.*/).respond(404, '');
+      it('Should unset the authentication header and send a callback if error', function () {
+        httpBackend.expect('GET', /.*/).respond(404, '');
         var successSpy = jasmine.createSpy("successSpy");
         var errorSpy = jasmine.createSpy("errorSpy");
         spyOn(_Auth, 'setBasic');
@@ -90,7 +90,7 @@ define(['common/authentification/auth.services'], function() {
         expect(errorSpy).toHaveBeenCalled();
       });
 
-      it('Should unset the authentication header on logout', function() {
+      it('Should unset the authentication header on logout', function () {
         var successSpy = jasmine.createSpy("successSpy");
         spyOn(_Auth, 'unsetBasic');
 
@@ -100,7 +100,7 @@ define(['common/authentification/auth.services'], function() {
         expect(successSpy).toHaveBeenCalled();
       });
 
-      afterEach(function() {
+      afterEach(function () {
         httpBackend.verifyNoOutstandingExpectation();
         httpBackend.verifyNoOutstandingRequest();
       });
