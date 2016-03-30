@@ -1,9 +1,14 @@
-define(['common/navigation/navigation.module'], function(nav) {
+define([], function () {
+  'use strict';
 
-    nav.factory('MDSalRestangular', function(Restangular, ENV) {
-        return Restangular.withConfig(function(RestangularConfig) {
-            RestangularConfig.setBaseUrl(ENV.getBaseURL("MD_SAL"));
-        });
+  var MDSalRestangular = function (Restangular, ENV) {
+    return Restangular.withConfig(function (RestangularConfig) {
+      RestangularConfig.setBaseUrl(ENV.getBaseURL('MD_SAL'));
     });
+  };
+  MDSalRestangular.$inject = ['Restangular', 'ENV'];
 
+  return {
+    MDSalRestangular: MDSalRestangular
+  };
 });
