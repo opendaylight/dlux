@@ -1,33 +1,40 @@
-define(['common/navigation/navigation.module', 'app/core/core.services', 'common/navigation/navigation.services'], function(nav, services) {
-  nav.controller('NavCtrl', function($scope, NavHelper) {
-    $scope.navList = NavHelper.getMenu();
-  });
+define(['angular'], function (angular) {
+  'use strict';
 
-  nav.controller('navItemCtrl', function($scope, NavHelper) {
+  var NavCtrl = function ($scope, NavHelper) {
+    $scope.navList = NavHelper.getMenu();
+  };
+  NavCtrl.$inject = ['$scope', 'NavHelper'];
+
+  var NavItemCtrl = function ($scope) {
     $scope.display = 'none';
     $scope.isOpen = false;
 
     $scope.isValid = function (value) {
       if (angular.isUndefined(value) || value === null) {
         return false;
-      }
-      else {
+      } else {
         return true;
       }
     };
 
-    $scope.updateTemplate = function (e, item) {
+    $scope.updateTemplate = function (e) {
       e.stopPropagation();
       e.preventDefault();
 
       $scope.isOpen = !$scope.isOpen;
-      if ($scope.display == 'none') {
+      if ($scope.display === 'none') {
         $scope.display = 'block';
-      }
-      else {
+      } else {
         $scope.display = 'none';
       }
     };
-  });
+  };
+  NavItemCtrl.$inject = ['$scope', 'NavHelper'];
+
+  return {
+    NavCtrl: NavCtrl,
+    NavItemCtrl: NavItemCtrl
+  };
 
 });
