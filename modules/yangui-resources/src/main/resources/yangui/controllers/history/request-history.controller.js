@@ -1,0 +1,182 @@
+
+define([], function() {
+
+    angular.module('app.yangui').controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils','HistoryServices', 'handleFile', 'yangUtils', 'constants', 'mountPointsConnector', '$filter', 'parsingJson',
+        function ($scope, $rootScope, pathUtils, HistoryServices, handleFile, yangUtils, constants, mountPointsConnector, $filter, parsingJson) {
+
+            $scope.collectionBoxView = false;
+
+
+            var mountPrefix = constants.MPPREFIX;
+
+            $scope.getApiCallback = function(pathString) {
+                var snp = pathUtils.getStorageAndNormalizedPath(pathString),
+                    mpSearchPath = mountPointsConnector.alterMpPath(pathString), //if the path is for mountpoint then get the path to treedata structure
+                    apiIndexes = pathUtils.searchNodeByPath(mpSearchPath, $scope.treeApis, $scope.treeRows),
+                    selApi = apiIndexes ? $scope.apis[apiIndexes.indexApi] : null,
+                    selSubApi = selApi ? selApi.subApis[apiIndexes.indexSubApi] : null,
+                    copiedApi = selSubApi ? selSubApi.clone({ storage: snp.storage, withoutNode: true, clonePathArray: true }) : null;
+
+                if (copiedApi) {
+                    copiedApi.pathArray.forEach(function(p){
+                        p.hover = false;
+                    });
+
+                    pathUtils.fillPath(copiedApi.pathArray, snp.normalizedPath);
+                }
+
+                var searchedModule = pathUtils.getModuleNameFromPath(pathString);
+
+                if(mpSearchPath.indexOf(mountPrefix) !== -1 && copiedApi){
+                    copiedApi = $scope.selSubApi && searchedModule === $scope.selSubApi.pathArray[1].module ? copiedApi : null;
+                }
+
+                return copiedApi;
+            };
+
+            $scope.requestList = HistoryServices.createEmptyHistoryList('requestList', $scope.getApiCallback);
+            $scope.collectionList = HistoryServices.createEmptyCollectionList('collectionList', $scope.getApiCallback);
+            $scope.parameterList = HistoryServices.createEmptyParamList('parameterList');
+            $scope.parameterList.loadListFromStorage();
+
+            $scope.popupHistory = { show: false};
+
+            $scope.$on('REFRESH_HISTORY_REQUEST_APIS', function(event, callback){
+                $scope.requestList.refresh();
+                $scope.collectionList.refresh();
+            });
+
+
+            $scope.$on('GET_PARAMETER_LIST', function(event, callback){
+                callback($scope.parameterList);
+            });
+
+            $scope.$on('YUI_ADD_TO_HISTORY', function(event, status, data, requestData, operation, requestPath) {
+                $scope.addRequestToList(status, data, requestData, operation, requestPath);
+            });
+
+            $scope.addRequestToList = function(status, receivedData, sentData, operation, path) {
+                if(typeof(Storage) !== "undefined") {
+
+                    var rList = HistoryServices.createEmptyHistoryList(),
+                        reqObj = HistoryServices.createHistoryRequest(sentData, receivedData, path, null, operation, status, null, null, $scope.getApiCallback);
+
+                    reqObj.refresh($scope.getApiCallback);
+
+                    $scope.requestList.addRequestToList(reqObj);
+                    $scope.requestList.saveToStorage();
+                }
+            };
+
+            $scope.reqHistoryFunc = function(){
+                $scope.popupHistory.show = !$scope.popupHistory.show;
+
+                $scope.requestList.loadListFromStorage();
+                $scope.collectionList.loadListFromStorage();
+                $scope.requestList.show = false;
+            };
+
+            $scope.showCollBox = function(req, edit){
+                $scope.collectionBoxView = true;
+                $scope.$broadcast('COLL_CLEAR_VAL_SET_REQ', req, edit);
+            };
+
+
+            $scope.hideCollBox = function(){
+                $scope.collectionBoxView = false;
+            };
+
+            $scope.saveElemToList = function(elem) {
+                $scope.collectionList.addRequestToList(elem);
+                $scope.collectionList.saveToStorage();
+            };
+
+            $scope.saveParamToList = function(elem, oldElem) {
+                $scope.parameterList.saveRequestToList(elem, oldElem);
+            };
+
+            $scope.deleteRequestItem = function(elem, list){
+                $scope[list].deleteRequestItem(elem);
+                $scope[list].saveToStorage();
+            };
+
+            $scope.clearHistoryData = function(list){
+                $scope[list].clear();
+                $scope[list].saveToStorage();
+            };
+
+            var clearFileInputValue = function() {
+                var el = document.getElementById("upload-collection");
+                el.value = '';
+            };
+
+            $scope.exportHistoryData = function() {
+                var cListJSON = localStorage.getItem("collectionList");
+
+                handleFile.downloadFile('requestCollection.json', cListJSON, 'json', 'charset=utf-8', function(){
+                    $scope.setStatusMessage('success', 'EXPORT_COLLECTIONS_SUCCESS');
+                },function(e){
+                    $scope.setStatusMessage('danger', 'EXPORT_COLLECTIONS_ERROR', e);
+                    console.error('ExportCollection error:', e);
+                });
+            };
+
+            $scope.readCollectionFromFile = function($fileContent) {
+                var data = $fileContent,
+                    checkArray = ['sentData','receivedData','path','group','parametrizedPath','method','status','name'];
+
+                if(data && HistoryServices.validateFile(data, checkArray)){
+                    try {
+                        $scope.collectionList.loadListFromFile(data);
+                        $scope.collectionList.saveToStorage();
+                        $scope.setStatusMessage('success', 'LOAD_COLLECTIONS_SUCCESS');
+                        clearFileInputValue();
+                    }catch(e) {
+                        clearFileInputValue();
+                        $scope.setStatusMessage('danger', 'PARSE_JSON_FILE_ERROR', e);
+                        console.error('DataStorage error:', e);
+                    }
+                }else{
+                    $scope.setStatusMessage('danger', 'PARSE_JSON_FILE_ERROR');
+                    clearFileInputValue();
+                }
+            };
+
+            $scope.executeCollectionRequest = function(req, dataForView, showData) {
+                var sdata = dataForView ? parsingJson.parseJson(dataForView) : req.sentData,
+                    path = req.parametrizedPath && showData ? req.parametrizedPath : req.api.buildApiRequestString();
+
+                path = $scope.parameterizeData(path);
+                $scope.fillStandardApi(path, req.path);
+
+                if(sdata) {
+                    $scope.fillApiData(sdata);
+                }
+
+                var requestPath = req.api.parent.basePath + path;
+
+                $scope.executeOperation(req.method, function(data){
+                    if ( !data &&  req.receivedData ){
+                        $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
+                    }
+                }, requestPath);
+            };
+
+            $scope.groupView = {};
+
+            $scope.setGroupView = function(key) {
+                $scope.groupView[key] = false;
+            };
+
+            $scope.toggleExpanded = function(key) {
+                $scope.groupView[key] = !$scope.groupView[key];
+            };
+
+            $scope.$on('LOAD_REQ_DATA', function(){
+                $scope.reqHistoryFunc();
+            });
+
+        }]);
+
+
+});
