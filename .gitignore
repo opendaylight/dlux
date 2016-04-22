@@ -9,6 +9,10 @@ target/
 vendor/
 .DS_Store
 
+# dlux app
+dlux-web/src/
+!dlux-web/src/less/
+
 # Eclipse
 .classpath
 .project
