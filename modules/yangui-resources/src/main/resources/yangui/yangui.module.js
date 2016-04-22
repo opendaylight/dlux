@@ -12,16 +12,15 @@ var modules = [
         'codeMirror-javascriptMode',
         'codeMirror-matchBrackets',
         'ngClip',
-        'common/yangutils/yangutils.services',
-        'common/yangutils/listfiltering.services',
-        'angular-translate-loader-partial'
+        'angular-translate-loader-partial',
+        'common/yangutils/yangutils.module'
     ],
     ZeroClipboard = null;
 
 define(modules, function(ZC) {
   ZeroClipboard = ZC;
 
-  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'app.common.listFiltering', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngClipboard']);
+  var yangui = angular.module('app.yangui', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngClipboard']);
 
   yangui.register = yangui;
 
@@ -40,7 +39,7 @@ define(modules, function(ZC) {
       constant : $provide.constant
     };
 
-    NavHelperProvider.addControllerUrl('app/yangui/yangui.controller');
+    NavHelperProvider.addControllerUrl('app/yangui/controllers/yangui.controller');
     NavHelperProvider.addToMenu('yangui', {
       "link": "#/yangui/index",
       "active": "main.yangui",

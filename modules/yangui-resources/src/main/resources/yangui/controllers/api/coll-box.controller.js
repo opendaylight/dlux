@@ -1,5 +1,5 @@
 define([], function() {
-    angular.module('app.yangui').controller('collBoxCtrl', ['$scope','HistoryServices',function ($scope, HistoryServices) {
+    angular.module('app.yangui').controller('collBoxCtrl', ['$scope','HistoryService',function ($scope, HistoryService) {
 
         $scope.collection = {
             name: '',
@@ -12,7 +12,7 @@ define([], function() {
         $scope.addHistoryItemToColl = function(){
             var elemToAdd = $scope.selectedRequest.clone();
 
-            HistoryServices.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToAdd);
+            HistoryService.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToAdd);
             $scope.saveElemToList(elemToAdd);
 
             if ( $scope.editBox ) {
@@ -25,7 +25,7 @@ define([], function() {
         $scope.moveHistoryItemToGroup = function(elem, event){
             var elemToMove = elem.clone();
 
-            HistoryServices.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToMove);
+            HistoryService.setNameAndGroup($scope.collection.name, $scope.collection.group, elemToMove);
             $scope.saveElemToList(elemToMove);
             $scope.deleteRequestItem(elem, 'collectionList');
             $scope.hideCollBox();
