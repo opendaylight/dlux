@@ -1,16 +1,17 @@
 var modules = [
-  'angularAMD', 
-  'app/routingConfig', 
-  'common/yangutils/yangutils.services',
-  'ui-bootstrap', 
-  'Restangular', 
-  'angular-translate',
-  'ngSlider'
+    'angularAMD',
+    'app/routingConfig',
+    'common/yangutils/yangutils.module',
+    'ui-bootstrap',
+    'Restangular',
+    'angular-translate',
+    'ngSlider'
 ];
 
 define(modules, function() {
 
-  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap', 'restangular', 'pascalprecht.translate', 'ngSlider']);
+  var yangvisualizer = angular.module('app.yangvisualizer', ['ui.router.state','app.core', 'app.common.yangUtils', 'ui.bootstrap',
+                                                                'restangular', 'pascalprecht.translate', 'ngSlider', 'app.common.yangUtils']);
 
   yangvisualizer.register = yangvisualizer;
 

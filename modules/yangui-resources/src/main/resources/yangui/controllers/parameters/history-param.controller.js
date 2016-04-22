@@ -1,13 +1,13 @@
 define([], function() {
-    angular.module('app.yangui').controller('historyParamCtrl',['$scope','HistoryServices', 'handleFile',
-        function($scope, HistoryServices, handleFile){
+    angular.module('app.yangui').controller('historyParamCtrl',['$scope','HistoryService', 'HandleFileService',
+        function($scope, HistoryService, HandleFileService){
 
             $scope.showParamBox = function(param){
                 $scope.$broadcast('HISTORY_INIT_PARAM', param);
             };
 
             $scope.createNewParam = function(){
-                return HistoryServices.createParameter('','');
+                return HistoryService.createParameter('','');
             };
 
             var clearFileInputValue = function() {
@@ -18,7 +18,7 @@ define([], function() {
             $scope.exportParametersData = function() {
                 var cListJSON = localStorage.getItem("parameterList");
 
-                handleFile.downloadFile('parameters.json', cListJSON, 'json', 'charset=utf-8', function(){
+                HandleFileService.downloadFile('parameters.json', cListJSON, 'json', 'charset=utf-8', function(){
                     $scope.setStatusMessage('success', 'EXPORT_PARAMETERS_SUCCESS');
                 },function(e){
                     $scope.setStatusMessage('danger', 'EXPORT_PARAMETERS_ERROR', e);
@@ -30,7 +30,7 @@ define([], function() {
                 var data = $fileContent,
                     checkArray = ['name', 'value'];
 
-                if(data && HistoryServices.validateFile(data, checkArray)){
+                if(data && HistoryService.validateFile(data, checkArray)){
                     try {
                         $scope.parameterList.loadListFromFile(data);
                         $scope.parameterList.saveToStorage();

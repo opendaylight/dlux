@@ -1,8 +1,14 @@
+var services = [
+    'app/yangui/services/handle-file.services',
+];
 
-define([], function() {
+define([].concat(services), function() {
 
-    angular.module('app.yangui').controller('requestHistoryCtrl', ['$scope', '$rootScope','pathUtils','HistoryServices', 'handleFile', 'yangUtils', 'constants', 'mountPointsConnector', '$filter', 'parsingJson',
-        function ($scope, $rootScope, pathUtils, HistoryServices, handleFile, yangUtils, constants, mountPointsConnector, $filter, parsingJson) {
+    angular.module('app.yangui').controller('requestHistoryCtrl', ['$scope', '$rootScope','PathUtilsService','HistoryService',
+                                                                    'HandleFileService', 'YangUtilsService', 'constants',
+                                                                    'MountPointsConnectorService', '$filter', 'ParsingJsonService',
+        function ($scope, $rootScope, PathUtilsService, HistoryService, HandleFileService, YangUtilsService, constants,
+                  MountPointsConnectorService, $filter, ParsingJsonService) {
 
             $scope.collectionBoxView = false;
 
@@ -10,9 +16,9 @@ define([], function() {
             var mountPrefix = constants.MPPREFIX;
 
             $scope.getApiCallback = function(pathString) {
-                var snp = pathUtils.getStorageAndNormalizedPath(pathString),
-                    mpSearchPath = mountPointsConnector.alterMpPath(pathString), //if the path is for mountpoint then get the path to treedata structure
-                    apiIndexes = pathUtils.searchNodeByPath(mpSearchPath, $scope.treeApis, $scope.treeRows),
+                var snp = PathUtilsService.getStorageAndNormalizedPath(pathString),
+                    mpSearchPath = MountPointsConnectorService.alterMpPath(pathString), //if the path is for mountpoint then get the path to treedata structure
+                    apiIndexes = PathUtilsService.searchNodeByPath(mpSearchPath, $scope.treeApis, $scope.treeRows),
                     selApi = apiIndexes ? $scope.apis[apiIndexes.indexApi] : null,
                     selSubApi = selApi ? selApi.subApis[apiIndexes.indexSubApi] : null,
                     copiedApi = selSubApi ? selSubApi.clone({ storage: snp.storage, withoutNode: true, clonePathArray: true }) : null;
@@ -22,10 +28,10 @@ define([], function() {
                         p.hover = false;
                     });
 
-                    pathUtils.fillPath(copiedApi.pathArray, snp.normalizedPath);
+                    PathUtilsService.fillPath(copiedApi.pathArray, snp.normalizedPath);
                 }
 
-                var searchedModule = pathUtils.getModuleNameFromPath(pathString);
+                var searchedModule = PathUtilsService.getModuleNameFromPath(pathString);
 
                 if(mpSearchPath.indexOf(mountPrefix) !== -1 && copiedApi){
                     copiedApi = $scope.selSubApi && searchedModule === $scope.selSubApi.pathArray[1].module ? copiedApi : null;
@@ -34,9 +40,9 @@ define([], function() {
                 return copiedApi;
             };
 
-            $scope.requestList = HistoryServices.createEmptyHistoryList('requestList', $scope.getApiCallback);
-            $scope.collectionList = HistoryServices.createEmptyCollectionList('collectionList', $scope.getApiCallback);
-            $scope.parameterList = HistoryServices.createEmptyParamList('parameterList');
+            $scope.requestList = HistoryService.createEmptyHistoryList('requestList', $scope.getApiCallback);
+            $scope.collectionList = HistoryService.createEmptyCollectionList('collectionList', $scope.getApiCallback);
+            $scope.parameterList = HistoryService.createEmptyParamList('parameterList');
             $scope.parameterList.loadListFromStorage();
 
             $scope.popupHistory = { show: false};
@@ -58,8 +64,8 @@ define([], function() {
             $scope.addRequestToList = function(status, receivedData, sentData, operation, path) {
                 if(typeof(Storage) !== "undefined") {
 
-                    var rList = HistoryServices.createEmptyHistoryList(),
-                        reqObj = HistoryServices.createHistoryRequest(sentData, receivedData, path, null, operation, status, null, null, $scope.getApiCallback);
+                    var rList = HistoryService.createEmptyHistoryList(),
+                        reqObj = HistoryService.createHistoryRequest(sentData, receivedData, path, null, operation, status, null, null, $scope.getApiCallback);
 
                     reqObj.refresh($scope.getApiCallback);
 
@@ -113,7 +119,7 @@ define([], function() {
             $scope.exportHistoryData = function() {
                 var cListJSON = localStorage.getItem("collectionList");
 
-                handleFile.downloadFile('requestCollection.json', cListJSON, 'json', 'charset=utf-8', function(){
+                HandleFileService.downloadFile('requestCollection.json', cListJSON, 'json', 'charset=utf-8', function(){
                     $scope.setStatusMessage('success', 'EXPORT_COLLECTIONS_SUCCESS');
                 },function(e){
                     $scope.setStatusMessage('danger', 'EXPORT_COLLECTIONS_ERROR', e);
@@ -125,7 +131,7 @@ define([], function() {
                 var data = $fileContent,
                     checkArray = ['sentData','receivedData','path','group','parametrizedPath','method','status','name'];
 
-                if(data && HistoryServices.validateFile(data, checkArray)){
+                if(data && HistoryService.validateFile(data, checkArray)){
                     try {
                         $scope.collectionList.loadListFromFile(data);
                         $scope.collectionList.saveToStorage();
@@ -143,7 +149,7 @@ define([], function() {
             };
 
             $scope.executeCollectionRequest = function(req, dataForView, showData) {
-                var sdata = dataForView ? parsingJson.parseJson(dataForView) : req.sentData,
+                var sdata = dataForView ? ParsingJsonService.parseJson(dataForView) : req.sentData,
                     path = req.parametrizedPath && showData ? req.parametrizedPath : req.api.buildApiRequestString();
 
                 path = $scope.parameterizeData(path);
