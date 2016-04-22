@@ -1,4 +1,4 @@
-define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.services'], function(yangvisualizer) {
+define(['app/yangvisualizer/yangvisualizer.module'], function(yangvisualizer) {
 
   yangvisualizer.register.factory('YangConfigRestangular', function(Restangular, ENV) {
     return Restangular.withConfig(function(RestangularConfig) {
@@ -6,7 +6,7 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
     });
   });
 
-  yangvisualizer.register.factory('visualizerUtils', function(YangUtilsRestangular, yangUtils, $http){
+  yangvisualizer.register.factory('visualizerUtils', function(YangUtilsRestangularService, YangUtilsService, $http){
     var visualizerUtils = {},
         nodeArray = [],
         linkArray = [],
@@ -335,8 +335,8 @@ define(['app/yangvisualizer/yangvisualizer.module', 'common/yangutils/yangutils.
     };
 
     visualizerUtils.getAllnodes = function(callback, errorCbk){
-        $http.get(YangUtilsRestangular.configuration.baseUrl+'/restconf/modules/').success(function (data) {
-            yangUtils.processModules(data.modules, function(result) {
+        $http.get(YangUtilsRestangularService.configuration.baseUrl+'/restconf/modules/').success(function (data) {
+            YangUtilsService.processModules(data.modules, function(result) {
                 callback(result);
             });
         }).error(function(result) {
