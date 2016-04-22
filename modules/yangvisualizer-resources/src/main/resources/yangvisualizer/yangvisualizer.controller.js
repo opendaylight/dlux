@@ -1,7 +1,7 @@
 define(['app/yangvisualizer/yangvisualizer.module', 'app/yangvisualizer/yangvisualizer.services', 'common/sigmatopology/sigma.directive'], function(yangvisualizer) {
 
-  yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular', 'yangUtils','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants',
-    function ($scope, $rootScope, $http, Restangular, yangUtils, visualizerUtils, DesignVisualizerFactory, yvConstants) {
+  yangvisualizer.register.controller('yangvisualizerCtrl', ['$scope', '$rootScope', '$http', 'YangConfigRestangular','visualizerUtils', 'DesignVisualizerFactory', 'yvConstants',
+    function ($scope, $rootScope, $http, Restangular, visualizerUtils, DesignVisualizerFactory, yvConstants) {
       $rootScope['section_logo'] = 'logo_yangvis';
 
       $scope.currentPath = './assets/views/yangvisualizerCtrl';
