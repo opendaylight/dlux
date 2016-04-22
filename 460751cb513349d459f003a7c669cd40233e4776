@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_312cb4ab",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2759
+      },
+      "writtenOn": "2016-04-22T13:45:32Z",
+      "side": 1,
+      "message": "I think the trailing * is unnecessary. The only lines you need I beleive are:\n\n dlux-web/src/\n !dlux-web/src/less/",
+      "revId": "460751cb513349d459f003a7c669cd40233e4776",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
