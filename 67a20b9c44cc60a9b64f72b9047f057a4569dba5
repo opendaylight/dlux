@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_a3606f36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2759
+      },
+      "writtenOn": "2016-04-26T14:05:39Z",
+      "side": 1,
+      "message": "instead of splitted, it should be in present form \"split\"",
+      "revId": "67a20b9c44cc60a9b64f72b9047f057a4569dba5",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
