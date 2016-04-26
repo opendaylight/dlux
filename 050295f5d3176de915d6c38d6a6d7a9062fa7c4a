@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fa57193c_e35a6782",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2759
+      },
+      "writtenOn": "2016-04-26T14:06:58Z",
+      "side": 1,
+      "message": "commit messages should be written in present-tense. So instead of splitting, it should be simply \"split\".",
+      "revId": "050295f5d3176de915d6c38d6a6d7a9062fa7c4a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_889aaa12",
         "filename": "modules/yangui-resources/src/main/resources/yangui/cf/displayMountPoints.services.js",
         "patchSetId": 1
