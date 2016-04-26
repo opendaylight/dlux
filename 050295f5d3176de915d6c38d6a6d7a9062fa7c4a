@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_889aaa12",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/cf/displayMountPoints.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-04-26T11:20:47Z",
+      "side": 1,
+      "message": "Can you please remove the trailing whitespace?",
+      "range": {
+        "startLine": 55,
+        "startChar": 116,
+        "endLine": 55,
+        "endChar": 117
+      },
+      "revId": "050295f5d3176de915d6c38d6a6d7a9062fa7c4a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_c8a4a259",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/cf/displayMountPoints.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-04-26T11:20:47Z",
+      "side": 1,
+      "message": "Can you please remove whitespaces?",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 27
+      },
+      "revId": "050295f5d3176de915d6c38d6a6d7a9062fa7c4a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_a895eee5",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/cf/displayTopology.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-04-26T11:20:47Z",
+      "side": 1,
+      "message": "Can you please remove  trailing whitespaces?",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "050295f5d3176de915d6c38d6a6d7a9062fa7c4a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_28027e3e",
+        "filename": "modules/yangvisualizer-resources/src/main/resources/yangvisualizer/yangvisualizer.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-04-26T11:20:47Z",
+      "side": 1,
+      "message": "can you remove trailing whitespaces pls?",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "050295f5d3176de915d6c38d6a6d7a9062fa7c4a",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
