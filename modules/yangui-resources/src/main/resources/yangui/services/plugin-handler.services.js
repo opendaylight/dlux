@@ -1,49 +1,60 @@
 var pluginsFactories = [
     'displayTopology',
     'checkFlow',
-    'displayMountPoints'
+    'displayMountPoints',
 ];
 
 var pluginContollers = [
-    'cvTopology'
+    'cvTopology',
 ];
 
-define(['app/yangui/yangui.module'].concat(pluginsFactories.map(function(plugin) {
-    return 'app/yangui/cf/'+plugin+'.services';
-})).concat(pluginContollers.map(function(ctrl) {
-    return 'app/yangui/cf/cv/'+ctrl+'.controller';
-})), function(yangui, yangutils) {
+define(['app/yangui/yangui.module'].concat(pluginsFactories.map(function (plugin) {
+    'use strict';
+    return 'app/yangui/cf/' + plugin + '.services';
+})).concat(pluginContollers.map(function (ctrl) {
+    'use strict';
+    return 'app/yangui/cf/cv/' + ctrl + '.controller';
+})), function (yangui, yangutils) {
+    'use strict';
 
-    yangui.register.service('PluginHandlerService', function($http, $injector, CustomFuncService, displayTopology, checkFlow) {
+    yangui.register.service('PluginHandlerService', PluginHandlerService);
 
-        var pluginHandler = {
+    function PluginHandlerService($http, $injector, CustomFuncService, displayTopology, checkFlow) {
+
+        var service = {
+            addPlugins: addPlugins,
+            plugAll: plugAll,
             plugins: [],
-            addPlugins: function() {
-                var self = this;
-
-                pluginsFactories.forEach(function(pluginFactFullName) {
-                    var pluginServiceName = pluginFactFullName.split('/');
-                    pluginName = pluginServiceName[pluginServiceName.length - 1].split('.')[0];
-
-                    $injector.invoke([pluginName, function(pluginFact) {
-                        self.plugins.push(pluginFact);
-                    }]);
-                });
-
-            },
-            plugAll: function(apis) {
-                this.plugins.forEach(function(plugin) {
-                    console.info('adding plugin',plugin.label);
-                    plugin.module.forEach(function(plModule, i){
-                        CustomFuncService.createCustomFunctionalityApis(apis, plModule, plugin.revision, plugin.pathString[i], plugin.label, plugin.getCallback, plugin.view, plugin.hideButtonOnSelect);
-                    });
-                });
-            }
         };
 
-        pluginHandler.addPlugins();
+        service.addPlugins();
 
-        return pluginHandler;
-    });
+        return service;
 
+        // TODO: add service's description
+        function addPlugins() {
+            pluginsFactories.forEach(function (pluginFactFullName) {
+                var pluginServiceName = pluginFactFullName.split('/'),
+                    pluginName = pluginServiceName[pluginServiceName.length - 1].split('.')[0];
+
+                $injector.invoke([pluginName, function (pluginFact) {
+                    service.plugins.push(pluginFact);
+                }]);
+            });
+
+        }
+
+        // TODO: add service's description
+        function plugAll(apis) {
+            service.plugins.forEach(function (plugin) {
+                console.info('adding plugin', plugin.label);
+                plugin.module.forEach(function (plModule, i){
+                    CustomFuncService.createCustomFunctionalityApis(apis, plModule, plugin.revision,
+                                                                    plugin.pathString[i], plugin.label,
+                                                                    plugin.getCallback, plugin.view,
+                                                                    plugin.hideButtonOnSelect);
+                });
+            });
+        }
+    }
 });
