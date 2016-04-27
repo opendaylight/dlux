@@ -3,8 +3,8 @@ define(['app/yangui/yangui.module', 'common/sigmatopology/sigma.directive'], fun
     yangui.register.factory('displayTopology', function($http, RequestBuilderService, YangUtilsService) {
 
         var fnc = function($scope) {
-            if($scope.node && 
-                $scope.node.getChildren('list', 'topology').length > 0 && 
+            if($scope.node &&
+                $scope.node.getChildren('list', 'topology').length > 0 &&
                 $scope.node.getChildren('list', 'topology')[0].actElemStructure) {
                 var dataList = [],
                     dataObj = {};
