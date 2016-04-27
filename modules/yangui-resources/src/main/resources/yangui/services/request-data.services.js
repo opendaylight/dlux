@@ -1,17 +1,17 @@
-define(['app/yangui/yangui.module'], function(yangui) {
+define(['app/yangui/yangui.module'], function() {
 
-    yangui.register.service('RequestDataService', ['HistoryService', function(HistoryService){
-        var rdf = {};
+    angular.module('app.yangui').service('RequestDataService', ['HistoryService', RequestDataService]);
 
-        rdf.scanDataParams = function (paramsObj, lineString) {
-            var usedParamLabelArray = [],
-                removeUnwantedChars = function(val){
-                    var string = val.substring(2);
-                    return string.substring(0, string.indexOf('>>'));
-                },
-                onlyUnique = function(value, index, self) {
-                    return self.indexOf(value) === index;
-                };
+    function RequestDataService(HistoryService){
+        var service = {
+            scanDataParams: scanDataParams
+        };
+
+        return service;
+
+        //TODO: add service's description
+        function scanDataParams(paramsObj, lineString) {
+            var usedParamLabelArray = [];
 
             var params = lineString ? lineString.match(/<<(?!<<)[a-zA-Z0-9]+>>/g) : null;
 
@@ -35,9 +35,18 @@ define(['app/yangui/yangui.module'], function(yangui) {
             });
 
             return returnedParamsList;
-        };
 
-        return rdf;
-    }]);
+            //TODO: add function's description
+            function removeUnwantedChars(val){
+                var string = val.substring(2);
+                return string.substring(0, string.indexOf('>>'));
+            }
+
+            //TODO: add function's description
+            function onlyUnique(value, index, self) {
+                return self.indexOf(value) === index;
+            }
+        }
+    }
 
 });
