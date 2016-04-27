@@ -12,6 +12,7 @@ define(['app/yangui/yangui.module', 'common/sigmatopology/sigma.directive'], fun
                 $scope.node.getChildren('list', 'topology')[0].actElemStructure.listElemBuildRequest(RequestBuilderService, dataList);
                 dataObj = {'network-topology': { 'topology': dataList }};
 
+                console.log('dataObj', dataObj);
                 var topoDataYang = YangUtilsService.transformTopologyData(dataObj),
                     topoData = {
                         nodes: [],
@@ -38,7 +39,7 @@ define(['app/yangui/yangui.module', 'common/sigmatopology/sigma.directive'], fun
                                     };
                                 });
 
-                // console.info('topoData', topoData);
+                 console.info('topoData', topoData);
                 $scope.topologyData = topoData;
                 $scope.topologyData.delay = 500;
 

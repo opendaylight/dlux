@@ -6,9 +6,20 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                  PathUtilsService){
 
             var mountPrefix = constants.MPPREFIX,
-                mp = {};
+                service = {
+                    addPathElemsToPathArray: addPathElemsToPathArray,
+                    alterMpPath: alterMpPath,
+                    createCustomButton: createCustomButton,
+                    createMPRootNode: createMPRootNode,
+                    discoverMountPoints: discoverMountPoints,
+                    getMPModulesAPI: getMPModulesAPI,
+                    updateMountPointApis: updateMountPointApis
+                };
 
-            mp.createMPRootNode = function(mpNodes) {
+            return service;
+
+            //TODO: add service's description
+            function createMPRootNode(mpNodes) {
                 var node = null,
                     yangParser = YinParserService.yangParser;
 
@@ -44,9 +55,10 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                 });
 
                 return node;
-            };
+            }
 
-            var addPathElemsToPathArray = function(pathElems, pathArray, index) {
+            //TODO: add service's description
+            function addPathElemsToPathArray(pathElems, pathArray, index) {
                 var updatedPath = pathArray.slice();
 
                 pathElems.forEach(function(pe, offset) {
@@ -55,9 +67,10 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                 });
 
                 return updatedPath;
-            };
+            }
 
-            mp.alterMpPath = function(path) {
+            //TODO: add service's description
+            function alterMpPath(path) {
                 var pathParts = path.split('/'),
                     restconfIndex = PathUtilsService.findIndexOfStrInPathStr(pathParts, 'restconf'),
                     mpIndex = PathUtilsService.findIndexOfStrInPathStr(pathParts, mountPrefix),
@@ -74,10 +87,14 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                 }
 
                 return mpPath;
-            };
+            }
 
-            //function for adding path to mountpoint + yang:ext-mount to mount point patharray so the request string will be built correctly
-            mp.updateMountPointApis = function(basePathArray, mpApis) {
+            /**
+             * function for adding path to mountpoint + yang:ext-mount to mount point patharray so the request string will be built correctly
+             * @param basePathArray
+             * @param mpApis
+             */
+            function updateMountPointApis(basePathArray, mpApis) {
                 var actualPath = basePathArray.slice(1); //we don't want to have config/operational storage in path
                 // actualPath.push(PathUtilsService.createPathElement(mountPrefix, null, null, false)); //we want to push yang-ext:mount to the path - not if we have yang-ext:mount rootNode
 
@@ -86,9 +103,10 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                         subApi.pathArray = addPathElemsToPathArray(actualPath, subApi.pathArray, 1);
                     });
                 });
-            };
+            }
 
-            mp.getMPModulesAPI = function(api) {
+            //TODO: add service's description
+            function getMPModulesAPI(api) {
                 var apiArray = api.split('/'),
                     yangExtMountStr = mountPrefix;
 
@@ -97,12 +115,13 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                 }
 
                 return apiArray.slice(1).join('/');
-            };
+            }
 
-            mp.discoverMountPoints = function(api, getModulesCbk, callback) {
+            //TODO: add service's description
+            function discoverMountPoints(api, getModulesCbk, callback) {
                 var modulesCbk = getModulesCbk || function() { return []; },
                     mpNodes = [],
-                    baseApiPath = mp.getMPModulesAPI(api);
+                    baseApiPath = getMPModulesAPI(api);
 
                 YangUiApisService.getCustomModules(baseApiPath).then(
                     function (data) {
@@ -133,18 +152,16 @@ define(['app/yangui/yangui.module', 'common/yangutils/constants'], function(yang
                         callback([]);
                     }
                 );
-            };
+            }
 
-            mp.createCustomButton = function(label, show, click){
+            //TODO: add service's description
+            function createCustomButton(label, show, click){
                 return {
                     label: label,
                     show: show,
                     onclick: click
                 };
-            };
-
-
-            return mp;
+            }
         }
     ]);
 
