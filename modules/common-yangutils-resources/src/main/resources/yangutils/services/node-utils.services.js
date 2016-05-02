@@ -2,20 +2,26 @@ define([], function () {
     'use strict';
 
     function NodeUtilsService(){
-        var nu = {};
 
-        nu.isRootNode = function (type) {
+        var service = {
+            isRootNode: isRootNode,
+            isOnlyOperationalNode: isOnlyOperationalNode,
+        };
+
+        return service;
+
+        // TODO: add service's description
+        function isRootNode(type) {
             return type === 'container' || type === 'list' || type === 'rpc';
-        };
+        }
 
-        nu.isOnlyOperationalNode = function (node) {
+        // TODO: add service's description
+        function isOnlyOperationalNode(node) {
             return node.hasOwnProperty('isConfigStm') ? node.isConfigStm !== false : true;
-        };
-
-        return nu;
+        }
     }
 
-    NodeUtilsService.$inject=[];
+    NodeUtilsService.$inject = [];
 
     return NodeUtilsService;
 

@@ -2,21 +2,21 @@ define([], function () {
     'use strict';
 
     function RestrictionsService(){
-        var RestrictionObject = function(fnc, info) {
-            this.info = info;
-            this.check = fnc;
+
+        var service = {
+            getEqualsFnc: getEqualsFnc,
+            getIsDecimalFnc: getIsDecimalFnc,
+            getIsNumberFnc: getIsNumberFnc,
+            getIsUNumberFnc: getIsUNumberFnc,
+            getMinMaxFnc: getMinMaxFnc,
+            getReqexpValidationFnc: getReqexpValidationFnc,
+            isInArray: isInArray,
         };
 
-        var convertToInteger = function(value) {
-            var strVal = typeof value === 'string' ? value : value.toString(),
-                radix = strVal.indexOf('0x') === 0 ? 16 : strVal.indexOf('0') === 0 ? 8 : 10;
+        return service;
 
-            return parseInt(strVal, radix);
-        };
-
-        var restrictions = {};
-
-        restrictions.getEqualsFnc = function (target) {
+        // TODO: add service's description
+        function getEqualsFnc(target) {
             var intTarget = parseInt(target);
 
             return new RestrictionObject(
@@ -24,11 +24,12 @@ define([], function () {
                     var intVal = convertToInteger(value);
                     return intVal === intTarget;
                 },
-                'Value must be equal to '+target
+                'Value must be equal to ' + target
             );
-        };
+        }
 
-        restrictions.getMinMaxFnc = function (min, max) {
+        // TODO: add service's description
+        function getMinMaxFnc(min, max) {
             var intMin = parseInt(min),
                 intMax = parseInt(max);
 
@@ -37,21 +38,23 @@ define([], function () {
                     var intVal = convertToInteger(value);
                     return (intMin <= intVal) && (intVal <= intMax);
                 },
-                'Value must be in between '+min+' and '+max
+                'Value must be in between ' + min + ' and ' + max
             );
-        };
+        }
 
-        restrictions.getReqexpValidationFnc = function (patternString) {
+        // TODO: add service's description
+        function getReqexpValidationFnc(patternString) {
             return new RestrictionObject(
                 function (value) {
                     var pattern = new RegExp(patternString);
                     return pattern.test(value.toString());
                 },
-                'Value must match '+patternString
+                'Value must match ' + patternString
             );
-        };
+        }
 
-        restrictions.getIsNumberFnc = function () {
+        // TODO: add service's description
+        function getIsNumberFnc() {
             return new RestrictionObject(
                 function (value) {
                     var pattern = new RegExp('^[+-]?((0x[0-9A-Fa-f]+)|(0[0-9]+)|([0-9]+))$');
@@ -59,9 +62,10 @@ define([], function () {
                 },
                 'Value must be number (+/-, 0x and 0) prefixed are permitted'
             );
-        };
+        }
 
-        restrictions.getIsUNumberFnc = function () {
+        // TODO: add service's description
+        function getIsUNumberFnc() {
             return new RestrictionObject(
                 function (value) {
                     var pattern = new RegExp('^[+]?((0x[0-9A-Fa-f]+)|(0[0-9]+)|([0-9]+))$');
@@ -69,34 +73,52 @@ define([], function () {
                 },
                 'Value must be positive number (+, 0x and 0) prefixed are permitted'
             );
-        };
+        }
 
-        restrictions.getIsDecimalFnc = function () {
+        // TODO: add service's description
+        function getIsDecimalFnc() {
             return new RestrictionObject(
                 function (value) {
-                    var pattern = new RegExp("^[-]?[1-9]?[0-9]+[.|,]?[0-9]*$");
+                    var pattern = new RegExp('^[-]?[1-9]?[0-9]+[.|,]?[0-9]*$');
                     return pattern.test(value.toString());
                 },
                 'Value must be decimal number - prefix is permitted'
             );
-        };
+        }
 
-        restrictions.isInArray = function (array) {
+        // TODO: add service's description
+        function isInArray(array) {
             return new RestrictionObject(
                 function (value) {
-                    return array.some(function(arrVal) {
+                    return array.some(function (arrVal) {
                         return arrVal === value;
                     });
                 },
                 'Value must be in ' + array.toString()
             );
-        };
+        }
 
+        /**
+         * Base restriction object
+         * @param fnc
+         * @param info
+         * @constructor
+         */
+        function RestrictionObject(fnc, info) {
+            this.info = info;
+            this.check = fnc;
+        }
 
-        return restrictions;
+        // TODO: add function's description
+        function convertToInteger(value) {
+            var strVal = typeof value === 'string' ? value : value.toString(),
+                radix = strVal.indexOf('0x') === 0 ? 16 : strVal.indexOf('0') === 0 ? 8 : 10;
+
+            return parseInt(strVal, radix);
+        }
     }
 
-    RestrictionsService.$inject=[];
+    RestrictionsService.$inject = [];
 
     return RestrictionsService;
 

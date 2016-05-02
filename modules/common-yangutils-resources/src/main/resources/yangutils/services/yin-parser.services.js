@@ -2,10 +2,102 @@ define([], function () {
     'use strict';
 
     function YinParserService($http, SyncService, constants, PathUtilsService, YangUiApisService, NodeUtilsService){
-        var augmentType = 'augment';
-        var path = './assets';
+        var augmentType = 'augment',
+            path = './assets',
+            service = {
+                parseYang: parseYang,
+                parseYangMP: parseYangMP,
+                Augmentations: Augmentations,
+                Module: Module,
+                yangParser: new YangParser(),
+                __test: {
+                    path: path,
+                    parentTag: parentTag,
+                    yangParser: new YangParser(),
+                    Augmentation: Augmentation,
+                    Module: Module,
+                },
+            };
 
-        var Module = function (name, revision, namespace) {
+        return service;
+
+        // TODO: add service's description
+        function parseYangMP(baseApiPath, name, rev, callback, errorCbk) {
+            var path = baseApiPath + '/' + name + '/' + rev + '/schema';
+
+            YangUiApisService.getSingleModuleInfo(path)
+                .then(function (data) {
+                    if ($.parseXML(data) !== null) {
+                        parseModule(data, callback);
+                    } else {
+                        loadStaticModule(name, callback, errorCbk);
+                    }
+                }, function () {
+                    loadStaticModule(name, callback, errorCbk);
+                });
+        }
+
+        // TODO: add service's description
+        function parseYang(name, rev, callback, errorCbk) {
+            YangUiApisService.getModuleSchema(name, rev).get()
+                .then(function (data) {
+                    if ($.parseXML(data) !== null) {
+                        parseModule(data, callback);
+                    } else {
+                        loadStaticModule(name, callback, errorCbk);
+                    }
+                }, function () {
+                    loadStaticModule(name, callback, errorCbk);
+                });
+        }
+
+        // TODO: add service's description
+        function parentTag(xml) {
+            if (xml.get(0).tagName.toLowerCase() === 'module') {
+                return xml.get(0);
+            } else {
+                return parentTag(xml.parent());
+            }
+        }
+
+        // TODO: add function's description
+        function parseModule(data, callback) {
+            var yangParser = new YangParser();
+
+            var moduleName = $($.parseXML(data).documentElement).attr('name'),
+                moduleNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
+                moduleoduleRevision = $($.parseXML(data)).find('revision').attr('date'),
+                moduleObj = new Module(moduleName, moduleoduleRevision, moduleNamespace);
+
+            yangParser.setCurrentModuleObj(moduleObj);
+            yangParser.parse($.parseXML(data).documentElement, moduleObj);
+
+            yangParser.sync.waitFor(function () {
+                callback(moduleObj);
+            });
+        }
+
+        // TODO: add function's description
+        function loadStaticModule(name, callback, errorCbk) {
+            var yinPath = '/yang2xml/' + name + '.yang.xml';
+            $http.get(path + yinPath).success(function (data) {
+                console.warn('cannot load ' + name + 'from controller, trying loading from static storage');
+                parseModule(data, callback);
+            }).error(function () {
+                console.warn('cannot load file ' + yinPath + 'from static storage');
+                errorCbk();
+                return null;
+            });
+        }
+
+        /**
+         * Base Module object
+         * @param name
+         * @param revision
+         * @param namespace
+         * @constructor
+         */
+        function Module(name, revision, namespace) {
             this._name = name;
             this._revision = revision;
             this._namespace = namespace;
@@ -37,17 +129,20 @@ define([], function () {
                 var self = this;
 
                 return this.getRawAugments().map(function (augNode) {
-                    var prefixConverter = function (prefix) {
-                            var importNode = self.getImportByPrefix(prefix);
-                            return importNode ? importNode.label : null;
-                        },
-                        getDefaultModule = function() {
-                            return null;
-                        };
-
                     augNode.path = PathUtilsService.translate(augNode.pathString, prefixConverter, self._statements.import, getDefaultModule);
 
                     return new Augmentation(augNode);
+
+                    // TODO: add function's description
+                    function prefixConverter(prefix) {
+                        var importNode = self.getImportByPrefix(prefix);
+                        return importNode ? importNode.label : null;
+                    }
+
+                    // TODO: add function's description
+                    function getDefaultModule() {
+                        return null;
+                    }
                 });
             };
 
@@ -86,18 +181,30 @@ define([], function () {
                 }
 
                 if (searchResults && searchResults.length === 0) {
-                    //console.warn('no nodes with type', type, 'and name', name, 'found in', this);
+                    // console.warn('no nodes with type', type, 'and name', name, 'found in', this);
                 } else if (searchResults && searchResults.length > 1) {
-                    //console.warn('multiple nodes with type', type, 'and name', name, 'found in', this);
+                    // console.warn('multiple nodes with type', type, 'and name', name, 'found in', this);
                 } else if (searchResults && searchResults.length === 1) {
                     searchedNode = searchResults[0];
                 }
 
                 return searchedNode;
             };
-        };
+        }
 
-        var Node = function (id, name, type, module, namespace, parent, nodeType, moduleRevision) {
+        /**
+         * Base Node element object
+         * @param id
+         * @param name
+         * @param type
+         * @param module
+         * @param namespace
+         * @param parent
+         * @param nodeType
+         * @param moduleRevision
+         * @constructor
+         */
+        function Node(id, name, type, module, namespace, parent, nodeType, moduleRevision) {
             this.id = id;
             this.label = name;
             this.localeLabel = constants.LOCALE_PREFIX + name.toUpperCase();
@@ -122,12 +229,13 @@ define([], function () {
             };
 
             this.deepCopy = function deepCopy(additionalProperties) {
-                var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision),
+                var copy = new Node(this.id, this.label, this.type, this.module, this.namespace, null,
+                                    this.nodeType, this.moduleRevision),
                     self = this;
 
                 additionalProperties = (additionalProperties || []).concat(['pathString']);
 
-                additionalProperties.forEach(function(prop) {
+                additionalProperties.forEach(function (prop) {
                     if (prop !== 'children' && self.hasOwnProperty(prop) && copy.hasOwnProperty(prop) === false) {
                         copy[prop] = self[prop];
                     }
@@ -141,13 +249,16 @@ define([], function () {
                 return copy;
             };
 
-            this.getCleanCopy = function(){
-                return new Node(this.id, this.label, this.type, this.module, this.namespace, null, this.nodeType, this.moduleRevision);
+            this.getCleanCopy = function (){
+                return new Node(this.id, this.label, this.type, this.module, this.namespace, null,
+                                this.nodeType, this.moduleRevision);
             };
 
             this.getChildren = function (type, name, nodeType, property) {
                 var filteredChildren = this.children.filter(function (item) {
-                    return (name != null ? name === item.label : true) && (type != null ? type === item.type : true) && (nodeType != null ? nodeType === item.nodeType : true);
+                    return (name != null ? name === item.label : true) &&
+                                            (type != null ? type === item.type : true) &&
+                                            (nodeType != null ? nodeType === item.nodeType : true);
                 });
 
                 if (property) {
@@ -161,45 +272,58 @@ define([], function () {
                 }
             };
 
-        };
+        }
 
-
-
-        var AugmentationsGroup = function(){
+        /**
+         * Base Augment group object
+         * @constructor
+         */
+        function AugmentationsGroup(){
             this.obj = {};
 
-            this.addAugumentation = function(augumentation){
+            this.addAugumentation = function (augumentation){
                 this.obj[augumentation.id] = augumentation;
             };
-        };
+        }
 
-        var Augmentations = function(){
+        /**
+         * Base augment's groups object
+         * @constructor
+         */
+        function Augmentations(){
             this.groups = {};
 
-            this.addGroup  = function(groupId){
-                this.groups[groupId] = !this.groups.hasOwnProperty(groupId) ? new AugmentationsGroup() : this.groups[groupId];
+            this.addGroup  = function (groupId){
+                this.groups[groupId] = !this.groups.hasOwnProperty(groupId) ?
+                                                                    new AugmentationsGroup() : this.groups[groupId];
             };
 
-            this.getAugmentation = function(node, augId) {
-                return this.groups[node.module + ':' + node.label] ? this.groups[node.module + ':' + node.label].obj[augId] : null;
+            this.getAugmentation = function (node, augId) {
+                return this.groups[node.module + ':' + node.label] ?
+                                                        this.groups[node.module + ':' + node.label].obj[augId] : null;
             };
-        };
+        }
 
-        var Augmentation = function (node) {
+        /**
+         * Base Augment object
+         * @param node
+         * @constructor
+         */
+        function Augmentation(node) {
             var self = this;
             this.node = node;
             this.path = (node.path ? node.path : []);
             this.id = node.module + ':' + node.label;
             this.expanded = true;
             // AUGMENT FIX
-            //node.label = node.module + ':' + node.label;
+            // node.label = node.module + ':' + node.label;
 
 
             this.toggleExpand = function () {
                 this.expanded = !this.expanded;
             };
 
-            this.setAugmentationGroup = function(targetNode, augumentations){
+            this.setAugmentationGroup = function (targetNode, augumentations){
                 var targetNodeId = targetNode.module + ':' + targetNode.label;
                 targetNode.augmentionGroups = targetNode.augmentionGroups ? targetNode.augmentionGroups : [];
                 targetNode.augmentionGroups.push(self.id);
@@ -228,7 +352,7 @@ define([], function () {
             };
 
             this.getTargetNodeToAugment = function (nodeList) {
-                return PathUtilsService.search({children: nodeList}, this.path.slice());
+                return PathUtilsService.search({ children: nodeList }, this.path.slice());
             };
 
             this.getPathString = function () {
@@ -237,75 +361,13 @@ define([], function () {
                 }).join('/');
             };
 
-        };
+        }
 
-        var parentTag = function (xml) {
-            if (xml.get(0).tagName.toLowerCase() === 'module') {
-                return xml.get(0);
-            } else {
-                return parentTag(xml.parent());
-            }
-        };
-
-        var parseModule = function(data, callback) {
-            var yangParser = new YangParser();
-
-            var moduleName = $($.parseXML(data).documentElement).attr('name'),
-                moduleNamespace = $($.parseXML(data)).find('namespace').attr('uri'),
-                moduleoduleRevision = $($.parseXML(data)).find('revision').attr('date'),
-                moduleObj = new Module(moduleName, moduleoduleRevision, moduleNamespace);
-
-            yangParser.setCurrentModuleObj(moduleObj);
-            yangParser.parse($.parseXML(data).documentElement, moduleObj);
-
-            yangParser.sync.waitFor(function () {
-                callback(moduleObj);
-            });
-        };
-
-        var loadStaticModule = function(name, callback, errorCbk) {
-            var yinPath = '/yang2xml/' + name + '.yang.xml';
-            $http.get(path + yinPath).success(function(data) {
-                console.warn('cannot load '+ name + 'from controller, trying loading from static storage');
-                parseModule(data, callback);
-            }).error(function() {
-                console.warn('cannot load file '+ yinPath + 'from static storage');
-                errorCbk();
-                return null;
-            });
-        };
-
-        var parseYangMP = function parseYangMP(baseApiPath, name, rev, callback, errorCbk) {
-            var path = baseApiPath + '/' + name + '/' + rev + '/schema';
-
-            YangUiApisService.getSingleModuleInfo(path).then(
-                function (data) {
-                    if($.parseXML(data) !== null) {
-                        parseModule(data, callback);
-                    } else {
-                        loadStaticModule(name, callback, errorCbk);
-                    }
-                }, function () {
-                    loadStaticModule(name, callback, errorCbk);
-                }
-            );
-        };
-
-        var parseYang = function parseYang(name, rev, callback, errorCbk) {
-            YangUiApisService.getModuleSchema(name, rev).get().then(
-                function (data) {
-                    if($.parseXML(data) !== null) {
-                        parseModule(data, callback);
-                    } else {
-                        loadStaticModule(name, callback, errorCbk);
-                    }
-                }, function () {
-                    loadStaticModule(name, callback, errorCbk);
-                }
-            );
-        };
-
-        var YangParser = function () {
+        /**
+         * Base yang xml parser
+         * @constructor
+         */
+        function YangParser() {
             this.rootNodes = [];
             this.nodeIndex = 0;
             this.sync = SyncService.generateObj();
@@ -338,18 +400,20 @@ define([], function () {
                 });
             };
 
-            this.config = function(xml, parent) {
+            this.config = function (xml, parent) {
                 var type = 'config',
                     name = $(xml).attr('value'),
-                    nodeType = constants.NODE_ALTER,
-                    node = this.createNewNode(name, type, parent, nodeType);
+                    nodeType = constants.NODE_ALTER;
+
+                this.createNewNode(name, type, parent, nodeType);
             };
 
-            this.presence = function(xml, parent) {
+            this.presence = function (xml, parent) {
                 var type = 'presence',
                     name = $(xml).attr('value'),
-                    nodeType = constants.NODE_ALTER,
-                    node = this.createNewNode(name, type, parent, nodeType);
+                    nodeType = constants.NODE_ALTER;
+
+                this.createNewNode(name, type, parent, nodeType);
             };
 
             this.leaf = function (xml, parent) {
@@ -465,7 +529,7 @@ define([], function () {
             this.augment = function (xml, parent) {
                 var type = augmentType,
                     nodeType = constants.NODE_ALTER,
-                    augmentIndentifier = $(xml).children("ext\\:augment-identifier:first").attr("ext:identifier"),
+                    augmentIndentifier = $(xml).children('ext\\:augment-identifier:first').attr('ext:identifier'),
                     name = augmentIndentifier ? augmentIndentifier : 'augment' + (this.nodeIndex + 1).toString(),
                     pathString = $(xml).attr('target-node'),
                     augmentRoot = this.createNewNode(name, type, parent, nodeType);
@@ -559,25 +623,11 @@ define([], function () {
 
                 this.parse(xml, node);
             };
-        };
-
-        return {
-            parseYang: parseYang,
-            parseYangMP: parseYangMP,
-            yangParser: new YangParser(),
-            Augmentations: Augmentations,
-            Module: Module,
-            __test: {
-                path: path,
-                parentTag: parentTag,
-                yangParser: new YangParser(),
-                Augmentation: Augmentation,
-                Module: Module
-            }
-        };
+        }
     }
 
-    YinParserService.$inject=['$http','SyncService', 'constants', 'PathUtilsService', 'YangUiApisService', 'NodeUtilsService'];
+    YinParserService.$inject = ['$http', 'SyncService', 'constants', 'PathUtilsService', 'YangUiApisService',
+                                'NodeUtilsService'];
 
     return YinParserService;
 

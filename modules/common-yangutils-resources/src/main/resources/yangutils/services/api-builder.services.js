@@ -1,25 +1,68 @@
 define([], function () {
     'use strict';
 
-    function ApiBuilderService(ArrayUtilsService, PathUtilsService, NodeUtilsService, YangUtilsRestangularService, CustomFuncService){
-        var ab = {};
+    function ApiBuilderService(ArrayUtilsService, PathUtilsService, NodeUtilsService, YangUtilsRestangularService,
+                               CustomFuncService){
 
-        var Api = function(basePath, module, revision, subApis) {
+        var service = {
+                Api: Api,
+                SubApi: SubApi,
+                processAllRootNodes: processAllRootNodes,
+                processSingleRootNode: processSingleRootNode,
+            },
+            storageOperations = {
+                config: ['GET', 'PUT', 'POST', 'DELETE'],
+                operational: ['GET'],
+                operations: ['POST'],
+            },
+            nodePathStringCreator = {
+                list: function (node, pathstr) {
+                    return pathstr + addNodePathStr(node) + '/' + (node.refKey.length ?
+                            (getKeyIndentifiers(node.refKey).join('/') + '/') : '');
+                },
+                container: function (node, pathstr) {
+                    return pathstr + addNodePathStr(node) + '/';
+                },
+                rpc: function (node, pathstr) {
+                    return pathstr + addNodePathStr(node) + '/';
+                },
+            };
+
+        return service;
+
+        /**
+         * Base Api object
+         * @param basePath
+         * @param module
+         * @param revision
+         * @param subApis
+         * @constructor
+         */
+        function Api(basePath, module, revision, subApis) {
             this.basePath = basePath;
             this.module = module;
             this.revision = revision;
             this.subApis = subApis || [];
 
-            this.addSubApis = function(subApis) {
+            this.addSubApis = function (subApis) {
                 var self = this;
-                subApis.forEach(function(sa) {
+                subApis.forEach(function (sa) {
                     sa.parent = self;
                     self.subApis.push(sa);
                 });
             };
-        };
+        }
 
-        var SubApi = function (pathTemplateString, operations, node, storage, parent) {
+        /**
+         * Base SubApi object
+         * @param pathTemplateString
+         * @param operations
+         * @param node
+         * @param storage
+         * @param parent
+         * @constructor
+         */
+        function SubApi(pathTemplateString, operations, node, storage, parent) {
             this.node = node;
             this.pathTemplateString = pathTemplateString;
             this.operations = operations;
@@ -27,13 +70,13 @@ define([], function () {
             this.custFunct = [];
             this.parent = parent ? parent : null;
 
-            this.pathArray = (function(st, path) {
+            this.pathArray = (function (st, path) {
                 var pathString = (st ? st + '/' : '') + path;
                 return PathUtilsService.translate(pathString);
-            }) (this.storage, this.pathTemplateString);
+            })(this.storage, this.pathTemplateString);
 
-            this.equals = function(pathArray, compareIdentifierValues) {
-                return this.pathArray.every(function(pa, i) {
+            this.equals = function (pathArray, compareIdentifierValues) {
+                return this.pathArray.every(function (pa, i) {
                     pa.equals(pathArray[i], compareIdentifierValues);
                 });
             };
@@ -50,10 +93,10 @@ define([], function () {
                 }
             };
 
-            this.clone = function(options) {
-                var getOption = function(optName) {
+            this.clone = function (options) {
+                var getOption = function (optName) {
                         var res = null;
-                        if(options) {
+                        if (options) {
                             res = options[optName] || null;
                         }
                         return  res;
@@ -64,28 +107,29 @@ define([], function () {
                         getOption('storage') || this.storage,
                         getOption('parent') || this.parent);
 
-                if(getOption('clonePathArray')) {
-                    clone.pathArray = this.pathArray.map(function(pe) {
+                if (getOption('clonePathArray')) {
+                    clone.pathArray = this.pathArray.map(function (pe) {
                         return pe.clone();
                     });
                 }
 
                 return clone;
             };
-        };
+        }
 
-        var removeDuplicatedApis = function(apis) {
+        // TODO: add function's description
+        function removeDuplicatedApis(apis) {
             var toRemove = [],
-                sortApisByRevision = function(a, b) {
-                    var dateA = new Date(a.revision+'Z'),
-                        dateB = new Date(b.revision+'Z');
+                sortApisByRevision = function (a, b) {
+                    var dateA = new Date(a.revision + 'Z'),
+                        dateB = new Date(b.revision + 'Z');
 
                     return dateB - dateA;
                 };
 
-            apis.forEach(function(a) {
-                if(toRemove.indexOf(a) === -1) {
-                    var sortedApis = apis.filter(function(af) {
+            apis.forEach(function (a) {
+                if (toRemove.indexOf(a) === -1) {
+                    var sortedApis = apis.filter(function (af) {
                         return a.module === af.module;
                     }).sort(sortApisByRevision);
 
@@ -93,139 +137,132 @@ define([], function () {
                 }
             });
 
-            toRemove.forEach(function(a) {
+            toRemove.forEach(function (a) {
                 apis.splice(apis.indexOf(a), 1);
             });
 
             return apis;
-        };
+        }
 
-        var isConfigNode = function(node) {
+        // TODO: add function's description
+        function isConfigNode(node) {
             var result = false;
 
-            if(node.hasOwnProperty('isConfigStm')) {
+            if (node.hasOwnProperty('isConfigStm')) {
                 result = node.isConfigStm;
-            } else if(node.parent) {
+            } else if (node.parent) {
                 result = isConfigNode(node.parent);
             }
 
             return result;
-        };
+        }
 
-        var addNodePathStr = function(node) {
+        // TODO: add function's description
+        function addNodePathStr(node) {
             return (!node.parent || (node.parent.module !== node.module) ? node.module + ':' : '') + node.label;
-        };
+        }
 
-        var getBasePath = function() {
+        // TODO: add function's description
+        function getBasePath() {
             return YangUtilsRestangularService.configuration.baseUrl + '/restconf/';
-        };
+        }
 
-        var getApiByModuleRevision = function(apis, module, revision) {
-            return apis.filter(function(a) {
+        // TODO: add function's description
+        function getApiByModuleRevision(apis, module, revision) {
+            return apis.filter(function (a) {
                 return a.module === module && a.revision === revision;
             })[0];
-        };
+        }
 
-        var getKeyIndentifiers = function(keys) {
+        // TODO: add function's description
+        function getKeyIndentifiers(keys) {
             return keys.map(function (k) {
                 return '{' + k.label + '}';
             });
-        };
+        }
 
-        var getStoragesByNodeType = function(node) {
+        // TODO: add function's description
+        function getStoragesByNodeType(node) {
             var storages = [];
-            if(NodeUtilsService.isRootNode(node.type)) {
-                if(node.type === 'rpc') {
+            if (NodeUtilsService.isRootNode(node.type)) {
+                if (node.type === 'rpc') {
                     storages.push('operations');
                 } else {
                     storages.push('operational');
-                    if(isConfigNode(node)) {
+                    if (isConfigNode(node)) {
                         storages.push('config');
                     }
                 }
             }
 
             return storages;
-        };
+        }
 
-        var getOperationsByStorage = function(storage) {
+        // TODO: add function's description
+        function getOperationsByStorage(storage) {
             var operations =  [];
-            if(storageOperations.hasOwnProperty(storage)) {
+            if (storageOperations.hasOwnProperty(storage)) {
                 operations = storageOperations[storage];
             }
 
             return operations;
-        };
+        }
 
-        var storageOperations = {};
-
-        storageOperations.config = ['GET', 'PUT', 'POST', 'DELETE'];
-        storageOperations.operational = ['GET'];
-        storageOperations.operations = ['POST'];
-
-        var nodePathStringCreator = {};
-
-        nodePathStringCreator.list = function(node, pathstr) {
-            return pathstr + addNodePathStr(node) + '/' + (node.refKey.length ? (getKeyIndentifiers(node.refKey).join('/') + '/') : '');
-        };
-
-        nodePathStringCreator.container = function(node, pathstr) {
-            return pathstr + addNodePathStr(node) + '/';
-        };
-
-        nodePathStringCreator.rpc = function(node, pathstr) {
-            return pathstr + addNodePathStr(node) + '/';
-        };
-
-        var createSubApis = function(node, pathstr) {
+        // TODO: add function's description
+        function createSubApis(node, pathstr) {
             var storages = getStoragesByNodeType(node);
 
-            return storages.map(function(storage) {
+            return storages.map(function (storage) {
                 var subApi = new SubApi(pathstr, getOperationsByStorage(storage), node, storage);
                 return subApi;
             });
-        };
+        }
 
-        var nodeChildrenProcessor = function(node, pathstr, subApis) {
-            if(NodeUtilsService.isRootNode(node.type) && nodePathStringCreator.hasOwnProperty(node.type)) {
+        // TODO: add function's description
+        function nodeChildrenProcessor(node, pathstr, subApis) {
+            if (NodeUtilsService.isRootNode(node.type) && nodePathStringCreator.hasOwnProperty(node.type)) {
                 var templateStr = nodePathStringCreator[node.type](node, pathstr),
                     newSubApis = createSubApis(node, templateStr);
 
                 ArrayUtilsService.pushElementsToList(subApis, newSubApis);
 
-                node.children.forEach(function(ch) {
+                node.children.forEach(function (ch) {
                     nodeChildrenProcessor(ch, templateStr, subApis);
                 });
             }
-        };
+        }
 
-        //utility function
-        var printApis = function(apis) {
+        /**
+         * Function for showing available apis in web browser's console
+         * @param apis
+         */
+        function printApis(apis) {
             var co = '';
-            apis.forEach(function(a) {
-                a.subApis.forEach(function(sa) {
+            apis.forEach(function (a) {
+                a.subApis.forEach(function (sa) {
                     co += (sa.storage + '/' + sa.pathTemplateString + '\n');
                 });
             });
 
             // console.info(co);
-        };
+        }
 
-        ab.processAllRootNodes = function(nodes) {
+        // TODO: add service's description
+        function processAllRootNodes(nodes) {
             var apis = [];
 
-            nodes.forEach(function(node) {
+            nodes.forEach(function (node) {
                 var api = getApiByModuleRevision(apis, node.module, node.moduleRevision),
                     newApi = false;
 
-                if(!api) {
+                if (!api) {
                     api = new Api(getBasePath(), node.module, node.moduleRevision);
                     newApi = true;
                 }
 
-                api.addSubApis(ab.processSingleRootNode(node));
+                api.addSubApis(processSingleRootNode(node));
 
-                if(newApi) {
+                if (newApi) {
                     apis.push(api);
                 }
             });
@@ -235,26 +272,24 @@ define([], function () {
             printApis(apis);
 
             return apis;
-        };
+        }
 
-        ab.processSingleRootNode = function(node) {
+        // TODO: add service's description
+        function processSingleRootNode(node) {
             var templateStr = nodePathStringCreator[node.type](node, ''),
                 subApis = createSubApis(node, templateStr);
 
-            node.children.forEach(function(ch) {
+            node.children.forEach(function (ch) {
                 nodeChildrenProcessor(ch, templateStr, subApis);
             });
 
             return subApis;
-        };
+        }
 
-        ab.Api = Api;
-        ab.SubApi = SubApi;
-
-        return ab;
     }
 
-    ApiBuilderService.$inject=['ArrayUtilsService', 'PathUtilsService', 'NodeUtilsService', 'YangUtilsRestangularService', 'CustomFuncService'];
+    ApiBuilderService.$inject = ['ArrayUtilsService', 'PathUtilsService', 'NodeUtilsService',
+                                'YangUtilsRestangularService', 'CustomFuncService'];
 
     return ApiBuilderService;
 
