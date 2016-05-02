@@ -21,18 +21,20 @@ var services = [
     'common/yangutils/services/custom-funct.services',
 ];
 
-var constants = [
+var constant = [
     'common/yangutils/constants',
 ];
 
-define(['angular'].concat(services).concat(constants),
-    function(angular, NodeUtilsService, YangUtilsRestangularService, YangUtilsService, YinParserService, SyncService,
-             PathUtilsService, ArrayUtilsService, YangUiApisService, NodeWrapperService, RequestBuilderService,
-             RestrictionsService, TypeWrapperService, ListFilteringService, FilterNodeWrapperService, EventDispatcherService,
-             ModuleConnectorService, ApiBuilderService, DataBackupService, ParsingJsonService, CustomFuncService,
-             constants) {
+define(['angular'].concat(services).concat(constant),
+    function (angular, NodeUtilsService, YangUtilsRestangularService, YangUtilsService, YinParserService, SyncService,
+              PathUtilsService, ArrayUtilsService, YangUiApisService, NodeWrapperService, RequestBuilderService,
+              RestrictionsService, TypeWrapperService, ListFilteringService, FilterNodeWrapperService,
+              EventDispatcherService, ModuleConnectorService, ApiBuilderService, DataBackupService, ParsingJsonService,
+              CustomFuncService, constants) {
 
-        angular.module('app.common.yangUtils',[])
+        'use strict';
+
+        angular.module('app.common.yangUtils', [])
             .service('NodeUtilsService', NodeUtilsService)
             .service('YangUtilsRestangularService', YangUtilsRestangularService)
             .service('YangUtilsService', YangUtilsService)
@@ -56,4 +58,4 @@ define(['angular'].concat(services).concat(constants),
 
             .constant('constants', constants);
 
-});
+    });
