@@ -1,17 +1,26 @@
-define([], function () {
+define(['angular'], function (angular) {
     'use strict';
 
     function ParsingJsonService(){
-        var pj = {};
+        var service = {
+            parseJson: parseJson,
+        };
 
-        pj.parseJson = function(data, parsingErrorClbk){
+        return service;
 
+        /**
+         * Util for parsing json with error checking
+         * @param data
+         * @param parsingErrorClbk
+         * @returns {*}
+         */
+        function parseJson(data, parsingErrorClbk){
             var result = null;
 
-            try{
+            try {
                 result = JSON.parse(data);
-            }catch(e){
-                if(angular.isFunction(parsingErrorClbk)){
+            } catch (e){
+                if (angular.isFunction(parsingErrorClbk)){
                     parsingErrorClbk(e);
                 }
             }
@@ -20,12 +29,10 @@ define([], function () {
                 return result;
             }
 
-        };
-
-        return pj;
+        }
     }
 
-    ParsingJsonService.$inject=[];
+    ParsingJsonService.$inject = [];
 
     return ParsingJsonService;
 
