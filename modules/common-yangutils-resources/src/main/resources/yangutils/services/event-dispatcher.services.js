@@ -2,40 +2,45 @@ define([], function () {
     'use strict';
 
     function EventDispatcherService(){
-        var eD = {};
 
-        var convertArgsToList = function(arg) {
+        var service = {
+            broadcastHandler: {},
+            dispatch: dispatch,
+            registerHandler: registerHandler,
+        };
+
+        return service;
+
+        // TODO: add function's description
+        function convertArgsToList(arg) {
             var argList = [],
-                l = arg.length,
-                i = 0;
+                l = arg.length;
 
-            for(i = 0; i < l; i++) {
+            for (var i = 0; i < l; i++) {
                 argList.push(arg[i]);
             }
 
             return argList;
-        };
+        }
 
-        eD.broadcastHandler = {};
+        // TODO: add service's description
+        function registerHandler(source, bcCallback) {
+            service.broadcastHandler[source] = bcCallback;
+        }
 
-        eD.registerHandler = function(source, bcCallback) {
-            eD.broadcastHandler[source] = bcCallback;
-        };
-
-        eD.dispatch = function() {
+        // TODO: add service's description
+        function dispatch() {
             var args = convertArgsToList(arguments),
                 argumentList = args.slice(1),
-                handler = eD.broadcastHandler[arguments[0]];
+                handler = service.broadcastHandler[arguments[0]];
 
-            if(handler) {
+            if (handler) {
                 handler(argumentList);
             }
-        };
-
-        return eD;
+        }
     }
 
-    EventDispatcherService.$inject=[];
+    EventDispatcherService.$inject = [];
 
     return EventDispatcherService;
 

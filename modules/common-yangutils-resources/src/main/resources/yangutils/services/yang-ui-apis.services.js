@@ -2,40 +2,50 @@ define([], function () {
     'use strict';
 
     function YangUiApisService(YangUtilsRestangularService){
-        var apis = {};
+        var service = {
+            getAllModules: getAllModules,
+            getAllApis: getAllApis,
+            getCustomModules: getCustomModules,
+            getModuleSchema: getModuleSchema,
+            getSingleApiInfo: getSingleApiInfo,
+            getSingleModuleInfo: getSingleModuleInfo,
+        };
 
-        apis.getAllModules = function() {
+        return service;
+
+        // TODO: add service's description
+        function getAllModules() {
             return YangUtilsRestangularService.one('restconf').one('modules');
-        };
+        }
 
-        apis.getModuleSchema = function(name, rev) {
-            return YangUtilsRestangularService.one('restconf').one('modules').one('module').one(name).one(rev).one('schema');
-        };
+        // ,TODO: add service's description
+        function getModuleSchema(name, rev) {
+            return YangUtilsRestangularService.one('restconf').one('modules')
+                                                .one('module').one(name).one(rev).one('schema');
+        }
 
-        apis.getSingleModuleInfo = function(modulePath) {
+        // TODO: add service's description
+        function getSingleModuleInfo(modulePath) {
             return YangUtilsRestangularService.one('restconf').one('modules').one('module').customGET(modulePath);
-        };
+        }
 
-        apis.getAllApis = function() {
+        // TODO: add service's description
+        function getAllApis() {
             return YangUtilsRestangularService.one('apidoc').one('apis');
-        };
+        }
 
-        apis.getSingleApiInfo = function(apiPath) {
+        // TODO: add service's description
+        function getSingleApiInfo(apiPath) {
             return YangUtilsRestangularService.one('apidoc').one('apis').customGET(apiPath);
-        };
+        }
 
-        apis.getCustomModules = function(baseApiPath) {
+        // TODO: add service's description
+        function getCustomModules(baseApiPath) {
             return YangUtilsRestangularService.one('restconf').one('modules').customGET(baseApiPath);
-        };
-
-        apis.getCustomModules = function(baseApiPath) {
-            return YangUtilsRestangularService.one('restconf').one('modules').customGET(baseApiPath);
-        };
-
-        return apis;
+        }
     }
 
-    YangUiApisService.$inject=['YangUtilsRestangularService'];
+    YangUiApisService.$inject = ['YangUtilsRestangularService'];
 
     return YangUiApisService;
 

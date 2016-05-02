@@ -2,25 +2,31 @@ define([], function () {
     'use strict';
 
     function ArrayUtilsService(){
-        var arrayUtils = {};
+        var service = {
+            getFirstElementByCondition: getFirstElementByCondition,
+            pushElementsToList: pushElementsToList,
+        };
 
-        arrayUtils.getFirstElementByCondition = function(list, condition) {
-            var selItems = list && condition ? list.filter(function(item) {
+        return service;
+
+        // TODO: add service's description
+        function getFirstElementByCondition(list, condition) {
+            var selItems = list && condition ? list.filter(function (item) {
                 return condition(item);
             }) : [];
             return (selItems.length ? selItems[0] : null);
-        };
+        }
 
-        arrayUtils.pushElementsToList = function(list, listToAdd) {
-            listToAdd.forEach(function(e) {
+        // TODO: add service's description
+        function pushElementsToList(list, listToAdd) {
+            listToAdd.forEach(function (e) {
                 list.push(e);
             });
-        };
+        }
 
-        return arrayUtils;
     }
 
-    ArrayUtilsService.$inject=[];
+    ArrayUtilsService.$inject = [];
 
     return ArrayUtilsService;
 
