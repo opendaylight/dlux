@@ -1,37 +1,47 @@
-define([], function() {
-    angular.module('app.yangui').controller('reqInHistoryCtrl', ['$scope',
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('ReqInHistoryCtrl', ReqInHistoryCtrl);
 
-        function ($scope) {
+    ReqInHistoryCtrl.$inject = ['$scope'];
 
-            $scope.rList = null;
+    // todo: comment the whole controller
+    function ReqInHistoryCtrl($scope) {
 
-            $scope.init = function (list) {
-                $scope.rList = list;
-            };
+        $scope.rList = null;
+        $scope.showData = false;
 
-            $scope.showData = false;
+        $scope.executeRequest = executeRequest;
+        $scope.expandHistoryData = expandHistoryData;
+        $scope.fillRequest = fillRequest;
+        $scope.init = init;
+        $scope.showRhistoryData  = showRhistoryData;
+        $scope.showShistoryData  = showShistoryData;
 
-            $scope.showShistoryData  = function(){
-                $scope.$broadcast('YANGUI_SHOW_SEND_HISTORY_DATA');
-                $scope.expandHistoryData();
-            };
+        function init(list) {
+            $scope.rList = list;
+        }
 
-            $scope.showRhistoryData  = function(){
-                $scope.$broadcast('YANGUI_SHOW_RECEIVED_HISTORY_DATA');
-                $scope.expandHistoryData();
-            };
+        function showShistoryData(){
+            $scope.$broadcast('YANGUI_SHOW_SEND_HISTORY_DATA');
+            $scope.expandHistoryData();
+        }
 
-            $scope.expandHistoryData = function(){
-                $scope.showData = !$scope.showData;
-            };
+        function showRhistoryData(){
+            $scope.$broadcast('YANGUI_SHOW_RECEIVED_HISTORY_DATA');
+            $scope.expandHistoryData();
+        }
 
-            $scope.executeRequest = function(){
-                $scope.$broadcast('YANGUI_EXECUTE_REQ');
-            };
+        function expandHistoryData(){
+            $scope.showData = !$scope.showData;
+        }
 
-            $scope.fillRequest = function(){
-                $scope.$broadcast('YANGUI_FILL_REQ');
-            };
-        }]);
+        function executeRequest(){
+            $scope.$broadcast('YANGUI_EXECUTE_REQ');
+        }
+
+        function fillRequest(){
+            $scope.$broadcast('YANGUI_FILL_REQ');
+        }
+    }
 
 });

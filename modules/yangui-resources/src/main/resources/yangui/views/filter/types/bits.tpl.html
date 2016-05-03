@@ -1,4 +1,4 @@
-<div ng-controller="filterTypeBitCtrl">
+<div ng-controller="FilterTypeBitCtrl">
     <div ng-repeat="bit in type.getChildren('bit')">
         <div ng-hide="$index > 3 && !node.expandedBits">
             <input class="bitCheckbox" type="checkbox" ng-model="type.bitsValues[$index]" ng-checked="type.bitsValues[$index] === 1" ng-true-value="1" ng-false-value="0" ng-change="valueChanged()">

@@ -1,20 +1,33 @@
-define([], function() {
-    angular.module('app.yangui').controller('choiceCtrl', function ($scope, constants) {
-        $scope.constants = constants;
+define([], function (){
+    'use strict';
+    angular.module('app.yangui').controller('ChoiceCtrl', ChoiceCtrl);
+
+    ChoiceCtrl.$inject = ['$scope', 'constants'];
+
+    // todo: comment the whole controller
+    function ChoiceCtrl($scope, constants) {
+
         $scope.augModalView = false;
+        $scope.constants = constants;
+
+        $scope.caseShowing = caseShowing;
+        $scope.toggleExpanded = toggleExpanded;
+        $scope.toggleExpandedAugModal = toggleExpandedAugModal;
 
 
-        $scope.toggleExpandedAugModal = function(){
+        function toggleExpandedAugModal(){
             $scope.augModalView = !$scope.augModalView;
-        };
+        }
 
-        $scope.toggleExpanded = function() {
+        function toggleExpanded(){
             $scope.node.expanded = !$scope.node.expanded;
-        };
+        }
 
-        $scope.caseShowing = function (node) {
-            return !node.augmentationId ? true : $scope.augmentations.getAugmentation(node.parent, node.augmentationId).expanded;
-        };
-    });
+        function caseShowing(node) {
+            return !node.augmentationId ?
+                true :
+                $scope.augmentations.getAugmentation(node.parent, node.augmentationId).expanded;
+        }
+    }
 
 });

@@ -1,4 +1,4 @@
-<div class="tableWrapper" ng-controller="historyParamCtrl">
+<div class="tableWrapper" ng-controller="HistoryParamCtrl">
     <!-- Box -->
     <div ng-include src="currentPath + 'parts/param-box.tpl.html'"></div>
 
@@ -10,7 +10,7 @@
             <div class="tddiv rh-col3">{{ 'YANGUI_PARAMETER_VALUE' | translate }}</div>
             <div class="tddiv actions rh-col4">{{ 'YANGUI_ACTION' | translate }}</div>
         </div>
-        
+
         <perfect-scrollbar class="scroll">
             <div ng-repeat="param in parameterList.list track by $index" class="trdiv" ng-class="$index === 0 ? 'no-border' : ''">
                 <div>
@@ -19,7 +19,7 @@
                     <div class="tddiv rh-col3"><span>{{ param.value }}</span></div>
                     <div class="tddiv rh-col4">
                         <div class="requestActions">
-                            <div >
+                            <div>
                                 <div class="inlineBlock" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_EDIT' | translate }}">
                                     <button class="yangButton iconEdit" ng-click="showParamBox(param)"></button>
                                 </div>

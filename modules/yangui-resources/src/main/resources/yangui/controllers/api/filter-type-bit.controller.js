@@ -1,12 +1,19 @@
-define([], function() {
-    angular.module('app.yangui').controller('filterTypeBitCtrl', function($scope){
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('FilterTypeBitCtrl', FilterTypeBitCtrl);
 
-        $scope.valueChanged = function(){
-            $scope.type.setLeafValue($scope.type.bitsValues,true);
+    FilterTypeBitCtrl.$inject = ['$scope'];
 
+    // todo: comment the whole controller
+    function FilterTypeBitCtrl($scope){
+
+        $scope.valueChanged = valueChanged;
+
+        function valueChanged(){
+            $scope.type.setLeafValue($scope.type.bitsValues, true);
             $scope.node.checkValueType();
             $scope.node.fill($scope.node.label, $scope.node.value);
-        };
-    });
+        }
+    }
 
 });

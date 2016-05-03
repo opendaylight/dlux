@@ -1,4 +1,4 @@
-<div ng-controller="rpcCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+<div ng-controller="RpcCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
     <div class="topContainerPart">
         <span class="treeBullet" ng-show="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'></button>

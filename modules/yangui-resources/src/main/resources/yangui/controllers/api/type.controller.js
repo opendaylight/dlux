@@ -1,8 +1,16 @@
-define([], function() {
-    angular.module('app.yangui').controller('typeCtrl', function($scope){
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('TypeCtrl', TypeCtrl);
 
-        $scope.valueChanged = function(){
-            if($scope.previewVisible) {
+    TypeCtrl.$inject = ['$scope'];
+
+    // todo: comment the whole controller
+    function TypeCtrl($scope){
+
+        $scope.valueChanged = valueChanged;
+
+        function valueChanged(){
+            if ($scope.previewVisible) {
                 $scope.preview();
             } else {
                 $scope.buildRoot();
@@ -10,8 +18,7 @@ define([], function() {
 
             $scope.node.checkValueType();
             $scope.node.fill($scope.node.label, $scope.node.value);
-        };
-
-    });
+        }
+    }
 
 });

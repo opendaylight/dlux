@@ -1,5 +1,5 @@
 <div class="inlineBlock">
-    <div ng-controller="filterTypeBitCtrl">
+    <div ng-controller="FilterTypeBitCtrl">
         <span>Options</span>
         <div ng-repeat="bit in type.getChildren('enum')">
             <input class="bitCheckbox" type="checkbox" ng-model="node.filterSelectboxBitsValue[$index]" ng-checked="node.filterSelectboxBitsValue[$index] === 1" ng-true-value="'{{bit.label}}'" ng-false-value="false">

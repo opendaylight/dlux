@@ -1,5 +1,11 @@
-define([], function() {
-    angular.module('app.yangui').controller('leafCtrl', function ($scope) {
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('LeafCtrl', LeafCtrl);
+
+    LeafCtrl.$inject = ['$scope'];
+
+    // todo: comment the whole controller
+    function LeafCtrl($scope) {
         var types = [
             'binary',
             'bits',
@@ -19,17 +25,20 @@ define([], function() {
             'uint32',
             'uint64',
             'uint8',
-            'union'
+            'union',
         ];
 
-        $scope.getLeafType = function(){
+        $scope.displayValue = displayValue;
+        $scope.getLeafType = getLeafType;
+
+        function getLeafType(){
             var label = $scope.node.getChildren('type')[0].label;
             return types.indexOf(label) !== -1 ? label : 'default';
-        };
+        }
 
-        $scope.displayValue = function() {
+        function displayValue() {
             return $scope.node.typeChild.label !== 'empty';
-        };
-    });
+        }
+    }
 
 });

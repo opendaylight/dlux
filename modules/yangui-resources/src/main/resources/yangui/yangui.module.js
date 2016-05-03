@@ -67,7 +67,7 @@ define(modules, function(ZC) {
             access: access.admin,
             views: {
                 '': {
-                    controller: 'yanguiCtrl',
+                    controller: 'YanguiCtrl',
                     templateUrl: 'src/app/yangui/views/index.tpl.html'
                 }
             }

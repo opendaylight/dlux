@@ -1,14 +1,24 @@
-define([], function() {
-    angular.module('app.yangui').controller('inputCtrl', function ($scope) {
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('InputCtrl', InputCtrl);
+
+    InputCtrl.$inject = ['$scope'];
+
+    // todo: comment the whole controller
+    function InputCtrl($scope) {
+
         $scope.augModalView = false;
 
-        $scope.toggleExpandedAugModal = function(){
-            $scope.augModalView = !$scope.augModalView;
-        };
+        $scope.toggleExpanded = toggleExpanded;
+        $scope.toggleExpandedAugModal = toggleExpandedAugModal;
 
-        $scope.toggleExpanded = function() {
+        function toggleExpandedAugModal(){
+            $scope.augModalView = !$scope.augModalView;
+        }
+
+        function toggleExpanded() {
             $scope.node.expanded = !$scope.node.expanded;
-        };
-    });
+        }
+    }
 
 });
