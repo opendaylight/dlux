@@ -16,7 +16,6 @@
     <name>dlux</name> <!-- Used by Sonar to set project name -->
 
     <properties>
-      <sitedeploy>dav:http://nexus.opendaylight.org/content/sites/site</sitedeploy>
       <commons.opendaylight.version>1.6.2-SNAPSHOT</commons.opendaylight.version>
       <loader.resources.version>0.2.2-SNAPSHOT</loader.resources.version>
       <core.resources.version>0.2.2-SNAPSHOT</core.resources.version>
