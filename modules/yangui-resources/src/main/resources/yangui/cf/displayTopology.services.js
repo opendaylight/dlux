@@ -1,18 +1,18 @@
-define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services', 'common/sigmatopology/sigma.directive'], function(yangui, yangutils) {
+define(['app/yangui/yangui.module', 'common/sigmatopology/sigma.directive'], function(yangui) {
 
-    yangui.register.factory('displayTopology', function($http, reqBuilder, yangUtils) {
+    yangui.register.factory('displayTopology', function($http, RequestBuilderService, YangUtilsService) {
 
         var fnc = function($scope) {
-            if($scope.node && 
-                $scope.node.getChildren('list', 'topology').length > 0 && 
+            if($scope.node &&
+                $scope.node.getChildren('list', 'topology').length > 0 &&
                 $scope.node.getChildren('list', 'topology')[0].actElemStructure) {
                 var dataList = [],
                     dataObj = {};
 
-                $scope.node.getChildren('list', 'topology')[0].actElemStructure.listElemBuildRequest(reqBuilder, dataList);
+                $scope.node.getChildren('list', 'topology')[0].actElemStructure.listElemBuildRequest(RequestBuilderService, dataList);
                 dataObj = {'network-topology': { 'topology': dataList }};
 
-                var topoDataYang = yangUtils.transformTopologyData(dataObj),
+                var topoDataYang = YangUtilsService.transformTopologyData(dataObj),
                     topoData = {
                         nodes: [],
                         links: []

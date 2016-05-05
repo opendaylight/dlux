@@ -1,6 +1,6 @@
-define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils, $filter) {
+define(['app/yangui/yangui.module'], function(yangui, $filter) {
 
-    yangui.register.factory('displayMountPoints', function(mountPointsConnector, $timeout, yangUtils, $filter, apiBuilder) {
+    yangui.register.service('displayMountPoints', function(MountPointsConnectorService, $timeout, YangUtilsService, $filter, ApiBuilderService) {
 
         var loadId = 0;
 
@@ -49,10 +49,10 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                             }
                         });
 
-                        var mpRootNode = mountPointsConnector.createMPRootNode(mpNodes),
-                            mountPointApis = apiBuilder.processAllRootNodes([mpRootNode]),
+                        var mpRootNode = MountPointsConnectorService.createMPRootNode(mpNodes),
+                            mountPointApis = ApiBuilderService.processAllRootNodes([mpRootNode]),
                             //root node has isConfigStm undefined, we need to create root config SubApi by hand
-                            //if we set the variable isConfigStm to true and then generate the subApis it will do it 
+                            //if we set the variable isConfigStm to true and then generate the subApis it will do it
                             //incorrectly because, the variable is inherited to children and we would malform the data
                             //we need just to get operational root subApi...
                             rootApi = mountPointApis[0],
@@ -61,7 +61,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                             })[0];
 
                         if(rootOperSubApi) {
-                            var rootConfigSubApi =  rootOperSubApi.clone(), //clone it and... 
+                            var rootConfigSubApi =  rootOperSubApi.clone(), //clone it and...
                                 firstConfigSubApiIndex = findFirstSubApiIndex(rootApi.subApis); //we need to find first index of config subApi - because generating treeApis depends on order
 
                             //set storage to config
@@ -73,9 +73,9 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                             rootConfigSubApi.parent = rootApi;
                         }
 
-                        var mountPointTreeApis = yangUtils.generateApiTreeData(mountPointApis);
+                        var mountPointTreeApis = YangUtilsService.generateApiTreeData(mountPointApis);
 
-                        mountPointsConnector.updateMountPointApis($scope.selSubApi.pathArray, mountPointApis);
+                        MountPointsConnectorService.updateMountPointApis($scope.selSubApi.pathArray, mountPointApis);
                         //$scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, mpAugments, getMpBasePathWOStorage(path));
                         $scope.initMp(mountPointStructure, mountPointTreeApis, mountPointApis, mpAugments);
                         $scope.processingModulesSuccessCallback();
@@ -89,15 +89,15 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                     }
 
                     $scope.mpSynchronizer.removeRequest(reqId);
-                    
+
                     var pathItems = path.split('/');
                     $scope.treeName = pathItems[pathItems.length-1] + ' [  ' + $filter('translate')('YANGUI_MOUNT_POINT') + ' ] ';
-                    
-                    $scope.selCustFunctButts.push(mountPointsConnector.createCustomButton(
-                        'YANGUI_CANCEL_MP', 
+
+                    $scope.selCustFunctButts.push(MountPointsConnectorService.createCustomButton(
+                        'YANGUI_CANCEL_MP',
                         function(){
                             return $scope.selCustFunct.label === 'YANGUI_CUST_MOUNT_POINTS';
-                        }, 
+                        },
                         function(){
                             $scope.unsetCustomFunctionality();
                         })
@@ -106,7 +106,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
                 reqId = $scope.mpSynchronizer.spawnRequest(loadId++);
 
             $scope.mountPointStructure = [];
-            mountPointsConnector.discoverMountPoints(path, getNodesMPData, createMPStructure);
+            MountPointsConnectorService.discoverMountPoints(path, getNodesMPData, createMPStructure);
         };
 
         return {

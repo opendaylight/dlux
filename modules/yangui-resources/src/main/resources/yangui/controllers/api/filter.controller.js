@@ -1,9 +1,9 @@
 define([], function() {
-    angular.module('app.yangui').controller('filter', function($scope, listFiltering){
+    angular.module('app.yangui').controller('filter', function($scope, ListFilteringService){
         $scope.isFilter = true;
 
         $scope.getFilterTypeArray = function(type){
-            return listFiltering.getFilterTypeArray(type);
+            return ListFilteringService.getFilterTypeArray(type);
         };
     });
 

@@ -1,6 +1,7 @@
 define([], function() {
-    angular.module('app.yangui').controller('paramsViewCtrl', ['$scope', 'pathUtils', 'yangUtils', 'requestDataFactory', 'parsingJson',
-        function($scope, pathUtils, yangUtils, requestDataFactory, parsingJson){
+    angular.module('app.yangui').controller('paramsViewCtrl', ['$scope', 'PathUtilsService', 'YangUtilsService',
+                                                                'RequestDataService', 'ParsingJsonService',
+        function($scope, PathUtilsService, YangUtilsService, RequestDataService, ParsingJsonService){
             $scope.sDataForView = null;
             $scope.rDataForView = null;
             $scope.isSentData = false;
@@ -16,7 +17,7 @@ define([], function() {
 
                 cmInstance.on('cursorActivity', function(){
                     var lineString = cmInstance.getLine(cmInstance.getCursor().line);
-                    $scope.paramsArray = requestDataFactory.scanDataParams($scope.parameterList, lineString);
+                    $scope.paramsArray = RequestDataService.scanDataParams($scope.parameterList, lineString);
                     $scope.paramsBoxView = $scope.paramsArray.length ? true : false;
 
                     if(!$scope.$$phase) {
@@ -52,15 +53,15 @@ define([], function() {
 
             $scope.fillRequestData = function(pathElem, identifier) {
                 if($scope.req.api && $scope.req.api.clonedPathArray.indexOf(pathElem) === ($scope.req.api.clonedPathArray.length - 1)) {
-                    var data = parsingJson.parseJson($scope.sDataForView);
-                    pathUtils.fillListRequestData(data, pathElem.name, identifier.label, identifier.value);
-                    var strippedData = yangUtils.stripAngularGarbage(data, $scope.req.getLastPathDataElemName());
+                    var data = ParsingJsonService.parseJson($scope.sDataForView);
+                    PathUtilsService.fillListRequestData(data, pathElem.name, identifier.label, identifier.value);
+                    var strippedData = YangUtilsService.stripAngularGarbage(data, $scope.req.getLastPathDataElemName());
 
-                    angular.copy(strippedData, parsingJson.parseJson($scope.sDataForView));
+                    angular.copy(strippedData, ParsingJsonService.parseJson($scope.sDataForView));
                     $scope.sDataForView = JSON.stringify(strippedData, null, 4);
                 }
 
-                $scope.req.parametrizedPath = pathUtils.translatePathArray($scope.req.api.clonedPathArray).join('/');
+                $scope.req.parametrizedPath = PathUtilsService.translatePathArray($scope.req.api.clonedPathArray).join('/');
             };
 
             $scope.getDataEditorOptions = function(read, theme){
@@ -71,7 +72,7 @@ define([], function() {
             };
 
             $scope.saveParametrizedData = function(list){
-                var parametrizedPath = $scope.req.api.parent.basePath + pathUtils.translatePathArray($scope.req.api.clonedPathArray).join('/'),
+                var parametrizedPath = $scope.req.api.parent.basePath + PathUtilsService.translatePathArray($scope.req.api.clonedPathArray).join('/'),
                     jsonParsingErrorClbk = function(e){$scope.setStatusMessage('danger', 'YANGUI_JSON_PARSING_ERROR', e.message);},
                     newReq = $scope.req.copyWithParametrizationAsNatural(parametrizedPath, $scope.getApiCallback, $scope.sDataForView, jsonParsingErrorClbk);
 

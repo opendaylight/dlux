@@ -1,6 +1,6 @@
-define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], function(yangui, yangutils) {
+define(['app/yangui/yangui.module'], function(yangui) {
 
-  yangui.register.factory('checkFlow', function($http, reqBuilder, yangUtils, YangUtilsRestangular) {
+  yangui.register.factory('checkFlow', function($http, YangUtilsRestangularService) {
 
       var fnc = function($scope) {
           var requestPath = $scope.selSubApi.buildApiRequestString().replace('config','operational'),
@@ -16,7 +16,7 @@ define(['app/yangui/yangui.module', 'common/yangutils/yangutils.services'], func
               },
               identifiers = getPathIdentifierData($scope.selSubApi.pathArray);
 
-          YangUtilsRestangular.one('restconf').customGET(requestPath).then(
+          YangUtilsRestangularService.one('restconf').customGET(requestPath).then(
               function (data) {
                   alert('Flow: \n\n' + identifiers + '\n\n is in controller.');
               }, function (result) {

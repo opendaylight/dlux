@@ -1,5 +1,5 @@
 define([], function() {
-    angular.module('app.yangui').controller('listCtrl', function ($scope, listFiltering, nodeWrapper) {
+    angular.module('app.yangui').controller('listCtrl', function ($scope, ListFilteringService, NodeWrapperService) {
         $scope.actElement = null;
         $scope.showModal = false;
         $scope.showListFilter = false;
@@ -19,7 +19,7 @@ define([], function() {
         $scope.addListElem = function() {
             $scope.showListFilter = false;
             $scope.showModal = false;
-            listFiltering.removeEmptyFilters($scope.node);
+            ListFilteringService.removeEmptyFilters($scope.node);
             $scope.node.addListElem();
         };
 
@@ -61,38 +61,38 @@ define([], function() {
             if($scope.showModal){
                 $scope.showModal = !$scope.showModal;
             }
-            listFiltering.showListFilterWin($scope.filterRootNode,$scope.node);
+            ListFilteringService.showListFilterWin($scope.filterRootNode,$scope.node);
         };
 
         $scope.getFilterData = function() {
-            listFiltering.getFilterData($scope.node);
+            ListFilteringService.getFilterData($scope.node);
         };
 
         $scope.switchFilter = function(showedFilter) {
-            listFiltering.switchFilter($scope.node,showedFilter);
+            ListFilteringService.switchFilter($scope.node,showedFilter);
         };
 
         $scope.createNewFilter = function() {
-            listFiltering.createNewFilter($scope.node);
+            ListFilteringService.createNewFilter($scope.node);
         };
 
         $scope.applyFilter = function() {
-            listFiltering.applyFilter($scope.node);
+            ListFilteringService.applyFilter($scope.node);
             $scope.showListFilter = !$scope.showListFilter;
             $scope.currentDisplayIndex = 1;
             if($scope.node.filteredListData.length){
-                $scope.node.doubleKeyIndexes = nodeWrapper.checkKeyDuplicity($scope.node.filteredListData,$scope.node.refKey);
+                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.filteredListData,$scope.node.refKey);
             }else{
-                $scope.node.doubleKeyIndexes = nodeWrapper.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
+                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
             }
         };
 
         $scope.clearFilterData = function(changeAct, filterForClear, removeFilters) {
-            listFiltering.clearFilterData($scope.node,changeAct,filterForClear,removeFilters);
+            ListFilteringService.clearFilterData($scope.node,changeAct,filterForClear,removeFilters);
             if(changeAct){
                 $scope.showListFilter = !$scope.showListFilter;
             }
-            $scope.node.doubleKeyIndexes = nodeWrapper.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
+            $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
         };
 
         $scope.activeFilter = function(filter) {
