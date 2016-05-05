@@ -27,6 +27,7 @@
       <network.resources.version>0.3.0-SNAPSHOT</network.resources.version>
       <topology.resources.version>0.3.0-SNAPSHOT</topology.resources.version>
       <yangui.resources.version>0.3.0-SNAPSHOT</yangui.resources.version>
+      <yangman.resources.version>0.3.0-SNAPSHOT</yangman.resources.version>
       <yangvisualizer.resources.version>0.3.0-SNAPSHOT</yangvisualizer.resources.version>
       <common.authentication.resources.version>0.3.0-SNAPSHOT</common.authentication.resources.version>
       <common.general.resources.version>0.3.0-SNAPSHOT</common.general.resources.version>

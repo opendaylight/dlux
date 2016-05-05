@@ -13,31 +13,13 @@
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-parent</artifactId>
     <version>0.4.0-SNAPSHOT</version>
-    <relativePath>../</relativePath>
+    <relativePath>../../</relativePath>
   </parent>
 
-  <artifactId>bundles</artifactId>
-  <name>DLUX - Bundles</name>
-  <description>Resources</description>
-  <packaging>pom</packaging>
-  <prerequisites>
-    <maven>3.0</maven>
-  </prerequisites>
-  <modules>
-    <module>core</module>
-    <module>navigation</module>
-    <module>topbar</module>
-    <module>layout</module>
-    <module>login</module>
-    <module>general</module>
-    <module>authentication</module>
-    <module>node</module>
-    <module>topology</module>
-    <module>yangui</module>
-    <module>yangman</module>
-    <module>yangutils</module>
-    <module>yangvisualizer</module>
-    <module>sigmatopology</module>
-  </modules>
+  <artifactId>dlux.yangman.resources</artifactId>
+  <name>${project.artifactId}</name>
+  <description>Yangman Module Resources</description>
+  <version>${yangman.resources.version}</version>
+  <packaging>jar</packaging>
 
 </project>
