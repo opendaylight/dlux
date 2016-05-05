@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_189c13c0",
+        "filename": "dlux-web/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "Will angular-material works fine with bootstrap ?\nDoes few css classes overlap ?",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_18837357",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/assets/data/locale-en_US.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of adding empty file. Can you add it when you will use it, pls ?",
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_3882b74f",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/yangman.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "I am surprise that your linter does not shown an error for this. It\u0027s usually a good practice to defined function/var before using it.",
+      "range": {
+        "startLine": 4,
+        "startChar": 47,
+        "endLine": 4,
+        "endChar": 58
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_587deb6d",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/yangman.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "`register` should be useless now. Can you try it without",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_98966393",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/main.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to extend RequireJs configuration.\nFor instance, your DLUX module will be broken if DLUX stop using RequireJs for an other AMD implementation library.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_d890db97",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.less",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "Empty file, please add it when you will use it.",
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_b88d277e",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "angular should be file. AngularAMD have been removed and it\u0027s used as an alias",
+      "range": {
+        "startLine": 2,
+        "startChar": 5,
+        "endLine": 2,
+        "endChar": 15
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_18ea530f",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "Should not be needed. DLUX should do this part for you.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_58f4cbf1",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "Better practice to have your function defined before using it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_f8ee7f21",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-05T18:04:21Z",
+      "side": 1,
+      "message": "Should be useless",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
