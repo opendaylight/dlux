@@ -1,45 +1,53 @@
-define(['app/yangui/yangui.module'], function(yangui) {
+define(['app/yangui/yangui.module'], function (yangui) {
+    'use strict';
 
-    yangui.register.service('DesignUtilsService', function(){
+    yangui.register.service('DesignUtilsService', DesignUtilsService);
 
-        var d = {};
+    function DesignUtilsService(){
 
-        d.setDraggablePopups = function(){
-            $( ".draggablePopup" ).draggable({
-                opacity: 0.35,
-                containment: "#page-wrapper",
-                cancel: 'pre, input, textarea, span, select'
-            });
-
-            $(function() {
-                $( ".resizable-se" ).resizable({ handles: 'se' });
-                $( ".resizable-s" ).resizable({ handles: 's', minHeight: 200 });
-            });
+        var service = {
+            getHistoryPopUpWidth: getHistoryPopUpWidth,
+            setDraggablePopups: setDraggablePopups,
+            triggerWindowResize: triggerWindowResize,
         };
 
-        d.getHistoryPopUpWidth = function(){
-            var getWidth = function(){
-                return $('.topologyContainer.previewContainer.historyPopUp').width();
-            };
+        return service;
 
+        // TODO: add service's description
+        function setDraggablePopups(){
+            $( '.draggablePopup' ).draggable({
+                opacity: 0.35,
+                containment: '#page-wrapper',
+                cancel: 'pre, input, textarea, span, select',
+            });
+
+            $(function () {
+                $( '.resizable-se' ).resizable({ handles: 'se' });
+                $( '.resizable-s' ).resizable({ handles: 's', minHeight: 200 });
+            });
+        }
+
+        // TODO: add service's description
+        function getHistoryPopUpWidth(){
 
             if ( getWidth() !== null ) {
-                $('.topologyContainer.previewContainer.historyPopUp').css({'marginLeft':'-'+(getWidth()/2)+'px'});
+                $('.topologyContainer.previewContainer.historyPopUp').css({ 'marginLeft': '-' + (getWidth() / 2 ) + 'px' });
             }
-        };
 
-        d.triggerWindowResize = function (timeout) {
+            function getWidth(){
+                return $('.topologyContainer.previewContainer.historyPopUp').width();
+            }
+        }
+
+        // TODO: add service's description
+        function triggerWindowResize(timeout) {
             var t = timeout ? timeout : 1;
 
-            setTimeout(function(){
+            setTimeout(function (){
                 $(window).trigger('resize');
             }, t);
+        }
 
-
-        };
-
-        return d;
-
-    });
+    }
 
 });

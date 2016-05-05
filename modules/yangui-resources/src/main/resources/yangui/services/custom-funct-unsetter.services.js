@@ -1,26 +1,35 @@
-define(['app/yangui/yangui.module'], function(yangui) {
+define(['angular'], function (angular) {
+    'use strict';
 
-    yangui.register.service('CustomFunctUnsetterService', ['PathUtilsService','DataBackupService', function(PathUtilsService, DataBackupService){
+    angular.module('app.yangui').service('CustomFunctUnsetterService',
+        ['PathUtilsService', 'DataBackupService', CustomFunctUnsetterService]);
 
-        var cfu = {};
+    function CustomFunctUnsetterService(PathUtilsService, DataBackupService){
+        var service = {
+            'YANGUI_CUST_MOUNT_POINTS': yanguiCustMountPoints,
+            unset: unset,
+        };
 
-        cfu['YANGUI_CUST_MOUNT_POINTS'] = function(scope){
-            DataBackupService.getToScope(['treeApis', 'treeRows', 'apis', 'node', 'selApi', 'selSubApi', 'augmentations'], scope);
+        return service;
+
+        // TODO: add service's description
+        function yanguiCustMountPoints(scope){
+            DataBackupService.getToScope(['treeApis', 'treeRows', 'apis', 'node',
+                                            'selApi', 'selSubApi', 'augmentations'], scope);
 
             scope.$broadcast('REFRESH_HISTORY_REQUEST_APIS');
 
-            var path = scope.selApi.basePath+scope.selSubApi.buildApiRequestString();
+            var path = scope.selApi.basePath + scope.selSubApi.buildApiRequestString();
             PathUtilsService.searchNodeByPath(path, scope.treeApis, scope.treeRows);
-        };
+        }
 
-        cfu.unset = function(custFunct, scope) {
-            if(cfu.hasOwnProperty(custFunct.label)) {
-                cfu[custFunct.label](scope);
+        // TODO: add service's description
+        function unset(custFunct, scope) {
+            if (service.hasOwnProperty(custFunct.label)) {
+                service[custFunct.label](scope);
             }
-        };
+        }
 
-        return cfu;
-
-    }]);
+    }
 
 });
