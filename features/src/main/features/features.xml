@@ -9,6 +9,7 @@
        <feature>odl-dlux-core</feature>
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
+        <feature>odl-dlux-yangman</feature>
         <feature>odl-dlux-yangvisualizer</feature>
     </feature>
 
@@ -38,6 +39,14 @@
         <feature>odl-dlux-core</feature>
         <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
         <bundle>mvn:org.opendaylight.dlux/dlux.yangui/{{VERSION}}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/{{VERSION}}</bundle>
+        <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/{{VERSION}}</bundle>
+    </feature>
+
+    <feature name="odl-dlux-yangman" version='${project.version}' description="Enable Yangman in Opendaylight dlux">
+        <feature>odl-dlux-core</feature>
+        <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
+        <bundle>mvn:org.opendaylight.dlux/dlux.yangman/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/{{VERSION}}</bundle>
     </feature>

@@ -101,6 +101,9 @@ module.exports = {
       'vendor/ng-clip/src/ngClip.js',
       'vendor/zeroclipboard/dist/ZeroClipboard.js',
       'vendor/angular-translate-loader-partial/angular-translate-loader-partial.js',
+      'vendor/angular-animate/angular-animate.min.js',
+      'vendor/angular-aria/angular-aria.min.js',
+      'vendor/angular-material/angular-material.min.js',
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
@@ -109,7 +112,8 @@ module.exports = {
     'vendor/footable/css/footable.core.min.css',
     'vendor/footable/css/footable.standalone.min.css',
     'vendor/vis/dist/vis.min.css',
-    'vendor/ng-slider/dist/css/ng-slider.min.css'
+    'vendor/ng-slider/dist/css/ng-slider.min.css',
+    'vendor/angular-material/angular-material.css',
 
     ],
     images: [
