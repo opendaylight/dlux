@@ -27,6 +27,9 @@ require.config({
     'ZeroClipboard' : '../vendor/zeroclipboard/dist/ZeroClipboard',
     'ngClip' : '../vendor/ng-clip/src/ngClip',
     'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial',
+    'ngAnimate': '../vendor/angular-animate/angular-animate.min',
+    'ngAria': '../vendor/angular-aria/angular-aria.min',
+    'ngMaterial': '../vendor/angular-material/angular-material.min'
   },
   map: {
     '*': {
@@ -66,7 +69,12 @@ require.config({
     'ngSlider' : ['angular'],
     'ZeroClipboard': ['angular'],
     'ngClip' : ['angular','ZeroClipboard'],
-    'angular-translate-loader-partial': ['angular-translate']
+    'angular-translate-loader-partial': ['angular-translate'],
+    'ngAnimate': ['angular'],
+    'ngAria': ['angular'],
+    'ngMaterial': {
+      deps: ['ngAnimate', 'ngAria']
+    }
   },
 
   deps : ['app/app.module']
