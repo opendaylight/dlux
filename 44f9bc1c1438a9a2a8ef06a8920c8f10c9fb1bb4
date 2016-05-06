@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_7eda5779",
+        "filename": "dlux-web/bower.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "I think it works fine. We tested it on yangvisualizer before. The whole point is remove all dlux classes and boostrap at some point in future. Because this style is obsolete. But right now we just focus on yangman app.",
+      "parentUuid": "fa57193c_189c13c0",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_18837357",
         "filename": "modules/yangman-resources/src/main/resources/yangman/assets/data/locale-en_US.json",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-05-05T18:04:21Z",
       "side": 1,
       "message": "I\u0027m not a fan of adding empty file. Can you add it when you will use it, pls ?",
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_be17cfec",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/assets/data/locale-en_US.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "One translate added",
+      "parentUuid": "fa57193c_18837357",
       "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
@@ -88,6 +130,54 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_5e0dd38f",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/yangman.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "It\u0027s not error to use it this way. At this time is normal write function later, how is used. It\u0027s because code\u0027s readability. If you will look into style guide, what we are using, there is everything described.",
+      "parentUuid": "fa57193c_3882b74f",
+      "range": {
+        "startLine": 4,
+        "startChar": 47,
+        "endLine": 4,
+        "endChar": 58
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_de49e3d1",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/yangman.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "I replied in module file, why it\u0027s problem to remove it.",
+      "parentUuid": "fa57193c_587deb6d",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_98966393",
         "filename": "modules/yangman-resources/src/main/resources/yangman/main.js",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2016-05-05T18:04:21Z",
       "side": 1,
       "message": "You shouldn\u0027t need to extend RequireJs configuration.\nFor instance, your DLUX module will be broken if DLUX stop using RequireJs for an other AMD implementation library.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_be1d0fc0",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/main.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "But right now we need it, because we need load codemirror plugin through this. If somebody will remove requirejs, we or he will change the loading of this plugin. This is the same like in yang ui. It will be broken too after remove requirejs.",
+      "parentUuid": "fa57193c_98966393",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -174,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_1e051b7a",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "I removed it.",
+      "parentUuid": "fa57193c_18ea530f",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 31
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_58f4cbf1",
         "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
         "patchSetId": 2
@@ -197,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_febb07c2",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "It\u0027s not true, if you look at style guide what we use, there is exact example.",
+      "parentUuid": "fa57193c_58f4cbf1",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_f8ee7f21",
         "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
         "patchSetId": 2
@@ -208,6 +370,30 @@
       "writtenOn": "2016-05-05T18:04:21Z",
       "side": 1,
       "message": "Should be useless",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_7ef53782",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-05-06T08:51:10Z",
+      "side": 1,
+      "message": "But it isnt. I spent whole day to remove it, but no success. I think that problem is in used pattern on DLUX. I dont know why. If i didnt use this, all the time app registered my controller after i use it first time. If i use just grunt and build it localy, its working, but when i build whole project through maven, it give me an error, that he dont know my controller. It\u0027s realy weird.",
+      "parentUuid": "fa57193c_f8ee7f21",
       "range": {
         "startLine": 30,
         "startChar": 0,
