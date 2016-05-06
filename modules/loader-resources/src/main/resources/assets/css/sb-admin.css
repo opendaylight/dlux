@@ -13,10 +13,9 @@
 #wrapper {
     width: 100%;
     padding-left:250px;
-}
-
-#pageContent {
-  margin-bottom:50px;
+    height: calc(100% - 62px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #sideMenu {
@@ -24,7 +23,7 @@
   position: absolute;
   left: 250px;
   width: 250px;
-  height: 100%;
+  height: calc(100% - 62px);
   margin-left: -250px;
   overflow-y: auto;
   background: #808285;
@@ -34,6 +33,13 @@
     padding:0 15px;
     position: relative;
     width:100%;
+    height: 100%;
+}
+
+#page-wrapper-content > div.container-fluid,
+#page-wrapper-content > div.container-fluid > div.row,
+#pageContent{
+    height: 100%;
 }
 
 .navbar-static-side ul li {
