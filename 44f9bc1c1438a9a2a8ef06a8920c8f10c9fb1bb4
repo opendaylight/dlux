@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_9954a555",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/yangman.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-06T13:05:41Z",
+      "side": 1,
+      "message": "We tried in a previous release to remove this abstraction to be more angular(ish) compatible. \nFor instance, the node module\nhttps://github.com/opendaylight/dlux/blob/master/modules/node-resources/src/main/resources/node/nodes.controller.js#L38",
+      "parentUuid": "fa57193c_de49e3d1",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_98966393",
         "filename": "modules/yangman-resources/src/main/resources/yangman/main.js",
         "patchSetId": 2
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "But right now we need it, because we need load codemirror plugin through this. If somebody will remove requirejs, we or he will change the loading of this plugin. This is the same like in yang ui. It will be broken too after remove requirejs.",
       "parentUuid": "fa57193c_98966393",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 3
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_f9c161e5",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/main.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-06T13:05:41Z",
+      "side": 1,
+      "message": "I understand your point, let\u0027s not override the configuration directly, though. Due to the possible issue mentioned before it will be problematic for everyone. Having a configuration tool that will extend the configuration of angularJs will be better.  I don\u0027t know, something like DLUX.config.extend({ ... }); And in dlux core it will call the require.config. what do you think ?",
+      "parentUuid": "fa57193c_be1d0fc0",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -359,6 +407,30 @@
     },
     {
       "key": {
+        "uuid": "fa57193c_b97409fe",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-06T13:05:41Z",
+      "side": 1,
+      "message": "I agree your syntax is the one used in the angular styleguide but never it\u0027s said that mine is bad (:\n\nWhy not using this situation to choose a convention and publish on the wiki an eslint file who will respect those rules. So what style do you prefer ?",
+      "parentUuid": "fa57193c_febb07c2",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_f8ee7f21",
         "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
         "patchSetId": 2
@@ -394,6 +466,30 @@
       "side": 1,
       "message": "But it isnt. I spent whole day to remove it, but no success. I think that problem is in used pattern on DLUX. I dont know why. If i didnt use this, all the time app registered my controller after i use it first time. If i use just grunt and build it localy, its working, but when i build whole project through maven, it give me an error, that he dont know my controller. It\u0027s realy weird.",
       "parentUuid": "fa57193c_f8ee7f21",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "44f9bc1c1438a9a2a8ef06a8920c8f10c9fb1bb4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_3912b9b1",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-06T13:05:41Z",
+      "side": 1,
+      "message": "Something weird must append durant the uglify phase then nor the DLUX core packaged by maven isn\u0027t accurate. Also, YangUI use the legacy way of loading controller/services/directive/provider. We update it for beryllium but it\u0027s not completely valid based on the angularJs Style.\n\nhttps://wiki.opendaylight.org/view/OpenDaylight_dlux:Beryllium_Create_A_Module#Define_and_link_the_controller.2C_factory.2C_directive_file",
+      "parentUuid": "fa57193c_7ef53782",
       "range": {
         "startLine": 30,
         "startChar": 0,
