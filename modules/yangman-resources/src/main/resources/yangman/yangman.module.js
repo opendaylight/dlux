@@ -20,7 +20,7 @@ define([
 
     yangman.config(YangManConfig);
 
-    function YangManConfig($stateProvider, $compileProvider, $controllerProvider, $provide, $filterProvider,
+    function YangManConfig($stateProvider, $compileProvider, $controllerProvider, $mdThemingProvider, $provide, $filterProvider,
                            $translateProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
 
         $translatePartialLoaderProvider.addPart('app/yangman/assets/data/locale');
@@ -34,6 +34,9 @@ define([
             constant: $provide.constant,
         };
 
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue')
+            .accentPalette('light-blue');
         NavHelperProvider.addControllerUrl('app/yangman/controllers/yangman.controller');
         NavHelperProvider.addToMenu('yangman', {
             link: '#/yangman/index',
