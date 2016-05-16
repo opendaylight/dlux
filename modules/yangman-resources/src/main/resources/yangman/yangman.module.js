@@ -6,10 +6,10 @@ define([
     'angular-translate-loader-partial',
     'ngMaterial',
     'common/yangutils/yangutils.module',
-], function (ng) {
+], function () {
     'use strict';
 
-    var yangman = angular.module('app.yangman', [
+    angular.module('app.yangman', [
         'ui.router.state',
         'app.core',
         'app.common.yangUtils',
@@ -18,11 +18,15 @@ define([
         'ngMaterial',
     ]);
 
-    yangman.config(YangManConfig);
+    angular.module('app.yangman').config(YangManConfig);
 
-    function YangManConfig($stateProvider, $translateProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
+    function YangManConfig($stateProvider, $mdThemingProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
 
         $translatePartialLoaderProvider.addPart('app/yangman/assets/data/locale');
+
+        $mdThemingProvider.theme('default')
+            .primaryPalette('blue')
+            .accentPalette('light-blue');
 
         NavHelperProvider.addControllerUrl('app/yangman/controllers/yangman.controller');
         NavHelperProvider.addToMenu('yangman', {
@@ -58,6 +62,4 @@ define([
             },
         });
     }
-
-    return yangman;
 });
