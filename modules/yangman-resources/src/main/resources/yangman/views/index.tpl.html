@@ -1,1 +1,31 @@
-<p>Yangman</p>
+<section class="yangmanModule" id="yangmanModule" layout="row">
+    <md-content layout="column" style="width: 400px; height: 100%;">
+        <md-tabs md-border-bottom md-selected="leftPanelTab">
+            <md-tab label="models tree">
+                <md-content class="md-padding">
+                    <md-tabs md-border-bottom md-no-pagination md-dynamic-height>
+                        <md-tab label="Models">
+                            <p align="right" ng-click="toggleLeftPanel()">==&gt;</p>
+                            <div ng-include src="currentPath + 'leftpanel/models-tab.tpl.html'"></div>
+                        </md-tab>
+                        <md-tab label="History">
+                            <div ng-include src="currentPath + 'leftpanel/history-tab.tpl.html'"></div>
+                        </md-tab>
+                        <md-tab label="Collections">
+                            <div ng-include src="currentPath + 'leftpanel/collections-tab.tpl.html'"></div>
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </md-tab>
+            <md-tab label="model detail">
+                <md-content class="md-padding">
+                    <p align="left" ng-click="toggleLeftPanel()">&lt;==</p>
+                    <div ng-include src="currentPath + 'leftpanel/model-detail.tpl.html'"></div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+    <md-content layout="column" flex>
+        <p>content</p>
+    </md-content>
+</section>
