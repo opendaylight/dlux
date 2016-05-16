@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_8a21c5a1",
+        "filename": "modules/common-layout-resources/src/main/resources/layout/index.tpl.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-16T14:59:39Z",
+      "side": 1,
+      "message": "Why do you remove container-fluid ?",
+      "revId": "e47cfee34b5de163e2804eab8e558d9a2f296ff9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_6a2431af",
+        "filename": "modules/common-navigation-resources/src/main/resources/navigation/navigation.less",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-16T14:59:39Z",
+      "side": 1,
+      "message": "I\u0027m not a fan of this approach. It imply that the name of the view will always stay the same and we will always use ui-router. An Id will be safer.",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "e47cfee34b5de163e2804eab8e558d9a2f296ff9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_aa35a9dc",
+        "filename": "modules/node-resources/src/main/resources/node/node.less",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-16T14:59:39Z",
+      "side": 1,
+      "message": "Why split the logic in a new class ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "e47cfee34b5de163e2804eab8e558d9a2f296ff9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
