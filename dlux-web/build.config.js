@@ -9,7 +9,7 @@ module.exports = {
    */
   build_dir: 'build',
   compile_dir: 'target/generated-resources/pages',
-  
+
   /**
    * This is a collection of file patterns that refer to our app code (the
    * stuff in `src/`). These file paths are used in the configuration of
@@ -114,7 +114,7 @@ module.exports = {
     'vendor/vis/dist/vis.min.css',
     'vendor/ng-slider/dist/css/ng-slider.min.css',
     'vendor/angular-material/angular-material.css',
-
+    'vendor/material-design-icons/iconfont/*',
     ],
     images: [
     'vendor/select2/select2.png',
@@ -122,11 +122,12 @@ module.exports = {
     'vendor/select2/select2x2.png'
     ],
     assets: [
-    'vendor/zeroclipboard/dist/ZeroClipboard.swf'
+    'vendor/zeroclipboard/dist/ZeroClipboard.swf',
     ],
     font: [
       'vendor/font-awesome/font/*',
-      'vendor/footable/css/fonts/*'
+      'vendor/footable/css/fonts/*',
+
     ]
   }
 };
