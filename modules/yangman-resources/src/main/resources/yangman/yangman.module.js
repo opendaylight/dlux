@@ -66,6 +66,7 @@ define([
             views: {
                 '': {
                     controller: 'YangmanCtrl',
+                    controllerAs: 'vm',
                     templateUrl: 'src/app/yangman/views/index.tpl.html',
                 },
             },

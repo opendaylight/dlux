@@ -1,0 +1,13 @@
+<!-- Module title -->
+<h4 class="text-center"><small>module</small> {{selectedModule.label}}</h4>
+<!-- DATA STORE || RPC TABS -->
+<md-content ng-controller="ModuleDetailCtrl as vm">
+    <md-tabs md-no-pagination md-dynamic-height
+             md-stretch-tabs="always"
+             md-selected="vm.selectedDataStore"
+             class="tabs">
+        <md-tab label="{{item.label}}" ng-repeat="item in selectedModule.children">
+            {{item.label}}
+        </md-tab>
+    </md-tabs>
+</md-content>

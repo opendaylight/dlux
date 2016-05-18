@@ -1,15 +1,25 @@
-.yangmanModule{
+// helpers
+.pointer{
+    cursor: pointer;
+    outline: 0 none;
+}
 
+.text-center{
+    text-align: center;
+}
+
+// yangman
+.yangmanModule{
     background-color: #ffffff;
-    color: #000000;
+    color: #505050;
     height: 100%;
 
-    h1, h2, h3, h4, h5, h6, span{
-        color: #000000;
+    p{
+        margin: 0;
     }
 
-    md-tabs{
-        height: 100%;
+    h1, h2, h3, h4, h5, h6, span{
+        color: #505050;
     }
 
     md-tabs-wrapper{
@@ -24,4 +34,197 @@
         display: inline;
     }
 
+    // modules switcher -> list && detail
+    .arrow-switcher{
+        position: absolute;
+        top: 2px;
+        cursor: pointer;
+        outline: 0 none;
+        z-index: 10;
+        font-size: 2.5em;
+        left: -11px;
+        -webkit-transition: all 250ms ease-out;
+        -moz-transition: all 250ms ease-out;
+        -ms-transition: all 250ms ease-out;
+        -o-transition: all 250ms ease-out;
+        transition: all 250ms ease-out;
+
+        &__left{
+            //right: -11px;
+            left: calc(~'100% - 24px');
+            -moz-transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            -o-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        &.ng-hide{
+            opacity: 0;
+        }
+    }
+
+    // left panel
+    &__left-panel{
+        overflow-x: hidden;
+        background: #f3f3f3;
+        //background: #f8f8f8;
+
+        md-tabs,
+        md-tab-content > div,
+        md-content{
+            height: 100%;
+        }
+
+        md-tabs-canvas{
+            border-bottom: 1px solid #dbdbdb;
+            padding-top: 30px;
+            height: 78px;
+        }
+
+        md-ink-bar{
+            height: 4px;
+        }
+
+        md-content{
+            background: transparent;
+        }
+
+        /*md-list-item .md-list-item-inner > md-icon:first-child:not(.md-avatar-icon){
+            margin-right: 16px;
+        }*/
+
+        /*md-list-item > md-icon:first-child:not(.md-avatar-icon){
+            margin: 0 16px;
+        }*/
+
+        //loading panel
+        &__loading-container {
+            display: block;
+            position: relative;
+            border: 2px solid #aad1f9;
+            transition: opacity  0.1s linear;
+            border-top: 0px;
+            margin: 10px;
+
+            .bottom-block {
+                display: block;
+                position: relative;
+                background-color: rgba(255, 255, 255, 0.25);
+                height: 85px;
+
+                > span {
+                    display: inline-block;
+                    margin-top: 10px;
+                    padding: 25px;
+                    font-size: 0.9em;
+                }
+            }
+        }
+    }
+
+
+    //modules list
+    &__modules-list{
+        padding: 0;
+        background: #f8f8f8;
+
+        &__item{
+            padding: 0!important;
+
+            .title{
+                -webkit-transition: all 150ms ease;
+                -moz-transition: all 150ms ease;
+                -ms-transition: all 150ms ease;
+                -o-transition: all 150ms ease;
+                transition: all 150ms ease;
+            }
+
+            &.expanded{
+                background: #E7E7E7;
+            }
+
+            md-icon{
+                margin: 12px 16px;
+            }
+
+            &:hover{
+                .title{
+                    background: #E7E7E7;
+                }
+            }
+        }
+
+        /*md-list-item{
+
+        }*/
+    }
+
+    // datastore list
+    &__datastore-list{
+        padding: 0;
+        border-top: 1px solid rgba(0,0,0,0.12);
+        background: #f8f8f8;
+        -webkit-box-shadow:inset 0 7px 7px -5px rgba(0,0,0,.14);
+        box-shadow:inset 0 7px 7px -5px rgba(0,0,0,.14);
+
+        md-list-item {
+            min-height: 0;
+            padding: 0;
+            font-size: .85em;
+
+            &:hover{
+                background: #dadada;
+            }
+
+            md-icon{
+                margin: 6px 16px;
+                font-size: 20.4px;
+            }
+        }
+    }
+
+    // module history collections tabs
+    &__mhc-tabs{
+
+        > md-tabs-content-wrapper{
+            height: 100%;
+
+            > md-tab-content{
+                height: 100%;
+            }
+        }
+
+        .md-tab{
+            span{
+                color: #a9a9a9;
+            }
+
+            &.md-active{
+                span{
+                    color: #505050;
+                }
+            }
+        }
+
+        .scrollableY{
+            overflow-y: auto;
+            height: 100%;
+        }
+    }
+
+    // module detail
+    &__module-detail{
+        h4{
+            padding-top: 30px;
+            margin: 0 15px;
+        }
+
+        .tabs{
+            md-tabs-canvas{
+                padding-top: 0;
+                height: 48px;
+            }
+        }
+    }
 }
