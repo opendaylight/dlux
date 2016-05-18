@@ -1,31 +1,47 @@
 <section class="yangmanModule" id="yangmanModule" layout="row">
-    <md-content layout="column" style="width: 400px; height: 100%;">
-        <md-tabs md-border-bottom md-selected="leftPanelTab">
+
+    <!-- LEFT SIDE -->
+    <md-content layout="column" style="width: 400px; height: 100%;" class="yangmanModule__left-panel">
+        <!-- module arrow button -->
+        <md-icon md-font-set="material-icons "
+                 class="arrow-switcher"
+                 ng-click="main.toggleLeftPanel()"
+                 ng-class="{'arrow-switcher__left' : main.leftPanelTab === 0}"
+                 ng-show="!main.selectedMainTab && selectedModule"> play_arrow </md-icon>
+        <!-- content -->
+        <md-tabs md-border-bottom md-selected="main.leftPanelTab">
             <md-tab label="models tree">
-                <md-content class="md-padding">
-                    <md-tabs md-border-bottom md-no-pagination md-dynamic-height>
-                        <md-tab label="Models">
-                            <p align="right" ng-click="toggleLeftPanel()">==&gt;</p>
-                            <div ng-include src="currentPath + 'leftpanel/models-tab.tpl.html'"></div>
+                <md-content>
+
+                    <!-- MODULES HISTORY COLLECTION TABS -->
+                    <md-tabs class="yangmanModule__mhc-tabs" md-no-pagination md-dynamic-height md-stretch-tabs="always">
+                        <!-- Modules tab -->
+                        <md-tab label="{{'YANGMAN_MODULES' | translate}}" md-on-select="main.switchedTab(0)">
+                            <div ng-include src="main.currentPath + 'leftpanel/modules-tab.tpl.html'" class="scrollableY"></div>
                         </md-tab>
-                        <md-tab label="History">
-                            <div ng-include src="currentPath + 'leftpanel/history-tab.tpl.html'"></div>
+                        <!-- History tab -->
+                        <md-tab label="History" md-on-select="main.switchedTab(1)">
+                            <div ng-include src="main.currentPath + 'leftpanel/history-tab.tpl.html'" class="md-padding"></div>
                         </md-tab>
-                        <md-tab label="Collections">
-                            <div ng-include src="currentPath + 'leftpanel/collections-tab.tpl.html'"></div>
+                        <!-- Collection tab -->
+                        <md-tab label="Collections" md-on-select="main.switchedTab(2)">
+                            <div ng-include src="main.currentPath + 'leftpanel/collections-tab.tpl.html'" class="md-padding"></div>
                         </md-tab>
                     </md-tabs>
                 </md-content>
             </md-tab>
+
+            <!-- MODULE TREE DETAIL -->
             <md-tab label="model detail">
-                <md-content class="md-padding">
-                    <p align="left" ng-click="toggleLeftPanel()">&lt;==</p>
-                    <div ng-include src="currentPath + 'leftpanel/model-detail.tpl.html'"></div>
+                <md-content class="yangmanModule__module-detail">
+                    <div ng-include src="main.currentPath + 'leftpanel/module-detail.tpl.html'"></div>
                 </md-content>
             </md-tab>
         </md-tabs>
     </md-content>
-    <md-content layout="column" flex>
-        <p>content</p>
-    </md-content>
+
+    <!-- RIGHT SIDE -->
+    <md-content layout="column" flex
+                class="md-whiteframe-3dp md-padding"
+                ng-include src="main.currentPath + 'rightpanel/detail.tpl.html'"></md-content>
 </section>
