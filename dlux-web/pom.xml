@@ -69,6 +69,11 @@
     </dependency>
     <dependency>
         <groupId>org.opendaylight.dlux</groupId>
+        <artifactId>dlux.yangman.resources</artifactId>
+        <version>${yangman.resources.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.opendaylight.dlux</groupId>
         <artifactId>dlux.yangvisualizer.resources</artifactId>
         <version>${yangvisualizer.resources.version}</version>
     </dependency>
@@ -121,6 +126,7 @@
               		  <include>app/routingConfig.js</include>
                       <include>app/node/</include>
                       <include>app/yangui/</include>
+                      <include>app/yangman/</include>
                       <include>app/yangvisualizer/</include>
                       <include>app/topology/</include>
                       <include>app/core/</include>
@@ -159,6 +165,7 @@
                 <includeArtifactIds>
                   dlux.node.resources,
                   dlux.yangui.resources,
+                  dlux.yangman.resources,
                   dlux.yangvisualizer.resources,
                   dlux.topology.resources,
                   dlux.core.resources,

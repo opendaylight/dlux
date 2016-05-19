@@ -96,6 +96,11 @@
       </dependency>
       <dependency>
           <groupId>org.opendaylight.dlux</groupId>
+          <artifactId>dlux.yangman</artifactId>
+          <version>${project.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.opendaylight.dlux</groupId>
           <artifactId>dlux.common.yangutils</artifactId>
           <version>${project.version}</version>
       </dependency>
