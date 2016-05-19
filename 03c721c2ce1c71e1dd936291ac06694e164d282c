@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_b2035441",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/array-utils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "If list and listToAdd are Array, you can merge them together this way without loop:\n\nArray.prototype.push.apply(list, listToAdd);",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_129a0014",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/custom-funct.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "You can remove this check by using angular.noop if you want.\nfor instance: (this.callback || angular.noop)(args)",
+      "range": {
+        "startLine": 34,
+        "startChar": 1,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_12c160e4",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/event-dispatcher.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "I think var args \u003d Array.prototype.slice.call(arguments);  will do the same",
+      "range": {
+        "startLine": 33,
+        "startChar": 12,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_b2b19491",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/list-filtering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "If you could use Object.keys instead of for .. in it will be awesome (:",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 21
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_92ac5037",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/list-filtering.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "again if you could use Object.keys",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 13
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_d2a6c852",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/module-connector.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "I think you can do it with\nArray.prototype.push.apply(targetNode, sourceNode);",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 14
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_126840f4",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "angular.fromJson can be used",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_324c649e",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/request-builder.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "transformPropData does noting. Why using it ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 23,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_9273b0e6",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/request-builder.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "angular.toJson can be used",
+      "range": {
+        "startLine": 41,
+        "startChar": 12,
+        "endLine": 41,
+        "endChar": 48
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_124fa093",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/request-builder.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "with the current implementation it seems useless",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_8d0f112e",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/yang-utils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-19T13:25:07Z",
+      "side": 1,
+      "message": "I would like to have more information about this line. Remove $$hashkey it\u0027s not something that i see often in angular code.",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 111
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
