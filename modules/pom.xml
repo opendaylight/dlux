@@ -33,6 +33,7 @@
     <module>common-login-resources</module>
     <module>common-general-resources</module>
     <module>yangui-resources</module>
+    <module>yangman-resources</module>
     <module>yangvisualizer-resources</module>
     <module>network-resources</module>
     <module>flow-resources</module>
