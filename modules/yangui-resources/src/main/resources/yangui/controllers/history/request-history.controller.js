@@ -161,11 +161,36 @@ define([].concat(services), function() {
 
                 var requestPath = req.api.parent.basePath + path;
 
-                $scope.executeOperation(req.method, function(data){
-                    if ( !data &&  req.receivedData ){
-                        $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
+                var regexp = /<<([^>]+)>>/g;
+                var sParam = JSON.stringify(sdata).match(regexp);
+
+                var paramExists = false;
+
+                for(var i=0; i<sParam.length; i++) {
+                    sParam[i] = sParam[i].replace(/[<>]/g, '');
+
+                    paramExists = false;
+
+                    for(var j=0; j<$scope.parameterList.list.length; j++) {
+                        if(sParam[i] == $scope.parameterList.list[j].name) {
+                            paramExists = true;
+                        }
                     }
-                }, requestPath);
+
+                    if(!paramExists) {
+                        console.info('Parameter \''+sParam[i]+'\' does NOT exist');
+                        $scope.setStatusMessage('danger', 'YANGUI_PARAMETER_MISSING_ERROR', e.message);
+                        break;
+                    }
+                }
+
+                if(paramExists) {
+                    $scope.executeOperation(req.method, function(data){
+                        if ( !data &&  req.receivedData ){
+                            $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
+                        }
+                    }, requestPath);
+                }
             };
 
             $scope.groupView = {};
