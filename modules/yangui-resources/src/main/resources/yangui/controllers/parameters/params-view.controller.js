@@ -77,13 +77,46 @@ define([], function() {
                     newReq = $scope.req.copyWithParametrizationAsNatural(parametrizedPath, $scope.getApiCallback, $scope.sDataForView, jsonParsingErrorClbk);
 
                 if(newReq){
-                    $scope.req.clearParametrizedData();
+                    var regexp = /<<([^>]+)>>/g;
+                    var sParam = JSON.stringify(newReq).match(regexp);
 
-                    list.addRequestToList(newReq);
-                    list.saveToStorage();
+                    var paramExists = false;
+                    var noParam = true;
 
-                    $scope.expandHistoryData();
-                    $scope.setStatusMessage('success', 'YANGUI_PARAMETRIZED_DATA_SAVED', e.message);
+                    if(sParam) {
+                        noParam = false;
+
+                        for(var i=0; i<sParam.length; i++) {
+                            sParam[i] = sParam[i].replace(/[<>]/g, '');
+
+                            paramExists = false;
+
+                            for(var j=0; j<$scope.parameterList.list.length; j++) {
+                                if(sParam[i] == $scope.parameterList.list[j].name) {
+                                    paramExists = true;
+                                }
+                            }
+
+                            if(!paramExists) {
+                                console.info('Parameter \''+sParam[i]+'\' does NOT exist');
+                                $scope.setStatusMessage('danger', 'YANGUI_PARAMETER_MISSING_ERROR', e.message);
+                                break;
+                            }
+                        }
+                    }
+
+                    if(paramExists || noParam) {
+                        $scope.req.clearParametrizedData();
+
+                        list.addRequestToList(newReq);
+                        list.saveToStorage();
+
+                        $scope.expandHistoryData();
+                        $scope.setStatusMessage('success', 'YANGUI_PARAMETRIZED_DATA_SAVED', e.message);
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 return true;
             };
