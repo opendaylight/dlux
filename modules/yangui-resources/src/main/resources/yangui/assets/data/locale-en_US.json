@@ -82,6 +82,7 @@
   "YANGUI_EXISTING_PARAMETER" : "Parameter with this name already exists!",
   "YANGUI_BACK": "Back",
   "YANGUI_JSON_PARSING_ERROR": "JSON parsing error",
+  "YANGUI_PARAMETER_MISSING_ERROR": "Parameter does NOT exist",
   "YANGUI_PARAMETRIZED_DATA_SAVED": "Parametrized data was saved.",
   "YANGUI_HISTORY_TAB" : "HISTORY",
   "YANGUI_COLLECTION_TAB" : "COLLECTION",

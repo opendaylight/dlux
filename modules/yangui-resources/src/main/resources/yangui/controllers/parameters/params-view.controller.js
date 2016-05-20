@@ -77,13 +77,21 @@ define([], function() {
                     newReq = $scope.req.copyWithParametrizationAsNatural(parametrizedPath, $scope.getApiCallback, $scope.sDataForView, jsonParsingErrorClbk);
 
                 if(newReq){
-                    $scope.req.clearParametrizedData();
+                    var paramResult = $scope.checkParamIsNotInList(newReq);
 
-                    list.addRequestToList(newReq);
-                    list.saveToStorage();
+                    if(!paramResult) {
+                        $scope.req.clearParametrizedData();
 
-                    $scope.expandHistoryData();
-                    $scope.setStatusMessage('success', 'YANGUI_PARAMETRIZED_DATA_SAVED', e.message);
+                        list.addRequestToList(newReq);
+                        list.saveToStorage();
+
+                        $scope.expandHistoryData();
+                        $scope.setStatusMessage('success', 'YANGUI_PARAMETRIZED_DATA_SAVED', e.message);
+                    }
+                    else {
+                        $scope.setStatusMessage('danger', 'YANGUI_PARAMETER_MISSING_ERROR', e.message);
+                        return false;
+                    }
                 }
                 return true;
             };
