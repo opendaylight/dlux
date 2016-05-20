@@ -146,5 +146,8 @@
   "YANGUI_SEND": "Send",
   "YANGUI_ERROR_PARSING_JSON": "Parsing JSON error",
   "YANGUI_COPY_TO_CLIPBOARD" : "Copy to clipboard",
-  "YANGUI_CLIPBOARD_ALERT_MSG" : "Press CMD+C (MacOS) or CTRL+C (Windows) to copy the text below."
+  "YANGUI_CLIPBOARD_ALERT_MSG" : "Press CMD+C (MacOS) or CTRL+C (Windows) to copy the text below.",
+  "YANGUI_REQUIRED" : "Required parameter",
+  "YANGUI_ALPHANUMERIC" : "Name must contain only alphanumeric characters without spaces.",
+  "YANGUI_DUPLICATE" : "Param name duplicate, change it!"
 }
