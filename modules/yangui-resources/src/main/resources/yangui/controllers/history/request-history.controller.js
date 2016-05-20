@@ -148,6 +148,39 @@ define([].concat(services), function() {
                 }
             };
 
+            $scope.checkParamExists = function(req) {
+                var regexp = /<<([^>]+)>>/g;
+                var sParam = angular.toJson(req).match(regexp);
+
+                var obj = {};
+
+                obj.paramExists = false;
+                obj.noParam = true;
+
+                if(sParam) {
+                    obj.noParam = false;
+
+                    for(var i=0; i<sParam.length; i++) {
+                        sParam[i] = sParam[i].replace(/[<>]/g, '');
+
+                        obj.paramExists = false;
+
+                        for(var j=0; j<$scope.parameterList.list.length; j++) {
+                            if(sParam[i] == $scope.parameterList.list[j].name) {
+                                obj.paramExists = true;
+                            }
+                        }
+
+                        if(!obj.paramExists) {
+                            $scope.setStatusMessage('danger', 'YANGUI_PARAMETER_MISSING_ERROR', e.message);
+                            break;
+                        }
+                    }
+                }
+
+                return obj;
+            };
+
             $scope.executeCollectionRequest = function(req, dataForView, showData) {
                 var sdata = dataForView ? ParsingJsonService.parseJson(dataForView) : req.sentData,
                     path = req.parametrizedPath && showData ? req.parametrizedPath : req.api.buildApiRequestString();
@@ -161,11 +194,15 @@ define([].concat(services), function() {
 
                 var requestPath = req.api.parent.basePath + path;
 
-                $scope.executeOperation(req.method, function(data){
-                    if ( !data &&  req.receivedData ){
-                        $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
-                    }
-                }, requestPath);
+                var paramResult = $scope.checkParamExists(sdata);
+
+                if(paramResult.paramExists || paramResult.noParam) {
+                    $scope.executeOperation(req.method, function(data){
+                        if ( !data &&  req.receivedData ){
+                            $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
+                        }
+                    }, requestPath);
+                }
             };
 
             $scope.groupView = {};
