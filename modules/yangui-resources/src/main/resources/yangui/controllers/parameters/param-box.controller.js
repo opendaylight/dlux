@@ -4,31 +4,35 @@ define([], function() {
             $scope.paramObj = null;
             $scope.oldParam = null;
             $scope.boxView = false;
+            $scope.duplicateParam = null;
 
-            $scope.hideParamBox = function(){
+            $scope.hideParamBox = function (){
                 $scope.boxView = false;
                 $scope.paramObj = $scope.createNewParam();
             };
 
-            var addEditSuccessfull = function() {
+            var addEditSuccessfull = function () {
                 $scope.hideParamBox();
                 $scope.parameterList.saveToStorage();
             };
 
             EventDispatcherService.registerHandler(constants.EV_PARAM_EDIT_SUCC, addEditSuccessfull);
 
-            $scope.saveParam = function(){
-                $scope.saveParamToList($scope.paramObj, $scope.oldParam);
+            $scope.saveParam = function (){
+                $scope.duplicateParam = $scope.parameterList.getParamListObjsByName($scope.paramObj.name, null);
+                if (!$scope.duplicateParam.length) {
+                    $scope.saveParamToList($scope.paramObj, $scope.oldParam);
+                }
+
             };
 
-            $scope.$on('HISTORY_INIT_PARAM', function(e, obj){
+            $scope.$on('HISTORY_INIT_PARAM', function (e, obj){
                 if ( obj ){
                     $scope.paramObj = obj.clone();
                     $scope.oldParam = obj;
                     $scope.boxView = true;
                 }
             });
-        }
+        },
     ]);
-
 });
