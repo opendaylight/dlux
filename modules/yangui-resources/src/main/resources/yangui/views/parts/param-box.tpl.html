@@ -5,7 +5,7 @@
             {{'YANGUI_PARAMETER_NAME_LC' | translate}}
             <i class="icon-exclamation-sign red" tooltip="{{paramForm.name.$error.required ? 'Required field' : paramForm.name.$error.pattern ? 'Name must contain only alphanumeric characters without spaces.' : ''}}" ng-show="paramForm.name.$error.required || paramForm.name.$error.pattern"></i>
         </label>
-        <input class="form-control" ng-model="paramObj.name" type="text" name="name" ng-required="true" ng-pattern="/^[a-zA-Z0-9]*$/">
+        <input class="form-control" ng-model="paramObj.name" type="text" name="name" ng-required="true" ng-pattern="/^[a-zA-Z0-9]*$/" ng-disabled="editingParameters">
 
         <label>{{'YANGUI_PARAMETER_VALUE_LC' | translate}}</label>
         <input class="form-control" ng-model="paramObj.value" type="text">
