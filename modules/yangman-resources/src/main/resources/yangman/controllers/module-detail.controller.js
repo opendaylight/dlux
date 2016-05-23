@@ -6,24 +6,29 @@ define([
 
     angular.module('app.yangman').controller('ModuleDetailCtrl', ModuleDetailCtrl);
 
-    ModuleDetailCtrl.$inject = ['$scope', '$rootScope'];
+    ModuleDetailCtrl.$inject = ['$scope', '$rootScope', '$timeout', 'YangmanService'];
 
-    function ModuleDetailCtrl($scope, $rootScope) {
+    function ModuleDetailCtrl($scope, $rootScope, $timeout, YangmanService) {
         var moduleDetail = this;
 
-        moduleDetail.selectedDataStore = 0;
-        moduleDetail.apis = [];
+        moduleDetail.treeApis = [];
+        moduleDetail.selectedApi = null;
+        moduleDetail.selectedSubApi = null;
+        moduleDetail.selectedInnerDatastore = null;
 
         // methods
         moduleDetail.setApiNode = setApiNode;
+        moduleDetail.setDataDetailStore = setDataDetailStore;
 
         /**
          * Initialization
          */
         function init(){
-            console.warn('ModuleDetailCtrl', $scope.selectedModule.label, $scope.selectedDatastore);
-            moduleDetail.selectedDataStore = $scope.selectedModule.children.indexOf($scope.selectedDatastore);
-            moduleDetail.apis = $scope.selectedDatastore.children;
+            $timeout(function () {
+                moduleDetail.selectedDataStoreIndex =
+                    YangmanService.getDataStoreIndex($scope.selectedModule.children, $scope.selectedDatastore.label);
+                moduleDetail.treeApis = $scope.selectedDatastore.children;
+            });
         }
 
         /**
@@ -32,11 +37,41 @@ define([
          * @param subApiIndex
          */
         function setApiNode(apiIndex, subApiIndex){
-            console.log('apiIndex, subApiIndex', apiIndex, subApiIndex);
+            // $scope.selectedOperation = null;
+
+            if (apiIndex !== undefined && subApiIndex !== undefined ) {
+                moduleDetail.selectedApi = $scope.apis[apiIndex];
+                moduleDetail.selectedSubApi = moduleDetail.selectedApi.subApis[subApiIndex];
+                $scope.setNode(moduleDetail.selectedSubApi.node);
+
+
+                // $scope.selApi = $scope.apis[indexApi];
+                // $scope.selSubApi = $scope.selApi.subApis[indexSubApi];
+
+                // $scope.apiType = $scope.selSubApi.pathArray[0].name === 'operational' ? 'operational/':'';
+                // $scope.node = $scope.selSubApi.node;
+                // $scope.filterRootNode = $scope.selSubApi.node;
+                // $scope.node.clear();
+
+                // if($scope.selSubApi && $scope.selSubApi.operations) {
+                //    $scope.selectedOperation = $scope.selSubApi.operations[0];
+                // }
+                // $scope.$broadcast('EV_REFRESH_LIST_INDEX');
+                // DesignUtilsService.triggerWindowResize(100);
+            } else {
+                // $scope.selApi = null;
+                // $scope.selSubApi = null;
+                // $scope.node = null;
+            }
         }
 
-        function setSelectedApis(){
-
+        /**
+         * Set datastore to global param
+         * @param dataStore
+         */
+        function setDataDetailStore(dataStore){
+            $scope.setDataStore(dataStore);
+            moduleDetail.treeApis = dataStore.children;
         }
 
         // WATCHERS

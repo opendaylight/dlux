@@ -3,15 +3,22 @@ define(['app/yangman/yangman.module'], function () {
 
     angular.module('app.yangman').service('YangmanService', function (){
 
+    function YangmanService(){
         var service = {
-            hideMainMenu: hideMainMenu,
+            getDataStoreIndex: getDataStoreIndex,
         };
 
         return service;
 
-        function hideMainMenu(){
-            $('#wrapper').addClass('toggled');
+        function getDataStoreIndex(list, dataStore){
+            var rIndex = null,
+                result = list.some(function (item, index) {
+                    rIndex = index;
+                    return item.label === dataStore;
+                });
+
+            return result ? rIndex : null;
         }
-    });
+    }
 
 });

@@ -5,12 +5,14 @@ define([
 
     angular.module('app.yangman').controller('ModulesListCtrl', ModulesListCtrl);
 
-    ModulesListCtrl.$inject = ['$scope', 'YangUtilsService'];
+    ModulesListCtrl.$inject = ['$scope', '$rootScope', '$mdToast', 'YangUtilsService', 'PluginHandlerService',
+                                '$filter'];
 
-    function ModulesListCtrl($scope, YangUtilsService) {
+    function ModulesListCtrl($scope, $rootScope, $mdToast, YangUtilsService, PluginHandlerService, $filter) {
         var modulesList = this;
 
         modulesList.treeApis = [];
+        modulesList.showLoadingBox = true;
 
         // methods
         modulesList.setDataStore = setDataStore;
@@ -29,33 +31,39 @@ define([
          * Load apis and modules
          */
         function loadApis() {
-            modulesList.apis = [];
             modulesList.allNodes = [];
             modulesList.treeApis = [];
             modulesList.augmentations = {};
 
-            // processingModulesCallback();
+            modulesList.showLoadingBox = true;
+
             YangUtilsService.generateNodesToApis(function (apis, allNodes, augGroups) {
-                modulesList.apis = apis;
+                $scope.setApis(apis);
                 modulesList.allNodes = allNodes;
                 modulesList.augmentations = augGroups;
-                console.info('INFO :: got data', modulesList.apis, modulesList.allNodes, modulesList.augmentations);
+                console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
                 console.info('INFO :: tree api', modulesList.treeApis);
                 // $scope.processingModulesSuccessCallback();
+                modulesList.showLoadingBox = false;
+                showToastInfoBox('YANGMAN_LOADED_MODULES');
 
+                PluginHandlerService.plugAll(apis, modulesList);
                 // $scope.$broadcast('LOAD_REQ_DATA');
             }, function (e) {
-                // $scope.processingModulesErrorCallback(e);
+                showToastInfoBox('YANGMAN_LOADED_MODULES_ERROR');
+                modulesList.showLoadingBox = false;
             });
         }
 
         /**
          * Set and expand module in tree
          */
-        function setModule(module){
-            module.expanded = !module.expanded;
-            $scope.$emit('YANGMAN_SET_MODULE', module);
+        function setModule(module, e){
+            if ( $(e.target).hasClass('top-element') ) {
+                module.expanded = !module.expanded;
+                $scope.setModule(module);
+            }
         }
 
         /**
@@ -63,8 +71,17 @@ define([
          * @param dataStore
          */
         function setDataStore(dataStore, module){
-            $scope.$emit('YANGMAN_SET_MODULE', module);
-            $scope.$emit('YANGMAN_SET_DATASTORE', dataStore);
+            $scope.setModule(module);
+            $scope.setDataStore(dataStore, true);
+        }
+
+        function showToastInfoBox(text){
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent($filter('translate')(text))
+                    .position('bottom left')
+                    .hideDelay(3000)
+            );
         }
     }
 
