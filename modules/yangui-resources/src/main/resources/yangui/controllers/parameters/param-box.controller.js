@@ -5,6 +5,7 @@ define([], function() {
             $scope.oldParam = null;
             $scope.boxView = false;
             $scope.duplicateParam = null;
+            $scope.editingParameters = true;
 
             $scope.hideParamBox = function (){
                 $scope.boxView = false;
@@ -31,6 +32,7 @@ define([], function() {
                     $scope.paramObj = obj.clone();
                     $scope.oldParam = obj;
                     $scope.boxView = true;
+                    $scope.editingParameters = (obj.name !== "");
                 }
             });
         },

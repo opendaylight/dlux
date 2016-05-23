@@ -6,7 +6,7 @@
             <i id="paramCheck" class="icon-exclamation-sign red" ng-show="paramForm.name.$error.required || paramForm.name.$error.pattern || duplicateParam.length"
                tooltip="{{paramForm.name.$error.required ? ('YANGUI_REQUIRED' | translate) : paramForm.name.$error.pattern ? ('YANGUI_ALPHANUMERIC' | translate) : duplicateParam.length ? ('YANGUI_DUPLICATE' | translate) : ''}}" ></i>
         </label>
-        <input class="form-control" ng-model="paramObj.name" type="text" name="name" ng-required="true" ng-pattern="/^[a-zA-Z0-9]*$/">
+        <input class="form-control" ng-model="paramObj.name" type="text" name="name" ng-required="true" ng-pattern="/^[a-zA-Z0-9]*$/" ng-disabled="editingParameters">
 
         <label>{{'YANGUI_PARAMETER_VALUE_LC' | translate}}</label>
         <input class="form-control" ng-model="paramObj.value" type="text">
