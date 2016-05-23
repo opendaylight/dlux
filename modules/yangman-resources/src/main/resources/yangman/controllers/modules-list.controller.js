@@ -3,7 +3,7 @@ define([
 ], function (yangman) {
     'use strict';
 
-    yangman.register.controller('ModulesListCtrl', ModulesListCtrl);
+    yangman.controller('ModulesListCtrl', ModulesListCtrl);
 
     ModulesListCtrl.$inject = ['$scope', '$rootScope', 'YangUtilsService', 'PluginHandlerService'];
 

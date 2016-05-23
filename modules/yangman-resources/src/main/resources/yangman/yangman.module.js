@@ -20,19 +20,9 @@ define([
 
     yangman.config(YangManConfig);
 
-    function YangManConfig($stateProvider, $compileProvider, $controllerProvider, $mdThemingProvider, $provide, $filterProvider,
-                           $translateProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
+    function YangManConfig($stateProvider, $mdThemingProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
 
         $translatePartialLoaderProvider.addPart('app/yangman/assets/data/locale');
-
-        yangman.register = {
-            directive: $compileProvider.directive,
-            controller: $controllerProvider.register,
-            factory: $provide.factory,
-            filter: $filterProvider.register,
-            service: $provide.service,
-            constant: $provide.constant,
-        };
 
         $mdThemingProvider.theme('default')
             .primaryPalette('blue')

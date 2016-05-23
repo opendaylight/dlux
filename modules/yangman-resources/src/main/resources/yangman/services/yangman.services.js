@@ -1,7 +1,7 @@
 define(['app/yangman/yangman.module'], function (yangman) {
     'use strict';
 
-    yangman.register.service('YangmanService', function (){
+    yangman.service('YangmanService', function (){
 
         var service = {
             hideMainMenu: hideMainMenu,

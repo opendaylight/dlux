@@ -5,9 +5,11 @@
     <md-tabs md-no-pagination md-dynamic-height
              md-stretch-tabs="always"
              md-selected="moduleDetail.selectedDataStore"
-             class="tabs">
+             class="tabs tabs-h100">
         <md-tab label="{{item.label}}" ng-repeat="item in selectedModule.children">
-            <abn-api-tree tree-data="moduleDetail.apis" tree-rows="moduleDetail.treeRows" on-select="moduleDetail.setApiNode(branch.indexApi, branch.indexSubApi)"></abn-api-tree>
+            <abn-api-tree tree-data="moduleDetail.apis"
+                          tree-rows="moduleDetail.treeRows"
+                          on-select="moduleDetail.setApiNode(branch.indexApi, branch.indexSubApi)"></abn-api-tree>
         </md-tab>
     </md-tabs>
 </md-content>

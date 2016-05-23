@@ -1,7 +1,7 @@
 define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
     'use strict';
 
-    yangman.register.directive('abnApiTree', [
+    yangman.directive('abnApiTree', [
         '$timeout', function ($timeout) {
             return {
                 restrict: 'E',
@@ -39,7 +39,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                         attrs.iconCollapse = 'remove';
                     }
                     if (attrs.iconLeaf == null) {
-                        attrs.iconLeaf = 'play_arrow';
+                        attrs.iconLeaf = 'keyboard_arrow_right';
                     }
                     if (attrs.expandLevel == null) {
                         attrs.expandLevel = '3';

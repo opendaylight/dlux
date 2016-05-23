@@ -4,7 +4,7 @@ define([
 ], function (yangman) {
     'use strict';
 
-    yangman.register.controller('ModuleDetailCtrl', ModuleDetailCtrl);
+    yangman.controller('ModuleDetailCtrl', ModuleDetailCtrl);
 
     ModuleDetailCtrl.$inject = ['$scope', '$rootScope'];
 
