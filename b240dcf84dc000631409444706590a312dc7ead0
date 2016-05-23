@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_caf3a49c",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/controllers/history/request-history.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-05-23T07:50:55Z",
+      "side": 1,
+      "message": "remove white space",
+      "revId": "b240dcf84dc000631409444706590a312dc7ead0",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_4a37944e",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/yangui.less",
+        "patchSetId": 2
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-05-23T07:50:55Z",
+      "side": 1,
+      "message": "remove white space",
+      "revId": "b240dcf84dc000631409444706590a312dc7ead0",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
