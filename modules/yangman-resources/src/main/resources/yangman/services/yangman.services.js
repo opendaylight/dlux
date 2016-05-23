@@ -1,17 +1,24 @@
 define(['app/yangman/yangman.module'], function (yangman) {
     'use strict';
 
-    yangman.register.service('YangmanService', function (){
+    yangman.register.service('YangmanService', YangmanService);
 
+    function YangmanService(){
         var service = {
-            hideMainMenu: hideMainMenu,
+            getDataStoreIndex: getDataStoreIndex,
         };
 
         return service;
 
-        function hideMainMenu(){
-            $('#wrapper').addClass('toggled');
+        function getDataStoreIndex(list, dataStore){
+            var rIndex = null,
+                result = list.some(function (item, index) {
+                    rIndex = index;
+                    return item.label === dataStore;
+                });
+
+            return result ? rIndex : null;
         }
-    });
+    }
 
 });

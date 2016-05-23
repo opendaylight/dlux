@@ -1,3 +1,5 @@
 {
-  "YANGMAN_MODULES": "Modules"
+  "YANGMAN_MODULES": "Modules",
+  "YANGMAN_LOADED_MODULES": "Modules were loaded.",
+  "YANGMAN_LOADED_MODULES_ERROR": "Error in loading modules."
 }
