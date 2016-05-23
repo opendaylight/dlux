@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_8f725b47",
+        "filename": "distribution-dlux/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 2759
+      },
+      "writtenOn": "2016-05-23T14:56:07Z",
+      "side": 1,
+      "message": "I think this is a repo level cyclic dependency issue here. Integration is the last project built and it\u0027s artifacts does not exist before DLUX is built so it\u0027s impossible to resolve org.opendaylight.integration until all ODL projects are built first. We see this issue at version bumping time.",
+      "revId": "6365a241e06ad12a486dfbcceb49bbeabc34fb18",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
