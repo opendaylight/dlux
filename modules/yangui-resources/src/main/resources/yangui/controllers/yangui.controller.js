@@ -373,7 +373,9 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives).concat(c
                 headers = YangUtilsService.prepareHeaders(preparedRequestData);
 
                 requestWorkingCallback();
-
+                if (operation === 'REMOVE'){
+                    preparedRequestData = {};
+                }
                 YangUtilsRestangularService.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData).then(
                     function(data) {
                         if(operation === 'REMOVE'){
