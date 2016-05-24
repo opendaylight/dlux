@@ -364,18 +364,18 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives).concat(c
                 reqString = reqPath ? reqPath.slice($scope.selApi.basePath.length, reqPath.length) : reqString;
                 var requestPath = $scope.selApi.basePath + reqString;
 
-                $scope.node.buildRequest(RequestBuilderService, requestData, $scope.node.module);
-                angular.copy(requestData, preparedRequestData);
-
-                preparedRequestData = YangUtilsService.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
-
                 operation = YangUtilsService.prepareOperation(operation);
+
+                if (operation !== 'REMOVE'){
+                    $scope.node.buildRequest(RequestBuilderService, requestData, $scope.node.module);
+                    angular.copy(requestData, preparedRequestData);
+                    preparedRequestData = YangUtilsService.prepareRequestData(preparedRequestData, operation, reqString, $scope.selSubApi);
+                }
+
                 headers = YangUtilsService.prepareHeaders(preparedRequestData);
 
                 requestWorkingCallback();
-                if (operation === 'REMOVE'){
-                    preparedRequestData = {};
-                }
+
                 YangUtilsRestangularService.one('restconf').customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData).then(
                     function(data) {
                         if(operation === 'REMOVE'){
