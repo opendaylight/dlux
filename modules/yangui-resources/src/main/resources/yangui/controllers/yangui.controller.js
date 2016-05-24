@@ -437,9 +437,11 @@ define(
             reqString = reqPath ? reqPath.slice($scope.selApi.basePath.length, reqPath.length) : reqString;
             var requestPath = $scope.selApi.basePath + reqString;
 
+                operation = YangUtilsService.prepareOperation(operation);
+
+                if (operation !== 'REMOVE'){
             $scope.node.buildRequest(RequestBuilderService, requestData, $scope.node.module);
             angular.copy(requestData, preparedRequestData);
-
             preparedRequestData = YangUtilsService.prepareRequestData(
                 preparedRequestData,
                 operation,
@@ -447,7 +449,6 @@ define(
                 $scope.selSubApi
             );
 
-            operation = YangUtilsService.prepareOperation(operation);
             headers = YangUtilsService.prepareHeaders(preparedRequestData);
 
             requestWorkingCallback();
