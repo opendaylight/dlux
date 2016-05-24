@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_fb0d9938",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/controllers/yangui.controller.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-05-24T12:12:02Z",
+      "side": 1,
+      "message": "instead of clearing preparedRequestData object, if operation is REMOVE, try to put filling preparedRequestData  into if statemnet earlier and prevent filling it",
+      "revId": "00e7bb1ef4de2241599f42cce7b05b3c74435ea4",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
