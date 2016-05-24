@@ -148,24 +148,41 @@ define([].concat(services), function() {
                 }
             };
 
+            $scope.checkParamIsNotInList = function(req) {
+                var regexp = /<<([^>]+)>>/g;
+                var sParam = angular.toJson(req).match(regexp);
+
+                return sParam && sParam.some(function(parameter) {
+                    parameter = parameter.replace(/[<>]/g, '');
+
+                    return $filter('filter')($scope.parameterList.list, {'name': parameter}).length < 1;
+                });
+            };
+
             $scope.executeCollectionRequest = function(req, dataForView, showData) {
                 var sdata = dataForView ? ParsingJsonService.parseJson(dataForView) : req.sentData,
-                    path = req.parametrizedPath && showData ? req.parametrizedPath : req.api.buildApiRequestString();
+                    path = req.parametrizedPath && showData ? req.parametrizedPath : req.api.buildApiRequestString(),
+                    paramResult = $scope.checkParamIsNotInList(sdata);
 
                 path = $scope.parameterizeData(path);
                 $scope.fillStandardApi(path, req.path);
 
-                if(sdata) {
+                if(sdata && !paramResult) {
                     $scope.fillApiData(sdata);
                 }
 
                 var requestPath = req.api.parent.basePath + path;
 
-                $scope.executeOperation(req.method, function(data){
-                    if ( !data &&  req.receivedData ){
-                        $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
-                    }
-                }, requestPath);
+                if(!paramResult) {
+                    $scope.executeOperation(req.method, function(data){
+                        if ( !data &&  req.receivedData ){
+                            $scope.node.fill($scope.node.label,req.receivedData[$scope.node.label]);
+                        }
+                    }, requestPath);
+                }
+                else {
+                    $scope.setStatusMessage('danger', 'YANGUI_PARAMETER_MISSING_ERROR', e.message);
+                }
             };
 
             $scope.groupView = {};
