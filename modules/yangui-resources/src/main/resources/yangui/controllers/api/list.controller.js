@@ -82,8 +82,10 @@ define([], function() {
             $scope.currentDisplayIndex = 1;
             if($scope.node.filteredListData.length){
                 $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.filteredListData,$scope.node.refKey);
+                $scope.setStatusMessage('success', 'YANGUI_FILTER_MATCH_SUCCESS', e.message);
             }else{
                 $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
+                $scope.setStatusMessage('danger', 'YANGUI_FILTER_MATCH_ERROR', e.message);
             }
         };
 

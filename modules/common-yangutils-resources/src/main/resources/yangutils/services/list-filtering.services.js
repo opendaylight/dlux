@@ -80,8 +80,12 @@ define([], function () {
 
             getFilterResult = function(element, filterValue, node){
                 for (var i in filterValue){
+                    if(!filterValue[i].filterType) {
+                        continue;
+                    }
+
                     if(!filterValue[i].hasOwnProperty('value') && !filterValue[i].hasOwnProperty('selectboxBitsValue') && !filterValue[i].hasOwnProperty('bitsValue') &&
-                        !filterValue[i].hasOwnProperty('filterRangeFrom') && !filterValue[i].hasOwnProperty('filterRangeTo')){
+                        !filterValue[i].hasOwnProperty('filterRangeFrom') && !filterValue[i].hasOwnProperty('filterRangeTo') && element[i]){
                         getFilterResult(element[i],filterValue[i]);
                     }else{
                         if(filterValue[i].selectboxBitsValue && filterValue[i].selectboxBitsValue.length){

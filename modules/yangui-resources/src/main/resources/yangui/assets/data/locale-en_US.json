@@ -128,6 +128,8 @@
   "YANGUI_CREATE_NEW_FILTER" : "Create new filter",
   "YANGUI_ACTIVATE_DEACTIVATE_FILTER" : "Activate/Deactivate filter",
   "YANGUI_SWITCH_FILTER" : "Switch filter",
+  "YANGUI_FILTER_MATCH_SUCCESS" : "Filter successfully activated",
+  "YANGUI_FILTER_MATCH_ERROR" : "Filter does NOT match any nodes",
   "YANGUI_OK" : "Ok",
   "YANGUI_REMOVE_ALL" : "Remove all",
   "YANGUI_DEACTIVATE_ALL" : "Deactivate all",
