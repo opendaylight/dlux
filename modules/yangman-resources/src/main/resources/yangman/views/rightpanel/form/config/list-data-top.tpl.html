@@ -1,0 +1,52 @@
+<!-- Previous button -->
+<md-icon md-font-set="material-icons"
+         class="pointer"
+         ng-click="yangList.shiftDisplayPrev()"
+         ng-show="yangList.showPrevButton()">
+    <md-tooltip md-direction="top">{{ 'LIST_PREV_ITEM' | translate }}</md-tooltip>
+    arrow_back
+</md-icon>
+
+<section ng-repeat="offset in yangList.displayOffsets" class="yangmanModule__right-panel__form__list-item"
+         layout="row" layout-align="start center"
+         ng-if="yangList.currentDisplayIndex + offset > -1 && node.listData.length > yangList.currentDisplayIndex + offset">
+
+    <!-- label -->
+    <md-tab-item class="md-tab pointer" ng-click="node.changeActElementData(yangList.currentDisplayIndex + offset)"
+                 ng-class="{'': yangList.currentDisplayIndex + offset === node.actElemIndex}">
+        <div layout="row">
+            <span flex="grow">
+                {{yangForm.getNodeName(node.localeLabel, node.label)}}&nbsp;{{ yangList.getListName(offset, true).name }}
+            </span>
+        </div>
+
+        <md-tooltip md-direction="top" ng-if="yangList.getListName(offset, false).tooltip.length">
+            {{yangList.getListName(offset, false).tooltip}}
+        </md-tooltip>
+
+        <md-ink-bar class="custom" ng-if="yangList.currentDisplayIndex + offset === node.actElemIndex"></md-ink-bar>
+    </md-tab-item>
+
+    <!-- remove button -->
+    <md-icon md-font-set="material-icons"
+             class="pointer"
+             ng-click="yangList.removeListElem(yangList.currentDisplayIndex + offset,false)">
+        <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
+        remove_circle_outline
+    </md-icon>
+
+    <!-- duplicated key -->
+    <md-icon md-font-set="material-icons" ng-show="node.doubleKeyIndexes.indexOf(yangList.currentDisplayIndex + offset) > -1">
+        <md-tooltip md-direction="top">{{ 'LIST_INDEX_DUPLICATE' | translate }}</md-tooltip>
+        error_outline
+    </md-icon>
+</section>
+
+<!-- Next button -->
+<md-icon md-font-set="material-icons"
+         class="pointer"
+         ng-click="yangList.shiftDisplayNext('listData')"
+         ng-show="yangList.showNextButton('listData')"
+    <md-tooltip md-direction="top">{{ 'LIST_NEXT_ITEM' | translate }}</md-tooltip>
+    arrow_forward
+</md-icon>

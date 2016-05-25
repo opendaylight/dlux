@@ -1,0 +1,7 @@
+<md-input-container ng-controller="TypeEnumCtrl as yangTypeEnum">
+    <md-select ng-model="type.selEnum" md-on-close="yangTypeEnum.valueChanged()" ng-disabled="{{ yangOutput.notEditable }}">
+        <md-option ng-repeat="enum in type.getChildren('enum')" ng-value="enum">
+            {{enum.label}}
+        </md-option>
+    </md-select>
+</md-input-container>
