@@ -93,6 +93,7 @@ define(
         $scope.buildPreview = buildPreview;
         $scope.buildRoot = buildRoot;
         $scope.changePathInPreview = changePathInPreview;
+        $scope.checkAddingListElement = checkAddingListElement;
         $scope.close_popup = close_popup;
         $scope.copyReqPathToClipboard = copyReqPathToClipboard;
         $scope.dismissStatus = dismissStatus;
@@ -390,6 +391,9 @@ define(
                 if ($scope.selSubApi && $scope.selSubApi.operations) {
                     $scope.selectedOperation = $scope.selSubApi.operations[0];
                 }
+
+                $scope.$broadcast('EV_DISABLE_ADDING_LIST_ELEMENT');
+
                 $scope.$broadcast('EV_REFRESH_LIST_INDEX');
                 DesignUtilsService.triggerWindowResize(100);
             } else {
@@ -397,6 +401,13 @@ define(
                 $scope.selSubApi = null;
                 $scope.node = null;
             }
+        }
+
+        /**
+         * Checks if the element list should be disabled
+         */
+        function checkAddingListElement(node) {
+            return $scope.node === node && $scope.node.type === 'list' && $scope.node.refKey && $scope.node.refKey.length;
         }
 
         function loadController() {
