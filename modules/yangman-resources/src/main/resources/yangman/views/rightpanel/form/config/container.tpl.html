@@ -1,0 +1,79 @@
+<div ng-controller="ContainerCtrl as yangContainer"
+     class="yangmanModule__right-panel__form__element-container"
+     ng-class="{'expanded' : node.expanded}">
+
+    <!-- container title -->
+    <div layout="row"
+         layout-align="start center"
+         class="pointer container-label"
+         ng-click="yangContainer.toggleExpanded()">
+
+        <!-- Expand Icon -->
+        <md-icon md-font-set="material-icons" class="top-icon top-element">
+            <md-tooltip md-direction="left">{{ 'SHOW_HIDE_CON' | translate }}</md-tooltip>
+            {{node.expanded ? 'keyboard_arrow_down':'keyboard_arrow_right'}}
+        </md-icon>
+
+        <!-- Container label -->
+        <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+
+        <!-- Action menu -->
+        <md-menu ng-if="yangContainer.isActionMenu() || yangContainer.isNodeInfo()" class="menu-container">
+            <md-button class="md-icon-button" ng-click="$mdOpenMenu($event); yangContainer.infoBox = false;">
+                <md-icon md-font-set="material-icons">reorder</md-icon>
+            </md-button>
+
+            <md-menu-content>
+                <!-- node info -->
+                <section class="text-left icon-wrapper" ng-show="yangContainer.isNodeInfo()">
+                    <!--<md-icon md-font-set="material-icons">
+                        vpn_key
+                    </md-icon>-->
+                    <md-icon class="svg-icon pointer" md-svg-src="src/app/yangman/assets/images/icon-augment.svg">
+                        <md-tooltip md-direction="top">
+                            {{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}
+                        </md-tooltip>
+                    </md-icon>
+                </section>
+                <md-menu-divider ng-if="yangContainer.isActionMenu() && yangContainer.isNodeInfo()"></md-menu-divider>
+
+                <!-- description menu item -->
+                <md-menu-item ng-if="node.getChildren('description', null, null, 'label').length > 0">
+                    <md-button ng-click="yangContainer.switchSection('description')" md-prevent-menu-close>
+                        <md-icon md-font-set="material-icons">info</md-icon>
+                        <span md-menu-align-target>{{'YANGMAN_EXPLAIN' | translate}}</span>
+                    </md-button>
+                </md-menu-item>
+
+                <!-- augmentations menu item -->
+                <md-menu-item ng-if="node.augmentionGroups.length">
+                    <md-button ng-click="yangContainer.switchSection('augmentations')" md-prevent-menu-close>
+                        <md-icon md-font-set="material-icons">brightness_auto</md-icon>
+                        <span md-menu-align-target>{{'YANGMAN_AUGMENTATIONS' | translate}}</span>
+                    </md-button>
+
+
+                </md-menu-item>
+
+                <!-- info box -->
+                <div class="md-whiteframe-z2 info-box" ng-show="yangContainer.infoBox" ng-switch="yangContainer.infoBoxSection">
+                    <div ng-switch-when="augmentations">
+                        <div ng-include src="yangForm.viewPath + '/augmentations.tpl.html'"></div>
+                    </div>
+
+                    <div ng-switch-when="description" class="info-box__padding">
+                        {{node.getChildren('description', null, null, 'label')[0]}}
+                    </div>
+                </div>
+            </md-menu-content>
+        </md-menu>
+    </div>
+
+    <!-- container's children -->
+    <div ng-if="node.expanded">
+        <div ng-repeat="node in node.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts"
+             ng-include="yangForm.viewPath + '/config/' + node.type+'.tpl.html'"
+             ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded">
+        </div>
+    </div>
+</div>

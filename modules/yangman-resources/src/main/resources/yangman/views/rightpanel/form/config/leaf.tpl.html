@@ -1,0 +1,53 @@
+<div ng-controller="LeafCtrl as yanfLeaf"
+     layout="row"
+     layout-align="start center"
+     class="yangmanModule__right-panel__form__leaf-container">
+
+    <!-- Container label -->
+    <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+
+    <!-- Action menu -->
+    <md-menu ng-if="yanfLeaf.isActionMenu() || yanfLeaf.isNodeInfo()" class="menu-container">
+        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event); yanfLeaf.infoBox = false;">
+            <md-icon md-font-set="material-icons">reorder</md-icon>
+        </md-button>
+
+        <md-menu-content>
+            <!-- node info -->
+            <section class="text-left icon-wrapper" ng-show="yanfLeaf.isNodeInfo()">
+                <md-icon md-font-set="material-icons" class="pointer">
+                    vpn_key
+                    <md-tooltip md-direction="top">
+                        {{'key of '+node.parent.label+' list'}}
+                    </md-tooltip>
+                </md-icon>
+                <md-icon class="svg-icon pointer" md-svg-src="src/app/yangman/assets/images/icon-augment.svg">
+                    <md-tooltip md-direction="top">
+                        {{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}
+                    </md-tooltip>
+                </md-icon>
+            </section>
+            <md-menu-divider ng-if="yangContainer.isActionMenu() && yangContainer.isNodeInfo()"></md-menu-divider>
+
+            <!-- description menu item -->
+            <md-menu-item ng-if="node.getChildren('description', null, null, 'label').length > 0">
+                <md-button ng-click="yangContainer.switchSection('description')" md-prevent-menu-close>
+                    <md-icon md-font-set="material-icons">info</md-icon>
+                    <span md-menu-align-target>{{'YANGMAN_EXPLAIN' | translate}}</span>
+                </md-button>
+            </md-menu-item>
+
+            <!-- info box -->
+            <div class="md-whiteframe-z2 info-box" ng-show="yangContainer.infoBox" ng-switch="yangContainer.infoBoxSection">
+                <div ng-switch-when="description" class="info-box__padding">
+                    {{node.getChildren('description', null, null, 'label')[0]}}
+                </div>
+            </div>
+        </md-menu-content>
+    </md-menu>
+
+    <div ng-controller="TypeCtrl as yangType"
+         ng-repeat="type in node.getChildren('type')"
+         ng-include="yangForm.viewPath + '/config/' + '/types/' + yanfLeaf.getLeafType() + '.tpl.html'">
+    </div>
+</div>

@@ -2,6 +2,7 @@ define([
     'app/yangman/yangman.module',
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
+    'app/yangman/controllers/yang-form.controller',
     'app/yangman/services/yangman.services',
     'app/yangman/services/yangman-design.services',
 ], function (yangman) {
@@ -15,13 +16,16 @@ define([
         var main = this;
 
         $rootScope.section_logo = 'assets/images/logo_yangman.png';
+        $scope.globalViewPath = 'src/app/yangman/views/';
 
         $scope.selectedModule = null;
         $scope.selectedDatastore = null;
         $scope.apis = [];
         $scope.node = null;
+        $scope.rightPanelSection = 'form';
+        $scope.augmentations = {};
 
-        main.currentPath = 'src/app/yangman/views/';
+
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
 
@@ -31,10 +35,11 @@ define([
         main.toggleLeftPanel = toggleLeftPanel;
 
         // scope global methods
-        $scope.setApis = setApis;
+        $scope.setGlobalParams = setGlobalParams;
         $scope.setNode = setNode;
         $scope.setModule = setModule;
         $scope.setDataStore = setDataStore;
+        $scope.switchSection = switchSection;
 
         init();
 
@@ -59,16 +64,23 @@ define([
             main.leftPanelTab = (main.leftPanelTab + 1) % 2;
         }
 
+        // TODO :: description
+        function switchSection(param, section){
+            $scope[param] = section;
+        }
+
 
         // SETTERS
 
         /**
-         * Set Apis to global param
+         * Set global necessary params
          * @param apis
          */
-        function setApis(apis){
+        function setGlobalParams(apis, augmentations){
             console.info('INFO :: apis list ', apis);
+            console.info('INFO :: augmentations ', augmentations);
             $scope.apis = apis;
+            $scope.augmentations = augmentations;
         }
 
         /**
@@ -79,6 +91,7 @@ define([
             $scope.node = node;
             $scope.node.clear();
             console.info('INFO :: selected node ', $scope.node);
+            console.info('INFO :: selected datastore', $scope.selectedDatastore);
         }
 
         /**

@@ -1,0 +1,3 @@
+<select ng-controller="typeEnumCtrl" class="form-control input-sm" style="width:300px" ng-model="type.selEnum" ng-options="enum.label for enum in type.getChildren('enum')" ng-change="valueChanged()" ng-disabled="{{ notEditable }}">
+    <option value="">-</option>
+</select>
