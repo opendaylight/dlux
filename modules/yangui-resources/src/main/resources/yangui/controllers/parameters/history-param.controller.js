@@ -21,8 +21,13 @@ define([], function() {
                 HandleFileService.downloadFile('parameters.json', cListJSON, 'json', 'charset=utf-8', function(){
                     $scope.setStatusMessage('success', 'EXPORT_PARAMETERS_SUCCESS');
                 },function(e){
-                    $scope.setStatusMessage('danger', 'EXPORT_PARAMETERS_ERROR', e);
-                    console.error('ExportCollection error:', e);
+                    if(e == -1) {
+                        $scope.setStatusMessage('danger', 'EXPORT_PARAMETERS_ERROR_BROWSER');
+                    }
+                    else {
+                        $scope.setStatusMessage('danger', 'EXPORT_PARAMETERS_ERROR', e);
+                        console.error('ExportCollection error:', e);
+                    }
                 });
             };
 
