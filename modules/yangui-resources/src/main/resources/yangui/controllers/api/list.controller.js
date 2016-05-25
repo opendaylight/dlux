@@ -35,9 +35,29 @@ define([], function () {
 
         $scope.$on('EV_REFRESH_LIST_INDEX', refreshListIndex);
 
+        $scope.$on('EV_DISABLE_ADDING_LIST_ELEMENT', function() {
+            $scope.init();
+        });
+
+        /**
+         * Disable adding more then one element
+         */
+        $scope.init = function() {
+            $scope.disableAddingListElement = $scope.checkAddingListElement($scope.node);
+
+            if($scope.disableAddingListElement) {
+                $scope.addListElem();
+            }
+        };
+
+
         function toggleExpandedAugModal(){
             $scope.augModalView = !$scope.augModalView;
         }
+
+        $scope.$on('EV_DISABLE_ADDING_LIST_ELEMENT', function() {
+            $scope.init();
+        });
 
         function refreshListIndex() {
             $scope.currentDisplayIndex = 1;
