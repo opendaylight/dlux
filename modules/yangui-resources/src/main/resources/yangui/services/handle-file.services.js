@@ -24,9 +24,15 @@ define(['angular', 'app/yangui/yangui.module'], function (angular, yangui) {
                 var blob = new Blob([data], { type: 'application/' + format + '; ' + charset + ';' }),
                     downloadLink = angular.element('<a></a>');
 
+                var clickEvent = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': false
+                });
+
                 downloadLink.attr('href', window.URL.createObjectURL(blob));
                 downloadLink.attr('download', filename);
-                downloadLink[0].click();
+                downloadLink[0].dispatchEvent(clickEvent);
                 successCbk();
             } catch (e) {
                 errorCbk(e);
