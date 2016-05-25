@@ -7,10 +7,26 @@ define([], function() {
         $scope.currentDisplayIndex = 1;
         $scope.displayOffsets = [-1, 0, 1];
         $scope.augModalView = false;
+        $scope.disableAddingListElement = false;
+
+        /**
+         * Disable adding more then one element
+         */
+        $scope.init = function() {
+            $scope.disableAddingListElement = $scope.checkAddingListElement($scope.node);
+
+            if($scope.disableAddingListElement) {
+                $scope.addListElem();
+            }
+        };
 
         $scope.toggleExpandedAugModal = function(){
             $scope.augModalView = !$scope.augModalView;
         };
+
+        $scope.$on('EV_DISABLE_ADDING_LIST_ELEMENT', function() {
+            $scope.init();
+        });
 
         $scope.$on('EV_REFRESH_LIST_INDEX', function(event) {
             $scope.currentDisplayIndex = 1;

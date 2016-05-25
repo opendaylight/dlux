@@ -328,6 +328,9 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives).concat(c
                     if($scope.selSubApi && $scope.selSubApi.operations) {
                         $scope.selectedOperation = $scope.selSubApi.operations[0];
                     }
+
+                    $scope.$broadcast('EV_DISABLE_ADDING_LIST_ELEMENT');
+
                     $scope.$broadcast('EV_REFRESH_LIST_INDEX');
                     DesignUtilsService.triggerWindowResize(100);
                 } else {
@@ -335,6 +338,13 @@ define(['app/yangui/yangui.module'].concat(services).concat(directives).concat(c
                     $scope.selSubApi = null;
                     $scope.node = null;
                 }
+            };
+
+            /**
+             * Checks if the element list should be disabled
+             */
+            $scope.checkAddingListElement = function(node) {
+                return $scope.node === node && $scope.node.type === 'list' && $scope.node.refKey && $scope.node.refKey.length;
             };
 
             $scope.loadController = function() {
