@@ -149,8 +149,13 @@ define(['app/yangui/services/handle-file.services'], function () {
             HandleFileService.downloadFile('requestCollection.json', cListJSON, 'json', 'charset=utf-8', function () {
                 $scope.setStatusMessage('success', 'EXPORT_COLLECTIONS_SUCCESS');
             }, function (e){
-                $scope.setStatusMessage('danger', 'EXPORT_COLLECTIONS_ERROR', e);
-                // console.error('ExportCollection error:', e);
+                    if(e == -1) {
+                        $scope.setStatusMessage('danger', 'EXPORT_COLLECTIONS_ERROR_BROWSER');
+                    }
+                    else {
+                        $scope.setStatusMessage('danger', 'EXPORT_COLLECTIONS_ERROR', e);
+                        // console.error('ExportCollection error:', e);
+                    }
             });
         }
 
