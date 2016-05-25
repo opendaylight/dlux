@@ -1,4 +1,4 @@
-<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
+<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-init="init()">
     <div class="topContainerPart">
         <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
@@ -12,7 +12,7 @@
         <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}">A</span>
         <!-- Augmentation control end -->
 
-        <button class="yangButton iconPlus inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ELEM' | translate }}"></button>
+        <button ng-disabled="disableAddingListElement" class="yangButton iconPlus inlineBlock" ng-click='addListElem()' tooltip="{{ 'LIST_ADD_ELEM' | translate }}"></button>
 
         <div class="modalWrapper">
             <button ng-click="showModalWin()" ng-show="node.listData.length > 0 && !showModal" tooltip="{{ 'LIST_SHOW_ALL' | translate }}" class="yangButton iconList"></button>
