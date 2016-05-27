@@ -159,7 +159,7 @@ define([], function () {
 
         var storageOperations = {};
 
-        storageOperations.config = ['GET', 'PUT', 'POST', 'DELETE'];
+        storageOperations.config = ['GET', 'PUT', 'DELETE'];
         storageOperations.operational = ['GET'];
         storageOperations.operations = ['POST'];
 
