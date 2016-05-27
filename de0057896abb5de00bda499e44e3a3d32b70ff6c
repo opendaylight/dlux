@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa57193c_797fc3ab",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/services/handle-file.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-27T12:18:16Z",
+      "side": 1,
+      "message": "you should check if this attribute exist. For instance, it\u0027s not supported in Safari. http://www.w3schools.com/tags/att_a_download.asp",
+      "range": {
+        "startLine": 34,
+        "startChar": 16,
+        "endLine": 34,
+        "endChar": 56
+      },
+      "revId": "de0057896abb5de00bda499e44e3a3d32b70ff6c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_b91afb7a",
+        "filename": "modules/yangui-resources/src/main/resources/yangui/services/handle-file.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-05-27T12:18:16Z",
+      "side": 1,
+      "message": "JqLite support triggerHandler. I think it will do the same thing that creating and dispatching an event.\n\nhttps://docs.angularjs.org/api/ng/function/angular.element\nhttp://api.jquery.com/triggerHandler/",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "de0057896abb5de00bda499e44e3a3d32b70ff6c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
