@@ -20,7 +20,7 @@
       <!-- APIS -->
       <div class="tab-panel" ng-include src="currentPath + 'parts/apis-tab.tpl.html'" ng-show="mainTabs.api"></div>
 
-      <section ng-controller="requestHistoryCtrl" class="historyPopUp" ng-hide="mainTabs.api">
+      <section ng-controller="RequestHistoryCtrl" class="historyPopUp" ng-hide="mainTabs.api">
         <!-- HISTORY -->
         <div class="tab-panel" ng-include src="currentPath + 'parts/history-tab.tpl.html'" ng-show="mainTabs.history"></div>
         <!-- COLLECTION -->
@@ -31,7 +31,7 @@
         <!-- ADD/EDIT BOX REQ TO COLL -->
         <div class="collBox popupContainer draggablePopup" ng-include src="currentPath + 'parts/add-collection-box.tpl.html'" ng-show="collectionBoxView"></div>
       </section>
-      
+
     </div>
   </section>
 

@@ -1,22 +1,33 @@
-define([], function() {
-    angular.module('app.yangui').controller('leafListCtrl', function ($scope) {
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('LeafListCtrl', LeafListCtrl);
 
-        $scope.addListElem = function() {
+    LeafListCtrl.$inject = ['$scope'];
+
+    // todo: comment the whole controller
+    function LeafListCtrl($scope) {
+
+        $scope.addListElem = addListElem;
+        $scope.changed = changed;
+        $scope.removeListElem = removeListElem;
+        $scope.toggleExpanded = toggleExpanded;
+
+        function addListElem() {
             $scope.node.addListElem();
-        };
+        }
 
-        $scope.removeListElem = function(elem){
+        function removeListElem(elem){
             $scope.node.removeListElem(elem);
-        };
+        }
 
-        $scope.changed = function() {
+        function changed() {
             $scope.preview();
-        };
+        }
 
-        $scope.toggleExpanded = function() {
+        function toggleExpanded() {
             $scope.node.expanded = !$scope.node.expanded;
-        };
+        }
 
-    });
+    }
 
 });

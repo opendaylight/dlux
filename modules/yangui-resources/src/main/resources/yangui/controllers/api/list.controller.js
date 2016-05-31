@@ -1,126 +1,167 @@
-define([], function() {
-    angular.module('app.yangui').controller('listCtrl', function ($scope, ListFilteringService, NodeWrapperService) {
+define([], function () {
+    'use strict';
+    angular.module('app.yangui').controller('ListCtrl', ListCtrl);
+
+    ListCtrl.$inject = ['$scope', 'ListFilteringService', 'NodeWrapperService'];
+
+    // todo: comment the whole controller
+    function ListCtrl($scope, ListFilteringService, NodeWrapperService) {
+
         $scope.actElement = null;
-        $scope.showModal = false;
-        $scope.showListFilter = false;
-        $scope.filterListHover = 0;
+        $scope.augModalView = false;
         $scope.currentDisplayIndex = 1;
         $scope.displayOffsets = [-1, 0, 1];
-        $scope.augModalView = false;
+        $scope.filterListHover = 0;
+        $scope.showListFilter = false;
+        $scope.showModal = false;
 
-        $scope.toggleExpandedAugModal = function(){
+        $scope.activeFilter = activeFilter;
+        $scope.addListElem = addListElem;
+        $scope.applyFilter = applyFilter;
+        $scope.clearFilterData = clearFilterData;
+        $scope.createNewFilter = createNewFilter;
+        $scope.getFilterData = getFilterData;
+        $scope.getListName = getListName;
+        $scope.removeListElem = removeListElem;
+        $scope.shiftDisplayNext = shiftDisplayNext;
+        $scope.shiftDisplayPrev = shiftDisplayPrev;
+        $scope.showListFilterWin = showListFilterWin;
+        $scope.showModalWin = showModalWin;
+        $scope.showNextButton = showNextButton;
+        $scope.showPrevButton = showPrevButton;
+        $scope.switchFilter = switchFilter;
+        $scope.toggleExpanded = toggleExpanded;
+        $scope.toggleExpandedAugModal = toggleExpandedAugModal;
+
+        $scope.$on('EV_REFRESH_LIST_INDEX', refreshListIndex);
+
+        function toggleExpandedAugModal(){
             $scope.augModalView = !$scope.augModalView;
-        };
+        }
 
-        $scope.$on('EV_REFRESH_LIST_INDEX', function(event) {
+        function refreshListIndex() {
             $scope.currentDisplayIndex = 1;
-        });
+        }
 
-        $scope.addListElem = function() {
+        function addListElem() {
             $scope.showListFilter = false;
             $scope.showModal = false;
             ListFilteringService.removeEmptyFilters($scope.node);
             $scope.node.addListElem();
-        };
+        }
 
-        $scope.removeListElem = function(elemIndex,fromFilter) {
-            $scope.node.removeListElem(elemIndex,fromFilter);
+        function removeListElem(elemIndex, fromFilter) {
+            $scope.node.removeListElem(elemIndex, fromFilter);
             $scope.preview();
-            $scope.currentDisplayIndex = Math.max(Math.min($scope.currentDisplayIndex, $scope.node.listData.length - 2), 1);
-        };
+            $scope.currentDisplayIndex = Math.max(
+                Math.min($scope.currentDisplayIndex, $scope.node.listData.length - 2), 1
+            );
+        }
 
-        $scope.toggleExpanded = function() {
+        function toggleExpanded() {
             $scope.node.expanded = !$scope.node.expanded;
-        };
+        }
 
-        $scope.shiftDisplayNext = function(typeListData) {
+        function shiftDisplayNext(typeListData) {
             $scope.currentDisplayIndex = Math.min($scope.currentDisplayIndex + 3, $scope.node[typeListData].length - 2);
-        };
+        }
 
-        $scope.shiftDisplayPrev = function() {
+        function shiftDisplayPrev() {
             $scope.currentDisplayIndex = Math.max($scope.currentDisplayIndex - 3, 1);
-        };
+        }
 
-        $scope.showPrevButton = function() {
+        function showPrevButton() {
             return $scope.currentDisplayIndex > 1;
-        };
+        }
 
-        $scope.showNextButton = function(typeListData) {
-            return $scope.node[typeListData] && $scope.currentDisplayIndex < $scope.node[typeListData].length - 2; //node is selected after view is loaded
-        };
+        function showNextButton(typeListData) {
+            return $scope.node[typeListData] &&
+                // node is selected after view is loaded
+                $scope.currentDisplayIndex < $scope.node[typeListData].length - 2;
+        }
 
-        $scope.showModalWin = function() {
+        function showModalWin() {
             $scope.showModal = !$scope.showModal;
-            if($scope.showListFilter){
+            if ($scope.showListFilter){
                 $scope.showListFilter = !$scope.showListFilter;
             }
-        };
+        }
 
-        $scope.showListFilterWin = function() {
+        function showListFilterWin() {
             $scope.showListFilter = !$scope.showListFilter;
-            if($scope.showModal){
+            if ($scope.showModal){
                 $scope.showModal = !$scope.showModal;
             }
-            ListFilteringService.showListFilterWin($scope.filterRootNode,$scope.node);
-        };
+            ListFilteringService.showListFilterWin($scope.filterRootNode, $scope.node);
+        }
 
-        $scope.getFilterData = function() {
+        function getFilterData() {
             ListFilteringService.getFilterData($scope.node);
-        };
+        }
 
-        $scope.switchFilter = function(showedFilter) {
-            ListFilteringService.switchFilter($scope.node,showedFilter);
-        };
+        function switchFilter(showedFilter) {
+            ListFilteringService.switchFilter($scope.node, showedFilter);
+        }
 
-        $scope.createNewFilter = function() {
+        function createNewFilter() {
             ListFilteringService.createNewFilter($scope.node);
-        };
+        }
 
-        $scope.applyFilter = function() {
+        function applyFilter() {
             ListFilteringService.applyFilter($scope.node);
             $scope.showListFilter = !$scope.showListFilter;
             $scope.currentDisplayIndex = 1;
-            if($scope.node.filteredListData.length){
-                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.filteredListData,$scope.node.refKey);
+            if ($scope.node.filteredListData.length){
+                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.filteredListData, $scope.node.refKey);
                 $scope.setStatusMessage('success', 'YANGUI_FILTER_MATCH_SUCCESS', e.message);
-            }else{
-                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
+            }
+            else {
+                $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity(
+                    $scope.node.listData,
+                    $scope.node.refKey
+                );
                 $scope.setStatusMessage('danger', 'YANGUI_FILTER_MATCH_ERROR', e.message);
             }
-        };
+        }
 
-        $scope.clearFilterData = function(changeAct, filterForClear, removeFilters) {
-            ListFilteringService.clearFilterData($scope.node,changeAct,filterForClear,removeFilters);
-            if(changeAct){
+        function clearFilterData(changeAct, filterForClear, removeFilters) {
+            ListFilteringService.clearFilterData($scope.node, changeAct, filterForClear, removeFilters);
+            if (changeAct) {
                 $scope.showListFilter = !$scope.showListFilter;
             }
-            $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity($scope.node.listData,$scope.node.refKey);
-        };
+            $scope.node.doubleKeyIndexes = NodeWrapperService.checkKeyDuplicity(
+                $scope.node.listData,
+                $scope.node.refKey
+            );
+        }
 
-        $scope.activeFilter = function(filter) {
-            if(filter.active == 1){
+        function activeFilter(filter) {
+            if (filter.active === 1) {
                 filter.active = 2;
-            }else{
+            }
+            else {
                 filter.active = 1;
             }
-        };
+        }
 
-        $scope.getListName = function(offset, config) {
+        function getListName(offset, config) {
             var createdListItemName = $scope.node.createListName($scope.currentDisplayIndex + offset);
 
             if ( createdListItemName.length > 33 ) {
                 return {
-                    name: createdListItemName.substring(0,30) + '...',
-                    tooltip: createdListItemName
+                    name: createdListItemName.substring(0, 30) + '...',
+                    tooltip: createdListItemName,
                 };
             } else {
                 return {
-                    name: config ? createdListItemName || '[' + ($scope.currentDisplayIndex + offset) + ']' : createdListItemName,
-                    tooltip: ''
+                    name: config ?
+                        createdListItemName || '[' + ($scope.currentDisplayIndex + offset) + ']' :
+                        createdListItemName,
+                    tooltip: '',
                 };
             }
-        };
+        }
 
-    });
+    }
 
 });
