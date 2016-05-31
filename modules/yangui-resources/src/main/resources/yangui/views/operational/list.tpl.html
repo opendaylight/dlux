@@ -1,4 +1,4 @@
-<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
+<div ng-controller="ListCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
     <div class="topContainerPart">
         <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
@@ -49,6 +49,6 @@
         </div>
     </div>
 
-    
+
     <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
 </div>

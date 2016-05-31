@@ -1,4 +1,4 @@
-<div ng-controller="containerCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}">
+<div ng-controller="ContainerCtrl" class="customContainer {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
         <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_CON' | translate }}" ng-click='toggleExpanded()'></button>
@@ -16,6 +16,6 @@
     <div ng-if="node.expanded">
         <div ng-repeat="node in node.getChildren(null,null,constants.NODE_UI_DISPLAY) | onlyConfigStmts" ng-include="currentPath+'/'+node.type+'.tpl.html'" ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded">
     </div>
-    
+
     <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
 </div>
