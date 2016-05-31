@@ -1,9 +1,9 @@
-<div ng-controller="listCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
+<div ng-controller="ListCtrl" class="customContainer listContainer {{ node.expanded ? '' : 'withoutBorder' }}">
     <div class="topContainerPart">
         <span class="treeBullet containerBullet" ng-if="node !== selSubApi.node">&#8226;</span>
         <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_LIST' | translate }}" ng-click='toggleExpanded()'></button>
         <button class="btn-slim btn-name inlineBlock">
-            {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }} 
+            {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ 'YANGUI_LIST_LABEL' | translate }}
         </button>
         <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
 
@@ -43,7 +43,7 @@
         <div class="listItemWrapper" ng-include="currentPath+'/list-filtered-data-top.tpl.html'" ng-if="(node.filteredListData && node.filteredListData.length)"></div>
     </div>
 
-    <!-- <button ng-repeat="_ in node.listData track by $index" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }} 
+    <!-- <button ng-repeat="_ in node.listData track by $index" class="btn btn-orange {{ (node.actElemIndex === $index ? 'btn-selected':'') }}
         {{ ((node.doubleKeyIndexes.indexOf($index)>-1) ? 'btn-red':'') }} add-row ng-scope btn-slim" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
         {{node.localeLabel | translate}}{{node.createListName($index)}}
     </button> -->

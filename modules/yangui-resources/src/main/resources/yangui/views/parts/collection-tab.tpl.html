@@ -13,7 +13,7 @@
 
         <div class="scroll">
             <div ng-repeat="req in collectionList.ungrouped track by $index" class="trdiv">
-                <div ng-controller="reqInHistoryCtrl" ng-init="init(collectionList)">
+                <div ng-controller="ReqInHistoryCtrl" ng-init="init(collectionList)">
                     <div class="tddiv rh-col1"><button class="yangButton iconDanger" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_API_NOT_AVAILABLE' | translate }}" ng-hide="req.availability"></button></div>
                     <div class="tddiv rh-col2"><span>{{ req.method }}</span></div>
                     <div class="tddiv rh-col8"><span>{{ req.name }}</span></div>
@@ -68,7 +68,7 @@
                 </section>
 
                 <section ng-repeat="req in value" ng-show="groupView[key]" class="trdiv groupList">
-                    <div ng-controller="reqInHistoryCtrl" ng-init="init(collectionList)">
+                    <div ng-controller="ReqInHistoryCtrl" ng-init="init(collectionList)">
                         <div class="tddiv rh-col1"><button class="yangButton iconDanger" tooltip-placement="{{ $index ? 'top' : 'bottom' }}" tooltip="{{ 'YANGUI_API_NOT_AVAILABLE' | translate }}" ng-hide="req.availability"></button></div>
                         <div class="tddiv rh-col2"><span>{{ req.method }}</span></div>
                         <div class="tddiv rh-col8"><span>{{ req.name }}</span></div>
