@@ -33,24 +33,22 @@ define([
         function loadApis() {
             modulesList.allNodes = [];
             modulesList.treeApis = [];
-            modulesList.augmentations = {};
 
             modulesList.showLoadingBox = true;
 
             YangUtilsService.generateNodesToApis(function (apis, allNodes, augGroups) {
-                $scope.setApis(apis);
+                $scope.setGlobalParams(apis, augGroups);
                 modulesList.allNodes = allNodes;
-                modulesList.augmentations = augGroups;
-                console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
+                // console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
-                console.info('INFO :: tree api', modulesList.treeApis);
+                // console.info('INFO :: tree api', modulesList.treeApis);
                 // $scope.processingModulesSuccessCallback();
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');
 
                 PluginHandlerService.plugAll(apis, modulesList);
                 // $scope.$broadcast('LOAD_REQ_DATA');
-            }, function (e) {
+            }, function () {
                 showToastInfoBox('YANGMAN_LOADED_MODULES_ERROR');
                 modulesList.showLoadingBox = false;
             });

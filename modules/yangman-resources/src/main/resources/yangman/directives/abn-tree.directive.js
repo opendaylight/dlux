@@ -15,23 +15,17 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                     treeRows: '=',
                 },
                 link: function (scope, element, attrs) {
-                    var error,
-                        expand_all_parents,
-                        expand_level,
-                        for_all_ancestors,
-                        for_each_branch,
-                        get_parent,
+                    var expandAllParents,
+                        expandLevel,
+                        forAllAncestors,
+                        forEachBranch,
+                        getParent,
                         n,
-                        on_treeData_change,
-                        select_branch,
-                        selected_branch,
+                        onTreeDataChange,
+                        selectBranch,
+                        selectedBranch,
                         tree;
 
-                    error = function (s) {
-                        console.log('ERROR:' + s);
-                        // debugger;
-                        return void 0;
-                    };
                     if (attrs.iconExpand == null) {
                         attrs.iconExpand = 'add';
                     }
@@ -44,23 +38,34 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                     if (attrs.expandLevel == null) {
                         attrs.expandLevel = '3';
                     }
-                    expand_level = parseInt(attrs.expandLevel, 10);
+                    expandLevel = parseInt(attrs.expandLevel, 10);
                     if (!scope.treeData) {
-                        console.warn('no treeData defined for the tree!');
+                        // console.warn('no treeData defined for the tree!');
                         return;
                     }
                     if (scope.treeData.length == null) {
-                        if (treeData.label != null) {
-                            scope.treeData = [treeData];
+                        if (scope.treeData.label != null) {
+                            scope.treeData = [scope.treeData];
                         } else {
-                            console.warn('treeData should be an array of root branches');
+                            // console.warn('treeData should be an array of root branches');
                             return;
                         }
                     }
-                    for_each_branch = function(f) {
-                        var do_f, root_branch, _i, _len, _ref, _results;
-                        do_f = function(branch, level) {
-                            var child, _i, _len, _ref, _results;
+                    forEachBranch = function (f) {
+                        var do_f,
+                            root_branch,
+                            _i,
+                            _len,
+                            _ref,
+                            _results;
+
+                        do_f = function (branch, level) {
+                            var child,
+                                _i,
+                                _len,
+                                _ref,
+                                _results;
+
                             f(branch, level);
                             if (branch.children != null) {
                                 _ref = branch.children;
@@ -80,31 +85,31 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                         }
                         return _results;
                     };
-                    selected_branch = null;
-                    select_branch = function(branch) {
+                    selectedBranch = null;
+                    selectBranch = function (branch) {
                         if (!branch) {
-                            if (selected_branch != null) {
-                                selected_branch.selected = false;
+                            if (selectedBranch != null) {
+                                selectedBranch.selected = false;
                             }
-                            selected_branch = null;
+                            selectedBranch = null;
                             return;
                         }
-                        if (branch !== selected_branch) {
-                            if (selected_branch != null) {
-                                selected_branch.selected = false;
+                        if (branch !== selectedBranch) {
+                            if (selectedBranch != null) {
+                                selectedBranch.selected = false;
                             }
                             branch.selected = true;
-                            selected_branch = branch;
-                            expand_all_parents(branch);
+                            selectedBranch = branch;
+                            expandAllParents(branch);
                             if (branch.onSelect != null) {
-                                return $timeout(function() {
+                                return $timeout(function () {
                                     return branch.onSelect(branch);
                                 });
                             } else {
                                 if (scope.onSelect != null) {
-                                    return $timeout(function() {
+                                    return $timeout(function () {
                                         return scope.onSelect({
-                                            branch: branch
+                                            branch: branch,
                                         });
                                     });
                                 }
@@ -117,18 +122,18 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             item.branch.selected = false;
                         });
 
-                        if (branch !== selected_branch) {
-                            return select_branch(branch);
+                        if (branch !== selectedBranch) {
+                            return selectBranch(branch);
                         } else {
                             branch.selected = true;
                         }
                     };
 
-                    get_parent = function (child) {
+                    getParent = function (child) {
                         var parent;
                         parent = void 0;
                         if (child.parent_uid) {
-                            for_each_branch(function (b) {
+                            forEachBranch(function (b) {
                                 if (b.uid === child.parent_uid) {
                                     return parent = b;
                                 }
@@ -136,16 +141,16 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                         }
                         return parent;
                     };
-                    for_all_ancestors = function (child, fn) {
+                    forAllAncestors = function (child, fn) {
                         var parent;
-                        parent = get_parent(child);
+                        parent = getParent(child);
                         if (parent != null) {
                             fn(parent);
-                            return for_all_ancestors(parent, fn);
+                            return forAllAncestors(parent, fn);
                         }
                     };
-                    expand_all_parents = function (child) {
-                        return for_all_ancestors(child, function (b) {
+                    expandAllParents = function (child) {
+                        return forAllAncestors(child, function (b) {
                             return b.expanded = true;
                         });
                     };
@@ -198,16 +203,27 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                     });
 
                     scope.tree_rows = [];
-                    on_treeData_change = function () {
-                        var add_branch_to_list, root_branch, _i, _len, _ref, _results;
-                        for_each_branch(function (b, level) {
+                    onTreeDataChange = function () {
+                        var add_branch_to_list,
+                            root_branch,
+                            _i,
+                            _len,
+                            _ref,
+                            _results;
+
+                        forEachBranch(function (b) {
                             if (!b.uid) {
                                 return b.uid = '' + Math.random();
                             }
                         });
                         // console.log('UIDs are set.');
-                        for_each_branch(function (b) {
-                            var child, _i, _len, _ref, _results;
+                        forEachBranch(function (b) {
+                            var child,
+                                _i,
+                                _len,
+                                _ref,
+                                _results;
+
                             if (angular.isArray(b.children)) {
                                 _ref = b.children;
                                 _results = [];
@@ -219,8 +235,10 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             }
                         });
                         scope.tree_rows = [];
-                        for_each_branch(function (branch) {
-                            var child, f;
+                        forEachBranch(function (branch) {
+                            var child,
+                                f;
+
                             if (branch.children) {
                                 if (branch.children.length > 0) {
                                     f = function (e) {
@@ -234,7 +252,11 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                         }
                                     };
                                     return branch.children = (function () {
-                                        var _i, _len, _ref, _results;
+                                        var _i,
+                                            _len,
+                                            _ref,
+                                            _results;
+
                                         _ref = branch.children;
                                         _results = [];
                                         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -249,7 +271,14 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             }
                         });
                         add_branch_to_list = function (level, branch, visible) {
-                            var child, child_visible, tree_icon, _i, _len, _ref, _results;
+                            var child,
+                                child_visible,
+                                tree_icon,
+                                _i,
+                                _len,
+                                _ref,
+                                _results;
+
                             if (branch.expanded == null) {
                                 branch.expanded = false;
                             }
@@ -288,32 +317,32 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                         }
                         return _results;
                     };
-                    scope.$watch('treeData', on_treeData_change, true);
+                    scope.$watch('treeData', onTreeDataChange, true);
                     if (attrs.initialSelection != null) {
-                        for_each_branch(function(b) {
+                        forEachBranch(function (b) {
                             if (b.label === attrs.initialSelection) {
-                                return $timeout(function() {
-                                    return select_branch(b);
+                                return $timeout(function () {
+                                    return selectBranch(b);
                                 });
                             }
                         });
                     }
                     n = scope.treeData.length;
                     // console.log('num root branches = ' + n);
-                    for_each_branch(function (b, level) {
+                    forEachBranch(function (b, level) {
                         b.level = level;
-                        return b.expanded = b.level < expand_level;
+                        return b.expanded = b.level < expandLevel;
                     });
                     if (scope.treeControl != null) {
                         if (angular.isObject(scope.treeControl)) {
                             tree = scope.treeControl;
                             tree.expand_all = function () {
-                                return for_each_branch(function (b, level) {
+                                return forEachBranch(function (b) {
                                     return b.expanded = true;
                                 });
                             };
                             tree.collapse_all = function () {
-                                return for_each_branch(function (b, level) {
+                                return forEachBranch(function (b) {
                                     return b.expanded = false;
                                 });
                             };
@@ -326,22 +355,22 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.select_first_branch = function () {
                                 var b;
                                 b = tree.get_first_branch();
-                                return tree.select_branch(b);
+                                return tree.selectBranch(b);
                             };
                             tree.get_selected_branch = function () {
-                                return selected_branch;
+                                return selectedBranch;
                             };
                             tree.get_parent_branch = function (b) {
-                                return get_parent(b);
+                                return getParent(b);
                             };
                             tree.select_branch = function (b) {
-                                select_branch(b);
+                                selectBranch(b);
                                 return b;
                             };
                             tree.get_children = function (b) {
                                 return b.children;
                             };
-                            tree.select_parent_branch = function(b) {
+                            tree.select_parent_branch = function (b) {
                                 var p;
                                 if (b == null) {
                                     b = tree.get_selected_branch();
@@ -378,7 +407,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             };
                             tree.collapse_branch = function (b) {
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     b.expanded = false;
@@ -386,12 +415,14 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                 }
                             };
                             tree.get_siblings = function (b) {
-                                var p, siblings;
+                                var p,
+                                    siblings;
+
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
-                                    p = tree.get_parent_branch (b);
+                                    p = tree.get_parent_branch(b);
                                     if (p) {
                                         siblings = p.children;
                                     } else {
@@ -401,12 +432,14 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                 }
                             };
                             tree.get_next_sibling = function (b) {
-                                var i, siblings;
+                                var i,
+                                    siblings;
+
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
-                                    siblings = tree.get_siblings (b);
+                                    siblings = tree.get_siblings(b);
                                     n = siblings.length;
                                     i = siblings.indexOf(b);
                                     if (i < n) {
@@ -415,11 +448,13 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                 }
                             };
                             tree.get_prev_sibling = function (b) {
-                                var i, siblings;
+                                var i,
+                                    siblings;
+
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
-                                siblings = tree.get_siblings (b);
+                                siblings = tree.get_siblings(b);
                                 n = siblings.length;
                                 i = siblings.indexOf(b);
                                 if (i > 0) {
@@ -429,10 +464,10 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.select_next_sibling = function (b) {
                                 var next;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
-                                    next = tree.get_next_sibling (b);
+                                    next = tree.get_next_sibling(b);
                                     if (next != null) {
                                         return tree.select_branch(next);
                                     }
@@ -441,7 +476,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.select_prev_sibling = function (b) {
                                 var prev;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     prev = tree.get_prev_sibling(b);
@@ -453,7 +488,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.get_first_child = function (b) {
                                 var _ref;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     if (((_ref = b.children) != null ? _ref.length : void 0) > 0) {
@@ -462,7 +497,9 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                 }
                             };
                             tree.get_closest_ancestor_next_sibling = function (b) {
-                                var next, parent;
+                                var next,
+                                    parent;
+
                                 next = tree.get_next_sibling(b);
                                 if (next != null) {
                                     return next;
@@ -474,7 +511,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.get_next_branch = function (b) {
                                 var next;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     next = tree.get_first_child(b);
@@ -489,7 +526,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.select_next_branch = function (b) {
                                 var next;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     next = tree.get_next_branch(b);
@@ -502,7 +539,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             tree.last_descendant = function (b) {
                                 var last_child;
                                 if (b == null) {
-                                    //debugger;
+                                    // debugger;
                                 }
                                 n = b.children.length;
                                 if (n === 0) {
@@ -513,9 +550,11 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                                 }
                             };
                             tree.get_prev_branch = function (b) {
-                                var parent, prev_sibling;
+                                var parent,
+                                    prev_sibling;
+
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     prev_sibling = tree.get_prev_sibling(b);
@@ -530,7 +569,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             return tree.select_prev_branch = function (b) {
                                 var prev;
                                 if (b == null) {
-                                    b = selected_branch;
+                                    b = selectedBranch;
                                 }
                                 if (b != null) {
                                     prev = tree.get_prev_branch(b);
@@ -544,7 +583,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                     }
                 },
             };
-        }
+        },
     ]);
 
 
