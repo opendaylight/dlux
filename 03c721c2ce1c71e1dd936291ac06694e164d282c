@@ -252,6 +252,30 @@
       "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa57193c_4fab23d6",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/yang-utils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-05-31T15:45:17Z",
+      "side": 1,
+      "message": "It is used in the \"preview request\" functionality in YangUI. We are removing everything angular puts into objects.\n\nIn the preview we want to see clear data which will be sent into controller, but Angular puts his own properties there. \n\nIt can be done with rewriting the objects to something like \"object.data\" where will be only data used for the request and Angular can decorate \"object\" with his own props. But for that, we now don\u0027t have time :(",
+      "parentUuid": "fa57193c_8d0f112e",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 111
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
