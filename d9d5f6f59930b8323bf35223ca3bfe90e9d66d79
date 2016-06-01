@@ -70,6 +70,30 @@
       "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_9b5a0682",
+        "filename": "modules/node-resources/src/main/resources/node/node.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:45:22Z",
+      "side": 1,
+      "message": "It will be perfect (: thanks",
+      "parentUuid": "da5c1566_7bec52c8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
