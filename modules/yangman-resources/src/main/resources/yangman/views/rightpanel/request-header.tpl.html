@@ -1,0 +1,23 @@
+<md-content layout="column" layout-wrap class="md-padding" ng-controller="RequestHeaderCtrl as requestHeader">
+    <section layout="row">
+        <!-- Methods selector -->
+        <md-input-container flex="initial">
+            <md-select ng-model="requestHeader.selectedOperation" placeholder="{{'YANGMAN_SEL_METHOD' | translate}}">
+                <md-option ng-value="operation" ng-repeat="operation in requestHeader.selectedOperationsList">{{ operation }}</md-option>
+            </md-select>
+        </md-input-container>
+
+        <!-- Request url input -->
+        <md-input-container flex md-no-float>
+            <input type="text" ng-model="color" placeholder="{{'YANGMAN_REQ_URL' | translate}}">
+        </md-input-container>
+
+        <md-input-container flex="nogrow" layout="row" layout-align="start start">
+            <md-button class="md-raised md-primary">{{'YANGMAN_SEND' | translate}}</md-button>
+            <md-button class="md-raised md-warn">{{'YANGMAN_SAVE' | translate}}</md-button>
+        </md-input-container>
+    </section>
+
+    <md-divider flex="grow"></md-divider>
+    asdasd
+</md-content>

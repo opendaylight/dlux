@@ -4,6 +4,7 @@ define([
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
     'app/yangman/controllers/yang-form.controller',
+    'app/yangman/controllers/request-header.controller',
     'app/yangman/services/yangman.services',
     'app/yangman/services/yangman-design.services',
 ], function (yangman) {
@@ -25,7 +26,8 @@ define([
         $scope.node = null;
         $scope.rightPanelSection = 'form';
         $scope.augmentations = {};
-
+        $scope.selectedApi = null;
+        $scope.selectedSubApi = null;
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -37,6 +39,7 @@ define([
 
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
+        $scope.setApi = setApi;
         $scope.setGlobalParams = setGlobalParams;
         $scope.setNode = setNode;
         $scope.setModule = setModule;
@@ -124,6 +127,17 @@ define([
         function buildRootRequest() {
             var obj = {};
             $scope.node.buildRequest(RequestBuilderService, obj, $scope.node.module);
+        }
+
+        /**
+         * Set api and sub api to global param
+         * @param api
+         * @param subApi
+         */
+        function setApi(api, subApi){
+            $scope.selectedApi = api;
+            $scope.selectedSubApi = subApi;
+            $scope.$broadcast('SET_SEL_OPERATIONS', $scope.selectedSubApi.operations);
         }
 
     }
