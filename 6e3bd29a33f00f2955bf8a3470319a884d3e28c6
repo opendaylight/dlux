@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_5bb6aedd",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/array-utils.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-06-01T13:24:52Z",
+      "side": 1,
+      "message": "i did it in patch set 4, ill do it again",
+      "parentUuid": "da5c1566_dbe63e16",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da5c1566_fb9b4270",
         "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/event-dispatcher.services.js",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2016-06-01T12:59:02Z",
       "side": 1,
       "message": "same comment as patchset #2\nvar args \u003d Array.prototype.slice.call(arguments);  will do the same",
+      "range": {
+        "startLine": 33,
+        "startChar": 11,
+        "endLine": 33,
+        "endChar": 52
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_7bb572cc",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/event-dispatcher.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-06-01T13:24:52Z",
+      "side": 1,
+      "message": "it was done in patch set 4 again, we will fix it, sometimes gerrit do weird merge :)",
+      "parentUuid": "da5c1566_fb9b4270",
       "range": {
         "startLine": 33,
         "startChar": 11,
@@ -186,6 +234,30 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_1bc4363f",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-06-01T13:24:52Z",
+      "side": 1,
+      "message": "You wrote before that we could do it not have to do it. It is so important to change it?",
+      "parentUuid": "da5c1566_bbd9ca85",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da5c1566_9bca06a0",
         "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
         "patchSetId": 5
@@ -197,6 +269,30 @@
       "writtenOn": "2016-06-01T12:59:02Z",
       "side": 1,
       "message": "you can replace it by (parsingErrorClbk || angular.noop)(e)",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 17
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_fbc0622c",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-06-01T13:24:52Z",
+      "side": 1,
+      "message": "same as before, it was done in previous patch set, we will fix it",
+      "parentUuid": "da5c1566_9bca06a0",
       "range": {
         "startLine": 23,
         "startChar": 16,
