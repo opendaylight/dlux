@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_bbc6ea47",
+        "filename": "modules/node-resources/src/main/resources/node/node.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:14:08Z",
+      "side": 1,
+      "message": "I understand why changing top to padding-top. But i don\u0027t understand why you\u0027ve created a new classe for that. The main class can have that logic. Every style defined in this file should only be used by the node module.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
