@@ -46,6 +46,30 @@
       "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_7bec52c8",
+        "filename": "modules/node-resources/src/main/resources/node/node.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 2243
+      },
+      "writtenOn": "2016-06-01T13:23:16Z",
+      "side": 1,
+      "message": "Ok ill move main class into general less file. It will be ok?",
+      "parentUuid": "da5c1566_bbc6ea47",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
