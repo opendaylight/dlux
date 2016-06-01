@@ -284,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_fb1ce2c3",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/module-connector.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:37:35Z",
+      "side": 1,
+      "message": "Ok, my bad then. (:",
+      "parentUuid": "da5c1566_a88503af",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 14
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_126840f4",
         "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
         "patchSetId": 2
@@ -483,6 +507,30 @@
       "side": 1,
       "message": "When we do some request on controller and we send some data, we create json. Sometime this json is created from angular scope object for example. If this object is used in ng repeat automaticly angular push there property hashKey, which is unnecessary in our sent json. This is reason like example why we remove hashKey.",
       "parentUuid": "fa57193c_8d0f112e",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 111
+      },
+      "revId": "03c721c2ce1c71e1dd936291ac06694e164d282c",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_1b20b6f6",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/yang-utils.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:37:35Z",
+      "side": 1,
+      "message": "Ok, lets add an enhancement task. I\u0027m pretty sure you can combine strips methods from angularjs and restangular to achieve this goal.",
+      "parentUuid": "da5c1566_332b2884",
       "range": {
         "startLine": 51,
         "startChar": 16,
