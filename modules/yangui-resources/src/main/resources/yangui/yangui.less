@@ -87,7 +87,7 @@
 }*/
 
 .previewContainer{
-  min-width:204px; 
+  min-width:204px;
   min-height:97px;
 }
 
@@ -221,7 +221,7 @@ input[type="file"].upload-collection{
 
 /* --------------------------------------------------------------------------------- COMMON OWN RULES */
 .opacityDeph(@opacity: 0.5){
-  -ms-filter: ~"'progid:DXImageTransform.Microsoft.Alpha(Opacity=" @opacity*100 ~")'";  
+  -ms-filter: ~"'progid:DXImageTransform.Microsoft.Alpha(Opacity=" @opacity*100 ~")'";
   filter: ~"alpha(opacity=" @opacity*100 ~")";
   -moz-opacity: @opacity;
   -khtml-opacity: @opacity;
@@ -299,6 +299,15 @@ input[type="file"].upload-collection{
 
 /* --------------------------------------------------------------------------------- YANG UI */
 .yangUIwrapper{
+
+  input[type=text]{
+    background-color: #58595B;
+    color: white;
+  }
+
+  span{
+    color: white;
+  }
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -520,7 +529,7 @@ label.classic{
     .roundedCorners(0px);
     border: 0;
   }
-  
+
   label.classic{
     min-width: 90px;
   }
@@ -628,7 +637,7 @@ div.requestActions{
 
   .historyRequestBox{
     position: relative;
-    
+
     .changeGroup{
         left: -365px;
     }
@@ -649,7 +658,7 @@ div.requestActions{
 
 .parameterEditBox{
   position: relative;
-  
+
 }
 
 div.mountPoints{
@@ -833,7 +842,7 @@ div.mountPoints{
       .scroll{
         overflow-y: auto;
         position: relative;
-        height: calc(~"100% - 50px"); 
+        height: calc(~"100% - 50px");
       }
 
 
@@ -891,12 +900,12 @@ div.mountPoints{
             span{
               color: auto;
             }
-            
+
             pre span{
                 color: auto;
             }
-            
-            
+
+
             textarea{
               width: 100%;
               min-height: 50px;
@@ -920,7 +929,7 @@ div.mountPoints{
                 margin-bottom: 1px;
                 font-size: 12px;
               }
-              
+
               span{
                 color: @text-color;
               }
@@ -962,13 +971,13 @@ div.mountPoints{
 
 
     .reqParams {
-          
+
       .thdiv{
         .rh-col3{
           width: calc(~"100% - 450px");
         }
       }
-        
+
       .rh-col2{
         width: 235px;
       }
@@ -1183,7 +1192,7 @@ i.icon-spinner{
   .listButtonWrapper{
     margin: 2px 15px 0 5px;
     .inlineBlock;
-    
+
     button.yangButton{
       margin: 0px;
     }
@@ -1245,17 +1254,17 @@ i.icon-spinner{
   &.containerBullet{
 /*    margin: 0 0px 0 -14px;
     line-height: 25px;*/
-    top: -25px; 
+    top: -25px;
     left: -25px;
   }
 }
 
 .tooltip-inner{
   color: #fff;
-  white-space: pre-wrap;      /* CSS3 */   
-  white-space: -moz-pre-wrap; /* Firefox */    
-  white-space: -pre-wrap;     /* Opera <7 */   
-  white-space: -o-pre-wrap;   /* Opera 7 */    
+  white-space: pre-wrap;      /* CSS3 */
+  white-space: -moz-pre-wrap; /* Firefox */
+  white-space: -pre-wrap;     /* Opera <7 */
+  white-space: -o-pre-wrap;   /* Opera 7 */
   word-wrap: break-word;      /* IE */
 }
 
@@ -1516,7 +1525,7 @@ button, div{
     cursor: se-resize;
   }
 }
-  
+
 
 .ui-resizable-s {
   cursor: s-resize;
