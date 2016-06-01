@@ -1,17 +1,34 @@
-<div ng-controller="LeafListCtrl" class="customContainer leaflist  {{ node.expanded ? '' : 'withoutBorder' }}" ng-show='node.isFilled()'>
-    <div class="topContainerPart">
-        <span class="treeBullet containerBullet" ng-show="node !== selSubApi.node">&#8226;</span>
-        <button class="yangButton {{ node.expanded ? 'iconArrowDown' : 'iconArrowRight' }} inlineBlock" tooltip="{{ 'SHOW_HIDE_ELEM' | translate }}" ng-click='toggleExpanded()'></button>
-        <button class="btn-name ng-scope btn-slim">
-            {{yangForm.getNodeName(node.localeLabel, node.label)}}
-        </button>
-        <button ng-if="node.getChildren('description', null, null, 'label').length > 0" class="yangButton iconQuestion inlineBlock" tooltip="{{node.getChildren('description', null, null, 'label')[0]}}" ></button>
-        <span ng-if="node.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}">A</span>
+<div ng-controller="LeafListCtrl as yangLeafList"
+     class="yangmanModule__right-panel__form__element-container"
+     ng-class="{'expanded' : node.expanded}"
+     ng-show="node.isFilled()">
+
+    <!-- container title -->
+    <div layout="row"
+         layout-align="start center"
+         class="pointer container-label">
+
+        <!-- Expand Icon -->
+        <md-icon md-font-set="material-icons" class="top-icon top-element" ng-click="yangLeafList.toggleExpanded()">
+            <md-tooltip md-direction="left">{{ 'SHOW_HIDE_CON' | translate }}</md-tooltip>
+            {{node.expanded ? 'keyboard_arrow_down':'keyboard_arrow_right'}}
+        </md-icon>
+
+        <!-- Container label -->
+        <p class="top-element" ng-click="yangLeafList.toggleExpanded()"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+
+        <!-- Action menu -->
+        <yang-form-menu is-action-menu="yangLeafList.isActionMenu()"
+                        augmentations="augmentations"
+                        is-node-info="yangLeafList.isNodeInfo()"
+                        node="node"></yang-form-menu>
     </div>
 
-    <div class="leafListValue" ng-repeat="elem in node.value" ng-show="node.expanded">
-        <span class="block"><strong>{{elem.value}}</strong></span>
+    <div ng-repeat="elem in node.value" ng-show="node.expanded">
+        <!-- Leaf list values -->
+        <md-input-container md-no-float  class="input-icon-container">
+            <!-- input -->
+            <input ng-model="elem.value" ng-disabled="true">
+        </md-input-container>
     </div>
-
-    <i class="icon-caret-down borderArrow" ng-show="node.expanded"></i>
 </div>
