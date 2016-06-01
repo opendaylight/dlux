@@ -211,6 +211,30 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_7bd612c7",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/module-connector.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-06-01T14:03:31Z",
+      "side": 1,
+      "message": "As Daniel wrote, it\u0027s not simple merging of arrays.",
+      "parentUuid": "da5c1566_3b8dba32",
+      "range": {
+        "startLine": 118,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da5c1566_bbd9ca85",
         "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
         "patchSetId": 5
@@ -386,6 +410,30 @@
       "writtenOn": "2016-06-01T12:59:02Z",
       "side": 1,
       "message": "restangual props. You can remove it by using .plain() method on the restangular object. For the $$hasKey, using angular.toJson if your output will be json",
+      "range": {
+        "startLine": 51,
+        "startChar": 46,
+        "endLine": 51,
+        "endChar": 109
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_db011e3b",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/yang-utils.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-06-01T14:03:31Z",
+      "side": 1,
+      "message": "The stripping is doing in time, when Restangular object is not created and maybe will not be. It happens when user want to see, how his request looks like. He can run it then, or copy data to postman and use there, or something else.",
+      "parentUuid": "da5c1566_3b313aa3",
       "range": {
         "startLine": 51,
         "startChar": 46,
