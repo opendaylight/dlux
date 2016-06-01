@@ -258,6 +258,30 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_9b0cc696",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:37:35Z",
+      "side": 1,
+      "message": "it\u0027s good. I just look at angular source code. Its just a wrapper",
+      "parentUuid": "da5c1566_1bc4363f",
+      "range": {
+        "startLine": 21,
+        "startChar": 25,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "6e3bd29a33f00f2955bf8a3470319a884d3e28c6",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da5c1566_9bca06a0",
         "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/parsing-json.services.js",
         "patchSetId": 5
