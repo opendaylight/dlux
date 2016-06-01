@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "da5c1566_db6c7e39",
+        "filename": "modules/common-layout-resources/src/main/resources/layout/index.tpl.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-06-01T13:45:22Z",
+      "side": 1,
+      "message": "ok, I understand, its true that bootstrap add a lot of wrapper. But having a container class is vital when you use bootstrap grid. Otherwise, bootstrap responsibility won\u0027t work properly.",
+      "parentUuid": "da5c1566_e8689b89",
+      "revId": "e47cfee34b5de163e2804eab8e558d9a2f296ff9",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa57193c_6a2431af",
         "filename": "modules/common-navigation-resources/src/main/resources/navigation/navigation.less",
         "patchSetId": 3
