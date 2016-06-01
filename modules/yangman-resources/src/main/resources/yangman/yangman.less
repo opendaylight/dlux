@@ -14,6 +14,7 @@
 @dataStoreListShadowColor: rgba(0,0,0,.14);
 @dataStoreListBorderColor: rgba(0,0,0,0.12);
 @dashedBorderColor: rgba(0,0,0,0.54);
+@inputColor: rgba(0,0,0,0.87);
 
 // helpers
 .pointer{
@@ -35,6 +36,14 @@
 
 .h100{
     height: 100%;
+}
+
+.mb30{
+    margin-bottom: 30px;
+}
+
+.nrp{
+    padding-right: 0!important;
 }
 
 // general
@@ -104,6 +113,11 @@ md-ink-bar.custom{
     background-color: @appBackColor;
     color: @fontColor;
     height: 100%;
+
+    /*.md-input{
+        color: @inputColor;
+        background: transparent;
+    }*/
 
     p{
         margin: 0;
@@ -240,6 +254,50 @@ md-ink-bar.custom{
 
     // right panel
     &__right-panel{
+        &__header{
+            margin-bottom: 30px;
+
+            > md-content{
+                background: @leftPanelBackColor;
+
+                md-content{
+                    background: transparent;
+                }
+            }
+
+            md-input-container{
+                margin: 0;
+            }
+
+            .md-errors-spacer{
+                display: none;
+            }
+
+            .input-span{
+                padding-top: 3px;
+            }
+
+            .input-identifier{
+                max-width: 60px;
+                border-color: @colorActive;
+                padding-left: 0;
+            }
+
+            md-divider{
+                margin-top: 20px;
+            }
+
+            .status-bar{
+                min-height: 40px;
+
+                .status-text{
+                    span span{
+                        color: @colorActive;
+                    }
+                }
+            }
+        }
+
         &__form{
             .union-tabs{
                 md-content{

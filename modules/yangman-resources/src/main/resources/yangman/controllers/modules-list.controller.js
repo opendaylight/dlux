@@ -41,7 +41,7 @@ define([
                 modulesList.allNodes = allNodes;
                 // console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
-                // console.info('INFO :: tree api', modulesList.treeApis);
+                 //console.info('INFO :: tree api', modulesList.treeApis);
                 // $scope.processingModulesSuccessCallback();
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');
@@ -73,6 +73,10 @@ define([
             $scope.setDataStore(dataStore, true);
         }
 
+        /**
+         * Method for showing toast box
+         * @param text
+         */
         function showToastInfoBox(text){
             $mdToast.show(
                 $mdToast.simple()
@@ -81,6 +85,12 @@ define([
                     .hideDelay(3000)
             );
         }
+
+        // watcher
+
+        $scope.$on('YANGMAN_GET_API_TREE_DATA', function (event, args) {
+            (args.cbk || angular.noop)(modulesList.treeApis);
+        });
     }
 
 });

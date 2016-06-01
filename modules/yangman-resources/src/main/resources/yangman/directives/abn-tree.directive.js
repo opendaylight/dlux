@@ -94,27 +94,27 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             selectedBranch = null;
                             return;
                         }
-                        if (branch !== selectedBranch) {
-                            if (selectedBranch != null) {
-                                selectedBranch.selected = false;
-                            }
-                            branch.selected = true;
-                            selectedBranch = branch;
-                            expandAllParents(branch);
-                            if (branch.onSelect != null) {
+
+                        if (selectedBranch != null) {
+                            selectedBranch.selected = false;
+                        }
+                        branch.selected = true;
+                        selectedBranch = branch;
+                        expandAllParents(branch);
+                        if (branch.onSelect != null) {
+                            return $timeout(function () {
+                                return branch.onSelect(branch);
+                            });
+                        } else {
+                            if (scope.onSelect != null) {
                                 return $timeout(function () {
-                                    return branch.onSelect(branch);
-                                });
-                            } else {
-                                if (scope.onSelect != null) {
-                                    return $timeout(function () {
-                                        return scope.onSelect({
-                                            branch: branch,
-                                        });
+                                    return scope.onSelect({
+                                        branch: branch,
                                     });
-                                }
+                                });
                             }
                         }
+
                     };
                     scope.user_clicks_branch = function (branch) {
 
@@ -122,11 +122,11 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                             item.branch.selected = false;
                         });
 
-                        if (branch !== selectedBranch) {
-                            return selectBranch(branch);
-                        } else {
+                        if (branch === selectedBranch) {
                             branch.selected = true;
                         }
+
+                        return selectBranch(branch);
                     };
 
                     getParent = function (child) {
