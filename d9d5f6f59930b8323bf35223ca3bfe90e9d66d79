@@ -22,6 +22,30 @@
       "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_bbcd4a60",
+        "filename": "modules/node-resources/src/main/resources/node/node.less",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-06-01T13:19:35Z",
+      "side": 1,
+      "message": "He probably didn\u0027t want to break the styling of Nodes app, so he creates that class only for that app. If that padding is not needed, we can remove it completely.",
+      "parentUuid": "da5c1566_bbc6ea47",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "d9d5f6f59930b8323bf35223ca3bfe90e9d66d79",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
