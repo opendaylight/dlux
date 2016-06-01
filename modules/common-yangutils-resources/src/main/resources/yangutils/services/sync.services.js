@@ -2,9 +2,21 @@ define([], function () {
     'use strict';
 
     function SyncService($timeout){
-        var timeout = 180000;
 
-        var SyncObject = function () {
+        var timeout = 180000,
+            service = {
+                generateObj: function () {
+                    return new SyncObject();
+                },
+            };
+
+        return service;
+
+        /**
+         * Base synchronization object
+         * @constructor
+         */
+        function SyncObject() {
             this.runningRequests = [];
             this.reqId = 0;
             this.timeElapsed = 0;
@@ -12,7 +24,7 @@ define([], function () {
             this.spawnRequest = function (digest) {
                 var id = digest + (this.reqId++).toString();
                 this.runningRequests.push(id);
-                //console.debug('adding request ',id,' total running requests  = ',this.runningRequests);
+                // console.debug('adding request ',id,' total running requests  = ',this.runningRequests);
                 return id;
             };
 
@@ -21,7 +33,7 @@ define([], function () {
 
                 if (index > -1) {
                     this.runningRequests.splice(index, 1);
-                    //console.debug('removing request ',id,' remaining requests = ',this.runningRequests);
+                    // console.debug('removing request ',id,' remaining requests = ',this.runningRequests);
                 } else {
                     console.warn('cannot remove request', id, 'from', this.runningRequests, 'index is', index);
                 }
@@ -42,16 +54,10 @@ define([], function () {
                     callback();
                 }
             };
-        };
-
-        return {
-            generateObj: function () {
-                return new SyncObject();
-            }
-        };
+        }
     }
 
-    SyncService.$inject=['$timeout'];
+    SyncService.$inject = ['$timeout'];
 
     return SyncService;
 
