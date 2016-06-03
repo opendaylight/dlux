@@ -4,9 +4,13 @@ define([
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
     'app/yangman/controllers/yang-form.controller',
+    'app/yangman/controllers/requests-list.controller',
     'app/yangman/controllers/request-header.controller',
+    'app/yangman/controllers/req-data.controller',
     'app/yangman/services/yangman.services',
     'app/yangman/services/yangman-design.services',
+    'app/yangman/services/requests.services',
+    'app/yangui/directives/ui-codemirror.directive',
 ], function (yangman) {
     'use strict';
 
@@ -34,6 +38,9 @@ define([
         $scope.augmentations = {};
         $scope.selectedApi = null;
         $scope.selectedSubApi = null;
+        $scope.historyReqsSelected = false;
+        $scope.requestToShow = null;
+        $scope.requestDataToShow = '';
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -52,9 +59,29 @@ define([
         $scope.setModule = setModule;
         $scope.setDataStore = setDataStore;
         $scope.switchSection = switchSection;
+        $scope.broadcastFromRoot = broadcastFromRoot;
+        $scope.setRightPanelSection = setRightPanelSection;
+        $scope.setRequestToShow = setRequestToShow;
+        $scope.setHistoryReqsSelected = setHistoryReqsSelected;
 
         init();
 
+        /**
+         * Set if any history requests are selected in history tab
+         * @param {boolean} selected
+         */
+        function setHistoryReqsSelected(selected) {
+            $scope.historyReqsSelected = selected;
+        }
+
+        /**
+         * Broadcast from this main controller to all children ctrls
+         * @param eventName
+         * @param val
+         */
+        function broadcastFromRoot(eventName, val) {
+            $scope.$broadcast(eventName, val);
+        }
         /**
          * Initialization
          */
@@ -199,6 +226,33 @@ define([
          */
         function rootBroadcast(broadcast, params, cbk){
             $scope.$broadcast(broadcast, { params: params, cbk: cbk });
+        }
+
+        /**
+         * Set request from history or collections to show data in code mirror
+         * @param reqObj
+         * @param {'sentData'|'receivedData'} dataType
+         */
+        function setRequestToShow(reqObj, dataType) {
+            $scope.requestToShow = reqObj;
+            $scope.requestDataToShow = dataType;
+        }
+
+        /**
+         * Set rightPanelSection to display current section in right panel
+         * @param section 'form', 'json'
+         */
+        function setRightPanelSection(section) {
+            $scope.rightPanelSection = section;
+
+
+
+
+
+
+
+
+
         }
 
     }

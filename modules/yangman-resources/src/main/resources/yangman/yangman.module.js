@@ -5,7 +5,12 @@ define([
     'angular-translate',
     'angular-translate-loader-partial',
     'ngMaterial',
+    'ngMessages',
     'common/yangutils/yangutils.module',
+    'codemirror',
+    'codeMirror-showHint',
+    'codeMirror-javascriptMode',
+    'codeMirror-matchBrackets',
 ], function (angular) {
     'use strict';
 
@@ -16,6 +21,7 @@ define([
         'restangular',
         'pascalprecht.translate',
         'ngMaterial',
+        'ngMessages',
     ]);
 
     yangman.config(YangManConfig);
