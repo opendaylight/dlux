@@ -34,7 +34,8 @@
     "ng-clip": "~0.2.6",
     "angular-translate-loader-partial": "~2.7.2",
     "angular-material": "^1.0.8",
-    "material-design-icons": "^2.2.3"
+    "material-design-icons": "^2.2.3",
+    "angular-messages": "^1.5.5"
   },
   "devDependencies": {
     "angular": "~1.4.0",
