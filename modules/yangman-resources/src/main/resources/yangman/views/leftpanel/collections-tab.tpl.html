@@ -1,3 +1,116 @@
-<p>
-    collections tab
-    </p>
+<md-list class="yangmanModule__requests-list__collections-list"
+         ng-cloak
+         ng-init="reqList.useAsMainList(reqList.collectionList)"
+         ng-controller="RequestsListCtrl as reqList">
+
+    <md-content class="searchBox" layout="row">
+        <md-icon class="material-icons">search</md-icon>
+        <input class="ng-pristine ng-valid ng-touched"
+               type="text"
+               flex
+               placeholder="search"
+               ng-model="reqList.search"
+               aria-invalid="false" />
+        <md-icon class="material-icons clickable" ng-click="reqList.clearFilter()" ng-if="reqList.search">
+            close
+            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+        </md-icon>
+        <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
+        <md-icon class="material-icons clickable" ng-click="reqList.toggleCollectionsSort()"
+                 ng-if="reqList.collectionList.collections.length > 1">
+            sort
+            <md-tooltip md-direction="bottom">{{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' )| translate}}</md-tooltip>
+        </md-icon>
+        <label for="importCollection">
+            <md-icon class="material-icons clickable">
+                file_upload
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_IMPORT_COLLECTION'| translate}}</md-tooltip>
+        </label>
+    </md-content>
+
+    <md-divider></md-divider>
+
+    <md-content class="scrollableY">
+
+        <div ng-repeat="collection in reqList.mainList.collections | filter: reqList.filterCol | orderBy: (reqList.collectionsSortAsc ? '' : '-')+'name'">
+
+            <div layout="row">
+
+                <md-list-item class="yangmanModule__requests-list__collection"
+                              flex
+                              ng-class="{'selected': collection.expanded}"
+                              ng-click="collection.toggleExpanded()">
+
+                    <div layout="row">
+                        <md-icon md-font-set="material-icons" class="top-icon">
+                            folder_open
+                        </md-icon>
+                        <div layout="column">
+
+                            <p flex>
+                            <span md-highlight-text="reqList.search" >
+                                {{collection.name}}
+                            </span><br />
+                            <span class="desc">
+                                <span class="desc" ng-if="reqList.search && !reqList.filterColName(collection)">{{'YANGMAN_MATCHING'| translate}} {{reqList.colMatchingReqsCount(collection)}} / </span>
+                                {{collection.data.length}} {{(collection.data.length>1 ? 'YANGMAN_COLLECTION_REQUESTS' : 'YANGMAN_COLLECTION_REQUEST')| translate}}
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+
+                </md-list-item>
+                <md-menu class="yangmanModule__requests-list__group__collectionMenu"
+                         md-offset="35 15"
+                         layout-align="center start">
+                    <md-button aria-label="menu" class="md-primary" ng-click="$mdOpenMenu()">
+                        <i class="material-icons">menu</i>
+                    </md-button>
+                    <md-menu-content class="reqMenu">
+                        <md-menu-item>
+                            <md-button aria-label="Duplicate collection"
+                                       ng-click="reqList.showDgEditCollection($event, collection, false)">
+                                <i class="material-icons">mode_edit</i>
+                                {{'YANGMAN_COLLECTION_EDIT'| translate}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button aria-label="{{'YANGMAN_COLLECTION_DUPLICATE'| translate}}"
+                                       ng-click="reqList.showDgEditCollection($event, collection, true)">
+                                <i class="material-icons">control_point_duplicate</i>
+                                {{'YANGMAN_COLLECTION_DUPLICATE'| translate}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button aria-label="{{'YANGMAN_COLLECTION_DOWNLOAD'| translate}}"
+                                       ng-click="reqList.downloadCollection(collection)">
+                                <i class="material-icons">file_download</i>
+                                {{'YANGMAN_COLLECTION_DOWNLOAD'| translate}}
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button aria-label="{{'YANGMAN_COLLECTION_DELETE'| translate}}"
+                                       ng-click="reqList.showDgDeleteCollection($event, collection)">
+                                <i class="material-icons">delete</i>
+                                {{'YANGMAN_COLLECTION_DELETE'| translate}}
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </div>
+
+
+            <md-list ng-show="collection.expanded" class="yangmanModule__requests-list__collection__requests">
+                <div ng-repeat="request in collection.data"
+                     layout="row"
+                     ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
+                </div>
+            </md-list>
+            <md-divider></md-divider>
+
+        </div>
+    </md-content>
+
+</md-list>
+
