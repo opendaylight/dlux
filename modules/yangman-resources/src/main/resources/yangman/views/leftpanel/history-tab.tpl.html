@@ -1,1 +1,57 @@
-history tab
+<md-list class="yangmanModule__requests-list h100"
+         ng-cloak
+         ng-init="reqList.useAsMainList(reqList.requestList)"
+         ng-controller="RequestsListCtrl as reqList">
+
+    <md-content class="searchBox" layout="row">
+        <md-icon class="material-icons">search</md-icon>
+        <input class="ng-pristine ng-valid ng-touched"
+               type="text"
+               flex
+               placeholder="search"
+               ng-model="reqList.search"
+               aria-invalid="false" />
+        <md-icon class="material-icons clickable" ng-click="reqList.clearFilter()" ng-if="reqList.search">
+            close
+            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+        </md-icon>
+    </md-content>
+
+    <md-divider></md-divider>
+
+    <md-button ng-show="reqList.mainList.selectedRequests.length"
+               ng-click="reqList.showDgSaveReq($event, main.currentPath)">
+        {{'YANGMAN_REQS_SAVE_TO_COL'| translate}}
+    </md-button>
+    <md-button ng-show="reqList.mainList.selectedRequests.length"
+               ng-click="reqList.showDgDeleteRequests($event)">
+        {{'YANGMAN_REQS_DELETE'| translate}}
+    </md-button>
+
+    <md-divider ng-show="reqList.mainList.selectedRequests.length"></md-divider>
+
+    <md-content class="scrollableY">
+        <md-list-item ng-repeat="(groupName, requests) in reqList.mainList.listGroupedByDate"
+                      class="yangmanModule__requests-list__group"
+                      ng-if="(requests|filter:reqList.filterReq).length">
+
+            <div layout="column" flex>
+
+                <md-subheader class="md-no-sticky">
+                    {{groupName | date : 'short'}}
+                </md-subheader>
+
+                <md-list>
+                    <div ng-repeat="request in requests | filter: reqList.filterReq"
+                         layout="row"
+                         ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
+                    </div>
+                </md-list>
+
+            </div>
+
+            <md-divider></md-divider>
+
+        </md-list-item>
+    </md-content>
+</md-list>

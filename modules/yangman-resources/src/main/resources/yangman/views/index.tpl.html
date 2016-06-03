@@ -20,12 +20,12 @@
                             <div ng-include src="globalViewPath + 'leftpanel/modules-tab.tpl.html'" class="scrollableY"></div>
                         </md-tab>
                         <!-- History tab -->
-                        <md-tab label="History" md-on-select="main.switchedTab(1)">
-                            <div ng-include src="globalViewPath + 'leftpanel/history-tab.tpl.html'" class="md-padding"></div>
+                        <md-tab label="{{'YANGMAN_HISTORY' | translate}}" md-on-select="main.switchedTab(1)">
+                            <div ng-include src="globalViewPath + 'leftpanel/history-tab.tpl.html'" class="" ng-class="{'historyTabReqsSelected': historyReqsSelected, 'historyTab': !historyReqsSelected}"></div>
                         </md-tab>
                         <!-- Collection tab -->
-                        <md-tab label="Collections" md-on-select="main.switchedTab(2)">
-                            <div ng-include src="globalViewPath + 'leftpanel/collections-tab.tpl.html'" class="md-padding"></div>
+                        <md-tab label="{{'YANGMAN_COLLECTIONS' | translate}}" md-on-select="main.switchedTab(2)">
+                            <div ng-include src="globalViewPath + 'leftpanel/collections-tab.tpl.html'" class="collectionsTab"></div>
                         </md-tab>
                     </md-tabs>
                 </md-content>

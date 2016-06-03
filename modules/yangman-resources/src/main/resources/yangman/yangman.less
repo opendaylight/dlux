@@ -1,10 +1,13 @@
 // general
 @fontColor : #505050;
+@fontColorLight: #a9a9a9;
+@fontHighlight: orange;
 @listBackColor: #f8f8f8;
 @listActiveColor: #E7E7E7;
 @appBackColor: #ffffff;
 @unactiveTabFontColor: #a9a9a9;
 @colorActive: rgb(64,196,255);
+@popupHeaderColor: #ffffff;
 
 // yangman
 @leftPanelBackColor: #f3f3f3;
@@ -15,6 +18,10 @@
 @dataStoreListBorderColor: rgba(0,0,0,0.12);
 @dashedBorderColor: rgba(0,0,0,0.54);
 @inputColor: rgba(0,0,0,0.87);
+@reqMethodGet: #63d33b;
+@reqMethodPut: #6fbad3;
+@reqMethodPost: #ea9c30;
+@reqMethodDelete: #ea3b27;
 
 // helpers
 .pointer{
@@ -115,6 +122,19 @@ md-ink-bar.custom{
         background: transparent;
     }*/
 
+    .historyTabReqsSelected{
+        height: calc(~'100% - 90px');
+    }
+
+    .historyTab{
+        height: calc(~'100% - 45px');
+    }
+
+    .collectionsTab{
+        height: calc(~'100% - 45px');
+    }
+
+
     p{
         margin: 0;
     }
@@ -133,6 +153,9 @@ md-ink-bar.custom{
         //width: 100%;
     }
 
+    .highlight{
+        color: @fontHighlight;
+    }
     md-tabs-content-wrapper{
         top: 0!important;
     }
@@ -167,6 +190,19 @@ md-ink-bar.custom{
         }
     }
 
+    md-dialog{
+        h2{
+            color: @popupHeaderColor;
+        }
+
+        &-actions{
+            button{
+                span{
+                    color: @fontColor;
+                }
+            }
+        }
+    }
     // left panel
     &__left-panel{
         overflow-x: hidden;
@@ -175,7 +211,8 @@ md-ink-bar.custom{
 
         md-tabs,
         md-tab-content > div,
-        md-content{
+        md-content,
+        .h100{
             height: 100%;
         }
 
@@ -223,6 +260,31 @@ md-ink-bar.custom{
             }
         }
 
+        .searchBox{
+            height: auto;
+            padding: 10px 13px;
+            font-size: 14px;
+
+            #importCollection{
+                display: none;
+            }
+
+            label{
+                margin-bottom: 0;
+            }
+
+            md-icon.clickable{
+                cursor: pointer;
+            }
+
+            input{
+                background: none;
+                border: none;
+                color: @fontColor;
+                outline: none;
+            }
+        }
+
         //loading panel
         &__loading-container {
             display: block;
@@ -266,6 +328,16 @@ md-ink-bar.custom{
                     margin-top: 16px;
                 }
             }*/
+        }
+
+        &__req-data{
+            height: 500px;
+            
+            > div{
+                height: 100%;    
+            }
+
+            .CodeMirror { height: 100%; }
         }
 
         &__form{
@@ -509,6 +581,178 @@ md-ink-bar.custom{
             height: 100%;
         }
     }
+
+    &__requests-list{
+        background: @listBackColor;
+        padding: 0;
+
+        .md-subheader{
+            background: none;
+
+        }
+
+        md-list{
+            padding-top: 0;
+        }
+
+        &__group{
+
+            padding: 0!important;
+
+            &__item{
+
+                &__path{
+                    white-space: -webkit-pre-wrap; /*Chrome & Safari */
+                    word-break: break-all;
+                    white-space: normal;
+                    line-height: 18px;
+                    color: @fontColor;
+
+                    p{
+                        padding-right: 9px;
+                    }
+                }
+
+                &__method{
+
+                    padding-left: 17px;
+
+                    .GET{
+                        color: @reqMethodGet;
+                    }
+                    .PUT{
+                        color: @reqMethodPut;
+                    }
+                    .POST{
+                        color: @reqMethodPost;
+                    }
+                    .DELETE{
+                        color: @reqMethodDelete;
+                    }
+                }
+            }
+
+            &__itemMenu{
+                position: relative;
+                margin-left: -52px;
+                padding-top: 0;
+
+                > button{
+                    min-width: 0;
+                    margin: 2px 5px;
+
+                    i.material-icons{
+                        vertical-align: middle;
+                        color: @fontColorLight;
+
+                    }
+                }
+
+            }
+
+            &__collectionMenu{
+                position: relative;
+                margin-left: -52px;
+                margin-right: 6px;
+
+                > button{
+                    min-width: 0;
+                    margin: 2px 5px;
+
+                    i.material-icons{
+                        vertical-align: middle;
+                        color: @fontColorLight;
+                    }
+                }
+
+            }
+
+            .selected{
+                button{
+                    background-color: rgba(158,158,158,0.2);
+                }
+            }
+
+        }
+
+        &__collections-list{
+            padding: 0;
+            background: @listBackColor;
+            height: 100%;
+
+            .selected{
+                button{
+                    background-color: rgba(158,158,158,0.2);
+                }
+            }
+        }
+
+        &__collection{
+            padding: 0;
+            background: @listBackColor;
+
+            &__requests{
+                padding: 0;
+                border-top: 1px solid @dataStoreListBorderColor;
+                background: @listBackColor;
+                -webkit-box-shadow:inset 0 7px 7px -5px @dataStoreListShadowColor;
+                box-shadow:inset 0 7px 7px -5px @dataStoreListShadowColor;
+            }
+
+            .md-subheader{
+                background: none;
+            }
+
+            .md-subheader-inner{
+                padding: 0;
+            }
+
+            .material-icons{
+                margin: 15px 25px;
+            }
+
+            p{
+                line-height: 18px;
+                padding: 12px 0;
+
+                .desc{
+                    color: @fontColorLight;
+                }
+            }
+
+        }
+
+    }
+}
+.reqMenu{
+    button{
+        span{
+            color: @fontColor
+
+        }
+        i.material-icons{
+            vertical-align: middle;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+
+.md-autocomplete-suggestions{
+    span{
+        color: @fontColor;
+    }
+}
+
+md-dialog{
+    md-dialog-content, md-dialog-actions{
+        h2, span{
+            color: @fontColor;
+        }
+
+    }
+
 }
 
 // directives
