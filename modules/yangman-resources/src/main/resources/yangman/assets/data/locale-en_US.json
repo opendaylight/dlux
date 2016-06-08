@@ -52,6 +52,8 @@
   "YANGMAN_COLLECTIONS": "Collections",
   "YANGMAN_PARAMETERS_ADMINISTRATION": "Parameters administration",
   "YANGMAN_PARAMETERS": "Parameters",
+  "YANGMAN_RECEIVED_DATA": "Received data",
+  "YANGMAN_SENT_DATA": "Sent data",
   "YANGMAN_PARAM_KEY": "Key",
   "YANGMAN_PARAM_VALUE": "Value",
   "YANGMAN_REMOVE_PARAM": "Remove param",
