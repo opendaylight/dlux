@@ -1,0 +1,145 @@
+<md-dialog aria-label="{{'YANGMAN_PARAMETERS_ADMINISTRATION'| translate}}"  ng-cloak>
+    <form name="paramsForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{'YANGMAN_PARAMETERS_ADMINISTRATION'| translate}}</h2>
+                <span flex></span>
+                <md-button aria-label="{{'YANGMAN_CANCEL'| translate}}"
+                           ng-click="paramsAdmin.cancel()">
+                    <md-icon class="material-icons clickable" >
+                        close
+                    </md-icon>
+                    <md-tooltip md-direction="bottom">{{'YANGMAN_CANCEL'| translate}}</md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="paramsAdminDialog" layout="column">
+            <div class="md-dialog-content" layout="column">
+                <!-- top part for search and sort bar -->
+                <div class="paramsAdminDialog__searchBox" layout="row">
+
+                    <!-- search icon, form, clear button -->
+                    <md-icon class="material-icons">search</md-icon>
+                    <input class="ng-pristine ng-valid ng-touched"
+                           type="text"
+                           flex
+                           placeholder="{{'YANGMAN_SEARCH' | translate}}"
+                           ng-model="paramsAdmin.search"
+                           aria-invalid="false" />
+                    <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}"
+                               ng-click="paramsAdmin.clearFilter()"
+                               ng-if="paramsAdmin.search">
+                        <md-icon class="material-icons clickable" >
+                            close
+                        </md-icon>
+                        <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+                    </md-button>
+                    <!-- /search icon, form, clear button -->
+
+                    <!-- sorting menu -->
+                    <md-menu class="paramsAdminDialog__searchBox__sortMenu"
+                             md-offset="35 15"
+                             layout-align="center start">
+                        <md-button aria-label="{{'YANGMAN_SORT'| translate}}" class="" ng-click="$mdOpenMenu()">
+                            <i class="material-icons">sort</i>
+                            <md-tooltip md-direction="bottom">
+                                {{'YANGMAN_SORTING' | translate}}
+                            </md-tooltip>
+                        </md-button>
+                        <md-menu-content class="reqMenu">
+                            <!-- sort by key -->
+                            <md-menu-item>
+                                <md-button aria-label="{{'YANGMAN_PARAMS_KEY'| translate}}"
+                                           ng-click="paramsAdmin.sortBy('_key')">
+                                    {{'YANGMAN_SORT_BY'| translate}}
+                                    {{'YANGMAN_PARAMS_KEY'| translate}}
+                                    {{paramsAdmin.sortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' | translate}}
+                                </md-button>
+                            </md-menu-item>
+                            <!-- /sort by key -->
+
+                            <!-- sort by value -->
+                            <md-menu-item>
+                                <md-button aria-label="{{'YANGMAN_PARAMS_VALUE'| translate}}"
+                                           ng-click="paramsAdmin.sortBy('_value')">
+                                    {{'YANGMAN_SORT_BY'| translate}}
+                                    {{'YANGMAN_PARAMS_VALUE'| translate}}
+                                    {{paramsAdmin.sortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' | translate}}
+                                </md-button>
+                            </md-menu-item>
+                            <!-- /sort by value -->
+
+                        </md-menu-content>
+                    </md-menu>
+                    <!-- /sorting menu -->
+
+                </div>
+
+                <md-divider></md-divider>
+                <!-- /top part for search and sort bar -->
+
+                <!-- parameters list -->
+                <md-content class="paramsAdminDialog__paramsList scrollableY" layout="column">
+
+                    <div layout="row"
+                         ng-repeat="param in paramsAdmin.parametersList.list |
+                                        filter: paramsAdmin.filterParam |
+                                        orderBy: paramsAdmin.sortFunc : !paramsAdmin.sortAsc
+                                        track by $index">
+
+                        <!-- key input -->
+                        <md-input-container>
+                            <label>{{'YANGMAN_PARAM_KEY' | translate}}</label>
+                            <input name="key_{{$index}}"
+                                   ng-model="param.key"
+                                   ng-required="param.value"
+                                   unique="{{paramsAdmin.parametersList.getKeysInArr(param)}}"
+                                   ng-focus="$last && paramsAdmin.createEmptyParam()">
+                            <div ng-messages="paramsForm['key_'+$index].$error" multiple md-auto-hide="false">
+                                <div ng-message="required">
+                                    {{'YANGMAN_PARAM_KEY_REQUIRED'| translate}}
+                                </div>
+                                <div ng-message="unique">
+                                    {{'YANGMAN_PARAM_EXISTING_KEY'| translate}}
+                                </div>
+                            </div>
+                        </md-input-container>
+                        <!-- / key input -->
+
+                        <!-- value input -->
+                        <md-input-container flex>
+                            <label>{{'YANGMAN_PARAM_VALUE' | translate}}</label>
+                            <input ng-model="param.value" ng-focus="$last && paramsAdmin.createEmptyParam()">
+                        </md-input-container>
+                        <!-- /value input -->
+
+                        <!-- remove param button -->
+                        <md-button aria-label="{{'YANGMAN_REMOVE_PARAM' | translate}}"
+                                   class=""
+                                   ng-if="!$last"
+                                   ng-click="paramsAdmin.removeParam(param)">
+                            <md-tooltip md-direction="bottom">
+                                {{'YANGMAN_REMOVE_PARAM' | translate}}
+                            </md-tooltip>
+                            <i class="material-icons">close</i>
+                        </md-button>
+                        <!-- /remove param button -->
+
+
+                    </div>
+                </md-content>
+                <!-- /parameters list -->
+
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="paramsAdmin.cancel()">
+                {{'YANGMAN_CANCEL'| translate}}
+            </md-button>
+            <md-button ng-click="paramsAdmin.save()" ng-disabled="!paramsForm.$valid">
+                {{'YANGMAN_SAVE'| translate}}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

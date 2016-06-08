@@ -1,5 +1,4 @@
 define([
-    'app/yangman/yangman.module',
 ], function () {
     'use strict';
 
