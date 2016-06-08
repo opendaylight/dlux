@@ -1,4 +1,5 @@
 define([
+    'app/yangman/controllers/params-admin.controller',
     'app/yangman/yangman.filters',
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
@@ -9,20 +10,21 @@ define([
     'app/yangman/services/yangman.services',
     'app/yangman/services/yangman-design.services',
     'app/yangman/services/requests.services',
+    'app/yangman/services/parameters.services',
     'app/yangman/directives/ui-codemirror.directive',
-], function () {
+], function (ParamsAdminCtrl) {
     'use strict';
 
     angular.module('app.yangman').controller('YangmanCtrl', YangmanCtrl);
 
     YangmanCtrl.$inject = [
-        '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService', 'EventDispatcherService', 'constants',
-        'PathUtilsService',
+        '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'ParametersService', 'RequestBuilderService',
+        'EventDispatcherService', 'constants', 'PathUtilsService',
     ];
 
     function YangmanCtrl(
-        $scope, $rootScope, YangmanDesignService, RequestBuilderService, EventDispatcherService, constants,
-        PathUtilsService
+        $mdDialog, $scope, $rootScope, YangmanDesignService, ParametersService, RequestBuilderService,
+        EventDispatcherService, constants, PathUtilsService
     ) {
         var main = this;
 
@@ -40,6 +42,7 @@ define([
         $scope.historyReqsSelected = false;
         $scope.requestToShow = null;
         $scope.requestDataToShow = '';
+        $scope.parametersList = null;
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -62,8 +65,29 @@ define([
         $scope.setRightPanelSection = setRightPanelSection;
         $scope.setRequestToShow = setRequestToShow;
         $scope.setHistoryReqsSelected = setHistoryReqsSelected;
+        $scope.showParamsAdmin = showParamsAdmin;
 
         init();
+
+
+
+        /**
+         * Show popup for parameters administration
+         * @param event
+         */
+        function showParamsAdmin(event) {
+            $mdDialog.show({
+                controller: ParamsAdminCtrl,
+                controllerAs: 'paramsAdmin',
+                templateUrl: $scope.globalViewPath + 'popup/parameters-admin.tpl.html',
+                parent: angular.element('#yangmanModule'),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                locals: {
+                    parametersList: $scope.parametersList,
+                },
+            });
+        }
 
         /**
          * Set if any history requests are selected in history tab
@@ -86,9 +110,12 @@ define([
          */
         function init(){
             YangmanDesignService.hideMainMenu();
+            $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
+            $scope.parametersList.loadListFromStorage();
 
             EventDispatcherService.registerHandler(constants.EV_FILL_PATH, fillPathIdentifiersByKey);
             EventDispatcherService.registerHandler(constants.EV_LIST_CHANGED, fillPathIdentifiersByListData);
+
         }
 
         /**
