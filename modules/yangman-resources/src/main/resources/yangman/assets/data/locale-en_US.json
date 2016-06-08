@@ -44,11 +44,23 @@
   "YANGMAN_SEL_METHOD": "Select method",
   "YANGMAN_SEND": "SEND",
   "YANGMAN_SHOW_LIST_ITEM": "Show all list items",
-  "YANGMAN_SORT_ASC": "Sort ascending",
-  "YANGMAN_SORT_DESC": "Sort descending",
+  "YANGMAN_SORT_ASC": "ascending",
+  "YANGMAN_SORT_DESC": "descending",
   "YANGMAN_STATUS": "Status",
   "YANGMAN_TIME": "Time",
   "YANGMAN_HISTORY": "History",
-  "YANGMAN_COLLECTIONS": "Collections"
+  "YANGMAN_COLLECTIONS": "Collections",
+  "YANGMAN_PARAMETERS_ADMINISTRATION": "Parameters administration",
+  "YANGMAN_PARAMETERS": "Parameters",
+  "YANGMAN_PARAM_KEY": "Key",
+  "YANGMAN_PARAM_VALUE": "Value",
+  "YANGMAN_REMOVE_PARAM": "Remove param",
+  "YANGMAN_SEARCH": "Search",
+  "YANGMAN_SORT_BY": "Sort by",
+  "YANGMAN_PARAMS_KEY": "key",
+  "YANGMAN_PARAMS_VALUE": "value",
+  "YANGMAN_PARAM_KEY_REQUIRED": "Required value",
+  "YANGMAN_PARAM_EXISTING_KEY": "Duplicate value",
+  "YANGMAN_SORTING": "Sorting"
 
 }
