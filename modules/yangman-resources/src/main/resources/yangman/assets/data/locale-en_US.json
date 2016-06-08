@@ -49,6 +49,8 @@
   "YANGMAN_STATUS": "Status",
   "YANGMAN_TIME": "Time",
   "YANGMAN_HISTORY": "History",
-  "YANGMAN_COLLECTIONS": "Collections"
+  "YANGMAN_COLLECTIONS": "Collections",
+  "YANGMAN_RECEIVED_DATA": "Received data",
+  "YANGMAN_SENT_DATA": "Sent data"
 
 }

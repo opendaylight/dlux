@@ -44,13 +44,14 @@ define(['app/yangman/yangman.module'], function (yangman) {
             selectedApi,
             selectedSubApi,
             operation,
-            node, dataType,
+            node,
+            dataType,
             requestUrl,
+            requestData,
             successCbk,
             errorCbk
         ){
             var reqString = selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
-                requestData = {},
                 preparedRequestData = {},
                 headers,
                 time = {
@@ -63,7 +64,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
             YangUtilsRestangularService.setFullResponse(true);
 
             // set correct host into restangular based on shown data type
-            if ( dataType === 'json' ){
+            if ( dataType === 'req-data' ){
                 var parser = locationHelper(requestUrl, ['pathname', 'origin']),
                     raParam = '';
 
@@ -73,28 +74,33 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 reqString = reqString.join('/');
 
                 customRestangular = YangUtilsRestangularService.one(raParam);
+                preparedRequestData = requestData;
             } else {
+
                 YangUtilsRestangularService.setBaseUrl(ENV.getBaseURL('MD_SAL'));
                 customRestangular  = YangUtilsRestangularService.one('restconf');
+
+                // if node build sent request
+                if ( node ) {
+
+                    node.buildRequest(RequestBuilderService, requestData, node.module);
+                    angular.copy(requestData, preparedRequestData);
+
+                    preparedRequestData = YangUtilsService.prepareRequestData(
+                        preparedRequestData,
+                        operation,
+                        reqString,
+                        selectedSubApi
+                    );
+
+                    headers = YangUtilsService.prepareHeaders(preparedRequestData);
+                }
             }
 
             //reqString = reqPath ? reqPath.slice(selectedApi.basePath.length, reqPath.length) : reqString;
             //var requestPath = selectedApi.basePath + reqString;
 
-            // if node build sent request
-            if ( node ) {
 
-                node.buildRequest(RequestBuilderService, requestData, node.module);
-                angular.copy(requestData, preparedRequestData);
-
-                preparedRequestData = YangUtilsService.prepareRequestData(
-                    preparedRequestData,
-                    operation,
-                    reqString, selectedSubApi
-                );
-
-                headers = YangUtilsService.prepareHeaders(preparedRequestData);
-            }
 
             operation = YangUtilsService.prepareOperation(operation);
 
@@ -116,20 +122,19 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
                     (successCbk || angular.noop)(reqObj, response);
 
-                }, function (resp) {
-                    console.log('resp', resp);
+                }, function (response) {
                     // finish track time response
                     time.finished = new Date().getMilliseconds();
 
                     var reqObj = {
-                        status: resp.status,
-                        statusText: resp.statusText,
+                        status: response.status,
+                        statusText: response.statusText,
                         time: (time.finished - time.started),
                     };
 
-                    (errorCbk || angular.noop)(reqObj);
+                    (errorCbk || angular.noop)(reqObj, response);
 
-                    var errorMsg = '';
+                    /*var errorMsg = '';
 
                     if (resp.data && resp.data.errors && resp.data.errors.error && resp.data.errors.error.length) {
                         errorMsg = ': ' + resp.data.errors.error.map(function (e) {
@@ -137,10 +142,10 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         }).join(', ');
                     }
 
-                    /**
+                    /!**
                      * TODO after first GET we have set $scope.node with data
                      * so build from the top of this function return requestData
-                     */
+                     *!/
                     if (operation === 'GET'){
                         requestData = {};
                     }
@@ -150,7 +155,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         'reqString', reqString,
                         'got', resp.status,
                         'data', resp.data
-                    );
+                    );*/
                 }
             );
         }

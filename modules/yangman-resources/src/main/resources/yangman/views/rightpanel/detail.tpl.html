@@ -5,7 +5,7 @@
 <!-- /Header -->
 
 <!-- Form section -->
-<section class="yangmanModule__right-panel__form"
+<section class="yangmanModule__right-panel__form bottom-content"
          ng-show="rightPanelSection === 'form'"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
@@ -14,11 +14,28 @@
 <!-- /Form section -->
 
 <!-- JSON section -->
-<section class="yangmanModule__right-panel__req-data"
-         ng-show="rightPanelSection === 'req-data'"
-         ng-if="requestToShow"
-         ng-controller="ReqDataCtrl as reqData">
-    <div ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
+<section class="yangmanModule__right-panel__req-data bottom-content"
+         ng-show="rightPanelSection === 'req-data'">
+
+    <!-- Sent data -->
+    <div ng-controller="RequestDataCtrl as requestData"
+         ng-if="main.jsonView.sent"
+         ng-init="requestData.init('SENT')"
+         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
+
+        <h5>{{'YANGMAN_SENT_DATA' | translate}}</h5>
+        <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
+    </div>
+
+    <!-- Received data -->
+    <div ng-controller="RequestDataCtrl as requestData"
+         ng-if="main.jsonView.received"
+         ng-init="requestData.init('RECEIVED')"
+         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
+
+        <h5>{{'YANGMAN_RECEIVED_DATA' | translate}}</h5>
+        <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
+    </div>
 </section>
 <!-- /JSON section -->
 
