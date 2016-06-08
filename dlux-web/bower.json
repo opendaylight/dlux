@@ -17,7 +17,7 @@
     "angular-ui-router": "~0.2.10",
     "angular-ui-utils": "~0.0.3",
     "d3": "~3.3.2",
-    "restangular": "1.2.1",
+    "restangular": "1.4.0",
     "angular-ui-select2": "~0.0.5",
     "underscore": "~1.8.3",
     "underscore.string": "~3.2.1",

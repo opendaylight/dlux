@@ -1,8 +1,7 @@
-define(
-    [
-        'app/yangman/models/parameter.model',
-        'app/yangman/models/parameterslist.model',
-    ],
+define([
+    'app/yangman/models/parameter.model',
+    'app/yangman/models/parameterslist.model',
+],
     function (ParameterModel, ParametersListModel) {
         'use strict';
 
