@@ -7,7 +7,7 @@ define([
     'app/yangman/controllers/yang-form.controller',
     'app/yangman/controllers/requests-list.controller',
     'app/yangman/controllers/request-header.controller',
-    'app/yangman/controllers/req-data.controller',
+    'app/yangman/controllers/request-data.controller',
     'app/yangman/services/yangman.services',
     'app/yangman/services/yangman-design.services',
     'app/yangman/services/requests.services',
@@ -36,7 +36,7 @@ define([
         $scope.selectedDatastore = null;
         $scope.apis = [];
         $scope.node = null;
-        $scope.rightPanelSection = 'form';
+        $scope.rightPanelSection = 'req-data';
         $scope.augmentations = {};
         $scope.selectedApi = null;
         $scope.selectedSubApi = null;
@@ -47,6 +47,10 @@ define([
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
+        main.jsonView = {
+            received: true,
+            sent: false,
+        };
 
         // methods
         main.init = init;
@@ -55,17 +59,18 @@ define([
 
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
+        $scope.broadcastFromRoot = broadcastFromRoot;
         $scope.rootBroadcast = rootBroadcast;
         $scope.setApi = setApi;
-        $scope.setGlobalParams = setGlobalParams;
-        $scope.setNode = setNode;
-        $scope.setModule = setModule;
         $scope.setDataStore = setDataStore;
-        $scope.switchSection = switchSection;
-        $scope.broadcastFromRoot = broadcastFromRoot;
-        $scope.setRightPanelSection = setRightPanelSection;
-        $scope.setRequestToShow = setRequestToShow;
+        $scope.setGlobalParams = setGlobalParams;
         $scope.setHistoryReqsSelected = setHistoryReqsSelected;
+        $scope.setJsonView = setJsonView;
+        $scope.setModule = setModule;
+        $scope.setNode = setNode;
+        $scope.setRequestToShow = setRequestToShow;
+        $scope.setRightPanelSection = setRightPanelSection;
+        $scope.switchSection = switchSection;
         $scope.showParamsAdmin = showParamsAdmin;
 
         init();
@@ -231,6 +236,7 @@ define([
         function buildRootRequest() {
             var obj = {};
             $scope.node.buildRequest(RequestBuilderService, obj, $scope.node.module);
+            return obj;
         }
 
         /**
@@ -267,19 +273,15 @@ define([
 
         /**
          * Set rightPanelSection to display current section in right panel
-         * @param section 'form', 'json'
+         * @param section 'form', 'req-data'
          */
         function setRightPanelSection(section) {
             $scope.rightPanelSection = section;
+        }
 
-
-
-
-
-
-
-
-
+        function setJsonView(received, sent){
+            main.jsonView.received = received;
+            main.jsonView.sent = sent;
         }
 
     }

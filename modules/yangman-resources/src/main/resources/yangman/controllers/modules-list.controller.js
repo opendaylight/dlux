@@ -18,6 +18,11 @@ define([
         modulesList.setDataStore = setDataStore;
         modulesList.setModule = setModule;
 
+        // watchers
+        $scope.$on('YANGMAN_GET_API_TREE_DATA', function (event, args) {
+            (args.cbk || angular.noop)(modulesList.treeApis);
+        });
+
         /**
          * Initialization
          */
@@ -85,12 +90,6 @@ define([
                     .hideDelay(3000)
             );
         }
-
-        // watcher
-
-        $scope.$on('YANGMAN_GET_API_TREE_DATA', function (event, args) {
-            (args.cbk || angular.noop)(modulesList.treeApis);
-        });
     }
 
 });
