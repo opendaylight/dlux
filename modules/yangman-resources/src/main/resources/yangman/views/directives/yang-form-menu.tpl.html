@@ -1,4 +1,5 @@
 <md-menu ng-if="isActionMenu() || isNodeInfo()" class="menu-container">
+    <!-- open menu button -->
     <md-button class="md-icon-button" ng-click="$mdOpenMenu($event); hideInfoBox();">
         <md-icon md-font-set="material-icons">reorder</md-icon>
     </md-button>
@@ -99,6 +100,7 @@
                         <!-- remove button -->
                         <md-icon md-font-set="material-icons"
                                  class="pointer"
+                                 ng-if="addListItem"
                                  ng-click="yangList.removeListElem($index)" md-prevent-menu-close>
                             <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
                             remove_circle_outline
