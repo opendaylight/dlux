@@ -1,6 +1,5 @@
 define([
     'app/yangman/yangman.module',
-    'app/yangman/controllers/params-admin.controller',
     'app/yangman/yangman.filters',
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
@@ -13,18 +12,18 @@ define([
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',
     'app/yangui/directives/ui-codemirror.directive',
-], function (yangman, ParamsAdminCtrl) {
+], function (yangman) {
     'use strict';
 
     yangman.register.controller('YangmanCtrl', YangmanCtrl);
 
     YangmanCtrl.$inject = [
-        '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'ParametersService', 'RequestBuilderService',
+        '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
         'EventDispatcherService', 'constants', 'PathUtilsService',
     ];
 
     function YangmanCtrl(
-        $mdDialog, $scope, $rootScope, YangmanDesignService, ParametersService, RequestBuilderService,
+        $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
         EventDispatcherService, constants, PathUtilsService
     ) {
         var main = this;
@@ -71,28 +70,16 @@ define([
         $scope.setRequestToShow = setRequestToShow;
         $scope.setRightPanelSection = setRightPanelSection;
         $scope.switchSection = switchSection;
-        $scope.showParamsAdmin = showParamsAdmin;
+        $scope.setParametersList = setParametersList;
 
         init();
 
-
-
         /**
-         * Show popup for parameters administration
-         * @param event
+         * Set parametersList
+         * @param parametersList
          */
-        function showParamsAdmin(event) {
-            $mdDialog.show({
-                controller: ParamsAdminCtrl,
-                controllerAs: 'paramsAdmin',
-                templateUrl: $scope.globalViewPath + 'popup/parameters-admin.tpl.html',
-                parent: angular.element('#yangmanModule'),
-                targetEvent: event,
-                clickOutsideToClose: true,
-                locals: {
-                    parametersList: $scope.parametersList,
-                },
-            });
+        function setParametersList(parametersList) {
+            $scope.parametersList = parametersList;
         }
 
         /**
@@ -116,8 +103,6 @@ define([
          */
         function init(){
             YangmanDesignService.hideMainMenu();
-            $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
-            $scope.parametersList.loadListFromStorage();
 
             EventDispatcherService.registerHandler(constants.EV_FILL_PATH, fillPathIdentifiersByKey);
             EventDispatcherService.registerHandler(constants.EV_LIST_CHANGED, fillPathIdentifiersByListData);
@@ -165,8 +150,14 @@ define([
         /**
          * Switcher between modules list and module detail
          */
-        function toggleLeftPanel(value){
-            main.leftPanelTab = value || (main.leftPanelTab + 1) % 2;
+        function toggleLeftPanel(){
+            main.leftPanelTab = (main.leftPanelTab + 1) % 2;
+        }
+
+        function setLeftPanel(value) {
+            if ( !angular.isUndefined(value) ) {
+                main.leftPanelTab = value;
+            }
         }
 
         // TODO :: description
@@ -220,7 +211,8 @@ define([
 
             if ( expand ) {
                 $scope.node = null;
-                toggleLeftPanel(leftPanel);
+                // toggleLeftPanel(leftPanel);
+                setLeftPanel(leftPanel);
                 $scope.$broadcast('YANGMAN_MODULE_D_INIT');
             } else {
 
@@ -279,6 +271,11 @@ define([
             $scope.rightPanelSection = section;
         }
 
+        /**
+         * Which codemirror instances will be displayed
+         * @param received
+         * @param sent
+         */
         function setJsonView(received, sent){
             main.jsonView.received = received;
             main.jsonView.sent = sent;

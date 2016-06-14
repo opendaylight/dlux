@@ -5,16 +5,18 @@ define([
 
     yangman.register.controller('RequestDataCtrl', RequestDataCtrl);
 
-    RequestDataCtrl.$inject = ['$scope'];
+    RequestDataCtrl.$inject = ['$scope', 'RequestsService'];
 
-    function RequestDataCtrl($scope) {
+    function RequestDataCtrl($scope, RequestsService) {
         var requestData = this;
+
+        requestData.paramsArray = [];
 
         requestData.dataEditorOptions = {
             mode: 'javascript',
             lineNumbers: true,
             theme: 'eclipse',
-            readOnly: false,
+            readOnly: requestData.type === 'RECEIVED',
             lineWrapping: true,
             matchBrackets: true,
             extraKeys: { 'Ctrl-Space': 'autocomplete' },
@@ -26,6 +28,28 @@ define([
         // methods
         requestData.getDataEditorOptions = getDataEditorOptions;
         requestData.init = init;
+
+
+        function setCMInstanceEvents(cmInstance){
+            cmInstance.on('changes', function (){
+                if (angular.isFunction(cmInstance.showHint)){
+                    cmInstance.showHint();
+                }
+                else {
+                    console.error('no showhint func');
+                }
+            });
+
+            //cmInstance.on('cursorActivity', function (){
+            //    var lineString = cmInstance.getLine(cmInstance.getCursor().line);
+            //    requestData.paramsArray = RequestsService.scanDataParams($scope.parametersList, lineString);
+            //    //$scope.paramsBoxView = $scope.paramsArray.length ? true : false;
+            //
+            //    if (!$scope.$$phase) {
+            //        $scope.$apply();
+            //    }
+            //});
+        }
 
         /**
          * Initialization
@@ -44,6 +68,7 @@ define([
             $scope.$on('YANGMAN_GET_CODEMIRROR_DATA_' + type, function (event, args){
                 args.params.reqData = requestData.data;
             });
+
         }
 
         /**
@@ -56,8 +81,6 @@ define([
 
         /**
          *
-         * @param read
-         * @param theme
          * @returns {
          * {mode: string,
          * lineNumbers: boolean,
@@ -69,9 +92,16 @@ define([
          * onLoad: Function}|*
          * }
          */
-        function getDataEditorOptions(read, theme){
-            requestData.dataEditorOptions.readOnly = read;
-            requestData.dataEditorOptions.theme = theme;
+        function getDataEditorOptions(){
+
+            //requestData.dataEditorOptions.onLoad = function (cmInstance){
+            //    cmInstance.data = { parameterListObj: $scope.parametersList || { list: [] } };
+            //    setCMInstanceEvents(cmInstance);
+            //    cmInstance.refresh();
+            //};
+
+            requestData.dataEditorOptions.readOnly = requestData.type === 'RECEIVED';
+            requestData.dataEditorOptions.theme = requestData.type === 'RECEIVED' ? 'eclipse-disabled': 'eclipse';
 
             return requestData.dataEditorOptions;
         }

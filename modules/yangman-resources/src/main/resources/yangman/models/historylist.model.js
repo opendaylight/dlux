@@ -14,27 +14,15 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         /* jshint validthis: true */
         var self = this;
         self.list = [];
-        self.listGroupedByDate = {};
+        self.dateGroups = [];
         self.selectedRequests = [];
 
         self.addRequestToList = addRequestToList;
         self.clear = clear;
         self.createEntry = createEntry;
         self.deleteRequestItem = deleteRequestItem;
-        self.getApiFunction = null;
         self.groupListByDate = groupListByDate;
-        self.refresh = refresh;
         self.toggleReqSelection = toggleReqSelection;
-        self.setGetApiFunction = setGetApiFunction;
-
-        /**
-         * Setter for getApiFunction
-         * @param getApiFunction
-         */
-        function setGetApiFunction(getApiFunction){
-            self.getApiFunction = getApiFunction;
-        }
-
 
         /**
          * Mark reqObj as selected
@@ -61,17 +49,41 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         }
 
         /**
+         * Round timestamp to day
+         * @param timeStamp
+         * @returns {number|*}
+         */
+        function roundTimestampToDate(timeStamp){
+            timeStamp -= timeStamp % (24 * 60 * 60 * 1000);//subtract amount of time since midnight
+            timeStamp += new Date().getTimezoneOffset() * 60 * 1000;//add on the timezone offset
+            return timeStamp;
+        }
+
+        /**
          * Grouping by date to show date groups in yangman
          */
         function groupListByDate(){
             self.list.forEach(addToListDateGroup);
 
             function addToListDateGroup(elem){
-                var groupName = new Date(elem.timestamp).toDateString();
-                if (!self.listGroupedByDate.hasOwnProperty(groupName)){
-                    self.listGroupedByDate[groupName] = [];
+                var groupName = roundTimestampToDate(elem.timestamp),
+                    dateGroupArr = self.dateGroups.filter(function(group){
+                        return group.name === groupName;
+                    }),
+                    dateGroup = null;
+
+                if (dateGroupArr.length){
+                    dateGroup = dateGroupArr[0];
                 }
-                self.listGroupedByDate[groupName].push(elem);
+                else {
+                    dateGroup = {
+                        name: groupName,
+                        longName: new Date(groupName).toDateString(),
+                        requests: [],
+                    };
+                    self.dateGroups.push(dateGroup);
+                }
+                dateGroup.requests.push(elem);
             }
         }
 
@@ -81,7 +93,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @returns {HistoryRequest|*}
          */
         function createEntry(elem) {
-            return RequestsService.createHistoryRequestFromElement(elem, self.getApiFunction);
+            return RequestsService.createHistoryRequestFromElement(elem);
         }
 
         /**
@@ -90,15 +102,6 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          */
         function addRequestToList(reqObj){
             self.list.push(reqObj);
-        }
-
-        /**
-         * Refresh each element using self.detApiFunction
-         */
-        function refresh() {
-            self.list.forEach(function (elem) {
-                elem.refresh(self.getApiFunction);
-            });
         }
 
         /**
@@ -111,7 +114,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
 
         function clear() {
             self.list = [];
-            self.listGroupedByDate = {};
+            self.dateGroups = [];
             self.selectedRequests = [];
         }
 

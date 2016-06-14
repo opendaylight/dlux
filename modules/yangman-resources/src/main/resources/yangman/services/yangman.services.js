@@ -40,6 +40,18 @@ define(['app/yangman/yangman.module'], function (yangman) {
             return result ? rIndex : null;
         }
 
+        /**
+         *
+         * @param selectedApi
+         * @param selectedSubApi
+         * @param operation
+         * @param node
+         * @param dataType
+         * @param requestUrl
+         * @param requestData
+         * @param successCbk
+         * @param errorCbk
+         */
         function executeRequestOperation(
             selectedApi,
             selectedSubApi,
@@ -118,6 +130,8 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         status: response.status,
                         statusText: response.statusText,
                         time: (time.finished - time.started),
+                        timestamp: Date.now(),
+                        requestData: preparedRequestData,
                     };
 
                     (successCbk || angular.noop)(reqObj, response);
@@ -130,6 +144,8 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         status: response.status,
                         statusText: response.statusText,
                         time: (time.finished - time.started),
+                        timestamp: Date.now(),
+                        requestData: preparedRequestData,
                     };
 
                     (errorCbk || angular.noop)(reqObj, response);
@@ -185,7 +201,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
          * @param data
          */
         function fillNodeFromResponse(node, data){
-            var props = Object.getOwnPropertyNames(data);
+            var props = data ? Object.getOwnPropertyNames(data) : [];
 
             // fill each property - needed for root mountpoint node,
             // in other cases there should be only one property anyway

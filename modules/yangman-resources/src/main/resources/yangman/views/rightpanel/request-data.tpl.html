@@ -1,5 +1,11 @@
-<div ng-model="requestData.data"
+<textarea ng-model="requestData.data"
      ui-codemirror
-     ui-codemirror-opts="requestData.getDataEditorOptions(false, 'eclipse')"
+     ui-codemirror-opts="requestData.getDataEditorOptions()"
      class="codemirror-container">
+</textarea>
+<div class="paramsBox" >
+     {{requestData.paramsArray}}
+     <div  ng-repeat="param in requestData.paramsArray" class="line">
+          <strong><<{{param.name}}>></strong> : <span>{{param.value !== undefined ? param.value : 'YANGUI_PARAM_DONT_REPLACE' | translate}}</span>
+     </div>
 </div>
