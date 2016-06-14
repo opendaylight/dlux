@@ -19,7 +19,7 @@
 
     <!-- Sent data -->
     <div ng-controller="RequestDataCtrl as requestData"
-         ng-if="main.jsonView.sent"
+         ng-show="main.jsonView.sent"
          ng-init="requestData.init('SENT')"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
 
@@ -29,7 +29,7 @@
 
     <!-- Received data -->
     <div ng-controller="RequestDataCtrl as requestData"
-         ng-if="main.jsonView.received"
+         ng-show="main.jsonView.received"
          ng-init="requestData.init('RECEIVED')"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
 
