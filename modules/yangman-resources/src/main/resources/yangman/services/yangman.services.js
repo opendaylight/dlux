@@ -8,18 +8,21 @@ define([], function () {
         'YangUtilsService',
         'YangUtilsRestangularService',
         'ENV',
+        'RequestsService',
     ];
 
     function YangmanService(
         RequestBuilderService,
         YangUtilsService,
         YangUtilsRestangularService,
-        ENV
+        ENV,
+        RequestsService
     ){
         var service = {
             executeRequestOperation: executeRequestOperation,
             fillNodeFromResponse: fillNodeFromResponse,
             getDataStoreIndex: getDataStoreIndex,
+            prepareAllRequestData: prepareAllRequestData,
         };
 
         return service;
@@ -40,28 +43,29 @@ define([], function () {
             return result ? rIndex : null;
         }
 
-        function executeRequestOperation(
-            selectedApi,
-            selectedSubApi,
-            operation,
-            node,
-            dataType,
-            requestUrl,
-            requestData,
-            successCbk,
-            errorCbk
-        ){
-            var reqString = selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
-                preparedRequestData = {},
-                headers,
-                time = {
-                    started: 0,
-                    finished: 0,
-                },
-                customRestangular = null;
-
-            // set full response detail
-            YangUtilsRestangularService.setFullResponse(true);
+        /**
+         * Prepare all necessary data for executing or saving request
+         * @param selectedApi
+         * @param selectedSubApi
+         * @param operation
+         * @param node
+         * @param dataType
+         * @param requestUrl
+         * @param requestData
+         * @param params
+         * @returns {{customRestangular: null, headers: {}, operation: string, reqString: string, reqHeaders: {},
+         *          reqData: {}}}
+         */
+        function prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType, requestUrl, requestData,
+                                       params) {
+            var allPreparedData = {
+                customRestangular: null,
+                headers: {},
+                operation: '',
+                reqString: selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
+                reqHeaders: {},
+                reqData: {},
+            };
 
             // set correct host into restangular based on shown data type
             if ( dataType === 'req-data' ){
@@ -69,95 +73,95 @@ define([], function () {
                     raParam = '';
 
                 YangUtilsRestangularService.setBaseUrl(parser.origin);
-                reqString = parser.pathname.slice(1).split('/');
-                raParam = reqString.shift();
-                reqString = reqString.join('/');
+                allPreparedData.reqString = parser.pathname.slice(1).split('/');
+                raParam = allPreparedData.reqString.shift();
+                allPreparedData.reqString = allPreparedData.reqString.join('/');
 
-                customRestangular = YangUtilsRestangularService.one(raParam);
-                preparedRequestData = requestData;
+                allPreparedData.customRestangular = YangUtilsRestangularService.one(raParam);
+                allPreparedData.reqData = RequestsService.applyParams(params, requestData);
             } else {
 
                 YangUtilsRestangularService.setBaseUrl(ENV.getBaseURL('MD_SAL'));
-                customRestangular  = YangUtilsRestangularService.one('restconf');
+                allPreparedData.customRestangular  = YangUtilsRestangularService.one('restconf');
 
-                // if node build sent request
                 if ( node ) {
 
                     node.buildRequest(RequestBuilderService, requestData, node.module);
-                    angular.copy(requestData, preparedRequestData);
+                    angular.copy(requestData, allPreparedData.reqData);
+                    allPreparedData.reqData = RequestsService.applyParams(params, allPreparedData.reqData);
 
-                    preparedRequestData = YangUtilsService.prepareRequestData(
-                        preparedRequestData,
+                    allPreparedData.reqData = YangUtilsService.prepareRequestData(
+                        allPreparedData.reqData,
                         operation,
-                        reqString,
+                        allPreparedData.reqString,
                         selectedSubApi
                     );
 
-                    headers = YangUtilsService.prepareHeaders(preparedRequestData);
+                    allPreparedData.headers = YangUtilsService.prepareHeaders(allPreparedData.reqData);
                 }
             }
 
-            //reqString = reqPath ? reqPath.slice(selectedApi.basePath.length, reqPath.length) : reqString;
-            //var requestPath = selectedApi.basePath + reqString;
+            allPreparedData.operation = YangUtilsService.prepareOperation(operation);
+            return allPreparedData;
+        }
 
+        /**
+         * Execute request built from this data
+         * @param selectedApi
+         * @param selectedSubApi
+         * @param operation
+         * @param node
+         * @param dataType
+         * @param requestUrl
+         * @param requestData
+         * @param successCbk
+         * @param errorCbk
+         * @param params
+         */
+        function executeRequestOperation(selectedApi, selectedSubApi, operation, node, dataType, requestUrl,
+                                         requestData, params, successCbk, errorCbk) {
+            var time = {
+                started: 0,
+                finished: 0,
+            };
 
+            YangUtilsRestangularService.setFullResponse(true);
 
-            operation = YangUtilsService.prepareOperation(operation);
+            // prepare all necessary data
+            var allPreparedData = prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType,
+                requestUrl, requestData, params);
 
             // start track time response
             time.started = new Date().getMilliseconds();
 
             // executing operation
-            customRestangular
-                .customOperation(operation.toLowerCase(), reqString, null, headers, preparedRequestData)
-                .then(function (response) {
-                    // finish track time response
-                    time.finished = new Date().getMilliseconds();
-
-                    var reqObj = {
-                        status: response.status,
-                        statusText: response.statusText,
-                        time: (time.finished - time.started),
-                    };
-
-                    (successCbk || angular.noop)(reqObj, response);
-
-                }, function (response) {
-                    // finish track time response
-                    time.finished = new Date().getMilliseconds();
-
-                    var reqObj = {
-                        status: response.status,
-                        statusText: response.statusText,
-                        time: (time.finished - time.started),
-                    };
-
-                    (errorCbk || angular.noop)(reqObj, response);
-
-                    /*var errorMsg = '';
-
-                    if (resp.data && resp.data.errors && resp.data.errors.error && resp.data.errors.error.length) {
-                        errorMsg = ': ' + resp.data.errors.error.map(function (e) {
-                            return e['error-message'];
-                        }).join(', ');
-                    }
-
-                    /!**
-                     * TODO after first GET we have set $scope.node with data
-                     * so build from the top of this function return requestData
-                     *!/
-                    if (operation === 'GET'){
-                        requestData = {};
-                    }
-
-                    console.info(
-                        'error sending request to', selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
-                        'reqString', reqString,
-                        'got', resp.status,
-                        'data', resp.data
-                    );*/
+            allPreparedData.customRestangular.customOperation(
+                allPreparedData.operation.toLowerCase(),
+                allPreparedData.reqString,
+                null,
+                allPreparedData.headers,
+                allPreparedData.reqData
+            )
+            .then(
+                function (response) {
+                    (successCbk || angular.noop)(finishExecuting(response), response);
+                },
+                function (response) {
+                    (errorCbk || angular.noop)(finishExecuting(response), response);
                 }
             );
+
+            function finishExecuting(response){
+                // finish track time response
+                time.finished = new Date().getMilliseconds();
+
+                return {
+                    status: response.status,
+                    statusText: response.statusText,
+                    time: (time.finished - time.started),
+                    requestData: allPreparedData.reqData,
+                };
+            }
         }
 
         /**
@@ -185,7 +189,7 @@ define([], function () {
          * @param data
          */
         function fillNodeFromResponse(node, data){
-            var props = Object.getOwnPropertyNames(data);
+            var props = data ? Object.getOwnPropertyNames(data) : [];
 
             // fill each property - needed for root mountpoint node,
             // in other cases there should be only one property anyway
