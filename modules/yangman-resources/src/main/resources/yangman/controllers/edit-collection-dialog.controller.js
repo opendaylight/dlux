@@ -1,5 +1,4 @@
-define([
-], function () {
+define([], function () {
     'use strict';
 
     angular.module('app.yangman').controller('EditCollectionDialogCtrl', EditCollectionDialogCtrl);

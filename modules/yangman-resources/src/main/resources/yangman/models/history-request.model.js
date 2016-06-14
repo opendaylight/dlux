@@ -12,31 +12,23 @@ define([], function (){
         var self = this;
 
         // properties
-        self.name = '';
-        self.sentData = null;
-        self.path = '';
-        self.parametrizedPath = null;
-        self.method = '';
-        self.status = '';
-        self.receivedData = null;
-        self.api = null;
-        self.availability = false;
         self.collection = '';
-        self.timestamp = '';
+        self.method = '';
+        self.name = '';
+        self.path = '';
+        self.receivedData = null;
         self.selected = false;
+        self.sentData = null;
+        self.status = '';
+        self.timestamp = '';
 
         // functions
-        self.getIdentifiers = getIdentifiers;
-        self.refresh = refresh;
         self.clone = clone;
         self.toJSON = toJSON;
-        self.clonePathArray = clonePathArray;
-        self.setParametrizedPath = setParametrizedPath;
         self.getLastPathDataElemName = getLastPathDataElemName;
         self.setDataForView = setDataForView;
-        self.clearParametrizedData = clearParametrizedData;
-        self.copyWithParametrizationAsNatural = copyWithParametrizationAsNatural;
         self.setData = setData;
+        self.setExecutionData = setExecutionData;
 
         /**
          * Grouped setter
@@ -45,71 +37,41 @@ define([], function (){
          * @param receivedData
          * @param status
          * @param path
-         * @param parametrizedPath
          * @param operation
-         * @param api
          * @param name
          * @param collection
          * @param timestamp
          */
-        function setData(sentData, receivedData, status, path, parametrizedPath, operation, api, name, collection,
-                         timestamp) {
+        function setData(sentData, receivedData, status, path, operation, name, collection, timestamp) {
 
             self.sentData = sentData === null || sentData === undefined || $.isEmptyObject(sentData) ? null : sentData;
             self.name = name;
             self.path = path;
-            self.parametrizedPath = parametrizedPath;
             self.method = operation;
             self.status = status;
             self.receivedData = receivedData === null || receivedData === undefined || $.isEmptyObject(receivedData) ?
-                null :
-                receivedData;
-            self.api = api;
-            self.availability = (api !== null);
+                null : receivedData;
             self.collection = collection;
             self.timestamp = timestamp;
         }
 
         /**
-         *
-         * @returns {Array}
+         * Set data which might be available after executing request
+         * @param sentData
+         * @param receivedData
+         * @param status - http status from response header
          */
-        function getIdentifiers() {
-            var identifiers = [];
-
-            self.api.pathArray.forEach(function (elem) {
-                elem.identifiers.forEach(function (i) {
-                    identifiers.push(i);
-                });
-            });
-
-            return identifiers;
+        function setExecutionData(sentData, receivedData, status) {
+            self.sentData = sentData;
+            self.receivedData = receivedData;
+            self.status = status ? (status > 199 && status < 205 ? 'success' : 'erorr') : '';
         }
 
-        /**
-         * Refresh each element using getApiFunction
-         * @param getApiFunction
-         */
-        function refresh(getApiFunction) {
-            var refreshedApi = getApiFunction(self.path);
-
-            self.api = refreshedApi;
-            self.availability = (refreshedApi !== null);
-        }
 
         /**
          *
-         * @returns {{
-             *  sentData: *,
-             *  receivedData: *,
-             *  path: *,
-             *  collection: *,
-             *  parametrizedPath: *,
-             *  method: *,
-             *  status: *,
-             *  name: *,
-             *  timestamp: *
-             * }}
+         * @returns {{sentData: (null|*), receivedData: (null|*), path: (string|*), collection: (string|*),
+         * method: (string|*), status: (string|*), name: (string|*), timestamp: (string|*)}}
          */
         function toJSON() {
             var obj = {
@@ -117,7 +79,6 @@ define([], function (){
                 receivedData: self.receivedData,
                 path: self.path,
                 collection: self.collection,
-                parametrizedPath: self.parametrizedPath,
                 method: self.method,
                 status: self.status,
                 name: self.name,
@@ -127,23 +88,7 @@ define([], function (){
             return obj;
         }
 
-        /**
-         *
-         */
-        function clonePathArray() {
-            if ( self.api && self.api.pathArray ) {
-                self.api.clonedPathArray = self.api.pathArray.map(function (pe) {
-                    return pe.clone();
-                });
-            } else {
-                self.api.clonedPathArray = [];
-            }
-        }
 
-        function setParametrizedPath(){
-            self.clonePathArray();
-            PathUtilsService.fillPath(self.api.clonedPathArray, self.parametrizedPath);
-        }
 
         /**
          *
@@ -160,7 +105,7 @@ define([], function (){
          * @param data
          * @returns {string}
          */
-        function setDataForView(sent, data){
+        function setDataForView(data){
             var newData = {},
                 parsedData = '';
 
@@ -168,21 +113,9 @@ define([], function (){
             parsedData = JSON.stringify(
                 YangUtilsService.stripAngularGarbage(newData, self.getLastPathDataElemName()), null, 4);
 
-            if ( sent && self.api ) {
-                if ( self.parametrizedPath ) {
-                    self.setParametrizedPath();
-                } else {
-                    self.clonePathArray();
-                }
-            }
-
             return parsedData;
         }
 
-        function clearParametrizedData() {
-            self.parametrizedPath = null;
-            self.clonePathArray();
-        }
 
         /**
          *
@@ -190,33 +123,8 @@ define([], function (){
          */
         function clone() {
             var result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
-            result.setData(self.sentData, self.receivedData, self.status, self.path,
-                self.parametrizedPath, self.method, self.api, self.name, self.collection, self.timestamp);
-            return result;
-        }
-
-        /**
-         *
-         * @param parametrizedPath
-         * @param getApiFunction
-         * @param dataForView
-         * @param JSONparsingErrorClbk
-         * @returns {*}
-         */
-        function copyWithParametrizationAsNatural(parametrizedPath, getApiFunction, dataForView,
-                                                  JSONparsingErrorClbk){
-
-            var parsedJsonObj = null,
-                result = null;
-
-            parsedJsonObj = ParsingJsonService.parseJson(dataForView, JSONparsingErrorClbk);
-
-            if (parsedJsonObj){
-                result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
-                result.setData(parsedJsonObj, self.receivedData, self.status, parametrizedPath, '', self.method,
-                    (getApiFunction || angular.noop)(result.path), self.name, self.collection, self.timestamp);
-            }
-
+            result.setData(self.sentData, self.receivedData, self.status, self.path, self.method, self.name,
+                self.collection, self.timestamp);
             return result;
         }
 

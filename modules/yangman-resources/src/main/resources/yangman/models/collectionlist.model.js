@@ -18,7 +18,6 @@ define(
             var self = this;
 
             self.collections = [];
-            self.getApiFunction = null;
             self.selectedRequests = [];
 
             self.addRequestToList = addRequestToList;
@@ -31,21 +30,15 @@ define(
             self.getCollection = getCollection;
             self.getCollectionNames = getCollectionNames;
             self.loadListFromFile = loadListFromFile;
-            self.refresh = refresh;
             self.renameCollection = renameCollection;
             self.toggleReqSelection = toggleReqSelection;
             self.toJSON = toJSON;
             self.getCollectionInJSON = getCollectionInJSON;
-            self.setGetApiFunction = setGetApiFunction;
 
             /**
-             * Setter for getApiFunction
-             * @param getApiFunction
+             *
+             * @param collectionName
              */
-            function setGetApiFunction(getApiFunction){
-                self.getApiFunction = getApiFunction;
-            }
-
             function getCollectionInJSON(collectionName){
                 return JSON.stringify(self.toJSON(collectionName));
             }
@@ -91,7 +84,6 @@ define(
                         req.selected = reqObj === req;
                     });
                 });
-
             }
 
             /**
@@ -110,7 +102,7 @@ define(
              * @returns {HistoryRequest|*}
              */
             function createEntry(elem) {
-                return RequestsService.createHistoryRequestFromElement(elem, self.getApiFunction);
+                return RequestsService.createHistoryRequestFromElement(elem);
             }
 
             /**
@@ -164,16 +156,6 @@ define(
                 }
             }
 
-            /**
-             * Refresh each requst in collections using his getApiFunction
-             */
-            function refresh() {
-                self.collections.forEach(function (collection) {
-                    collection.data.forEach(function (elem) {
-                        elem.refresh(self.getApiFunction);
-                    });
-                });
-            }
 
             /**
              *
@@ -222,8 +204,7 @@ define(
                 if (data){
                     ParsingJsonService.parseJson(data).map(function (elem) {
                         return RequestsService.createHistoryRequest(elem.sentData, elem.receivedData, elem.path,
-                            elem.parametrizedPath, elem.method, elem.status, elem.name, elem.collection,
-                            self.getApiFunction);
+                            elem.parametrizedPath, elem.method, elem.status, elem.name, elem.collection);
                     }).forEach(function (elem) {
                         self.addRequestToList(elem);
                     });
