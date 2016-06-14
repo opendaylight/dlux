@@ -1,13 +1,18 @@
 define([
     'app/yangman/yangman.module',
-], function (yangman) {
+    'app/yangman/controllers/params-admin.controller',
+], function (yangman, ParamsAdminCtrl) {
     'use strict';
 
     yangman.register.controller('RequestHeaderCtrl', RequestHeaderCtrl);
 
-    RequestHeaderCtrl.$inject = ['$scope', '$rootScope', 'ENV', 'YangmanService', 'PathUtilsService', '$filter'];
+    RequestHeaderCtrl.$inject = [
+        '$mdDialog', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService', 'PathUtilsService',
+        'RequestsService', '$filter',
+    ];
 
-    function RequestHeaderCtrl($scope, $rootScope, ENV, YangmanService, PathUtilsService, $filter) {
+    function RequestHeaderCtrl($mdDialog, $scope, $rootScope, ENV, YangmanService, ParametersService, PathUtilsService,
+                               RequestService, $filter) {
         var requestHeader = this;
 
         requestHeader.allOperations = ['GET', 'POST', 'PUT', 'DELETE'];
@@ -20,9 +25,12 @@ define([
         requestHeader.executeOperation = executeOperation;
         requestHeader.fillNodeData = fillNodeData;
         requestHeader.changeDataType = changeDataType;
-        requestHeader.checkExecutedData = checkExecutedData;
+        requestHeader.prepareDataAndExecute = prepareDataAndExecute;
         requestHeader.setJsonView = setJsonView;
         requestHeader.setRequestUrl = setRequestUrl;
+        requestHeader.showParamsAdmin = showParamsAdmin;
+        requestHeader.saveRequestToCollection = saveRequestToCollection;
+
 
         // watchers
         /**
@@ -39,9 +47,45 @@ define([
         $scope.$on('YANGMAN_HEADER_INIT', function (event, args) {
             init();
             setRequestUrl(args.params.path);
+            setRequestMethod(args.params.method);
+            (args.cbk || angular.noop)();
         });
 
+        $scope.$on('YANGMAN_FILL_NODE_FROM_REQ', function (event, args) {
+            setNodeDataFromRequestData(args.params.requestUrl, args.params.leftpanel);
+            (args.cbk || angular.noop)();
+        });
+
+        $scope.$on('YANGMAN_EXECUTE_WITH_DATA', executeWithData);
+
         init();
+
+
+        function executeWithData(event, args) {
+            executeOperation(args.params.data ? angular.fromJson(args.params.data) : {}, args.cbk);
+        }
+
+        function setRequestMethod(method){
+            requestHeader.selectedOperation = method;
+        }
+
+        /**
+         * Show popup for parameters administration
+         * @param event
+         */
+        function showParamsAdmin(event) {
+            $mdDialog.show({
+                controller: ParamsAdminCtrl,
+                controllerAs: 'paramsAdmin',
+                templateUrl: $scope.globalViewPath + 'popup/parameters-admin.tpl.html',
+                parent: angular.element('#yangmanModule'),
+                targetEvent: event,
+                clickOutsideToClose: true,
+                locals: {
+                    parametersList: $scope.parametersList,
+                },
+            });
+        }
 
         /**
          * Method for selecting correct json view by selected operation
@@ -55,24 +99,44 @@ define([
                 $scope.setJsonView(true, false);
             }
 
-            sendRequestData({}, 'RECEIVED');
+            // sendRequestData({}, 'RECEIVED');
         }
 
         /**
-         * Method for executing after data type was change (radio button)
+         * Change displayed data type to json or form, after switching set current data to be displayed
          */
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
             requestHeader.setRequestUrl();
 
+            // if changing to json, fill codemirror data
             if ( requestHeader.selectedShownDataType === 'req-data' && $scope.node ){
                 setJsonView();
                 sendRequestData($scope.buildRootRequest(), 'SENT');
             }
+
+            // if changing to form, try to fill node data
+            if (requestHeader.selectedShownDataType === 'form') {
+                var params = {
+                        reqData: null,
+                    },
+                    reqData = {},
+                    dataType = requestHeader.selectedOperation === 'GET' ? 'RECEIVED' : 'SENT';
+
+
+                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
+                reqData = params.reqData ? angular.fromJson(params.reqData) : {};
+                setNodeDataFromRequestData(requestHeader.requestUrl);
+
+                if ( $scope.node ) {
+                    YangmanService.fillNodeFromResponse($scope.node, reqData);
+                    $scope.node.expanded = true;
+                }
+            }
         }
 
         /**
-         * Method for sending data to code mirror
+         * Send data to codemirror
          * @param data
          */
         function sendRequestData(data, type){
@@ -80,10 +144,20 @@ define([
         }
 
         /**
+         * Create empty parameters list, load from local storage and set to $scope
+         */
+        function initParams(){
+            var paramsList = ParametersService.createEmptyParametersList('yangman_parameters');
+            paramsList.loadListFromStorage();
+            $scope.setParametersList(paramsList);
+        }
+
+        /**
          * Initialization
          */
         function init(){
             setAllowedMethods(requestHeader.allOperations);
+            initParams();
             requestHeader.selectedShownDataType = $scope.rightPanelSection;
         }
 
@@ -93,7 +167,9 @@ define([
          */
         function setAllowedMethods(operations){
             requestHeader.selectedOperationsList = operations.length ? operations : requestHeader.allOperations;
-            requestHeader.selectedOperation = requestHeader.selectedOperationsList[0];
+            if (operations.indexOf(requestHeader.selectedOperation) === -1){
+                requestHeader.selectedOperation = requestHeader.selectedOperationsList[0];
+            }
         }
 
         /**
@@ -104,10 +180,80 @@ define([
                     ENV.getBaseURL('MD_SAL') + '/restconf/' + $scope.selectedSubApi.buildApiRequestString() : '');
         }
 
+
+        /**
+         * Try to set api, module, dataStore and node, if api indexes for request url available
+         * and set (or unset) module detail panel to be displayed
+         * @param requestUrl url to try to find
+         * @param leftpanel index of main left tabs to be displayed (we dont want to display module detail in all cases)
+         */
+        function setNodeDataFromRequestData(requestUrl, leftpanel){
+
+            $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
+                var apisIndexes =
+                        PathUtilsService.searchNodeByPath(requestUrl, treeApis, null, true);
+
+                if ( apisIndexes ){
+                    // set apis
+                    $scope.setApi(
+                        $scope.apis[apisIndexes.indexApi],
+                        $scope.apis[apisIndexes.indexApi].subApis[apisIndexes.indexSubApi]
+                    );
+
+                    // set module
+                    $scope.setModule($filter('filter')(treeApis, { label: $scope.selectedApi.module })[0]);
+
+                    // set datastore
+                    $scope.setDataStore(
+                        $filter('filter')(
+                            $scope.selectedModule.children,
+                            { label: $scope.selectedSubApi.storage })[0],
+                        true,
+                        leftpanel
+                    );
+
+                    // set node
+                    $scope.setNode($scope.selectedSubApi.node);
+
+                }
+            });
+        }
+
+        function saveRequestToCollection(event) {
+            var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
+                    requestHeader.selectedOperation, '', '', ''),
+                reqData = {};
+
+            if ( requestHeader.selectedShownDataType === 'req-data' ) {
+                var params = { reqData: null };
+                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
+                reqData = params.reqData ? angular.fromJson(params.reqData) : {};
+            }
+
+            var historyReqData = YangmanService.prepareAllRequestData(
+                    $scope.selectedApi,
+                    $scope.selectedSubApi,
+                    requestHeader.selectedOperation,
+                    $scope.node,
+                    requestHeader.selectedShownDataType,
+                    requestHeader.requestUrl,
+                    reqData,
+                    $scope.parametersList
+                );
+
+            historyReq.setExecutionData(historyReqData.reqData, {}, '');
+
+            $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
+        }
+
+
         /**
          * Execute request operation
          */
-        function executeOperation(requestData){
+        function executeOperation(requestData, executeCbk){
+
+            var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
+                requestHeader.selectedOperation, '', '', '');
 
             YangmanService.executeRequestOperation(
                 $scope.selectedApi,
@@ -117,78 +263,79 @@ define([
                 requestHeader.selectedShownDataType,
                 requestHeader.requestUrl,
                 requestData,
-                function (reqInfo, response) {
-                    requestHeader.statusObj = reqInfo;
+                $scope.parametersList,
+                executeReqSuccCbk,
+                executeReqErrCbk
+            );
 
-                    console.log('response.data', response.data);
+            /**
+             *
+             * @param reqInfo
+             * @param response
+             */
+            function executeReqSuccCbk(reqInfo, response) {
+                requestHeader.statusObj = reqInfo;
 
-                    if (response.data) {
+                // create and set history request
+                historyReq.setExecutionData(
+                    reqInfo.requestData,
+                    response.data ? response.data.plain() : {},
+                    reqInfo.status
+                );
 
-                        if ( requestHeader.selectedShownDataType === 'req-data' ) {
+                if (response.data) {
 
-                            // try to fill code mirror editor
-                            sendRequestData(response.data.plain(), 'RECEIVED');
-
-                            // try to find api, subapi and node
-                            $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
-                                var apisIndexes =
-                                    PathUtilsService.searchNodeByPath(requestHeader.requestUrl, treeApis, null, true);
-
-                                if ( apisIndexes ){
-                                    // set apis
-                                    $scope.setApi(
-                                        $scope.apis[apisIndexes.indexApi],
-                                        $scope.apis[apisIndexes.indexApi].subApis[apisIndexes.indexSubApi]
-                                    );
-
-                                    // set module
-                                    $scope.setModule($filter('filter')(treeApis, { label: $scope.selectedApi.module })[0]);
-
-                                    // set datastore
-                                    $scope.setDataStore(
-                                        $filter('filter')(
-                                            $scope.selectedModule.children,
-                                            { label: $scope.selectedSubApi.storage })[0],
-                                        true,
-                                        1
-                                    );
-
-                                    // set node
-                                    $scope.setNode($scope.selectedSubApi.node);
-
-                                    if ( $scope.node ) {
-                                        // try to fill node
-                                        YangmanService.fillNodeFromResponse($scope.node, response.data);
-                                        $scope.node.expanded = true;
-                                    }
-                                }
-                            });
-                        } else {
-
-                            if ( $scope.node ) {
-                                // try to fill node
-                                YangmanService.fillNodeFromResponse($scope.node, response.data);
-                                $scope.node.expanded = true;
-                            }
-                        }
-
-
-                    } else {
-                        sendRequestData({}, 'RECEIVED');
+                    // if executing from json form, try to find api, subapi and node
+                    if ( requestHeader.selectedShownDataType === 'req-data' ) {
+                        setNodeDataFromRequestData(requestHeader.requestUrl);
                     }
-                }, function (reqInfo, response) {
-                    requestHeader.statusObj = reqInfo;
 
-                    if (response.data) {
-                        if ( requestHeader.selectedShownDataType === 'req-data' ) {
-                            // try to fill code mirror editor
-                            sendRequestData(response.data, 'RECEIVED');
-                        }
+                    // try to fill code mirror editor
+                    sendRequestData(response.data.plain(), 'RECEIVED');
+
+                    // try to fill node, if some was found or filled in form
+                    if ( $scope.node ) {
+                        YangmanService.fillNodeFromResponse($scope.node, response.data);
+                        $scope.node.expanded = true;
                     }
-                });
+
+                } else {
+                    sendRequestData({}, 'RECEIVED');
+                }
+
+                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
+                (executeCbk || angular.noop)(historyReq);
+
+            }
+
+            /**
+             *
+             * @param reqInfo
+             * @param response
+             */
+            function executeReqErrCbk(reqInfo, response) {
+
+                requestHeader.statusObj = reqInfo;
+
+                historyReq.setExecutionData(reqInfo.requestData, null, reqInfo.status);
+                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
+
+                if (response.data) {
+                    if ( requestHeader.selectedShownDataType === 'req-data' ) {
+                        // try to fill code mirror editor
+                        sendRequestData(response.data, 'RECEIVED');
+                    }
+                }
+                (executeCbk || angular.noop)(historyReq);
+            }
+
         }
 
-        // TODO :: description
+        /**
+         * TODO :: description
+         * @param pathElem
+         * @param identifier
+         */
         function fillNodeData(pathElem, identifier) {
             if ($scope.selectedSubApi && $scope.selectedSubApi.storage === 'config' &&
                 $scope.selectedSubApi.pathArray.indexOf(pathElem) === ($scope.selectedSubApi.pathArray.length - 1)) {
@@ -199,17 +346,15 @@ define([
         /**
          * Check data before executin operations
          */
-        function checkExecutedData(){
+        function prepareDataAndExecute(){
 
             if ( requestHeader.requestUrl.length ) {
-                var params = {
-                    reqData: null,
-                };
 
                 if ( requestHeader.selectedShownDataType === 'req-data' ) {
                     // get json data
+                    var params = { reqData: null };
                     $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
-                    executeOperation(angular.fromJson(params.reqData));
+                    executeOperation(params.reqData ? angular.fromJson(params.reqData) : {});
                 } else {
                     executeOperation({});
                 }

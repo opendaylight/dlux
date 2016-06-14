@@ -8,43 +8,73 @@ define([
     yangman.register.controller('RequestsListCtrl', RequestsListCtrl);
 
     RequestsListCtrl.$inject = [
-        '$filter', '$mdDialog', '$scope', 'HandleFileService', 'PathUtilsService', 'RequestsService',
+        '$filter', '$mdDialog', '$scope', 'HandleFileService', 'PathUtilsService', 'RequestsService', 'YangmanService',
     ];
 
-    function RequestsListCtrl($filter, $mdDialog, $scope, HandleFileService, PathUtilsService, RequestsService) {
+    function RequestsListCtrl($filter, $mdDialog, $scope, HandleFileService, PathUtilsService, RequestsService,
+                              YangmanService) {
         var vm = this;
 
-        vm.collectionList = RequestsService.createEmptyCollectionList('yangman_collectionsList', vm.getApiCallback);
-        vm.mainList = null;
-        vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList', vm.getApiCallback);
-        vm.search = '';
+        vm.collectionList = RequestsService.createEmptyCollectionList('yangman_collectionsList');
         vm.collectionsSortAsc = true;
+        vm.mainList = null;
+        vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList');
+        vm.search = '';
 
         vm.clearFilter = clearFilter;
-        vm.filterReq = filterReq;
-        vm.filterCol = filterCol;
-        vm.filterColName = filterColName;
+        vm.clearHistoryList = clearHistoryList;
         vm.colMatchingReqsCount = colMatchingReqsCount;
         vm.downloadCollection = downloadCollection;
+        vm.executeRequest = executeRequest;
         vm.fakeFilter = fakeFilter;
-        vm.getApiCallback = getApiCallback;
+        vm.filterCol = filterCol;
+        vm.filterColName = filterColName;
+        vm.filterReq = filterReq;
+        vm.init = init;
         vm.loadRequests = loadRequests;
-        vm.toggleCollectionsSort = toggleCollectionsSort;
+        vm.readCollectionFromFile = readCollectionFromFile;
         vm.selectRequest = selectRequest;
-
+        vm.showData = showData;
         vm.showDgDeleteCollection = showDgDeleteCollection;
         vm.showDgDeleteRequests = showDgDeleteRequests;
         vm.showDgEditCollection = showDgEditCollection;
-        vm.readCollectionFromFile = readCollectionFromFile;
         vm.showDgSaveReq = showDgSaveReq;
+        vm.toggleCollectionsSort = toggleCollectionsSort;
+        vm.showForm = showForm;
 
-        vm.showData = showData;
-        vm.useAsMainList = useAsMainList;
-
-        $scope.$on('YANGMAN_REFRESH_HISTORY', loadHistoryRequests);
         $scope.$on('YANGMAN_REFRESH_COLLECTIONS', loadCollectionRequest);
+        $scope.$on('YANGMAN_REFRESH_HISTORY', loadHistoryRequests);
 
         loadRequests();
+
+        /**
+         * Save request obje to collection from other controller
+         * @param reqObj
+         */
+        function saveRequestFromExt(event, args) {
+            vm.showDgSaveReq(args.params.event, args.params.reqObj, false);
+        }
+
+
+        /**
+         * Clear history requests list and save to storage
+         */
+        function clearHistoryList() {
+            vm.requestList.clear();
+            vm.requestList.saveToStorage();
+        }
+
+        /**
+         * Create history request from other ctrl
+         * @param broadcastEvent
+         * @param params
+         */
+        function saveBcstedHistoryRequest(broadcastEvent, params) {
+            vm.requestList.addRequestToList(params.params);
+            vm.requestList.groupListByDate();
+            vm.requestList.saveToStorage();
+            loadHistoryRequests();
+        }
 
         /**
          * Clear value of input file used to import collection
@@ -60,7 +90,8 @@ define([
          */
         function readCollectionFromFile($fileContent) {
             var data = $fileContent,
-                checkArray = ['sentData',
+                checkArray = [
+                    'sentData',
                     'receivedData',
                     'path',
                     'collection',
@@ -106,17 +137,84 @@ define([
             );
         }
 
+        /**
+         * Fill request form in right panel with request data
+         * @param reqObj
+         */
+        function showForm(reqObj) {
+            var data = reqObj.method === 'GET' ? reqObj.receivedData : reqObj.sentData;
+
+            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, requestData: data },
+                function (){
+                    $scope.setRightPanelSection('form');
+                    $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: reqObj.path, method: reqObj.method });
+
+                    if ( $scope.node ) {
+                        // try to fill node
+                        YangmanService.fillNodeFromResponse($scope.node, data);
+                        $scope.node.expanded = true;
+                    }
+
+                }
+            );
+
+        }
 
         /**
-         * Show current reqObj sent data in right panel section
+         * Force request header to execute request with data from reqObj
+         * @param reqObj
+         */
+        function executeRequest(reqObj) {
+            $scope.rootBroadcast(
+                'YANGMAN_HEADER_INIT',
+                { path: reqObj.path, method: reqObj.method },
+                function (){
+                    $scope.rootBroadcast(
+                        'YANGMAN_EXECUTE_WITH_DATA',
+                        { data: reqObj.sentData },
+                        function (historyReq){
+                            showData(historyReq);
+                        }
+                    );
+                }
+            );
+
+        }
+
+
+        /**
+         * Show current reqObj json data in right panel section
          * @param reqObj
          * @param dataType
          */
-        function showData(reqObj, dataType) {
-            $scope.setRequestToShow(reqObj, dataType);
+        function showData(reqObj) {
+
             $scope.setRightPanelSection('req-data');
-            $scope.broadcastFromRoot('YANGMAN_REFRESH_CM_DATA');
-            $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: $scope.requestToShow.path });
+            $scope.setJsonView(true, reqObj.method !== 'GET');
+
+            $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: reqObj.path, method: reqObj.method });
+
+            $scope.rootBroadcast(
+                'YANGMAN_SET_CODEMIRROR_DATA_SENT',
+                { data: reqObj.setDataForView(reqObj.sentData) }
+            );
+            $scope.rootBroadcast(
+                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED',
+                { data: reqObj.setDataForView(reqObj.receivedData) }
+            );
+
+            var data = reqObj.method === 'GET' ? reqObj.receivedData : reqObj.sentData;
+
+            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, leftpanel: 0},
+                function (){
+                    if ( $scope.node ) {
+                        // try to fill node
+                        YangmanService.fillNodeFromResponse($scope.node, data);
+                        $scope.node.expanded = true;
+                    }
+
+                }
+            );
         }
 
         /**
@@ -151,7 +249,7 @@ define([
                     });
                 }
                 vm.mainList.saveToStorage();
-                loadRequests();
+                $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY');
             });
         }
 
@@ -304,8 +402,16 @@ define([
          *
          * @param list collectionList or requestList object
          */
-        function useAsMainList(list){
+        function init(list){
             vm.mainList = list;
+
+            if (list === vm.requestList){
+                // saving from request header after execution
+                $scope.$on('YANGMAN_SAVE_EXECUTED_REQUEST', saveBcstedHistoryRequest);
+                // saving from request header
+                $scope.$on('YANGMAN_SAVE_REQUEST_TO_COLLECTION', saveRequestFromExt);
+            }
+
         }
 
         /**
@@ -342,41 +448,6 @@ define([
             $scope.setHistoryReqsSelected(vm.requestList.selectedRequests.length > 0);
         }
 
-        /**
-         *
-         * @param pathString
-         * @returns {*}
-         */
-        function getApiCallback(pathString) {
-            var snp = PathUtilsService.getStorageAndNormalizedPath(pathString),
-            // if the path is for mountpoint then get the path to treedata structure
-                mpSearchPath = MountPointsConnectorService.alterMpPath(pathString),
-                apiIndexes = PathUtilsService.searchNodeByPath(mpSearchPath, $scope.treeApis, $scope.treeRows),
-                selApi = apiIndexes ? $scope.apis[apiIndexes.indexApi] : null,
-                selSubApi = selApi ? selApi.subApis[apiIndexes.indexSubApi] : null,
-                copiedApi = selSubApi ?
-                    selSubApi.clone({ storage: snp.storage, withoutNode: true, clonePathArray: true }) :
-                    null;
-
-            if (copiedApi) {
-                copiedApi.pathArray.forEach(function (p) {
-                    p.hover = false;
-                });
-
-                PathUtilsService.fillPath(copiedApi.pathArray, snp.normalizedPath);
-            }
-
-            var searchedModule = PathUtilsService.getModuleNameFromPath(pathString);
-
-            if (mpSearchPath.indexOf(mountPrefix) !== -1 && copiedApi){
-                copiedApi = $scope.selSubApi &&
-                searchedModule === $scope.selSubApi.pathArray[1].module ?
-                    copiedApi :
-                    null;
-            }
-
-            return copiedApi;
-        }
     }
 
 });
