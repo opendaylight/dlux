@@ -1,8 +1,9 @@
 <md-list class="yangmanModule__requests-list h100"
          ng-cloak
-         ng-init="reqList.useAsMainList(reqList.requestList)"
+         ng-init="reqList.init(reqList.requestList)"
          ng-controller="RequestsListCtrl as reqList">
 
+    <!-- search box -->
     <md-content class="searchBox" layout="row">
         <md-icon class="material-icons">search</md-icon>
         <input class="ng-pristine ng-valid ng-touched"
@@ -18,7 +19,9 @@
     </md-content>
 
     <md-divider></md-divider>
+    <!-- /search box-->
 
+    <!-- buttons for saving, deleting, clearing -->
     <md-button ng-show="reqList.mainList.selectedRequests.length"
                ng-click="reqList.showDgSaveReq($event, main.currentPath)">
         {{'YANGMAN_REQS_SAVE_TO_COL'| translate}}
@@ -27,26 +30,35 @@
                ng-click="reqList.showDgDeleteRequests($event)">
         {{'YANGMAN_REQS_DELETE'| translate}}
     </md-button>
-
+    <md-button ng-hide="reqList.mainList.selectedRequests.length || !reqList.mainList.list.length"
+               ng-click="reqList.clearHistoryList()">
+        {{'YANGMAN_CLEAR_HISTORY' | translate}}
+    </md-button>
     <md-divider ng-show="reqList.mainList.selectedRequests.length"></md-divider>
+    <!-- /buttons for saving, deleting, clearing -->
 
+    <!-- list of items grouped by date -->
     <md-content class="scrollableY">
-        <md-list-item ng-repeat="(groupName, requests) in reqList.mainList.listGroupedByDate"
+        <md-list-item ng-repeat="group in reqList.mainList.dateGroups | orderBy: 'name': true"
                       class="yangmanModule__requests-list__group"
-                      ng-if="(requests|filter:reqList.filterReq).length">
+                      ng-if="(group.requests | filter:reqList.filterReq).length">
 
             <div layout="column" flex>
 
+                <!-- date group header -->
                 <md-subheader class="md-no-sticky">
-                    {{groupName | date : 'short'}}
+                    {{group.longName}}
                 </md-subheader>
+                <!-- /date group header -->
 
+                <!-- list of requests in current group -->
                 <md-list>
-                    <div ng-repeat="request in requests | filter: reqList.filterReq"
+                    <div ng-repeat="request in group.requests | filter: reqList.filterReq track by $index | orderBy: 'timestamp'"
                          layout="row"
                          ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
                     </div>
                 </md-list>
+                <!-- /list of requests in current group -->
 
             </div>
 
@@ -54,4 +66,6 @@
 
         </md-list-item>
     </md-content>
+    <!-- /list of items grouped by date -->
+
 </md-list>
