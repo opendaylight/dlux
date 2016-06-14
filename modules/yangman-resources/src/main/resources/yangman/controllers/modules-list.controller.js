@@ -75,7 +75,7 @@ define([
          */
         function setDataStore(dataStore, module){
             $scope.setModule(module);
-            $scope.setDataStore(dataStore, true);
+            $scope.setDataStore(dataStore, true, 1);
         }
 
         /**

@@ -32,10 +32,9 @@
   "YANGMAN_OK": "OK",
   "YANGMAN_REQ_DELETE": "Delete request",
   "YANGMAN_REQ_DUPLICATE": "Duplicate request",
-  "YANGMAN_REQ_FILL_FORM": "Fill form",
+  "YANGMAN_REQ_SHOW_FORM": "Show form",
   "YANGMAN_REQ_RUN": "Run request",
-  "YANGMAN_REQ_SHOW_RCVD_DATA": "Show received data",
-  "YANGMAN_REQ_SHOW_SENT_DATA": "Show sent data",
+  "YANGMAN_REQ_SHOW_JSON_DATA": "Show json data",
   "YANGMAN_REQ_URL": "Request URL",
   "YANGMAN_REQS_DELETE": "Delete selected",
   "YANGMAN_REQS_DUPLICATE": "Duplicating request",
@@ -63,6 +62,8 @@
   "YANGMAN_PARAMS_VALUE": "value",
   "YANGMAN_PARAM_KEY_REQUIRED": "Required value",
   "YANGMAN_PARAM_EXISTING_KEY": "Duplicate value",
-  "YANGMAN_SORTING": "Sorting"
+  "YANGMAN_SORTING": "Sorting",
+  "YANGMAN_CLEAR_HISTORY": "Clear history"
+
 
 }

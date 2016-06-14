@@ -3,11 +3,11 @@
               ng-class="{selected: request.selected}"
               layout="row"
               flex="100"
-              ng-click="reqList.selectRequest($event, request)">
+              ng-click="reqList.selectRequest($event, request); reqList.showData(request);">
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
-        <p class="{{request.method}}"> {{request.method}} </p>
-        <md-tooltip md-direction="right">{{request}}</md-tooltip>
+        <p class="{{request.status === 'success' ? request.method : 'error'}}"> {{request.method === 'DELETE' ? 'DEL' : request.method }} </p>
+        <md-tooltip md-direction="bottom">{{request.status | uppercase }}</md-tooltip>
     </div>
 
     <div flex class="yangmanModule__requests-list__group__item__path" layout="column">
@@ -26,31 +26,22 @@
     </md-button>
     <md-menu-content class="reqMenu">
         <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" class=" " ng-click="" ng-disabled="true">
+            <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" class="" ng-click="reqList.executeRequest(request)">
                 <i class="material-icons">play_arrow</i>
                 {{'YANGMAN_REQ_RUN'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_FILL_FORM'| translate}}" ng-disabled="true">
+            <md-button aria-label="{{'YANGMAN_REQ_SHOW_FORM'| translate}}" ng-click="reqList.showForm(request)">
                 <i class="material-icons">exit_to_app</i>
-                {{'YANGMAN_REQ_FILL_FORM'| translate}}
+                {{'YANGMAN_REQ_SHOW_FORM'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item>
             <md-button aria-label="{{'YANGMAN_REQ_SHOW_SENT_DATA'| translate}}"
-                       ng-click="reqList.showData(request, 'sentData')"
-                       ng-disabled="request.sentData===null">
+                       ng-click="reqList.showData(request)">
                 <i class="material-icons">call_made</i>
-                {{'YANGMAN_REQ_SHOW_SENT_DATA'| translate}}
-            </md-button>
-        </md-menu-item>
-        <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_SHOW_RCVD_DATA'| translate}}"
-                       ng-click="reqList.showData(request, 'receivedData')"
-                       ng-disabled="request.receivedData===null">
-                <i class="material-icons">call_received</i>
-                {{'YANGMAN_REQ_SHOW_RCVD_DATA'| translate}}
+                {{'YANGMAN_REQ_SHOW_JSON_DATA'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item ng-if="request.collection.length">

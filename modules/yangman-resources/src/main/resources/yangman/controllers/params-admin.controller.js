@@ -38,7 +38,7 @@ define([
         }
 
         /**
-         * Sort parameters, so that empty params will be always the last
+         * Sort parameters with empty params at the end of list
          * @param item
          * @returns {*}
          */
