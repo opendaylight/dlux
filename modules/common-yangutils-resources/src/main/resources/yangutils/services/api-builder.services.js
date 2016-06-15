@@ -11,7 +11,7 @@ define([], function () {
                 processSingleRootNode: processSingleRootNode,
             },
             storageOperations = {
-                config: ['GET', 'PUT', 'POST', 'DELETE'],
+                config: ['GET', 'PUT', 'DELETE'],
                 operational: ['GET'],
                 operations: ['POST'],
             },
