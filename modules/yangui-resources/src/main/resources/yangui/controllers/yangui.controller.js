@@ -437,17 +437,20 @@ define(
             reqString = reqPath ? reqPath.slice($scope.selApi.basePath.length, reqPath.length) : reqString;
             var requestPath = $scope.selApi.basePath + reqString;
 
-            $scope.node.buildRequest(RequestBuilderService, requestData, $scope.node.module);
-            angular.copy(requestData, preparedRequestData);
-
-            preparedRequestData = YangUtilsService.prepareRequestData(
-                preparedRequestData,
-                operation,
-                reqString,
-                $scope.selSubApi
-            );
-
             operation = YangUtilsService.prepareOperation(operation);
+
+            if (operation !== 'REMOVE'){
+                $scope.node.buildRequest(RequestBuilderService, requestData, $scope.node.module);
+                angular.copy(requestData, preparedRequestData);
+
+                preparedRequestData = YangUtilsService.prepareRequestData(
+                    preparedRequestData,
+                    operation,
+                    reqString,
+                    $scope.selSubApi
+                );
+            }
+
             headers = YangUtilsService.prepareHeaders(preparedRequestData);
 
             requestWorkingCallback();
@@ -503,8 +506,8 @@ define(
 
                     if (resp.data && resp.data.errors && resp.data.errors.error && resp.data.errors.error.length) {
                         errorMsg = ': ' + resp.data.errors.error.map(function (e) {
-                            return e['error-message'];
-                        }).join(', ');
+                                return e['error-message'];
+                            }).join(', ');
                     }
 
                     requestErrorCallback(errorMsg, resp);
