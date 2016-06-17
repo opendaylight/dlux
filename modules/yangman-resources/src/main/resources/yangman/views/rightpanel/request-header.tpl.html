@@ -6,7 +6,9 @@
                        md-on-close="requestHeader.setJsonView()"
                        placeholder="{{'YANGMAN_SEL_METHOD' | translate}}">
 
-                <md-option ng-value="operation" ng-repeat="operation in requestHeader.selectedOperationsList">{{ operation }}</md-option>
+                <md-option ng-value="operation" ng-repeat="operation in requestHeader.selectedOperationsList">
+                    {{ operation }}
+                </md-option>
             </md-select>
         </md-input-container>
 
@@ -25,7 +27,8 @@
 
                 <md-input-container flex="nogrow" md-no-float class="input-span nrp" >
                     <span class="md-input" disabled>
-                        {{(pathElem.moduleChanged ? '/' + pathElem.module + ':' : '/') + pathElem.name}}{{pathElem.hasIdentifier() ? '/' : ''}}
+                        {{(pathElem.moduleChanged ? '/' + pathElem.module + ':' : '/') + pathElem.name}}
+                        {{pathElem.hasIdentifier() ? '/' : ''}}
                     </span>
                 </md-input-container>
 
@@ -52,9 +55,39 @@
 
         <!-- Action buttons -->
         <md-input-container flex="nogrow" layout="row" layout-align="start start" class="action-buttons">
+            <!-- Execute action button -->
             <md-button class="md-raised md-primary" ng-click="requestHeader.prepareDataAndExecute()">{{'YANGMAN_SEND' | translate}}</md-button>
+
+            <!-- Save request -->
             <md-button class="md-raised md-warn" ng-click="requestHeader.saveRequestToCollection($event)">{{'YANGMAN_SAVE' | translate}}</md-button>
+
+            <!-- Parameters button -->
             <md-button class="md-raised" ng-click="requestHeader.showParamsAdmin($event)">{{'YANGMAN_PARAMETERS' | translate}}</md-button>
+
+            <!-- sub api custom functionality menu -->
+            <md-menu ng-show="selectedSubApi.custFunct.length || requestHeader.selectedPluginsButtons.length">
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                    <md-icon md-font-set="material-icons">more_vert</md-icon>
+                    <md-tooltip md-direction="top">{{ 'YANGMAN_PLUGINS_MENU' | translate}}</md-tooltip>
+                </md-button>
+
+                <md-menu-content>
+                    <!-- plugins buttons -->
+                    <md-menu-item ng-repeat="pluginFunctionality in selectedSubApi.custFunct"
+                                  ng-hide="requestHeader.selectedPlugin">
+                        <md-button ng-click="requestHeader.executePluginFunctionality(pluginFunctionality)">
+                            {{ pluginFunctionality.label | translate }}
+                        </md-button>
+                    </md-menu-item>
+
+                    <!-- plugin own buttons -->
+                    <md-menu-item ng-repeat="button in requestHeader.selectedPluginsButtons" ng-show="button.show()">
+                        <md-button ng-click="button.onclick()">
+                            {{ button.label | translate }}
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
         </md-input-container>
     </section>
 
@@ -86,7 +119,9 @@
             <!-- Status -->
             <span flex="30">
                 {{'YANGMAN_STATUS' | translate}}:
-                <span ng-if="requestHeader.statusObj">{{requestHeader.statusObj.status}} {{requestHeader.statusObj.statusText}}</span>
+                <span ng-if="requestHeader.statusObj">
+                    {{requestHeader.statusObj.status}} {{requestHeader.statusObj.statusText}}
+                </span>
             </span>
 
             <!-- Request time -->

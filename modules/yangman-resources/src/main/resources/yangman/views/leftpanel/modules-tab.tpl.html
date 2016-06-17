@@ -7,10 +7,18 @@
         </div>
     </div>
 
+    <!-- Mount point title -->
+    <section ng-show="modulesList.moduleListTitle.length">
+        <h4>{{ modulesList.moduleListTitle }}</h4>
+        <!-- Line -->
+        <md-divider></md-divider>
+    </section>
+
     <!-- Modules list -->
     <md-list-item ng-repeat="module in modulesList.treeApis"
                   class="yangmanModule__modules-list__item"
                   ng-class="{'expanded' : module.expanded}"
+                  ng-hide="modulesList.showLoadingBox"
                   ng-click="modulesList.setModule(module, $event)">
         <!-- Item content -->
         <div layout="column" flex>
