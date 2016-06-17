@@ -20,6 +20,7 @@ define([], function () {
         $scope.applyFilter = applyFilter;
         $scope.clearFilterData = clearFilterData;
         $scope.createNewFilter = createNewFilter;
+        $scope.existsActiveFilter = existsActiveFilter;
         $scope.getFilterData = getFilterData;
         $scope.getListName = getListName;
         $scope.removeListElem = removeListElem;
@@ -127,6 +128,12 @@ define([], function () {
             ListFilteringService.createNewFilter($scope.node);
         }
 
+        function existsActiveFilter() {
+            return $scope.node.filters.some(function(filter) {
+                return filter.active == 1;
+            });
+        }
+
         function applyFilter() {
             ListFilteringService.applyFilter($scope.node);
             $scope.showListFilter = !$scope.showListFilter;
@@ -140,7 +147,10 @@ define([], function () {
                     $scope.node.listData,
                     $scope.node.refKey
                 );
-                $scope.setStatusMessage('danger', 'YANGUI_FILTER_MATCH_ERROR', e.message);
+
+                if($scope.existsActiveFilter()) {
+                    $scope.setStatusMessage('danger', 'YANGUI_FILTER_MATCH_ERROR', e.message);
+                }
             }
         }
 
