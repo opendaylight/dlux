@@ -37,16 +37,14 @@
                     <!-- /search icon, form, clear button -->
 
                     <!-- sorting menu -->
-                    <md-menu class="paramsAdminDialog__searchBox__sortMenu"
-                             md-offset="35 15"
-                             layout-align="center start">
+                    <md-menu md-offset="35 15" layout-align="center start">
                         <md-button aria-label="{{'YANGMAN_SORT'| translate}}" class="" ng-click="$mdOpenMenu()">
                             <i class="material-icons">sort</i>
                             <md-tooltip md-direction="bottom">
                                 {{'YANGMAN_SORTING' | translate}}
                             </md-tooltip>
                         </md-button>
-                        <md-menu-content class="reqMenu">
+                        <md-menu-content>
                             <!-- sort by key -->
                             <md-menu-item>
                                 <md-button aria-label="{{'YANGMAN_PARAMS_KEY'| translate}}"
@@ -72,6 +70,32 @@
                         </md-menu-content>
                     </md-menu>
                     <!-- /sorting menu -->
+
+                    <!-- menu for import and export parameters -->
+                    <input type="file" accept=".json" id="importParameters" on-read-file="paramsAdmin.importParameters($fileContent)">
+                    <md-menu md-offset="35 15" layout-align="center start">
+                        <md-button aria-label="{{ 'YANGMAN_PARAMS_IMPORT_EXPORT' | translate }}" ng-click="$mdOpenMenu()">
+                            <i class="material-icons">import_export</i>
+                            <md-tooltip md-direction="bottom">
+                                {{ 'YANGMAN_PARAMS_IMPORT_EXPORT' | translate }}
+                            </md-tooltip>
+                        </md-button>
+                        <md-menu-content>
+                            <md-menu-item>
+                                <md-button>
+                                    <label for="importParameters">
+                                        {{'YANGMAN_IMPORT_PARAMS'| translate}}
+                                    </label>
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button aria-label="{{'YANGMAN_EXPORT_PARAMETERS' | translate}}" ng-click="paramsAdmin.exportParameters()">
+                                    {{'YANGMAN_EXPORT_PARAMETERS' | translate}}
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <!-- /menu for import and export parameters -->
 
                 </div>
 

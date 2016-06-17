@@ -22,6 +22,34 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.setName = setName;
         self.addEmptyItem = addEmptyItem;
         self.getKeysInArr = getKeysInArr;
+        self.toJSON = toJSON;
+        self.createParamsFromJson = createParamsFromJson;
+
+
+        /**
+         * Using when importing data from json file
+         * @param data
+         */
+        function createParamsFromJson(data){
+            if (data){
+                self.clear();
+                ParsingJsonService.parseJson(data).map(function (elem) {
+                    return ParametersService.createParameter(elem);
+                }).forEach(function (elem) {
+                    self.addRequestToList(elem);
+                });
+            }
+        }
+
+        /**
+         * Get all parameters in json for exporting
+         * @returns {Array}
+         */
+        function toJSON() {
+            return self.list.map(function (param){
+                return param.toJSON();
+            });
+        }
 
         /**
          * Get list of params keys in array
@@ -87,8 +115,6 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
 
         function clear() {
             self.list = [];
-            self.listGroupedByDate = {};
-            self.selectedParameters = [];
         }
 
         /**
