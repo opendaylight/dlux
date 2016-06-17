@@ -67,6 +67,9 @@
   "YANGMAN_CUST_MOUNT_POINTS": "Display mount points",
   "YANGMAN_CANCEL_MP": "Back from mountpoint",
   "YANGMAN_PLUGINS_MENU": "Plugins menu",
+  "YANGMAN_PARAMS_IMPORT_EXPORT": "Import and export parameters",
+  "YANGMAN_IMPORT_PARAMS": "Import all parameters",
+  "YANGMAN_EXPORT_PARAMETERS": "Export all parameters",
   "YANGMAN_NO_MOUNT_POINT": "No mount points to display",
   "YANGMAN_MOUNT_POINT": "Mount point"
 }

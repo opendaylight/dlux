@@ -5,9 +5,9 @@ define([
 
     angular.module('app.yangman').controller('ParamsAdminCtrl', ParamsAdminCtrl);
 
-    ParamsAdminCtrl.$inject = ['$mdDialog', 'parametersList'];
+    ParamsAdminCtrl.$inject = ['$mdDialog', 'YangmanService', 'HandleFileService', 'parametersList'];
 
-    function ParamsAdminCtrl($mdDialog, parametersList) {
+    function ParamsAdminCtrl($mdDialog, YangmanService, HandleFileService, parametersList) {
         var vm = this;
 
         vm.parametersList = parametersList;
@@ -23,9 +23,51 @@ define([
         vm.filterParam = filterParam;
         vm.sortBy = sortBy;
         vm.sortFunc = sortFunc;
+        vm.exportParameters = exportParameters;
+        vm.importParameters = importParameters;
 
 
         init();
+
+        /**
+         * Importing all parameters from json
+         * @param fileContent
+         */
+        function importParameters(fileContent) {
+            if (fileContent && YangmanService.validateFile(fileContent, ['key', 'value'])){
+                try {
+                    vm.parametersList.createParamsFromJson(fileContent);
+                    vm.parametersList.saveToStorage();
+                    angular.element(document).find('#importParameters').val('');
+                    createEmptyParam();
+                }
+                catch (e) {
+                    angular.element(document).find('#importParameters').val('');
+                    console.error('DataStorage error:', e);
+                }
+            }
+            else {
+                angular.element(document).find('#importParameters').val('');
+            }
+
+        }
+
+        /**
+         * Export all parameters to json file
+         */
+        function exportParameters() {
+
+            HandleFileService.downloadFile(
+                'yangman_parameters.json',
+                JSON.stringify(vm.parametersList.toJSON()),
+                'json',
+                'charset=utf-8',
+                function (){},
+                function (e){
+                    console.error('Export parameters error:', e);
+                }
+            );
+        }
 
         /**
          * Set attribute to use when sorting

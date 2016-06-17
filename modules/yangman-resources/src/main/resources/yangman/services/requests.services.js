@@ -19,7 +19,6 @@ define([
         service.createHistoryRequestFromElement = createHistoryRequestFromElement;
         service.createHistoryRequest = createHistoryRequest;
         service.scanDataParams = scanDataParams;
-        service.validateFile = validateFile;
         service.replaceStringInText = replaceStringInText;
 
         /**
@@ -112,25 +111,7 @@ define([
         }
 
 
-        /**
-         * Validating collection import file
-         * @param data
-         * @param checkArray
-         * @returns {*}
-         */
-        function validateFile(data, checkArray){
-            try {
-                var obj = ParsingJsonService.parseJson(data);
 
-                return obj && obj.every(function (el){
-                    return checkArray.every(function (arr){
-                        return el.hasOwnProperty(arr);
-                    });
-                });
-            } catch (e) {
-                return e;
-            }
-        }
 
         /**
          * Service for creating basic history object

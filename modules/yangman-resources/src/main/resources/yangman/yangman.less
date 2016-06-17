@@ -120,6 +120,12 @@ md-ink-bar.custom{
     background: @colorActive;
 }
 
+button{
+    label{
+        font-weight: normal;
+    }
+}
+
 // yangman
 .yangmanModule{
     background-color: @appBackColor;
@@ -915,6 +921,16 @@ md-dialog{
         > button{
             margin-top: 13px!important;
             margin-right: 0px!important;
+        }
+
+        #importParameters{
+            display: none;
+        }
+
+        label{
+            md-icon{
+                color: @fontColor;
+            }
         }
 
         md-menu{
