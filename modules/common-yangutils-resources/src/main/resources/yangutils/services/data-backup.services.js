@@ -16,26 +16,33 @@ define([], function () {
             return key || 'DEFAULT';
         }
 
-        // TODO: add service's description
+        /**
+         * Method for storing values from scope
+         * @param variables
+         * @param scope
+         * @param key
+         */
         function storeFromScope(variables, scope, key) {
             var data = {};
             key = getKey(key);
 
             variables.forEach(function (k) {
-                if (scope.hasOwnProperty(k)) {
-                    data[k] = scope[k];
-                } else {
-                    console.warn('scope doesn\'t have variable', k);
-                }
+                data[k] = scope[k];
             });
             service.storedData[key] = data;
         }
 
-        // TODO: add service's description
+        /**
+         * Method for putting stored values to scope
+         * @param variables
+         * @param scope
+         * @param key
+         */
         function getToScope(variables, scope, key) {
             var data = {};
 
             key = getKey(key);
+
             if (service.storedData.hasOwnProperty(key)) {
                 data = service.storedData[key];
 

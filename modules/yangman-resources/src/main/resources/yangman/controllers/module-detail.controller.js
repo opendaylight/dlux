@@ -17,6 +17,11 @@ define([
         moduleDetail.setApiNode = setApiNode;
         moduleDetail.setDataDetailStore = setDataDetailStore;
 
+        // WATCHERS
+        $scope.$on('YANGMAN_MODULE_D_INIT', function (){
+            init();
+        });
+
         /**
          * Initialization
          */
@@ -41,20 +46,6 @@ define([
                 $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex]);
                 $scope.setNode($scope.selectedSubApi.node);
 
-
-                // $scope.selApi = $scope.apis[indexApi];
-                // $scope.selSubApi = $scope.selApi.subApis[indexSubApi];
-
-                // $scope.apiType = $scope.selSubApi.pathArray[0].name === 'operational' ? 'operational/':'';
-                // $scope.node = $scope.selSubApi.node;
-                // $scope.filterRootNode = $scope.selSubApi.node;
-                // $scope.node.clear();
-
-                // if($scope.selSubApi && $scope.selSubApi.operations) {
-                //    $scope.selectedOperation = $scope.selSubApi.operations[0];
-                // }
-                // $scope.$broadcast('EV_REFRESH_LIST_INDEX');
-                // DesignUtilsService.triggerWindowResize(100);
             } else {
                 // $scope.selApi = null;
                 // $scope.selSubApi = null;
@@ -72,11 +63,6 @@ define([
             $scope.setNode(null);
             moduleDetail.treeApis = dataStore.children;
         }
-
-        // WATCHERS
-        $scope.$on('YANGMAN_MODULE_D_INIT', function (){
-            init();
-        });
     }
 
 });
