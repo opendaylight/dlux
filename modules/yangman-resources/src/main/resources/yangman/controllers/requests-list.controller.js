@@ -95,13 +95,12 @@ define([
                     'receivedData',
                     'path',
                     'collection',
-                    'parametrizedPath',
                     'method',
                     'status',
                     'name',
                 ];
 
-            if (data && RequestsService.validateFile(data, checkArray)){
+            if (data && YangmanService.validateFile(data, checkArray)){
                 try {
                     vm.collectionList.loadListFromFile(data);
                     vm.collectionList.saveToStorage();

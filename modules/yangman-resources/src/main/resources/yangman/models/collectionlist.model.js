@@ -204,7 +204,7 @@ define(
                 if (data){
                     ParsingJsonService.parseJson(data).map(function (elem) {
                         return RequestsService.createHistoryRequest(elem.sentData, elem.receivedData, elem.path,
-                            elem.parametrizedPath, elem.method, elem.status, elem.name, elem.collection);
+                            elem.method, elem.status, elem.name, elem.collection);
                     }).forEach(function (elem) {
                         self.addRequestToList(elem);
                     });

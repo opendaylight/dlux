@@ -63,7 +63,9 @@
   "YANGMAN_PARAM_KEY_REQUIRED": "Required value",
   "YANGMAN_PARAM_EXISTING_KEY": "Duplicate value",
   "YANGMAN_SORTING": "Sorting",
-  "YANGMAN_CLEAR_HISTORY": "Clear history"
-
+  "YANGMAN_CLEAR_HISTORY": "Clear history",
+  "YANGMAN_PARAMS_IMPORT_EXPORT": "Import and export parameters",
+  "YANGMAN_IMPORT_PARAMS": "Import all parameters",
+  "YANGMAN_EXPORT_PARAMETERS": "Export all parameters"
 
 }
