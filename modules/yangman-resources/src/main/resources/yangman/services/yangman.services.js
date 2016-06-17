@@ -8,7 +8,9 @@ define([], function () {
         'YangUtilsService',
         'YangUtilsRestangularService',
         'ENV',
+        'ParsingJsonService',
         'RequestsService',
+
     ];
 
     function YangmanService(
@@ -16,6 +18,7 @@ define([], function () {
         YangUtilsService,
         YangUtilsRestangularService,
         ENV,
+        ParsingJsonService,
         RequestsService
     ){
         var service = {
@@ -23,9 +26,30 @@ define([], function () {
             fillNodeFromResponse: fillNodeFromResponse,
             getDataStoreIndex: getDataStoreIndex,
             prepareAllRequestData: prepareAllRequestData,
+            validateFile: validateFile,
         };
 
         return service;
+
+        /**
+         * Validating collection import file
+         * @param data
+         * @param checkArray
+         * @returns {*}
+         */
+        function validateFile(data, checkArray){
+            try {
+                var obj = ParsingJsonService.parseJson(data);
+
+                return obj && obj.every(function (el){
+                    return checkArray.every(function (arr){
+                        return el.hasOwnProperty(arr);
+                    });
+                });
+            } catch (e) {
+                return e;
+            }
+        }
 
         /**
          * Return index of selected datastore in list
