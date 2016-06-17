@@ -11,6 +11,7 @@ define([
     'app/yangman/services/yangman-design.services',
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',
+    'app/yangman/services/plugins-unsetter.services',
     'app/yangui/directives/ui-codemirror.directive',
 ], function (yangman) {
     'use strict';
@@ -19,12 +20,12 @@ define([
 
     YangmanCtrl.$inject = [
         '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
-        'EventDispatcherService', 'constants', 'PathUtilsService',
+        'EventDispatcherService', 'constants', 'PathUtilsService', 'PluginsUnsetterService',
     ];
 
     function YangmanCtrl(
         $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
-        EventDispatcherService, constants, PathUtilsService
+        EventDispatcherService, constants, PathUtilsService, PluginsUnsetterService
     ) {
         var main = this;
 
@@ -65,12 +66,14 @@ define([
         $scope.setGlobalParams = setGlobalParams;
         $scope.setHistoryReqsSelected = setHistoryReqsSelected;
         $scope.setJsonView = setJsonView;
+        $scope.setLeftPanel = setLeftPanel;
         $scope.setModule = setModule;
         $scope.setNode = setNode;
         $scope.setRequestToShow = setRequestToShow;
         $scope.setRightPanelSection = setRightPanelSection;
         $scope.switchSection = switchSection;
         $scope.setParametersList = setParametersList;
+        $scope.unsetPlugin = unsetPlugin;
 
         init();
 
@@ -154,6 +157,10 @@ define([
             main.leftPanelTab = (main.leftPanelTab + 1) % 2;
         }
 
+        /**
+         * Switcher for module detail and module list
+         * @param value
+         */
         function setLeftPanel(value) {
             if ( !angular.isUndefined(value) ) {
                 main.leftPanelTab = value;
@@ -279,6 +286,15 @@ define([
         function setJsonView(received, sent){
             main.jsonView.received = received;
             main.jsonView.sent = sent;
+        }
+
+        /**
+         * Global method for unset plugin
+         * @param selectedPlugin
+         * @param controller
+         */
+        function unsetPlugin(controller){
+            PluginsUnsetterService.unset($scope, controller);
         }
 
     }

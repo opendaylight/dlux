@@ -63,7 +63,10 @@
   "YANGMAN_PARAM_KEY_REQUIRED": "Required value",
   "YANGMAN_PARAM_EXISTING_KEY": "Duplicate value",
   "YANGMAN_SORTING": "Sorting",
-  "YANGMAN_CLEAR_HISTORY": "Clear history"
-
-
+  "YANGMAN_CLEAR_HISTORY": "Clear history",
+  "YANGMAN_CUST_MOUNT_POINTS": "Display mount points",
+  "YANGMAN_CANCEL_MP": "Back from mountpoint",
+  "YANGMAN_PLUGINS_MENU": "Plugins menu",
+  "YANGMAN_NO_MOUNT_POINT": "No mount points to display",
+  "YANGMAN_MOUNT_POINT": "Mount point"
 }

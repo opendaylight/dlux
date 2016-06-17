@@ -1,18 +1,20 @@
 define([
     'app/yangman/yangman.module',
+    'app/yangman/services/plugins-handler.services',
 ], function (yangman) {
     'use strict';
 
     yangman.register.controller('ModulesListCtrl', ModulesListCtrl);
 
-    ModulesListCtrl.$inject = ['$scope', '$rootScope', '$mdToast', 'YangUtilsService', 'PluginHandlerService',
+    ModulesListCtrl.$inject = ['$scope', '$rootScope', '$mdToast', 'YangUtilsService', 'PluginsHandlerService',
                                 '$filter'];
 
-    function ModulesListCtrl($scope, $rootScope, $mdToast, YangUtilsService, PluginHandlerService, $filter) {
+    function ModulesListCtrl($scope, $rootScope, $mdToast, YangUtilsService, PluginsHandlerService, $filter) {
         var modulesList = this;
 
         modulesList.treeApis = [];
         modulesList.showLoadingBox = true;
+        modulesList.moduleListTitle = '';
 
         // methods
         modulesList.setDataStore = setDataStore;
@@ -21,6 +23,28 @@ define([
         // watchers
         $scope.$on('YANGMAN_GET_API_TREE_DATA', function (event, args) {
             (args.cbk || angular.noop)(modulesList.treeApis);
+        });
+
+        // set tree apis data
+        $scope.$on('YANGMAN_SET_API_TREE_DATA', function (event, args) {
+            modulesList.treeApis = args.params;
+            modulesList.showLoadingBox = false;
+            showToastInfoBox('YANGMAN_LOADED_MODULES');
+        });
+
+        // show hide loading box
+        $scope.$on('YANGMAN_SET_LOADING_BOX', function (event, args){
+            modulesList.showLoadingBox = args.params;
+            (args.cbk || angular.noop)();
+        });
+
+        // show info box with custom title
+        $scope.$on('YANGMAN_SHOW_TOAST', function (event, args) {
+            showToastInfoBox(args.params);
+        });
+
+        $scope.$on('YANGMAN_SET_MODULE_LIST_TITLE', function (event, args) {
+            modulesList.moduleListTitle = args.params;
         });
 
         /**
@@ -51,7 +75,7 @@ define([
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');
 
-                PluginHandlerService.plugAll(apis, modulesList);
+                PluginsHandlerService.plugAll(apis, modulesList);
                 // $scope.$broadcast('LOAD_REQ_DATA');
             }, function () {
                 showToastInfoBox('YANGMAN_LOADED_MODULES_ERROR');

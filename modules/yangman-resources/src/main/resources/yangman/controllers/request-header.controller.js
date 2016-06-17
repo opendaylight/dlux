@@ -8,29 +8,33 @@ define([
 
     RequestHeaderCtrl.$inject = [
         '$mdDialog', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService', 'PathUtilsService',
-        'RequestsService', '$filter',
+        'RequestsService', '$filter', 'DataBackupService',
     ];
 
     function RequestHeaderCtrl($mdDialog, $scope, $rootScope, ENV, YangmanService, ParametersService, PathUtilsService,
-                               RequestService, $filter) {
+                               RequestService, $filter, DataBackupService) {
         var requestHeader = this;
 
         requestHeader.allOperations = ['GET', 'POST', 'PUT', 'DELETE'];
         requestHeader.selectedOperationsList = [];
         requestHeader.selectedOperation = null;
         requestHeader.requestUrl = '';
+        requestHeader.selectedPluginsButtons = [];
+        requestHeader.selectedPlugin = null;
         requestHeader.statusObj = null;
 
         // methods
         requestHeader.executeOperation = executeOperation;
+        requestHeader.executePluginFunctionality = executePluginFunctionality;
         requestHeader.fillNodeData = fillNodeData;
         requestHeader.changeDataType = changeDataType;
         requestHeader.prepareDataAndExecute = prepareDataAndExecute;
+        requestHeader.initMountPoint = initMountPoint;
         requestHeader.setJsonView = setJsonView;
         requestHeader.setRequestUrl = setRequestUrl;
         requestHeader.showParamsAdmin = showParamsAdmin;
         requestHeader.saveRequestToCollection = saveRequestToCollection;
-
+        requestHeader.unsetPluginFunctionality = unsetPluginFunctionality;
 
         // watchers
         /**
@@ -359,6 +363,60 @@ define([
                     executeOperation({});
                 }
             }
+        }
+
+        /**
+         * Mount point initialization
+         * @param mountPointStructure
+         * @param mountPointTreeApis
+         * @param mountPointApis
+         * @param augmentations
+         */
+        function initMountPoint(mountPointTreeApis, mountPointApis, augmentations, reqObj){
+            DataBackupService.storeFromScope(
+                [
+                    'selectedDatastore', 'node', 'apis',
+                    'selectedApi', 'selectedSubApi', 'augmentations', 'selectedModule',
+                ],
+                $scope,
+                'MAIN_SCOPE'
+            );
+
+            $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
+                DataBackupService.storeFromScope(
+                    ['treeApis'],
+                    { treeApis: treeApis },
+                    'MODULES_LIST'
+                );
+            });
+
+            $scope.setNode(null);
+            $scope.setModule(null);
+            $scope.setGlobalParams(mountPointApis, augmentations);
+            $scope.selectedDatastore = null;
+            requestHeader.statusObj = reqObj;
+            $scope.rootBroadcast('YANGMAN_SET_API_TREE_DATA', mountPointTreeApis);
+        }
+
+        /**
+         * Executing custom plugin callback
+         * @param customPlugin
+         */
+        function executePluginFunctionality(customPlugin){
+            requestHeader.selectedPlugin = customPlugin;
+            customPlugin.runCallback({ scope: $scope, controller: requestHeader });
+        }
+
+        /**
+         * Unset custom plugin functionality - get back major params from scope
+         */
+        function unsetPluginFunctionality(){
+            if ( requestHeader.selectedPlugin ) {
+                $scope.unsetPlugin(requestHeader);
+            }
+
+            requestHeader.selectedPlugin = null;
+            requestHeader.selectedPluginsButtons = [];
         }
 
     }

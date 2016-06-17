@@ -5,10 +5,10 @@ define(
         'app/yangman/models/collectionlist.model',
         'app/yangman/models/history-request.model',
     ],
-    function (yangui, HistoryListModel, CollectionListModel, HistoryRequestModel) {
+    function (yangman, HistoryListModel, CollectionListModel, HistoryRequestModel) {
         'use strict';
 
-        yangui.register.service('RequestsService', RequestsService);
+        yangman.register.service('RequestsService', RequestsService);
 
         RequestsService.$inject = ['PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService'];
 

@@ -30,12 +30,8 @@ define([], function () {
                 this.callback = callback;
             };
 
-            this.runCallback = function (args) {
-                if (this.callback) {
-                    this.callback(args);
-                } else {
-                    console.warn('no callback set for custom functionality', this.label);
-                }
+            this.runCallback = function (args){
+                (this.callback || angular.noop)(args);
             };
         }
 
