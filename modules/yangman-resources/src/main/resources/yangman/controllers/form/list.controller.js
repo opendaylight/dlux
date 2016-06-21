@@ -20,20 +20,41 @@ define(['app/yangman/yangman.module'], function (yangman) {
         $scope.clearFilterData = clearFilterData;
         $scope.createNewFilter = createNewFilter;
         $scope.getFilterData = getFilterData;
+        $scope.showListFilterWin = showListFilterWin;
+        $scope.showModalWin = showModalWin;
+        $scope.switchFilter = switchFilter;
+
+        yangList.addListElem = addListElem;
         yangList.getListName = getListName;
+        yangList.init = init;
+        yangList.isActionMenu = isActionMenu;
+        yangList.isNodeInfo = isNodeInfo;
         yangList.removeListElem = removeListElem;
         yangList.shiftDisplayNext = shiftDisplayNext;
         yangList.shiftDisplayPrev = shiftDisplayPrev;
-        $scope.showListFilterWin = showListFilterWin;
-        $scope.showModalWin = showModalWin;
         yangList.showNextButton = showNextButton;
         yangList.showPrevButton = showPrevButton;
-        $scope.switchFilter = switchFilter;
         yangList.toggleExpanded = toggleExpanded;
-        yangList.addListElem = addListElem;
-        yangList.isActionMenu = isActionMenu;
-        yangList.isNodeInfo = isNodeInfo;
 
+        // WATCHERS
+        $scope.$on('EV_REFRESH_LIST_INDEX', function () {
+            yangList.currentDisplayIndex = 1;
+        });
+
+        $scope.$on('YANGMAN_DISABLE_ADDING_LIST_ELEMENT', function() {
+            yangList.init();
+        });
+
+        /**
+         * Disable adding more then one element
+         */
+        function init() {
+            yangList.disableAddingListElement = $scope.checkAddingListElement($scope.node);
+
+            if(yangList.disableAddingListElement && !$scope.node.listData.length) {
+                yangList.addListElem();
+            }
+        }
 
         /**
          * Add element into list
@@ -176,11 +197,6 @@ define(['app/yangman/yangman.module'], function (yangman) {
         function isNodeInfo(){
             return $scope.node.augmentationId;
         }
-
-        // WATCHERS
-        $scope.$on('EV_REFRESH_LIST_INDEX', function () {
-            yangList.currentDisplayIndex = 1;
-        });
     }
 });
 

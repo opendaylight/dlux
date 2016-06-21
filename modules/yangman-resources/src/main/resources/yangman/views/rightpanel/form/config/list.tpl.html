@@ -1,6 +1,7 @@
 <div ng-controller="ListCtrl as yangList"
      class="yangmanModule__right-panel__form__element-container"
-     ng-class="{'expanded' : node.expanded}">
+     ng-class="{'expanded' : node.expanded}"
+     ng-init="yangList.init()">
 
     <!-- container title -->
     <div layout="row"
@@ -23,7 +24,7 @@
                         augmentations="augmentations"
                         is-node-info="yangList.isNodeInfo()"
                         add-list-item-func="yangList.addListElem()"
-                        add-list-item="true"
+                        add-list-item="!yangList.disableAddingListElement"
                         yang-form="yangForm"
                         yang-list="yangList"
                         node="node"></yang-form-menu>
