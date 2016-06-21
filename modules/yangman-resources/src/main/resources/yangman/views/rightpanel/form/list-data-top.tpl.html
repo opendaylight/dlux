@@ -28,7 +28,7 @@
     <md-icon md-font-set="material-icons"
              class="pointer"
              ng-click="yangList.removeListElem(yangList.currentDisplayIndex + offset,false)"
-             ng-if="selectedDatastore.label === 'config'">
+             ng-if="selectedDatastore.label === 'config' && !yangList.disableAddingListElement">
         <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
         remove_circle_outline
     </md-icon>

@@ -5,6 +5,11 @@
     </md-button>
 
     <md-menu-content>
+        <h5 class="title">
+            {{ 'YANGMAN_YANG_MENU' | translate }}
+            <md-icon md-font-set="material-icons">reorder</md-icon>
+        </h5>
+        <md-menu-divider></md-menu-divider>
         <!-- node info -->
         <section class="text-left icon-wrapper" ng-show="isNodeInfo()">
             <md-icon md-font-set="material-icons" class="pointer" ng-show="node.isKey()">
