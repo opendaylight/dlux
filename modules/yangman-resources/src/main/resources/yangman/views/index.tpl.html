@@ -1,11 +1,11 @@
 <section class="yangmanModule" id="yangmanModule" layout="row">
 
     <!-- LEFT SIDE -->
-    <md-content layout="column" style="width: 400px; height: 100%;" class="yangmanModule__left-panel">
+    <md-content layout="column" style="width: 400px; height: 100%;" class="yangmanModule__left-panel resizable-e" id="left-panel">
         <!-- module arrow button -->
         <md-icon md-font-set="material-icons "
                  class="arrow-switcher"
-                 ng-click="main.toggleLeftPanel()"
+                 ng-click="main.toggleLeftPanel(); main.initModuleDetailHeight();"
                  ng-class="{'arrow-switcher__left' : main.leftPanelTab === 0}"
                  ng-show="selectedDatastore"> play_arrow </md-icon>
                  <!--ng-show="!main.selectedMainTab && selectedDatastore"> play_arrow </md-icon>-->
@@ -33,7 +33,7 @@
             </md-tab>
 
             <!-- MODULE TREE DETAIL -->
-            <md-tab label="model detail">
+            <md-tab label="model detail" md-on-select="main.initModuleDetailHeight()">
                 <md-content class="yangmanModule__module-detail">
                     <div ng-include src="globalViewPath + 'leftpanel/module-detail.tpl.html'"></div>
                 </md-content>

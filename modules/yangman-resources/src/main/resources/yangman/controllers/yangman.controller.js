@@ -20,12 +20,12 @@ define([
 
     YangmanCtrl.$inject = [
         '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
-        'EventDispatcherService', 'constants', 'PathUtilsService', 'PluginsUnsetterService',
+        'EventDispatcherService', 'constants', 'PathUtilsService', 'PluginsUnsetterService', '$timeout',
     ];
 
     function YangmanCtrl(
         $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
-        EventDispatcherService, constants, PathUtilsService, PluginsUnsetterService
+        EventDispatcherService, constants, PathUtilsService, PluginsUnsetterService, $timeout
     ) {
         var main = this;
 
@@ -54,6 +54,7 @@ define([
 
         // methods
         main.init = init;
+        main.initModuleDetailHeight = initModuleDetailHeight;
         main.switchedTab = switchedTab;
         main.toggleLeftPanel = toggleLeftPanel;
 
@@ -106,10 +107,20 @@ define([
          */
         function init(){
             YangmanDesignService.hideMainMenu();
+            YangmanDesignService.setDraggableLeftPanel();
 
             EventDispatcherService.registerHandler(constants.EV_FILL_PATH, fillPathIdentifiersByKey);
             EventDispatcherService.registerHandler(constants.EV_LIST_CHANGED, fillPathIdentifiersByListData);
 
+        }
+
+        /**
+         * Initialize module detail height, with timeout
+         */
+        function initModuleDetailHeight(){
+            $timeout(function () {
+                YangmanDesignService.setModuleDetailHeight();
+            }, 1500);
         }
 
         /**

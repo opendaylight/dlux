@@ -126,11 +126,21 @@ button{
     }
 }
 
+.ui-resizable-e{
+    cursor: e-resize;
+    height: 100%;
+    width: 7px;
+    top: 0;
+    position: absolute;
+    right: 0;
+}
+
 // yangman
 .yangmanModule{
     background-color: @appBackColor;
     color: @fontColor;
     height: 100%;
+
 
     /*.md-input{
         color: @inputColor;
@@ -223,6 +233,7 @@ button{
         overflow-x: hidden;
         background: @leftPanelBackColor;
         //background: @listBackColor;
+        position: relative;
 
         md-tabs,
         md-tab-content > div,
@@ -660,6 +671,10 @@ button{
 
         > div{
             height: 100%;
+
+            > md-content{
+                overflow-y: hidden;
+            }
         }
     }
 
