@@ -60,6 +60,7 @@ define([
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
         $scope.broadcastFromRoot = broadcastFromRoot;
+        $scope.checkAddingListElement = checkAddingListElement;
         $scope.rootBroadcast = rootBroadcast;
         $scope.setApi = setApi;
         $scope.setDataStore = setDataStore;
@@ -195,6 +196,7 @@ define([
 
             if ( $scope.node ) {
                 $scope.node.clear();
+                $scope.$broadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
             }
             // console.info('INFO :: selected node ', $scope.node);
             // console.info('INFO :: selected datastore', $scope.selectedDatastore);
@@ -297,6 +299,13 @@ define([
             PluginsUnsetterService.unset($scope, controller);
         }
 
+        /**
+         * Checks if the element list should be disabled
+         */
+        function checkAddingListElement(node) {
+            return $scope.node === node && $scope.node.type === 'list' &&
+                $scope.node.refKey && $scope.node.refKey.length;
+        }
     }
 
 });
