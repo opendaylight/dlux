@@ -31,6 +31,12 @@
 
     <md-divider></md-divider>
 
+    <!-- button for clearing -->
+    <md-button  ng-show="reqList.mainList.collections.length"
+                ng-click="reqList.clearCollectionList($event)">
+        {{'YANGMAN_CLEAR_COLLECTIONS' | translate}}
+    </md-button>
+
     <md-content class="scrollableY">
 
         <div ng-repeat="collection in reqList.mainList.collections | filter: reqList.filterCol | orderBy: (reqList.collectionsSortAsc ? '' : '-')+'name'">
