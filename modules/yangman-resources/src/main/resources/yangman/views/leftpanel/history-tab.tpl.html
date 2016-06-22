@@ -21,7 +21,7 @@
     <md-divider></md-divider>
     <!-- /search box-->
 
-    <!-- buttons for saving, deleting, clearing -->
+    <!-- buttons for saving, deleting, clearing, deselecting-->
     <md-button ng-show="reqList.mainList.selectedRequests.length"
                ng-click="reqList.showDgSaveReq($event, main.currentPath)">
         {{'YANGMAN_REQS_SAVE_TO_COL'| translate}}
@@ -34,8 +34,12 @@
                ng-click="reqList.clearHistoryList($event)">
         {{'YANGMAN_CLEAR_HISTORY' | translate}}
     </md-button>
+    <md-button ng-show="reqList.mainList.selectedRequests.length && reqList.mainList.list.length"
+               ng-click="reqList.deselectRequest()">
+        {{'YANGMAN_DESELECT_REQS' | translate}}
+    </md-button>
     <md-divider ng-show="reqList.mainList.selectedRequests.length"></md-divider>
-    <!-- /buttons for saving, deleting, clearing -->
+    <!-- /buttons for saving, deleting, clearing, deselecting -->
 
     <!-- list of items grouped by date -->
     <md-content class="scrollableY">
