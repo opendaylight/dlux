@@ -23,6 +23,7 @@ define([
 
         vm.clearFilter = clearFilter;
         vm.clearHistoryList = clearHistoryList;
+        vm.clearCollectionList = clearCollectionList;
         vm.colMatchingReqsCount = colMatchingReqsCount;
         vm.downloadCollection = downloadCollection;
         vm.executeRequest = executeRequest;
@@ -59,9 +60,37 @@ define([
         /**
          * Clear history requests list and save to storage
          */
-        function clearHistoryList() {
-            vm.requestList.clear();
-            vm.requestList.saveToStorage();
+        function clearHistoryList(ev) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TITLE'))
+                .textContent($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TEXT'))
+                .ariaLabel($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TITLE'))
+                .targetEvent(ev)
+                .ok($filter('translate')('YANGMAN_OK'))
+                .cancel($filter('translate')('YANGMAN_CANCEL'));
+
+            $mdDialog.show(confirm).then(function (){
+                vm.requestList.clear();
+                vm.requestList.saveToStorage();
+            });
+        }
+
+        /**
+         * Clear collections requests list and save to storage
+         */
+        function clearCollectionList(ev) {
+            var confirm = $mdDialog.confirm()
+                .title($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE'))
+                .textContent($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TEXT'))
+                .ariaLabel($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE'))
+                .targetEvent(ev)
+                .ok($filter('translate')('YANGMAN_OK'))
+                .cancel($filter('translate')('YANGMAN_CANCEL'));
+
+            $mdDialog.show(confirm).then(function (){
+                vm.collectionList.clear();
+                vm.collectionList.saveToStorage();
+            });
         }
 
         /**
