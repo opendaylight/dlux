@@ -23,6 +23,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.deleteRequestItem = deleteRequestItem;
         self.groupListByDate = groupListByDate;
         self.toggleReqSelection = toggleReqSelection;
+        self.deselectReq = deselectReq;
 
         /**
          * Mark reqObj as selected
@@ -127,6 +128,16 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
                 return elem.toJSON();
             });
         };
+
+        /**
+         * Mark all history requests as deselected
+         */
+        function deselectReq(){
+            self.selectedRequests.forEach(function (req){
+                req.selected = false;
+            });
+            self.selectedRequests = [];
+        }
     }
 
     HistoryListModel.prototype = Object.create(BaseListModel.prototype);

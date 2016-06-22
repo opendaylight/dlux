@@ -25,6 +25,7 @@ define([
         vm.clearHistoryList = clearHistoryList;
         vm.clearCollectionList = clearCollectionList;
         vm.colMatchingReqsCount = colMatchingReqsCount;
+        vm.deselectRequest = deselectRequest;
         vm.downloadCollection = downloadCollection;
         vm.executeRequest = executeRequest;
         vm.fakeFilter = fakeFilter;
@@ -474,6 +475,13 @@ define([
         function selectRequest(event, requestObj){
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             $scope.setHistoryReqsSelected(vm.requestList.selectedRequests.length > 0);
+        }
+
+        /**
+         * Deselect history requests
+         */
+        function deselectRequest(){
+            vm.mainList.deselectReq();
         }
 
     }
