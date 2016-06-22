@@ -76,5 +76,7 @@
   "YANGMAN_CLEAR_HISTORY_CONFIRM_TEXT": "All history will be cleared.",
   "YANGMAN_CLEAR_COLLECTIONS": "Clear collections",
   "YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE": "Do you want to clear collections?",
-  "YANGMAN_CLEAR_COLLECTION_CONFIRM_TEXT": "All collections will be cleared."
+  "YANGMAN_CLEAR_COLLECTION_CONFIRM_TEXT": "All collections will be cleared.",
+  "YANGMAN_DESELECT_REQS": "Deselect all"
+
 }
