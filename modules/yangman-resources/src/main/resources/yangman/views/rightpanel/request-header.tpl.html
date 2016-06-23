@@ -57,7 +57,7 @@
         <!-- Action buttons -->
         <md-input-container flex="nogrow" layout="row" layout-align="start start" class="action-buttons">
             <!-- Execute action button -->
-            <md-button class="md-raised md-primary" ng-click="requestHeader.prepareDataAndExecute()">{{'YANGMAN_SEND' | translate}}</md-button>
+            <md-button class="md-raised md-primary" ng-click="requestHeader.prepareDataAndExecute(main.modulesTreeDisplayed() ? main.leftPanelShowModule : null)">{{'YANGMAN_SEND' | translate}}</md-button>
 
             <!-- Save request -->
             <md-button class="md-raised md-warn" ng-click="requestHeader.saveRequestToCollection($event)">{{'YANGMAN_SAVE' | translate}}</md-button>

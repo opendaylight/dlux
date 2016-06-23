@@ -8,6 +8,7 @@ define(['angular'], function (angular) {
             generateApiTreeData: generateApiTreeData,
             generateNodesToApis: generateNodesToApis,
             objectHandler: objectHandler,
+            postRequestData: postRequestData,
             prepareHeaders: prepareHeaders,
             prepareOperation: prepareOperation,
             prepareRequestData: prepareRequestData,
@@ -395,10 +396,11 @@ define(['angular'], function (angular) {
         }
 
         // TODO: add service's description
+        // TODO: seems to be not used more
         function prepareRequestData(requestData, operation, reqString, subApi){
             var preparedData = requestData;
 
-            if (operation === 'GET'){
+            if (operation === 'GET' || operation === 'DELETE'){
                 preparedData = null;
             }
             else if (operation === 'POST'){

@@ -128,12 +128,12 @@ define(
              * @returns {*}
              * @param timestamp
              */
-            function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection) {
+            function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp) {
 
                 var receivedDataProcessed = status === 'success' ? receivedData : null,
                     result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
 
-                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, Date.now());
+                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp);
 
                 return result;
             }
@@ -144,8 +144,11 @@ define(
              * @returns {*}
              */
             function createHistoryRequestFromElement(elem) {
+                if (!elem.hasOwnProperty('timestamp')){
+                    elem.timestamp = Date.now();
+                }
                 return service.createHistoryRequest(elem.sentData, elem.receivedData, elem.path, elem.method,
-                    elem.status, elem.name, elem.collection, Date.now());
+                    elem.status, elem.name, elem.collection, elem.timestamp);
             }
 
             /**
