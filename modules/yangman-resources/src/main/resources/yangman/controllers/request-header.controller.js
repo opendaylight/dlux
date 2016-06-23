@@ -282,30 +282,29 @@ define([
 
                 // create and set history request
                 historyReq.setExecutionData(
-                    reqInfo.requestData,
+                    reqInfo.requestSrcData,
                     response.data ? response.data.plain() : {},
                     reqInfo.status
                 );
 
-                if (response.data) {
+                setNodeDataFromRequestData(requestHeader.requestUrl);
 
-                    // if executing from json form, try to find api, subapi and node
-                    if ( requestHeader.selectedShownDataType === 'req-data' ) {
-                        setNodeDataFromRequestData(requestHeader.requestUrl);
-                    }
+                if (requestHeader.selectedShownDataType === 'req-data'){
+                    sendRequestData(response.data ? response.data.plain() : '{}', 'RECEIVED');
+                    sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
+                }
+                else {
 
-                    // try to fill code mirror editor
-                    sendRequestData(response.data.plain(), 'RECEIVED');
-
-                    // try to fill node, if some was found or filled in form
-                    if ( $scope.node ) {
+                    if ($scope.node){
                         $scope.node.clear();
-                        YangmanService.fillNodeFromResponse($scope.node, response.data);
+                        YangmanService.fillNodeFromResponse(
+                            $scope.node,
+                            requestHeader.selectedOperation === 'GET' || requestHeader.selectedOperation === 'DELETE' ?
+                                response.data :
+                                reqInfo.requestSrcData
+                        );
                         $scope.node.expanded = true;
                     }
-
-                } else {
-                    sendRequestData({}, 'RECEIVED');
                 }
 
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
@@ -322,7 +321,7 @@ define([
 
                 requestHeader.statusObj = reqInfo;
 
-                historyReq.setExecutionData(reqInfo.requestData, null, reqInfo.status);
+                historyReq.setExecutionData(reqInfo.requestSrcData, null, reqInfo.status);
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
 
                 if (response.data) {
@@ -351,7 +350,8 @@ define([
         /**
          * Check data before executin operations
          */
-        function prepareDataAndExecute(){
+        function prepareDataAndExecute(cbk){
+
 
             if ( requestHeader.requestUrl.length ) {
 
@@ -359,9 +359,9 @@ define([
                     // get json data
                     var params = { reqData: null };
                     $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
-                    executeOperation(params.reqData ? angular.fromJson(params.reqData) : {});
+                    executeOperation(params.reqData ? angular.fromJson(params.reqData) : {}, cbk);
                 } else {
-                    executeOperation({});
+                    executeOperation({}, cbk);
                 }
             }
         }
