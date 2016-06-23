@@ -51,7 +51,10 @@ define(['app/yangman/yangman.module'], function (yangman) {
         function init() {
             yangList.disableAddingListElement = $scope.checkAddingListElement($scope.node);
 
-            if(yangList.disableAddingListElement && !$scope.node.listData.length) {
+            if(yangList.disableAddingListElement &&
+                !$scope.node.listData.length &&
+                $scope.selectedDatastore.label === 'config') {
+
                 yangList.addListElem();
             }
         }
