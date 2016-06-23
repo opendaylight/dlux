@@ -299,6 +299,7 @@ define([
 
                     // try to fill node, if some was found or filled in form
                     if ( $scope.node ) {
+                        $scope.node.clear();
                         YangmanService.fillNodeFromResponse($scope.node, response.data);
                         $scope.node.expanded = true;
                     }
