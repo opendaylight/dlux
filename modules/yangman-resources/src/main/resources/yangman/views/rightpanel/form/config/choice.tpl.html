@@ -24,7 +24,7 @@
 
         <!-- Choice select -->
         <md-input-container>
-            <md-select ng-model="node.choice">
+            <md-select ng-model="node.choice" aria-label="Choice select">
                 <md-option ng-repeat="node in node.getChildren(null, null, constants.NODE_UI_DISPLAY) | filter:caseShowing" ng-value="node">
                     {{node.label}}
                 </md-option>
