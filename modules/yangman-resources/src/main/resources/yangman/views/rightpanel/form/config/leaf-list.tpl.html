@@ -29,7 +29,7 @@
         <!-- Leaf list values -->
         <md-input-container md-no-float  class="input-icon-container">
             <!-- input -->
-            <input  ng-change="yangLeafList.changed()" ng-model="elem.value">
+            <input  ng-change="yangLeafList.changed()" ng-model="elem.value" aria-label="{{elem.value}}">
 
             <!-- remove Icon -->
             <md-icon md-font-set="material-icons" class="top-icon top-element pointer" ng-click="yangLeafList.removeListElem(elem)">
