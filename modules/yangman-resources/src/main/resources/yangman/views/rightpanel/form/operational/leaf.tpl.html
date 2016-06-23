@@ -17,6 +17,6 @@
     <div class="menu-placeholder" ng-if="!yanfLeaf.isActionMenu() && !yanfLeaf.isNodeInfo()"></div>
 
     <md-input-container>
-        <input ng-model="node.value" ng-disabled="true">
+        <input ng-model="node.value" aria-label="{{node.value}}" ng-disabled="true">
     </md-input-container>
 </div>
