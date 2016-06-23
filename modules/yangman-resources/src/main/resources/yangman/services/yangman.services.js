@@ -88,10 +88,33 @@ define([], function () {
                 operation: '',
                 reqString: selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
                 reqHeaders: {},
-                reqData: {},
+                reqData: '',
+                srcData: '',
             };
 
-            // set correct host into restangular based on shown data type
+            if ( dataType === 'form' && node){
+                node.buildRequest(RequestBuilderService, requestData, node.module);
+                allPreparedData.srcData = angular.copy(requestData);
+            }
+            else {
+                allPreparedData.srcData = requestData;
+            }
+            allPreparedData.reqData = RequestsService.applyParams(params, allPreparedData.srcData);
+
+            // prepare req data
+            if (operation === 'GET' || operation === 'DELETE'){
+                allPreparedData.srcData = null;
+                allPreparedData.reqData = null;
+            }
+            else if (operation === 'POST'){
+                allPreparedData.reqData = YangUtilsService.postRequestData(
+                    allPreparedData.reqData,
+                    allPreparedData.reqString,
+                    selectedSubApi
+                );
+            }
+
+            // set correct host into restangular based on shown data type and prepare data
             if ( dataType === 'req-data' ){
                 var parser = locationHelper(requestUrl, ['pathname', 'origin']),
                     raParam = '';
@@ -102,25 +125,13 @@ define([], function () {
                 allPreparedData.reqString = allPreparedData.reqString.join('/');
 
                 allPreparedData.customRestangular = YangUtilsRestangularService.one(raParam);
-                allPreparedData.reqData = RequestsService.applyParams(params, requestData);
+
             } else {
 
                 YangUtilsRestangularService.setBaseUrl(ENV.getBaseURL('MD_SAL'));
                 allPreparedData.customRestangular  = YangUtilsRestangularService.one('restconf');
 
                 if ( node ) {
-
-                    node.buildRequest(RequestBuilderService, requestData, node.module);
-                    angular.copy(requestData, allPreparedData.reqData);
-                    allPreparedData.reqData = RequestsService.applyParams(params, allPreparedData.reqData);
-
-                    allPreparedData.reqData = YangUtilsService.prepareRequestData(
-                        allPreparedData.reqData,
-                        operation,
-                        allPreparedData.reqString,
-                        selectedSubApi
-                    );
-
                     allPreparedData.headers = YangUtilsService.prepareHeaders(allPreparedData.reqData);
                 }
             }
@@ -184,6 +195,7 @@ define([], function () {
                     statusText: response.statusText,
                     time: (time.finished - time.started),
                     requestData: allPreparedData.reqData,
+                    requestSrcData: allPreparedData.srcData,
                 };
             }
         }

@@ -22,7 +22,7 @@
                         </md-tab>
                         <!-- History tab -->
                         <md-tab label="{{'YANGMAN_HISTORY' | translate}}" md-on-select="main.switchedTab(1)">
-                            <div ng-include src="globalViewPath + 'leftpanel/history-tab.tpl.html'" class="" ng-class="{'historyTabReqsSelected': historyReqsSelected, 'historyTab': !historyReqsSelected}"></div>
+                            <div ng-include src="globalViewPath + 'leftpanel/history-tab.tpl.html'" class="historyTab"></div>
                         </md-tab>
                         <!-- Collection tab -->
                         <md-tab label="{{'YANGMAN_COLLECTIONS' | translate}}" md-on-select="main.switchedTab(2)">
