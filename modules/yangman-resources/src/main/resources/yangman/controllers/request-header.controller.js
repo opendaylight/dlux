@@ -40,9 +40,12 @@ define([
         /**
          * Set selected operations based on data store
          */
-        $scope.$on('SET_SEL_OPERATIONS', function (event, operations) {
+        $scope.$on('SET_SEL_OPERATIONS', function (event, operations, setUrl) {
             setAllowedMethods(operations);
-            setRequestUrl();
+
+            if ( setUrl ) {
+                setRequestUrl();
+            }
         });
 
         /**
@@ -195,7 +198,7 @@ define([
 
             $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
                 var apisIndexes =
-                        PathUtilsService.searchNodeByPath(requestUrl, treeApis, null, true);
+                        PathUtilsService.searchNodeByPath(requestUrl, treeApis, null, true, true);
 
                 if ( apisIndexes ){
                     // set apis
@@ -219,6 +222,9 @@ define([
                     // set node
                     $scope.setNode($scope.selectedSubApi.node);
 
+                    // fill subapi path
+                    PathUtilsService.fillPath($scope.selectedSubApi.pathArray, requestUrl);
+                    setRequestUrl();
                 }
             });
         }
@@ -273,37 +279,45 @@ define([
             );
 
             /**
-             *
+             * Success callback after executin operation
              * @param reqInfo
              * @param response
              */
             function executeReqSuccCbk(reqInfo, response) {
+                var preparedReceivedData = YangmanService.prepareReceivedData(
+                    $scope.node,
+                    requestHeader.selectedOperation,
+                    response.data ? response.data.plain() : {},
+                    reqInfo.requestSrcData,
+                    requestHeader.selectedShownDataType
+                );
+
                 requestHeader.statusObj = reqInfo;
 
                 // create and set history request
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
-                    response.data ? response.data.plain() : {},
+                    preparedReceivedData,
                     reqInfo.status
                 );
 
-                setNodeDataFromRequestData(requestHeader.requestUrl);
-
                 if (requestHeader.selectedShownDataType === 'req-data'){
-                    sendRequestData(response.data ? response.data.plain() : '{}', 'RECEIVED');
+                    setNodeDataFromRequestData(requestHeader.requestUrl);
+                    sendRequestData(preparedReceivedData, 'RECEIVED');
                     sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
                 }
                 else {
 
                     if ($scope.node){
-                        $scope.node.clear();
+
                         YangmanService.fillNodeFromResponse(
                             $scope.node,
-                            requestHeader.selectedOperation === 'GET' || requestHeader.selectedOperation === 'DELETE' ?
-                                response.data :
-                                reqInfo.requestSrcData
+                            preparedReceivedData
                         );
+
                         $scope.node.expanded = true;
+                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
+                        sendRequestData(YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node), 'RECEIVED');
                     }
                 }
 
@@ -313,7 +327,7 @@ define([
             }
 
             /**
-             *
+             * Error callback after executin operation
              * @param reqInfo
              * @param response
              */
@@ -323,6 +337,8 @@ define([
 
                 historyReq.setExecutionData(reqInfo.requestSrcData, null, reqInfo.status);
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
+
+                setNodeDataFromRequestData(requestHeader.requestUrl);
 
                 if (response.data) {
                     if ( requestHeader.selectedShownDataType === 'req-data' ) {
