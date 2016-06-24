@@ -663,17 +663,20 @@ define([], function () {
             };
 
             node.fill = function (name, data) {
-                var filled = false,
+                var match = comparePropToElemByName(name, node.label),
                     nodesToFill = node.getChildren(null, null, constants.NODE_UI_DISPLAY);
 
-                nodesToFill.forEach(function (child) {
-                    var childFilled = child.fill(name, data);
-                    filled = filled || childFilled;
-                });
+                if (match && nodesToFill.length) {
+                    nodesToFill.forEach(function (child) {
+                        for (var prop in data) {
+                            child.fill(prop, data[prop]);
+                        }
+                    });
+                }
 
-                node.expanded = filled;
+                node.expanded = match;
 
-                return filled;
+                return match;
             };
 
             node.clear = function () {
