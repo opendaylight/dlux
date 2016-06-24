@@ -268,11 +268,11 @@ define([
          * @param api
          * @param subApi
          */
-        function setApi(api, subApi){
+        function setApi(api, subApi, setUrl){
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
 
-            $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : []);
+            $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);
         }
 
         /**
