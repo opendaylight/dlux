@@ -26,10 +26,69 @@ define(['app/yangman/yangman.module'], function (yangman) {
             fillNodeFromResponse: fillNodeFromResponse,
             getDataStoreIndex: getDataStoreIndex,
             prepareAllRequestData: prepareAllRequestData,
+            prepareReceivedData: prepareReceivedData,
             validateFile: validateFile,
         };
 
         return service;
+
+        /**
+         * Prepare request date before filling into node depends on method and node type
+         * @param node
+         * @param method
+         * @param rData
+         * @param sData
+         * @param outputType
+         * @returns {*}
+         */
+        function prepareReceivedData(node, method, rData, sData, outputType){
+            var prepareType = {
+                rpc: function(){
+
+                    if ( outputType === 'form' ){
+                        var dObj = {};
+                        putIntoObj(rData, dObj, node.label);
+                        putIntoObj(sData[node.label] ? sData[node.label] : sData, dObj, node.label);
+                        return dObj;
+                    } else {
+                        return rData;
+                    }
+
+                    /**
+                     * Put source object into destination object by source properties
+                     * @param sourceObj
+                     * @param destinationObj
+                     */
+                    function putIntoObj(sourceObj, destinationObj, containter){
+                        Object.keys(sourceObj).forEach(function(prop){
+                            destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
+                            destinationObj[containter][prop] = sourceObj[prop];
+                        });
+                    }
+                },
+                default: function(){
+                    var methodType = {
+                        GET: function () {
+                            return rData;
+                        },
+                        DELETE: function () {
+                            node.clear();
+
+                            return {};
+                        },
+                        DEFAULT: function () {
+                            return outputType === 'form' ? sData : rData;
+                        }
+                    };
+
+                    return (methodType[method] || methodType.DEFAULT)();
+                }
+            };
+
+            console.log('aaaaa', node ? node.type : 'default');
+
+            return (prepareType[node ? node.type : 'default'] || prepareType.default)();
+        }
 
         /**
          * Validating collection import file
