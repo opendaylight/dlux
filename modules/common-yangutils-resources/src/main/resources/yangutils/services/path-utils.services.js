@@ -53,7 +53,7 @@ define([], function () {
         }
 
         // TODO: add service's description
-        function translate(path, prefixConverter, importNodes, getDefaultModuleCallback) {
+        function translate(path, prefixConverter, importNodes, getDefaultModuleCallback, notIdentifiers) {
             var pathStrElements = path.split('/').filter(function (e) {
                     return e !== '';
                 }),
@@ -72,9 +72,10 @@ define([], function () {
 
             for (index = 0; index < maxIndex; index += 1) {
                 var actElem = pathStrElements[index],
-                    lastElem = getLastElement(pathArrayElements);
+                    lastElem = getLastElement(pathArrayElements),
+                    checkIdentifier = notIdentifiers ? false : isIdentifier(actElem);
 
-                if (isIdentifier(actElem) && lastElem) {
+                if (checkIdentifier && lastElem) {
                     lastElem.addIdentifier(actElem.slice(1, -1));
                 } else {
 
@@ -148,8 +149,8 @@ define([], function () {
         }
 
         // TODO: add service's description
-        function searchNodeByPath(pathString, treeApis, treeData, disabledExpand) {
-            var pathArray = translate(trimPath(pathString)),
+        function searchNodeByPath(pathString, treeApis, treeData, disabledExpand, notIdentifiers) {
+            var pathArray = translate(trimPath(pathString), null, null, null, notIdentifiers),
                 module = pathArray.length > 1 ? pathArray[1].module : null,
                 selectedTreeApi = module ? treeApis.filter(function (treeApi) {
                     return treeApi.module === module;

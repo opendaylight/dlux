@@ -44,7 +44,7 @@ define([
 
             if (apiIndex !== undefined && subApiIndex !== undefined ) {
 
-                $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex]);
+                $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex], true);
                 $scope.setNode($scope.selectedSubApi.node);
 
             } else {
