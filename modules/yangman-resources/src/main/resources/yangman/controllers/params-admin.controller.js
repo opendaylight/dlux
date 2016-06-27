@@ -1,6 +1,5 @@
 define([
     'app/yangman/yangman.module',
-    'app/yangman/directives/validation/unique.directive',
 ], function (yangman) {
     'use strict';
 
@@ -26,9 +25,24 @@ define([
         vm.sortFunc = sortFunc;
         vm.exportParameters = exportParameters;
         vm.importParameters = importParameters;
-
+        vm.validateKeysUnique = validateKeysUnique;
 
         init();
+
+        /**
+         * Loop over all key inputs in form and validate duplicities
+         */
+        function validateKeysUnique() {
+            var i = 0;
+            while (vm.paramsForm.hasOwnProperty('key_' + i)){
+                var modelValue = vm.paramsForm['key_' + i].$modelValue;
+                vm.paramsForm['key_' + i].$setValidity(
+                    'unique',
+                    vm.parametersList.isKeyUnique(modelValue)
+                );
+                i++;
+            }
+        }
 
         /**
          * Importing all parameters from json

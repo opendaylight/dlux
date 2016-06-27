@@ -293,7 +293,7 @@ define([
          */
         function showDgDeleteCollection(ev, collObj){
             var confirm = $mdDialog.confirm()
-                .title($filter('translate')('YANGMAN_DELETE_COL_CONFIRM_TITLE'))
+                .title($filter('translate')('YANGMAN_DELETE_COL_CONFIRM_TITLE') + ' ' + collObj.name + '?')
                 .textContent($filter('translate')('YANGMAN_DELETE_COL_CONFIRM_TEXT'))
                 .ariaLabel($filter('translate')('YANGMAN_DELETE_COL_CONFIRM_TITLE'))
                 .targetEvent(ev)
@@ -301,6 +301,7 @@ define([
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
 
             $mdDialog.show(confirm).then(function (){
+                ev.stopPropagation();
                 vm.collectionList.deleteCollection(collObj);
                 vm.collectionList.saveToStorage();
                 $scope.broadcastFromRoot('YANGMAN_REFRESH_COLLECTIONS');
