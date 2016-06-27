@@ -63,7 +63,6 @@
   "YANGMAN_PARAM_KEY_REQUIRED": "Required value",
   "YANGMAN_PARAM_EXISTING_KEY": "Duplicate value",
   "YANGMAN_SORTING": "Sorting",
-  "YANGMAN_CLEAR_HISTORY": "Clear history",
   "YANGMAN_CUST_MOUNT_POINTS": "Display mount points",
   "YANGMAN_CANCEL_MP": "Back from mountpoint",
   "YANGMAN_PLUGINS_MENU": "Plugins menu",
@@ -73,11 +72,14 @@
   "YANGMAN_NO_MOUNT_POINT": "No mount points to display",
   "YANGMAN_MOUNT_POINT": "Mount point",
   "YANGMAN_YANG_MENU": "Yang menu",
-  "YANGMAN_CLEAR_HISTORY_CONFIRM_TITLE": "Do you want to clear history?",
-  "YANGMAN_CLEAR_HISTORY_CONFIRM_TEXT": "All history will be cleared.",
-  "YANGMAN_CLEAR_COLLECTIONS": "Clear collections",
-  "YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE": "Do you want to clear collections?",
-  "YANGMAN_CLEAR_COLLECTION_CONFIRM_TEXT": "All collections will be cleared.",
-  "YANGMAN_DESELECT_REQS": "Deselect all"
-
+  "YANGMAN_DELETE_HISTORY_CONFIRM_TITLE": "Do you want to delete all history requests?",
+  "YANGMAN_DELETE_HISTORY_CONFIRM_TEXT": "All history requests will be Deleted.",
+  "YANGMAN_DELETE_HISTORY": "Delete all history requests",
+  "YANGMAN_DELETE_COLLECTIONS": "Delete all collections",
+  "YANGMAN_DELETE_COLLECTION_CONFIRM_TITLE": "Do you want to Delete all collections?",
+  "YANGMAN_DELETE_COLLECTION_CONFIRM_TEXT": "All collections will be deleted.",
+  "YANGMAN_DELETE_OPTIONS": "Delete options",
+  "YANGMAN_SELECT_OPTIONS": "Select options",
+  "YANGMAN_SELECT_ALL": "Select All",
+  "YANGMAN_DESELECT_ALL": "Deselect All"
 }

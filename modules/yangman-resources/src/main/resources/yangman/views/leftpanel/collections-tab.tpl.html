@@ -4,38 +4,58 @@
          ng-controller="RequestsListCtrl as reqList">
 
     <md-content class="searchBox" layout="row">
+        <!-- search icon, form, clear button -->
         <md-icon class="material-icons">search</md-icon>
         <input class="ng-pristine ng-valid ng-touched"
                type="text"
                flex
-               placeholder="search"
+               placeholder="{{'YANGMAN_SEARCH' | translate}}"
                ng-model="reqList.search"
                aria-invalid="false" />
-        <md-icon class="material-icons clickable" ng-click="reqList.clearFilter()" ng-if="reqList.search">
-            close
-            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
-        </md-icon>
-        <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
-        <md-icon class="material-icons clickable" ng-click="reqList.toggleCollectionsSort()"
-                 ng-if="reqList.collectionList.collections.length > 1">
-            sort
-            <md-tooltip md-direction="bottom">{{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' )| translate}}</md-tooltip>
-        </md-icon>
-        <label for="importCollection">
-            <md-icon class="material-icons clickable">
-                file_upload
+        <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}"
+                    ng-click="reqList.clearFilter()"
+                    ng-if="reqList.search">
+            <md-icon class="material-icons clickable" >
+                close
             </md-icon>
-            <md-tooltip md-direction="bottom">{{'YANGMAN_IMPORT_COLLECTION'| translate}}</md-tooltip>
-        </label>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+        </md-button>
+        <!-- /search icon, form, clear button -->
+
+        <!-- sorting -->
+        <md-button  ng-click="reqList.toggleCollectionsSort()"
+                    ng-disabled="reqList.collectionList.collections.length <= 1">
+            <md-icon class="material-icons clickable" >
+                sort
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' )| translate}}</md-tooltip>
+        </md-button>
+        <!-- /sorting -->
+
+        <!-- importing -->
+        <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
+        <md-button>
+            <label for="importCollection">
+                <md-icon class="material-icons clickable" >
+                    file_upload
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_IMPORT_COLLECTION'| translate}}</md-tooltip>
+            </label>
+        </md-button>
+        <!-- /importing -->
+
+        <!-- delete collections -->
+        <md-button  ng-click="reqList.clearCollectionList($event)"
+                    ng-disabled="!reqList.mainList.collections.length">
+            <md-icon class="material-icons clickable" >
+                delete_forever
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_COLLECTIONS' | translate}}</md-tooltip>
+        </md-button>
+        <!-- / delete collections -->
     </md-content>
 
     <md-divider></md-divider>
-
-    <!-- button for clearing -->
-    <md-button  ng-show="reqList.mainList.collections.length"
-                ng-click="reqList.clearCollectionList($event)">
-        {{'YANGMAN_CLEAR_COLLECTIONS' | translate}}
-    </md-button>
 
     <md-content class="scrollableY">
 
