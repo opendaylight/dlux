@@ -25,7 +25,7 @@ define([
         vm.clearHistoryList = clearHistoryList;
         vm.clearCollectionList = clearCollectionList;
         vm.colMatchingReqsCount = colMatchingReqsCount;
-        vm.deselectRequest = deselectRequest;
+        vm.deselectAllRequests = deselectAllRequests;
         vm.downloadCollection = downloadCollection;
         vm.executeRequest = executeRequest;
         vm.fakeFilter = fakeFilter;
@@ -35,6 +35,7 @@ define([
         vm.init = init;
         vm.loadRequests = loadRequests;
         vm.readCollectionFromFile = readCollectionFromFile;
+        vm.selectAllRequests = selectAllRequests;
         vm.selectRequest = selectRequest;
         vm.showData = showData;
         vm.showDgDeleteCollection = showDgDeleteCollection;
@@ -63,9 +64,9 @@ define([
          */
         function clearHistoryList(ev) {
             var confirm = $mdDialog.confirm()
-                .title($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TITLE'))
-                .textContent($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TEXT'))
-                .ariaLabel($filter('translate')('YANGMAN_CLEAR_HISTORY_CONFIRM_TITLE'))
+                .title($filter('translate')('YANGMAN_DELETE_HISTORY_CONFIRM_TITLE'))
+                .textContent($filter('translate')('YANGMAN_DELETE_HISTORY_CONFIRM_TEXT'))
+                .ariaLabel($filter('translate')('YANGMAN_DELETE_HISTORY_CONFIRM_TITLE'))
                 .targetEvent(ev)
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
@@ -73,6 +74,7 @@ define([
             $mdDialog.show(confirm).then(function (){
                 vm.requestList.clear();
                 vm.requestList.saveToStorage();
+                $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY', loadHistoryRequests);
             });
         }
 
@@ -81,9 +83,9 @@ define([
          */
         function clearCollectionList(ev) {
             var confirm = $mdDialog.confirm()
-                .title($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE'))
-                .textContent($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TEXT'))
-                .ariaLabel($filter('translate')('YANGMAN_CLEAR_COLLECTION_CONFIRM_TITLE'))
+                .title($filter('translate')('YANGMAN_DELETE_COLLECTION_CONFIRM_TITLE'))
+                .textContent($filter('translate')('YANGMAN_DELETE_COLLECTION_CONFIRM_TEXT'))
+                .ariaLabel($filter('translate')('YANGMAN_DELETE_COLLECTION_CONFIRM_TITLE'))
                 .targetEvent(ev)
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
@@ -91,6 +93,7 @@ define([
             $mdDialog.show(confirm).then(function (){
                 vm.collectionList.clear();
                 vm.collectionList.saveToStorage();
+                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS', loadCollectionRequest);
             });
         }
 
@@ -480,8 +483,15 @@ define([
         /**
          * Deselect history requests
          */
-        function deselectRequest(){
+        function deselectAllRequests(){
             vm.mainList.deselectReq();
+        }
+
+        /**
+         * Select history requests
+         */
+        function selectAllRequests(){
+            vm.mainList.selectReq(vm.mainList.dateGroups[0].requests);
         }
 
     }
