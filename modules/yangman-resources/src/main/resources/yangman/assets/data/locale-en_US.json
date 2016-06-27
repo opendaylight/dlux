@@ -17,7 +17,7 @@
   "YANGMAN_COLLECTION_WILL_BE_CREATED": " will be created",
   "YANGMAN_CREATING_COLLECTION": "Select collection or type a new name",
   "YANGMAN_DELETE_COL_CONFIRM_TEXT": "Selected collection will be deleted forever.",
-  "YANGMAN_DELETE_COL_CONFIRM_TITLE": "Do you want to delete collection?",
+  "YANGMAN_DELETE_COL_CONFIRM_TITLE": "Do you want to delete collection",
   "YANGMAN_DELETE_REQ_CONFIRM_TEXT": "Selected requests will be deleted forever.",
   "YANGMAN_DELETE_REQ_CONFIRM_TITLE": "Do you want to delete request?",
   "YANGMAN_EXPLAIN": "Explain",

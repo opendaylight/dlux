@@ -44,11 +44,17 @@ define(
             }
 
             /**
-             *
              * @param collObj
              */
             function deleteCollection(collObj){
-                self.collections.splice(self.collections.indexOf(collObj), 1);
+
+                var colIndex = self.collections.indexOf(collObj);
+                // first check if collObj is the same as got by index to prevent delete wrong collection because of the
+                // asynchron processes (when user is pressing enter many times, this method could be called more times
+                // and in some other proceeding might be this collection already deleted)
+                if (self.collections[colIndex] && self.collections[colIndex].name === collObj.name){
+                    self.collections.splice(colIndex, 1);
+                }
             }
 
             /**

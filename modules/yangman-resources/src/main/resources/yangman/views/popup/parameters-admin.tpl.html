@@ -1,5 +1,5 @@
 <md-dialog aria-label="{{'YANGMAN_PARAMETERS_ADMINISTRATION'| translate}}"  ng-cloak>
-    <form name="paramsForm">
+    <form name="paramsAdmin.paramsForm">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{'YANGMAN_PARAMETERS_ADMINISTRATION'| translate}}</h2>
@@ -117,9 +117,10 @@
                             <input name="key_{{$index}}"
                                    ng-model="param.key"
                                    ng-required="param.value"
-                                   unique="{{paramsAdmin.parametersList.getKeysInArr(param)}}"
-                                   ng-focus="$last && paramsAdmin.createEmptyParam()">
-                            <div ng-messages="paramsForm['key_'+$index].$error" multiple md-auto-hide="false">
+                                   ng-change="paramsAdmin.validateKeysUnique()"
+                                   ng-focus="$last && paramsAdmin.createEmptyParam()"
+                                   autocomplete="off">
+                            <div ng-messages="paramsAdmin.paramsForm['key_'+$index].$error" multiple md-auto-hide="false">
                                 <div ng-message="required">
                                     {{'YANGMAN_PARAM_KEY_REQUIRED'| translate}}
                                 </div>
@@ -161,7 +162,7 @@
             <md-button ng-click="paramsAdmin.cancel()">
                 {{'YANGMAN_CANCEL'| translate}}
             </md-button>
-            <md-button ng-click="paramsAdmin.save()" ng-disabled="!paramsForm.$valid">
+            <md-button ng-click="paramsAdmin.save()" ng-disabled="!paramsAdmin.paramsForm.$valid">
                 {{'YANGMAN_SAVE'| translate}}
             </md-button>
         </md-dialog-actions>
