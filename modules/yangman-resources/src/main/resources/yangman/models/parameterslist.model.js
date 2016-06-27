@@ -21,10 +21,20 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.deleteParameterItem = deleteParameterItem;
         self.setName = setName;
         self.addEmptyItem = addEmptyItem;
-        self.getKeysInArr = getKeysInArr;
         self.toJSON = toJSON;
         self.createParamsFromJson = createParamsFromJson;
+        self.isKeyUnique = isKeyUnique;
 
+        /**
+         * Returns false if key is already used
+         * @param keyValue
+         * @returns {boolean}
+         */
+        function isKeyUnique(keyValue) {
+            return self.list.filter(function (item) {
+                return item.key === keyValue;
+            }).length === 1;
+        }
 
         /**
          * Using when importing data from json file
@@ -49,22 +59,6 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
             return self.list.map(function (param){
                 return param.toJSON();
             });
-        }
-
-        /**
-         * Get list of params keys in array
-         * @returns {Array}
-         * @param {Parameter} exceptingParamObj key of this object will be excluded from result
-         */
-        function getKeysInArr(exceptingParamObj) {
-            return self.list
-                .filter(function (param){
-                    return param !== exceptingParamObj;
-                })
-                .map(function (param){
-                    return param.key;
-                }
-            );
         }
 
         /**
