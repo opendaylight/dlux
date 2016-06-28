@@ -12,7 +12,7 @@ define([
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',
     'app/yangman/services/plugins-unsetter.services',
-    'app/yangui/directives/ui-codemirror.directive',
+    'app/yangman/directives/ui-codemirror.directive',
 ], function (yangman) {
     'use strict';
 
@@ -312,6 +312,15 @@ define([
         function setJsonView(received, sent){
             main.jsonView.received = received;
             main.jsonView.sent = sent;
+            forceCMsRefresh();
+        }
+
+        function forceCMsRefresh(){
+            var elems = angular.element(document).find('.CodeMirror');
+            for (var i = 0; i < elems.length; i++){
+                var cmInstance = elems[i].CodeMirror;
+                cmInstance._handlers.changes[0](cmInstance);
+            }
         }
 
         /**
