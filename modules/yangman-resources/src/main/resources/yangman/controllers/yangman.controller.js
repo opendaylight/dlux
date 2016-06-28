@@ -311,6 +311,18 @@ define([
         function setJsonView(received, sent){
             main.jsonView.received = received;
             main.jsonView.sent = sent;
+            forceCMsRefresh();
+        }
+
+        /**
+         * Force refresh of all codemirror instances
+         */
+        function forceCMsRefresh(){
+            var elems = angular.element(document).find('.CodeMirror');
+            for (var i = 0; i < elems.length; i++){
+                var cmInstance = elems[i].CodeMirror;
+                cmInstance._handlers.changes[0](cmInstance);
+            }
         }
 
         /**
