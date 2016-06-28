@@ -485,14 +485,17 @@ define([
          * Deselect history requests
          */
         function deselectAllRequests(){
-            vm.mainList.deselectReq();
+            vm.mainList.deselectReqs();
         }
 
         /**
          * Select history requests
          */
         function selectAllRequests(){
-            vm.mainList.selectReq(vm.mainList.dateGroups[0].requests);
+            deselectAllRequests();
+            vm.mainList.dateGroups.forEach(function(group){
+                vm.mainList.selectReqs(group.requests);
+            });
         }
 
     }
