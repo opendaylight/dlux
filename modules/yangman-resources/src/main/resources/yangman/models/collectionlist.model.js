@@ -34,6 +34,8 @@ define(
             self.toggleReqSelection = toggleReqSelection;
             self.toJSON = toJSON;
             self.getCollectionInJSON = getCollectionInJSON;
+            self.getExpandedCollectionNames = getExpandedCollectionNames;
+            self.expandCollectionByNames = expandCollectionByNames;
 
             /**
              *
@@ -216,6 +218,44 @@ define(
                     });
                 }
             }
+
+            /**
+             * Get expanded collection names
+             */
+            function getExpandedCollectionNames(){
+                var expandCollectionNames = [];
+                self.collections.forEach(function(collection){
+                    if (collection.expanded) {
+                        expandCollectionNames.push(collection.name);
+                    }
+                });
+                return expandCollectionNames;
+            }
+
+            /**
+             * Expand collections by expandCollectionNames
+             */
+            function expandCollectionByNames(expandCollectionNames){
+
+                self.collections.forEach(function(collection){
+                    if (findName(collection.name)) {
+                        collection.expanded = true;
+                    }
+                });
+
+                function findName(name) {
+                    var found = false;
+                    expandCollectionNames.forEach(function(collectionName){
+                        if (name === collectionName) {
+                            found = true;
+                            return null;
+                        }
+                    });
+                    return found;
+                }
+
+            }
+
         }
         CollectionListModel.prototype = Object.create(BaseListModel.prototype);
 
