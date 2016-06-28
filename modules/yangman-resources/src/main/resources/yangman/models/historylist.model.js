@@ -141,7 +141,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         }
 
         /**
-         * Mark all history as selected
+         * Mark all history requests as selected
          */
         function selectReqs(requestsList){
             requestsList.forEach(function (reqObj){
