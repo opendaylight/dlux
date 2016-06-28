@@ -35,6 +35,7 @@ define([
         vm.init = init;
         vm.loadRequests = loadRequests;
         vm.readCollectionFromFile = readCollectionFromFile;
+        vm.refreshCollections = refreshCollections;
         vm.selectAllRequests = selectAllRequests;
         vm.selectRequest = selectRequest;
         vm.showData = showData;
@@ -287,7 +288,7 @@ define([
 
 
         /**
-         * Dialog for delete collection
+         * Dialog for deleting collection and refreshing collections
          * @param ev
          * @param collObj
          */
@@ -304,10 +305,7 @@ define([
                 ev.stopPropagation();
                 vm.collectionList.deleteCollection(collObj);
                 vm.collectionList.saveToStorage();
-                var collectionNames = vm.collectionList.getExpandedCollectionNames();
-                $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
-                    vm.collectionList.expandCollectionByNames(collectionNames);
-                });
+                refreshCollections();
             });
         }
 
@@ -419,23 +417,17 @@ define([
         function changeCollectionName(names){
             vm.collectionList.renameCollection(names[0], names[1]);
             vm.collectionList.saveToStorage();
-            var collectionNames = vm.collectionList.getExpandedCollectionNames();
-            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
-                vm.collectionList.expandCollectionByNames(collectionNames);
-            });
+            refreshCollections();
         }
 
         /**
-         * Create collection duplicate and save
+         * Create collection duplicate, save and refresh collections
          * @param {array} names 0. element is old name, 1. element is new name
          */
         function duplicateCollection(names){
             vm.collectionList.duplicateCollection(names[0], names[1]);
             vm.collectionList.saveToStorage();
-            var collectionNames = vm.collectionList.getExpandedCollectionNames();
-            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
-                vm.collectionList.expandCollectionByNames(collectionNames);
-            });
+            refreshCollections();
         }
 
         /**
@@ -508,6 +500,16 @@ define([
             deselectAllRequests();
             vm.mainList.dateGroups.forEach(function(group){
                 vm.mainList.selectReqs(group.requests);
+            });
+        }
+
+        /**
+         * Refresh and expand collections
+         */
+        function refreshCollections(){
+            var collectionNames = vm.collectionList.getExpandedCollectionNames();
+            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
+                vm.collectionList.expandCollectionByNames(collectionNames);
             });
         }
 
