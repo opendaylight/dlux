@@ -80,12 +80,15 @@ define([], function () {
                 default: function(){
                     var methodType = {
                         GET: function () {
+                            node.clear();
                             return rData;
                         },
                         DELETE: function () {
                             node.clear();
-
                             return {};
+                        },
+                        PUT: function () {
+                            return rData;
                         },
                         DEFAULT: function () {
                             return outputType === 'form' ? sData : rData;

@@ -303,6 +303,7 @@ define([
                 );
 
                 if (requestHeader.selectedShownDataType === 'req-data'){
+
                     setNodeDataFromRequestData(requestHeader.requestUrl);
                     sendRequestData(preparedReceivedData, 'RECEIVED');
                     sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
@@ -333,19 +334,16 @@ define([
              * @param response
              */
             function executeReqErrCbk(reqInfo, response) {
-
                 requestHeader.statusObj = reqInfo;
 
                 historyReq.setExecutionData(reqInfo.requestSrcData, null, reqInfo.status);
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
 
-                setNodeDataFromRequestData(requestHeader.requestUrl);
+                //setNodeDataFromRequestData(requestHeader.requestUrl);
 
                 if (response.data) {
-                    if ( requestHeader.selectedShownDataType === 'req-data' ) {
-                        // try to fill code mirror editor
-                        sendRequestData(response.data, 'RECEIVED');
-                    }
+                    // try to fill code mirror editor
+                    sendRequestData(response.data, 'RECEIVED');
                 }
                 (executeCbk || angular.noop)(historyReq);
             }
@@ -411,7 +409,7 @@ define([
             $scope.setNode(null);
             $scope.setModule(null);
             $scope.setGlobalParams(mountPointApis, augmentations);
-            $scope.selectedDatastore = null;
+            $scope.setDataStore(null);
             requestHeader.statusObj = reqObj;
             $scope.rootBroadcast('YANGMAN_SET_API_TREE_DATA', mountPointTreeApis);
         }
