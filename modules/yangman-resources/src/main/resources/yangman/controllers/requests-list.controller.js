@@ -9,10 +9,11 @@ define([
 
     RequestsListCtrl.$inject = [
         '$filter', '$mdDialog', '$scope', 'HandleFileService', 'PathUtilsService', 'RequestsService', 'YangmanService',
+        'YangmanDesignService',
     ];
 
     function RequestsListCtrl($filter, $mdDialog, $scope, HandleFileService, PathUtilsService, RequestsService,
-                              YangmanService) {
+                              YangmanService, YangmanDesignService) {
         var vm = this;
 
         vm.collectionList = RequestsService.createEmptyCollectionList('yangman_collectionsList');
@@ -264,6 +265,7 @@ define([
          * @param reqObj
          */
         function showDgDeleteRequests(ev, reqObj){
+
             var confirm = $mdDialog.confirm()
                 .title($filter('translate')('YANGMAN_DELETE_REQ_CONFIRM_TITLE'))
                 .textContent($filter('translate')('YANGMAN_DELETE_REQ_CONFIRM_TEXT'))
@@ -271,6 +273,8 @@ define([
                 .targetEvent(ev)
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
+
+            YangmanDesignService.disableMdMenuItem(ev);
 
             $mdDialog.show(confirm).then(function (){
                 if (reqObj){
@@ -283,6 +287,8 @@ define([
                 }
                 vm.mainList.saveToStorage();
                 $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY');
+            }, function (){
+                YangmanDesignService.enableMdMenuItem(ev);
             });
         }
 
@@ -301,11 +307,14 @@ define([
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
 
+            YangmanDesignService.disableMdMenuItem(ev);
+
             $mdDialog.show(confirm).then(function (){
-                ev.stopPropagation();
                 vm.collectionList.deleteCollection(collObj);
                 vm.collectionList.saveToStorage();
                 refreshCollections();
+            }, function (){
+                YangmanDesignService.enableMdMenuItem(ev);
             });
         }
 

@@ -1,7 +1,7 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('app.yangman').controller('yangFormMenu', menuDirective);
+    angular.module('app.yangman').directive('yangFormMenu', menuDirective);
 
     menuDirective.$inject = [];
 
