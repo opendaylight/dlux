@@ -8,7 +8,7 @@ var modules = [
         'jquery-ui',
         'codemirror',
         'codeMirror-showHint',
-        'codeMirror-yanguiJsonHint',
+        'codeMirror-jsonParametersHint',
         'codeMirror-javascriptMode',
         'codeMirror-matchBrackets',
         'ngClip',

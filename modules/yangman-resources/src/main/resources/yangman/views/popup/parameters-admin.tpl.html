@@ -4,12 +4,12 @@
             <div class="md-toolbar-tools">
                 <h2>{{'YANGMAN_PARAMETERS_ADMINISTRATION'| translate}}</h2>
                 <span flex></span>
-                <md-button aria-label="{{'YANGMAN_CANCEL'| translate}}"
-                           ng-click="paramsAdmin.cancel()">
+                <md-button aria-label="{{'YANGMAN_CLOSE'| translate}}"
+                           ng-click="paramsAdmin.close()">
                     <md-icon class="material-icons clickable" >
                         close
                     </md-icon>
-                    <md-tooltip md-direction="bottom">{{'YANGMAN_CANCEL'| translate}}</md-tooltip>
+                    <md-tooltip md-direction="bottom">{{'YANGMAN_CLOSE'| translate}}</md-tooltip>
                 </md-button>
             </div>
         </md-toolbar>
@@ -45,16 +45,16 @@
                             </md-tooltip>
                         </md-button>
                         <md-menu-content>
-                            <!-- sort by key -->
+                            <!-- sort by name -->
                             <md-menu-item>
                                 <md-button aria-label="{{'YANGMAN_PARAMS_KEY'| translate}}"
-                                           ng-click="paramsAdmin.sortBy('_key')">
+                                           ng-click="paramsAdmin.sortBy('_name')">
                                     {{'YANGMAN_SORT_BY'| translate}}
                                     {{'YANGMAN_PARAMS_KEY'| translate}}
                                     {{paramsAdmin.sortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' | translate}}
                                 </md-button>
                             </md-menu-item>
-                            <!-- /sort by key -->
+                            <!-- /sort by name -->
 
                             <!-- sort by value -->
                             <md-menu-item>
@@ -111,16 +111,16 @@
                                         orderBy: paramsAdmin.sortFunc : !paramsAdmin.sortAsc
                                         track by $index">
 
-                        <!-- key input -->
+                        <!-- name input -->
                         <md-input-container>
                             <label>{{'YANGMAN_PARAM_KEY' | translate}}</label>
-                            <input name="key_{{$index}}"
-                                   ng-model="param.key"
+                            <input name="name_{{$index}}"
+                                   ng-model="param.name"
                                    ng-required="param.value"
-                                   ng-change="paramsAdmin.validateKeysUnique()"
+                                   ng-change="paramsAdmin.validateNamesUnique()"
                                    ng-focus="$last && paramsAdmin.createEmptyParam()"
                                    autocomplete="off">
-                            <div ng-messages="paramsAdmin.paramsForm['key_'+$index].$error" multiple md-auto-hide="false">
+                            <div ng-messages="paramsAdmin.paramsForm['name_'+$index].$error" multiple md-auto-hide="false">
                                 <div ng-message="required">
                                     {{'YANGMAN_PARAM_KEY_REQUIRED'| translate}}
                                 </div>
@@ -129,7 +129,7 @@
                                 </div>
                             </div>
                         </md-input-container>
-                        <!-- / key input -->
+                        <!-- / name input -->
 
                         <!-- value input -->
                         <md-input-container flex>
@@ -159,8 +159,8 @@
         </md-dialog-content>
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="paramsAdmin.cancel()">
-                {{'YANGMAN_CANCEL'| translate}}
+            <md-button ng-click="paramsAdmin.close()">
+                {{'YANGMAN_CLOSE'| translate}}
             </md-button>
             <md-button ng-click="paramsAdmin.save()" ng-disabled="!paramsAdmin.paramsForm.$valid">
                 {{'YANGMAN_SAVE'| translate}}

@@ -11,51 +11,49 @@ define([
         var requestData = this;
 
         requestData.paramsArray = [];
+        requestData.data = '';
+        requestData.type = null;
 
         requestData.dataEditorOptions = {
             mode: 'javascript',
             lineNumbers: true,
-            theme: 'eclipse',
-            readOnly: requestData.type === 'RECEIVED',
             lineWrapping: true,
             matchBrackets: true,
             extraKeys: { 'Ctrl-Space': 'autocomplete' },
-        };
+            onLoad: function (cmInstance) {
 
-        requestData.data = '';
-        requestData.type = null;
+                cmInstance.on('changes', function () {
+                    if (angular.isFunction(cmInstance.showHint)) {
+                        cmInstance.showHint();
+                    }
+                });
+
+                cmInstance.on('cursorActivity', function () {
+                    var lineString = cmInstance.getLine(cmInstance.getCursor().line);
+                    requestData.paramsArray = RequestsService.scanDataParams($scope.parametersList, lineString);
+
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                });
+
+                cmInstance.data = { parameterListObj: $scope.parametersList };
+
+            },
+        };
 
         // methods
         requestData.init = init;
 
-
-        function initCMOpts() {
-            requestData.dataEditorOptions.readOnly = requestData.type === 'RECEIVED';
+        /**
+         * Set code mirror theme and readonly property considering requestData.type
+         */
+        function initEditorOptions() {
             requestData.dataEditorOptions.theme = requestData.type === 'RECEIVED' ? 'eclipse-disabled' : 'eclipse';
-
-            if (requestData.type === 'SENT') {
-                requestData.dataEditorOptions.onLoad = function (cmInstance){
-                    cmInstance.data = { parameterListObj: $scope.parametersList || { list: [] } };
-
-                    cmInstance.on('changes', function (){
-                        if (angular.isFunction(cmInstance.showHint)){
-                            cmInstance.showHint();
-                        }
-                    });
-
-                    cmInstance.on('cursorActivity', function (){
-                        var lineString = cmInstance.getLine(cmInstance.getCursor().line);
-                        requestData.paramsArray = RequestsService.scanDataParams($scope.parametersList, lineString);
-
-                        if (!$scope.$$phase) {
-                            $scope.$apply();
-                        }
-                    });
-
-                    cmInstance.refresh();
-                };
-            }
+            requestData.dataEditorOptions.readOnly = requestData.type === 'RECEIVED';
         }
+
+
 
         /**
          * Initialization
@@ -63,11 +61,7 @@ define([
          */
         function init(type){
             requestData.type = type;
-            initCMOpts();
-
-
-            // watchers
-            $scope.$on('YANGMAN_REFRESH_CM_DATA_' + type, refreshData);
+            initEditorOptions();
 
             $scope.$on('YANGMAN_SET_CODEMIRROR_DATA_' + type, function (event, args){
                 requestData.data = args.params.data;
@@ -77,15 +71,9 @@ define([
                 args.params.reqData = requestData.data;
             });
 
+
         }
 
-        /**
-         * Refresh data using history request service
-         */
-        function refreshData() {
-            requestData.data =
-                $scope.requestToShow.setDataForView(true, $scope.requestToShow[$scope.requestDataToShow]);
-        }
 
     }
 

@@ -45,7 +45,7 @@ define(
                 }
 
                 var returnedParamsList = paramsObj.list.filter( function (param){
-                    var paramIndex = usedParamLabelArray.indexOf(param.key);
+                    var paramIndex = usedParamLabelArray.indexOf(param.name);
                     if ( paramIndex !== -1 ) {
                         return usedParamLabelArray.splice(paramIndex, 1);
                     }
@@ -55,7 +55,7 @@ define(
                 });
 
                 usedParamLabelArray.forEach(function (param){
-                    returnedParamsList.push(ParametersService.createParameter(param));
+                    returnedParamsList.push(ParametersService.createParameter({ name: param }));
                 });
 
                 return returnedParamsList;
@@ -91,9 +91,11 @@ define(
             function applyParams(paramsObj, data) {
                 var dataStr = JSON.stringify(data);
 
-                paramsObj.list.forEach(function (param){
-                    dataStr = service.replaceStringInText(dataStr, '<<' + param.key + '>>', param.value);
-                });
+                if (paramsObj && paramsObj.hasOwnProperty('list')) {
+                    paramsObj.list.forEach(function (param){
+                        dataStr = service.replaceStringInText(dataStr, '<<' + param.name + '>>', param.value);
+                    });
+                }
 
                 return ParsingJsonService.parseJson(dataStr);
             }

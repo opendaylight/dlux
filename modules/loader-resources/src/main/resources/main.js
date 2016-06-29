@@ -37,6 +37,7 @@ require.config({
     'ngMaterial': '../vendor/angular-material/angular-material.min',
     'ngMessages': '../vendor/angular-messages/angular-messages.min',
     'codeMirror-showHint' : '../assets/js/codemirror/addon/hint/show-hint',
+    'codeMirror-jsonParametersHint' : '../assets/js/codemirror/addon/hint/json-parameters-hint',
     'codeMirror-javascriptMode' : '../assets/js/codemirror/mode/javascript/javascript',
     'codeMirror-matchBrackets' : '../assets/js/codemirror/addon/edit/matchbrackets',
   },
