@@ -383,7 +383,7 @@ define([
             requests.forEach(function (reqObj){
                 vm.collectionList.addRequestToList(reqObj);
                 vm.collectionList.saveToStorage();
-                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
+                refreshCollections();
             });
         }
 
