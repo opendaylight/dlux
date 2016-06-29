@@ -19,12 +19,12 @@ define([
 
     YangmanCtrl.$inject = [
         '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
-        'EventDispatcherService', 'constants', 'PathUtilsService', 'PluginsUnsetterService', '$timeout',
+        'EventDispatcherService', 'constants', 'ParametersService', 'PathUtilsService', 'PluginsUnsetterService', '$timeout',
     ];
 
     function YangmanCtrl(
         $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
-        EventDispatcherService, constants, PathUtilsService, PluginsUnsetterService, $timeout
+        EventDispatcherService, constants, ParametersService, PathUtilsService, PluginsUnsetterService, $timeout
     ) {
         var main = this;
 
@@ -42,7 +42,7 @@ define([
         $scope.historyReqsSelected = false;
         $scope.requestToShow = null;
         $scope.requestDataToShow = '';
-        $scope.parametersList = null;
+        $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -86,7 +86,9 @@ define([
          * @param parametersList
          */
         function setParametersList(parametersList) {
+            console.debug('setting params to $scope', parametersList);
             $scope.parametersList = parametersList;
+            //$scope.rootBroadcast('YANGMAN_REFRESH_PARAMS_IN_CM');
         }
 
         /**
