@@ -42,19 +42,19 @@ define(
             /**
              * Service for creating basic parameter object
              * @returns {*}
-             * @param key
+             * @param name
              * @param value
              */
             function createParameter(element){
                 var result = new ParameterModel();
-                result.setData(element.key, element.value);
+                result.setData(element.name, element.value);
                 return result;
             }
 
 
             /**
              * Service for creating empty parameters list
-             * @param name used as key in local storage
+             * @param name used as name in local storage
              * @returns {*}
              */
             function createEmptyParametersList(name){

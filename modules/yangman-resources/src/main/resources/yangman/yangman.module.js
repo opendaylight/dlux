@@ -8,7 +8,7 @@ define([
     'ngMessages',
     'common/yangutils/yangutils.module',
     'codemirror',
-    'codeMirror-yangmanJsonHint',
+    'codeMirror-jsonParametersHint',
     'codeMirror-javascriptMode',
     'codeMirror-matchBrackets',
 ], function (angular) {
