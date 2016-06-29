@@ -23,16 +23,17 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.addEmptyItem = addEmptyItem;
         self.toJSON = toJSON;
         self.createParamsFromJson = createParamsFromJson;
-        self.isKeyUnique = isKeyUnique;
+        self.isNameUnique = isNameUnique;
+        self.removeEmptyParams = removeEmptyParams;
 
         /**
-         * Returns false if key is already used
-         * @param keyValue
+         * Returns false if name is already used
+         * @param nameValue
          * @returns {boolean}
          */
-        function isKeyUnique(keyValue) {
+        function isNameUnique(nameValue) {
             return self.list.filter(function (item) {
-                return item.key === keyValue;
+                return item.name === nameValue;
             }).length === 1;
         }
 
@@ -76,6 +77,12 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
             self.addRequestToList(self.createEntry());
         }
 
+        function removeEmptyParams() {
+            self.list = self.list.filter(function (param) {
+                return param.name.length > 0;
+            });
+        }
+
         /**
          *
          * @param elem
@@ -84,7 +91,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         function createEntry(element) {
             if (!element){
                 element = {
-                    key: '',
+                    name: '',
                     value: '',
                 };
             }
@@ -121,7 +128,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
             });
 
             function notEmptyParam(item){
-                return item.key;
+                return item.name;
             }
         };
     }
