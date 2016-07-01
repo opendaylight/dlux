@@ -27,16 +27,21 @@ define([], function () {
                 'uint8',
                 'union',
             ],
-            yanfLeaf = this;
+            yangLeaf = this;
 
-        yanfLeaf.infoBox = false;
-        yanfLeaf.infoBoxSection = '';
+        yangLeaf.infoBox = false;
+        yangLeaf.infoBoxSection = '';
 
         // methods
-        yanfLeaf.isActionMenu = isActionMenu;
-        yanfLeaf.isNodeInfo = isNodeInfo;
-        yanfLeaf.getLeafType = getLeafType;
-        yanfLeaf.displayValue = displayValue;
+        yangLeaf.displayValue = displayValue;
+        yangLeaf.getLeafCentering = getLeafCentering;
+        yangLeaf.getLeafType = getLeafType;
+        yangLeaf.isActionMenu = isActionMenu;
+
+
+        function getLeafCentering(){
+            return ['union', 'bits', 'empty'].indexOf(getLeafType()) > -1 ? 'start' : 'center';
+        }
 
         /**
          * Get leaf type
@@ -56,15 +61,7 @@ define([], function () {
          * @returns {boolean|*}
          */
         function isActionMenu() {
-            return $scope.node.getChildren('description', null, null, 'label').length > 0;
-        }
-
-        /**
-         * Show hide node info
-         * @returns {*}
-         */
-        function isNodeInfo(){
-            return $scope.node.augmentationId || $scope.node.isKey();
+            return false;
         }
     }
 });

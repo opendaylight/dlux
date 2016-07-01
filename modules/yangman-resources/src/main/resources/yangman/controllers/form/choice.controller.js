@@ -12,7 +12,6 @@ define([], function () {
 
         // methods
         yangChoice.isActionMenu = isActionMenu;
-        yangChoice.isNodeInfo = isNodeInfo;
         $scope.caseShowing = caseShowing;
         yangChoice.toggleExpanded = toggleExpanded;
 
@@ -34,16 +33,7 @@ define([], function () {
          * @returns {boolean|*}
          */
         function isActionMenu() {
-            return $scope.node.getChildren('description', null, null, 'label').length > 0 ||
-                ($scope.node.augmentionGroups && $scope.node.augmentionGroups.length);
-        }
-
-        /**
-         * Show hide node info
-         * @returns {*}
-         */
-        function isNodeInfo(){
-            return $scope.node.augmentationId;
+            return $scope.node.augmentionGroups && $scope.node.augmentionGroups.length;
         }
     }
 });
