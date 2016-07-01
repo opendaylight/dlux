@@ -28,7 +28,6 @@ define(['app/yangman/yangman.module'], function (yangman) {
         yangList.getListName = getListName;
         yangList.init = init;
         yangList.isActionMenu = isActionMenu;
-        yangList.isNodeInfo = isNodeInfo;
         yangList.removeListElem = removeListElem;
         yangList.shiftDisplayNext = shiftDisplayNext;
         yangList.shiftDisplayPrev = shiftDisplayPrev;
@@ -191,14 +190,6 @@ define(['app/yangman/yangman.module'], function (yangman) {
          */
         function isActionMenu() {
             return true;
-        }
-
-        /**
-         * Show hide node info
-         * @returns {*}
-         */
-        function isNodeInfo(){
-            return $scope.node.augmentationId;
         }
     }
 });

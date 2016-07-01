@@ -15,14 +15,13 @@
         </md-icon>
 
         <!-- list label -->
-        <p class="top-element pointer list-label" ng-click="yangList.toggleExpanded()">
+        <p class="top-element pointer list-label" ng-click="yangList.toggleExpanded()" ym-info-box node="node">
             {{yangForm.getNodeName(node.localeLabel, node.label)}}
         </p>
 
         <!-- Action menu -->
         <yang-form-menu is-action-menu="yangList.isActionMenu()"
                         augmentations="augmentations"
-                        is-node-info="yangList.isNodeInfo()"
                         add-list-item-func="yangList.addListElem()"
                         add-list-item="!yangList.disableAddingListElement"
                         yang-form="yangForm"

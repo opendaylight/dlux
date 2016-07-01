@@ -14,7 +14,6 @@ define(['angular', 'app/yangman/yangman.module'], function (angular, yangman) {
                 augmentations: '=',
                 allowItems: '=',
                 isActionMenu: '&',
-                isNodeInfo: '&',
                 addListItemFunc: '&',
                 addListItem: '=',
                 yangForm: '=',

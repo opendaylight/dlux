@@ -3,14 +3,17 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
     yangman.register.service('YangmanDesignService', YangmanDesignService);
 
-    function YangmanDesignService(){
+    YangmanDesignService.$inject = ['$timeout'];
+
+    function YangmanDesignService($timeout){
 
         var service = {
-            hideMainMenu: hideMainMenu,
-            setDraggableLeftPanel: setDraggableLeftPanel,
-            setModuleDetailHeight: setModuleDetailHeight,
             disableMdMenuItem: disableMdMenuItem,
             enableMdMenuItem: enableMdMenuItem,
+            hideMainMenu: hideMainMenu,
+            setDraggableLeftPanel: setDraggableLeftPanel,
+            setJsonSplitter: setJsonSplitter,
+            setModuleDetailHeight: setModuleDetailHeight,
         };
 
         return service;
@@ -83,7 +86,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 $('#left-panel').width(localStorage.getItem('yangman__left-panel-width'));
             }
 
-            $('.resizable-e').resizable({
+            $('.ym-resizable-e').resizable({
                 handles: 'e',
                 minWidth: 300,
                 stop: function(event, ui) {
@@ -94,6 +97,18 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 resize: function() {
                     setModuleDetailHeight();
                 }
+            });
+        }
+
+        function setJsonSplitter(cbk){
+            $timeout(function () {
+                $('.ym-resizable-s').resizable({
+                    handles: 's',
+                    minHeight: 200,
+                    stop: function(event, ui) {
+                        cbk();
+                    }
+                });
             });
         }
 

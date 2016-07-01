@@ -11,7 +11,6 @@ define(['app/yangman/yangman.module'], function (yangman) {
         // methods
         yangRpc.toggleExpanded = toggleExpanded;
         yangRpc.isActionMenu = isActionMenu;
-        yangRpc.isNodeInfo = isNodeInfo;
 
         /**
          * Show hide node
@@ -25,16 +24,9 @@ define(['app/yangman/yangman.module'], function (yangman) {
          * @returns {boolean|*}
          */
         function isActionMenu() {
-            return $scope.node.getChildren('description', null, null, 'label').length > 0;
+            return false;
         }
 
-        /**
-         * Show hide node info
-         * @returns {*}
-         */
-        function isNodeInfo(){
-            return $scope.node.augmentationId;
-        }
     }
 });
 

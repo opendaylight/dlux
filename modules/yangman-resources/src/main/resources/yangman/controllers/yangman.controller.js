@@ -60,7 +60,6 @@ define([
         main.leftPanelShowModule = leftPanelShowModule;
         main.modulesTreeDisplayed = modulesTreeDisplayed;
 
-
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
         $scope.broadcastFromRoot = broadcastFromRoot;
@@ -114,6 +113,7 @@ define([
         function init(){
             YangmanDesignService.hideMainMenu();
             YangmanDesignService.setDraggableLeftPanel();
+            YangmanDesignService.setJsonSplitter(forceCMsRefresh);
 
             EventDispatcherService.registerHandler(constants.EV_FILL_PATH, fillPathIdentifiersByKey);
             EventDispatcherService.registerHandler(constants.EV_LIST_CHANGED, fillPathIdentifiersByListData);
@@ -315,6 +315,7 @@ define([
             main.jsonView.received = received;
             main.jsonView.sent = sent;
             forceCMsRefresh();
+            YangmanDesignService.setJsonSplitter(forceCMsRefresh);
         }
 
         /**

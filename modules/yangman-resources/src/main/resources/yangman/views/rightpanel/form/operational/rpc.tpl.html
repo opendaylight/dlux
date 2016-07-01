@@ -16,12 +16,11 @@
         </md-icon>
 
         <!-- Container label -->
-        <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+        <p class="top-element" ym-info-box node="node"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
 
         <!-- Action menu -->
         <yang-form-menu is-action-menu="yangRpc.isActionMenu()"
                         augmentations="augmentations"
-                        is-node-info="yangRpc.isNodeInfo()"
                         node="node"></yang-form-menu>
 
     </div>
