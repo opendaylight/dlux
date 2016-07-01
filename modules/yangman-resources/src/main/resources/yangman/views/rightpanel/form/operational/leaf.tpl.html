@@ -5,12 +5,11 @@
      ng-show="node.isFilled()">
 
     <!-- Container label -->
-    <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+    <p class="top-element" ym-info-box node="node"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
 
     <!-- Action menu -->
     <yang-form-menu is-action-menu="yanfLeaf.isActionMenu()"
                     augmentations="augmentations"
-                    is-node-info="yanfLeaf.isNodeInfo()"
                     node="node"></yang-form-menu>
 
     <!-- Empty placeholder for better look -->

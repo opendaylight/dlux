@@ -14,6 +14,7 @@ define([
     'app/yangman/controllers/form/type-empty.controller',
     'app/yangman/controllers/form/type-enum.controller',
     'app/yangman/directives/yang-form-menu.directive',
+    'app/yangman/directives/ym-info-box.directive',
 ], function () {
     'use strict';
 

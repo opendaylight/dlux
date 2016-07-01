@@ -21,7 +21,8 @@
     <div ng-controller="RequestDataCtrl as requestData"
          ng-show="main.jsonView.sent"
          ng-init="requestData.init('SENT')"
-         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
+         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
+         class="ym-resizable-s">
 
         <h5>{{'YANGMAN_SENT_DATA' | translate}}</h5>
         <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
@@ -31,7 +32,8 @@
     <div ng-controller="RequestDataCtrl as requestData"
          ng-show="main.jsonView.received"
          ng-init="requestData.init('RECEIVED')"
-         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}">
+         ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
+         class="ym-resizable-s">
 
         <h5>{{'YANGMAN_RECEIVED_DATA' | translate}}</h5>
         <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>

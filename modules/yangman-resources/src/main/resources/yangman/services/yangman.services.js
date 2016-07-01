@@ -261,11 +261,12 @@ define([], function () {
             function finishExecuting(response){
                 // finish track time response
                 time.finished = new Date().getMilliseconds();
+                var spentRequestTime = time.finished - time.started;
 
                 return {
                     status: response.status,
                     statusText: response.statusText,
-                    time: (time.finished - time.started),
+                    time: spentRequestTime < 0 ? -(spentRequestTime) : spentRequestTime,
                     requestData: allPreparedData.reqData,
                     requestSrcData: allPreparedData.srcData,
                 };

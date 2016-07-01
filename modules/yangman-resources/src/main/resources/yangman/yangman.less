@@ -145,12 +145,72 @@ button{
     right: 0;
 }
 
+.info-box-container{
+    position: relative;
+
+    &__hover-wrapper{
+        display: inline-block;
+        width: 100%;
+    }
+
+    .info-box{
+        position: absolute;
+        left: 90%;
+        top: 0;
+        margin-left: 10px;
+        min-width: 300px;
+        padding: 0;
+        z-index: 10;
+        background: #fff;
+        -webkit-transition: all 150ms linear;
+        -moz-transition: all 150ms linear;
+        -ms-transition: all 150ms linear;
+        -o-transition: all 150ms linear;
+        transition: all 150ms linear;
+        opacity: 1;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        &__padding{
+            padding: 16px;
+        }
+
+        &.ng-hide{
+            opacity: 0;
+        }
+
+        span{
+            color: @fontColor;
+        }
+    }
+
+    md-menu-divider{
+        margin-top: 4px;
+        margin-bottom: 4px;
+        height: 1px;
+        min-height: 1px;
+        max-height: 1px;
+        width: 100%;
+        background-color: @dataStoreListBorderColor;
+        display: block;
+    }
+}
+
 // yangman
 .yangmanModule{
     background-color: @appBackColor;
     color: @fontColor;
     height: 100%;
 
+    .ui-resizable-s{
+        height: 13px;
+    }
+
+    .box-container{
+        padding: 16px;
+        margin: 8px 0;
+    }
 
     /*.md-input{
         color: @inputColor;
@@ -432,7 +492,7 @@ button{
                 position: relative;
 
 
-                > div {
+                > div:not(.ui-resizable-handle) {
                     height: calc(~'100% - 25px');
                     overflow-y: auto;
                 }
@@ -458,7 +518,14 @@ button{
         }
 
         &__form{
+
+            .box-container.union{
+                padding: 0;
+            }
+
             .union-tabs{
+                margin: 8px 0;
+
                 md-content{
                     min-width: 250px;
                 }
