@@ -50,20 +50,32 @@
                                 ng-if="rightPanelSection === 'form'"
                                 class="input-span">
 
-                <input type="text" placeholder="{{!selectedSubApi ? ('YANGMAN_REQ_URL' | translate) : ''}}" ng-disabled="true">
+                <input type="text"
+                       placeholder="{{!selectedSubApi ? ('YANGMAN_REQ_URL' | translate) : ''}}"
+                       ng-disabled="true">
             </md-input-container>
         </section>
 
         <!-- Action buttons -->
         <md-input-container flex="nogrow" layout="row" layout-align="start start" class="action-buttons">
             <!-- Execute action button -->
-            <md-button class="md-raised md-primary" ng-click="requestHeader.prepareDataAndExecute(main.modulesTreeDisplayed() ? main.leftPanelShowModule : null)">{{'YANGMAN_SEND' | translate}}</md-button>
+            <md-button class="md-raised md-primary has-progress"
+                       ng-click="requestHeader.prepareDataAndExecute(
+                            main.modulesTreeDisplayed() ? main.leftPanelShowModule : null
+                       )">
+                <md-progress-circular ng-disabled="!vm.activated" class="md-raised" md-diameter="25px" ng-show="requestHeader.executingProgress"></md-progress-circular>
+                {{'YANGMAN_SEND' | translate}}
+            </md-button>
 
             <!-- Save request -->
-            <md-button class="md-raised md-warn" ng-click="requestHeader.saveRequestToCollection($event)">{{'YANGMAN_SAVE' | translate}}</md-button>
+            <md-button class="md-raised md-warn" ng-click="requestHeader.saveRequestToCollection($event)">
+                {{'YANGMAN_SAVE' | translate}}
+            </md-button>
 
             <!-- Parameters button -->
-            <md-button class="md-raised" ng-click="requestHeader.showParamsAdmin($event)">{{'YANGMAN_PARAMETERS' | translate}}</md-button>
+            <md-button class="md-raised" ng-click="requestHeader.showParamsAdmin($event)">
+                {{'YANGMAN_PARAMETERS' | translate}}
+            </md-button>
 
             <!-- sub api custom functionality menu -->
             <md-menu ng-show="selectedSubApi.custFunct.length || requestHeader.selectedPluginsButtons.length">
