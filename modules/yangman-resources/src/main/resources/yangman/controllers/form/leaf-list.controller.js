@@ -12,7 +12,6 @@ define([], function () {
         yangLeafList.addListElem = addListElem;
         yangLeafList.changed = changed;
         yangLeafList.isActionMenu = isActionMenu;
-        yangLeafList.isNodeInfo = isNodeInfo;
         yangLeafList.removeListElem = removeListElem;
         yangLeafList.toggleExpanded = toggleExpanded;
 
@@ -45,14 +44,6 @@ define([], function () {
          */
         function isActionMenu() {
             return true;
-        }
-
-        /**
-         * Show hide node info
-         * @returns {*}
-         */
-        function isNodeInfo(){
-            return $scope.node.augmentationId;
         }
     }
 });

@@ -82,5 +82,6 @@
   "YANGMAN_DELETE_OPTIONS": "Delete options",
   "YANGMAN_SELECT_OPTIONS": "Select options",
   "YANGMAN_SELECT_ALL": "Select All",
-  "YANGMAN_DESELECT_ALL": "Deselect All"
+  "YANGMAN_DESELECT_ALL": "Deselect All",
+  "YANGMAN_IS_AUGMENT": "Augment's Group"
 }

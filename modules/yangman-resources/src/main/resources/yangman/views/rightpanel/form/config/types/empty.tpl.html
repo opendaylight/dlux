@@ -1,4 +1,10 @@
-<section ng-controller="TypeEmptyCtrl as yangTypeEmpty">
+<section ng-controller="TypeEmptyCtrl as yangTypeEmpty"
+         layout="row"
+         flex="50"
+         class="md-whiteframe-z2 box-container"
+         layout-wrap
+         layout-padding>
+
     <md-checkbox ng-model="type.emptyValue"
                  ng-true-value="1"
                  ng-false-value="0"
