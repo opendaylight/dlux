@@ -44,6 +44,7 @@ define([
         $scope.requestToShow = null;
         $scope.requestDataToShow = '';
         $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
+        $scope.shownCMHint = false;
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -78,8 +79,14 @@ define([
         $scope.switchSection = switchSection;
         $scope.setParametersList = setParametersList;
         $scope.unsetPlugin = unsetPlugin;
+        $scope.setCMHintShown = setCMHintShown;
+
 
         init();
+
+        function setCMHintShown(shown) {
+            $scope.shownCMHint = shown;
+        }
 
         /**
          * Set parametersList
