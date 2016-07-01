@@ -20,16 +20,34 @@ define([
 
     yangman.register.controller('YangFormCtrl', YangFormCtrl);
 
-    YangFormCtrl.$inject = ['$scope', '$rootScope', '$filter', 'constants'];
+    YangFormCtrl.$inject = ['$scope', '$rootScope', '$filter', 'constants', 'YangUtilsService'];
 
-    function YangFormCtrl($scope, $rootScope, $filter, constants) {
+    function YangFormCtrl($scope, $rootScope, $filter, constants, YangUtilsService) {
         var yangForm = this;
 
         yangForm.viewPath = $scope.globalViewPath + 'rightpanel/form';
+        yangForm.errorMsg = '';
         $scope.constants = constants;
 
         // methods
         yangForm.getNodeName = getNodeName;
+
+        $scope.$on('YANGMAN_SET_ERROR_DATA', setRcvdErrorData);
+
+
+        /**
+         * Read and set error message received from header controller
+         * @param event
+         * @param data
+         */
+        function setRcvdErrorData(event, data) {
+            if (data.params.errors) {
+                yangForm.errorMsg = data.params.errors.error[0]['error-message'];
+            }
+            else {
+                yangForm.errorMsg = '';
+            }
+        }
 
         /**
          * Get node label name

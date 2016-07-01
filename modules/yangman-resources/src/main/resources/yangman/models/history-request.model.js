@@ -21,6 +21,9 @@ define([], function (){
         self.sentData = null;
         self.status = '';
         self.timestamp = '';
+        self.responseStatus = '';
+        self.responseStatusText = '';
+        self.responseTime = '';
 
         // functions
         self.clone = clone;
@@ -41,8 +44,11 @@ define([], function (){
          * @param name
          * @param collection
          * @param timestamp
+         * @param responseStatus
+         * @param responseTime
+         * @param responseStatusText
          */
-        function setData(sentData, receivedData, status, path, operation, name, collection, timestamp) {
+        function setData(sentData, receivedData, status, path, operation, name, collection, timestamp, responseStatus, responseStatusText, responseTime) {
 
             self.sentData = sentData === null || sentData === undefined || $.isEmptyObject(sentData) ? null : sentData;
             self.name = name;
@@ -53,6 +59,9 @@ define([], function (){
                 null : receivedData;
             self.collection = collection;
             self.timestamp = timestamp;
+            self.responseStatus = responseStatus;
+            self.responseStatusText = responseStatusText;
+            self.responseTime = responseTime;
         }
 
         /**
@@ -60,18 +69,25 @@ define([], function (){
          * @param sentData
          * @param receivedData
          * @param status - http status from response header
+         * @param responseStatus
+         * @param responseTime
+         * @param responseStatusText
          */
-        function setExecutionData(sentData, receivedData, status) {
+        function setExecutionData(sentData, receivedData, status, responseStatus, responseStatusText, responseTime) {
             self.sentData = sentData;
             self.receivedData = receivedData;
             self.status = status ? (status > 199 && status < 205 ? 'success' : 'erorr') : '';
+            self.responseStatus = responseStatus;
+            self.responseStatusText = responseStatusText;
+            self.responseTime = responseTime;
         }
 
 
         /**
          *
          * @returns {{sentData: (null|*), receivedData: (null|*), path: (string|*), collection: (string|*),
-         * method: (string|*), status: (string|*), name: (string|*), timestamp: (string|*)}}
+         * method: (string|*), status: (string|*), name: (string|*), timestamp: (string|*), responseStatus: (string|*),
+         * responseTime: (string|*)}}
          */
         function toJSON() {
             var obj = {
@@ -83,6 +99,9 @@ define([], function (){
                 status: self.status,
                 name: self.name,
                 timestamp: self.timestamp,
+                responseStatus: self.responseStatus,
+                responseStatusText: self.responseStatusText,
+                responseTime: self.responseTime,
             };
 
             return obj;
@@ -101,7 +120,6 @@ define([], function (){
 
         /**
          *
-         * @param sent
          * @param data
          * @returns {string}
          */
@@ -122,9 +140,13 @@ define([], function (){
          * @returns {HistoryRequest}
          */
         function clone() {
+            /**
+             *
+             * @type {HistoryRequestModel}
+             */
             var result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
             result.setData(self.sentData, self.receivedData, self.status, self.path, self.method, self.name,
-                self.collection, self.timestamp);
+                self.collection, self.timestamp, self.responseStatus, self.responseStatusText, self.responseTime);
             return result;
         }
 
