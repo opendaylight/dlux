@@ -130,12 +130,14 @@ define(
              * @returns {*}
              * @param timestamp
              */
-            function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp) {
+            function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp,
+                        responseStatus, responseStatusText, responseTime) {
 
                 var receivedDataProcessed = status === 'success' ? receivedData : null,
                     result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
 
-                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp);
+                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp,
+                    responseStatus, responseStatusText, responseTime);
 
                 return result;
             }
@@ -150,7 +152,9 @@ define(
                     elem.timestamp = Date.now();
                 }
                 return service.createHistoryRequest(elem.sentData, elem.receivedData, elem.path, elem.method,
-                    elem.status, elem.name, elem.collection, elem.timestamp);
+                    elem.status, elem.name, elem.collection, elem.timestamp, elem.responseStatus,
+                    elem.responseStatusText, elem.responseTime
+                );
             }
 
             /**

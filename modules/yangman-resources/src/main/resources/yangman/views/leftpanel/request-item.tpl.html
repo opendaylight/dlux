@@ -3,7 +3,7 @@
               ng-class="{selected: request.selected}"
               layout="row"
               flex="100"
-              ng-click="reqList.selectRequest($event, request); reqList.showData(request);">
+              ng-click="reqList.selectRequest($event, request);">
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
         <p class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === 'DELETE' ? 'DEL' : request.method }} </p>

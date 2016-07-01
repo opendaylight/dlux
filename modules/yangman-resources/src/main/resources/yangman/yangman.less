@@ -134,6 +134,32 @@ button{
     label{
         font-weight: normal;
     }
+
+    md-progress-circular{
+        position: absolute;
+        margin-top: 5px;
+    }
+    md-progress-circular .md-inner .md-gap{
+        border-top-color: #ffffff;
+        border-bottom-color: #ffffff;
+    }
+
+    md-progress-circular .md-inner .md-left .md-half-circle{
+        border-left-color: #ffffff;
+        border-top-color: #ffffff;
+    }
+
+    md-progress-circular .md-inner .md-right .md-half-circle{
+        border-top-color: #ffffff;
+        border-right-color: #ffffff;
+    }
+}
+
+button.has-progress{
+    span{
+        margin-left: 23px;
+        margin-right: 23px;
+    }
 }
 
 .ui-resizable-e{
@@ -455,6 +481,10 @@ button{
             }
 
             .CodeMirror { height: 100%; }
+
+            md-toast{
+                margin-top: 24px;
+            }
         }
 
         &__form{
