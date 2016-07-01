@@ -42,7 +42,8 @@ define([
             }
 
             var returnedParamsList = paramsObj.list.filter( function (param){
-                    var paramIndex = usedParamLabelArray.indexOf(param.name);
+                var paramIndex = usedParamLabelArray.indexOf(param.name);
+
                 if ( paramIndex !== -1 ) {
                     return usedParamLabelArray.splice(paramIndex, 1);
                 }
@@ -52,7 +53,7 @@ define([
             });
 
             usedParamLabelArray.forEach(function (param){
-                    returnedParamsList.push(ParametersService.createParameter({ name: param }));
+                returnedParamsList.push(ParametersService.createParameter({ name: param }));
             });
 
             return returnedParamsList;
@@ -88,11 +89,11 @@ define([
         function applyParams(paramsObj, data) {
             var dataStr = JSON.stringify(data);
 
-                if (paramsObj && paramsObj.hasOwnProperty('list')) {
-                    paramsObj.list.forEach(function (param){
-                        dataStr = service.replaceStringInText(dataStr, '<<' + param.name + '>>', param.value);
-                    });
-                }
+            if (paramsObj && paramsObj.hasOwnProperty('list')) {
+                paramsObj.list.forEach(function (param){
+                    dataStr = service.replaceStringInText(dataStr, '<<' + param.name + '>>', param.value);
+                });
+            }
 
             return ParsingJsonService.parseJson(dataStr);
         }
@@ -112,9 +113,6 @@ define([
             return replacedText;
         }
 
-
-
-
         /**
          * Service for creating basic history object
          * @param sentData
@@ -127,12 +125,13 @@ define([
          * @returns {*}
          * @param timestamp
          */
-            function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp) {
-
+        function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp,
+                        responseStatus, responseStatusText, responseTime) {
             var receivedDataProcessed = status === 'success' ? receivedData : null,
                 result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
 
-                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp);
+            result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp,
+                responseStatus, responseStatusText, responseTime);
 
             return result;
         }
@@ -143,11 +142,14 @@ define([
          * @returns {*}
          */
         function createHistoryRequestFromElement(elem) {
-                if (!elem.hasOwnProperty('timestamp')){
-                    elem.timestamp = Date.now();
-                }
+            if (!elem.hasOwnProperty('timestamp')){
+                elem.timestamp = Date.now();
+            }
+
             return service.createHistoryRequest(elem.sentData, elem.receivedData, elem.path, elem.method,
-                    elem.status, elem.name, elem.collection, elem.timestamp);
+                    elem.status, elem.name, elem.collection, elem.timestamp, elem.responseStatus,
+                    elem.responseStatusText, elem.responseTime
+                );
         }
 
         /**
@@ -177,4 +179,4 @@ define([
 
     }
 
-    });
+});

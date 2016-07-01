@@ -1,14 +1,18 @@
 <!-- Header -->
 <section md-whiteframe="1"
          class="yangmanModule__right-panel__header"
+style="margin-bottom: 0px!important;"
          ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'"></section>
 <!-- /Header -->
+
+<section class="requestMsgs" style="height: 25px;"></section>
 
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form bottom-content"
          ng-show="rightPanelSection === 'form'"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
+    <div ng-show="yangForm.errorMsg"><p class="error">{{ yangForm.errorMsg }}</p></div>
     <div ng-include src="yangForm.viewPath + '/' + selectedDatastore.label + '/' + node.type+'.tpl.html'"></div>
 </section>
 <!-- /Form section -->
@@ -22,7 +26,7 @@
          ng-show="main.jsonView.sent"
          ng-init="requestData.init('SENT')"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
-         class="ym-resizable-s">
+         class="yangmanModule__right-panel__req-data__cm-SENT ym-resizable-s">
 
         <h5>{{'YANGMAN_SENT_DATA' | translate}}</h5>
         <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
@@ -33,7 +37,7 @@
          ng-show="main.jsonView.received"
          ng-init="requestData.init('RECEIVED')"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
-         class="ym-resizable-s">
+         class="yangmanModule__right-panel__req-data__cm-RECEIVED ym-resizable-s">
 
         <h5>{{'YANGMAN_RECEIVED_DATA' | translate}}</h5>
         <div md-whiteframe="2" ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
