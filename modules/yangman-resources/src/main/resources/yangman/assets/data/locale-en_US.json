@@ -83,7 +83,7 @@
   "YANGMAN_SELECT_OPTIONS": "Select options",
   "YANGMAN_SELECT_ALL": "Select All",
   "YANGMAN_DESELECT_ALL": "Deselect All",
-  "YANGMAN_IS_AUGMENT": "Augment's Group",
+  "YANGMAN_IS_AUGMENT": "Augments",
   "YANGMAN_LOADING_MODULES": "Loading application modules...",
   "YANGMAN_EXECUTING_REQUEST": "Request is beeing executed...",
   "YANGMAN_CM_FONT_SIZE_HINT": "Use \"Alt +\" key and \"Alt -\" key in editor to enlarge or reduce json font size",

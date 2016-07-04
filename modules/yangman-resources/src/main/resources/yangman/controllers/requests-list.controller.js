@@ -22,6 +22,7 @@ define([
         vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList');
         vm.search = '';
 
+        // methods
         vm.clearFilter = clearFilter;
         vm.clearHistoryList = clearHistoryList;
         vm.clearCollectionList = clearCollectionList;
