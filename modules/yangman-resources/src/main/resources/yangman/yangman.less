@@ -134,32 +134,6 @@ button{
     label{
         font-weight: normal;
     }
-
-    md-progress-circular{
-        position: absolute;
-        margin-top: 5px;
-    }
-    md-progress-circular .md-inner .md-gap{
-        border-top-color: #ffffff;
-        border-bottom-color: #ffffff;
-    }
-
-    md-progress-circular .md-inner .md-left .md-half-circle{
-        border-left-color: #ffffff;
-        border-top-color: #ffffff;
-    }
-
-    md-progress-circular .md-inner .md-right .md-half-circle{
-        border-top-color: #ffffff;
-        border-right-color: #ffffff;
-    }
-}
-
-button.has-progress{
-    span{
-        margin-left: 23px;
-        margin-right: 23px;
-    }
 }
 
 .ui-resizable-e{
@@ -504,6 +478,35 @@ button.has-progress{
                 .status-text{
                     span span{
                         color: @colorActive;
+                    }
+                }
+            }
+        }
+
+        &__request-progress{
+
+            margin-top: 12px;
+            margin-bottom: 12px;
+
+            &__loading-container {
+                display: block;
+                position: relative;
+                border: 2px solid @infoBoxBorderColor;
+                transition: opacity  0.1s linear;
+                border-top: 0px;
+                margin: 0;
+
+                .bottom-block {
+                    display: block;
+                    position: relative;
+                    background-color: @infoBoxBackColor;
+                    height: 85px;
+
+                    > span {
+                        display: inline-block;
+                        margin-top: 10px;
+                        padding: 25px;
+                        font-size: 0.9em;
                     }
                 }
             }

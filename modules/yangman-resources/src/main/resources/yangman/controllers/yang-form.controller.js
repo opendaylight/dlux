@@ -41,6 +41,7 @@ define([
          * @param data
          */
         function setRcvdErrorData(event, data) {
+
             if (data.params.errors) {
                 yangForm.errorMsg = data.params.errors.error[0]['error-message'];
             }

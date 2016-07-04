@@ -3,9 +3,9 @@ define([], function () {
 
     angular.module('app.yangman').controller('RequestDataCtrl', RequestDataCtrl);
 
-    RequestDataCtrl.$inject = ['$mdToast', '$scope', 'RequestsService'];
+    RequestDataCtrl.$inject = ['$filter', '$mdToast', '$scope', 'RequestsService'];
 
-    function RequestDataCtrl($mdToast, $scope, RequestsService) {
+    function RequestDataCtrl($filter, $mdToast, $scope, RequestsService) {
         var requestData = this;
 
         requestData.paramsArray = [];
@@ -92,15 +92,20 @@ define([], function () {
          */
         function showCMHint(type) {
 
-            if (!$scope.shownCMHint){
+            if (!localStorage.getItem('yangman_cm_hint_got_it')){
 
                 $mdToast.show(
                     $mdToast.simple()
-                        .textContent('Use "Ctrl +" key and "Ctrl -" key in editor to enlarge or reduce json font size')
+                        .textContent($filter('translate')('YANGMAN_CM_FONT_SIZE_HINT'))
+                        .action($filter('translate')('YANGMAN_CM_HINT_DONT_SHOW'))
                         .position('top right')
                         .parent(angular.element('.yangmanModule__right-panel__req-data__cm-' + type))
-                        .hideDelay(50000)
-                );
+                        .hideDelay(10000)
+                ).then(function (response){
+                    if (response === 'ok') {
+                        localStorage.setItem('yangman_cm_hint_got_it', 1);
+                    }
+                });
             }
         }
 
@@ -116,6 +121,7 @@ define([], function () {
 
             $scope.$on('YANGMAN_SET_CODEMIRROR_DATA_' + type, function (event, args){
                 requestData.data = args.params.data;
+                showCMHint(type);
             });
 
             $scope.$on('YANGMAN_GET_CODEMIRROR_DATA_' + type, function (event, args){

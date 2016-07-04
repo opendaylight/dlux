@@ -77,7 +77,7 @@ define([], function () {
                         });
                     }
                 },
-                default: function(){
+                default: function (){
                     var methodType = {
                         GET: function () {
                             node.clear();
