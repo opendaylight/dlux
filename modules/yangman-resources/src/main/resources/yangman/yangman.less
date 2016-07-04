@@ -212,17 +212,12 @@ button{
         margin: 8px 0;
     }
 
-    /*.md-input{
-        color: @inputColor;
-        background: transparent;
-    }*/
-
     .historyTab{
-        height: calc(~'100% - 90px');
+        height: calc(~'100% - 62px');
     }
 
     .collectionsTab{
-        height: calc(~'100% - 65px');
+        height: calc(~'100% - 62px');
     }
 
 
@@ -298,8 +293,47 @@ button{
     &__left-panel{
         overflow-x: hidden;
         background: @leftPanelBackColor;
-        //background: @listBackColor;
         position: relative;
+
+        &__search{
+            padding: 10px 13px;
+            background: @listBackColor;
+            min-height: 62px;
+
+            .md-errors-spacer{
+                display: none;
+            }
+
+            md-icon{
+                color: @dashedBorderColor;
+            }
+
+            .md-has-icon.modules-list-search{
+                padding: 2px 25px;
+                margin: 0;
+
+                .md-input{
+                    width: auto;
+                    order: 0;
+                }
+
+                button{
+                    margin: 0;
+                    padding: 0;
+                    min-width: 0;
+                    min-height: 0;
+                    line-height: normal;
+
+                    &:hover, &:focus, &:active, &:visited{
+                        background: transparent;
+                    }
+
+                    .md-ripple-container{
+                        display: none;
+                    }
+                }
+            }
+        }
 
         md-tabs,
         md-tab-content > div,
@@ -334,14 +368,6 @@ button{
             }
         }
 
-        /*md-list-item .md-list-item-inner > md-icon:first-child:not(.md-avatar-icon){
-            margin-right: 16px;
-        }*/
-
-        /*md-list-item > md-icon:first-child:not(.md-avatar-icon){
-            margin: 0 16px;
-        }*/
-
         &__detail-list-tabs-container{
             > md-tabs-wrapper{
                 display: none;
@@ -367,13 +393,6 @@ button{
 
             md-icon.clickable{
                 cursor: pointer;
-            }
-
-            input{
-                background: none;
-                border: none;
-                color: @fontColor;
-                outline: none;
             }
 
             #importParameters{
@@ -685,6 +704,7 @@ button{
     &__modules-list{
         padding: 0;
         background: @listBackColor;
+        height: calc(~"100% - 62px")!important;
 
         h4{
             margin: 0;
@@ -706,6 +726,13 @@ button{
                 background: @listActiveColor;
             }
 
+            &.selected{
+                .title{
+                    background-color: @colorActive!important;
+                    color: #fff!important;
+                }
+            }
+
             md-icon{
                 margin: 12px 16px;
             }
@@ -716,10 +743,6 @@ button{
                 }
             }
         }
-
-        /*md-list-item{
-
-        }*/
     }
 
     // datastore list
