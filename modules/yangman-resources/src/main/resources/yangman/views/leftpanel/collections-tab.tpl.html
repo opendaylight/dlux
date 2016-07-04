@@ -1,26 +1,30 @@
 <md-list class="yangmanModule__requests-list__collections-list"
          ng-cloak
-         ng-init="reqList.init(reqList.collectionList)"
-         ng-controller="RequestsListCtrl as reqList">
+         ng-controller="RequestsListCtrl as reqList"
+         ng-init="reqList.init(reqList.collectionList)">
 
-    <md-content class="searchBox" layout="row">
-        <!-- search icon, form, clear button -->
-        <md-icon class="material-icons">search</md-icon>
-        <input class="ng-pristine ng-valid ng-touched"
-               type="text"
-               flex
-               placeholder="{{'YANGMAN_SEARCH' | translate}}"
-               ng-model="reqList.search"
-               aria-invalid="false" />
-        <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}"
-                    ng-click="reqList.clearFilter()"
-                    ng-if="reqList.search">
-            <md-icon class="material-icons clickable" >
-                close
-            </md-icon>
-            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
-        </md-button>
-        <!-- /search icon, form, clear button -->
+    <md-content class="searchBox yangmanModule__left-panel__search" layout="row">
+
+        <!-- searching -->
+        <md-input-container layout="row" md-no-float class="modules-list-search" flex>
+            <!-- search icon, form, clear button -->
+            <md-icon class="material-icons">search</md-icon>
+            <input class="ng-pristine ng-valid ng-touched"
+                   type="text"
+                   flex
+                   placeholder="{{'YANGMAN_SEARCH' | translate}}"
+                   ng-model="reqList.search"
+                   aria-invalid="false" />
+            <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}" flex="none"
+                       ng-click="reqList.clearFilter()"
+                       ng-if="reqList.search">
+                <md-icon class="material-icons clickable">
+                    close
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+            </md-button>
+            <!-- /search icon, form, clear button -->
+        </md-input-container>
 
         <!-- sorting -->
         <md-button  ng-click="reqList.toggleCollectionsSort()"

@@ -6,16 +6,20 @@ define([
     angular.module('app.yangman').controller('ModulesListCtrl', ModulesListCtrl);
 
     ModulesListCtrl.$inject = ['$scope', '$rootScope', '$mdToast', 'YangUtilsService', 'PluginsHandlerService',
-                                '$filter'];
+                                '$filter', '$timeout'];
 
-    function ModulesListCtrl($scope, $rootScope, $mdToast, YangUtilsService, PluginsHandlerService, $filter) {
+    function ModulesListCtrl($scope, $rootScope, $mdToast, YangUtilsService, PluginsHandlerService, $filter, $timeout) {
         var modulesList = this;
 
         modulesList.treeApis = [];
         modulesList.showLoadingBox = true;
         modulesList.moduleListTitle = '';
+        modulesList.search = '';
 
         // methods
+        modulesList.clearFilter = clearFilter;
+        modulesList.customSearch = customSearch;
+        modulesList.checkSelectedModule = checkSelectedModule;
         modulesList.setDataStore = setDataStore;
         modulesList.setModule = setModule;
 
@@ -56,6 +60,38 @@ define([
         init();
 
         /**
+         * Check if module and one of it datastore is selected
+         * @param module
+         * @returns {boolean|*|Function|o}
+         */
+        function checkSelectedModule(module){
+            var haveSelectedDS = [];
+
+            if ( $scope.selectedDatastore && (module === $scope.selectedModule)) {
+                haveSelectedDS = $scope.selectedModule.children.filter(function(item){
+                   return item === $scope.selectedDatastore;
+                });
+            }
+
+            return haveSelectedDS.length;
+        }
+
+        /**
+         * Custom search function for searching by api label
+         * @param api
+         */
+        function customSearch(api){
+            return api.label.toLowerCase().indexOf(modulesList.search.toLowerCase()) > -1;
+        }
+
+        /**
+         * Clear current ctrl search value
+         */
+        function clearFilter(){
+            modulesList.search = '';
+        }
+
+        /**
          * Load apis and modules
          */
         function loadApis() {
@@ -88,7 +124,7 @@ define([
         function setModule(module, e){
             if ( $(e.target).hasClass('top-element') ) {
                 module.expanded = !module.expanded;
-                $scope.setModule(module);
+                //$scope.setModule(module);
             }
         }
 
@@ -107,12 +143,15 @@ define([
          * @param text
          */
         function showToastInfoBox(text){
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent($filter('translate')(text))
-                    .position('bottom left')
-                    .hideDelay(3000)
-            );
+            $timeout(function(){
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent($filter('translate')(text))
+                        .position('bottom left')
+                        .parent(angular.element('.yangmanModule__left-panel'))
+                        .hideDelay(3000)
+                );
+            }, 500);
         }
     }
 

@@ -3,25 +3,28 @@
          ng-init="reqList.init(reqList.requestList)"
          ng-controller="RequestsListCtrl as reqList">
 
-    <md-content class="searchBox" layout="row">
+    <md-content class="searchBox yangmanModule__left-panel__search" layout="row">
 
-        <!-- search icon, form, clear button -->
-        <md-icon class="material-icons">search</md-icon>
-        <input class="ng-pristine ng-valid ng-touched"
-               type="text"
-               flex
-               placeholder="{{'YANGMAN_SEARCH' | translate}}"
-               ng-model="reqList.search"
-               aria-invalid="false" />
-        <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}"
-                   ng-click="reqList.clearFilter()"
-                   ng-if="reqList.search">
-            <md-icon class="material-icons clickable">
-                close
-            </md-icon>
-            <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
-        </md-button>
-        <!-- /search icon, form, clear button -->
+        <!-- searching -->
+        <md-input-container layout="row" md-no-float class="modules-list-search" flex>
+            <!-- search icon, form, clear button -->
+            <md-icon class="material-icons">search</md-icon>
+            <input class="ng-pristine ng-valid ng-touched"
+                   type="text"
+                   flex
+                   placeholder="{{'YANGMAN_SEARCH' | translate}}"
+                   ng-model="reqList.search"
+                   aria-invalid="false" />
+            <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}" flex="none"
+                       ng-click="reqList.clearFilter()"
+                       ng-if="reqList.search">
+                <md-icon class="material-icons clickable">
+                    close
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
+            </md-button>
+            <!-- /search icon, form, clear button -->
+        </md-input-container>
 
         <!-- save -->
         <md-button  ng-click="reqList.showDgSaveReq($event, main.currentPath)"
@@ -107,6 +110,8 @@
         <!-- / menu for selecting and deselecting -->
 
     </md-content>
+
+    <md-divider></md-divider>
 
     <!-- list of items grouped by date -->
     <md-content class="scrollableY">
