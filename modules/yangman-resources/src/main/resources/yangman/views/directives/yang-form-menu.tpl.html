@@ -1,39 +1,44 @@
-<md-menu ng-if="isActionMenu()" class="menu-container">
+<div ng-if="isActionMenu()" class="menu-container md-menu">
+    <!-- Close menu (click catcher) -->
+    <div ng-show="isActive">
+        <md-backdrop ng-click="closeMenu()" class="md-menu-backdrop md-click-catcher" style="position: fixed;"></md-backdrop>
+    </div>
     <!-- open menu button -->
-    <md-button class="md-icon-button" ng-click="$mdOpenMenu($event); hideInfoBox();">
+    <md-button class="md-icon-button" ng-click="openMenu(); hideInfoBox();">
         <md-icon md-font-set="material-icons">reorder</md-icon>
     </md-button>
 
-    <md-menu-content>
+    <!-- Menu content -->
+    <div class="yang-menu-content md-menu-content" ng-show="isActive">
         <h5 class="title">
             {{ 'YANGMAN_YANG_MENU' | translate }}
             <md-icon md-font-set="material-icons">reorder</md-icon>
         </h5>
-        <md-menu-divider></md-menu-divider>
+        <md-divider></md-divider>
 
         <!-- add list item -->
-        <md-menu-item ng-if="addListItem">
-            <md-button ng-click="addListItemFunc()">
+        <div class="yang-menu-item md-menu-item" ng-if="addListItem">
+            <md-button ng-click="addListItemFunc(); closeMenu();">
                 <md-icon md-font-set="material-icons">library_add</md-icon>
                 <span md-menu-align-target>{{'YANGMAN_ADD_LIST_ITEM' | translate}}</span>
             </md-button>
-        </md-menu-item>
+        </div>
 
         <!-- show items list -->
-        <md-menu-item ng-if="yangList && node.actElemStructure">
-            <md-button ng-click="switchSection('items'); setItemList();" md-prevent-menu-close>
+        <div class="yang-menu-item md-menu-item" ng-if="yangList && node.actElemStructure">
+            <md-button ng-click="switchSection('items'); setItemList();">
                 <md-icon md-font-set="material-icons">list</md-icon>
                 <span md-menu-align-target>{{'YANGMAN_SHOW_LIST_ITEM' | translate}}</span>
             </md-button>
-        </md-menu-item>
+        </div>
 
         <!-- augmentations menu item -->
-        <md-menu-item ng-if="node.augmentionGroups.length">
-            <md-button ng-click="switchSection('augmentations')" md-prevent-menu-close>
+        <div class="yang-menu-item md-menu-item" ng-if="node.augmentionGroups.length">
+            <md-button ng-click="switchSection('augmentations')">
                 <md-icon md-font-set="material-icons">brightness_auto</md-icon>
                 <span md-menu-align-target>{{'YANGMAN_AUGMENTATIONS' | translate}}</span>
             </md-button>
-        </md-menu-item>
+        </div>
 
         <!-- info box -->
         <div class="md-whiteframe-z2 info-box" ng-show="infoBox" ng-switch="infoBoxSection">
@@ -61,7 +66,7 @@
                         <!-- title -->
                         <p ng-class="{'active' : node.actElemIndex === $index}"
                            class="pointer"
-                           ng-click="node.changeActElementData($index)" md-prevent-menu-close>
+                           ng-click="node.changeActElementData($index)">
                             {{yangForm.getNodeName(node.localeLabel, node.label)}}&nbsp;{{node.createListName($index) || '[' + $index + ']'}}
                         </p>
 
@@ -75,7 +80,7 @@
                         <md-icon md-font-set="material-icons"
                                  class="pointer"
                                  ng-if="addListItem"
-                                 ng-click="yangList.removeListElem($index)" md-prevent-menu-close>
+                                 ng-click="yangList.removeListElem($index)">
                             <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
                             remove_circle_outline
                         </md-icon>
@@ -85,5 +90,5 @@
                 </md-list>
             </div>
         </div>
-    </md-menu-content>
-</md-menu>
+    </div>
+</div>

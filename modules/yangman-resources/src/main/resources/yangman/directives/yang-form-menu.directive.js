@@ -55,6 +55,28 @@ define(['angular'], function (angular) {
                     $scope.infoBox = false;
                 }
             },
+            link: function (scope, element, attrs) {
+                scope.isActive = false;
+
+                // methods
+                scope.closeMenu = closeMenu;
+                scope.openMenu = openMenu;
+
+                /**
+                 * Close Yang menu
+                 */
+                function closeMenu(){
+                    scope.isActive = false;
+                }
+
+                /**
+                 * Open Yang menu
+                 */
+                function openMenu(){
+                    scope.isActive = true;
+                }
+
+            },
         };
     }
 });
