@@ -612,16 +612,83 @@ button{
             }
 
             .md-menu.menu-container{
+                position: relative;
                 padding: 0;
 
+
+
                 .md-button{
-                    height: 22px;
-                    min-height: 22px;
+                    margin: auto 0;
+                    text-transform: none;
+                    text-align: start;
+                    height: 100%;
+                    padding-left: 16px;
+                    padding-right: 16px;
+                    display: inline-block;
+                    width: 100%;
 
                     &.md-icon-button{
                         padding: 0 8px;
                     }
+
                 }
+
+                .yang-menu-content{
+                    box-shadow: 1px 1px 10px #888;
+                    position: absolute;
+                    left: 0;
+                    z-index: 100;
+                    background: #fff;
+                    padding: 8px 0;
+
+                    md-divider{
+                        padding: 4px 0 4px 0;
+                    }
+
+                    .title{
+                        color: #a9a9a9;
+                        margin: 0 16px;
+
+                        md-icon{
+                            font-size: 18px;
+                        }
+                    }
+
+                    .yang-menu-item{
+                        min-height: 48px;
+                        height: 48px;
+
+                        md-icon{
+                            margin: auto 16px auto 0;
+                        }
+                    }
+
+                }
+
+                .info-box{
+                    position: absolute;
+                    left: 100%;
+                    top: 0;
+                    margin-left: 10px;
+                    min-width: 300px;
+                    padding: 0;
+                    z-index: 10;
+                    background: #fff;
+                    transition: all 150ms linear;
+                    opacity: 1;
+                    max-height: 300px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+
+                    &__padding{
+                        padding: 16px;
+                    }
+
+                    &.ng-hide{
+                        opacity: 0;
+                    }
+                }
+
             }
 
             .menu-placeholder{
