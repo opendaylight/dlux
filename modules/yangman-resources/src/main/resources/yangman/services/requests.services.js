@@ -133,10 +133,10 @@ define(
             function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp,
                         responseStatus, responseStatusText, responseTime) {
 
-                var receivedDataProcessed = status === 'success' ? receivedData : null,
-                    result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
+                //var receivedDataProcessed = status === 'success' ? receivedData : null,
+                var result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
 
-                result.setData(sentData, receivedDataProcessed, status, path, operation, name, collection, timestamp,
+                result.setData(sentData, receivedData, status, path, operation, name, collection, timestamp,
                     responseStatus, responseStatusText, responseTime);
 
                 return result;

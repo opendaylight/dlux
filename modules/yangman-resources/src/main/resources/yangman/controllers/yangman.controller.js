@@ -52,6 +52,7 @@ define([
             received: true,
             sent: false,
         };
+        main.executingRequestProgress = false;
 
         // methods
         main.init = init;
@@ -82,10 +83,22 @@ define([
         $scope.setCMHintShown = setCMHintShown;
 
 
+        $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_START', startExecutingRequestProgress);
+        $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP', stopExecutingRequestProgress);
+
+
         init();
 
         function setCMHintShown(shown) {
             $scope.shownCMHint = shown;
+        }
+
+        function startExecutingRequestProgress() {
+            main.executingRequestProgress = true;
+        }
+
+        function stopExecutingRequestProgress() {
+            main.executingRequestProgress = false;
         }
 
         /**
