@@ -77,7 +77,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         });
                     }
                 },
-                default: function(){
+                default: function (){
                     var methodType = {
                         GET: function () {
                             node.clear();

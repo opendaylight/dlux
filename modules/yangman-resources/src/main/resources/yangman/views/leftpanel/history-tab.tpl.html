@@ -124,7 +124,7 @@
 
                 <!-- list of requests in current group -->
                 <md-list>
-                    <div ng-repeat="request in group.requests | filter: reqList.filterReq track by $index | orderBy: 'timestamp'"
+                    <div ng-repeat="request in group.requests | filter: reqList.filterReq  | orderBy: '-timestamp' track by $index"
                          layout="row"
                          ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
                     </div>

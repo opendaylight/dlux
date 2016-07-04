@@ -5,11 +5,18 @@ style="margin-bottom: 0px!important;"
          ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'"></section>
 <!-- /Header -->
 
-<section class="requestMsgs" style="height: 25px;"></section>
+<section class="yangmanModule__right-panel__request-progress">
+    <div class="yangmanModule__right-panel__request-progress__loading-container" ng-show="main.executingRequestProgress">
+        <md-progress-linear md-mode="query"></md-progress-linear>
+        <div class="bottom-block">
+            <span>{{ 'YANGMAN_EXECUTING_REQUEST' | translate }}...</span>
+        </div>
+    </div>
+</section>
 
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form bottom-content"
-         ng-show="rightPanelSection === 'form'"
+         ng-show="rightPanelSection === 'form' && !main.executingRequestProgress"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
     <div ng-show="yangForm.errorMsg"><p class="error">{{ yangForm.errorMsg }}</p></div>
@@ -19,7 +26,7 @@ style="margin-bottom: 0px!important;"
 
 <!-- JSON section -->
 <section class="yangmanModule__right-panel__req-data bottom-content"
-         ng-show="rightPanelSection === 'req-data'">
+         ng-show="rightPanelSection === 'req-data' && !main.executingRequestProgress">
 
     <!-- Sent data -->
     <div ng-controller="RequestDataCtrl as requestData"

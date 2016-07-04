@@ -22,7 +22,6 @@ define([
         requestHeader.selectedPluginsButtons = [];
         requestHeader.selectedPlugin = null;
         requestHeader.statusObj = null;
-        requestHeader.executingProgress = false;
 
         // methods
         requestHeader.executeOperation = executeOperation;
@@ -269,20 +268,19 @@ define([
         }
 
         function showRequestProgress(){
-            requestHeader.executingProgress = true;
+            $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_START');
         }
 
 
         function finishRequestProgress(message){
-            requestHeader.executingProgress = false;
-
-            //$mdToast.show(
-            //    $mdToast.simple()
-            //        .textContent(message)
-            //        .position('bottom right')
-            //        .parent(angular.element('.yangmanModule__right-panel__header'))
-            //        .hideDelay(1500)
-            //);
+            $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP');
+            // $mdToast.show(
+            //     $mdToast.simple()
+            //         .textContent(message)
+            //         .position('bottom right')
+            //         .parent(angular.element('.yangmanModule__right-panel__header'))
+            //         .hideDelay(1500)
+            // );
         }
 
 
@@ -325,6 +323,8 @@ define([
                     requestHeader.selectedShownDataType
                 );
 
+                finishRequestProgress();
+
                 requestHeader.statusObj = reqInfo;
 
                 sendErrorData({});
@@ -363,7 +363,6 @@ define([
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
                 (executeCbk || angular.noop)(historyReq);
 
-                finishRequestProgress('dfsaf dasf adsfx');
 
             }
 
@@ -375,8 +374,11 @@ define([
             function executeReqErrCbk(reqInfo, response) {
                 requestHeader.statusObj = reqInfo;
 
+                finishRequestProgress();
+
                 historyReq.setExecutionData(
-                    reqInfo.requestSrcData, null,
+                    reqInfo.requestSrcData,
+                    response.data,
                     reqInfo.status,
                     reqInfo.status,
                     reqInfo.statusText,
@@ -393,7 +395,6 @@ define([
                 }
                 (executeCbk || angular.noop)(historyReq);
 
-                finishRequestProgress('sadfsadf adsf');
 
             }
 
