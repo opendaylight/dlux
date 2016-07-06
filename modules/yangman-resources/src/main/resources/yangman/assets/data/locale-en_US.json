@@ -86,6 +86,6 @@
   "YANGMAN_IS_AUGMENT": "Augments",
   "YANGMAN_LOADING_MODULES": "Loading application modules...",
   "YANGMAN_EXECUTING_REQUEST": "Request is beeing executed...",
-  "YANGMAN_CM_FONT_SIZE_HINT": "Use \"Alt +\" key and \"Alt -\" key in editor to enlarge or reduce json font size",
-  "YANGMAN_CM_HINT_DONT_SHOW": "Got it"
+  "YANGMAN_CM_ENLARGE_FONT_SIZE": "Enlarge json font size (Alt +)",
+  "YANGMAN_CM_REDUCE_FONT_SIZE": "Reduce json font size (Alt -)"
 }
