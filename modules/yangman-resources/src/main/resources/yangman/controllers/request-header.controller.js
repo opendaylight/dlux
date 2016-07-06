@@ -359,7 +359,9 @@ define([
                     }
                 }
 
-                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
+                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
+                    $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
+                });
                 (executeCbk || angular.noop)(historyReq);
 
 
@@ -383,7 +385,11 @@ define([
                     reqInfo.statusText,
                     reqInfo.time
                 );
-                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
+                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
+                    $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
+                });
+
+
 
                 //setNodeDataFromRequestData(requestHeader.requestUrl);
 

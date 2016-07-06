@@ -6,12 +6,18 @@ define([], function () {
     RequestDataCtrl.$inject = ['$filter', '$mdToast', '$scope', 'RequestsService'];
 
     function RequestDataCtrl($filter, $mdToast, $scope, RequestsService) {
-        var requestData = this;
+        var requestData = this,
+            cmData = {
+                cmInstance: null,
+                cmFontSize: 14,
+            };
 
         requestData.paramsArray = [];
         requestData.data = '';
         requestData.type = null;
 
+
+        // todo: move all cm staff to directive
         requestData.dataEditorOptions = {
             mode: 'javascript',
             lineNumbers: true,
@@ -22,12 +28,13 @@ define([], function () {
             },
             onLoad: function (cmInstance) {
 
+                cmData.cmInstance = cmInstance;
+
                 cmInstance.data = {
                     parameterListObj: $scope.parametersList,
-                    codeFontSize: 14,
                 };
 
-                angular.element(cmInstance.display.wrapper).css('fontSize', cmInstance.data.codeFontSize + 'px');
+                angular.element(cmInstance.display.wrapper).css('fontSize', cmData.cmFontSize + 'px');
 
                 cmInstance.on('changes', function () {
                     if (angular.isFunction(cmInstance.showHint)) {
@@ -48,21 +55,17 @@ define([], function () {
                     if (event.altKey) {
                         switch (event.key){
                             case '+':
-                                if (cmInstance.data.codeFontSize < 30) {
-                                    cmInstance.data.codeFontSize++;
-                                }
+                                incCMFontSize();
                                 angular.element(cmInstance.display.wrapper).css(
                                     'fontSize',
-                                    cmInstance.data.codeFontSize + 'px'
+                                    cmData.cmFontSize + 'px'
                                 );
                                 break;
                             case '-':
-                                if (cmInstance.data.codeFontSize > 5) {
-                                    cmInstance.data.codeFontSize--;
-                                }
+                                decCMFontSize();
                                 angular.element(cmInstance.display.wrapper).css(
                                     'fontSize',
-                                    cmInstance.data.codeFontSize + 'px'
+                                    cmData.cmFontSize + 'px'
                                 );
                                 break;
                         }
@@ -76,7 +79,36 @@ define([], function () {
 
         // methods
         requestData.init = init;
-        requestData.showCMHint = showCMHint;
+        requestData.enlargeCMFont = enlargeCMFont;
+        requestData.reduceCMFont = reduceCMFont;
+
+        function incCMFontSize() {
+            if (cmData.cmFontSize < 30) {
+                cmData.cmFontSize++;
+            }
+        }
+
+        function decCMFontSize() {
+            if (cmData.cmFontSize > 5) {
+                cmData.cmFontSize--;
+            }
+        }
+
+        function enlargeCMFont() {
+            incCMFontSize();
+            angular.element(cmData.cmInstance.display.wrapper).css(
+                'fontSize',
+                cmData.cmFontSize + 'px'
+            );
+        }
+
+        function reduceCMFont() {
+            decCMFontSize();
+            angular.element(cmData.cmInstance.display.wrapper).css(
+                'fontSize',
+                cmData.cmFontSize + 'px'
+            );
+        }
 
         /**
          * Set code mirror theme and readonly property considering requestData.type
@@ -88,28 +120,6 @@ define([], function () {
 
 
         /**
-         * Show hints for first codemirror instancesk
-         */
-        function showCMHint(type) {
-
-            if (!localStorage.getItem('yangman_cm_hint_got_it')){
-
-                $mdToast.show(
-                    $mdToast.simple()
-                        .textContent($filter('translate')('YANGMAN_CM_FONT_SIZE_HINT'))
-                        .action($filter('translate')('YANGMAN_CM_HINT_DONT_SHOW'))
-                        .position('top right')
-                        .parent(angular.element('.yangmanModule__right-panel__req-data__cm-' + type))
-                        .hideDelay(10000)
-                ).then(function (response){
-                    if (response === 'ok') {
-                        localStorage.setItem('yangman_cm_hint_got_it', 1);
-                    }
-                });
-            }
-        }
-
-        /**
          * Initialization
          * @param type
          */
@@ -117,11 +127,8 @@ define([], function () {
             requestData.type = type;
             initEditorOptions();
 
-            showCMHint(type);
-
             $scope.$on('YANGMAN_SET_CODEMIRROR_DATA_' + type, function (event, args){
                 requestData.data = args.params.data;
-                showCMHint(type);
             });
 
             $scope.$on('YANGMAN_GET_CODEMIRROR_DATA_' + type, function (event, args){
