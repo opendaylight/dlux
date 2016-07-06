@@ -10,9 +10,9 @@ define(
 
         yangman.register.service('RequestsService', RequestsService);
 
-        RequestsService.$inject = ['PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService'];
+        RequestsService.$inject = ['$filter', 'PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService'];
 
-        function RequestsService(PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService){
+        function RequestsService($filter, PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService){
 
             var service = {};
 
@@ -175,7 +175,7 @@ define(
              * @returns {*}
              */
             function createEmptyHistoryList(name){
-                var result = new HistoryListModel(ParsingJsonService, service);
+                var result = new HistoryListModel($filter, ParsingJsonService, service);
                 result.setName(name);
                 return result;
             }

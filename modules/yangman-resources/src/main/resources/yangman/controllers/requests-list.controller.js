@@ -106,12 +106,13 @@ define([
          * @param params
          */
         function saveBcstedHistoryRequest(broadcastEvent, params) {
-            console.debug('params.params', params.params);
 
             vm.requestList.addRequestToList(params.params);
             vm.requestList.groupListByDate();
             vm.requestList.saveToStorage();
             loadHistoryRequests();
+
+            (params.cbk || angular.noop)();
         }
 
         /**
@@ -465,6 +466,11 @@ define([
             refreshCollections();
         }
 
+
+        function selectNewestRequest() {
+            vm.mainList.toggleReqSelection(true, vm.mainList.getNewestRequest());
+        }
+
         /**
          *
          * @param list collectionList or requestList object
@@ -477,6 +483,9 @@ define([
                 $scope.$on('YANGMAN_SAVE_EXECUTED_REQUEST', saveBcstedHistoryRequest);
                 // saving from request header
                 $scope.$on('YANGMAN_SAVE_REQUEST_TO_COLLECTION', saveRequestFromExt);
+                // select newest request
+                $scope.$on('YANGMAN_SELECT_THE_NEWEST_REQUEST', selectNewestRequest);
+
             } else {
                 // saving collections expanded status on refresh
                 $scope.$on('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', function(event, params){
