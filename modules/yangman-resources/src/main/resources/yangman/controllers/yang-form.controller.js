@@ -12,6 +12,7 @@ define([
     'app/yangman/controllers/form/rpc.controller',
     'app/yangman/controllers/form/type.controller',
     'app/yangman/controllers/form/type-bit.controller',
+    'app/yangman/controllers/form/type-boolean.controller',
     'app/yangman/controllers/form/type-empty.controller',
     'app/yangman/controllers/form/type-enum.controller',
     'app/yangman/directives/yang-form-menu.directive',
