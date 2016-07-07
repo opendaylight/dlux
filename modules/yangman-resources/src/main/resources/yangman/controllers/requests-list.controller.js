@@ -106,7 +106,6 @@ define([
          * @param params
          */
         function saveBcstedHistoryRequest(broadcastEvent, params) {
-
             vm.requestList.addRequestToList(params.params);
             vm.requestList.groupListByDate();
             vm.requestList.saveToStorage();
@@ -213,6 +212,7 @@ define([
          * @param reqObj
          */
         function executeRequest(reqObj) {
+            $scope.setRightPanelSection('req-data');
             $scope.rootBroadcast(
                 'YANGMAN_HEADER_INIT',
                 { path: reqObj.path, method: reqObj.method },

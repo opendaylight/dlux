@@ -4,6 +4,7 @@ define([], function () {
     function PathUtilsService(ArrayUtilsService){
 
         var service = {
+                clearPath: clearPath,
                 createPathElement: createPathElement,
                 getModuleNameFromPath: getModuleNameFromPath,
                 getStorageAndNormalizedPath: getStorageAndNormalizedPath,
@@ -124,7 +125,11 @@ define([], function () {
             });
         }
 
-        // TODO: add service's description
+        /**
+         * Service for filling API url object from url string data
+         * @param pathArrayIn
+         * @param pathString
+         */
         function fillPath(pathArrayIn, pathString) {
             var pathArray = trimPath(pathString).split('/'),
                 pathPosition = 0;
@@ -139,6 +144,20 @@ define([], function () {
                 pathPosition++;
             });
 
+        }
+
+        /**
+         * Service for clearing api path object
+         * @param pathArrayIn
+         */
+        function clearPath(pathArrayIn){
+            pathArrayIn.forEach(function (pathItem){
+                if ( pathItem.hasIdentifier() ){
+                    pathItem.identifiers.forEach(function (identifier){
+                        identifier.value = '';
+                    });
+                }
+            });
         }
 
         // TODO: add service's description
