@@ -294,7 +294,7 @@ define([
         function setApi(api, subApi, setUrl){
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
-
+            PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
             $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);
         }
 
