@@ -66,6 +66,9 @@ define([
          * Clear history requests list and save to storage
          */
         function clearHistoryList(ev) {
+
+            YangmanDesignService.disableMdMenuItem(ev);
+
             var confirm = $mdDialog.confirm()
                 .title($filter('translate')('YANGMAN_DELETE_HISTORY_CONFIRM_TITLE'))
                 .textContent($filter('translate')('YANGMAN_DELETE_HISTORY_CONFIRM_TEXT'))
@@ -78,6 +81,9 @@ define([
                 vm.requestList.clear();
                 vm.requestList.saveToStorage();
                 $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY');
+                YangmanDesignService.enableMdMenuItem(ev);
+            }, function (){
+                YangmanDesignService.enableMdMenuItem(ev);
             });
         }
 
@@ -93,10 +99,15 @@ define([
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
 
+            YangmanDesignService.disableMdMenuItem(ev);
+
             $mdDialog.show(confirm).then(function (){
                 vm.collectionList.clear();
                 vm.collectionList.saveToStorage();
                 $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
+                YangmanDesignService.enableMdMenuItem(ev);
+            }, function () {
+                YangmanDesignService.enableMdMenuItem(ev);
             });
         }
 

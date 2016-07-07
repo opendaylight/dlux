@@ -148,7 +148,7 @@ define(
              * @returns {*}
              */
             function createHistoryRequestFromElement(elem) {
-                if (!elem.hasOwnProperty('timestamp')){
+                if (!elem.hasOwnProperty('timestamp') || elem.timestamp === ''){
                     elem.timestamp = Date.now();
                 }
                 return service.createHistoryRequest(elem.sentData, elem.receivedData, elem.path, elem.method,
