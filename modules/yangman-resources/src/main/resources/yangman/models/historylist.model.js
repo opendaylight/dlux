@@ -76,24 +76,26 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
             self.list.forEach(addToListDateGroup);
 
             function addToListDateGroup(elem){
-                var groupName = roundTimestampToDate(elem.timestamp),
-                    dateGroupArr = self.dateGroups.filter(function(group){
-                        return group.name === groupName;
-                    }),
-                    dateGroup = null;
+                if (elem.timestamp){
+                    var groupName = roundTimestampToDate(elem.timestamp),
+                        dateGroupArr = self.dateGroups.filter(function(group){
+                            return group.name === groupName;
+                        }),
+                        dateGroup = null;
 
-                if (dateGroupArr.length){
-                    dateGroup = dateGroupArr[0];
+                    if (dateGroupArr.length){
+                        dateGroup = dateGroupArr[0];
+                    }
+                    else {
+                        dateGroup = {
+                            name: groupName,
+                            longName: new Date(groupName).toDateString(),
+                            requests: [],
+                        };
+                        self.dateGroups.push(dateGroup);
+                    }
+                    dateGroup.requests.push(elem);
                 }
-                else {
-                    dateGroup = {
-                        name: groupName,
-                        longName: new Date(groupName).toDateString(),
-                        requests: [],
-                    };
-                    self.dateGroups.push(dateGroup);
-                }
-                dateGroup.requests.push(elem);
             }
         }
 
