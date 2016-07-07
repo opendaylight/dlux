@@ -250,8 +250,8 @@ define([
                 $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
                 reqData = params.reqData ? angular.fromJson(params.reqData) : {};
             }
-
-            var historyReqData = YangmanService.prepareAllRequestData(
+            else{
+                var historyReqData = YangmanService.prepareAllRequestData(
                     $scope.selectedApi,
                     $scope.selectedSubApi,
                     requestHeader.selectedOperation,
@@ -262,7 +262,10 @@ define([
                     null
                 );
 
-            historyReq.setExecutionData(historyReqData.reqData, {}, '');
+                reqData = historyReqData.reqData;
+            }
+
+            historyReq.setExecutionData(reqData, {}, '');
 
             $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
         }
