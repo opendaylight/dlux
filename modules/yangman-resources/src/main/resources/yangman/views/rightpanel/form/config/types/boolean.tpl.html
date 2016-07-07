@@ -1,5 +1,7 @@
-<md-switch ng-model="node.value"
-           id="{{ node.label + node.id }}"
-           aria-label="Boolean"
-           ng-disabled="{{ yangOutput.notEditable }}"><!--ng-change="yangType.valueChanged()"-->
-</md-switch>
+<section ng-controller="TypeBooleanCtrl as yangTypeBolean" flex>
+    <md-switch ng-model="node.value"
+               id="{{ node.label + node.id }}"
+               aria-label="Boolean"
+               ng-disabled="{{ yangOutput.notEditable }}">
+    </md-switch>
+</section>
