@@ -460,6 +460,7 @@ md-dialog{
         .bottom-content{
             height: calc(~'100% - 195px');
             overflow-y: auto;
+            margin-top: 25px;
 
             .codemirror-container{
                 height: 100%;
@@ -475,6 +476,10 @@ md-dialog{
                 md-content{
                     background: transparent;
                 }
+            }
+
+            md-progress-linear{
+                margin-top: -5px;
             }
 
             md-input-container{
@@ -505,35 +510,6 @@ md-dialog{
                 .status-text{
                     span span{
                         color: @colorActive;
-                    }
-                }
-            }
-        }
-
-        &__request-progress{
-
-            margin-top: 12px;
-            margin-bottom: 12px;
-
-            &__loading-container {
-                display: block;
-                position: relative;
-                border: 2px solid @infoBoxBorderColor;
-                transition: opacity  0.1s linear;
-                border-top: 0px;
-                margin: 0;
-
-                .bottom-block {
-                    display: block;
-                    position: relative;
-                    background-color: @infoBoxBackColor;
-                    height: 85px;
-
-                    > span {
-                        display: inline-block;
-                        margin-top: 10px;
-                        padding: 25px;
-                        font-size: 0.9em;
                     }
                 }
             }
@@ -571,6 +547,7 @@ md-dialog{
                         vertical-align: top;
                     }
                 }
+
             }
 
             > div{
