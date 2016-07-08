@@ -1,6 +1,6 @@
-<section ng-controller="ModulesListCtrl as modulesList" class="h100">
+<section ng-cloak ng-controller="ModulesListCtrl as modulesList" class="h100">
     <!-- searching -->
-    <section class="yangmanModule__left-panel__search" ng-hide="modulesList.showLoadingBox">
+    <section class="yangmanModule__left-panel__search">
         <md-input-container layout="row" md-no-float class="modules-list-search">
             <md-icon class="material-icons">search</md-icon>
             <input class="ng-pristine ng-valid ng-touched"
@@ -30,12 +30,13 @@
     <md-list ng-cloak class="yangmanModule__modules-list scrollableY">
 
         <!-- Loading box -->
-        <div class="yangmanModule__left-panel__loading-container" ng-show="modulesList.showLoadingBox">
-            <md-progress-linear md-mode="query"></md-progress-linear>
-            <div class="bottom-block">
-                <span>{{ 'YANGMAN_LOADING_MODULES' | translate }}</span>
-            </div>
-        </div>
+        <!--<div class="yangmanModule__left-panel__loading-container" ng-show="modulesList.showLoadingBox">-->
+            <!--<md-progress-linear md-mode="query"></md-progress-linear>-->
+            <!--<div class="bottom-block">-->
+                <!--<span>{{ 'YANGMAN_LOADING_MODULES' | translate }}</span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <md-progress-linear md-mode="indeterminate" ng-show="modulesList.showLoadingBox"></md-progress-linear>
 
         <!-- Mount point title -->
         <section ng-show="modulesList.moduleListTitle.length">
