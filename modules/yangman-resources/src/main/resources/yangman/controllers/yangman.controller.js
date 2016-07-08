@@ -81,11 +81,6 @@ define([
         $scope.unsetPlugin = unsetPlugin;
         $scope.setCMHintShown = setCMHintShown;
 
-
-        $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_START', startExecutingRequestProgress);
-        $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP', stopExecutingRequestProgress);
-
-
         init();
 
         function setCMHintShown(shown) {
@@ -130,13 +125,15 @@ define([
          * Initialization
          */
         function init(){
+            $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_START', startExecutingRequestProgress);
+            $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP', stopExecutingRequestProgress);
+
             YangmanDesignService.hideMainMenu();
             YangmanDesignService.setDraggableLeftPanel();
             YangmanDesignService.setJsonSplitter(forceCMsRefresh);
 
             EventDispatcherService.registerHandler(constants.EV_FILL_PATH, fillPathIdentifiersByKey);
             EventDispatcherService.registerHandler(constants.EV_LIST_CHANGED, fillPathIdentifiersByListData);
-
         }
 
         /**
@@ -179,6 +176,7 @@ define([
             }
         }
 
+        // TODO :: description
         function modulesTreeDisplayed() {
             return main.selectedMainTab === 0;
         }
@@ -293,7 +291,11 @@ define([
         function setApi(api, subApi, setUrl){
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
-            PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
+
+            if ( subApi ) {
+                PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
+            }
+
             $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);
         }
 

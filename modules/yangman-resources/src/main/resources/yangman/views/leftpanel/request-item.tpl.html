@@ -20,10 +20,15 @@
 <!-- /request row -->
 
 <!-- request submenu -->
-<md-menu class="yangmanModule__requests-list__group__itemMenu" md-offset="35 15"  layout-align="center start">
+<md-menu class="yangmanModule__requests-list__group__itemMenu"
+         md-offset="35 15"
+         layout-align="center start"
+         ng-class="{selected: request.selected}">
+
     <md-button aria-label="menu" class="md-primary" ng-click="$mdOpenMenu()">
         <i class="material-icons">menu</i>
     </md-button>
+
     <md-menu-content class="reqMenu">
         <md-menu-item>
             <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" class="" ng-click="reqList.executeRequest(request)">
