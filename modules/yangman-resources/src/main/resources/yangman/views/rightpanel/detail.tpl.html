@@ -1,22 +1,23 @@
 <!-- Header -->
 <section md-whiteframe="1"
          class="yangmanModule__right-panel__header"
-style="margin-bottom: 0px!important;"
-         ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'"></section>
+         style="margin-bottom: 0px!important;"
+         ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'">
+</section>
 <!-- /Header -->
 
-<section class="yangmanModule__right-panel__request-progress">
-    <div class="yangmanModule__right-panel__request-progress__loading-container" ng-show="main.executingRequestProgress">
-        <md-progress-linear md-mode="query"></md-progress-linear>
-        <div class="bottom-block">
-            <span>{{ 'YANGMAN_EXECUTING_REQUEST' | translate }}...</span>
-        </div>
-    </div>
-</section>
+<!--<section class="yangmanModule__right-panel__request-progress">-->
+    <!--<div class="yangmanModule__right-panel__request-progress__loading-container">-->
+        <!--<md-progress-linear md-mode="query"></md-progress-linear>-->
+        <!--<div class="bottom-block">-->
+            <!--<span>{{ 'YANGMAN_EXECUTING_REQUEST' | translate }}...</span>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
 
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form bottom-content"
-         ng-show="rightPanelSection === 'form' && !main.executingRequestProgress"
+         ng-show="rightPanelSection === 'form'"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
     <div ng-show="yangForm.errorMsg"><p class="error">{{ yangForm.errorMsg }}</p></div>
@@ -26,7 +27,8 @@ style="margin-bottom: 0px!important;"
 
 <!-- JSON section -->
 <section class="yangmanModule__right-panel__req-data bottom-content"
-         ng-show="rightPanelSection === 'req-data' && !main.executingRequestProgress">
+         ng-cloak
+         ng-show="rightPanelSection === 'req-data'">
 
     <!-- Sent data -->
     <div ng-controller="RequestDataCtrl as requestData"
