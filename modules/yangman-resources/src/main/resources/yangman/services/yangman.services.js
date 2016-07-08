@@ -91,11 +91,8 @@ define(['app/yangman/yangman.module'], function (yangman) {
                             }
                             return {};
                         },
-                        PUT: function () {
-                            return rData;
-                        },
                         DEFAULT: function () {
-                            return outputType === 'form' ? sData : rData;
+                            return rData;
                         }
                     };
 

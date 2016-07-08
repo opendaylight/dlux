@@ -46,7 +46,7 @@
         </section>
 
         <!-- Modules list -->
-        <md-list-item ng-repeat="module in modulesList.treeApis | filter: modulesList.customSearch"
+        <md-list-item ng-repeat="module in modulesList.treeApis | filter: modulesList.customSearch | orderBy: 'label'"
                       class="yangmanModule__modules-list__item"
                       ng-class="{'expanded' : module.expanded, 'selected' : modulesList.checkSelectedModule(module)}"
                       ng-hide="modulesList.showLoadingBox"
@@ -58,7 +58,7 @@
                     <md-icon md-font-set="material-icons" class="top-icon top-element">
                         {{module.expanded ? 'keyboard_arrow_down':'keyboard_arrow_right'}}
                     </md-icon>
-                    <p flex class="top-element" md-highlight-text="modulesList.search"> {{module.label}} </p>
+                    <p flex class="top-element" md-highlight-text="modulesList.search" md-highlight-flags="i"> {{module.label}} </p>
                 </div>
 
                 <!-- Datastore && rpc -->
