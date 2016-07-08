@@ -16,7 +16,8 @@ define(
 
             var service = {};
 
-            service.applyParams = applyParams;
+            service.applyParamsToObj = applyParamsToObj;
+            service.applyParamsToStr = applyParamsToStr;
             service.createEmptyCollectionList = createEmptyCollectionList;
             service.createEmptyHistoryList = createEmptyHistoryList;
             service.createHistoryRequestFromElement = createHistoryRequestFromElement;
@@ -85,17 +86,29 @@ define(
             /**
              * Replace all parameters with its values
              * @param paramsObj
+             * @param str
+             * @returns {*}
+             */
+            function applyParamsToStr(paramsObj, str) {
+                if (paramsObj && paramsObj.hasOwnProperty('list')) {
+                    paramsObj.list.forEach(function (param){
+                        str = service.replaceStringInText(str, '<<' + param.name + '>>', param.value);
+                    });
+                }
+
+                return str;
+            }
+
+            /**
+             * Replace all parameters with its values
+             * @param paramsObj
              * @param requestData
              * @returns {*}
              */
-            function applyParams(paramsObj, data) {
+            function applyParamsToObj(paramsObj, data) {
                 var dataStr = JSON.stringify(data);
 
-                if (paramsObj && paramsObj.hasOwnProperty('list')) {
-                    paramsObj.list.forEach(function (param){
-                        dataStr = service.replaceStringInText(dataStr, '<<' + param.name + '>>', param.value);
-                    });
-                }
+                dataStr = service.applyParamsToStr(paramsObj, dataStr);
 
                 return ParsingJsonService.parseJson(dataStr);
             }
@@ -135,6 +148,8 @@ define(
 
                 //var receivedDataProcessed = status === 'success' ? receivedData : null,
                 var result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
+
+                timestamp = timestamp || Date.now();
 
                 result.setData(sentData, receivedData, status, path, operation, name, collection, timestamp,
                     responseStatus, responseStatusText, responseTime);

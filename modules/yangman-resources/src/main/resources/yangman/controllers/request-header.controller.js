@@ -7,12 +7,12 @@ define([
     yangman.register.controller('RequestHeaderCtrl', RequestHeaderCtrl);
 
     RequestHeaderCtrl.$inject = [
-        '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService', 'PathUtilsService',
-        'RequestsService', '$filter', 'DataBackupService',
+        '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService',
+        'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService',
     ];
 
-    function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService, PathUtilsService,
-                               RequestService, $filter, DataBackupService) {
+    function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService,
+                               PathUtilsService, RequestService, $filter, DataBackupService) {
         var requestHeader = this;
 
         requestHeader.allOperations = ['GET', 'POST', 'PUT', 'DELETE'];
@@ -359,7 +359,10 @@ define([
 
                         $scope.node.expanded = true;
                         $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
-                        sendRequestData(YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node), 'RECEIVED');
+                        sendRequestData(
+                            YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node),
+                            'RECEIVED'
+                        );
                     }
                 }
 
