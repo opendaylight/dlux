@@ -246,7 +246,7 @@ md-dialog{
     }
 
     .highlight{
-        color: @fontHighlight;
+        color: @colorActive;
     }
     md-tabs-content-wrapper{
         top: 0!important;
@@ -884,11 +884,29 @@ md-dialog{
             padding-top: 0;
         }
 
+        &__item-container{
+            position: relative;
+        }
+
         &__group{
 
             padding: 0!important;
 
             &__item{
+
+                &.selected{
+                    background-color: @colorActive;
+
+                    .yangmanModule__requests-list__group__item__path{
+                        color: #fff;
+                    }
+
+                    .yangmanModule__requests-list__group__item__method{
+                        .GET, .PUT, .POST, .DELETE, .error{
+                            color: #fff;
+                        }
+                    }
+                }
 
                 &__path{
                     white-space: -webkit-pre-wrap; /*Chrome & Safari */
@@ -896,9 +914,10 @@ md-dialog{
                     white-space: normal;
                     line-height: 18px;
                     color: @fontColor;
+                    padding: 5px 0;
 
                     p{
-                        padding-right: 9px;
+                        padding: 0 9px;
                     }
                 }
 
@@ -925,9 +944,19 @@ md-dialog{
             }
 
             &__itemMenu{
-                position: relative;
-                margin-left: -52px;
-                padding-top: 0;
+                position: absolute;
+                top: 50%;
+                margin: -20px 0 0 0;
+                right: 5px;
+                padding: 0;
+
+                &.selected{
+                    > button{
+                        i.material-icons{
+                            color: #fff;
+                        }
+                    }
+                }
 
                 > button{
                     min-width: 0;
