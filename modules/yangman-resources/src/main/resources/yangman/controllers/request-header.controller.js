@@ -241,6 +241,11 @@ define([
         }
 
         function saveRequestToCollection(event) {
+
+            if (requestHeader.selectedShownDataType === 'form') {
+                requestHeader.setRequestUrl();
+            }
+
             var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
                     requestHeader.selectedOperation, '', '', ''),
                 reqData = {};
@@ -250,7 +255,7 @@ define([
                 $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
                 reqData = params.reqData ? angular.fromJson(params.reqData) : {};
             }
-            else{
+            else {
                 var historyReqData = YangmanService.prepareAllRequestData(
                     $scope.selectedApi,
                     $scope.selectedSubApi,
