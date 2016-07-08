@@ -61,6 +61,7 @@
 
     <md-divider></md-divider>
 
+    <!-- collection list -->
     <md-content class="scrollableY">
 
         <div ng-repeat="collection in reqList.mainList.collections | filter: reqList.filterCol | orderBy: (reqList.collectionsSortAsc ? '' : '-')+'name'">
@@ -79,7 +80,7 @@
                         <div layout="column">
 
                             <p flex>
-                            <span md-highlight-text="reqList.search" >
+                            <span md-highlight-text="reqList.search" md-highlight-flags="i">
                                 {{collection.name}}
                             </span><br />
                             <span class="desc">

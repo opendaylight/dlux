@@ -133,22 +133,55 @@ define([
 
             // if changing to form, try to fill node data
             if (requestHeader.selectedShownDataType === 'form') {
-                var params = {
-                        reqData: null,
-                    },
-                    reqData = {},
-                    dataType = requestHeader.selectedOperation === 'GET' ? 'RECEIVED' : 'SENT';
+                var reqData = {};
 
-
-                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
-                reqData = params.reqData ? angular.fromJson(params.reqData) : {};
+                reqData = getDataForForm();
                 setNodeDataFromRequestData(requestHeader.requestUrl);
 
                 if ( $scope.node ) {
+
                     YangmanService.fillNodeFromResponse($scope.node, reqData);
                     $scope.node.expanded = true;
                 }
             }
+        }
+
+        /**
+         * Helper method for building correct json data for form, rpc included
+         * @returns {*}
+         */
+        function getDataForForm(){
+            var params = {
+                    reqData: null,
+                },
+                dataTypeFunc = {
+                    rpc: function () {
+                        var sentData = { reqData: null },
+                            allData = { sent: null, received: null };
+
+                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', params);
+                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
+
+                        allData.sent = sentData.reqData ? angular.fromJson(sentData.reqData) : {};
+                        allData.received = params.reqData ? angular.fromJson(params.reqData) : {};
+
+                        return YangmanService.prepareReceivedData(
+                            $scope.node,
+                            requestHeader.selectedOperation,
+                            allData.received,
+                            allData.sent,
+                            requestHeader.selectedShownDataType
+                        );
+                    },
+                    default: function (){
+                        var dataType = requestHeader.selectedOperation === 'GET' ? 'RECEIVED' : 'SENT';
+
+                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
+                        return params.reqData ? angular.fromJson(params.reqData) : {};
+                    },
+                };
+
+            return (dataTypeFunc[$scope.node.type] || dataTypeFunc.default)();
         }
 
         /**
@@ -280,7 +313,7 @@ define([
         }
 
 
-        function finishRequestProgress(message){
+        function finishRequestProgress (message){
             $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP');
             // $mdToast.show(
             //     $mdToast.simple()
@@ -433,7 +466,6 @@ define([
          * Check data before executin operations
          */
         function prepareDataAndExecute(cbk){
-
 
             if ( requestHeader.requestUrl.length ) {
 
