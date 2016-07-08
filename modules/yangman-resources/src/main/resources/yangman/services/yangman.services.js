@@ -161,7 +161,10 @@ define([], function () {
                 customRestangular: null,
                 headers: {},
                 operation: '',
-                reqString: selectedSubApi ? selectedSubApi.buildApiRequestString() : '',
+                reqString:
+                    selectedSubApi ?
+                        RequestsService.applyParamsToStr(params, selectedSubApi.buildApiRequestString()) :
+                        '',
                 reqHeaders: {},
                 reqData: '',
                 srcData: '',
@@ -175,7 +178,8 @@ define([], function () {
                 allPreparedData.srcData = requestData;
             }
 
-            allPreparedData.reqData = RequestsService.applyParams(params, allPreparedData.srcData);
+            allPreparedData.reqData = RequestsService.applyParamsToObj(params, allPreparedData.srcData);
+
 
             // prepare req data
             if (operation === 'GET' || operation === 'DELETE'){
@@ -192,6 +196,7 @@ define([], function () {
 
             // set correct host into restangular based on shown data type and prepare data
             if ( dataType === 'req-data' ){
+                requestUrl = RequestsService.applyParamsToStr(params, requestUrl);
                 var parser = locationHelper(requestUrl, ['pathname', 'origin']),
                     raParam = '';
 
