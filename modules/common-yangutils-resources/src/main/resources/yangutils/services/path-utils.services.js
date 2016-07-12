@@ -5,6 +5,7 @@ define([], function () {
 
         var service = {
                 clearPath: clearPath,
+                checkEmptyIdentifiers: checkEmptyIdentifiers,
                 createPathElement: createPathElement,
                 getModuleNameFromPath: getModuleNameFromPath,
                 getStorageAndNormalizedPath: getStorageAndNormalizedPath,
@@ -53,7 +54,15 @@ define([], function () {
             }
         }
 
-        // TODO: add service's description
+        /**
+         * Translate path url into path elements array
+         * @param path
+         * @param prefixConverter
+         * @param importNodes
+         * @param getDefaultModuleCallback
+         * @param notIdentifiers
+         * @returns {Array}
+         */
         function translate(path, prefixConverter, importNodes, getDefaultModuleCallback, notIdentifiers) {
             var pathStrElements = path.split('/').filter(function (e) {
                     return e !== '';
@@ -122,6 +131,17 @@ define([], function () {
 
             return pathArray.map(function (pe, i) {
                 return getElemStr(pe, getLastElem(i));
+            });
+        }
+
+        /**
+         * Check if in path elements array is empty identifier
+         * @param pathArray
+         * @returns {*}
+         */
+        function checkEmptyIdentifiers(pathArray){
+            return pathArray.some(function (item) {
+                return item.hasEmptyIdentifier();
             });
         }
 
@@ -324,6 +344,12 @@ define([], function () {
             this.getIdentifierValues = function () {
                 return this.identifiers.map(function (i) {
                     return i.value;
+                });
+            };
+
+            this.hasEmptyIdentifier = function () {
+                return this.identifiers.some(function (item) {
+                    return item.value.length === 0;
                 });
             };
 
