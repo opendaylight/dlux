@@ -363,7 +363,7 @@ define([
          * @returns {boolean}
          */
         function filterReq(reqObj){
-            return reqObj.path.indexOf(vm.search) !== -1;
+            return reqObj.path.toLowerCase().indexOf(vm.search.toLowerCase()) > -1;
         }
 
         /**
@@ -389,7 +389,7 @@ define([
          * @returns {boolean}
          */
         function filterColName(colObj){
-            return colObj.name.indexOf(vm.search) !== -1;
+            return colObj.name.toLowerCase().indexOf(vm.search.toLowerCase()) > -1;
         }
 
         /**
