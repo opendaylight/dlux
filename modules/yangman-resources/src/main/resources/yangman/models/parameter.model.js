@@ -20,6 +20,16 @@ define([], function (){
         self.toJSON = toJSON;
         self.setData = setData;
         self.clone = clone;
+        self.applyValsForFilters = applyValsForFilters;
+
+        /**
+         * Copy model name and value to _name and _value properties, which are used when sorting and filtering list
+         * of parameters
+         */
+        function applyValsForFilters() {
+            self._name = self.name;
+            self._value = self.value;
+        }
 
         /**
          * Grouped setter

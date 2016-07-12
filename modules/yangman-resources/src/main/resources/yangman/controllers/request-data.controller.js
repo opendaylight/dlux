@@ -136,8 +136,6 @@ define([
             $scope.$on('YANGMAN_GET_CODEMIRROR_DATA_' + type, function (event, args){
                 args.params.reqData = requestData.data;
             });
-
-
         }
     }
 

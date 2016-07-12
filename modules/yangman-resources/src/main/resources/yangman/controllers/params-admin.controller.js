@@ -92,6 +92,7 @@ define([
         function sortBy(sortField) {
             vm.sortField = sortField;
             vm.sortAsc = !vm.sortAsc;
+            vm.parametersList.applyValsForFilters();
         }
 
         /**
@@ -100,7 +101,7 @@ define([
          * @returns {*}
          */
         function sortFunc(item) {
-            return item[vm.sortField] ? item[vm.sortField] : vm.sortAsc ? 'zzzzzzzzzzzzzzzz' : '';
+            return item[vm.sortField] ? item[vm.sortField] : (vm.sortAsc ? String.fromCharCode(255) : '');
         }
 
         /**
@@ -110,8 +111,8 @@ define([
          */
         function filterParam(paramObj) {
             return !(paramObj._name || paramObj._value) ||
-                    paramObj._name.indexOf(vm.search) !== -1 ||
-                    paramObj._value.indexOf(vm.search) !== -1;
+                (paramObj._name && paramObj._name.indexOf(vm.search) !== -1) ||
+                (paramObj._value && paramObj._value.indexOf(vm.search) !== -1);
         }
 
 
@@ -147,6 +148,8 @@ define([
          */
         function close() {
             vm.parametersList.removeEmptyParams();
+            console.debug('closing');
+
             $mdDialog.hide(vm.parametersList);
         }
 
