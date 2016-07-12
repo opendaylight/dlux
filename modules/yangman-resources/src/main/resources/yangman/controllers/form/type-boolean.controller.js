@@ -1,7 +1,7 @@
-define(['app/yangman/yangman.module'], function (yangman) {
+define([], function () {
     'use strict';
 
-    yangman.register.controller('TypeBooleanCtrl', TypeBooleanCtrl);
+    angular.module('app.yangman').controller('TypeBooleanCtrl', TypeBooleanCtrl);
 
     TypeBooleanCtrl.$inject = ['$scope'];
 
