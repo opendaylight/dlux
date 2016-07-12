@@ -204,6 +204,27 @@ md-dialog{
     }
 }
 
+md-input-container{
+    position: relative;
+
+    input.md-has-error{
+        border-color: @reqError!important;
+    }
+
+    .md-custom-error{
+        color: @reqError;
+        position: absolute;
+        bottom: 4px;
+        left: 3px;
+        font-size: 11px;
+        line-height: 14px;
+    }
+}
+
+.md-dialog-container{
+    z-index: 99;
+}
+
 // yangman
 .yangmanModule{
     background-color: @appBackColor;
