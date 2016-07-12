@@ -73,7 +73,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
          */
         function prepareReceivedData(node, method, rData, sData, outputType){
             var prepareType = {
-                rpc: function(){
+                rpc: function (){
 
                     if ( outputType === 'form' ){
                         var dObj = {};
@@ -100,7 +100,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                         },
                         DEFAULT: function () {
                             return rData;
-                        }
+                        },
                     };
 
                     return (methodType[method] || methodType.DEFAULT)();
@@ -167,8 +167,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 operation: '',
                 reqString:
                     selectedSubApi ?
-                        RequestsService.applyParamsToStr(params, selectedSubApi.buildApiRequestString()) :
-                        '',
+                        RequestsService.applyParamsToStr(params, selectedSubApi.buildApiRequestString()) : '',
                 reqHeaders: {},
                 reqData: '',
                 srcData: '',
@@ -190,12 +189,15 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 allPreparedData.srcData = null;
                 allPreparedData.reqData = null;
             }
-            else if (operation === 'POST'){
-                allPreparedData.reqData = YangUtilsService.postRequestData(
-                    allPreparedData.reqData,
-                    allPreparedData.reqString,
-                    selectedSubApi
-                );
+            else if ( operation === 'POST' ){
+
+                if ( selectedSubApi ) {
+                    allPreparedData.reqData = YangUtilsService.postRequestData(
+                        allPreparedData.reqData,
+                        allPreparedData.reqString,
+                        selectedSubApi
+                    );
+                }
             }
 
             // set correct host into restangular based on shown data type and prepare data

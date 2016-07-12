@@ -66,6 +66,7 @@ define([
         $scope.buildRootRequest = buildRootRequest;
         $scope.broadcastFromRoot = broadcastFromRoot;
         $scope.checkAddingListElement = checkAddingListElement;
+        $scope.clearCM = clearCM;
         $scope.rootBroadcast = rootBroadcast;
         $scope.setApi = setApi;
         $scope.setDataStore = setDataStore;
@@ -196,11 +197,34 @@ define([
             main.leftPanelTab = (main.leftPanelTab + 1) % 2;
         }
 
+        /**
+         * Method for opening model detail tab
+         */
         function leftPanelShowModule() {
             if ($scope.node) {
                 main.leftPanelTab = 1;
             }
         }
+
+        /**
+         * General method for switching different section in application
+         * @param param
+         * @param section
+         */
+        function switchSection(param, section){
+            $scope[param] = section;
+        }
+
+        /**
+         * Genereal method for clearing code mirror - sent and received data too
+         */
+        function clearCM(){
+            $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_RECEIVED', { data: JSON.stringify({}) });
+            $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_SENT', { data: JSON.stringify({}) });
+        }
+
+
+        // SETTERS
 
         /**
          * Switcher for module detail and module list
@@ -211,14 +235,6 @@ define([
                 main.leftPanelTab = value;
             }
         }
-
-        // TODO :: description
-        function switchSection(param, section){
-            $scope[param] = section;
-        }
-
-
-        // SETTERS
 
         /**
          * Set global necessary params
@@ -295,6 +311,7 @@ define([
 
             if ( subApi ) {
                 PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
+                clearCM();
             }
 
             $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);

@@ -224,69 +224,52 @@ define([
          * @param reqObj
          */
         function executeRequest(reqObj) {
-            $scope.setRightPanelSection('req-data');
-            $scope.rootBroadcast(
-                'YANGMAN_HEADER_INIT',
-                { path: reqObj.path, method: reqObj.method },
-                function (){
-                    $scope.rootBroadcast(
-                        'YANGMAN_EXECUTE_WITH_DATA',
-                        { data: reqObj.sentData },
-                        function (historyReq){
-                            showData(historyReq);
-                        }
-                    );
-                }
-            );
-
+            showData(reqObj);
+            $scope.rootBroadcast('YANGMAN_EXECUTE_WITH_DATA',{ data: reqObj.sentData });
         }
 
-
         /**
-         * Show current reqObj json data in right panel section
+         * Method for setup data into CM, Header, find api, subapi, node
          * @param reqObj
-         * @param dataType
+         * @param status
          */
-        function showData(reqObj) {
+        function showData(reqObj, select){
+            var headerObj = {
+                    path: reqObj.path,
+                    method: reqObj.method
+                },
+                receivedData = {};
+
+            // action select request
+            if ( select ) {
+                headerObj.statusObj = {
+                    status: reqObj.responseStatus,
+                    statusText: reqObj.responseStatusText,
+                    time: reqObj.responseTime,
+                };
+
+                receivedData = reqObj.receivedData;
+
+                $scope.rootBroadcast(
+                    'YANGMAN_SET_ERROR_DATA',
+                    reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {}
+                );
+            }
 
             $scope.setRightPanelSection('req-data');
             $scope.setJsonView(true, reqObj.method !== 'GET');
 
-            $scope.rootBroadcast('YANGMAN_HEADER_INIT', {
-                path: reqObj.path,
-                method: reqObj.method,
-                statusObj: {
-                    status: reqObj.responseStatus,
-                    statusText: reqObj.responseStatusText,
-                    time: reqObj.responseTime,
-                },
-            });
+            $scope.rootBroadcast('YANGMAN_HEADER_INIT', headerObj);
+            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path });
 
             $scope.rootBroadcast(
-                'YANGMAN_SET_ERROR_DATA',
-                reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {}
+                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED',
+                { data: reqObj.setDataForView(receivedData) }
             );
 
             $scope.rootBroadcast(
                 'YANGMAN_SET_CODEMIRROR_DATA_SENT',
                 { data: reqObj.setDataForView(reqObj.sentData) }
-            );
-            $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED',
-                { data: reqObj.setDataForView(reqObj.receivedData) }
-            );
-
-            var data = reqObj.method === 'GET' ? reqObj.receivedData : reqObj.sentData;
-
-            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, leftpanel: 0},
-                function (){
-                    if ( $scope.node ) {
-                        // try to fill node
-                        YangmanService.fillNodeFromResponse($scope.node, data);
-                        $scope.node.expanded = true;
-                    }
-
-                }
             );
         }
 
@@ -541,7 +524,7 @@ define([
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             $scope.setHistoryReqsSelected(vm.requestList.selectedRequests.length > 0);
             if (!event.ctrlKey){
-                vm.showData(requestObj);
+                vm.showData(requestObj, true);
             }
         }
 
