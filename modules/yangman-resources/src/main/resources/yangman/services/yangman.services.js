@@ -28,11 +28,18 @@ define([], function () {
             getDataStoreIndex: getDataStoreIndex,
             prepareAllRequestData: prepareAllRequestData,
             prepareReceivedData: prepareReceivedData,
+            putIntoObj: putIntoObj,
             validateFile: validateFile,
         };
 
         return service;
 
+        /**
+         * Put data to output container if root node is rpc
+         * @param data
+         * @param node
+         * @returns {*}
+         */
         function checkRpcReceivedData(data, node){
             return node.type === 'rpc' ? cutData(data) : data;
 
@@ -41,6 +48,18 @@ define([], function () {
                     output: data[node.label].output,
                 };
             }
+        }
+
+        /**
+         * Put source object into destination object by source properties
+         * @param sourceObj
+         * @param destinationObj
+         */
+        function putIntoObj(sourceObj, destinationObj, containter){
+            Object.keys(sourceObj).forEach(function(prop){
+                destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
+                destinationObj[containter][prop] = sourceObj[prop];
+            });
         }
 
         /**
@@ -64,18 +83,6 @@ define([], function () {
                     } else {
                         return rData;
                     }
-
-                    /**
-                     * Put source object into destination object by source properties
-                     * @param sourceObj
-                     * @param destinationObj
-                     */
-                    function putIntoObj(sourceObj, destinationObj, containter){
-                        Object.keys(sourceObj).forEach(function(prop){
-                            destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
-                            destinationObj[containter][prop] = sourceObj[prop];
-                        });
-                    }
                 },
                 default: function (){
                     var methodType = {
@@ -91,11 +98,8 @@ define([], function () {
                             }
                             return {};
                         },
-                        PUT: function () {
-                            return rData;
-                        },
                         DEFAULT: function () {
-                            return outputType === 'form' ? sData : rData;
+                            return rData;
                         }
                     };
 
