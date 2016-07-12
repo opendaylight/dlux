@@ -181,7 +181,7 @@ define([
                     },
                 };
 
-            return (dataTypeFunc[$scope.node.type] || dataTypeFunc.default)();
+            return $scope.node ? (dataTypeFunc[$scope.node.type] || dataTypeFunc.default)() : {};
         }
 
         /**
@@ -329,26 +329,37 @@ define([
          * Execute request operation
          */
         function executeOperation(requestData, executeCbk){
+            var allowExecuteOperation =
+                requestHeader.selectedShownDataType === 'form' && $scope.selectedSubApi ?
+                    !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
 
-            showRequestProgress();
+            if ( allowExecuteOperation ) {
+                showRequestProgress();
+                $scope.rootBroadcast('YANGMAN_SET_ERROR_MESSAGE', '');
 
-            setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
+                setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
 
-            var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
-                requestHeader.selectedOperation, '', '', '');
+                var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
+                    requestHeader.selectedOperation, '', '', '');
 
-            YangmanService.executeRequestOperation(
-                $scope.selectedApi,
-                $scope.selectedSubApi,
-                requestHeader.selectedOperation,
-                $scope.node,
-                requestHeader.selectedShownDataType,
-                requestHeader.requestUrl,
-                requestData,
-                $scope.parametersList,
-                executeReqSuccCbk,
-                executeReqErrCbk
-            );
+                YangmanService.executeRequestOperation(
+                    $scope.selectedApi,
+                    $scope.selectedSubApi,
+                    requestHeader.selectedOperation,
+                    $scope.node,
+                    requestHeader.selectedShownDataType,
+                    requestHeader.requestUrl,
+                    requestData,
+                    $scope.parametersList,
+                    executeReqSuccCbk,
+                    executeReqErrCbk
+                );
+            } else {
+                $scope.rootBroadcast(
+                    'YANGMAN_SET_ERROR_MESSAGE',
+                    $filter('translate')('YANGMAN_ERROR_EMPTY_IDENTIFIERS')
+                );
+            }
 
             /**
              * Success callback after executin operation
