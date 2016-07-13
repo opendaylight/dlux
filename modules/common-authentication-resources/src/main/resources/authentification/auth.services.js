@@ -72,8 +72,11 @@ define(['common/authentification/auth.module'], function(auth) {
                   });
           };
           factory.logout = function(success) {
-                  factory.unsetBasic();
+              factory.unsetBasic();
+              $window.location.href = '';
+              if (success) {
                   success();
+              }
           };
           return factory;
   });

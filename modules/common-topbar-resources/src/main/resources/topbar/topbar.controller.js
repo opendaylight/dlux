@@ -1,4 +1,4 @@
-define(['common/topbar/topbar.module'], function(topbar) {
+define(['common/topbar/topbar.module', 'common/topbar/topbar.directives'], function(topbar) {
 
     topbar.controller('TopbarCtrl', function() {
         $('#toggleMenu').click(function(e) {
