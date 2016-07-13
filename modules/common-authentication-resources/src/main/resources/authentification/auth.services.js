@@ -72,8 +72,8 @@ define(['common/authentification/auth.module'], function(auth) {
                   });
           };
           factory.logout = function(success) {
-                  factory.unsetBasic();
-                  success();
+              factory.unsetBasic();
+              (success || angular.noop)();
           };
           return factory;
   });
