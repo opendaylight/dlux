@@ -22,7 +22,6 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.createEntry = createEntry;
         self.deleteRequestItem = deleteRequestItem;
         self.deselectReqs = deselectReqs;
-        self.groupListByDate = groupListByDate;
         self.selectReqs = selectReqs;
         self.toggleReqSelection = toggleReqSelection;
         self.getNewestRequest = getNewestRequest;
@@ -70,34 +69,32 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         }
 
         /**
-         * Grouping by date to show date groups in yangman
+         * Add element to date group
+         * @param elem
          */
-        function groupListByDate(){
-            self.list.forEach(addToListDateGroup);
+        function addElemToListDateGroup(elem){
+            if (elem.timestamp){
+                var groupName = roundTimestampToDate(elem.timestamp),
+                    dateGroupArr = self.dateGroups.filter(function (group){
+                        return group.name === groupName;
+                    }),
+                    dateGroup = null;
 
-            function addToListDateGroup(elem){
-                if (elem.timestamp){
-                    var groupName = roundTimestampToDate(elem.timestamp),
-                        dateGroupArr = self.dateGroups.filter(function(group){
-                            return group.name === groupName;
-                        }),
-                        dateGroup = null;
-
-                    if (dateGroupArr.length){
-                        dateGroup = dateGroupArr[0];
-                    }
-                    else {
-                        dateGroup = {
-                            name: groupName,
-                            longName: new Date(groupName).toDateString(),
-                            requests: [],
-                        };
-                        self.dateGroups.push(dateGroup);
-                    }
-                    dateGroup.requests.push(elem);
+                if (dateGroupArr.length){
+                    dateGroup = dateGroupArr[0];
                 }
+                else {
+                    dateGroup = {
+                        name: groupName,
+                        longName: new Date(groupName).toDateString(),
+                        requests: [],
+                    };
+                    self.dateGroups.push(dateGroup);
+                }
+                dateGroup.requests.push(elem);
             }
         }
+
 
         /**
          *
@@ -114,6 +111,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          */
         function addRequestToList(reqObj){
             self.list.push(reqObj);
+            addElemToListDateGroup(reqObj);
         }
 
         /**

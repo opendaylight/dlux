@@ -148,9 +148,7 @@ define([
          */
         function close() {
             vm.parametersList.removeEmptyParams();
-            console.debug('closing');
-
-            $mdDialog.hide(vm.parametersList);
+            $mdDialog.hide();
         }
 
         /**
