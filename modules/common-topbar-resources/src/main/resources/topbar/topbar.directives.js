@@ -34,7 +34,7 @@ define(['common/topbar/topbar.module'], function(topbar) {
         return {
             replace: true,
             controller: 'topBarUserMenuCtrl',
-            templateUrl: 'topbar/user_menu.tpl.html'
+            templateUrl: 'src/common/topbar/user_menu.tpl.html'
         };
     });
 });
