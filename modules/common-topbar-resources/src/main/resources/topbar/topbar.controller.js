@@ -1,4 +1,4 @@
-define(['common/topbar/topbar.module'], function(topbar) {
+define(['common/topbar/topbar.module', 'common/topbar/topbar.directives', 'common/authentification/auth.services'], function(topbar) {
 
     topbar.controller('TopbarCtrl', function() {
         $('#toggleMenu').click(function(e) {
@@ -34,13 +34,17 @@ define(['common/topbar/topbar.module'], function(topbar) {
     });
 
     // the authorization module is not converted yet
-    topbar.controller('topBarUserMenuCtrl', function($scope, $cookieStore, /* Auth,*/ $window) {
-        $scope.logOut = function() {
-            /*Auth.logout(
-            function(res) {
-                $window.location.href = 'login.html';
-            });*/
+    topbar.controller('topBarUserMenuCtrl', function($scope, $cookieStore, Auth, $window) {
+        $scope.logOut = logout;
 
-        };
+        /**
+         * Provides logout from application and redirects to login page
+         * @return {[type]} [description]
+         */
+        function logout() {
+            Auth.logout(function() {
+                $window.location.href = 'index.html#/login';
+            });
+        }
     });
 });

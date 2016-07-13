@@ -22,6 +22,7 @@ define(['common/authentification/auth.module'], function(auth) {
               }
               delete $window.sessionStorage.odlUser;
               delete $window.sessionStorage.odlPass;
+              document.cookie = 'JSESSIONID=; Path=/restconf; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
           };
 
           // Return the current user object
