@@ -33,8 +33,19 @@ define([
         // methods
         yangForm.getNodeName = getNodeName;
 
+        // watchers
         $scope.$on('YANGMAN_SET_ERROR_DATA', setRcvdErrorData);
 
+        $scope.$on('YANGMAN_SET_ERROR_MESSAGE', setErrorMessage);
+
+        /**
+         * Method for set error message in form
+         * @param event
+         * @param message
+         */
+        function setErrorMessage(event, data){
+            yangForm.errorMsg = data.params;
+        }
 
         /**
          * Read and set error message received from header controller
