@@ -5,5 +5,13 @@
   "YANGMAN_EXPLAIN": "Explain",
   "YANGMAN_AUGMENTATIONS": "Augmentations",
   "YANGMAN_ADD_LIST_ITEM": "Add list item",
-  "YANGMAN_SHOW_LIST_ITEM": "Show all list items"
+  "YANGMAN_SHOW_LIST_ITEM": "Show all list items",
+  "YANGMAN_SEL_METHOD": "Select method",
+  "YANGMAN_REQ_URL": "Request URL",
+  "YANGMAN_SEND": "SEND",
+  "YANGMAN_SAVE": "SAVE",
+  "YANGMAN_FORM": "FORM",
+  "YANGMAN_JSON": "JSON",
+  "YANGMAN_STATUS": "Status",
+  "YANGMAN_TIME": "Time"
 }
