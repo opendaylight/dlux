@@ -33,7 +33,7 @@ define([
             link: '#/yangman/index',
             active: 'main.yangman',
             title: 'Yangman',
-            icon: 'icon-male',
+            icon: 'icon-rocket',
             page: {
                 title: 'Yangman',
                 description: 'Yangman',
