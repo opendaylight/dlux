@@ -3,29 +3,38 @@ define([
     'app/yangman/controllers/modules-list.controller',
     'app/yangman/controllers/module-detail.controller',
     'app/yangman/services/yangman.services',
+    'app/yangman/services/yangman-design.services',
 ], function () {
     'use strict';
 
     angular.module('app.yangman').controller('YangmanCtrl', YangmanCtrl);
 
-    YangmanCtrl.$inject = ['$scope', '$rootScope', 'YangmanService'];
+    YangmanCtrl.$inject = ['$scope', '$rootScope', 'YangmanDesignService'];
 
-    function YangmanCtrl($scope, $rootScope, YangmanService) {
+    function YangmanCtrl($scope, $rootScope, YangmanDesignService) {
         var main = this;
 
         $rootScope.section_logo = 'assets/images/logo_yangman.png';
 
         $scope.selectedModule = null;
         $scope.selectedDatastore = null;
+        $scope.apis = [];
+        $scope.node = null;
 
         main.currentPath = 'src/app/yangman/views/';
-        main.leftPanelTab = 0;
         main.selectedMainTab = 0;
+        main.leftPanelTab = 0;
 
         // methods
         main.init = init;
         main.switchedTab = switchedTab;
         main.toggleLeftPanel = toggleLeftPanel;
+
+        // scope global methods
+        $scope.setApis = setApis;
+        $scope.setNode = setNode;
+        $scope.setModule = setModule;
+        $scope.setDataStore = setDataStore;
 
         init();
 
@@ -33,7 +42,7 @@ define([
          * Initialization
          */
         function init(){
-            YangmanService.hideMainMenu();
+            YangmanDesignService.hideMainMenu();
         }
 
         /**
@@ -48,27 +57,52 @@ define([
          */
         function toggleLeftPanel(){
             main.leftPanelTab = (main.leftPanelTab + 1) % 2;
-            // console.debug(main.leftPanelTab);
         }
 
-        // WATCHERS
+
+        // SETTERS
 
         /**
-         * Set selected module
+         * Set Apis to global param
+         * @param apis
          */
-        $scope.$on('YANGMAN_SET_MODULE', function (e, module){
+        function setApis(apis){
+            console.info('INFO :: apis list ', apis);
+            $scope.apis = apis;
+        }
+
+        /**
+         * Set node to global param
+         * @param node
+         */
+        function setNode(node){
+            $scope.node = node;
+            $scope.node.clear();
+            console.info('INFO :: selected node ', $scope.node);
+        }
+
+        /**
+         * Set module to global param
+         * @param module
+         */
+        function setModule(module){
             $scope.selectedModule = module;
-            console.log('$scope.selectedModule', $scope.selectedModule.label);
-        });
+        }
 
         /**
-         * Set datastore || rpc
+         * Set dataStore to global param && open module detail in left panel
+         * @param dataStore
+         * @param expand
          */
-        $scope.$on('YANGMAN_SET_DATASTORE', function (e, datastore){
-            $scope.selectedDatastore = datastore;
-            $scope.$broadcast('YANGMAN_MODULE_D_INIT');
-            toggleLeftPanel();
-        });
+        function setDataStore(dataStore, expand){
+            $scope.selectedDatastore = dataStore;
+
+            if ( expand ) {
+                toggleLeftPanel();
+                $scope.$broadcast('YANGMAN_MODULE_D_INIT');
+            }
+        }
+
     }
 
 });

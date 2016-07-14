@@ -4,10 +4,22 @@
     <!-- DATA STORE || RPC TABS -->
     <md-tabs md-no-pagination md-dynamic-height
              md-stretch-tabs="always"
-             md-selected="moduleDetail.selectedDataStore"
+             md-selected="moduleDetail.selectedDataStoreIndex"
              class="tabs">
-        <md-tab label="{{item.label}}" ng-repeat="item in selectedModule.children">
-            <abn-api-tree tree-data="moduleDetail.apis" tree-rows="moduleDetail.treeRows" on-select="moduleDetail.setApiNode(branch.indexApi, branch.indexSubApi)"></abn-api-tree>
+        <md-tab ng-repeat="item in selectedModule.children">
+            <md-tab-label>
+                <div layout="row">
+                    <span flex="grow" ng-click="moduleDetail.setDataDetailStore(item)">{{item.label}}</span>
+                </div>
+            </md-tab-label>
+
+            <md-tab-body>
+                <div class="scrollableY scrollableX">
+                    <abn-api-tree tree-data="moduleDetail.treeApis"
+                                  tree-rows="moduleDetail.treeRows"
+                                  on-select="moduleDetail.setApiNode(branch.indexApi, branch.indexSubApi)"></abn-api-tree>
+                </div>
+            </md-tab-body>
         </md-tab>
     </md-tabs>
 </md-content>
