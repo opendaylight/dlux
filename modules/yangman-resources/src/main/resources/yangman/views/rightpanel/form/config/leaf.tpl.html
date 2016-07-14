@@ -1,0 +1,24 @@
+<div ng-controller="LeafCtrl as yanfLeaf"
+     layout="row"
+     layout-align="start {{yanfLeaf.getLeafType() === 'union' ? 'start' : 'center'}}"
+     class="yangmanModule__right-panel__form__leaf-container">
+
+    <!-- Container label -->
+    <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+
+    <!-- Action menu -->
+    <yang-form-menu is-action-menu="yanfLeaf.isActionMenu()"
+                    augmentations="augmentations"
+                    is-node-info="yanfLeaf.isNodeInfo()"
+                    node="node"></yang-form-menu>
+
+    <!-- Empty placeholder for better look -->
+    <div class="menu-placeholder" ng-if="!yanfLeaf.isActionMenu() && !yanfLeaf.isNodeInfo()"></div>
+
+    <div ng-controller="TypeCtrl as yangType"
+         ng-repeat="type in node.getChildren('type')"
+         ng-include="yangForm.viewPath + '/config/types/' + yanfLeaf.getLeafType() + '.tpl.html'"
+         {{yanfLeaf.getLeafType() === 'union' ? 'flex="grow"' : ''}}
+         layout="row">
+    </div>
+</div>

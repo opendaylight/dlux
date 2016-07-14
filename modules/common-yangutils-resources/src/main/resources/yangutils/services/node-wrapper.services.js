@@ -137,6 +137,7 @@ define([], function () {
             node.buildActElemData = function () {
                 var list = [],
                     result;
+
                 if (node.actElemStructure) {
                     node.actElemStructure.listElemBuildRequest(RequestBuilderService, list, node.module);
                     result = list[0] ? list[0] : {};

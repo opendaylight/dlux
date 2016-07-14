@@ -1,0 +1,41 @@
+<div ng-controller="LeafListCtrl as yangLeafList"
+     class="yangmanModule__right-panel__form__element-container"
+     ng-class="{'expanded' : node.expanded}">
+
+    <!-- container title -->
+    <div layout="row"
+         layout-align="start center"
+         class="pointer container-label">
+
+        <!-- Expand Icon -->
+        <md-icon md-font-set="material-icons" class="top-icon top-element" ng-click="yangLeafList.toggleExpanded()">
+            <md-tooltip md-direction="left">{{ 'SHOW_HIDE_CON' | translate }}</md-tooltip>
+            {{node.expanded ? 'keyboard_arrow_down':'keyboard_arrow_right'}}
+        </md-icon>
+
+        <!-- Container label -->
+        <p class="top-element" ng-click="yangLeafList.toggleExpanded()"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+
+        <!-- Action menu -->
+        <yang-form-menu is-action-menu="yangLeafList.isActionMenu()"
+                        augmentations="augmentations"
+                        is-node-info="yangLeafList.isNodeInfo()"
+                        add-list-item="yangLeafList.addListElem()"
+                        is-add-list-item="true"
+                        node="node"></yang-form-menu>
+    </div>
+
+    <div ng-repeat="elem in node.value" ng-show="node.expanded">
+        <!-- Leaf list values -->
+        <md-input-container md-no-float  class="input-icon-container">
+            <!-- input -->
+            <input  ng-change="yangLeafList.changed()" ng-model="elem.value">
+
+            <!-- remove Icon -->
+            <md-icon md-font-set="material-icons" class="top-icon top-element pointer" ng-click="yangLeafList.removeListElem(elem)">
+                <md-tooltip md-direction="right">{{ 'REMOVE_ELEM' | translate }}</md-tooltip>
+                remove_circle_outline
+            </md-icon>
+        </md-input-container>
+    </div>
+</div>
