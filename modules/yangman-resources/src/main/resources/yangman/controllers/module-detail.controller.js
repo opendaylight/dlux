@@ -1,5 +1,4 @@
 define([
-    'app/yangman/yangman.module',
     'app/yangman/directives/abn-tree.directive',
 ], function () {
     'use strict';

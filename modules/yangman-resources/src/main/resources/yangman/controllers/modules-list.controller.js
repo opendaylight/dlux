@@ -1,12 +1,9 @@
-define([
-    'app/yangman/yangman.module',
-], function () {
+define([], function () {
     'use strict';
 
     angular.module('app.yangman').controller('ModulesListCtrl', ModulesListCtrl);
 
-    ModulesListCtrl.$inject = ['$scope', '$mdToast', 'YangUtilsService',
-                                '$filter'];
+    ModulesListCtrl.$inject = ['$scope', '$mdToast', 'YangUtilsService', '$filter'];
 
     function ModulesListCtrl($scope, $mdToast, YangUtilsService, $filter) {
         var modulesList = this;
@@ -33,17 +30,15 @@ define([
         function loadApis() {
             modulesList.allNodes = [];
             modulesList.treeApis = [];
-            modulesList.augmentations = {};
 
             modulesList.showLoadingBox = true;
 
             YangUtilsService.generateNodesToApis(function (apis, allNodes, augGroups) {
-                $scope.setApis(apis);
+                $scope.setGlobalParams(apis, augGroups);
                 modulesList.allNodes = allNodes;
-                modulesList.augmentations = augGroups;
-                console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
+                // console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
-                console.info('INFO :: tree api', modulesList.treeApis);
+                // console.info('INFO :: tree api', modulesList.treeApis);
                 // $scope.processingModulesSuccessCallback();
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');

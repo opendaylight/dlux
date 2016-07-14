@@ -1,0 +1,11 @@
+<section ng-controller="TypeBitCtrl as yangTypeBit" layout="column">
+    <md-checkbox ng-model="type.bitsValues[$index]"
+                 ng-repeat="bit in type.getChildren('bit')"
+                 ng-true-value="1"
+                 ng-false-value="0"
+                 ng-change="yangTypeBit.valueChanged()"
+                 ng-disabled="{{ yangOutput.notEditable }}"
+                 aria-label="{{bit.label}}">
+        {{bit.label}}
+    </md-checkbox>
+</section>
