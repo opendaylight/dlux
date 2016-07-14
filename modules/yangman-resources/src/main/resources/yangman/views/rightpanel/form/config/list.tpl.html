@@ -22,7 +22,8 @@
         <yang-form-menu is-action-menu="yangList.isActionMenu()"
                         augmentations="augmentations"
                         is-node-info="yangList.isNodeInfo()"
-                        add-list-item="yangList.addListElem()"
+                        add-list-item-func="yangList.addListElem()"
+                        add-list-item="true"
                         yang-form="yangForm"
                         yang-list="yangList"
                         node="node"></yang-form-menu>
@@ -32,7 +33,7 @@
         <section layout="row"
                  layout-align="start center"
                  class="yangmanModule__right-panel__form__list__paginator"
-                 ng-include="yangForm.viewPath + '/config/list-data-top.tpl.html'"
+                 ng-include="yangForm.viewPath + '/list-data-top.tpl.html'"
                  ng-if="!(node.filteredListData && node.filteredListData.length)"></section>
 
         <div class="listItemWrapper"

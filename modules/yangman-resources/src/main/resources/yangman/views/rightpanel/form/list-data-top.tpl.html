@@ -1,7 +1,6 @@
 <!-- Previous button -->
-<button ng-click="yangList.shiftDisplayPrev()"
-        ng-show="yangList.showPrevButton()">
-    <md-icon class="material-icons">arrow_back</md-icon>
+<button ng-click="yangList.shiftDisplayPrev()">
+    <md-icon class="material-icons">{{yangList.showPrevButton() ? 'arrow_back' : ''}}</md-icon>
     <md-tooltip md-direction="top">{{ 'LIST_PREV_ITEM' | translate }}</md-tooltip>
 </button>
 
@@ -28,13 +27,16 @@
     <!-- remove button -->
     <md-icon md-font-set="material-icons"
              class="pointer"
-             ng-click="yangList.removeListElem(yangList.currentDisplayIndex + offset,false)">
+             ng-click="yangList.removeListElem(yangList.currentDisplayIndex + offset,false)"
+             ng-if="selectedDatastore.label === 'config'">
         <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
         remove_circle_outline
     </md-icon>
 
     <!-- duplicated key -->
-    <md-icon md-font-set="material-icons" ng-show="node.doubleKeyIndexes.indexOf(yangList.currentDisplayIndex + offset) > -1">
+    <md-icon md-font-set="material-icons"
+             ng-show="node.doubleKeyIndexes.indexOf(yangList.currentDisplayIndex + offset) > -1"
+             ng-if="selectedDatastore.label === 'config'">
         <md-tooltip md-direction="top">{{ 'LIST_INDEX_DUPLICATE' | translate }}</md-tooltip>
         error_outline
     </md-icon>
