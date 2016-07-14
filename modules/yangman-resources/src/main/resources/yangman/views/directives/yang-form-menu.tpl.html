@@ -32,8 +32,8 @@
         </md-menu-item>
 
         <!-- add list item -->
-        <md-menu-item ng-if="yangList">
-            <md-button ng-click="addListItem()">
+        <md-menu-item ng-if="addListItem">
+            <md-button ng-click="addListItemFunc()">
                 <md-icon md-font-set="material-icons">library_add</md-icon>
                 <span md-menu-align-target>{{'YANGMAN_ADD_LIST_ITEM' | translate}}</span>
             </md-button>
