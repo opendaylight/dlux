@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_bad216d0",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/module-detail.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:11:46Z",
+      "side": 1,
+      "message": "!apiIndex \u0026\u0026 !subApiIndex",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 68
+      },
+      "revId": "969ffb1acd9f1019dfe1b0c6f983df55e3ecf68b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_9ad592bb",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/modules-list.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:11:46Z",
+      "side": 1,
+      "message": "white space",
+      "range": {
+        "startLine": 8,
+        "startChar": 86,
+        "endLine": 8,
+        "endChar": 87
+      },
+      "revId": "969ffb1acd9f1019dfe1b0c6f983df55e3ecf68b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1ae1829a",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/views/directives/abn-tree.tpl.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:11:46Z",
+      "side": 1,
+      "message": "if it\u0027s a variable name, it\u0027s not a very good name.",
+      "range": {
+        "startLine": 4,
+        "startChar": 74,
+        "endLine": 4,
+        "endChar": 80
+      },
+      "revId": "969ffb1acd9f1019dfe1b0c6f983df55e3ecf68b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_fa02ce3c",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/yangman.less",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:11:46Z",
+      "side": 1,
+      "message": "can you check with Safari, maybe you will need the webkit prefix\nhttps://developer.mozilla.org/en/docs/Web/CSS/calc",
+      "range": {
+        "startLine": 239,
+        "startChar": 20,
+        "endLine": 239,
+        "endChar": 41
+      },
+      "revId": "969ffb1acd9f1019dfe1b0c6f983df55e3ecf68b",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
