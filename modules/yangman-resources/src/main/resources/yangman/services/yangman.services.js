@@ -1,4 +1,4 @@
-define(['app/yangman/yangman.module'], function () {
+define([], function () {
     'use strict';
 
     angular.module('app.yangman').service('YangmanService', YangmanService);
