@@ -1,0 +1,441 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_5a93fa4e",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/module-detail.controller.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "Let\u0027s try to avoir debug console output in the application. It\u0027s not really a good thing to have them visible in production.",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 100
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_3a77263c",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/module-detail.controller.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 72
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_9a9d925c",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/modules-list.controller.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "@see my comment about debug output",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 116
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_faa3ee9b",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/modules-list.controller.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "@see my comment about debug output",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 71
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_7ab7ded8",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "!attrs.iconExpand\nif (null) equal false and it\u0027s the same for if (undefined)",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 47
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_5abadac0",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "great you\u0027ve thought about the radix (:",
+      "range": {
+        "startLine": 47,
+        "startChar": 63,
+        "endLine": 47,
+        "endChar": 65
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_facace4d",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "this block of code doesn\u0027t have the same style as the rest.\nunderscore is usually used for internal variable when your doing OO programming. It doesn\u0027t seems  to be the case here.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 22
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_3ac5663c",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 93,
+        "startChar": 48,
+        "endLine": 93,
+        "endChar": 55
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_7a051e79",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "by default parent is undefined, i don\u0027t think it\u0027s needed",
+      "range": {
+        "startLine": 129,
+        "startChar": 24,
+        "endLine": 129,
+        "endChar": 40
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_baffb666",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "is there a specific reason put in two line instead of one\nlike : var parent \u003d get_parent(child)",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 51
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_faf80e7e",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "@see comment about style",
+      "range": {
+        "startLine": 236,
+        "startChar": 35,
+        "endLine": 245,
+        "endChar": 41
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_5a165aa8",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "if branch can only be undefined/null or boolean :\nbranch.expanded \u003d !!branch.expanded",
+      "range": {
+        "startLine": 253,
+        "startChar": 28,
+        "endLine": 255,
+        "endChar": 29
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_9a391244",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 272,
+        "startChar": 48,
+        "endLine": 272,
+        "endChar": 55
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_daf38a9d",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "@see comment about coding style",
+      "range": {
+        "startLine": 273,
+        "startChar": 32,
+        "endLine": 289,
+        "endChar": 40
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_3af3a69f",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 292,
+        "startChar": 47,
+        "endLine": 292,
+        "endChar": 54
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1a1ce2c0",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "i think you forget to declare it.",
+      "range": {
+        "startLine": 301,
+        "startChar": 20,
+        "endLine": 301,
+        "endChar": 21
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_5a2f7af6",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 307,
+        "startChar": 42,
+        "endLine": 307,
+        "endChar": 49
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1a734216",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "!b",
+      "range": {
+        "startLine": 346,
+        "startChar": 36,
+        "endLine": 346,
+        "endChar": 45
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_7a2cfe02",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/directives/abn-tree.directive.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:05:15Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 358,
+        "startChar": 43,
+        "endLine": 358,
+        "endChar": 50
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
