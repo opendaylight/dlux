@@ -1,4 +1,4 @@
-define([], function (yangman) {
+define([], function () {
     'use strict';
 
     angular.module('app.yangman').filter('ymOnlyConfigElem', YmOnlyConfigElemFilter);
