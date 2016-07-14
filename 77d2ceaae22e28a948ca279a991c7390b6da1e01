@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_da726ae2",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/request-header.controller.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:24:52Z",
+      "side": 1,
+      "message": "can you use a constant/variable please ?",
+      "range": {
+        "startLine": 67,
+        "startChar": 69,
+        "endLine": 67,
+        "endChar": 75
+      },
+      "revId": "77d2ceaae22e28a948ca279a991c7390b6da1e01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_3a828694",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/request-header.controller.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:24:52Z",
+      "side": 1,
+      "message": "can you use a variable/constant",
+      "range": {
+        "startLine": 119,
+        "startChar": 75,
+        "endLine": 119,
+        "endChar": 83
+      },
+      "revId": "77d2ceaae22e28a948ca279a991c7390b6da1e01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1a7d02b2",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/services/yangman.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:24:52Z",
+      "side": 1,
+      "message": "can you use a variable/constant please ?",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "77d2ceaae22e28a948ca279a991c7390b6da1e01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1a54e21f",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/services/yangman.services.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:24:52Z",
+      "side": 1,
+      "message": "let\u0027s try to avoid debug console output because it will be visible in production.",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 46
+      },
+      "revId": "77d2ceaae22e28a948ca279a991c7390b6da1e01",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
