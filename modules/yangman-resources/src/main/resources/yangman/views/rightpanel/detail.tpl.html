@@ -1,6 +1,11 @@
+<!-- Header -->
+<section md-whiteframe="1"
+         class="yangmanModule__right-panel__header"
+         ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'"></section>
+
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form"
-         ng-switch-when="form"
+         ng-show="rightPanelSection === 'form'"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
     <div ng-include src="yangForm.viewPath + '/' + selectedDatastore.label + '/' + node.type+'.tpl.html'"></div>
