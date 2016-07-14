@@ -39,7 +39,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular) {
                         attrs.iconCollapse = 'remove';
                     }
                     if (attrs.iconLeaf == null) {
-                        attrs.iconLeaf = 'play_arrow';
+                        attrs.iconLeaf = 'keyboard_arrow_right';
                     }
                     if (attrs.expandLevel == null) {
                         attrs.expandLevel = '3';
