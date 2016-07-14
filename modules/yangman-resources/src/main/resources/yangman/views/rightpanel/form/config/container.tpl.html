@@ -5,17 +5,21 @@
     <!-- container title -->
     <div layout="row"
          layout-align="start center"
-         class="pointer container-label"
-         ng-click="yangContainer.toggleExpanded()">
+         class="pointer container-label">
 
         <!-- Expand Icon -->
-        <md-icon md-font-set="material-icons" class="top-icon top-element">
+        <md-icon md-font-set="material-icons"
+                 class="top-icon top-element pointer"
+                 ng-click="yangContainer.toggleExpanded()">
+
             <md-tooltip md-direction="left">{{ 'SHOW_HIDE_CON' | translate }}</md-tooltip>
             {{node.expanded ? 'keyboard_arrow_down':'keyboard_arrow_right'}}
         </md-icon>
 
         <!-- Container label -->
-        <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+        <p class="top-element pointer" ng-click="yangContainer.toggleExpanded()">
+            {{yangForm.getNodeName(node.localeLabel, node.label)}}
+        </p>
 
         <!-- Action menu -->
         <yang-form-menu is-action-menu="yangContainer.isActionMenu()"
