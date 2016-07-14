@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_9aa3d24e",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/form/leaf.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:18:14Z",
+      "side": 1,
+      "message": "are you sure that you will always have one value in this array ?",
+      "range": {
+        "startLine": 46,
+        "startChar": 55,
+        "endLine": 46,
+        "endChar": 58
+      },
+      "revId": "af15fae62540ec9df338ad921b2c0550d9410703",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_1a8fc2cd",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/form/type-bit.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:18:14Z",
+      "side": 1,
+      "message": "please, remove if not used",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "af15fae62540ec9df338ad921b2c0550d9410703",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_5ac01ae0",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/form/type-empty.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:18:14Z",
+      "side": 1,
+      "message": "please remove if not used",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "af15fae62540ec9df338ad921b2c0550d9410703",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_9abab26c",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/form/type-enum.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:18:14Z",
+      "side": 1,
+      "message": "please remove if not used",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "af15fae62540ec9df338ad921b2c0550d9410703",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_fab00e8d",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/form/type.controller.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-07-14T18:18:14Z",
+      "side": 1,
+      "message": "please remove if not used",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 15
+      },
+      "revId": "af15fae62540ec9df338ad921b2c0550d9410703",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
