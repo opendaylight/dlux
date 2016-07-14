@@ -97,7 +97,7 @@ define([], function () {
         function translatePathArray(pathArray) {
             var getIdentifiersValues = function (identifiers) {
                     return identifiers.map(function (i) {
-                        return i.value.replace(/\//g, '%2F');
+                        return i.value.length ? i.value.replace(/\//g, '%2F') : '{' + i.label + '}';
                     }).join('/');
                 },
                 getLastElem = function (i) {
