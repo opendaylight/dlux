@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a561d44_b36ec1ff",
+        "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/module-detail.controller.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-07-15T07:57:19Z",
+      "side": 1,
+      "message": "This commit is 4th, or 5th in almost 50 commits chain, work is in progress. All console outputs are removed in later commits.",
+      "parentUuid": "9a561d44_5a93fa4e",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 100
+      },
+      "revId": "ca1e7da3986ce786db2d658294e917df0a6072ea",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a561d44_3a77263c",
         "filename": "modules/yangman-resources/src/main/resources/yangman/controllers/module-detail.controller.js",
         "patchSetId": 3
