@@ -308,11 +308,6 @@ define([
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
 
-            if ( subApi ) {
-                PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
-                clearCM();
-            }
-
             $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);
         }
 

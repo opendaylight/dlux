@@ -244,35 +244,48 @@ define([
          */
         function setNodeDataFromRequestData(requestUrl, leftpanel){
 
+            setApiByUrl(requestUrl, function (treeApis) {
+                // set module
+                $scope.setModule($filter('filter')(treeApis, { label: $scope.selectedApi.module })[0]);
+
+                // set datastore
+                $scope.setDataStore(
+                    $filter('filter')(
+                        $scope.selectedModule.children,
+                        { label: $scope.selectedSubApi.storage })[0],
+                    true,
+                    leftpanel
+                );
+
+                // set node
+                $scope.setNode($scope.selectedSubApi.node);
+
+                // fill subapi path
+                PathUtilsService.fillPath($scope.selectedSubApi.pathArray, requestUrl);
+                setRequestUrl();
+            });
+        }
+
+        function setApiByUrl(url, cbk, fill){
             $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
                 var apisIndexes =
-                        PathUtilsService.searchNodeByPath(requestUrl, treeApis, null, true, true);
+                    PathUtilsService.searchNodeByPath(url, treeApis, null, true, true);
 
-                if ( apisIndexes ){
+                if ( apisIndexes ) {
+
                     // set apis
                     $scope.setApi(
                         $scope.apis[apisIndexes.indexApi],
                         $scope.apis[apisIndexes.indexApi].subApis[apisIndexes.indexSubApi]
                     );
 
-                    // set module
-                    $scope.setModule($filter('filter')(treeApis, { label: $scope.selectedApi.module })[0]);
+                    if ( $scope.selectedSubApi && fill ) {
+                        var updatedUrl = YangmanService.cutUrl(url);
+                        PathUtilsService.fillPath($scope.selectedSubApi.pathArray, updatedUrl);
 
-                    // set datastore
-                    $scope.setDataStore(
-                        $filter('filter')(
-                            $scope.selectedModule.children,
-                            { label: $scope.selectedSubApi.storage })[0],
-                        true,
-                        leftpanel
-                    );
+                    }
 
-                    // set node
-                    $scope.setNode($scope.selectedSubApi.node);
-
-                    // fill subapi path
-                    PathUtilsService.fillPath($scope.selectedSubApi.pathArray, requestUrl);
-                    setRequestUrl();
+                    (cbk || angular.noop)(treeApis);
                 }
             });
         }
@@ -338,10 +351,14 @@ define([
                     !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
 
             if ( allowExecuteOperation ) {
+
                 showRequestProgress();
+                setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
                 $scope.rootBroadcast('YANGMAN_SET_ERROR_MESSAGE', '');
 
-                setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
+                if ( requestHeader.selectedShownDataType !== 'form' ){
+                    setApiByUrl(requestHeader.requestUrl, null, true);
+                }
 
                 var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
                     requestHeader.selectedOperation, '', '', '');
@@ -385,6 +402,24 @@ define([
 
                 sendErrorData({});
 
+                if (requestHeader.selectedShownDataType === 'req-data'){
+
+                    setNodeDataFromRequestData(requestHeader.requestUrl);
+                    sendRequestData(preparedReceivedData, 'RECEIVED');
+                    sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
+                } else {
+
+                    if ($scope.node){
+
+                        YangmanService.fillNodeFromResponse($scope.node, preparedReceivedData);
+                        $scope.node.expanded = true;
+
+                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
+                        preparedReceivedData = YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node);
+                        sendRequestData(preparedReceivedData, 'RECEIVED');
+                    }
+                }
+
                 // create and set history request
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
@@ -395,33 +430,10 @@ define([
                     reqInfo.time
                 );
 
-                if (requestHeader.selectedShownDataType === 'req-data'){
-
-                    setNodeDataFromRequestData(requestHeader.requestUrl);
-                    sendRequestData(preparedReceivedData, 'RECEIVED');
-                    sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
-                }
-                else {
-
-                    if ($scope.node){
-
-                        YangmanService.fillNodeFromResponse(
-                            $scope.node,
-                            preparedReceivedData
-                        );
-
-                        $scope.node.expanded = true;
-                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
-                        sendRequestData(
-                            YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node),
-                            'RECEIVED'
-                        );
-                    }
-                }
-
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
                     $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
                 });
+
                 (executeCbk || angular.noop)(historyReq);
 
 
@@ -449,8 +461,6 @@ define([
                     $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
                 });
 
-
-
                 //setNodeDataFromRequestData(requestHeader.requestUrl);
 
                 if (response.data) {
@@ -458,6 +468,7 @@ define([
                     sendRequestData(response.data, 'RECEIVED');
                     sendErrorData(response.data);
                 }
+
                 (executeCbk || angular.noop)(historyReq);
 
 
