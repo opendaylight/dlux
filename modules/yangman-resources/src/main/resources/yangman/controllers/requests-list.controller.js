@@ -219,6 +219,16 @@ define([
                     });
 
                     if ( $scope.node ) {
+                        // prepare data for filling form
+                        data = $scope.node.type === 'rpc' ?
+                                YangmanService.prepareReceivedData(
+                                    $scope.node,
+                                    reqObj.method,
+                                    reqObj.receivedData,
+                                    reqObj.sentData,
+                                    'form'
+                                ) : data;
+
                         // try to fill node
                         YangmanService.fillNodeFromResponse($scope.node, data);
                         $scope.node.expanded = true;
@@ -245,10 +255,9 @@ define([
          */
         function showData(reqObj, select){
             var headerObj = {
-                    path: reqObj.path,
-                    method: reqObj.method
-                },
-                receivedData = {};
+                path: reqObj.path,
+                method: reqObj.method,
+            };
 
             // action select request
             if ( select ) {
@@ -257,8 +266,6 @@ define([
                     statusText: reqObj.responseStatusText,
                     time: reqObj.responseTime,
                 };
-
-                receivedData = reqObj.receivedData;
 
                 $scope.rootBroadcast(
                     'YANGMAN_SET_ERROR_DATA',
@@ -274,7 +281,7 @@ define([
 
             $scope.rootBroadcast(
                 'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED',
-                { data: reqObj.setDataForView(receivedData) }
+                { data: reqObj.setDataForView(reqObj.receivedData) }
             );
 
             $scope.rootBroadcast(

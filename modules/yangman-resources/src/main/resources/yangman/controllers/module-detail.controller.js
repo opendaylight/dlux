@@ -5,9 +5,9 @@ define([
 
     angular.module('app.yangman').controller('ModuleDetailCtrl', ModuleDetailCtrl);
 
-    ModuleDetailCtrl.$inject = ['$scope', '$rootScope', '$timeout', 'YangmanService'];
+    ModuleDetailCtrl.$inject = ['$scope', '$rootScope', '$timeout', 'YangmanService', 'PathUtilsService'];
 
-    function ModuleDetailCtrl($scope, $rootScope, $timeout, YangmanService) {
+    function ModuleDetailCtrl($scope, $rootScope, $timeout, YangmanService, PathUtilsService) {
         var moduleDetail = this;
 
         moduleDetail.treeApis = [];
@@ -39,17 +39,13 @@ define([
          * @param subApiIndex
          */
         function setApiNode(apiIndex, subApiIndex){
-            // $scope.selectedOperation = null;
 
             if (apiIndex !== undefined && subApiIndex !== undefined ) {
 
                 $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex], true);
                 $scope.setNode($scope.selectedSubApi.node);
-
-            } else {
-                // $scope.selApi = null;
-                // $scope.selSubApi = null;
-                // $scope.node = null;
+                PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
+                $scope.clearCM();
             }
         }
 
