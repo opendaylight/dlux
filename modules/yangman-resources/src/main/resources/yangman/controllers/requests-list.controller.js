@@ -49,7 +49,7 @@ define([
         vm.clearFilter = clearFilter;
         vm.clearHistoryList = clearHistoryList;
         vm.colMatchingReqsCount = colMatchingReqsCount;
-        vm.deselectAllRequests = deselectAllRequests;
+        vm.deselectAllFilteredRequests = deselectAllFilteredReqs;
         vm.downloadCollection = downloadCollection;
         vm.executeRequest = executeRequest;
         vm.fakeFilter = fakeFilter;
@@ -58,7 +58,7 @@ define([
         vm.filterReq = filterReq;
         vm.init = init;
         vm.readCollectionFromFile = readCollectionFromFile;
-        vm.selectAllRequests = selectAllRequests;
+        vm.selectAllFilteredRequests = selectAllFilteredReqs;
         vm.selectRequest = selectRequest;
         vm.showData = showData;
         vm.showDgDeleteCollection = showDgDeleteCollection;
@@ -67,6 +67,9 @@ define([
         vm.showDgSaveReq = showDgSaveReq;
         vm.showForm = showForm;
         vm.toggleCollectionsSort = toggleCollectionsSort;
+        vm.selectOnlyThisRequest = selectOnlyThisRequest;
+        vm.deselectAllRequests = deselectAllRequests;
+        vm.filterCollReq = filterCollReq;
 
 
 
@@ -135,7 +138,7 @@ define([
          * @param params
          */
         function saveBcstedHistoryRequest(broadcastEvent, params) {
-            vm.requestList.addRequestToList(params.params);
+            vm.requestList.addItemToList(params.params);
             vm.requestList.saveToStorage();
             loadHistoryList();
             (params.cbk || angular.noop)();
@@ -320,7 +323,9 @@ define([
                     vm.mainList.deleteRequestItem(reqObj);
                 }
                 else {
-                    vm.mainList.selectedRequests.forEach(function (elem){
+                    vm.mainList.getSelectedItems(
+                        vm.mainList === vm.collectionList ? filterCollReq : filterReq
+                    ).forEach(function (elem){
                         vm.mainList.deleteRequestItem(elem);
                     });
                 }
@@ -369,7 +374,10 @@ define([
          * @returns {boolean}
          */
         function filterReq(reqObj){
-            return reqObj.path.toLowerCase().indexOf(vm.search.toLowerCase()) > -1;
+            var searchPhrase = vm.search.toLocaleLowerCase();
+            return reqObj.path.toLowerCase().indexOf(searchPhrase) > -1 ||
+                reqObj.collection.toLowerCase().indexOf(searchPhrase) > -1 ||
+                reqObj.method.toLowerCase() === searchPhrase;
         }
 
         /**
@@ -406,6 +414,7 @@ define([
             return true;
         }
 
+
         /**
          * Show dialog for saving reqObj to collection (used for duplicate req too)
          * @param ev
@@ -422,7 +431,9 @@ define([
                 targetEvent: ev,
                 clickOutsideToClose: true,
                 locals: {
-                    requests: reqObj ? [reqObj] : vm.requestList.selectedRequests,
+                    requests: reqObj ? [reqObj] : vm.mainList.getSelectedItems(
+                        vm.mainList === vm.collectionList ? filterCollReq : filterReq
+                    ),
                     collectionNames: vm.collectionList.getCollectionNames(),
                     duplicate: duplicate || false,
                 },
@@ -435,7 +446,7 @@ define([
          */
         function saveRequests(requests){
             requests.forEach(function (reqObj){
-                vm.collectionList.addRequestToList(reqObj);
+                vm.collectionList.addItemToList(reqObj);
                 vm.collectionList.saveToStorage();
                 refreshCollectionsWithExpansion();
             });
@@ -509,6 +520,14 @@ define([
 
             vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList');
 
+
+            // if request was selected, deselect requests in all other instances of RequestsListCtrl
+            $scope.$on('YANGMAN_DESELECT_REQUESTS', function (event, params) {
+                if (params.params.broadcastingCtrl !== vm) {
+                    deselectAllRequests();
+                }
+            });
+
             $scope.$on('YANGMAN_REFRESH_COLLECTIONS', loadCollectionsList);
 
             // list type dependend operations
@@ -547,28 +566,48 @@ define([
          * @param requestObj
          */
         function selectRequest(event, requestObj){
+            $scope.rootBroadcast('YANGMAN_DESELECT_REQUESTS', { broadcastingCtrl: vm });
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
-            $scope.setHistoryReqsSelected(vm.requestList.selectedRequests.length > 0);
             if (!event.ctrlKey){
                 vm.showData(requestObj, true);
             }
         }
 
         /**
+         * Mark only requestObj in current list as selected
+         * Used for example when user clicks on request submenu
+         * @param requestObj
+         */
+        function selectOnlyThisRequest(requestObj){
+            vm.mainList.toggleReqSelection(true, requestObj);
+        }
+
+        /**
          * Deselect history requests
          */
-        function deselectAllRequests(){
-            vm.mainList.deselectReqs();
+        function deselectAllFilteredReqs(){
+            vm.mainList.deselectAllFilteredItems(vm.mainList === vm.collectionList ? filterCollReq : vm.filterReq);
+        }
+
+        function deselectAllRequests() {
+            vm.mainList.deselectAllItems();
         }
 
         /**
          * Select history requests
          */
-        function selectAllRequests(){
-            deselectAllRequests();
-            vm.mainList.dateGroups.forEach(function (group){
-                vm.mainList.selectReqs(group.requests);
-            });
+        function selectAllFilteredReqs(){
+            vm.mainList.selectAllFilteredItems(vm.mainList === vm.collectionList ? filterCollReq : vm.filterReq);
+        }
+
+        /**
+         * Use when selecting filtered requests if they are saved to some collection
+         * Additional filter is if the collection of the request is expanded
+         * @param request
+         * @returns {*|boolean}
+         */
+        function filterCollReq(request) {
+            return vm.collectionList.getCollection(request.collection).expanded && vm.filterReq(request);
         }
 
         /**
