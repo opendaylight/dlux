@@ -7,9 +7,9 @@ define([
 
         angular.module('app.yangman').service('ParametersService', ParametersService);
 
-        ParametersService.$inject = ['ParsingJsonService'];
+        ParametersService.$inject = ['$filter', 'ParsingJsonService'];
 
-        function ParametersService(ParsingJsonService){
+        function ParametersService($filter, ParsingJsonService){
 
             var service = {};
 
@@ -56,7 +56,7 @@ define([
              * @returns {*}
              */
             function createEmptyParametersList(name){
-                var result = new ParametersListModel(ParsingJsonService, service);
+                var result = new ParametersListModel($filter, ParsingJsonService, service);
                 result.setName(name);
                 return result;
             }
