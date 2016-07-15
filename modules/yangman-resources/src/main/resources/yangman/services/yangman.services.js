@@ -10,6 +10,7 @@ define([], function () {
         'ENV',
         'ParsingJsonService',
         'RequestsService',
+        'PathUtilsService',
 
     ];
 
@@ -19,7 +20,8 @@ define([], function () {
         YangUtilsRestangularService,
         ENV,
         ParsingJsonService,
-        RequestsService
+        RequestsService,
+        PathUtilsService
     ){
         var service = {
             cutUrl: cutUrl,
@@ -30,6 +32,7 @@ define([], function () {
             prepareAllRequestData: prepareAllRequestData,
             prepareReceivedData: prepareReceivedData,
             putIntoObj: putIntoObj,
+            setSrcDataByDataType: setSrcDataByDataType,
             validateFile: validateFile,
         };
 
@@ -57,10 +60,12 @@ define([], function () {
          * @param destinationObj
          */
         function putIntoObj(sourceObj, destinationObj, containter){
-            Object.keys(sourceObj).forEach(function(prop){
-                destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
-                destinationObj[containter][prop] = sourceObj[prop];
-            });
+            if ( sourceObj ) {
+                Object.keys(sourceObj).forEach(function(prop){
+                    destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
+                    destinationObj[containter][prop] = sourceObj[prop];
+                });
+            }
         }
 
         /**
@@ -78,6 +83,12 @@ define([], function () {
 
                     if ( outputType === 'form' ){
                         var dObj = {};
+
+                        if ( !sData ) {
+                            sData = {};
+                            sData[node.label] = {};
+                        }
+
                         putIntoObj(rData, dObj, node.label);
                         putIntoObj(sData[node.label] ? sData[node.label] : sData, dObj, node.label);
                         return dObj;
@@ -148,6 +159,45 @@ define([], function () {
         }
 
         /**
+         * Apply all parametrized values into request (data, url, pathArray)
+         * @param allPreparedData
+         * @param params
+         * @param selSubApiCopy
+         * @param requestUrl
+         */
+        function setParametrizedData(allPreparedData, params, selSubApiCopy, requestUrl){
+            allPreparedData.reqFullUrl = RequestsService.applyParamsToStr(params, requestUrl);
+
+            // apply parametrized value into request data in string form
+            allPreparedData.reqString =
+                selSubApiCopy ? RequestsService.applyParamsToStr(params, selSubApiCopy.buildApiRequestString()) : '';
+
+            if ( !angular.equals(allPreparedData.reqFullUrl, requestUrl) && selSubApiCopy ){
+                // fill parametrized data into path array
+                PathUtilsService.fillPath(selSubApiCopy.pathArray, allPreparedData.reqFullUrl);
+            }
+
+            allPreparedData.reqData = RequestsService.applyParamsToObj(params, allPreparedData.srcData);
+        }
+
+        /**
+         * Set source data into request object based on shown data type
+         * @param allPreparedData
+         * @param node
+         * @param requestData
+         * @param dataType
+         */
+        function setSrcDataByDataType(allPreparedData, node, requestData, dataType){
+            if ( dataType === 'form' && node){
+                node.buildRequest(RequestBuilderService, requestData, node.module);
+                allPreparedData.srcData = angular.copy(requestData);
+            }
+            else {
+                allPreparedData.srcData = requestData;
+            }
+        }
+
+        /**
          * Prepare all necessary data for executing or saving request
          * @param selectedApi
          * @param selectedSubApi
@@ -163,27 +213,19 @@ define([], function () {
         function prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType, requestUrl, requestData,
                                        params) {
             var allPreparedData = {
-                customRestangular: null,
-                headers: {},
-                operation: '',
-                reqString:
-                    selectedSubApi ?
-                        RequestsService.applyParamsToStr(params, selectedSubApi.buildApiRequestString()) : '',
-                reqHeaders: {},
-                reqData: '',
-                srcData: '',
-            };
+                    customRestangular: null,
+                    headers: {},
+                    operation: '',
+                    reqString: '',
+                    reqHeaders: {},
+                    reqData: '',
+                    srcData: '',
+                    reqFullUrl: '',
+                },
+                selSubApiCopy = angular.copy(selectedSubApi);
 
-            if ( dataType === 'form' && node){
-                node.buildRequest(RequestBuilderService, requestData, node.module);
-                allPreparedData.srcData = angular.copy(requestData);
-            }
-            else {
-                allPreparedData.srcData = requestData;
-            }
-
-            allPreparedData.reqData = RequestsService.applyParamsToObj(params, allPreparedData.srcData);
-
+            setSrcDataByDataType(allPreparedData, node, requestData, dataType);
+            setParametrizedData(allPreparedData, params, selSubApiCopy, requestUrl);
 
             // prepare req data
             if (operation === 'GET' || operation === 'DELETE'){
@@ -192,19 +234,18 @@ define([], function () {
             }
             else if ( operation === 'POST' ){
 
-                if ( selectedSubApi ) {
+                if ( selSubApiCopy ) {
                     allPreparedData.reqData = YangUtilsService.postRequestData(
                         allPreparedData.reqData,
                         allPreparedData.reqString,
-                        selectedSubApi
+                        selSubApiCopy
                     );
                 }
             }
 
             // set correct host into restangular based on shown data type and prepare data
             if ( dataType === 'req-data' ){
-                requestUrl = RequestsService.applyParamsToStr(params, requestUrl);
-                var parser = locationHelper(requestUrl, ['pathname', 'origin']),
+                var parser = locationHelper(allPreparedData.reqFullUrl, ['pathname', 'origin']),
                     raParam = '';
 
                 YangUtilsRestangularService.setBaseUrl(parser.origin);
