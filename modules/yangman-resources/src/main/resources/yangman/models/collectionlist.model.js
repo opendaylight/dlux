@@ -10,20 +10,23 @@ define(
          * @param ParsingJsonService
          * @param RequestsService
          */
-        function CollectionListModel(ParsingJsonService, RequestsService){
+        function CollectionListModel($filter, ParsingJsonService, RequestsService){
 
-            BaseListModel.call(this, ParsingJsonService);
+            BaseListModel.call(this, $filter, ParsingJsonService);
 
             /* jshint validthis: true */
             var self = this;
 
+            /**
+             * Array of collections in which are requests from self.list groupped
+             * @type {Array}
+             */
             self.collections = [];
-            self.selectedRequests = [];
 
-            self.addRequestToList = addRequestToList;
+            self.addItemToList = addItemToList;
             self.clear = clear;
             self.collectionExists = collectionExists;
-            self.createEntry = createEntry;
+            self.createItem = createItem;
             self.deleteCollection = deleteCollection;
             self.deleteRequestItem = deleteRequestItem;
             self.duplicateCollection = duplicateCollection;
@@ -87,11 +90,27 @@ define(
              */
             function toggleReqSelection(onlyOneSelected, reqObj){
 
-                self.collections.forEach(function (collection){
-                    collection.data.forEach(function (req){
-                        req.selected = reqObj === req;
+                //self.collections.forEach(function (collection){
+                //    collection.data.forEach(function (req){
+                //        req.selected = reqObj === req;
+                //    });
+                //});
+
+                if (onlyOneSelected){
+                    self.selectedItems.forEach(function (req){
+                        req.selected = false;
                     });
-                });
+                    self.selectedItems = [];
+                }
+
+                if (reqObj.selected && !onlyOneSelected){
+                    self.selectedItems.splice(self.selectedItems.indexOf(reqObj), 1);
+                }
+
+                reqObj.selected = (reqObj.selected && onlyOneSelected) || !reqObj.selected;
+                if (reqObj.selected){
+                    self.selectedItems.push(reqObj);
+                }
             }
 
             /**
@@ -109,7 +128,7 @@ define(
              * @param elem
              * @returns {HistoryRequest|*}
              */
-            function createEntry(elem) {
+            function createItem(elem) {
                 return RequestsService.createHistoryRequestFromElement(elem);
             }
 
@@ -150,7 +169,8 @@ define(
              *
              * @param reqObj
              */
-            function addRequestToList(reqObj){
+            function addItemToList(reqObj){
+                self.list.push(reqObj);
                 if (reqObj.collection) {
                     var col = null;
                     if (self.collectionExists(reqObj.collection)) {
@@ -180,6 +200,8 @@ define(
 
             function clear() {
                 self.collections = [];
+                self.selectedItems = [];
+                self.list = [];
             }
 
             /**
@@ -214,7 +236,7 @@ define(
                         return RequestsService.createHistoryRequest(elem.sentData, elem.receivedData, elem.path,
                             elem.method, elem.status, elem.name, elem.collection);
                     }).forEach(function (elem) {
-                        self.addRequestToList(elem);
+                        self.addItemToList(elem);
                     });
                 }
             }

@@ -78,6 +78,12 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
                     if ( outputType === 'form' ){
                         var dObj = {};
+
+                        if ( !sData ) {
+                            sData = {};
+                            sData[node.label] = {};
+                        }
+
                         putIntoObj(rData, dObj, node.label);
                         putIntoObj(sData[node.label] ? sData[node.label] : sData, dObj, node.label);
                         return dObj;
