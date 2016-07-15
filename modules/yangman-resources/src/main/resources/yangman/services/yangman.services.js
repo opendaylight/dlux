@@ -22,6 +22,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
         RequestsService
     ){
         var service = {
+            cutUrl: cutUrl,
             checkRpcReceivedData: checkRpcReceivedData,
             executeRequestOperation: executeRequestOperation,
             fillNodeFromResponse: fillNodeFromResponse,
@@ -104,7 +105,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                     };
 
                     return (methodType[method] || methodType.DEFAULT)();
-                }
+                },
             };
 
             return (prepareType[node ? node.type : 'default'] || prepareType.default)();
@@ -225,6 +226,10 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
             allPreparedData.operation = YangUtilsService.prepareOperation(operation);
             return allPreparedData;
+        }
+
+        function cutUrl(url){
+            return url.indexOf('restconf') > -1 ? url.split('restconf')[1].substring(1) : url;
         }
 
         /**
