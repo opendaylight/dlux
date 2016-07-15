@@ -21,7 +21,7 @@ define(['angular', 'app/yangman/yangman.module'], function (angular) {
          */
         function downloadFile(filename, data, format, charset, successCbk, errorCbk){
             try {
-                var blob = new Blob([data], { type: 'application/' + format + '; ' + charset + ';' }),
+                var blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/' + format + '; ' + charset + ';' }),
                     downloadLink = angular.element('<a></a>');
 
                 downloadLink.attr('href', window.URL.createObjectURL(blob));
