@@ -23,8 +23,18 @@
                     <button class="yangButton icon-remove close" ng-click="showModalWin()"></button>
                 </div>
                 <div class="listWrapper">
-                    <ul>
+                    <ul ng-if="node.filteredListData.length == 0">
                         <li ng-repeat="_ in node.listData" class="pr50 pl30">
+                            <button class="yangButton iconView" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1"></button>
+                            <button class="btn btn-like-tab {{ (node.actElemIndex === $index ? 'btn-selected':'') }}" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
+                                {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{node.createListName($index) || '[' + $index + ']'}}
+                            </button>
+                            <button class="yangButton iconClose btn-remove" tooltip="{{ 'LIST_DELETE_ITEM' | translate }}" ng-click='removeListElem($index)'></button>
+                            <button class="yangButton iconDanger btn-double-index" tooltip="{{ 'LIST_INDEX_DUPLICATE' | translate }}" ng-show="node.doubleKeyIndexes.indexOf($index)>-1"></button>
+                        </li>
+                    </ul>
+                    <ul ng-if="node.filteredListData.length">
+                        <li ng-repeat="_ in node.filteredListData" class="pr50 pl30">
                             <button class="yangButton iconView" ng-if="[currentDisplayIndex, currentDisplayIndex + 1, currentDisplayIndex - 1].indexOf($index) !== -1"></button>
                             <button class="btn btn-like-tab {{ (node.actElemIndex === $index ? 'btn-selected':'') }}" style="margin-right: 5px" ng-click="node.changeActElementData($index)">
                                 {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{node.createListName($index) || '[' + $index + ']'}}

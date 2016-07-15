@@ -32,7 +32,7 @@ define([], function () {
 
         function saveParam(){
             $scope.duplicateParam = $scope.parameterList.getParamListObjsByName($scope.paramObj.name, null);
-            if (!$scope.duplicateParam.length) {
+            if (!$scope.duplicateParam.length || $scope.oldParam.name !== '') {
                 $scope.saveParamToList($scope.paramObj, $scope.oldParam);
             }
         }
