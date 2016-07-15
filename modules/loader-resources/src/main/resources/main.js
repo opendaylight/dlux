@@ -1,5 +1,10 @@
 require.config({
   baseUrl : 'src',
+  packages: [{
+    name: 'codemirror',
+    location: '../assets/js/codemirror',
+    main: 'lib/codemirror',
+  }],
   paths : {
     'angular' : '../vendor/angular/angular',
     'ui-bootstrap' : '../vendor/angular-bootstrap/ui-bootstrap-tpls.min',
@@ -29,7 +34,11 @@ require.config({
     'angular-translate-loader-partial' : '../vendor/angular-translate-loader-partial/angular-translate-loader-partial',
     'ngAnimate': '../vendor/angular-animate/angular-animate.min',
     'ngAria': '../vendor/angular-aria/angular-aria.min',
-    'ngMaterial': '../vendor/angular-material/angular-material.min'
+    'ngMaterial': '../vendor/angular-material/angular-material.min',
+    'ngMessages': '../vendor/angular-messages/angular-messages.min',
+    'codeMirror-showHint' : '../assets/js/codemirror/addon/hint/show-hint',
+    'codeMirror-javascriptMode' : '../assets/js/codemirror/mode/javascript/javascript',
+    'codeMirror-matchBrackets' : '../assets/js/codemirror/addon/edit/matchbrackets',
   },
   map: {
     '*': {
@@ -74,7 +83,11 @@ require.config({
     'ngAria': ['angular'],
     'ngMaterial': {
       deps: ['ngAnimate', 'ngAria']
-    }
+    },
+    'codeMirros_showHint': ['codemirror'],
+    'codeMirros_javascriptHint': ['codemirror'],
+    'codeMirror_javascriptMode': ['codemirror'],
+    'codeMirror_matchBrackets': ['codemirror'],
   },
 
   deps : ['app/app.module']
