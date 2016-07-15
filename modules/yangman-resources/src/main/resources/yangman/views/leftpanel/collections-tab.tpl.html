@@ -29,12 +29,22 @@
         <!-- sorting -->
         <md-button  ng-click="reqList.toggleCollectionsSort()"
                     ng-disabled="reqList.collectionList.collections.length <= 1">
-            <md-icon class="material-icons clickable" >
-                sort
-            </md-icon>
-            <md-tooltip md-direction="bottom">{{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_DESC' : 'YANGMAN_SORT_ASC' )| translate}}</md-tooltip>
+            <md-icon class="material-icons clickable" > sort</md-icon>
+            <md-tooltip md-direction="bottom">
+                {{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_COLLECTIONS_DESC' : 'YANGMAN_SORT_COLLECTIONS_ASC' )| translate}}
+            </md-tooltip>
         </md-button>
         <!-- /sorting -->
+
+        <!-- save -->
+        <md-button  ng-click="reqList.showDgSaveReq($event)"
+                    ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
+            <md-icon class="material-icons clickable">
+                save
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_REQS_SAVE_TO_COL'| translate}}</md-tooltip>
+        </md-button>
+        <!-- /save -->
 
         <!-- importing -->
         <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
@@ -48,15 +58,74 @@
         </md-button>
         <!-- /importing -->
 
-        <!-- delete collections -->
-        <md-button  ng-click="reqList.clearCollectionList($event)"
-                    ng-disabled="!reqList.mainList.collections.length">
-            <md-icon class="material-icons clickable" >
-                delete_forever
-            </md-icon>
-            <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_COLLECTIONS' | translate}}</md-tooltip>
-        </md-button>
-        <!-- / delete collections -->
+        <md-menu layout-align="center start">
+            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu"  ng-click="$mdOpenMenu()">
+                <md-icon class="material-icons clickable"> delete</md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_OPTIONS' | translate}}</md-tooltip>
+            </md-button>
+            <md-menu-content>
+                <!-- delete selected -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_REQS_DELETE'| translate}}"
+                               ng-click="reqList.showDgDeleteRequests($event)"
+                               ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
+                        <md-icon class="material-icons clickable">
+                            delete
+                        </md-icon>
+                        {{'YANGMAN_REQS_DELETE'| translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / delete selected -->
+                <!-- clear collections -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_DELETE_COLLECTIONS' | translate}}"
+                               ng-click="reqList.clearCollectionList($event)">
+                        <md-icon class="material-icons clickable">
+                            delete_forever
+                        </md-icon>
+                        {{'YANGMAN_DELETE_COLLECTIONS' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / clear history -->
+            </md-menu-content>
+        </md-menu>
+        <!-- / menu for deleting and clearing -->
+
+        <!-- menu for selecting and deselecting-->
+        <md-menu layout-align="center start">
+            <md-button ng-disabled="( !reqList.mainList.list.length)" aria-label="menu"  ng-click="$mdOpenMenu()">
+                <md-icon class="material-icons clickable">
+                    playlist_add_check
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_SELECT_OPTIONS' | translate}}</md-tooltip>
+            </md-button>
+            <md-menu-content>
+                <!-- select all -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_SELECT_ALL' | translate}}"
+                               ng-click="reqList.selectAllFilteredRequests()">
+                        <md-icon class="material-icons clickable">
+                            done
+                        </md-icon>
+                        {{'YANGMAN_SELECT_ALL' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- /select all -->
+                <!-- deselect all -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_DESELECT_ALL' | translate}}"
+                               ng-click="reqList.deselectAllFilteredRequests()"
+                               ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
+                        <md-icon class="material-icons clickable">
+                            close
+                        </md-icon>
+                        {{'YANGMAN_DESELECT_ALL' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / deselect all -->
+            </md-menu-content>
+        </md-menu>
+        <!-- / menu for selecting and deselecting -->
     </md-content>
 
     <md-divider></md-divider>
@@ -133,7 +202,7 @@
 
 
             <md-list ng-show="collection.expanded" class="yangmanModule__requests-list__collection__requests">
-                <div ng-repeat="request in collection.data"
+                <div ng-repeat="request in collection.data | filter: reqList.filterReq"
                      layout="row"
                      class="yangmanModule__requests-list__item-container"
                      ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">

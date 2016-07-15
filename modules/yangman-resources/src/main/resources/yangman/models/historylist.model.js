@@ -3,28 +3,34 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
 
     /**
      * Base history list object
+
      * @constructor
      * @param ParsingJsonService
      * @param RequestsService
      */
     function HistoryListModel($filter, ParsingJsonService, RequestsService){
 
-        BaseListModel.call(this, ParsingJsonService);
+        BaseListModel.call(this, $filter, ParsingJsonService);
 
         /* jshint validthis: true */
         var self = this;
-        self.list = [];
-        self.dateGroups = [];
-        self.selectedRequests = [];
 
-        self.addRequestToList = addRequestToList;
+
+        /**
+         * Array of groups in which are requests from self.list groupped
+         * @type {Array}
+         */
+        self.dateGroups = [];
+
+        self.addItemToList = addItemToList;
         self.clear = clear;
-        self.createEntry = createEntry;
+        self.createItem = createItem;
         self.deleteRequestItem = deleteRequestItem;
         self.deselectReqs = deselectReqs;
         self.selectReqs = selectReqs;
         self.toggleReqSelection = toggleReqSelection;
         self.getNewestRequest = getNewestRequest;
+
 
         /**
          * Get request with max timestamp (was executed as the last)
@@ -40,19 +46,19 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          */
         function toggleReqSelection(onlyOneSelected, reqObj){
             if (onlyOneSelected){
-                self.selectedRequests.forEach(function (req){
+                self.selectedItems.forEach(function (req){
                     req.selected = false;
                 });
-                self.selectedRequests = [];
+                self.selectedItems = [];
             }
 
             if (reqObj.selected && !onlyOneSelected){
-                self.selectedRequests.splice(self.selectedRequests.indexOf(reqObj), 1);
+                self.selectedItems.splice(self.selectedItems.indexOf(reqObj), 1);
             }
 
             reqObj.selected = (reqObj.selected && onlyOneSelected) || !reqObj.selected;
             if (reqObj.selected){
-                self.selectedRequests.push(reqObj);
+                self.selectedItems.push(reqObj);
             }
 
         }
@@ -101,7 +107,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @param elem
          * @returns {HistoryRequest|*}
          */
-        function createEntry(elem) {
+        function createItem(elem) {
             return RequestsService.createHistoryRequestFromElement(elem);
         }
 
@@ -109,7 +115,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          *
          * @param reqObj
          */
-        function addRequestToList(reqObj){
+        function addItemToList(reqObj){
             self.list.push(reqObj);
             addElemToListDateGroup(reqObj);
         }
@@ -125,7 +131,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         function clear() {
             self.list = [];
             self.dateGroups = [];
-            self.selectedRequests = [];
+            self.selectedItems = [];
         }
 
         /**
@@ -142,10 +148,10 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * Mark all history requests as deselected
          */
         function deselectReqs(){
-            self.selectedRequests.forEach(function (request){
+            self.selectedItems.forEach(function (request){
                 request.selected = false;
             });
-            self.selectedRequests = [];
+            self.selectedItems = [];
         }
 
         /**
@@ -154,7 +160,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         function selectReqs(requestsList){
             requestsList.forEach(function (reqObj){
                 reqObj.selected = true;
-                self.selectedRequests.push(reqObj);
+                self.selectedItems.push(reqObj);
             });
         }
     }
