@@ -7,17 +7,17 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
      * @param ParsingJsonService
      * @param ParametersService
      */
-    function ParametersListModel(ParsingJsonService, ParametersService){
+    function ParametersListModel($filter, ParsingJsonService, ParametersService){
 
-        BaseListModel.call(this, ParsingJsonService);
+        BaseListModel.call(this, $filter, ParsingJsonService);
 
         /* jshint validthis: true */
         var self = this;
         self.list = [];
 
-        self.addRequestToList = addRequestToList;
+        self.addItemToList = addItemToList;
         self.clear = clear;
-        self.createEntry = createEntry;
+        self.createItem = createItem;
         self.deleteParameterItem = deleteParameterItem;
         self.setName = setName;
         self.addEmptyItem = addEmptyItem;
@@ -57,7 +57,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
                 ParsingJsonService.parseJson(data).map(function (elem) {
                     return ParametersService.createParameter(elem);
                 }).forEach(function (elem) {
-                    self.addRequestToList(elem);
+                    self.addItemToList(elem);
                 });
             }
         }
@@ -84,7 +84,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * Add empty param to list
          */
         function addEmptyItem() {
-            self.addRequestToList(self.createEntry());
+            self.addItemToList(self.createItem());
         }
 
         function removeEmptyParams() {
@@ -98,7 +98,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @param elem
          * @returns {Parameter|*}
          */
-        function createEntry(element) {
+        function createItem(element) {
             if (!element){
                 element = {
                     name: '',
@@ -112,7 +112,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          *
          * @param paramObj
          */
-        function addRequestToList(paramObj){
+        function addItemToList(paramObj){
             self.list.push(paramObj);
         }
 
