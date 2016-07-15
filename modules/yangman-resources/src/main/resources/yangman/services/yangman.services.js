@@ -104,7 +104,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                     };
 
                     return (methodType[method] || methodType.DEFAULT)();
-                }
+                },
             };
 
             return (prepareType[node ? node.type : 'default'] || prepareType.default)();
@@ -194,8 +194,8 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 if ( selectedSubApi ) {
                     allPreparedData.reqData = YangUtilsService.postRequestData(
                         allPreparedData.reqData,
-                        allPreparedData.reqString,
-                        selectedSubApi
+                        dataType === 'req-data' ? requestUrl : allPreparedData.reqString,
+                        dataType === 'req-data' ? { pathArray: [] } : selectedSubApi
                     );
                 }
             }

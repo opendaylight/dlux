@@ -386,6 +386,24 @@ define([
 
                 sendErrorData({});
 
+                if (requestHeader.selectedShownDataType === 'req-data'){
+
+                    setNodeDataFromRequestData(requestHeader.requestUrl);
+                    sendRequestData(preparedReceivedData, 'RECEIVED');
+                    sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
+                } else {
+
+                    if ($scope.node){
+
+                        YangmanService.fillNodeFromResponse($scope.node,preparedReceivedData);
+                        $scope.node.expanded = true;
+
+                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
+                        preparedReceivedData = YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node);
+                        sendRequestData(preparedReceivedData, 'RECEIVED');
+                    }
+                }
+
                 // create and set history request
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
@@ -396,33 +414,10 @@ define([
                     reqInfo.time
                 );
 
-                if (requestHeader.selectedShownDataType === 'req-data'){
-
-                    setNodeDataFromRequestData(requestHeader.requestUrl);
-                    sendRequestData(preparedReceivedData, 'RECEIVED');
-                    sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
-                }
-                else {
-
-                    if ($scope.node){
-
-                        YangmanService.fillNodeFromResponse(
-                            $scope.node,
-                            preparedReceivedData
-                        );
-
-                        $scope.node.expanded = true;
-                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
-                        sendRequestData(
-                            YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node),
-                            'RECEIVED'
-                        );
-                    }
-                }
-
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
                     $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
                 });
+
                 (executeCbk || angular.noop)(historyReq);
 
 

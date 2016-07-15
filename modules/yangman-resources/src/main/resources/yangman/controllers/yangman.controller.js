@@ -306,12 +306,16 @@ define([
          * @param subApi
          */
         function setApi(api, subApi, setUrl){
+            var sameSubApi = subApi === $scope.selectedSubApi;
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
 
             if ( subApi ) {
                 PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
-                clearCM();
+
+                if ( !sameSubApi ) {
+                    clearCM();
+                }
             }
 
             $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);

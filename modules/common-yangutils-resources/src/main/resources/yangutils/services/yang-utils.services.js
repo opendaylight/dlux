@@ -424,7 +424,7 @@ define(['angular'], function (angular) {
         // TODO: add function's description
         function checkSupApiIdentifiers(subApi){
             var pathElement = subApi.pathArray[subApi.pathArray.length - 1];
-            return pathElement.hasIdentifier() ? pathElement.identifiers : [];
+            return pathElement && pathElement.hasIdentifier() ? pathElement.identifiers : [];
         }
 
         // TODO: add function's description
