@@ -89,5 +89,7 @@
   "YANGMAN_CM_ENLARGE_FONT_SIZE": "Enlarge json font size (Alt +)",
   "YANGMAN_CM_REDUCE_FONT_SIZE": "Reduce json font size (Alt -)",
   "YANGMAN_INPUT_REQUIRED": "Required",
-  "YANGMAN_ERROR_EMPTY_IDENTIFIERS": "Identifiers in path are required. Please fill empty identifiers for successful request execution."
+  "YANGMAN_ERROR_EMPTY_IDENTIFIERS": "Identifiers in path are required. Please fill empty identifiers for successful request execution.",
+  "YANGMAN_SORT_COLLECTIONS_DESC": "Sort collections descending",
+  "YANGMAN_SORT_COLLECTIONS_ASC": "Sort collections ascending"
 }

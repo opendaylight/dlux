@@ -7,6 +7,7 @@ define([
     'app/yangman/controllers/request-header.controller',
     'app/yangman/controllers/request-data.controller',
     'app/yangman/services/yangman.services',
+    'app/yangman/services/handle-file.services',
     'app/yangman/services/yangman-design.services',
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',
@@ -70,7 +71,6 @@ define([
         $scope.setApi = setApi;
         $scope.setDataStore = setDataStore;
         $scope.setGlobalParams = setGlobalParams;
-        $scope.setHistoryReqsSelected = setHistoryReqsSelected;
         $scope.setJsonView = setJsonView;
         $scope.setLeftPanel = setLeftPanel;
         $scope.setModule = setModule;
@@ -101,18 +101,9 @@ define([
          * @param parametersList
          */
         function setParametersList(parametersList) {
-            console.debug('setting params to $scope', parametersList);
             $scope.parametersList = parametersList;
-            //$scope.rootBroadcast('YANGMAN_REFRESH_PARAMS_IN_CM');
         }
 
-        /**
-         * Set if any history requests are selected in history tab
-         * @param {boolean} selected
-         */
-        function setHistoryReqsSelected(selected) {
-            $scope.historyReqsSelected = selected;
-        }
 
         /**
          * Broadcast from this main controller to all children ctrls
