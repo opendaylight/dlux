@@ -4,14 +4,14 @@ define(
         'app/yangman/models/parameter.model',
         'app/yangman/models/parameterslist.model',
     ],
-    function (yangui, ParameterModel, ParametersListModel) {
+    function (yangman, ParameterModel, ParametersListModel) {
         'use strict';
 
-        yangui.register.service('ParametersService', ParametersService);
+        yangman.register.service('ParametersService', ParametersService);
 
-        ParametersService.$inject = ['ParsingJsonService'];
+        ParametersService.$inject = ['$filter', 'ParsingJsonService'];
 
-        function ParametersService(ParsingJsonService){
+        function ParametersService($filter, ParsingJsonService){
 
             var service = {};
 
@@ -58,7 +58,7 @@ define(
              * @returns {*}
              */
             function createEmptyParametersList(name){
-                var result = new ParametersListModel(ParsingJsonService, service);
+                var result = new ParametersListModel($filter, ParsingJsonService, service);
                 result.setName(name);
                 return result;
             }
