@@ -57,10 +57,12 @@ define(['app/yangman/yangman.module'], function (yangman) {
          * @param destinationObj
          */
         function putIntoObj(sourceObj, destinationObj, containter){
-            Object.keys(sourceObj).forEach(function(prop){
-                destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
-                destinationObj[containter][prop] = sourceObj[prop];
-            });
+            if ( sourceObj ) {
+                Object.keys(sourceObj).forEach(function(prop){
+                    destinationObj[containter] = destinationObj[containter] ? destinationObj[containter] : {};
+                    destinationObj[containter][prop] = sourceObj[prop];
+                });
+            }
         }
 
         /**
@@ -78,6 +80,12 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
                     if ( outputType === 'form' ){
                         var dObj = {};
+
+                        if ( !sData ) {
+                            sData = {};
+                            sData[node.label] = {};
+                        }
+
                         putIntoObj(rData, dObj, node.label);
                         putIntoObj(sData[node.label] ? sData[node.label] : sData, dObj, node.label);
                         return dObj;
