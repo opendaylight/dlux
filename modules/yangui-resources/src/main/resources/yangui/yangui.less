@@ -1,10 +1,3 @@
-/*PLUGINS importing*/
-@import 'assets/js/codemirror/lib/codemirror.less';
-@import 'assets/js/codemirror/theme/eclipse.less';
-@import 'assets/js/codemirror/theme/eclipse-disabled.less';
-@import 'assets/js/codemirror/addon/hint/show-hint.less';
-/*PLUGINS importing END*/
-
 @iconsNewRootPath : '../src/app/yangui/assets/images/';
 
 /******** WINDOW SCROLLBARS *****/
@@ -307,6 +300,10 @@ input[type="file"].upload-collection{
 
   span{
     color: white;
+  }
+
+  .yangUIwrapper .CodeMirror span{
+    color: auto;
   }
 
   ::-webkit-scrollbar {

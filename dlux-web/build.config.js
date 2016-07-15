@@ -24,7 +24,7 @@ module.exports = {
     jsunit: [ 'src/**/*.spec.js' ],
     js_common: [ 'src/common/**/*.js', '!src/common/**/*.spec.js', '!src/common/assets/**/*.js'  ],
     js_app: [ 'src/app/**/*.js', '!src/app/**/*.spec.js', '!src/app/assets/**/*.js'  ],
-    app_assets: [ '! src/app/yangui/assets/js/**/*.js' ],
+    app_assets: [ '! src/app/yangui/assets/js/**/*.js', '! src/app/yangman/assets/js/**/*.js' ],
 
     atpl: [ 'src/app/**/*.tpl.html' ],
     ctpl: [ 'src/common/**/*.tpl.html' ],
@@ -104,6 +104,7 @@ module.exports = {
       'vendor/angular-animate/angular-animate.min.js',
       'vendor/angular-aria/angular-aria.min.js',
       'vendor/angular-material/angular-material.min.js',
+      'vendor/angular-messages/angular-messages.min.js',
     ],
     css: [
     'vendor/ng-grid/ng-grid.min.css',
