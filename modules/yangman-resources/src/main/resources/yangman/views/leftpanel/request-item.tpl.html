@@ -25,7 +25,7 @@
          layout-align="center start"
          ng-class="{selected: request.selected}">
 
-    <md-button aria-label="menu" class="md-primary" ng-click="$mdOpenMenu()">
+    <md-button aria-label="menu" class="md-primary" ng-click="reqList.selectOnlyThisRequest(request); $mdOpenMenu()">
         <i class="material-icons">menu</i>
     </md-button>
 

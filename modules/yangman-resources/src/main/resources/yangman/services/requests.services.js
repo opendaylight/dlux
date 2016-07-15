@@ -179,7 +179,7 @@ define(
              * @returns {CollectionList}
              */
             function createEmptyCollectionList(name){
-                var result = new CollectionListModel(ParsingJsonService, service);
+                var result = new CollectionListModel($filter, ParsingJsonService, service);
                 result.setName(name);
                 return result;
             }
