@@ -50,6 +50,7 @@
       <groupId>org.opendaylight.dlux</groupId>
       <artifactId>dlux.core.resources</artifactId>
       <version>${core.resources.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
  <build>
@@ -65,7 +66,6 @@
      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.6</version>
         <executions>
      <!--loader Resources-->
           <execution>
