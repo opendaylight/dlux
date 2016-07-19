@@ -14,7 +14,7 @@
 
         <!-- Request url input -->
         <section flex layout="row" layout-wrap>
-            <md-input-container flex md-no-float ng-if="rightPanelSection === 'req-data'">
+            <md-input-container flex md-no-float ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_REQ_DATA">
                 <input type="text"
                        ng-model="requestHeader.requestUrl"
                        placeholder="{{'YANGMAN_REQ_URL' | translate}}">
@@ -23,7 +23,7 @@
             <div ng-repeat="pathElem in selectedSubApi.pathArray"
                  flex="nogrow"
                  layout="row"
-                 ng-if="rightPanelSection === 'form'">
+                 ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_FORM">
 
                 <md-input-container flex="nogrow" md-no-float class="input-span nrp" >
                     <span class="md-input" disabled>
@@ -52,7 +52,7 @@
             </div>
 
             <md-input-container flex md-no-float
-                                ng-if="rightPanelSection === 'form'"
+                                ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_FORM"
                                 class="input-span">
 
                 <input type="text"

@@ -36,7 +36,7 @@ define([
         $scope.selectedDatastore = null;
         $scope.apis = [];
         $scope.node = null;
-        $scope.rightPanelSection = 'req-data';
+        $scope.rightPanelSection = constants.DISPLAY_TYPE_REQ_DATA;
         $scope.augmentations = {};
         $scope.selectedApi = null;
         $scope.selectedSubApi = null;
@@ -53,6 +53,7 @@ define([
             sent: false,
         };
         main.executingRequestProgress = false;
+        main.constants = constants;
 
         // methods
         main.init = init;
@@ -231,8 +232,6 @@ define([
          * @param apis
          */
         function setGlobalParams(apis, augmentations){
-            // console.info('INFO :: apis list ', apis);
-            // console.info('INFO :: augmentations ', augmentations);
             $scope.apis = apis;
             $scope.augmentations = augmentations;
         }
@@ -248,8 +247,6 @@ define([
                 $scope.node.clear();
                 $scope.$broadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
             }
-            // console.info('INFO :: selected node ', $scope.node);
-            // console.info('INFO :: selected datastore', $scope.selectedDatastore);
         }
 
         /**

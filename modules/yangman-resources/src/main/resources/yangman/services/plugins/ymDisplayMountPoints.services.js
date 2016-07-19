@@ -6,10 +6,10 @@ define([
     angular.module('app.yangman').service('ymDisplayMountPoints', DisplayMountPoints);
 
     DisplayMountPoints.$inject =
-        ['MountPointsConnectorService', '$timeout', 'YangUtilsService', '$filter', 'ApiBuilderService'];
+        ['MountPointsConnectorService', '$timeout', 'YangUtilsService', '$filter', 'ApiBuilderService', 'constants'];
 
     function DisplayMountPoints(
-        MountPointsConnectorService, $timeout, YangUtilsService, $filter, ApiBuilderService) {
+        MountPointsConnectorService, $timeout, YangUtilsService, $filter, ApiBuilderService, constants) {
         var loadId = 0;
 
         return {
@@ -54,7 +54,7 @@ define([
                 var firstConfigSubApiIndex = 0;
 
                 subApis.some(function (sa, index) {
-                    var condition = sa.storage === 'config';
+                    var condition = sa.storage === constants.DATA_STORE_CONFIG;
                     if (condition) {
                         firstConfigSubApiIndex = index;
                     }
@@ -80,7 +80,7 @@ define([
                     // we need just to get operational root subApi...
                         rootApi = mountPointApis[0],
                         rootOperSubApi = rootApi.subApis.filter(function (sa) {
-                            return sa.pathTemplateString === 'yang-ext:mount/' && sa.storage === 'operational';
+                            return sa.pathTemplateString === 'yang-ext:mount/' && sa.storage === constants.DATA_STORE_OPERATIONAL;
                         })[0];
 
                     if (rootOperSubApi) {
@@ -90,8 +90,8 @@ define([
                         // subApi - because generating treeApis depends on order
 
                         // set storage to config
-                        rootConfigSubApi.storage = 'config';
-                        rootConfigSubApi.pathArray[0].name = 'config';
+                        rootConfigSubApi.storage = constants.DATA_STORE_CONFIG;
+                        rootConfigSubApi.pathArray[0].name = constants.DATA_STORE_CONFIG;
 
                         // and add it to rest of the apis
                         rootApi.subApis.splice(firstConfigSubApiIndex, 0, rootConfigSubApi);

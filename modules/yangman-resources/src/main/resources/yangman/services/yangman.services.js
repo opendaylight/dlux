@@ -11,7 +11,7 @@ define([], function () {
         'ParsingJsonService',
         'RequestsService',
         'PathUtilsService',
-
+        'constants',
     ];
 
     function YangmanService(
@@ -21,7 +21,8 @@ define([], function () {
         ENV,
         ParsingJsonService,
         RequestsService,
-        PathUtilsService
+        PathUtilsService,
+        constants
     ){
         var service = {
             cutUrl: cutUrl,
@@ -45,7 +46,7 @@ define([], function () {
          * @returns {*}
          */
         function checkRpcReceivedData(data, node){
-            return node.type === 'rpc' ? cutData(data) : data;
+            return node.type === constants.NODE_RPC ? cutData(data) : data;
 
             function cutData(data){
                 return {
@@ -81,7 +82,7 @@ define([], function () {
             var prepareType = {
                 rpc: function (){
 
-                    if ( outputType === 'form' ){
+                    if ( outputType === constants.DISPLAY_TYPE_FORM ){
                         var dObj = {};
 
                         if ( !sData ) {
@@ -213,19 +214,27 @@ define([], function () {
         function prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType, requestUrl, requestData,
                                        params) {
             var allPreparedData = {
-                    customRestangular: null,
-                    headers: {},
-                    operation: '',
-                    reqString: '',
-                    reqHeaders: {},
-                    reqData: '',
-                    srcData: '',
-                    reqFullUrl: '',
-                },
-                selSubApiCopy = angular.copy(selectedSubApi);
+                customRestangular: null,
+                headers: {},
+                operation: '',
+                reqString:
+                    selectedSubApi ?
+                        RequestsService.applyParamsToStr(params, selectedSubApi.buildApiRequestString()) : '',
+                reqHeaders: {},
+                reqData: '',
+                srcData: '',
+            };
 
-            setSrcDataByDataType(allPreparedData, node, requestData, dataType);
-            setParametrizedData(allPreparedData, params, selSubApiCopy, requestUrl);
+            if ( dataType === constants.DISPLAY_TYPE_FORM && node){
+                node.buildRequest(RequestBuilderService, requestData, node.module);
+                allPreparedData.srcData = angular.copy(requestData);
+            }
+            else {
+                allPreparedData.srcData = requestData;
+            }
+
+            allPreparedData.reqData = RequestsService.applyParamsToObj(params, allPreparedData.srcData);
+
 
             // prepare req data
             if (operation === 'GET' || operation === 'DELETE'){
@@ -234,18 +243,19 @@ define([], function () {
             }
             else if ( operation === 'POST' ){
 
-                if ( selSubApiCopy ) {
+                if ( selectedSubApi ) {
                     allPreparedData.reqData = YangUtilsService.postRequestData(
                         allPreparedData.reqData,
                         allPreparedData.reqString,
-                        selSubApiCopy
+                        selectedSubApi
                     );
                 }
             }
 
             // set correct host into restangular based on shown data type and prepare data
-            if ( dataType === 'req-data' ){
-                var parser = locationHelper(allPreparedData.reqFullUrl, ['pathname', 'origin']),
+            if ( dataType === constants.DISPLAY_TYPE_REQ_DATA ){
+                requestUrl = RequestsService.applyParamsToStr(params, requestUrl);
+                var parser = locationHelper(requestUrl, ['pathname', 'origin']),
                     raParam = '';
 
                 YangUtilsRestangularService.setBaseUrl(parser.origin);

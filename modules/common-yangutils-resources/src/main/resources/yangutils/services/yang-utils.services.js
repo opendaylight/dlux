@@ -70,8 +70,8 @@ define(['angular'], function (angular) {
 
         // TODO: add service's description
         function switchConfigOper(apiStr, swtichTo) {
-            var c = 'config',
-                o = 'operational',
+            var c = constants.DATA_STORE_CONFIG,
+                o = constants.DATA_STORE_OPERATIONAL,
                 str = apiStr;
 
             if (apiStr.indexOf(c) === 0) {

@@ -17,7 +17,7 @@
 
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form bottom-content"
-         ng-show="rightPanelSection === 'form'"
+         ng-show="rightPanelSection === main.constants.DISPLAY_TYPE_FORM"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
     <div ng-show="yangForm.errorMsg"><p class="error">{{ yangForm.errorMsg }}</p></div>
@@ -28,7 +28,7 @@
 <!-- JSON section -->
 <section class="yangmanModule__right-panel__req-data bottom-content"
          ng-cloak
-         ng-show="rightPanelSection === 'req-data'">
+         ng-show="rightPanelSection === main.constants.DISPLAY_TYPE_REQ_DATA">
 
     <!-- Sent data -->
     <div ng-controller="RequestDataCtrl as requestData"
@@ -86,4 +86,3 @@
     </div>
 </section>
 <!-- /JSON section -->
-
