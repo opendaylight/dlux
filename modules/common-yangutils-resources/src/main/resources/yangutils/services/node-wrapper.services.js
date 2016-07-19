@@ -997,7 +997,6 @@ define([], function () {
             };
 
             node.getChildren('type').forEach(function (child) {
-                // console.info('child', child);
                 getTypesRecursive(child, types);
             });
 

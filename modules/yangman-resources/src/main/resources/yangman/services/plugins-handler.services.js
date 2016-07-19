@@ -50,7 +50,6 @@ define([
          */
         function plugAll(apis) {
             service.plugins.forEach(function (plugin) {
-                console.info('YANGMAN :: adding plugin', plugin.label);
                 plugin.module.forEach(function (plModule, i){
                     CustomFuncService.createCustomFunctionalityApis(apis, plModule, plugin.revision,
                                                                     plugin.pathString[i], plugin.label,

@@ -1,13 +1,14 @@
 define([
     'app/yangman/yangman.module',
+    'app/yangman/services/handle-file.services',
 ], function (yangman) {
     'use strict';
 
     yangman.register.controller('ParamsAdminCtrl', ParamsAdminCtrl);
 
-    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'HandleFileService', 'parametersList'];
+    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'YMHandleFileService', 'parametersList'];
 
-    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, HandleFileService, parametersList) {
+    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, YMHandleFileService, parametersList) {
         var vm = this;
 
         vm.parametersList = parametersList;
@@ -59,7 +60,6 @@ define([
                 }
                 catch (e) {
                     angular.element(document).find('#importParameters').val('');
-                    console.error('DataStorage error:', e);
                 }
             }
             else {
@@ -73,7 +73,7 @@ define([
          */
         function exportParameters() {
 
-            HandleFileService.downloadFile(
+            YMHandleFileService.downloadFile(
                 'yangman_parameters.json',
                 JSON.stringify(vm.parametersList.toJSON()),
                 'json',
@@ -165,4 +165,3 @@ define([
     return ParamsAdminCtrl;
 
 });
-

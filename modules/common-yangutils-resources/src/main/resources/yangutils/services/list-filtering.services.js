@@ -115,7 +115,6 @@ define([], function () {
             });
 
             getActElementFilter(node);
-            // console.info('applyFilter node', node, 'node.referenceNode.filterNodes',
             // node.referenceNode.filterNodes, 'node.referenceNode.filters', node.referenceNode.filters);
         }
 

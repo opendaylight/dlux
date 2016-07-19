@@ -81,10 +81,8 @@ define([], function () {
         function loadStaticModule(name, callback, errorCbk) {
             var yinPath = '/yang2xml/' + name + '.yang.xml';
             $http.get(path + yinPath).success(function (data) {
-                console.warn('cannot load ' + name + 'from controller, trying loading from static storage');
                 parseModule(data, callback);
             }).error(function () {
-                console.warn('cannot load file ' + yinPath + 'from static storage');
                 errorCbk();
                 return null;
             });
@@ -156,7 +154,6 @@ define([], function () {
                 });
 
                 if (duplicates && duplicates.length > 0) {
-                    console.warn('trying to add duplicate node', node, 'to module', this._statements);
                 } else {
                     this._statements[node.type].push(node);
 
@@ -181,9 +178,7 @@ define([], function () {
                 }
 
                 if (searchResults && searchResults.length === 0) {
-                    // console.warn('no nodes with type', type, 'and name', name, 'found in', this);
                 } else if (searchResults && searchResults.length > 1) {
-                    // console.warn('multiple nodes with type', type, 'and name', name, 'found in', this);
                 } else if (searchResults && searchResults.length === 1) {
                     searchedNode = searchResults[0];
                 }
@@ -347,7 +342,6 @@ define([], function () {
                         // });
                     });
                 } else {
-                    console.warn('can\'t find target node for augmentation ', this.getPathString());
                 }
             };
 
@@ -401,7 +395,7 @@ define([], function () {
             };
 
             this.config = function (xml, parent) {
-                var type = 'config',
+                var type = constants.DATA_STORE_CONFIG,
                     name = $(xml).attr('value'),
                     nodeType = constants.NODE_ALTER;
 
@@ -540,7 +534,7 @@ define([], function () {
 
 
             this.rpc = function (xml, parent) {
-                var type = 'rpc',
+                var type = constants.NODE_RPC,
                     name = $(xml).attr('name'),
                     nodeType = constants.NODE_UI_DISPLAY,
                     node = this.createNewNode(name, type, parent, nodeType);
