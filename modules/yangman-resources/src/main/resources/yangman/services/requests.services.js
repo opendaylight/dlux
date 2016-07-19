@@ -10,9 +10,14 @@ define(
 
         yangman.register.service('RequestsService', RequestsService);
 
-        RequestsService.$inject = ['$filter', 'PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService'];
+        RequestsService.$inject = [
+            '$filter', 'PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService',
+            'RequestBuilderService',
+        ];
 
-        function RequestsService($filter, PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService){
+        function RequestsService(
+            $filter, PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService, RequestBuilderService
+        ){
 
             var service = {};
 
@@ -22,8 +27,137 @@ define(
             service.createEmptyHistoryList = createEmptyHistoryList;
             service.createHistoryRequestFromElement = createHistoryRequestFromElement;
             service.createHistoryRequest = createHistoryRequest;
+            service.fillRequestByMethod = fillRequestByMethod;
+            service.fillRequestByViewType = fillRequestByViewType;
+            service.findIdentifierByParam = findIdentifierByParam;
             service.scanDataParams = scanDataParams;
             service.replaceStringInText = replaceStringInText;
+
+            /**
+             * Find parametrized identifier in path array
+             * @param params
+             * @param pathElement
+             * @returns {*}
+             */
+            function findIdentifierByParam(params, pathElement){
+                var foundIdentifier = null;
+
+                if ( pathElement.hasIdentifier() ){
+                    pathElement.identifiers.some(function (item){
+                        return params.list.some(function (param){
+                            var contained = item.value.indexOf('<<' + param.name + '>>') > -1;
+
+                            if ( contained ){
+                                foundIdentifier = item;
+                            }
+
+                            return contained;
+                        });
+                    });
+                }
+
+                return foundIdentifier;
+            }
+
+            /**
+             * Get data for saving request depend on view type
+             * @param node
+             * @param viewType
+             * @param requestData
+             * @param dataType
+             * @param method
+             * @returns {*}
+             */
+            function fillRequestByViewType(node, viewType, requestData, dataType, method){
+                var setDataByViewType = {
+                    form: function () {
+                        var data = {},
+                            emptyObject = method === 'POST' && dataType === 'received' && node.type !== 'rpc';
+
+                        if ( !emptyObject ) {
+                            node.buildRequest(RequestBuilderService, data, node.module);
+                            data = checkNodeTypeData(node, data, dataType, requestData);
+                        }
+
+                        return data;
+                    },
+                    'req-data': function (){
+                        return requestData ? angular.fromJson(requestData) : {};
+                    },
+                };
+
+                return setDataByViewType[viewType]();
+
+                /**
+                 * Exceptions based on node type
+                 * @param node
+                 * @param data
+                 * @param dataType
+                 * @param requestData
+                 * @returns {*}
+                 */
+                function checkNodeTypeData(node, data, dataType, requestData){
+                    var copyData = angular.copy(data),
+                        setDataByNodeType = {
+                            rpc: function (){
+
+                                if ( dataType === 'received' ) {
+                                    copyData = requestData ? angular.fromJson(requestData) : {};
+                                }
+
+                                return copyData;
+                            },
+                            default: function () {
+                                return data;
+                            },
+                        };
+
+                    return (setDataByNodeType[node.type] || setDataByNodeType.default)();
+                }
+            }
+
+            /**
+             * Fill history request data depend on selected method - saving to collection
+             * @param requestObj
+             * @param sentData
+             * @param receivedData
+             * @param method
+             */
+            function fillRequestByMethod(requestObj, sentData, receivedData, method, node, viewType){
+                var setDataByMethod = {
+                        GET: function (){
+                            return {
+                                sentData: {},
+                                receivedData: fillRequestByViewType(
+                                    node, viewType, receivedData.reqData, 'received', method
+                                ),
+                            };
+                        },
+                        POST: function (){
+                            return {
+                                sentData: fillRequestByViewType(node, viewType, sentData.reqData, 'sent', method),
+                                receivedData: fillRequestByViewType(
+                                    node, viewType, receivedData.reqData, 'received', method
+                                ),
+                            };
+                        },
+                        PUT: function (){
+                            return {
+                                sentData: fillRequestByViewType(node, viewType, sentData.reqData, 'sent', method),
+                                receivedData: {},
+                            };
+                        },
+                        DELETE: function (){
+                            return {
+                                sentData: {},
+                                receivedData: {},
+                            };
+                        },
+                    },
+                    data = setDataByMethod[method]();
+
+                requestObj.setExecutionData(data.sentData, data.receivedData, '');
+            }
 
             /**
              * Scan used parameters in current line of codemirror
