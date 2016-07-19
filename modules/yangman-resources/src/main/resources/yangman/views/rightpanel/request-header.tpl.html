@@ -144,7 +144,9 @@
             <!-- Request time -->
             <span flex="30">
                 {{'YANGMAN_TIME' | translate}}:
-                <span ng-if="requestHeader.statusObj">{{requestHeader.statusObj.time}} ms</span>
+                <span ng-if="requestHeader.statusObj && requestHeader.statusObj.time">
+                    {{requestHeader.statusObj.time}} ms
+                </span>
             </span>
         </md-content>
     </section>
