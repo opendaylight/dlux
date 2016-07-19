@@ -22,8 +22,48 @@ define(
             service.createEmptyHistoryList = createEmptyHistoryList;
             service.createHistoryRequestFromElement = createHistoryRequestFromElement;
             service.createHistoryRequest = createHistoryRequest;
+            service.fillRequestByMethod = fillRequestByMethod;
             service.scanDataParams = scanDataParams;
             service.replaceStringInText = replaceStringInText;
+
+            /**
+             * Fill history request data depend on selected method - saving to collection
+             * @param requestObj
+             * @param sentData
+             * @param receivedData
+             * @param method
+             */
+            function fillRequestByMethod(requestObj, sentData, receivedData, method){
+                var setData = {
+                        GET: function (){
+                            return {
+                                sentData: {},
+                                receivedData: receivedData.reqData ? angular.fromJson(receivedData.reqData) : {},
+                            };
+                        },
+                        POST: function (){
+                            return {
+                                sentData: sentData.reqData ? angular.fromJson(sentData.reqData) : {},
+                                receivedData: receivedData.reqData ? angular.fromJson(receivedData.reqData) : {},
+                            };
+                        },
+                        PUT: function (){
+                            return {
+                                sentData: sentData.reqData ? angular.fromJson(sentData.reqData) : {},
+                                receivedData: {},
+                            };
+                        },
+                        DELETE: function (){
+                            return {
+                                sentData: {},
+                                receivedData: {},
+                            };
+                        },
+                    },
+                    data = setData[method]();
+
+                requestObj.setExecutionData(data.sentData, data.receivedData, '');
+            }
 
             /**
              * Scan used parameters in current line of codemirror
