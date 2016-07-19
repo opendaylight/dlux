@@ -59,7 +59,6 @@ define([
                 }
                 catch (e) {
                     angular.element(document).find('#importParameters').val('');
-                    console.error('DataStorage error:', e);
                 }
             }
             else {
@@ -165,4 +164,3 @@ define([
     return ParamsAdminCtrl;
 
 });
-

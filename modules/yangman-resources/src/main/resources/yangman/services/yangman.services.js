@@ -10,6 +10,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
         'ENV',
         'ParsingJsonService',
         'RequestsService',
+        'constants',
 
     ];
 
@@ -19,7 +20,8 @@ define(['app/yangman/yangman.module'], function (yangman) {
         YangUtilsRestangularService,
         ENV,
         ParsingJsonService,
-        RequestsService
+        RequestsService,
+        constants
     ){
         var service = {
             cutUrl: cutUrl,
@@ -42,7 +44,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
          * @returns {*}
          */
         function checkRpcReceivedData(data, node){
-            return node.type === 'rpc' ? cutData(data) : data;
+            return node.type === constants.NODE_RPC ? cutData(data) : data;
 
             function cutData(data){
                 return {
@@ -78,7 +80,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
             var prepareType = {
                 rpc: function (){
 
-                    if ( outputType === 'form' ){
+                    if ( outputType === constants.DISPLAY_TYPE_FORM ){
                         var dObj = {};
 
                         if ( !sData ) {
@@ -182,7 +184,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
                 srcData: '',
             };
 
-            if ( dataType === 'form' && node){
+            if ( dataType === constants.DISPLAY_TYPE_FORM && node){
                 node.buildRequest(RequestBuilderService, requestData, node.module);
                 allPreparedData.srcData = angular.copy(requestData);
             }
@@ -210,7 +212,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
             }
 
             // set correct host into restangular based on shown data type and prepare data
-            if ( dataType === 'req-data' ){
+            if ( dataType === constants.DISPLAY_TYPE_REQ_DATA ){
                 requestUrl = RequestsService.applyParamsToStr(params, requestUrl);
                 var parser = locationHelper(requestUrl, ['pathname', 'origin']),
                     raParam = '';

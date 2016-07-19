@@ -244,7 +244,6 @@ define([], function () {
                 });
             });
 
-            // console.info(co);
         }
 
         // TODO: add service's description
