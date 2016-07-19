@@ -29,6 +29,7 @@ define([], function () {
             executeRequestOperation: executeRequestOperation,
             fillNodeFromResponse: fillNodeFromResponse,
             getDataStoreIndex: getDataStoreIndex,
+            handleNodeIdentifier: handleNodeIdentifier,
             prepareAllRequestData: prepareAllRequestData,
             prepareReceivedData: prepareReceivedData,
             putIntoObj: putIntoObj,
@@ -37,6 +38,22 @@ define([], function () {
         };
 
         return service;
+
+        /**
+         * Handle param continuum between header path array and node data
+         * @param parametersList
+         * @param selectedSubApi
+         * @param node
+         */
+        function handleNodeIdentifier(parametersList, selectedSubApi, node){
+            var identifier = RequestsService.findIdentifierByParam(
+                parametersList, selectedSubApi.pathArray[selectedSubApi.pathArray.length - 1]
+            );
+
+            if ( identifier ){
+                PathUtilsService.fillListNode(node, identifier.label, identifier.value);
+            }
+        }
 
         /**
          * Put data to output container if root node is rpc
