@@ -213,11 +213,13 @@ md-input-container{
 
     .md-custom-error{
         color: @reqError;
-        position: absolute;
-        bottom: 4px;
-        left: 3px;
+        margin-top: 4px;
+        margin-left: 3px;
         font-size: 11px;
         line-height: 14px;
+        -webkit-order: 3;
+        -ms-flex-order: 3;
+        order: 3;
     }
 }
 
