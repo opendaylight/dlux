@@ -3,14 +3,15 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
     yangman.register.controller('ListCtrl', ListCtrl);
 
-    ListCtrl.$inject = ['$scope', 'ListFilteringService', 'NodeWrapperService'];
+    ListCtrl.$inject = ['$scope', 'ListFilteringService', 'NodeWrapperService', 'constants'];
 
-    function ListCtrl($scope, ListFilteringService, NodeWrapperService){
+    function ListCtrl($scope, ListFilteringService, NodeWrapperService, constants) {
         var yangList = this;
 
         $scope.actElement = null;
         $scope.showListFilter = false;
         $scope.filterListHover = 0;
+        yangList.constants = constants;
         yangList.currentDisplayIndex = 1;
         yangList.displayOffsets = [-1, 0, 1];
 
@@ -52,7 +53,7 @@ define(['app/yangman/yangman.module'], function (yangman) {
 
             if(yangList.disableAddingListElement &&
                 !$scope.node.listData.length &&
-                $scope.selectedDatastore.label === 'config') {
+                $scope.selectedDatastore.label === constants.DATA_STORE_CONFIG) {
 
                 yangList.addListElem();
             }
@@ -193,4 +194,3 @@ define(['app/yangman/yangman.module'], function (yangman) {
         }
     }
 });
-
