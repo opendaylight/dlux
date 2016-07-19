@@ -292,28 +292,23 @@ define([
         }
 
         function saveRequestToCollection(event) {
+            var historyReq = RequestService.createHistoryRequest(
+                    null, null, requestHeader.requestUrl, requestHeader.selectedOperation, '', '', ''
+                ),
+                sentData = { reqData: null },
+                receivedData = { reqData: null };
 
             if (requestHeader.selectedShownDataType === 'form') {
                 requestHeader.setRequestUrl();
             }
 
-            var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
-                    requestHeader.selectedOperation, '', '', ''),
-                reqData = {};
+            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
+            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', receivedData);
 
-            if ( requestHeader.selectedShownDataType === 'req-data' ) {
-                var params = { reqData: null };
-                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
-                reqData = params.reqData ? angular.fromJson(params.reqData) : {};
-            }
-            else {
-                var data = { srcData: {} };
-
-                YangmanService.setSrcDataByDataType(data, $scope.node, {}, 'form');
-                reqData = data.srcData;
-            }
-
-            historyReq.setExecutionData(reqData, {}, '');
+            RequestService.fillRequestByMethod(
+                historyReq, sentData, receivedData, requestHeader.selectedOperation, $scope.node,
+                requestHeader.selectedShownDataType
+            );
 
             $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
         }
