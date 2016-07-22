@@ -14,6 +14,7 @@ define([
     'app/yangman/services/parameters.services',
     'app/yangman/services/plugins-unsetter.services',
     'app/yangman/directives/ui-codemirror.directive',
+    'app/yangman/directives/read_file.directive',
 ], function (yangman) {
     'use strict';
 
