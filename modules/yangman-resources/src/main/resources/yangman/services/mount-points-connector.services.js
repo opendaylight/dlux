@@ -172,7 +172,6 @@ define([
                             }
                         });
 
-                        console.info('loaded mount point nodes', mpNodes);
                         callback(mpNodes, augments, reqObj);
                         YangUtilsRestangularService.setFullResponse(false);
                     });
