@@ -7,14 +7,15 @@ define([
 
     RequestHeaderCtrl.$inject = [
         '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService',
-        'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService',
+        'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService', 'constants'
     ];
 
     function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService,
-                               PathUtilsService, RequestService, $filter, DataBackupService) {
+                               PathUtilsService, RequestService, $filter, DataBackupService, constants) {
         var requestHeader = this;
 
-        requestHeader.allOperations = ['GET', 'POST', 'PUT', 'DELETE'];
+        requestHeader.allOperations = [constants.OPERATION_GET, constants.OPERATION_POST, constants.OPERATION_PUT, constants.OPERATION_DELETE];
+        requestHeader.constants = constants;
         requestHeader.selectedOperationsList = [];
         requestHeader.selectedOperation = null;
         requestHeader.requestUrl = '';
@@ -111,7 +112,7 @@ define([
          * Method for selecting correct json view by selected operation
          */
         function setJsonView(){
-            var both = ['PUT', 'POST'];
+            var both = [constants.OPERATION_PUT, constants.OPERATION_POST];
 
             if ( both.indexOf(requestHeader.selectedOperation) > -1 ){
                 $scope.setJsonView(true, true);
@@ -130,13 +131,13 @@ define([
             requestHeader.setRequestUrl();
 
             // if changing to json, fill codemirror data
-            if ( requestHeader.selectedShownDataType === 'req-data' && $scope.node ){
+            if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA && $scope.node ){
                 setJsonView();
                 sendRequestData($scope.buildRootRequest(), 'SENT');
             }
 
             // if changing to form, try to fill node data
-            if (requestHeader.selectedShownDataType === 'form') {
+            if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM) {
                 var reqData = {};
 
                 reqData = getDataForForm();
@@ -178,7 +179,7 @@ define([
                         );
                     },
                     default: function (){
-                        var dataType = requestHeader.selectedOperation === 'GET' ? 'RECEIVED' : 'SENT';
+                        var dataType = requestHeader.selectedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
 
                         $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
                         return params.reqData ? angular.fromJson(params.reqData) : {};
@@ -295,7 +296,7 @@ define([
                 sentData = { reqData: null },
                 receivedData = { reqData: null };
 
-            if (requestHeader.selectedShownDataType === 'form') {
+            if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM) {
                 requestHeader.setRequestUrl();
             }
 
@@ -336,16 +337,16 @@ define([
          */
         function executeOperation(requestData, executeCbk){
             var allowExecuteOperation =
-                requestHeader.selectedShownDataType === 'form' && $scope.selectedSubApi ?
+                requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM && $scope.selectedSubApi ?
                     !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
 
             if ( allowExecuteOperation ) {
 
                 showRequestProgress();
-                setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
+                setRequestUrl(requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ? requestHeader.requestUrl : null);
                 $scope.rootBroadcast('YANGMAN_SET_ERROR_MESSAGE', '');
 
-                if ( requestHeader.selectedShownDataType !== 'form' ){
+                if ( requestHeader.selectedShownDataType !== constants.DISPLAY_TYPE_FORM ){
                     setApiByUrl(requestHeader.requestUrl, null, true);
                 }
 
@@ -391,10 +392,10 @@ define([
 
                 sendErrorData({});
 
-                if (requestHeader.selectedShownDataType === 'req-data'){
+                if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA){
 
                     setNodeDataFromRequestData(requestHeader.requestUrl);
-                    sendRequestData(preparedReceivedData, 'RECEIVED');
+                    sendRequestData(preparedReceivedData, constants.REQUEST_DATA_TYPE_RECEIVED);
                     sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
                 } else {
 
@@ -408,7 +409,7 @@ define([
 
                         $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
                         preparedReceivedData = YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node);
-                        sendRequestData(preparedReceivedData, 'RECEIVED');
+                        sendRequestData(preparedReceivedData, constants.REQUEST_DATA_TYPE_RECEIVED);
                     }
                 }
 
@@ -457,7 +458,7 @@ define([
 
                 if (response.data) {
                     // try to fill code mirror editor
-                    sendRequestData(response.data, 'RECEIVED');
+                    sendRequestData(response.data, constants.REQUEST_DATA_TYPE_RECEIVED);
                     sendErrorData(response.data);
                 }
 
@@ -474,7 +475,7 @@ define([
          * @param identifier
          */
         function fillNodeData(pathElem, identifier) {
-            if ($scope.selectedSubApi && $scope.selectedSubApi.storage === 'config' &&
+            if ($scope.selectedSubApi && $scope.selectedSubApi.storage === constants.DATA_STORE_CONFIG &&
                 $scope.selectedSubApi.pathArray.indexOf(pathElem) === ($scope.selectedSubApi.pathArray.length - 1)) {
                 PathUtilsService.fillListNode($scope.node, identifier.label, identifier.value);
             }
@@ -487,7 +488,7 @@ define([
 
             if ( requestHeader.requestUrl.length ) {
 
-                if ( requestHeader.selectedShownDataType === 'req-data' ) {
+                if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
                     // get json data
                     var params = { reqData: null };
                     $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);

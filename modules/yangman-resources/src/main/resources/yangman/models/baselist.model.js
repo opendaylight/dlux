@@ -111,7 +111,6 @@ define([], function (){
             try {
                 localStorage.setItem(self.name, JSON.stringify(self.toJSON()));
             } catch (e) {
-                // console.info('DataStorage error:', e);
             }
         }
 
