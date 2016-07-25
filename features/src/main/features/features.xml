@@ -9,7 +9,6 @@
        <feature>odl-dlux-core</feature>
         <feature>odl-dlux-node</feature>
         <feature>odl-dlux-yangui</feature>
-        <feature>odl-dlux-yangman</feature>
         <feature>odl-dlux-yangvisualizer</feature>
     </feature>
 
