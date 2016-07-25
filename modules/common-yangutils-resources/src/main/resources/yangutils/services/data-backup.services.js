@@ -50,7 +50,8 @@ define([], function () {
                     if (data.hasOwnProperty(k)) {
                         scope[k] = data[k];
                     } else {
-                        console.warn('storet data doesn\'t have variable', k);
+                        // uncomment for debug purposes
+                        // console.warn('storet data doesn\'t have variable', k);
                     }
                 });
             }

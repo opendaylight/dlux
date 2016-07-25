@@ -3,9 +3,9 @@ define([], function () {
 
     angular.module('app.yangman').controller('RequestDataCtrl', RequestDataCtrl);
 
-    RequestDataCtrl.$inject = ['$filter', '$mdToast', '$scope', 'RequestsService'];
+    RequestDataCtrl.$inject = ['$filter', '$mdToast', '$scope', 'RequestsService', 'constants'];
 
-    function RequestDataCtrl($filter, $mdToast, $scope, RequestsService) {
+    function RequestDataCtrl($filter, $mdToast, $scope, RequestsService, constants) {
         var requestData = this,
             cmData = {
                 cmInstance: null,
@@ -114,8 +114,8 @@ define([], function () {
          * Set code mirror theme and readonly property considering requestData.type
          */
         function initEditorOptions() {
-            requestData.dataEditorOptions.theme = requestData.type === 'RECEIVED' ? 'eclipse-disabled' : 'eclipse';
-            requestData.dataEditorOptions.readOnly = requestData.type === 'RECEIVED';
+            requestData.dataEditorOptions.theme = requestData.type === constants.REQUEST_DATA_TYPE_RECEIVED ? 'eclipse-disabled' : 'eclipse';
+            requestData.dataEditorOptions.readOnly = requestData.type === constants.REQUEST_DATA_TYPE_RECEIVED;
         }
 
 
@@ -138,4 +138,3 @@ define([], function () {
     }
 
 });
-

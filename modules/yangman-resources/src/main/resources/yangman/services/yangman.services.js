@@ -11,7 +11,7 @@ define([], function () {
         'ParsingJsonService',
         'RequestsService',
         'PathUtilsService',
-
+        'constants',
     ];
 
     function YangmanService(
@@ -21,7 +21,8 @@ define([], function () {
         ENV,
         ParsingJsonService,
         RequestsService,
-        PathUtilsService
+        PathUtilsService,
+        constants
     ){
         var service = {
             cutUrl: cutUrl,
@@ -62,7 +63,7 @@ define([], function () {
          * @returns {*}
          */
         function checkRpcReceivedData(data, node){
-            return node.type === 'rpc' ? cutData(data) : data;
+            return node.type === constants.NODE_RPC ? cutData(data) : data;
 
             function cutData(data){
                 return {
@@ -98,7 +99,7 @@ define([], function () {
             var prepareType = {
                 rpc: function (){
 
-                    if ( outputType === 'form' ){
+                    if ( outputType === constants.DISPLAY_TYPE_FORM ){
                         var dObj = {};
 
                         if ( !sData ) {
@@ -205,7 +206,7 @@ define([], function () {
          * @param dataType
          */
         function setSrcDataByDataType(allPreparedData, node, requestData, dataType){
-            if ( dataType === 'form' && node){
+            if ( dataType === constants.DISPLAY_TYPE_FORM && node){
                 node.buildRequest(RequestBuilderService, requestData, node.module);
                 allPreparedData.srcData = angular.copy(requestData);
             }
@@ -245,11 +246,11 @@ define([], function () {
             setParametrizedData(allPreparedData, params, selSubApiCopy, requestUrl);
 
             // prepare req data
-            if (operation === 'GET' || operation === 'DELETE'){
+            if (operation === constants.OPERATION_GET || operation === constants.OPERATION_DELETE){
                 allPreparedData.srcData = null;
                 allPreparedData.reqData = null;
             }
-            else if ( operation === 'POST' ){
+            else if ( operation === constants.OPERATION_POST ){
 
                 if ( selSubApiCopy ) {
                     allPreparedData.reqData = YangUtilsService.postRequestData(
@@ -261,7 +262,7 @@ define([], function () {
             }
 
             // set correct host into restangular based on shown data type and prepare data
-            if ( dataType === 'req-data' ){
+            if ( dataType === constants.DISPLAY_TYPE_REQ_DATA ){
                 var parser = locationHelper(allPreparedData.reqFullUrl, ['pathname', 'origin']),
                     raParam = '';
 

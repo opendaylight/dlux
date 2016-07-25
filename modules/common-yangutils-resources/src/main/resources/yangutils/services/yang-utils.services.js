@@ -70,8 +70,8 @@ define(['angular'], function (angular) {
 
         // TODO: add service's description
         function switchConfigOper(apiStr, swtichTo) {
-            var c = 'config',
-                o = 'operational',
+            var c = constants.DATA_STORE_CONFIG,
+                o = constants.DATA_STORE_OPERATIONAL,
                 str = apiStr;
 
             if (apiStr.indexOf(c) === 0) {
@@ -400,10 +400,10 @@ define(['angular'], function (angular) {
         function prepareRequestData(requestData, operation, reqString, subApi){
             var preparedData = requestData;
 
-            if (operation === 'GET' || operation === 'DELETE'){
+            if (operation === constants.OPERATION_GET || operation === constants.OPERATION_DELETE){
                 preparedData = null;
             }
-            else if (operation === 'POST'){
+            else if (operation === constants.OPERATION_POST){
                 return postRequestData(requestData, reqString, subApi);
             }
 
@@ -412,7 +412,7 @@ define(['angular'], function (angular) {
 
         // TODO: add service's description
         function prepareOperation(operation){
-            return operation === 'DELETE' ? 'REMOVE' : operation;
+            return operation === constants.OPERATION_DELETE ? 'REMOVE' : operation;
         }
 
         // TODO: add service's description

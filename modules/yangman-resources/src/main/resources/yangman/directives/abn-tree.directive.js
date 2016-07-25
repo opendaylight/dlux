@@ -40,14 +40,12 @@ define(['angular'], function (angular) {
                     }
                     expandLevel = parseInt(attrs.expandLevel, 10);
                     if (!scope.treeData) {
-                        // console.warn('no treeData defined for the tree!');
                         return;
                     }
                     if (scope.treeData.length == null) {
                         if (scope.treeData.label != null) {
                             scope.treeData = [scope.treeData];
                         } else {
-                            // console.warn('treeData should be an array of root branches');
                             return;
                         }
                     }
@@ -165,7 +163,6 @@ define(['angular'], function (angular) {
                         });
 
                         scope.expandedTree = !scope.expandedTree;
-                        // console.log(scope.tree_rows);
                     };
                     scope.collapse_others = function (){
                         var parentId = null,
@@ -216,7 +213,6 @@ define(['angular'], function (angular) {
                                 return b.uid = '' + Math.random();
                             }
                         });
-                        // console.log('UIDs are set.');
                         forEachBranch(function (b) {
                             var child,
                                 _i,
@@ -328,7 +324,6 @@ define(['angular'], function (angular) {
                         });
                     }
                     n = scope.treeData.length;
-                    // console.log('num root branches = ' + n);
                     forEachBranch(function (b, level) {
                         b.level = level;
                         return b.expanded = b.level < expandLevel;

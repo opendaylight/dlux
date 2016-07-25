@@ -24,6 +24,7 @@ define([], function () {
             this.spawnRequest = function (digest) {
                 var id = digest + (this.reqId++).toString();
                 this.runningRequests.push(id);
+                // uncomment for debug purposes
                 // console.debug('adding request ',id,' total running requests  = ',this.runningRequests);
                 return id;
             };
@@ -33,9 +34,11 @@ define([], function () {
 
                 if (index > -1) {
                     this.runningRequests.splice(index, 1);
+                    // uncomment for debug purposes
                     // console.debug('removing request ',id,' remaining requests = ',this.runningRequests);
                 } else {
-                    console.warn('cannot remove request', id, 'from', this.runningRequests, 'index is', index);
+                    // uncomment for debug purposes
+                    // console.warn('cannot remove request', id, 'from', this.runningRequests, 'index is', index);
                 }
             };
 
@@ -45,6 +48,7 @@ define([], function () {
                     self = this;
 
                 if (processes > 0 && self.timeElapsed < timeout) {
+                    // uncomment for debug purposes
                     // console.debug('waitin on',processes,'processes',this.runningRequests);
                     $timeout(function () {
                         self.timeElapsed = self.timeElapsed + t;

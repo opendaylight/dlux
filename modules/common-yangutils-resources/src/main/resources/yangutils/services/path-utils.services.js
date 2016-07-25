@@ -49,7 +49,8 @@ define([], function () {
                     return selNode;
                 }
             } else {
-                console.warn('search: cannot find element ', pathElem.name);
+                // uncomment for debug purposes
+                // console.warn('search: cannot find element ', pathElem.name);
                 return null;
             }
         }
