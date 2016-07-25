@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_e47b23f3",
+        "filename": "modules/common-yangutils-resources/src/main/resources/yangutils/services/yin-parser.services.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2016-07-25T13:06:11Z",
+      "side": 1,
+      "message": "this block is not necessary, right?\ncan you remove it?",
+      "range": {
+        "startLine": 181,
+        "startChar": 18,
+        "endLine": 182,
+        "endChar": 17
+      },
+      "revId": "a2965504346cb1a9e6d06ade84c09a18bc85df45",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
