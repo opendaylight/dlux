@@ -9,11 +9,11 @@ define([
 
         RequestsService.$inject = [
             '$filter', 'PathUtilsService', 'ParametersService', 'ParsingJsonService', 'YangUtilsService',
-            'RequestBuilderService',
+            'RequestBuilderService', 'constants',
         ];
 
         function RequestsService(
-            $filter, PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService, RequestBuilderService
+            $filter, PathUtilsService, ParametersService, ParsingJsonService, YangUtilsService, RequestBuilderService, constants
         ){
 
         var service = {};
@@ -82,7 +82,7 @@ define([
                 var setDataByViewType = {
                     form: function () {
                         var data = {},
-                            emptyObject = method === 'POST' && dataType === 'received' && node.type !== 'rpc';
+                            emptyObject = method === constants.OPERATION_POST && dataType.toUpperCase() === constants.REQUEST_DATA_TYPE_RECEIVED && node.type !== constants.NODE_RPC;
 
                         if ( !emptyObject ) {
                             node.buildRequest(RequestBuilderService, data, node.module);
@@ -111,7 +111,7 @@ define([
                         setDataByNodeType = {
                             rpc: function (){
 
-                                if ( dataType === 'received' ) {
+                                if ( dataType.toUpperCase() === constants.REQUEST_DATA_TYPE_RECEIVED ) {
                                     copyData = requestData ? angular.fromJson(requestData) : {};
                                 }
 
@@ -145,7 +145,7 @@ define([
                             return {
                                 sentData: fillRequestByViewType(node, viewType, sentData.reqData, 'sent', method),
                                 receivedData: fillRequestByViewType(
-                                    node, viewType, receivedData.reqData, 'received', method
+                                    node, viewType, receivedData.reqData, constants.REQUEST_DATA_TYPE_RECEIVED, method
                                 ),
                             };
                         },

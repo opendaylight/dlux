@@ -23,6 +23,16 @@ function () {
         ALLOWED_LEAF_TYPES_FOR_FILTER: ['string', 'uint32', 'uint8', 'decimal64', 'int16', 'int32', 'int64', 'int8',
                                         'uint16', 'uint64', 'union', 'bits', 'leafref', 'identityref'],
         ALLOWED_NODE_TYPES_FOR_FILTER: ['case', 'choice', 'container', 'input', 'leaf', 'output', 'rpc'],
+        DISPLAY_TYPE_REQ_DATA: 'req-data',
+        DISPLAY_TYPE_FORM: 'form',
+        DATA_STORE_CONFIG: 'config',
+        DATA_STORE_OPERATIONAL: 'operational',
+        NODE_RPC: 'rpc',
+        OPERATION_GET: 'GET',
+        OPERATION_PUT: 'PUT',
+        OPERATION_DELETE: 'DELETE',
+        OPERATION_POST: 'POST',
+        REQUEST_DATA_TYPE_RECEIVED: 'RECEIVED',
     };
 
 });

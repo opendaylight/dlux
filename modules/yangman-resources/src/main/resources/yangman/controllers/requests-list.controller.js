@@ -9,7 +9,7 @@ define([
 
     RequestsListCtrl.$inject = [
         '$filter', '$mdDialog', '$scope', 'YMHandleFileService', 'PathUtilsService', 'RequestsService', 'YangmanService',
-        'YangmanDesignService',
+        'YangmanDesignService', 'constants',
     ];
 
     /**
@@ -25,7 +25,7 @@ define([
      * @constructor
      */
     function RequestsListCtrl($filter, $mdDialog, $scope, YMHandleFileService, PathUtilsService, RequestsService,
-                              YangmanService, YangmanDesignService) {
+                              YangmanService, YangmanDesignService, constants) {
         var vm = this;
 
         /**
@@ -34,6 +34,7 @@ define([
          * @type {*|CollectionList}
          */
         vm.collectionList = null;
+        vm.constants = constants;
 
         /**
          *
@@ -206,7 +207,7 @@ define([
             var data = reqObj.sentData;
 
             // exception for get meth
-            if ( reqObj.method === 'GET' ) {
+            if ( reqObj.method === constants.OPERATION_GET ) {
                 data = reqObj.receivedData;
             }
 
@@ -222,7 +223,7 @@ define([
 
             $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, requestData: data },
                 function (){
-                    $scope.setRightPanelSection('form');
+                    $scope.setRightPanelSection(constants.DISPLAY_TYPE_FORM);
                     $scope.rootBroadcast('YANGMAN_HEADER_INIT', {
                         path: reqObj.path,
                         method: reqObj.method,
@@ -235,13 +236,13 @@ define([
 
                     if ( $scope.node ) {
                         // prepare data for filling form
-                        data = $scope.node.type === 'rpc' ?
+                        data = $scope.node.type === constants.NODE_RPC ?
                                 YangmanService.prepareReceivedData(
                                     $scope.node,
                                     reqObj.method,
                                     reqObj.receivedData,
                                     reqObj.sentData,
-                                    'form'
+                                    constants.DISPLAY_TYPE_FORM
                                 ) : data;
 
                         // try to fill node
@@ -288,8 +289,8 @@ define([
                 );
             }
 
-            $scope.setRightPanelSection('req-data');
-            $scope.setJsonView(true, reqObj.method !== 'GET');
+            $scope.setRightPanelSection(constants.DISPLAY_TYPE_REQ_DATA);
+            $scope.setJsonView(true, reqObj.method !== constants.OPERATION_GET);
 
             $scope.rootBroadcast('YANGMAN_HEADER_INIT', headerObj);
             $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path });

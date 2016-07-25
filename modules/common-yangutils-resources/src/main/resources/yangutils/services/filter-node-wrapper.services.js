@@ -128,7 +128,6 @@ define([], function () {
                                 try {
                                     valueStr = string.toString();
                                 } catch (e) {
-                                    console.warn('cannot convert value', node.value);
                                 }
                                 return valueStr;
                             };
