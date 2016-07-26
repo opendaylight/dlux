@@ -7,7 +7,7 @@ define([
     'app/yangman/controllers/request-header.controller',
     'app/yangman/controllers/request-data.controller',
     'app/yangman/services/yangman.services',
-    'app/yangman/services/handle-file.services',
+    'app/yangman/services/ym-handle-file.services',
     'app/yangman/services/yangman-design.services',
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',

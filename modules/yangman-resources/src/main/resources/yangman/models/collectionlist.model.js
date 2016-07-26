@@ -49,6 +49,11 @@ define(
                 return JSON.stringify(self.toJSON(collectionName));
             }
 
+            /**
+             *
+             * @param collectionName
+             * @returns {*}
+             */
             function getCollectionInRawJSON(collectionName){
                 return self.toJSON(collectionName);
             }

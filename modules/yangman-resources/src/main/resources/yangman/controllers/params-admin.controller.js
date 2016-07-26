@@ -4,9 +4,9 @@ define([
 
     angular.module('app.yangman').controller('ParamsAdminCtrl', ParamsAdminCtrl);
 
-    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'HandleFileService', 'parametersList'];
+    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'YMHandleFileService', 'parametersList'];
 
-    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, HandleFileService, parametersList) {
+    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, YMHandleFileService, parametersList) {
         var vm = this;
 
         vm.parametersList = parametersList;
@@ -72,9 +72,9 @@ define([
          */
         function exportParameters() {
 
-            HandleFileService.downloadFile(
+            YMHandleFileService.downloadFile(
                 'yangman_parameters.json',
-                JSON.stringify(vm.parametersList.toJSON()),
+                vm.parametersList.toJSON(),
                 'json',
                 'charset=utf-8',
                 function (){},
