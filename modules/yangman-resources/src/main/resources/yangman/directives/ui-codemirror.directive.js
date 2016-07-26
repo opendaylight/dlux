@@ -1,12 +1,12 @@
 define([], function () {
+    'use strict';
 
-    angular.module('app.yangman').constant('uiCodemirrorConfig', {});
     angular.module('app.yangman').directive('uiCodemirror', uiCodemirrorDirective);
 
     /**
      * @ngInject
      */
-    function uiCodemirrorDirective($timeout, uiCodemirrorConfig) {
+    function uiCodemirrorDirective($timeout, ymUiCodemirrorConfig) {
 
         return {
             restrict: 'EA',
@@ -25,7 +25,7 @@ define([], function () {
         function postLink(scope, iElement, iAttrs, ngModel) {
             var codemirrorOptions = angular.extend(
                 {value: iElement.text()},
-                uiCodemirrorConfig.codemirror || {},
+                ymUiCodemirrorConfig.codemirror || {},
                 scope.$eval(iAttrs.uiCodemirror),
                 scope.$eval(iAttrs.uiCodemirrorOpts)
             );
@@ -160,6 +160,6 @@ define([], function () {
 
     }
 
-    uiCodemirrorDirective.$inject = ['$timeout', 'uiCodemirrorConfig'];
+    uiCodemirrorDirective.$inject = ['$timeout', 'ymUiCodemirrorConfig'];
 
 });
