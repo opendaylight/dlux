@@ -20,9 +20,10 @@
 
                     <!-- search icon, form, clear button -->
                     <md-icon class="material-icons">search</md-icon>
-                    <input class="ng-pristine ng-valid ng-touched"
+                    <input class=""
                            type="text"
                            flex
+                           ng-change="paramsAdmin.filterChange()"
                            placeholder="{{'YANGMAN_SEARCH' | translate}}"
                            ng-model="paramsAdmin.search"
                            aria-invalid="false" />
