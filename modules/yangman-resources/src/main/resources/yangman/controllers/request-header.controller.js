@@ -16,6 +16,8 @@ define([
 
         requestHeader.allOperations = [constants.OPERATION_GET, constants.OPERATION_POST, constants.OPERATION_PUT, constants.OPERATION_DELETE];
         requestHeader.constants = constants;
+        requestHeader.isReceived = false;
+        requestHeader.urlChanged = false;
         requestHeader.selectedOperationsList = [];
         requestHeader.selectedOperation = null;
         requestHeader.requestUrl = '';
@@ -128,7 +130,11 @@ define([
          */
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
-            requestHeader.setRequestUrl();
+
+            if(!$scope.node || requestHeader.urlChanged) {
+                requestHeader.setRequestUrl();
+                requestHeader.urlChanged = false;
+            }
 
             // if changing to json, fill codemirror data
             if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA && $scope.node ){
@@ -292,27 +298,36 @@ define([
         }
 
         function saveRequestToCollection(event) {
-            var historyReq = null,
-                sentData = { reqData: null },
-                receivedData = { reqData: null };
-
-            if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM) {
-                requestHeader.setRequestUrl();
+            if(!requestHeader.isReceived && requestHeader.selectedOperation === constants.OPERATION_GET) {
+                prepareDataAndExecute(saveRequest);
+            }
+            else {
+                saveRequest();
             }
 
-            historyReq = RequestService.createHistoryRequest(
-                null, null, requestHeader.requestUrl, requestHeader.selectedOperation, '', '', ''
-            );
+            function saveRequest() {
+                var historyReq = null,
+                    sentData = { reqData: null },
+                    receivedData = { reqData: null };
 
-            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
-            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', receivedData);
+                if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM) {
+                    requestHeader.setRequestUrl();
+                }
 
-            RequestService.fillRequestByMethod(
-                historyReq, sentData, receivedData, requestHeader.selectedOperation, $scope.node,
-                requestHeader.selectedShownDataType
-            );
+                historyReq = RequestService.createHistoryRequest(
+                    null, null, requestHeader.requestUrl, requestHeader.selectedOperation, '', '', ''
+                );
 
-            $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
+                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
+                $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', receivedData);
+
+                RequestService.fillRequestByMethod(
+                    historyReq, sentData, receivedData, requestHeader.selectedOperation, $scope.node,
+                    requestHeader.selectedShownDataType
+                );
+
+                $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
+            }
         }
 
         function showRequestProgress(){
@@ -479,13 +494,16 @@ define([
                 $scope.selectedSubApi.pathArray.indexOf(pathElem) === ($scope.selectedSubApi.pathArray.length - 1)) {
                 PathUtilsService.fillListNode($scope.node, identifier.label, identifier.value);
             }
+
+            requestHeader.isReceived = false;
+            requestHeader.urlChanged = true;
         }
 
         /**
          * Check data before executin operations
          */
         function prepareDataAndExecute(cbk){
-
+            requestHeader.isReceived = true;
             if ( requestHeader.requestUrl.length ) {
 
                 if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
