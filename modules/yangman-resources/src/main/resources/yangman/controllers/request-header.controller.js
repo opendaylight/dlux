@@ -16,6 +16,8 @@ define([
 
         requestHeader.allOperations = [constants.OPERATION_GET, constants.OPERATION_POST, constants.OPERATION_PUT, constants.OPERATION_DELETE];
         requestHeader.constants = constants;
+        requestHeader.urlChanged = false;
+        requestHeader.executedOperation = null;
         requestHeader.selectedOperationsList = [];
         requestHeader.selectedOperation = null;
         requestHeader.requestUrl = '';
@@ -128,7 +130,11 @@ define([
          */
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
-            requestHeader.setRequestUrl();
+
+            if(!$scope.node || requestHeader.urlChanged) {
+                requestHeader.setRequestUrl();
+                requestHeader.urlChanged = false;
+            }
 
             // if changing to json, fill codemirror data
             if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA && $scope.node ){
@@ -179,7 +185,13 @@ define([
                         );
                     },
                     default: function (){
-                        var dataType = requestHeader.selectedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
+                        var dataType;
+                        if(requestHeader.executedOperation) {
+                            dataType = requestHeader.executedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
+                        }
+                        else {
+                            dataType = requestHeader.selectedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
+                        }
 
                         $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
                         return params.reqData ? angular.fromJson(params.reqData) : {};
@@ -365,6 +377,7 @@ define([
                     executeReqSuccCbk,
                     executeReqErrCbk
                 );
+                requestHeader.executedOperation = requestHeader.selectedOperation;
             } else {
                 $scope.rootBroadcast(
                     'YANGMAN_SET_ERROR_MESSAGE',
@@ -479,13 +492,14 @@ define([
                 $scope.selectedSubApi.pathArray.indexOf(pathElem) === ($scope.selectedSubApi.pathArray.length - 1)) {
                 PathUtilsService.fillListNode($scope.node, identifier.label, identifier.value);
             }
+
+            requestHeader.urlChanged = true;
         }
 
         /**
          * Check data before executin operations
          */
         function prepareDataAndExecute(cbk){
-
             if ( requestHeader.requestUrl.length ) {
 
                 if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
