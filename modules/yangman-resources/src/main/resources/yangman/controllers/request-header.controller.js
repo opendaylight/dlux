@@ -128,7 +128,10 @@ define([
          */
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
-            requestHeader.setRequestUrl();
+
+            if(!$scope.node) {
+                requestHeader.setRequestUrl();
+            }
 
             // if changing to json, fill codemirror data
             if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA && $scope.node ){
