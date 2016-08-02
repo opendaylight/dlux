@@ -541,7 +541,10 @@ define([
                 }
             });
 
-            $scope.$on('YANGMAN_REFRESH_COLLECTIONS', loadCollectionsList);
+            $scope.$on('YANGMAN_REFRESH_COLLECTIONS', function (event, params){
+                loadCollectionsList();
+                (params.cbk || angular.noop)();
+            });
 
             // list type dependend operations
             if (mainList === 'history') {
@@ -560,13 +563,13 @@ define([
                 // saving from request header
                 $scope.$on('YANGMAN_SAVE_REQUEST_TO_COLLECTION', saveRequestFromExt);
                 // saving collections expanded status on refresh
-                $scope.$on('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', function(event, params){
-                    $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
-                    (params.cbk || angular.noop)();
+                $scope.$on('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', function(){
+                    var expandedColNames = vm.collectionList.getExpandedCollectionNames();
+                    $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS', {}, function (){
+                        vm.collectionList.expandCollectionByNames(expandedColNames);
+                    });
                 });
             }
-
-
 
         }
 
@@ -626,10 +629,7 @@ define([
          * Refresh and expand collections
          */
         function refreshCollectionsWithExpansion(){
-            var expandedCollNames = vm.collectionList.getExpandedCollectionNames();
-            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function (){
-                vm.collectionList.expandCollectionByNames(expandedCollNames);
-            });
+            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS');
         }
 
     }
