@@ -12,7 +12,8 @@ define([
 
         vm.parametersList = parametersList;
         vm.search = '';
-        vm.sortField = '_name';
+        vm.sortField1 = '_name';
+        vm.sortField2 = '_value';
         vm.sortAsc = true;
 
         vm.close = close;
@@ -95,10 +96,11 @@ define([
 
         /**
          * Set attribute to use when sorting
-         * @param sortField
+         * @param sortField1 , sortField2
          */
-        function sortBy(sortField) {
-            vm.sortField = sortField;
+        function sortBy(sortField1, sortField2) {
+            vm.sortField1 = sortField1;
+            vm.sortField2 = sortField2;
             vm.sortAsc = !vm.sortAsc;
             vm.parametersList.applyValsForFilters();
             $timeout(vm.validateNamesUnique);
@@ -110,7 +112,8 @@ define([
          * @returns {*}
          */
         function sortFunc(item) {
-            return item[vm.sortField] ? item[vm.sortField] : (vm.sortAsc ? String.fromCharCode(255) : '');
+            return [item[vm.sortField1] ? item[vm.sortField1] : (vm.sortAsc ? String.fromCharCode(255) : ''),
+                    item[vm.sortField2] ? item[vm.sortField2] : (vm.sortAsc ? String.fromCharCode(255) : '')];
         }
 
         /**
