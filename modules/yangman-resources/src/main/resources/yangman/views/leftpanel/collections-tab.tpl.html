@@ -139,7 +139,7 @@
 
                 <md-list-item class="yangmanModule__requests-list__collection"
                               flex
-                              ng-class="{'selected': collection.expanded}"
+                              ng-class="{'expanded' : collection.expanded, 'selected': collection.expanded}"
                               ng-click="collection.toggleExpanded()">
 
                     <div layout="row">
@@ -214,4 +214,3 @@
     </md-content>
 
 </md-list>
-
