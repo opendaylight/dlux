@@ -124,14 +124,24 @@ define([], function (){
          * @returns {string}
          */
         function setDataForView(data){
-            var newData = {},
-                parsedData = '';
+            var result = '';
 
-            angular.copy(data, newData);
-            parsedData = JSON.stringify(
-                YangUtilsService.stripAngularGarbage(newData, self.getLastPathDataElemName()), null, 4);
+            if (data instanceof Object) {
+                result = JSON.stringify(
+                    YangUtilsService.stripAngularGarbage(
+                        angular.copy(data),
+                        self.getLastPathDataElemName()
+                    ),
+                    null,
+                    4
+                );
+            }
+            else {
+                result = data;
+            }
 
-            return parsedData;
+            return result;
+
         }
 
 
