@@ -200,7 +200,10 @@ define([
          * @param data
          */
         function sendRequestData(data, type){
-            $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_' + type, { data: JSON.stringify(data, null, 4) });
+            $scope.rootBroadcast(
+                'YANGMAN_SET_CODEMIRROR_DATA_' + type,
+                { data: data instanceof Object ? JSON.stringify(data, null, 4) : data }
+            );
         }
 
         function sendErrorData(response) {
