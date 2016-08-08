@@ -33,6 +33,7 @@
             <groupId>${groupId}</groupId>
             <artifactId>${rootArtifactId}-module</artifactId>
             <version>${version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>
@@ -61,7 +62,7 @@
                             <outputDirectory>${project.build.directory}/generated-resources</outputDirectory>
                             <groupId>${groupId}</groupId>
                             <includeArtifactIds>${rootArtifactId}-module</includeArtifactIds>
-                            <excludes>META-INF\/**</excludes>
+                            <excludes>META-INF\/**,*/node\/**,*/node_modules\/**</excludes>
                             <excludeTransitive>true</excludeTransitive>
                             <ignorePermissions>false</ignorePermissions>
                         </configuration>
