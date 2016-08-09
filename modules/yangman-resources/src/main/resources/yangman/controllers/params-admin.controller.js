@@ -8,7 +8,8 @@ define([
     ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', '$timeout', 'YangmanService', 'YMHandleFileService', 'parametersList'];
 
     function ParamsAdminCtrl($mdDialog, $scope, $timeout, YangmanService, YMHandleFileService, parametersList) {
-        var vm = this;
+        var openMenuListener,
+            vm = this;
 
         vm.parametersList = parametersList;
         vm.search = '';
@@ -138,6 +139,10 @@ define([
         function init(){
             vm.parametersList.loadListFromStorage();
             createEmptyParam();
+            openMenuListener = $scope.$on('$mdMenuOpen', function () {
+                closeOpenedMenu();
+                $timeout(registerClickOutside);
+            });
         }
 
         /**
@@ -171,6 +176,29 @@ define([
             vm.parametersList.saveToStorage();
             init();
         }
+
+        function registerClickOutside() {
+            $(document).click(function () {
+                closeOpenedMenu();
+            });
+        }
+
+        function unregisterClickOutside() {
+            $(document).off('click');
+        }
+
+        function openMenuDestroyListener() {
+            $scope.$on('$destroy', function () {
+                openMenuListener();
+            });
+        }
+
+        function closeOpenedMenu() {
+            unregisterClickOutside();
+            openMenuDestroyListener();
+            $mdMenu.hide();
+        }
+
 
 
     }
