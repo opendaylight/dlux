@@ -75,6 +75,9 @@ define([], function () {
             // $scope.preview();
             yangList.currentDisplayIndex =
                 Math.max(Math.min(yangList.currentDisplayIndex, $scope.node.listData.length - 2), 1);
+            if ($scope.node.listData.length === 0) {
+                $scope.$broadcast('hideInfoBox');
+            }
         }
 
         // TODO :: do method description
