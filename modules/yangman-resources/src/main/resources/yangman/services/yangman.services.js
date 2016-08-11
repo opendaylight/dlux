@@ -170,6 +170,7 @@ define([], function () {
             else {
                 allPreparedData.srcData = requestData;
             }
+
             allPreparedData.reqData = RequestsService.applyParams(params, allPreparedData.srcData);
 
             // prepare req data

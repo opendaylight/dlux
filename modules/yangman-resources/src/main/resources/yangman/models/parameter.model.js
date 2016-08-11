@@ -9,11 +9,11 @@ define([], function (){
         var self = this;
 
         // properties
-        self.key = '';
+        self.name = '';
         self.value = '';
 
         // attributes with underscore prefix are used for filtering in params admin
-        self._key = '';
+        self._name = '';
         self._value = '';
 
         // functions
@@ -24,23 +24,23 @@ define([], function (){
         /**
          * Grouped setter
          *
-         * @param key
+         * @param name
          * @param value
          */
-        function setData(key, value) {
-            self.key = key;
+        function setData(name, value) {
+            self.name = name;
             self.value = value;
-            self._key = key;
+            self._name = name;
             self._value = value;
         }
 
         /**
          *
-         * @returns {{key: (string|*), value: (string|*)}}
+         * @returns {{name: (string|*), value: (string|*)}}
          */
         function toJSON() {
             var obj = {
-                key: self.key,
+                name: self.name,
                 value: self.value,
             };
 
@@ -53,7 +53,7 @@ define([], function (){
          */
         function clone() {
             var result = new ParameterModel();
-            result.setData(self.key, self.val);
+            result.setData(self.name, self.val);
             return result;
         }
 

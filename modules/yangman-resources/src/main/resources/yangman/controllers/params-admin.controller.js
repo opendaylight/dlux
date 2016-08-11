@@ -4,17 +4,17 @@ define([
 
     angular.module('app.yangman').controller('ParamsAdminCtrl', ParamsAdminCtrl);
 
-    ParamsAdminCtrl.$inject = ['$mdDialog', 'YangmanService', 'HandleFileService', 'parametersList'];
+    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'HandleFileService', 'parametersList'];
 
-    function ParamsAdminCtrl($mdDialog, YangmanService, HandleFileService, parametersList) {
+    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, HandleFileService, parametersList) {
         var vm = this;
 
         vm.parametersList = parametersList;
         vm.search = '';
-        vm.sortField = '_key';
+        vm.sortField = '_name';
         vm.sortAsc = true;
 
-        vm.cancel = cancel;
+        vm.close = close;
         vm.save = save;
         vm.createEmptyParam = createEmptyParam;
         vm.removeParam = removeParam;
@@ -24,20 +24,21 @@ define([
         vm.sortFunc = sortFunc;
         vm.exportParameters = exportParameters;
         vm.importParameters = importParameters;
-        vm.validateKeysUnique = validateKeysUnique;
+        vm.validateNamesUnique = validateNamesUnique;
 
         init();
 
+
         /**
-         * Loop over all key inputs in form and validate duplicities
+         * Loop over all name inputs in form and validate duplicities
          */
-        function validateKeysUnique() {
+        function validateNamesUnique() {
             var i = 0;
-            while (vm.paramsForm.hasOwnProperty('key_' + i)){
-                var modelValue = vm.paramsForm['key_' + i].$modelValue;
-                vm.paramsForm['key_' + i].$setValidity(
+            while (vm.paramsForm.hasOwnProperty('name_' + i)){
+                var modelValue = vm.paramsForm['name_' + i].$modelValue;
+                vm.paramsForm['name_' + i].$setValidity(
                     'unique',
-                    vm.parametersList.isKeyUnique(modelValue)
+                    vm.parametersList.isNameUnique(modelValue)
                 );
                 i++;
             }
@@ -48,7 +49,7 @@ define([
          * @param fileContent
          */
         function importParameters(fileContent) {
-            if (fileContent && YangmanService.validateFile(fileContent, ['key', 'value'])){
+            if (fileContent && YangmanService.validateFile(fileContent, ['name', 'value'])){
                 try {
                     vm.parametersList.createParamsFromJson(fileContent);
                     vm.parametersList.saveToStorage();
@@ -107,8 +108,8 @@ define([
          * @returns {boolean}
          */
         function filterParam(paramObj) {
-            return !(paramObj._key || paramObj._value) ||
-                    paramObj._key.indexOf(vm.search) !== -1 ||
+            return !(paramObj._name || paramObj._value) ||
+                    paramObj._name.indexOf(vm.search) !== -1 ||
                     paramObj._value.indexOf(vm.search) !== -1;
         }
 
@@ -143,8 +144,9 @@ define([
         /**
          * Cancel dialog
          */
-        function cancel() {
-            $mdDialog.cancel();
+        function close() {
+            vm.parametersList.removeEmptyParams();
+            $mdDialog.hide(vm.parametersList);
         }
 
         /**

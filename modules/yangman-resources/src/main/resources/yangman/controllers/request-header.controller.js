@@ -91,6 +91,9 @@ define([
                 locals: {
                     parametersList: $scope.parametersList,
                 },
+            }).then(function (parametersList){
+                $scope.setParametersList(parametersList);
+
             });
         }
 
@@ -154,9 +157,7 @@ define([
          * Create empty parameters list, load from local storage and set to $scope
          */
         function initParams(){
-            var paramsList = ParametersService.createEmptyParametersList('yangman_parameters');
-            paramsList.loadListFromStorage();
-            $scope.setParametersList(paramsList);
+            $scope.parametersList.loadListFromStorage();
         }
 
         /**
@@ -248,7 +249,7 @@ define([
                     requestHeader.selectedShownDataType,
                     requestHeader.requestUrl,
                     reqData,
-                    $scope.parametersList
+                    null
                 );
 
             historyReq.setExecutionData(historyReqData.reqData, {}, '');
