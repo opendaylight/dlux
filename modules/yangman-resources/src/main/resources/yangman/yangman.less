@@ -21,7 +21,8 @@
 @reqMethodGet: #63d33b;
 @reqMethodPut: #6fbad3;
 @reqMethodPost: #ea9c30;
-@reqMethodDelete: #ea3b27;
+@reqMethodDelete: #eabb2f;
+@reqError: #ff0000;
 
 // helpers
 .pointer{
@@ -381,6 +382,8 @@ md-ink-bar.custom{
                 height: 100%;
                 padding-right: 2px;
                 padding-bottom: 10px;
+                position: relative;
+
 
                 > div {
                     height: calc(~'100% - 25px');
@@ -394,6 +397,14 @@ md-ink-bar.custom{
                 &.half-size{
                     height: 50%;
                 }
+            }
+
+            .paramsBox{
+                position: absolute;
+                top: 30px;
+                right: 26px;
+                background-color: rgba(235, 235, 228, 0.62);
+                padding: 15px;
             }
 
             .CodeMirror { height: 100%; }
@@ -688,6 +699,9 @@ md-ink-bar.custom{
                     .DELETE{
                         color: @reqMethodDelete;
                     }
+                    .error{
+                        color: @reqError;
+                    }
                 }
             }
 
@@ -805,6 +819,13 @@ md-ink-bar.custom{
 }
 
 md-dialog{
+
+    .md-toolbar-tools{
+        button{
+            min-width: auto;
+        }
+    }
+
     md-dialog-content, md-dialog-actions{
         h2, span{
             color: @fontColor;
