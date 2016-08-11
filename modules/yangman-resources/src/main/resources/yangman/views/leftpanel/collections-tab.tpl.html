@@ -27,35 +27,41 @@
         </md-input-container>
 
         <!-- sorting -->
-        <md-button  ng-click="reqList.toggleCollectionsSort()"
-                    ng-disabled="reqList.collectionList.collections.length <= 1">
-            <md-icon class="material-icons clickable" > sort</md-icon>
+        <span class="collection-button-container">
+            <md-button  ng-click="reqList.toggleCollectionsSort()"
+                        ng-disabled="reqList.collectionList.collections.length <= 1">
+                <md-icon class="material-icons clickable" > sort</md-icon>
+            </md-button>
             <md-tooltip md-direction="bottom">
                 {{ ( reqList.collectionsSortAsc ? 'YANGMAN_SORT_COLLECTIONS_DESC' : 'YANGMAN_SORT_COLLECTIONS_ASC' )| translate}}
             </md-tooltip>
-        </md-button>
+        </span>
         <!-- /sorting -->
 
         <!-- save -->
-        <md-button  ng-click="reqList.showDgSaveReq($event)"
-                    ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
-            <md-icon class="material-icons clickable">
-                save
-            </md-icon>
+        <span class="collection-button-container">
+            <md-button  ng-click="reqList.showDgSaveReq($event)"
+                        ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
+                <md-icon class="material-icons clickable">
+                    save
+                </md-icon>
+            </md-button>
             <md-tooltip md-direction="bottom">{{'YANGMAN_REQS_SAVE_TO_COL'| translate}}</md-tooltip>
-        </md-button>
+        </span>
         <!-- /save -->
 
         <!-- importing -->
-        <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
-        <md-button>
-            <label for="importCollection">
-                <md-icon class="material-icons clickable" >
-                    file_upload
-                </md-icon>
-                <md-tooltip md-direction="bottom">{{'YANGMAN_IMPORT_COLLECTION'| translate}}</md-tooltip>
-            </label>
-        </md-button>
+        <span class="collection-button-container">
+            <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
+            <md-button>
+                <label for="importCollection">
+                    <md-icon class="material-icons clickable" >
+                        file_upload
+                    </md-icon>
+                </label>
+            </md-button>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_IMPORT_COLLECTION'| translate}}</md-tooltip>
+        </span>
         <!-- /importing -->
 
         <md-menu layout-align="center start">
