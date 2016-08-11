@@ -103,9 +103,7 @@ define([
             YangUtilsService.generateNodesToApis(function (apis, allNodes, augGroups) {
                 $scope.setGlobalParams(apis, augGroups);
                 modulesList.allNodes = allNodes;
-                // console.info('INFO :: got data', apis, modulesList.allNodes, modulesList.augmentations);
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
-                 //console.info('INFO :: tree api', modulesList.treeApis);
                 // $scope.processingModulesSuccessCallback();
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');

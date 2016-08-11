@@ -6,7 +6,7 @@
               ng-click="reqList.selectRequest($event, request);">
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
-        <p class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === 'DELETE' ? 'DEL' : request.method }} </p>
+        <p class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === vm.constants.OPERATION_DELETE ? 'DEL' : request.method }} </p>
         <md-tooltip md-direction="bottom" ng-show="request.status">{{request.status | uppercase }}</md-tooltip>
     </div>
 
