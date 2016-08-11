@@ -3,43 +3,110 @@
          ng-init="reqList.init(reqList.requestList)"
          ng-controller="RequestsListCtrl as reqList">
 
-    <!-- search box -->
     <md-content class="searchBox" layout="row">
+
+        <!-- search icon, form, clear button -->
         <md-icon class="material-icons">search</md-icon>
         <input class="ng-pristine ng-valid ng-touched"
                type="text"
                flex
-               placeholder="search"
+               placeholder="{{'YANGMAN_SEARCH' | translate}}"
                ng-model="reqList.search"
                aria-invalid="false" />
-        <md-icon class="material-icons clickable" ng-click="reqList.clearFilter()" ng-if="reqList.search">
-            close
+        <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}"
+                   ng-click="reqList.clearFilter()"
+                   ng-if="reqList.search">
+            <md-icon class="material-icons clickable">
+                close
+            </md-icon>
             <md-tooltip md-direction="bottom">{{'YANGMAN_CLEAR_SEARCH'| translate}}</md-tooltip>
-        </md-icon>
+        </md-button>
+        <!-- /search icon, form, clear button -->
+
+        <!-- save -->
+        <md-button  ng-click="reqList.showDgSaveReq($event, main.currentPath)"
+                    ng-disabled="!reqList.mainList.selectedRequests.length">
+            <md-icon class="material-icons clickable">
+                save
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_REQS_SAVE_TO_COL'| translate}}</md-tooltip>
+        </md-button>
+        <!-- /save -->
+
+        <!-- menu for deleting and clearing-->
+        <md-menu layout-align="center start">
+            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu"  ng-click="$mdOpenMenu()">
+                <md-icon class="material-icons clickable">
+                    delete
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_OPTIONS' | translate}}</md-tooltip>
+            </md-button>
+            <md-menu-content>
+                <!-- delete selected -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_REQS_DELETE'| translate}}"
+                               ng-click="reqList.showDgDeleteRequests($event)"
+                               ng-disabled="!(reqList.mainList.selectedRequests.length || reqList.mainList.selectedRequests.length)">
+                        <md-icon class="material-icons clickable">
+                            delete
+                        </md-icon>
+                        {{'YANGMAN_REQS_DELETE'| translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / delete selected -->
+                <!-- clear history -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_DELETE_HISTORY' | translate}}"
+                               ng-click="reqList.clearHistoryList($event)">
+                        <md-icon class="material-icons clickable">
+                            delete_forever
+                        </md-icon>
+                        {{'YANGMAN_DELETE_HISTORY' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / clear history -->
+            </md-menu-content>
+        </md-menu>
+        <!-- / menu for deleting and clearing -->
+
+        <!-- menu for selecting and deselecting-->
+        <md-menu layout-align="center start">
+            <md-button ng-disabled="( !reqList.mainList.list.length)" aria-label="menu"  ng-click="$mdOpenMenu()">
+                <md-icon class="material-icons clickable">
+                    playlist_add_check
+                </md-icon>
+                <md-tooltip md-direction="bottom">{{'YANGMAN_SELECT_OPTIONS' | translate}}</md-tooltip>
+            </md-button>
+            <md-menu-content>
+                <!-- select all -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_SELECT_ALL' | translate}}"
+                               ng-click="reqList.selectAllRequests()"
+                               ng-disabled="(reqList.mainList.selectedRequests.length === reqList.mainList.list.length)">
+                        <md-icon class="material-icons clickable">
+                            done
+                        </md-icon>
+                        {{'YANGMAN_SELECT_ALL' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- /select all -->
+                <!-- deselect all -->
+                <md-menu-item>
+                    <md-button aria-label="{{'YANGMAN_DESELECT_ALL' | translate}}"
+                               ng-click="reqList.deselectAllRequests()"
+                               ng-disabled="!(reqList.mainList.selectedRequests.length && reqList.mainList.list.length)">
+                        <md-icon class="material-icons clickable">
+                            close
+                        </md-icon>
+                        {{'YANGMAN_DESELECT_ALL' | translate}}
+                    </md-button>
+                </md-menu-item>
+                <!-- / deselect all -->
+            </md-menu-content>
+        </md-menu>
+        <!-- / menu for selecting and deselecting -->
+
     </md-content>
-
-    <md-divider></md-divider>
-    <!-- /search box-->
-
-    <!-- buttons for saving, deleting, clearing, deselecting-->
-    <md-button ng-show="reqList.mainList.selectedRequests.length"
-               ng-click="reqList.showDgSaveReq($event, main.currentPath)">
-        {{'YANGMAN_REQS_SAVE_TO_COL'| translate}}
-    </md-button>
-    <md-button ng-show="reqList.mainList.selectedRequests.length"
-               ng-click="reqList.showDgDeleteRequests($event)">
-        {{'YANGMAN_REQS_DELETE'| translate}}
-    </md-button>
-    <md-button ng-hide="reqList.mainList.selectedRequests.length || !reqList.mainList.list.length"
-               ng-click="reqList.clearHistoryList($event)">
-        {{'YANGMAN_CLEAR_HISTORY' | translate}}
-    </md-button>
-    <md-button ng-show="reqList.mainList.selectedRequests.length && reqList.mainList.list.length"
-               ng-click="reqList.deselectRequest()">
-        {{'YANGMAN_DESELECT_REQS' | translate}}
-    </md-button>
-    <md-divider ng-show="reqList.mainList.selectedRequests.length"></md-divider>
-    <!-- /buttons for saving, deleting, clearing, deselecting -->
 
     <!-- list of items grouped by date -->
     <md-content class="scrollableY">
