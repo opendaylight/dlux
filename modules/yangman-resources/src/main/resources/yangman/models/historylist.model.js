@@ -7,7 +7,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
      * @param ParsingJsonService
      * @param RequestsService
      */
-    function HistoryListModel(ParsingJsonService, RequestsService){
+    function HistoryListModel($filter, ParsingJsonService, RequestsService){
 
         BaseListModel.call(this, ParsingJsonService);
 
@@ -25,6 +25,14 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.groupListByDate = groupListByDate;
         self.selectReqs = selectReqs;
         self.toggleReqSelection = toggleReqSelection;
+        self.getNewestRequest = getNewestRequest;
+
+        /**
+         * Get request with max timestamp (was executed as the last)
+         */
+        function getNewestRequest() {
+            return $filter('orderBy')(self.list, '-timestamp')[0];
+        }
 
         /**
          * Mark reqObj as selected
