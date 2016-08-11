@@ -177,6 +177,11 @@ define([
             else {
                 clearFileInputValue();
             }
+            removeButtonBackground();
+
+            function removeButtonBackground() {
+                $('#importCollection').next().css({ 'background': 'transparent' });
+            }
         }
 
         function toggleCollectionsSort() {
