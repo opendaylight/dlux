@@ -5,9 +5,9 @@ define([
 
     angular.module('app.yangman').controller('ParamsAdminCtrl', ParamsAdminCtrl);
 
-    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', 'YangmanService', 'YMHandleFileService', 'parametersList'];
+    ParamsAdminCtrl.$inject = ['$mdDialog', '$scope', '$timeout', 'YangmanService', 'YMHandleFileService', 'parametersList'];
 
-    function ParamsAdminCtrl($mdDialog, $scope, YangmanService, YMHandleFileService, parametersList) {
+    function ParamsAdminCtrl($mdDialog, $scope, $timeout, YangmanService, YMHandleFileService, parametersList) {
         var vm = this;
 
         vm.parametersList = parametersList;
@@ -26,9 +26,17 @@ define([
         vm.exportParameters = exportParameters;
         vm.importParameters = importParameters;
         vm.validateNamesUnique = validateNamesUnique;
+        vm.filterChange = filterChange;
 
         init();
 
+
+        /**
+         * Force validation after some filter is applied
+         */
+        function filterChange() {
+            $timeout(vm.validateNamesUnique);
+        }
 
         /**
          * Loop over all name inputs in form and validate duplicities
@@ -93,6 +101,7 @@ define([
             vm.sortField = sortField;
             vm.sortAsc = !vm.sortAsc;
             vm.parametersList.applyValsForFilters();
+            $timeout(vm.validateNamesUnique);
         }
 
         /**
@@ -134,6 +143,7 @@ define([
          */
         function removeParam(paramObj) {
             vm.parametersList.deleteParameterItem(paramObj);
+            $timeout(vm.validateNamesUnique);
         }
 
         /**
