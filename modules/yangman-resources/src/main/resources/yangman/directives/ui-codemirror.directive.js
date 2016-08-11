@@ -160,6 +160,6 @@ define([], function () {
 
     }
 
-    uiCodemirrorDirective.$inject = ["$timeout", "uiCodemirrorConfig"];
+    uiCodemirrorDirective.$inject = ['$timeout', 'uiCodemirrorConfig'];
 
 });

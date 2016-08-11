@@ -116,6 +116,7 @@ define([
             $scope.setRequestToShow(reqObj, dataType);
             $scope.setRightPanelSection('req-data');
             $scope.broadcastFromRoot('YANGMAN_REFRESH_CM_DATA');
+            $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: $scope.requestToShow.path });
         }
 
         /**
