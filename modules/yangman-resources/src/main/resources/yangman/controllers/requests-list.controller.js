@@ -1,6 +1,7 @@
 define([
     'app/yangman/controllers/save-req-dialog.controller',
     'app/yangman/controllers/edit-collection-dialog.controller',
+    'app/yangman/services/handle-file.services',
 ], function (SaveReqDialogCtrl, EditCollectionDialogCtrl) {
     'use strict';
 
