@@ -76,7 +76,7 @@
   "YANGMAN_DELETE_HISTORY_CONFIRM_TEXT": "All history requests will be Deleted.",
   "YANGMAN_DELETE_HISTORY": "Delete all history requests",
   "YANGMAN_DELETE_COLLECTIONS": "Delete all collections",
-  "YANGMAN_DELETE_COLLECTION_CONFIRM_TITLE": "Do you want to Delete all collections?",
+  "YANGMAN_DELETE_COLLECTION_CONFIRM_TITLE": "Do you want to delete all collections?",
   "YANGMAN_DELETE_COLLECTION_CONFIRM_TEXT": "All collections will be deleted.",
   "YANGMAN_DELETE_OPTIONS": "Delete options",
   "YANGMAN_SELECT_OPTIONS": "Select options",

@@ -21,9 +21,9 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.clear = clear;
         self.createEntry = createEntry;
         self.deleteRequestItem = deleteRequestItem;
-        self.deselectReq = deselectReq;
+        self.deselectReqs = deselectReqs;
         self.groupListByDate = groupListByDate;
-        self.selectReq = selectReq;
+        self.selectReqs = selectReqs;
         self.toggleReqSelection = toggleReqSelection;
 
         /**
@@ -133,20 +133,20 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         /**
          * Mark all history requests as deselected
          */
-        function deselectReq(){
-            self.selectedRequests.forEach(function (req){
-                req.selected = false;
+        function deselectReqs(){
+            self.selectedRequests.forEach(function (request){
+                request.selected = false;
             });
             self.selectedRequests = [];
         }
 
         /**
-         * Mark all history requests as selected
+         * Mark all history as selected
          */
-        function selectReq(reqList){
-            self.selectedRequests = reqList;
-            self.selectedRequests.forEach(function (req){
-                req.selected = true;
+        function selectReqs(requestsList){
+            requestsList.forEach(function (reqObj){
+                reqObj.selected = true;
+                self.selectedRequests.push(reqObj);
             });
         }
     }
