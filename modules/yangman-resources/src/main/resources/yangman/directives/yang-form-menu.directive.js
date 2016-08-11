@@ -54,6 +54,10 @@ define(['angular'], function (angular) {
                 function hideInfoBox(){
                     $scope.infoBox = false;
                 }
+
+                $scope.$on('hideInfoBox', function () {
+                    hideInfoBox();
+                });
             },
             link: function (scope, element, attrs) {
                 scope.isActive = false;
