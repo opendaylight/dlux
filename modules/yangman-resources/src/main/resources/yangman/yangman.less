@@ -12,6 +12,7 @@
 @dataStoreListHoverColor: #dadada;
 @dataStoreListShadowColor: rgba(0,0,0,.14);
 @dataStoreListBorderColor: rgba(0,0,0,0.12);
+@dashedBorderColor: rgba(0,0,0,0.54);
 
 // helpers
 .pointer{
@@ -21,6 +22,10 @@
 
 .text-center{
     text-align: center;
+}
+
+.h100{
+    height: 100%;
 }
 
 // yangman
@@ -35,6 +40,16 @@
 
     h1, h2, h3, h4, h5, h6, span{
         color: @fontColor;
+    }
+
+    .scrollableY{
+        overflow-y: auto;
+        height: 100%;
+    }
+
+    .scrollableX{
+        overflow-x: auto;
+        //width: 100%;
     }
 
     md-tabs-wrapper{
@@ -103,6 +118,18 @@
 
         md-content{
             background: transparent;
+        }
+
+        .md-tab{
+            span{
+                color: @unactiveTabFontColor;
+            }
+
+            &.md-active{
+                span{
+                    color: @fontColor;
+                }
+            }
         }
 
         /*md-list-item .md-list-item-inner > md-icon:first-child:not(.md-avatar-icon){
@@ -193,7 +220,7 @@
             }
 
             md-icon{
-                margin: 6px 16px;
+                margin: 6px 16px 6px 48px;
                 font-size: 20.4px;
             }
         }
@@ -202,29 +229,18 @@
     // module history collections tabs
     &__mhc-tabs{
 
+        md-list-item{
+            .md-no-style{
+                padding: 0;
+            }
+        }
+
         > md-tabs-content-wrapper{
-            height: 100%;
+            height: calc(~'100% - 78px');
 
             > md-tab-content{
                 height: 100%;
             }
-        }
-
-        .md-tab{
-            span{
-                color: @unactiveTabFontColor;
-            }
-
-            &.md-active{
-                span{
-                    color: @fontColor;
-                }
-            }
-        }
-
-        .scrollableY{
-            overflow-y: auto;
-            height: 100%;
         }
     }
 
@@ -236,9 +252,85 @@
         }
 
         .tabs{
+            height: calc(~'100% - 49px');
+
             md-tabs-canvas{
                 padding-top: 0;
                 height: 48px;
+            }
+
+            > md-tabs-content-wrapper{
+                height: calc(~'100% - 48px');
+
+                > md-tab-content{
+                    height: 100%;
+                }
+            }
+
+            .md-tab{
+                padding: 0;
+            }
+
+            md-tab-item{
+                span{
+                    outline: 0 none;
+                    padding: 12px 24px;
+                }
+            }
+        }
+
+        > div{
+            height: 100%;
+        }
+    }
+}
+
+// directives
+.directive{
+    &__abn-tree{
+        padding: 0;
+        display:inline-block;
+        white-space: nowrap;
+        min-width: 100%;
+
+        md-icon{
+            margin: 6px 16px!important;
+        }
+
+        md-list-item{
+            min-height: 0;
+
+            &.active{
+                background: @listActiveColor;
+            }
+
+            .md-no-style{
+                padding: 0;
+
+                &.md-button{
+                    white-space: nowrap;
+                }
+            }
+
+            .md-list-item-inner{
+                min-height: 0;
+            }
+
+            .empty-box{
+                display: inline-block;
+                margin-top: -10px;
+                margin-left: 27px;
+                border-left: 1px dashed @dashedBorderColor;
+                height: 36px;
+                width: 1px;
+            }
+
+            .md-button{
+                overflow: visible;
+            }
+
+            .tree-label{
+                padding-right: 15px;
             }
         }
     }
