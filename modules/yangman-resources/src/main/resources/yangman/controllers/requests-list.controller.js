@@ -74,7 +74,7 @@ define([
             $mdDialog.show(confirm).then(function (){
                 vm.requestList.clear();
                 vm.requestList.saveToStorage();
-                $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY', loadHistoryRequests);
+                $scope.rootBroadcast('YANGMAN_REFRESH_HISTORY');
             });
         }
 
@@ -93,7 +93,7 @@ define([
             $mdDialog.show(confirm).then(function (){
                 vm.collectionList.clear();
                 vm.collectionList.saveToStorage();
-                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS', loadCollectionRequest);
+                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
             });
         }
 
@@ -304,7 +304,10 @@ define([
                 ev.stopPropagation();
                 vm.collectionList.deleteCollection(collObj);
                 vm.collectionList.saveToStorage();
-                $scope.broadcastFromRoot('YANGMAN_REFRESH_COLLECTIONS');
+                var collectionNames = vm.collectionList.getExpandedCollectionNames();
+                $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
+                    vm.collectionList.expandCollectionByNames(collectionNames);
+                });
             });
         }
 
@@ -382,7 +385,7 @@ define([
             requests.forEach(function (reqObj){
                 vm.collectionList.addRequestToList(reqObj);
                 vm.collectionList.saveToStorage();
-                $scope.broadcastFromRoot('YANGMAN_REFRESH_COLLECTIONS');
+                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
             });
         }
 
@@ -416,7 +419,10 @@ define([
         function changeCollectionName(names){
             vm.collectionList.renameCollection(names[0], names[1]);
             vm.collectionList.saveToStorage();
-            $scope.broadcastFromRoot('YANGMAN_REFRESH_COLLECTIONS');
+            var collectionNames = vm.collectionList.getExpandedCollectionNames();
+            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
+                vm.collectionList.expandCollectionByNames(collectionNames);
+            });
         }
 
         /**
@@ -426,10 +432,11 @@ define([
         function duplicateCollection(names){
             vm.collectionList.duplicateCollection(names[0], names[1]);
             vm.collectionList.saveToStorage();
-            $scope.broadcastFromRoot('YANGMAN_REFRESH_COLLECTIONS');
+            var collectionNames = vm.collectionList.getExpandedCollectionNames();
+            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', null, function(){
+                vm.collectionList.expandCollectionByNames(collectionNames);
+            });
         }
-
-
 
         /**
          *
@@ -443,6 +450,12 @@ define([
                 $scope.$on('YANGMAN_SAVE_EXECUTED_REQUEST', saveBcstedHistoryRequest);
                 // saving from request header
                 $scope.$on('YANGMAN_SAVE_REQUEST_TO_COLLECTION', saveRequestFromExt);
+            } else {
+                // saving collections expanded status on refresh
+                $scope.$on('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', function(event, params){
+                    $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
+                    (params.cbk || angular.noop)();
+                });
             }
 
         }
