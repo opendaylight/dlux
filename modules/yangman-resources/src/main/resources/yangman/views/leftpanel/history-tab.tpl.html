@@ -131,6 +131,7 @@
                 <md-list>
                     <div ng-repeat="request in group.requests | filter: reqList.filterReq  | orderBy: '-timestamp' track by $index"
                          layout="row"
+                         class="yangmanModule__requests-list__item-container"
                          ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
                     </div>
                 </md-list>
