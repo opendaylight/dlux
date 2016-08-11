@@ -178,10 +178,20 @@ define([
         function showForm(reqObj) {
             var data = reqObj.method === 'GET' ? reqObj.receivedData : reqObj.sentData;
 
+            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', {});
+
             $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, requestData: data },
                 function (){
                     $scope.setRightPanelSection('form');
-                    $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: reqObj.path, method: reqObj.method });
+                    $scope.rootBroadcast('YANGMAN_HEADER_INIT', {
+                        path: reqObj.path,
+                        method: reqObj.method,
+                        statusObj: {
+                            status: reqObj.responseStatus,
+                            statusText: reqObj.responseStatusText,
+                            time: reqObj.responseTime,
+                        },
+                    });
 
                     if ( $scope.node ) {
                         // try to fill node
@@ -226,7 +236,17 @@ define([
             $scope.setRightPanelSection('req-data');
             $scope.setJsonView(true, reqObj.method !== 'GET');
 
-            $scope.rootBroadcast('YANGMAN_HEADER_INIT', { path: reqObj.path, method: reqObj.method });
+            $scope.rootBroadcast('YANGMAN_HEADER_INIT', {
+                path: reqObj.path,
+                method: reqObj.method,
+                statusObj: {
+                    status: reqObj.responseStatus,
+                    statusText: reqObj.responseStatusText,
+                    time: reqObj.responseTime,
+                },
+            });
+
+            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', {});
 
             $scope.rootBroadcast(
                 'YANGMAN_SET_CODEMIRROR_DATA_SENT',
@@ -493,6 +513,9 @@ define([
         function selectRequest(event, requestObj){
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             $scope.setHistoryReqsSelected(vm.requestList.selectedRequests.length > 0);
+            if (!event.ctrlKey){
+                vm.showData(requestObj);
+            }
         }
 
         /**

@@ -6,11 +6,11 @@ define([
     angular.module('app.yangman').controller('RequestHeaderCtrl', RequestHeaderCtrl);
 
     RequestHeaderCtrl.$inject = [
-        '$mdDialog', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService', 'PathUtilsService',
+        '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService', 'PathUtilsService',
         'RequestsService', '$filter', 'DataBackupService',
     ];
 
-    function RequestHeaderCtrl($mdDialog, $scope, $rootScope, ENV, YangmanService, ParametersService, PathUtilsService,
+    function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService, PathUtilsService,
                                RequestService, $filter, DataBackupService) {
         var requestHeader = this;
 
@@ -21,6 +21,7 @@ define([
         requestHeader.selectedPluginsButtons = [];
         requestHeader.selectedPlugin = null;
         requestHeader.statusObj = null;
+        requestHeader.executingProgress = false;
 
         // methods
         requestHeader.executeOperation = executeOperation;
@@ -54,6 +55,7 @@ define([
             init();
             setRequestUrl(args.params.path);
             setRequestMethod(args.params.method);
+            setRequestStatus(args.params.statusObj);
             setJsonView();
             (args.cbk || angular.noop)();
         });
@@ -74,6 +76,10 @@ define([
 
         function setRequestMethod(method){
             requestHeader.selectedOperation = method;
+        }
+
+        function setRequestStatus(statusObj){
+            requestHeader.statusObj = statusObj;
         }
 
         /**
@@ -151,6 +157,10 @@ define([
          */
         function sendRequestData(data, type){
             $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_' + type, { data: JSON.stringify(data, null, 4) });
+        }
+
+        function sendErrorData(response) {
+            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', response);
         }
 
         /**
@@ -257,11 +267,31 @@ define([
             $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
         }
 
+        function showRequestProgress(){
+            requestHeader.executingProgress = true;
+        }
+
+
+        function finishRequestProgress(message){
+            requestHeader.executingProgress = false;
+
+            //$mdToast.show(
+            //    $mdToast.simple()
+            //        .textContent(message)
+            //        .position('bottom right')
+            //        .parent(angular.element('.yangmanModule__right-panel__header'))
+            //        .hideDelay(1500)
+            //);
+        }
+
 
         /**
          * Execute request operation
          */
         function executeOperation(requestData, executeCbk){
+
+            showRequestProgress();
+
             setRequestUrl(requestHeader.selectedShownDataType === 'req-data' ? requestHeader.requestUrl : null);
 
             var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
@@ -296,11 +326,16 @@ define([
 
                 requestHeader.statusObj = reqInfo;
 
+                sendErrorData({});
+
                 // create and set history request
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
                     preparedReceivedData,
-                    reqInfo.status
+                    reqInfo.status,
+                    reqInfo.status,
+                    reqInfo.statusText,
+                    reqInfo.time
                 );
 
                 if (requestHeader.selectedShownDataType === 'req-data'){
@@ -327,6 +362,8 @@ define([
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
                 (executeCbk || angular.noop)(historyReq);
 
+                finishRequestProgress('dfsaf dasf adsfx');
+
             }
 
             /**
@@ -337,7 +374,13 @@ define([
             function executeReqErrCbk(reqInfo, response) {
                 requestHeader.statusObj = reqInfo;
 
-                historyReq.setExecutionData(reqInfo.requestSrcData, null, reqInfo.status);
+                historyReq.setExecutionData(
+                    reqInfo.requestSrcData, null,
+                    reqInfo.status,
+                    reqInfo.status,
+                    reqInfo.statusText,
+                    reqInfo.time
+                );
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq);
 
                 //setNodeDataFromRequestData(requestHeader.requestUrl);
@@ -345,8 +388,12 @@ define([
                 if (response.data) {
                     // try to fill code mirror editor
                     sendRequestData(response.data, 'RECEIVED');
+                    sendErrorData(response.data);
                 }
                 (executeCbk || angular.noop)(historyReq);
+
+                finishRequestProgress('sadfsadf adsf');
+
             }
 
         }
