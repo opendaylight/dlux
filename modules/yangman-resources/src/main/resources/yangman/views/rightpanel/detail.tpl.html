@@ -2,6 +2,7 @@
 <section md-whiteframe="1"
          class="yangmanModule__right-panel__header"
          ng-include src="globalViewPath + 'rightpanel/request-header.tpl.html'"></section>
+<!-- /Header -->
 
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form"
@@ -10,3 +11,14 @@
          ng-controller="YangFormCtrl as yangForm">
     <div ng-include src="yangForm.viewPath + '/' + selectedDatastore.label + '/' + node.type+'.tpl.html'"></div>
 </section>
+<!-- /Form section -->
+
+<!-- JSON section -->
+<section class="yangmanModule__right-panel__req-data"
+         ng-show="rightPanelSection === 'req-data'"
+         ng-if="requestToShow"
+         ng-controller="ReqDataCtrl as reqData">
+    <div ng-include src="globalViewPath + 'rightpanel/request-data.tpl.html'"></div>
+</section>
+<!-- /JSON section -->
+
