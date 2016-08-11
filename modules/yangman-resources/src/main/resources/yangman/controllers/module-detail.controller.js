@@ -11,8 +11,6 @@ define([
         var moduleDetail = this;
 
         moduleDetail.treeApis = [];
-        moduleDetail.selectedApi = null;
-        moduleDetail.selectedSubApi = null;
         moduleDetail.selectedInnerDatastore = null;
 
         // methods
@@ -39,9 +37,9 @@ define([
             // $scope.selectedOperation = null;
 
             if (apiIndex !== undefined && subApiIndex !== undefined ) {
-                moduleDetail.selectedApi = $scope.apis[apiIndex];
-                moduleDetail.selectedSubApi = moduleDetail.selectedApi.subApis[subApiIndex];
-                $scope.setNode(moduleDetail.selectedSubApi.node);
+
+                $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex]);
+                $scope.setNode($scope.selectedSubApi.node);
 
 
                 // $scope.selApi = $scope.apis[indexApi];
@@ -70,6 +68,8 @@ define([
          */
         function setDataDetailStore(dataStore){
             $scope.setDataStore(dataStore);
+            $scope.setApi($scope.selectedApi, null);
+            $scope.setNode(null);
             moduleDetail.treeApis = dataStore.children;
         }
 
