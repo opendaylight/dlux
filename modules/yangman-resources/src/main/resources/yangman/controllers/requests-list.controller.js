@@ -205,11 +205,17 @@ define([
         function showForm(reqObj) {
             var data = reqObj.sentData;
 
-            // exception for get method
+            // exception for get meth
             if ( reqObj.method === 'GET' ) {
                 data = reqObj.receivedData;
-                $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_RECEIVED', { data: reqObj.setDataForView(data) });
             }
+
+            $scope.rootBroadcast(
+                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED', { data: reqObj.setDataForView(reqObj.receivedData) }
+            );
+            $scope.rootBroadcast(
+                'YANGMAN_SET_CODEMIRROR_DATA_SENT', { data: reqObj.setDataForView(reqObj.sentData) }
+            );
 
             $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA',
                 reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {});
@@ -452,7 +458,7 @@ define([
          */
         function saveRequests(requests){
             requests.forEach(function (reqObj){
-                vm.collectionList.addItemToList(reqObj);
+                vm.collectionList.addItemToList(RequestsService.clearUnnecessaryProperties(reqObj.clone()));
                 vm.collectionList.saveToStorage();
                 refreshCollectionsWithExpansion();
             });
