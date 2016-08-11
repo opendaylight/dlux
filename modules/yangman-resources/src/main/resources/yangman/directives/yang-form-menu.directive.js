@@ -14,7 +14,6 @@ define(['angular'], function (angular) {
                 augmentations: '=',
                 allowItems: '=',
                 isActionMenu: '&',
-                isNodeInfo: '&',
                 addListItemFunc: '&',
                 addListItem: '=',
                 yangForm: '=',

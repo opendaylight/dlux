@@ -15,12 +15,13 @@
         </md-icon>
 
         <!-- Choice label -->
-        <p class="top-element" ng-click="yangChoice.toggleExpanded()"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+        <p class="top-element" ym-info-box node="node" ng-click="yangChoice.toggleExpanded()">
+            {{yangForm.getNodeName(node.localeLabel, node.label)}}
+        </p>
 
         <!-- Action menu -->
         <yang-form-menu is-action-menu="yangChoice.isActionMenu()"
                         augmentations="augmentations"
-                        is-node-info="yangChoice.isNodeInfo()"
                         node="node"></yang-form-menu>
 
         <!-- Choice select -->

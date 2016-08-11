@@ -1,24 +1,23 @@
-<div ng-controller="LeafCtrl as yanfLeaf"
+<div ng-controller="LeafCtrl as yangLeaf"
      layout="row"
-     layout-align="start {{yanfLeaf.getLeafType() === 'union' ? 'start' : 'center'}}"
-     class="yangmanModule__right-panel__form__leaf-container">
+     layout-align="start {{yangLeaf.getLeafCentering()}}"
+     class="yangmanModule__right-panel__form__leaf-container {{yangLeaf.getLeafType()}}">
 
     <!-- Container label -->
-    <p class="top-element"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
+    <p class="top-element" ym-info-box node="node"> {{yangForm.getNodeName(node.localeLabel, node.label)}} </p>
 
     <!-- Action menu -->
-    <yang-form-menu is-action-menu="yanfLeaf.isActionMenu()"
+    <yang-form-menu is-action-menu="yangLeaf.isActionMenu()"
                     augmentations="augmentations"
-                    is-node-info="yanfLeaf.isNodeInfo()"
                     node="node"></yang-form-menu>
 
     <!-- Empty placeholder for better look -->
-    <div class="menu-placeholder" ng-if="!yanfLeaf.isActionMenu() && !yanfLeaf.isNodeInfo()"></div>
+    <div class="menu-placeholder" ng-if="!yangLeaf.isActionMenu() && !yangLeaf.isNodeInfo()"></div>
 
     <div ng-controller="TypeCtrl as yangType"
          ng-repeat="type in node.getChildren('type')"
-         ng-include="yangForm.viewPath + '/config/types/' + yanfLeaf.getLeafType() + '.tpl.html'"
-         {{yanfLeaf.getLeafType() === 'union' ? 'flex="grow"' : ''}}
+         ng-include="yangForm.viewPath + '/config/types/' + yangLeaf.getLeafType() + '.tpl.html'"
+         {{yangLeaf.getLeafType() === 'union' ? 'flex="grow"' : ''}}
          layout="row">
     </div>
 </div>

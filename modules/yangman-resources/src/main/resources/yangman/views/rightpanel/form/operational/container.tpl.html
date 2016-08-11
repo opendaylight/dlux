@@ -17,14 +17,13 @@
         </md-icon>
 
         <!-- Container label -->
-        <p class="top-element pointer" ng-click="yangContainer.toggleExpanded()">
+        <p class="top-element pointer" ng-click="yangContainer.toggleExpanded()" ym-info-box node="node">
             {{yangForm.getNodeName(node.localeLabel, node.label)}}
         </p>
 
         <!-- Action menu -->
         <yang-form-menu is-action-menu="yangContainer.isActionMenu()"
                         augmentations="augmentations"
-                        is-node-info="yangContainer.isNodeInfo()"
                         node="node"></yang-form-menu>
 
     </div>

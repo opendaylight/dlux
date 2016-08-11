@@ -1,4 +1,4 @@
-<md-menu ng-if="isActionMenu() || isNodeInfo()" class="menu-container">
+<md-menu ng-if="isActionMenu()" class="menu-container">
     <!-- open menu button -->
     <md-button class="md-icon-button" ng-click="$mdOpenMenu($event); hideInfoBox();">
         <md-icon md-font-set="material-icons">reorder</md-icon>
@@ -10,32 +10,6 @@
             <md-icon md-font-set="material-icons">reorder</md-icon>
         </h5>
         <md-menu-divider></md-menu-divider>
-        <!-- node info -->
-        <section class="text-left icon-wrapper" ng-show="isNodeInfo()">
-            <md-icon md-font-set="material-icons" class="pointer" ng-show="node.isKey()">
-                vpn_key
-                <md-tooltip md-direction="top">
-                    {{'key of '+node.parent.label+' list'}}
-                </md-tooltip>
-            </md-icon>
-
-            <md-icon class="svg-icon pointer"
-                     md-svg-src="src/app/yangman/assets/images/icon-augment.svg"
-                     ng-show="node.augmentationId">
-                <md-tooltip md-direction="top">
-                    {{ 'YANGUI_IS_AUGMENT' | translate }} {{ node.augmentationId }}
-                </md-tooltip>
-            </md-icon>
-        </section>
-        <md-menu-divider ng-if="isActionMenu() && isNodeInfo()"></md-menu-divider>
-
-        <!-- description menu item -->
-        <md-menu-item ng-if="node.getChildren('description', null, null, 'label').length > 0">
-            <md-button ng-click="switchSection('description')" md-prevent-menu-close>
-                <md-icon md-font-set="material-icons">info</md-icon>
-                <span md-menu-align-target>{{'YANGMAN_EXPLAIN' | translate}}</span>
-            </md-button>
-        </md-menu-item>
 
         <!-- add list item -->
         <md-menu-item ng-if="addListItem">
@@ -73,11 +47,6 @@
                         </md-switch>
                     </md-list-item>
                 </md-list>
-            </div>
-
-            <!-- Description box -->
-            <div ng-switch-when="description" class="info-box__padding">
-                {{node.getChildren('description', null, null, 'label')[0]}}
             </div>
 
             <!-- yang list items -->
