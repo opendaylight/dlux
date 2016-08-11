@@ -25,6 +25,16 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.createParamsFromJson = createParamsFromJson;
         self.isNameUnique = isNameUnique;
         self.removeEmptyParams = removeEmptyParams;
+        self.applyValsForFilters = applyValsForFilters;
+
+        /**
+         * Apply all parameters names and values for filtering
+         */
+        function applyValsForFilters() {
+            self.list.forEach(function (param) {
+                param.applyValsForFilters();
+            });
+        }
 
         /**
          * Returns false if name is already used
@@ -32,7 +42,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @returns {boolean}
          */
         function isNameUnique(nameValue) {
-            return nameValue.length === 0 || self.list.filter(function (item) {
+            return !nameValue || self.list.filter(function (item) {
                 return item.name === nameValue;
             }).length === 1;
         }
@@ -79,7 +89,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
 
         function removeEmptyParams() {
             self.list = self.list.filter(function (param) {
-                return param.name.length > 0;
+                return param.name && param.name.length > 0;
             });
         }
 
