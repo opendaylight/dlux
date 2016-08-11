@@ -42,7 +42,12 @@
                            class="input-identifier"
                            ng-change="requestHeader.fillNodeData(pathElem, identifier)"
                            ng-model="identifier.value"
-                           aria-label="{{identifier.value}}">
+                           aria-label="{{identifier.value}}"
+                           ng-class="{'md-has-error': !identifier.value.length}">
+                    <!-- input error message -->
+                    <div ng-show="!identifier.value.length" class="md-custom-error">
+                        {{'YANGMAN_INPUT_REQUIRED' | translate}}
+                    </div>
                 </md-input-container>
             </div>
 
