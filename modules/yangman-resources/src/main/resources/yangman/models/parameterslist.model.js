@@ -32,7 +32,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @returns {boolean}
          */
         function isNameUnique(nameValue) {
-            return self.list.filter(function (item) {
+            return nameValue.length === 0 || self.list.filter(function (item) {
                 return item.name === nameValue;
             }).length === 1;
         }
