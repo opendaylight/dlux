@@ -29,7 +29,7 @@
              class="pointer"
              ng-click="yangList.removeListElem(yangList.currentDisplayIndex + offset,false)"
              ng-if="selectedDatastore.label === yangList.constants.DATA_STORE_CONFIG && !yangList.disableAddingListElement">
-        <md-tooltip md-direction="top">{{ 'LIST_DELETE_ITEM' | translate }}</md-tooltip>
+        <md-tooltip md-direction="top">{{ 'YANGMAN_LIST_DELETE_ITEM' | translate }}</md-tooltip>
         remove_circle_outline
     </md-icon>
 
@@ -37,7 +37,7 @@
     <md-icon md-font-set="material-icons"
              ng-show="node.doubleKeyIndexes.indexOf(yangList.currentDisplayIndex + offset) > -1"
              ng-if="selectedDatastore.label === yangList.constants.DATA_STORE_CONFIG">
-        <md-tooltip md-direction="top">{{ 'LIST_INDEX_DUPLICATE' | translate }}</md-tooltip>
+        <md-tooltip md-direction="top">{{ 'YANGMAN_LIST_INDEX_DUPLICATE' | translate }}</md-tooltip>
         error_outline
     </md-icon>
 </section>

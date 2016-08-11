@@ -91,5 +91,7 @@
   "YANGMAN_INPUT_REQUIRED": "Required",
   "YANGMAN_ERROR_EMPTY_IDENTIFIERS": "Identifiers in path are required. Please fill empty identifiers for successful request execution.",
   "YANGMAN_SORT_COLLECTIONS_DESC": "Sort collections descending",
-  "YANGMAN_SORT_COLLECTIONS_ASC": "Sort collections ascending"
+  "YANGMAN_SORT_COLLECTIONS_ASC": "Sort collections ascending",
+  "YANGMAN_LIST_DELETE_ITEM": "Delete list item",
+  "YANGMAN_LIST_INDEX_DUPLICATE": "Duplicated index"
 }
