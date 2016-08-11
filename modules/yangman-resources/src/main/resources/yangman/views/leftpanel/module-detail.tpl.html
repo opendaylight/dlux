@@ -1,0 +1,13 @@
+<md-content ng-controller="ModuleDetailCtrl as moduleDetail">
+    <!-- Module title -->
+    <h4 class="text-center"><small>module</small> {{selectedModule.label}}</h4>
+    <!-- DATA STORE || RPC TABS -->
+    <md-tabs md-no-pagination md-dynamic-height
+             md-stretch-tabs="always"
+             md-selected="moduleDetail.selectedDataStore"
+             class="tabs">
+        <md-tab label="{{item.label}}" ng-repeat="item in selectedModule.children">
+            <abn-api-tree tree-data="moduleDetail.apis" tree-rows="moduleDetail.treeRows" on-select="moduleDetail.setApiNode(branch.indexApi, branch.indexSubApi)"></abn-api-tree>
+        </md-tab>
+    </md-tabs>
+</md-content>
