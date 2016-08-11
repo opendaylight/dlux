@@ -56,6 +56,9 @@ define([
         main.initModuleDetailHeight = initModuleDetailHeight;
         main.switchedTab = switchedTab;
         main.toggleLeftPanel = toggleLeftPanel;
+        main.leftPanelShowModule = leftPanelShowModule;
+        main.modulesTreeDisplayed = modulesTreeDisplayed;
+
 
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
@@ -154,6 +157,10 @@ define([
             }
         }
 
+        function modulesTreeDisplayed() {
+            return main.selectedMainTab === 0;
+        }
+
         /**
          * Set switched tab index
          */
@@ -166,6 +173,12 @@ define([
          */
         function toggleLeftPanel(){
             main.leftPanelTab = (main.leftPanelTab + 1) % 2;
+        }
+
+        function leftPanelShowModule() {
+            if ($scope.node) {
+                main.leftPanelTab = 1;
+            }
         }
 
         /**
