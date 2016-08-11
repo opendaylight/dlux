@@ -44,7 +44,8 @@
                            ng-change="requestHeader.fillNodeData(pathElem, identifier)"
                            ng-model="identifier.value"
                            aria-label="{{identifier.value}}"
-                           ng-class="{'md-has-error': !identifier.value.length}">
+                           ng-class="{'md-has-error': !identifier.value.length}"
+                           spellcheck="false">
                     <!-- input error message -->
                     <div ng-show="!identifier.value.length" class="md-custom-error">
                         {{'YANGMAN_INPUT_REQUIRED' | translate}}
