@@ -5,12 +5,12 @@
         <div class="info-box__padding">
             <!-- key -->
             <span ng-show="node.isKey()">
-                {{'Key of ' + node.parent.label + ' list'}}
+                {{'Key for "' + node.parent.label + '"'}}
                 <md-menu-divider ng-show="dividerCheck(true)"></md-menu-divider>
             </span>
             <!-- augment -->
             <span ng-show="node.augmentationId">
-                {{ 'YANGMAN_IS_AUGMENT' | translate }} "{{ node.augmentationId }}"
+                {{ 'YANGMAN_IS_AUGMENT' | translate }} <i>{{node.type}}</i> "{{ node.augmentationId }}"
                 <md-menu-divider ng-show="dividerCheck()"></md-menu-divider>
             </span>
             <!-- description -->
