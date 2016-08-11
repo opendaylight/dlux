@@ -38,7 +38,7 @@ define([], function () {
         }
 
         // TODO: add function's description
-        function uses(usesNode, currentModule) {
+        function uses(usesNode, currentModule, parentNode) {
             var targetType = 'grouping';
             return function (modules) {
                 var data = findLinkedStatement(usesNode, targetType, currentModule, modules),
@@ -60,7 +60,7 @@ define([], function () {
         }
 
         // TODO: add function's description
-        function type(typeNode, currentModule) {
+        function type(typeNode, currentModule, parentNode) {
             var targetType = 'typedef';
 
             if (isBuildInType(typeNode.label) === false) {
@@ -71,8 +71,9 @@ define([], function () {
 
                     if (node) {
                         // delete referencing type node
-                        typeNode.parent.children.splice(typeNode.parent.children.indexOf(typeNode), 1);
-                        typeNode.parent.addChild(node);
+
+                        parentNode.children.splice(typeNode.parent.children.indexOf(typeNode), 1);
+                        parentNode.addChild(node);
                         changed = true;
                     }
 
@@ -131,14 +132,14 @@ define([], function () {
         }
 
         // TODO: add function's description
-        function applyLinks(node, module, modules) {
+        function applyLinks(node, module, modules, parentNode) {
             var changed = false;
             if (linkFunctions.hasOwnProperty(node.type)) { // applying link function to uses.node
-                changed = linkFunctions[node.type](node, module)(modules);
+                changed = linkFunctions[node.type](node, module, parentNode)(modules);
             }
 
             for (var i = 0; i < node.children.length; i++) {
-                if (applyLinks(node.children[i], module, modules)) {
+                if (applyLinks(node.children[i], module, modules, node)) {
                     i--;
                     // need to repeat current index because we are deleting uses nodes,
                     // so in case there are more uses in row, it would skip second one
