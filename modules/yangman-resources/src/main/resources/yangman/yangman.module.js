@@ -24,7 +24,9 @@ define([
         'ngMessages',
     ]);
 
-    angular.module('app.yangman').config(YangManConfig);
+    angular.module('app.yangman')
+        .config(YangManConfig)
+        .constant('ymUiCodemirrorConfig', {});
 
     function YangManConfig($stateProvider, $mdThemingProvider, $translatePartialLoaderProvider,  NavHelperProvider) {
 
