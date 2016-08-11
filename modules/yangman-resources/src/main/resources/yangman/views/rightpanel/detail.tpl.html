@@ -1,1 +1,7 @@
-content
+<!-- Form section -->
+<section class="yangmanModule__right-panel__form"
+         ng-switch-when="form"
+         ng-if="node"
+         ng-controller="YangFormCtrl as yangForm">
+    <div ng-include src="yangForm.viewPath + '/' + selectedDatastore.label + '/' + node.type+'.tpl.html'"></div>
+</section>
