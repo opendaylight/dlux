@@ -105,6 +105,8 @@ define([
          * @param params
          */
         function saveBcstedHistoryRequest(broadcastEvent, params) {
+            console.debug('params.params', params.params);
+
             vm.requestList.addRequestToList(params.params);
             vm.requestList.groupListByDate();
             vm.requestList.saveToStorage();
@@ -178,7 +180,7 @@ define([
         function showForm(reqObj) {
             var data = reqObj.method === 'GET' ? reqObj.receivedData : reqObj.sentData;
 
-            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', {});
+            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {});
 
             $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, requestData: data },
                 function (){
@@ -246,7 +248,10 @@ define([
                 },
             });
 
-            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', {});
+            $scope.rootBroadcast(
+                'YANGMAN_SET_ERROR_DATA',
+                reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {}
+            );
 
             $scope.rootBroadcast(
                 'YANGMAN_SET_CODEMIRROR_DATA_SENT',
