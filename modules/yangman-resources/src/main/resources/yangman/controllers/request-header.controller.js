@@ -306,18 +306,10 @@ define([
                 reqData = params.reqData ? angular.fromJson(params.reqData) : {};
             }
             else {
-                var historyReqData = YangmanService.prepareAllRequestData(
-                    $scope.selectedApi,
-                    $scope.selectedSubApi,
-                    requestHeader.selectedOperation,
-                    $scope.node,
-                    requestHeader.selectedShownDataType,
-                    requestHeader.requestUrl,
-                    reqData,
-                    null
-                );
+                var data = { srcData: {} };
 
-                reqData = historyReqData.reqData;
+                YangmanService.setSrcDataByDataType(data, $scope.node, {}, 'form');
+                reqData = data.srcData;
             }
 
             historyReq.setExecutionData(reqData, {}, '');
