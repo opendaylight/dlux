@@ -121,8 +121,6 @@ define([
             } else {
                 $scope.setJsonView(true, false);
             }
-
-            // sendRequestData({}, 'RECEIVED');
         }
 
         /**
@@ -335,17 +333,9 @@ define([
         }
 
 
-        function finishRequestProgress (message){
+        function finishRequestProgress(message){
             $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP');
-            // $mdToast.show(
-            //     $mdToast.simple()
-            //         .textContent(message)
-            //         .position('bottom right')
-            //         .parent(angular.element('.yangmanModule__right-panel__header'))
-            //         .hideDelay(1500)
-            // );
         }
-
 
         /**
          * Execute request operation
@@ -469,8 +459,6 @@ define([
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
                     $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
                 });
-
-                //setNodeDataFromRequestData(requestHeader.requestUrl);
 
                 if (response.data) {
                     // try to fill code mirror editor

@@ -90,7 +90,7 @@ define([], function () {
                 handles: 'e',
                 minWidth: 300,
                 stop: function(event, ui) {
-                    if (typeof(Storage) !== "undefined") {
+                    if (typeof(Storage) !== 'undefined') {
                         localStorage.setItem('yangman__left-panel-width', ui.size.width);
                     }
                 },

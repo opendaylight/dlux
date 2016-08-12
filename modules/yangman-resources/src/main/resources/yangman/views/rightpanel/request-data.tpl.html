@@ -6,6 +6,6 @@
 
 <div class="paramsBox" ng-show="requestData.paramsArray.length">
     <div  ng-repeat="param in requestData.paramsArray" class="line">
-        <strong><<{{param.name}}>></strong> : <span>{{param.value !== undefined ? param.value : 'YANGUI_PARAM_DONT_REPLACE' | translate}}</span>
+        <strong>&lt;&lt;{{param.name}}&gt;&gt;</strong> : <span>{{param.value !== undefined ? param.value : 'YANGUI_PARAM_DONT_REPLACE' | translate}}</span>
     </div>
 </div>

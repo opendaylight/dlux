@@ -15,7 +15,7 @@ define([
 
             service.createEmptyParametersList = createEmptyParametersList;
             service.createParameter = createParameter;
-            // service.validateFile = validateFile;
+            service.validateFile = validateFile;
 
             /**
              * Validating collection import file

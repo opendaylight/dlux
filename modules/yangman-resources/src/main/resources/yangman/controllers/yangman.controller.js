@@ -268,7 +268,6 @@ define([
 
             if ( expand ) {
                 $scope.node = null;
-                // toggleLeftPanel(leftPanel);
                 setLeftPanel(leftPanel);
                 $scope.$broadcast('YANGMAN_MODULE_D_INIT');
             } else {

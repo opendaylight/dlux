@@ -17,7 +17,8 @@
             <md-input-container flex md-no-float ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_REQ_DATA">
                 <input type="text"
                        ng-model="requestHeader.requestUrl"
-                       placeholder="{{'YANGMAN_REQ_URL' | translate}}">
+                       placeholder="{{'YANGMAN_REQ_URL' | translate}}"
+                       spellcheck="false">
             </md-input-container>
 
             <div ng-repeat="pathElem in selectedSubApi.pathArray"

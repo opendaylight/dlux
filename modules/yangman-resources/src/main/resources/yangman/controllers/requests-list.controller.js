@@ -72,9 +72,6 @@ define([
         vm.deselectAllRequests = deselectAllRequests;
         vm.filterCollReq = filterCollReq;
 
-
-
-
         /**
          * Save request obje to collection from other controller
          * @param reqObj

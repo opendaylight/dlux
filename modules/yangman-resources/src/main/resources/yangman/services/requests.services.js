@@ -285,8 +285,6 @@ define([
          */
         function createHistoryRequest(sentData, receivedData, path, operation, status, name, collection, timestamp,
                                       responseStatus, responseStatusText, responseTime) {
-            // TODO: investigate, if this line is needed
-            // var receivedDataProcessed = status === 'success' ? receivedData : null,
             var result = new HistoryRequestModel(PathUtilsService, YangUtilsService, ParsingJsonService);
 
             timestamp = timestamp || Date.now();

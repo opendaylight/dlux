@@ -23,7 +23,7 @@ define([
 
     YangFormCtrl.$inject = ['$scope', '$rootScope', '$filter', 'constants', 'YangUtilsService'];
 
-    function YangFormCtrl($scope, $rootScope, $filter, constants, YangUtilsService) {
+    function YangFormCtrl($scope, $rootScope, $filter, constants) {
         var yangForm = this;
 
         yangForm.viewPath = $scope.globalViewPath + 'rightpanel/form';

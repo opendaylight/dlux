@@ -69,7 +69,7 @@ define([
 
             if ( $scope.selectedDatastore && (module === $scope.selectedModule)) {
                 haveSelectedDS = $scope.selectedModule.children.filter(function(item){
-                   return item === $scope.selectedDatastore;
+                    return item === $scope.selectedDatastore;
                 });
             }
 
@@ -104,12 +104,10 @@ define([
                 $scope.setGlobalParams(apis, augGroups);
                 modulesList.allNodes = allNodes;
                 modulesList.treeApis = YangUtilsService.generateApiTreeData(apis);
-                // $scope.processingModulesSuccessCallback();
                 modulesList.showLoadingBox = false;
                 showToastInfoBox('YANGMAN_LOADED_MODULES');
 
                 PluginsHandlerService.plugAll(apis, modulesList);
-                // $scope.$broadcast('LOAD_REQ_DATA');
             }, function () {
                 showToastInfoBox('YANGMAN_LOADED_MODULES_ERROR');
                 modulesList.showLoadingBox = false;
@@ -122,7 +120,6 @@ define([
         function setModule(module, e){
             if ( $(e.target).hasClass('top-element') ) {
                 module.expanded = !module.expanded;
-                //$scope.setModule(module);
             }
         }
 
@@ -152,5 +149,4 @@ define([
             }, 500);
         }
     }
-
 });
