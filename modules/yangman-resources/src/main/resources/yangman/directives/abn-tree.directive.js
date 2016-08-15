@@ -2,7 +2,7 @@ define(['angular'], function (angular) {
     'use strict';
 
     angular.module('app.yangman').directive('abnApiTree', [
-        '$timeout', function ($timeout) {
+        '$timeout', 'constants', function ($timeout, constants) {
             return {
                 restrict: 'E',
                 templateUrl: 'src/app/yangman/views/directives/abn-tree.tpl.html',
@@ -27,16 +27,16 @@ define(['angular'], function (angular) {
                         tree;
 
                     if (attrs.iconExpand == null) {
-                        attrs.iconExpand = 'add';
+                        attrs.iconExpand = constants.ICON_EXPAND_ADD;
                     }
                     if (attrs.iconCollapse == null) {
-                        attrs.iconCollapse = 'remove';
+                        attrs.iconCollapse = constants.ICON_COLLAPSE_REMOVE;
                     }
                     if (attrs.iconLeaf == null) {
-                        attrs.iconLeaf = 'keyboard_arrow_right';
+                        attrs.iconLeaf = constants.ICON_KEYBOARD_ARROW_RIGHT;
                     }
                     if (attrs.expandLevel == null) {
-                        attrs.expandLevel = '3';
+                        attrs.expandLevel = constants.EXPAND_LEVEL_THREE;
                     }
                     expandLevel = parseInt(attrs.expandLevel, 10);
                     if (!scope.treeData) {
