@@ -1,7 +1,8 @@
 <!-- Previous button -->
-<button ng-click="yangList.shiftDisplayPrev()">
+<button ng-click="yangList.shiftDisplayPrev()"
+        ng-show="yangList.showPrevButton()">
     <md-icon class="material-icons">{{yangList.showPrevButton() ? 'arrow_back' : ''}}</md-icon>
-    <md-tooltip md-direction="top">{{ 'LIST_PREV_ITEM' | translate }}</md-tooltip>
+    <md-tooltip md-direction="top">{{ 'YANGMAN_LIST_PREV_ITEM' | translate }}</md-tooltip>
 </button>
 
 <section ng-repeat="offset in yangList.displayOffsets" class="yangmanModule__right-panel__form__list-item"
@@ -46,5 +47,5 @@
 <button ng-click="yangList.shiftDisplayNext('listData')"
         ng-show="yangList.showNextButton('listData')">
     <md-icon class="material-icons">arrow_forward</md-icon>
-    <md-tooltip md-direction="top">{{ 'LIST_NEXT_ITEM' | translate }}</md-tooltip>
+    <md-tooltip md-direction="top">{{ 'YANGMAN_LIST_NEXT_ITEM' | translate }}</md-tooltip>
 </button>
