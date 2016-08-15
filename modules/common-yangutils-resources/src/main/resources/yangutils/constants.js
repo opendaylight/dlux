@@ -33,6 +33,10 @@ function () {
         OPERATION_DELETE: 'DELETE',
         OPERATION_POST: 'POST',
         REQUEST_DATA_TYPE_RECEIVED: 'RECEIVED',
+        ICON_EXPAND_ADD: 'add',
+        ICON_COLLAPSE_REMOVE: 'remove',
+        ICON_KEYBOARD_ARROW_RIGHT: 'keyboard_arrow_right',
+        EXPAND_LEVEL_THREE: '3',
     };
 
 });
