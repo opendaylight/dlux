@@ -74,7 +74,7 @@ define([], function () {
          * Hide main menu
          */
         function hideMainMenu(){
-            $('#wrapper').addClass('toggled');
+            angular.element('#wrapper').addClass('toggled');
         }
 
         /**
@@ -83,10 +83,10 @@ define([], function () {
          */
         function setDraggableLeftPanel(){
             if (localStorage.getItem('yangman__left-panel-width') !== null) {
-                $('#left-panel').width(localStorage.getItem('yangman__left-panel-width'));
+                angular.element('#left-panel').width(localStorage.getItem('yangman__left-panel-width'));
             }
 
-            $('.ym-resizable-e').resizable({
+            angular.element('.ym-resizable-e').resizable({
                 handles: 'e',
                 minWidth: 300,
                 stop: function(event, ui) {
@@ -102,7 +102,7 @@ define([], function () {
 
         function setJsonSplitter(cbk){
             $timeout(function () {
-                $('.ym-resizable-s').resizable({
+                angular.element('.ym-resizable-s').resizable({
                     handles: 's',
                     minHeight: 200,
                     stop: function(event, ui) {
@@ -117,8 +117,8 @@ define([], function () {
          * .yangmanModule__module-detail .tabs
          */
         function setModuleDetailHeight() {
-            var height = 'calc(100% - ' + $('.yangmanModule__module-detail h4').outerHeight(true) + 'px)';
-            $('.yangmanModule__module-detail .tabs').css({ height: height });
+            var height = 'calc(100% - ' + angular.element('.yangmanModule__module-detail h4').outerHeight(true) + 'px)';
+            angular.element('.yangmanModule__module-detail .tabs').css({ height: height });
         }
 
     }
