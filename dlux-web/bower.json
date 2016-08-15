@@ -3,13 +3,16 @@
   "version": "0.2.0",
   "dependencies": {
     "angular": "~1.4.0",
+    "angular-resource": "~1.4.0",
+    "angular-cookies": "~1.4.0",
+    "angular-sanitize": "~1.4.0",
+    "angular-messages": "~1.4.0",
+    "angular-animate": "~1.4.0",
+    "angular-aria": "~1.4.0",
     "json3": "~3.2.4",
     "jquery": "~1.9.1",
     "jquery-ui": "1.11.1",
     "es5-shim": "~2.0.8",
-    "angular-resource": "~1.4.0",
-    "angular-cookies": "~1.4.0",
-    "angular-sanitize": "~1.4.0",
     "angular-ui-date": "~0.0.11",
     "requirejs": "~2.1.14",
     "font-awesome": "~4.0.3",
@@ -24,18 +27,16 @@
     "select2": "^3.3.2",
     "select2-bootstrap-css": "~1.2.5",
     "footable": "2.0.1",
-    "angular-translate": "2.2.0",
-    "angular-translate-loader-static-files": "2.2.0",
     "vis": "2.0.0",
     "sigma": "https://github.com/jacomyal/sigma.js/releases/download/v1.0.3/release-v1.0.3.zip",
     "ng-slider": "2.2.2",
-    "ng-tiny-scrollbar": "~0.9.0",
     "zeroclipboard": "~2.2.0",
     "ng-clip": "~0.2.6",
+    "angular-translate": "~2.7.2",
+    "angular-translate-loader-static-files": "~2.7.2",
     "angular-translate-loader-partial": "~2.7.2",
-    "angular-material": "^1.0.8",
-    "material-design-icons": "^2.2.3",
-    "angular-messages": "^1.5.5"
+    "angular-material": "~1.0.8",
+    "material-design-icons": "~2.2.3"
   },
   "devDependencies": {
     "angular": "~1.4.0",
@@ -51,7 +52,7 @@
   "resolutions": {
     "angular": "~1.4.0",
     "angular-translate": "~2.7.2",
-    "select2": "^3.3.2",
-    "angular-animate": "^1.4.8"
+    "angular-animate": "~1.4.0",
+    "select2": "^3.3.2"
   }
 }
