@@ -120,7 +120,7 @@ define([
          * Set and expand module in tree
          */
         function setModule(module, e){
-            if ( $(e.target).hasClass('top-element') ) {
+            if ( angular.element(e.target).hasClass('top-element') ) {
                 module.expanded = !module.expanded;
                 //$scope.setModule(module);
             }
