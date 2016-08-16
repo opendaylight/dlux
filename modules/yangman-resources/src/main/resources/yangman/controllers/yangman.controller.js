@@ -14,6 +14,7 @@ define([
     'app/yangman/services/plugins-unsetter.services',
     'app/yangman/directives/ui-codemirror.directive',
     'app/yangman/directives/read_file.directive',
+    'app/yangman/services/yangman-help.services',
 ], function () {
     'use strict';
 
@@ -21,12 +22,12 @@ define([
 
     YangmanCtrl.$inject = [
         '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
-        'EventDispatcherService', 'constants', 'ParametersService', 'PathUtilsService', 'PluginsUnsetterService', '$timeout',
+        'EventDispatcherService', 'constants', 'ParametersService', 'PathUtilsService', 'PluginsUnsetterService', '$timeout', 'YangmanHelpService',
     ];
 
     function YangmanCtrl(
         $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
-        EventDispatcherService, constants, ParametersService, PathUtilsService, PluginsUnsetterService, $timeout
+        EventDispatcherService, constants, ParametersService, PathUtilsService, PluginsUnsetterService, $timeout, YangmanHelpService
     ) {
         var main = this;
 
@@ -46,6 +47,9 @@ define([
         $scope.requestDataToShow = '';
         $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
         $scope.shownCMHint = false;
+        $scope.helpIcons = YangmanHelpService.getYangmanHelpItems();
+        $scope.showYangmanHelp = false;
+        $scope.activeHelpItem = [];
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -69,7 +73,10 @@ define([
         $scope.broadcastFromRoot = broadcastFromRoot;
         $scope.checkAddingListElement = checkAddingListElement;
         $scope.clearCM = clearCM;
+        $scope.closeHelp = closeHelp;
+        $scope.openHelp = openHelp;
         $scope.rootBroadcast = rootBroadcast;
+        $scope.selectHelpIcon = selectHelpIcon;
         $scope.setApi = setApi;
         $scope.setDataStore = setDataStore;
         $scope.setGlobalParams = setGlobalParams;
@@ -357,7 +364,6 @@ define([
 
         /**
          * Global method for unset plugin
-         * @param selectedPlugin
          * @param controller
          */
         function unsetPlugin(controller){
@@ -371,6 +377,47 @@ define([
             return $scope.node === node && $scope.node.type === 'list' &&
                 $scope.node.refKey && $scope.node.refKey.length;
         }
+
+        /**
+         * Open yangman-help-menu
+         * @param item
+         */
+        function openHelp(item) {
+            $scope.showYangmanHelp = true;
+            $scope.activeHelpItem = item ? item : $scope.helpIcons['help'][0];
+        }
+
+        /**
+         * Close yangman-help-menu
+         */
+        function closeHelp() {
+            $scope.showYangmanHelp = false;
+        }
+
+        /**
+         * Select icon from all items
+         * Unfinished (in case of keyboard-shortcut)
+         * Note: You can't have duplicate icons... (bug?)
+         * @param iconFont
+         */
+        function selectHelpIcon(iconFont) {
+
+            for (var category in $scope.helpIcons) {
+                if ($scope.helpIcons.hasOwnProperty(category)) {
+                    findItem(category);
+                }
+            }
+
+            function findItem(category) {
+                $scope.helpIcons[category].forEach(function (item) {
+                    if (iconFont === item[0]) {
+                        openHelp(item);
+                    }
+                });
+            }
+
+        }
+
     }
 
 });

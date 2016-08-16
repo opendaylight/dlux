@@ -45,4 +45,10 @@
     <md-content layout="column" flex
                 class="md-whiteframe-3dp md-padding yangmanModule__right-panel"
                 ng-include src="globalViewPath + 'rightpanel/detail.tpl.html'"></md-content>
+
+    <!-- yangman-help-menu-->
+    <div ng-if="showYangmanHelp">
+        <div ng-include="globalViewPath + 'popup/yangman-help.tpl.html'"></div>
+    </div>
+
 </section>

@@ -228,6 +228,184 @@ md-input-container{
     z-index: 99;
 }
 
+// yangman-help-menu
+.help-container{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0, 0.3);
+    z-index: 50;
+
+    .help-content{
+        position: relative;
+        left: 100px;
+        top: 100px;
+        width: ~"calc(100% - 200px)";
+        height: ~"calc(100% - 150px)";
+        min-width: 960px;
+        min-height: 600px;
+        background-color: rgba(255,255,255, 0.7);
+        border: 5px solid rgba(64,64,64, 0.8);
+        z-index: 52;
+
+        &__title{
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            text-align: center;
+            padding-top: 50px;
+            padding-bottom: 50px;
+
+            span{
+                font-size: xx-large;
+            }
+
+        }
+
+        &__title:hover{
+            text-decoration: underline;
+        }
+
+        &__title:focus{
+            outline: none;
+        }
+
+        &__content{
+            position: relative;
+            padding: 0 20px 20px 20px;
+            width: 100%;
+            height: 100%;
+
+            .categories{
+
+                &__content{
+                    padding: 20px;
+
+                    .icon{
+                        position: relative;
+                        float: left;
+                        cursor: pointer;
+                        width: 32px;
+                        height: 32px;
+                        font-size: 32px;
+                        margin-left: 5px;
+
+                        i{
+                            font-size: 24px;
+                            padding: 4px;
+                        }
+
+                        .underline_icon{
+                            position: absolute;
+                            left: 0;
+                            bottom: -2px;
+                            width: 32px;
+                            height: 2px;
+                            background-color: #000;
+                        }
+
+                        .active_icon{
+                            background: transparent;
+                        }
+
+                    }
+
+                    .icon:hover{
+
+                        i{
+                            font-size: 32px;
+                            padding: 0;
+                        }
+
+                        .active_icon{
+                            color: #000;
+                        }
+
+                    }
+
+                    .icon:focus{
+                        outline: none;
+                    }
+
+                    .button-shortcut{
+                        position: relative;
+                        padding: 11px;
+                        border-radius: 10px;
+                        border: 3px solid rgba(0,0,0, 0.5);
+                        margin-left: 5px;
+                        cursor: pointer;
+                        font-size: 15px;
+                        font-weight: 600;
+                    }
+
+                    .button-shortcut:hover{
+                        font-size: 20px;
+                        padding: 5px;
+                        color: #000;
+                        background-color: #fff;
+                        font-weight: 700;
+                    }
+
+                    .button-shortcut:focus{
+                        outline: none;
+                    }
+
+                }
+
+                .category_title{
+                    font-size: x-large;
+                    padding-bottom: 20px;
+                }
+
+            }
+
+            .description{
+                border: 3px solid rgba(64,64,64, 0.8);
+                padding: 50px;
+                background-color: #EEEEEE;
+
+                .icon{
+                    position: relative;
+                    width: 100%;
+                    text-align: center;
+
+                    i{
+                        background-color: rgb(255,255,255);
+                        border-radius: 50px;
+                        font-size: 64px;
+                        color: #000;
+                    }
+
+                }
+
+                .details{
+                    padding-top: 50px;
+
+                    span{
+                        font-size: x-large;
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    &__click_catcher {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 51;
+    }
+
+}
+
 // yangman
 .yangmanModule{
     background-color: @appBackColor;

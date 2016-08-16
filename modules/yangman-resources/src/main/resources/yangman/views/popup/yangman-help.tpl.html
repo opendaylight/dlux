@@ -1,0 +1,84 @@
+<!-- Unfinished: on smaller screens it may display wrongly... -->
+<!-- Help Screen -->
+<div class="help-container">
+    <div ng-click="closeHelp()" class="help-container__click_catcher"></div>
+    <!-- Help Content -->
+    <div class="help-content" layout="column">
+        <!-- Title -->
+        <div ng-click="openHelp(helpIcons.help[0])" class="help-content__title">
+            <span>Yangman - Help</span>
+        </div>
+        <md-divider></md-divider>
+        <!-- Content -->
+        <div class="help-content__content" layout="row" flex>
+            <!-- Left Side -->
+            <div class="categories" layout="column" flex>
+                <!-- General -->
+                <div class="categories__content" flex>
+                    <div class="category_title">General</div>
+                    <div layout="row">
+                        <div ng-repeat="item in helpIcons.general">
+                            <div ng-click="openHelp(item)" class="icon" layout="row" flex>
+                                <i class="material-icons active_icon">{{item[0]}}</i>
+                                <span ng-show="item[0] === activeHelpItem[0]" class="underline_icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <!-- Modules tab -->
+                <div class="categories__content" flex>
+                    <div class="category_title">Modules Tab</div>
+                    <div layout="row">
+                        <div ng-repeat="item in helpIcons.modules">
+                            <div ng-click="openHelp(item)" class="icon" layout="row" flex>
+                                <i class="material-icons active_icon">{{item[0]}}</i>
+                                <span ng-show="item[0] === activeHelpItem[0]" class="underline_icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <md-divider></md-divider>
+                <!-- History & Collections tab -->
+                <div class="categories__content" flex>
+                    <div class="category_title">History & Collections Tab</div>
+                    <div layout="row">
+                        <div class="icon" ng-repeat="item in helpIcons['history-collections']">
+                            <div ng-click="openHelp(item)" class="icon" layout="row" flex>
+                                <i class="material-icons active_icon">{{item[0]}}</i>
+                                <span ng-show="item[0] === activeHelpItem[0]" class="underline_icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Keyboard-Shortcuts -->
+                <!-- Unfinished (refactor '$scope.helpIcons') -->
+                <div class="categories__content" flex>
+                    <div class="category_title">Keyboard Shortcuts</div>
+                    <div layout="row">
+                        <div class="button-shortcut" ng-repeat="item in helpIcons['keyboard-shortcuts']">
+                            <div ng-click="openHelp(item)">
+                                <i class="active_icon button">{{item[0]}}</i>
+                                <i class="active_icon button">{{item[1]}}</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Side -->
+            <!-- Unfinished (in case of keyboard-shortcuts) -->
+            <div class="description" layout="column" flex="30">
+                <!-- Selected Icon -->
+                <div layout="row">
+                    <div class="icon">
+                        <i class="material-icons">{{activeHelpItem[0]}}</i>
+                    </div>
+                </div>
+                <!-- Selected Icon Description -->
+                <div class="details" layout="row" flex>
+                    <span>{{activeHelpItem[1]}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -83,6 +83,10 @@
                 {{'YANGMAN_PARAMETERS' | translate}}
             </md-button>
 
+            <!-- Help button -->
+            <!-- Unfinished styling... -->
+            <md-button ng-click="openHelp()"><i class="material-icons">help</i></md-button>
+
             <!-- sub api custom functionality menu -->
             <md-menu ng-show="selectedSubApi.custFunct.length || requestHeader.selectedPluginsButtons.length">
                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
