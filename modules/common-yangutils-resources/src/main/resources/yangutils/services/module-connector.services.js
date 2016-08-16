@@ -47,7 +47,12 @@ define([], function () {
                     changed = false;
 
                 if (node && module) {
-                    usesNode.parent.children.splice(usesNode.parent.children.indexOf(usesNode), 1); // delete uses node
+                    if (usesNode.parent.children) { // if parent is node
+                        usesNode.parent.children.splice(usesNode.parent.children.indexOf(usesNode), 1); // delete uses node
+                    }
+                    else if (usesNode.parent._roots) { // if parent is module
+                        usesNode.parent._roots.splice(usesNode.parent._roots.indexOf(usesNode), 1);
+                    }
                     for (var i = 0; i < node.children.length; i++) {
                         applyLinks(node.children[i], module, modules);
                     }
