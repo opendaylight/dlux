@@ -12,7 +12,7 @@ define([], function () {
 
         // TODO: add service's description
         function isRootNode(type) {
-            return type === 'container' || type === 'list' || type === 'rpc';
+            return type === 'container' || type === 'list' || type === 'uses' || type === 'rpc';
         }
 
         // TODO: add service's description
