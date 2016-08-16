@@ -119,8 +119,8 @@ define([
          * Initialization
          */
         function init(){
-            $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_START', startExecutingRequestProgress);
-            $scope.$on('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP', stopExecutingRequestProgress);
+            $scope.$on(constants.YANGMAN_EXECUTING_REQUEST_PROGRESS_START, startExecutingRequestProgress);
+            $scope.$on(constants.YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP, stopExecutingRequestProgress);
 
             YangmanDesignService.hideMainMenu();
             YangmanDesignService.setDraggableLeftPanel();
@@ -211,8 +211,8 @@ define([
          * Genereal method for clearing code mirror - sent and received data too
          */
         function clearCM(){
-            $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_RECEIVED', { data: JSON.stringify({}) });
-            $scope.rootBroadcast('YANGMAN_SET_CODEMIRROR_DATA_SENT', { data: JSON.stringify({}) });
+            $scope.rootBroadcast(constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED, { data: JSON.stringify({}) });
+            $scope.rootBroadcast(constants.YANGMAN_SET_CODEMIRROR_DATA_SENT, { data: JSON.stringify({}) });
         }
 
 
@@ -246,7 +246,7 @@ define([
 
             if ( $scope.node ) {
                 $scope.node.clear();
-                $scope.$broadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
+                $scope.$broadcast(constants.YANGMAN_DISABLE_ADDING_LIST_ELEMENT);
             }
         }
 
@@ -270,7 +270,7 @@ define([
                 $scope.node = null;
                 // toggleLeftPanel(leftPanel);
                 setLeftPanel(leftPanel);
-                $scope.$broadcast('YANGMAN_MODULE_D_INIT');
+                $scope.$broadcast(constants.YANGMAN_MODULE_D_INIT);
             } else {
 
                 if ( $scope.node ) {
@@ -301,7 +301,7 @@ define([
                 PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
             }
 
-            $scope.$broadcast('SET_SEL_OPERATIONS', subApi ? $scope.selectedSubApi.operations : [], setUrl);
+            $scope.$broadcast(constants.SET_SEL_OPERATIONS, subApi ? $scope.selectedSubApi.operations : [], setUrl);
         }
 
         /**
