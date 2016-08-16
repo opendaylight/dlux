@@ -123,7 +123,7 @@ define([
             $mdDialog.show(confirm).then(function (){
                 vm.collectionList.clear();
                 vm.collectionList.saveToStorage();
-                $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
+                $scope.rootBroadcast(constants.YANGMAN_REFRESH_COLLECTIONS);
                 YangmanDesignService.enableMdMenuItem(event);
             }, function () {
                 YangmanDesignService.enableMdMenuItem(event);
@@ -156,14 +156,13 @@ define([
          * @param $fileContent
          */
         function readCollectionFromFile($fileContent) {
-            var data = $fileContent,
-                checkArray = ['sentData', 'receivedData', 'path', 'collection', 'method', 'status', 'name'];
+            var data = $fileContent;
 
-            if (data && YangmanService.validateFile(data, checkArray)){
+            if (data && YangmanService.validateFile(data, constants.COLLECTION_CHECK_ARRAY)){
                 try {
                     vm.collectionList.loadListFromFile(data);
                     vm.collectionList.saveToStorage();
-                    $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS');
+                    $scope.rootBroadcast(constants.YANGMAN_REFRESH_COLLECTIONS);
                     clearFileInputValue();
                 }
                 catch (e) {
@@ -214,19 +213,19 @@ define([
             }
 
             $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED', { data: reqObj.setDataForView(reqObj.receivedData) }
+                constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED, { data: reqObj.setDataForView(reqObj.receivedData) }
             );
             $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_SENT', { data: reqObj.setDataForView(reqObj.sentData) }
+                constants.YANGMAN_SET_CODEMIRROR_DATA_SENT, { data: reqObj.setDataForView(reqObj.sentData) }
             );
 
-            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA',
+            $scope.rootBroadcast(constants.YANGMAN_SET_ERROR_DATA,
                 reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {});
 
-            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path, requestData: data },
+            $scope.rootBroadcast(constants.YANGMAN_FILL_NODE_FROM_REQ, { requestUrl: reqObj.path, requestData: data },
                 function (){
                     $scope.setRightPanelSection(constants.DISPLAY_TYPE_FORM);
-                    $scope.rootBroadcast('YANGMAN_HEADER_INIT', {
+                    $scope.rootBroadcast(constants.YANGMAN_HEADER_INIT, {
                         path: reqObj.path,
                         method: reqObj.method,
                         statusObj: {
@@ -263,7 +262,7 @@ define([
          */
         function executeRequest(reqObj) {
             showData(reqObj);
-            $scope.rootBroadcast('YANGMAN_EXECUTE_WITH_DATA',{ data: reqObj.sentData });
+            $scope.rootBroadcast(constants.YANGMAN_EXECUTE_WITH_DATA,{ data: reqObj.sentData });
         }
 
         /**
@@ -286,7 +285,7 @@ define([
                 };
 
                 $scope.rootBroadcast(
-                    'YANGMAN_SET_ERROR_DATA',
+                    constants.YANGMAN_SET_ERROR_DATA,
                     reqObj.receivedData && reqObj.receivedData.hasOwnProperty('errors') ? reqObj.receivedData : {}
                 );
             }
@@ -294,16 +293,16 @@ define([
             $scope.setRightPanelSection(constants.DISPLAY_TYPE_REQ_DATA);
             $scope.setJsonView(true, reqObj.method !== constants.OPERATION_GET);
 
-            $scope.rootBroadcast('YANGMAN_HEADER_INIT', headerObj);
-            $scope.rootBroadcast('YANGMAN_FILL_NODE_FROM_REQ', { requestUrl: reqObj.path });
+            $scope.rootBroadcast(constants.YANGMAN_HEADER_INIT, headerObj);
+            $scope.rootBroadcast(constants.YANGMAN_FILL_NODE_FROM_REQ, { requestUrl: reqObj.path });
 
             $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_RECEIVED',
+                constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED,
                 { data: reqObj.setDataForView(reqObj.receivedData) }
             );
 
             $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_SENT',
+                constants.YANGMAN_SET_CODEMIRROR_DATA_SENT,
                 { data: reqObj.setDataForView(reqObj.sentData) }
             );
         }
@@ -537,13 +536,13 @@ define([
 
 
             // if request was selected, deselect requests in all other instances of RequestsListCtrl
-            $scope.$on('YANGMAN_DESELECT_REQUESTS', function (event, params) {
+            $scope.$on(constants.YANGMAN_DESELECT_REQUESTS, function (event, params) {
                 if (params.params.broadcastingCtrl !== vm) {
                     deselectAllRequests();
                 }
             });
 
-            $scope.$on('YANGMAN_REFRESH_COLLECTIONS', function (event, params){
+            $scope.$on(constants.YANGMAN_REFRESH_COLLECTIONS, function (event, params){
                 loadCollectionsList();
                 (params.cbk || angular.noop)();
             });
@@ -554,20 +553,20 @@ define([
                 vm.mainList = vm.requestList;
                 loadHistoryList();
 
-                $scope.$on('YANGMAN_REFRESH_HISTORY', loadHistoryList);
+                $scope.$on(constants.YANGMAN_REFRESH_HISTORY, loadHistoryList);
                 // saving from request header after execution
-                $scope.$on('YANGMAN_SAVE_EXECUTED_REQUEST', saveBcstedHistoryRequest);
+                $scope.$on(constants.YANGMAN_SAVE_EXECUTED_REQUEST, saveBcstedHistoryRequest);
                 // select newest request
-                $scope.$on('YANGMAN_SELECT_THE_NEWEST_REQUEST', selectNewestRequest);
+                $scope.$on(constants.YANGMAN_SELECT_THE_NEWEST_REQUEST, selectNewestRequest);
             }
             else {
                 vm.mainList = vm.collectionList;
                 // saving from request header
-                $scope.$on('YANGMAN_SAVE_REQUEST_TO_COLLECTION', saveRequestFromExt);
+                $scope.$on(constants.YANGMAN_SAVE_REQUEST_TO_COLLECTION, saveRequestFromExt);
                 // saving collections expanded status on refresh
-                $scope.$on('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS', function(){
+                $scope.$on(constants.YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS, function(){
                     var expandedColNames = vm.collectionList.getExpandedCollectionNames();
-                    $scope.rootBroadcast('YANGMAN_REFRESH_COLLECTIONS', {}, function (){
+                    $scope.rootBroadcast(constants.YANGMAN_REFRESH_COLLECTIONS, {}, function (){
                         vm.collectionList.expandCollectionByNames(expandedColNames);
                     });
                 });
@@ -583,7 +582,7 @@ define([
          * @param requestObj
          */
         function selectRequest(event, requestObj){
-            $scope.rootBroadcast('YANGMAN_DESELECT_REQUESTS', { broadcastingCtrl: vm });
+            $scope.rootBroadcast(constants.YANGMAN_DESELECT_REQUESTS, { broadcastingCtrl: vm });
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             if (!event.ctrlKey){
                 vm.showData(requestObj, true);
@@ -631,7 +630,7 @@ define([
          * Refresh and expand collections
          */
         function refreshCollectionsWithExpansion(){
-            $scope.rootBroadcast('YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS');
+            $scope.rootBroadcast(constants.YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS);
         }
 
     }

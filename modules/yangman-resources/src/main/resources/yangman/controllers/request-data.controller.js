@@ -127,11 +127,11 @@ define([], function () {
             requestData.type = type;
             initEditorOptions();
 
-            $scope.$on('YANGMAN_SET_CODEMIRROR_DATA_' + type, function (event, args){
+            $scope.$on(constants.YANGMAN_SET_CODEMIRROR_DATA + type, function (event, args){
                 requestData.data = args.params.data;
             });
 
-            $scope.$on('YANGMAN_GET_CODEMIRROR_DATA_' + type, function (event, args){
+            $scope.$on(constants.YANGMAN_GET_CODEMIRROR_DATA + type, function (event, args){
                 args.params.reqData = requestData.data;
             });
         }

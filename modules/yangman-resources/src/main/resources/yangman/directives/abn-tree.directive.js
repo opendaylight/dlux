@@ -194,9 +194,9 @@ define(['angular'], function (angular) {
 
                     };
 
-                    scope.$watch('tree_rows', function () {
+                    scope.$watch(constants.TREE_ROWS, function () {
                         scope.treeRows = scope.tree_rows;
-                        scope.$emit('SET_SCOPE_TREE_ROWS', scope.treeRows);
+                        scope.$emit(constants.SET_SCOPE_TREE_ROWS, scope.treeRows);
                     });
 
                     scope.tree_rows = [];

@@ -42,7 +42,7 @@ define([
         /**
          * Set selected operations based on data store
          */
-        $scope.$on('SET_SEL_OPERATIONS', function (event, operations, setUrl) {
+        $scope.$on(constants.SET_SEL_OPERATIONS, function (event, operations, setUrl) {
             setAllowedMethods(operations);
 
             if ( setUrl ) {
@@ -53,7 +53,7 @@ define([
         /**
          * Watching for changes in shown detail data type (radio button)
          */
-        $scope.$on('YANGMAN_HEADER_INIT', function (event, args) {
+        $scope.$on(constants.YANGMAN_HEADER_INIT, function (event, args) {
             init();
             setRequestUrl(args.params.path);
             setRequestMethod(args.params.method);
@@ -62,12 +62,12 @@ define([
             (args.cbk || angular.noop)();
         });
 
-        $scope.$on('YANGMAN_FILL_NODE_FROM_REQ', function (event, args) {
+        $scope.$on(constants.YANGMAN_FILL_NODE_FROM_REQ, function (event, args) {
             setNodeDataFromRequestData(args.params.requestUrl, args.params.leftpanel);
             (args.cbk || angular.noop)();
         });
 
-        $scope.$on('YANGMAN_EXECUTE_WITH_DATA', function (event, args) {
+        $scope.$on(constants.YANGMAN_EXECUTE_WITH_DATA, function (event, args) {
             executeOperation(args.params.data ? angular.fromJson(args.params.data) : {}, args.cbk);
         });
 
@@ -168,8 +168,8 @@ define([
                         var sentData = { reqData: null },
                             allData = { sent: null, received: null };
 
-                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', params);
-                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
+                        $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_RECEIVED, params);
+                        $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_SENT, sentData);
 
                         allData.sent = sentData.reqData ? angular.fromJson(sentData.reqData) : {};
                         allData.received = params.reqData ? angular.fromJson(params.reqData) : {};
@@ -191,7 +191,7 @@ define([
                             dataType = requestHeader.selectedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
                         }
 
-                        $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_' + dataType, params);
+                        $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA + dataType, params);
                         return params.reqData ? angular.fromJson(params.reqData) : {};
                     },
                 };
@@ -205,13 +205,13 @@ define([
          */
         function sendRequestData(data, type){
             $scope.rootBroadcast(
-                'YANGMAN_SET_CODEMIRROR_DATA_' + type,
+                constants.YANGMAN_SET_CODEMIRROR_DATA + type,
                 { data: data instanceof Object ? JSON.stringify(data, null, 4) : data }
             );
         }
 
         function sendErrorData(response) {
-            $scope.rootBroadcast('YANGMAN_SET_ERROR_DATA', response);
+            $scope.rootBroadcast(constants.YANGMAN_SET_ERROR_DATA, response);
         }
 
         /**
@@ -281,7 +281,7 @@ define([
         }
 
         function setApiByUrl(url, cbk, fill){
-            $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
+            $scope.rootBroadcast(constants.YANGMAN_GET_API_TREE_DATA, null, function (treeApis) {
                 var apisIndexes =
                     PathUtilsService.searchNodeByPath(url, treeApis, null, true, true);
 
@@ -317,24 +317,24 @@ define([
                 null, null, requestHeader.requestUrl, requestHeader.selectedOperation, '', '', ''
             );
 
-            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', sentData);
-            $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_RECEIVED', receivedData);
+            $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_SENT, sentData);
+            $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_RECEIVED, receivedData);
 
             RequestService.fillRequestByMethod(
                 historyReq, sentData, receivedData, requestHeader.selectedOperation, $scope.node,
                 requestHeader.selectedShownDataType
             );
 
-            $scope.rootBroadcast('YANGMAN_SAVE_REQUEST_TO_COLLECTION', { event: event, reqObj: historyReq });
+            $scope.rootBroadcast(constants.YANGMAN_SAVE_REQUEST_TO_COLLECTION, { event: event, reqObj: historyReq });
         }
 
         function showRequestProgress(){
-            $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_START');
+            $scope.rootBroadcast(constants.YANGMAN_EXECUTING_REQUEST_PROGRESS_START);
         }
 
 
         function finishRequestProgress(message){
-            $scope.rootBroadcast('YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP');
+            $scope.rootBroadcast(constants.YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP);
         }
 
         /**
@@ -349,7 +349,7 @@ define([
 
                 showRequestProgress();
                 setRequestUrl(requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ? requestHeader.requestUrl : null);
-                $scope.rootBroadcast('YANGMAN_SET_ERROR_MESSAGE', '');
+                $scope.rootBroadcast(constants.YANGMAN_SET_ERROR_MESSAGE, '');
 
                 if ( requestHeader.selectedShownDataType !== constants.DISPLAY_TYPE_FORM ){
                     setApiByUrl(requestHeader.requestUrl, null, true);
@@ -373,8 +373,8 @@ define([
                 requestHeader.executedOperation = requestHeader.selectedOperation;
             } else {
                 $scope.rootBroadcast(
-                    'YANGMAN_SET_ERROR_MESSAGE',
-                    $filter('translate')('YANGMAN_ERROR_EMPTY_IDENTIFIERS')
+                    constants.YANGMAN_SET_ERROR_MESSAGE,
+                    $filter('translate')(constants.YANGMAN_ERROR_EMPTY_IDENTIFIERS)
                 );
             }
 
@@ -413,7 +413,7 @@ define([
                         );
                         $scope.node.expanded = true;
 
-                        $scope.rootBroadcast('YANGMAN_DISABLE_ADDING_LIST_ELEMENT');
+                        $scope.rootBroadcast(constants.YANGMAN_DISABLE_ADDING_LIST_ELEMENT);
                         preparedReceivedData = YangmanService.checkRpcReceivedData(preparedReceivedData, $scope.node);
                         sendRequestData(preparedReceivedData, constants.REQUEST_DATA_TYPE_RECEIVED);
                     }
@@ -429,8 +429,8 @@ define([
                     reqInfo.time
                 );
 
-                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
-                    $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
+                $scope.rootBroadcast(constants.YANGMAN_SAVE_EXECUTED_REQUEST, historyReq, function (){
+                    $scope.rootBroadcast(constants.YANGMAN_SELECT_THE_NEWEST_REQUEST);
                 });
 
                 (executeCbk || angular.noop)(historyReq);
@@ -456,8 +456,8 @@ define([
                     reqInfo.statusText,
                     reqInfo.time
                 );
-                $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
-                    $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
+                $scope.rootBroadcast(constants.YANGMAN_SAVE_EXECUTED_REQUEST, historyReq, function (){
+                    $scope.rootBroadcast(constants.YANGMAN_SELECT_THE_NEWEST_REQUEST);
                 });
 
                 if (response.data) {
@@ -496,7 +496,7 @@ define([
                 if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
                     // get json data
                     var params = { reqData: null };
-                    $scope.rootBroadcast('YANGMAN_GET_CODEMIRROR_DATA_SENT', params);
+                    $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_SENT, params);
                     executeOperation(params.reqData ? angular.fromJson(params.reqData) : {}, cbk);
                 } else {
                     executeOperation({}, cbk);
@@ -521,7 +521,7 @@ define([
                 'MAIN_SCOPE'
             );
 
-            $scope.rootBroadcast('YANGMAN_GET_API_TREE_DATA', null, function (treeApis) {
+            $scope.rootBroadcast(constants.YANGMAN_GET_API_TREE_DATA, null, function (treeApis) {
                 DataBackupService.storeFromScope(
                     ['treeApis'],
                     { treeApis: treeApis },
@@ -534,7 +534,7 @@ define([
             $scope.setGlobalParams(mountPointApis, augmentations);
             $scope.setDataStore(null);
             requestHeader.statusObj = reqObj;
-            $scope.rootBroadcast('YANGMAN_SET_API_TREE_DATA', mountPointTreeApis);
+            $scope.rootBroadcast(constants.YANGMAN_SET_API_TREE_DATA, mountPointTreeApis);
         }
 
         /**
