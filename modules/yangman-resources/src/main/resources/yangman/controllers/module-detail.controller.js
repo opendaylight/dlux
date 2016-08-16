@@ -5,9 +5,9 @@ define([
 
     angular.module('app.yangman').controller('ModuleDetailCtrl', ModuleDetailCtrl);
 
-    ModuleDetailCtrl.$inject = ['$scope', '$rootScope', '$timeout', 'YangmanService'];
+    ModuleDetailCtrl.$inject = ['$scope', '$rootScope', '$timeout', 'YangmanService', 'constants'];
 
-    function ModuleDetailCtrl($scope, $rootScope, $timeout, YangmanService) {
+    function ModuleDetailCtrl($scope, $rootScope, $timeout, YangmanService, constants) {
         var moduleDetail = this;
 
         moduleDetail.treeApis = [];
@@ -18,7 +18,7 @@ define([
         moduleDetail.setDataDetailStore = setDataDetailStore;
 
         // WATCHERS
-        $scope.$on('YANGMAN_MODULE_D_INIT', function (){
+        $scope.$on(constants.YANGMAN_MODULE_D_INIT, function (){
             init();
         });
 
