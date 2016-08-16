@@ -4,7 +4,9 @@ define(['angular'], function (angular) {
     angular.module('app.yangman').service('PluginsUnsetterService',
         ['PathUtilsService', 'DataBackupService', PluginsUnsetterService]);
 
-    function PluginsUnsetterService(PathUtilsService, DataBackupService){
+    PluginsUnsetterService.$inject = ['constants'];
+
+    function PluginsUnsetterService(PathUtilsService, DataBackupService, constants){
         var service = {
             'YANGMAN_CUST_MOUNT_POINTS': unsetMountPoint,
             unset: unset,
@@ -29,11 +31,11 @@ define(['angular'], function (angular) {
             );
 
             DataBackupService.getToScope(['treeApis'], modulesListObj, 'MODULES_LIST');
-            scope.$broadcast('YANGMAN_SET_API_TREE_DATA', { params: modulesListObj.treeApis });
-            scope.$broadcast('YANGMAN_SET_MODULE_LIST_TITLE', { params: '' });
+            scope.$broadcast(constants.YANGMAN_SET_API_TREE_DATA, { params: modulesListObj.treeApis });
+            scope.$broadcast(constants.YANGMAN_SET_MODULE_LIST_TITLE, { params: '' });
 
             if ( scope.selectedDatastore ){
-                scope.$broadcast('YANGMAN_MODULE_D_INIT');
+                scope.$broadcast(constants.YANGMAN_MODULE_D_INIT);
             }
         }
 
