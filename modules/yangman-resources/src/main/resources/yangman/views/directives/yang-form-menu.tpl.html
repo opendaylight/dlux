@@ -41,7 +41,7 @@
         </div>
 
         <!-- info box -->
-        <div class="md-whiteframe-z2 info-box" ng-show="infoBox" ng-switch="infoBoxSection">
+        <div id="infoBox" class="md-whiteframe-z2 info-box" ng-show="infoBox" ng-switch="infoBoxSection">
             <div ng-switch-when="augmentations">
                 <md-list flex>
                     <md-list-item ng-repeat="augmentation in node.augmentionGroups">
