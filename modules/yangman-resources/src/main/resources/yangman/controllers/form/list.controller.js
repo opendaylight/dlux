@@ -37,11 +37,11 @@ define([], function () {
         yangList.toggleExpanded = toggleExpanded;
 
         // WATCHERS
-        $scope.$on('EV_REFRESH_LIST_INDEX', function () {
+        $scope.$on(constants.EV_REFRESH_LIST_INDEX, function () {
             yangList.currentDisplayIndex = 1;
         });
 
-        $scope.$on('YANGMAN_DISABLE_ADDING_LIST_ELEMENT', function() {
+        $scope.$on(constants.YANGMAN_DISABLE_ADDING_LIST_ELEMENT, function() {
             yangList.init();
         });
 
