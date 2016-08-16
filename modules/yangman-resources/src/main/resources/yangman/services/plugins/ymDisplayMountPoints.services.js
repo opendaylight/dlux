@@ -29,7 +29,7 @@ define([
                 scope = args.scope,
                 path = scope.selectedSubApi.buildApiRequestString();
 
-            scope.rootBroadcast('YANGMAN_SET_LOADING_BOX', true, function () {
+            scope.rootBroadcast(constants.YANGMAN_SET_LOADING_BOX, true, function () {
                 scope.setLeftPanel(0);
                 $timeout(function () {
                     MountPointsConnectorService.discoverMountPoints(path, getNodesMPData, createMPStructure);
@@ -107,13 +107,13 @@ define([
                     controller.initMountPoint(mountPointTreeApis, mountPointApis, mpAugments, reqObj);
 
                     scope.rootBroadcast(
-                        'YANGMAN_SET_MODULE_LIST_TITLE',
-                        pathItems[pathItems.length - 1] + ' [ ' + $filter('translate')('YANGMAN_MOUNT_POINT') + ' ]'
+                        constants.YANGMAN_SET_MODULE_LIST_TITLE,
+                        pathItems[pathItems.length - 1] + ' [ ' + $filter('translate')(constants.YANGMAN_MOUNT_POINT) + ' ]'
                     );
 
                     controller.selectedPluginsButtons.push(
-                        MountPointsConnectorService.createCustomButton('YANGMAN_CANCEL_MP', function (){
-                            return controller.selectedPlugin.label === 'YANGMAN_CUST_MOUNT_POINTS';
+                        MountPointsConnectorService.createCustomButton(constants.YANGMAN_CANCEL_MP, function (){
+                            return controller.selectedPlugin.label === constants.YANGMAN_CUST_MOUNT_POINTS;
                         },
                         function (){
                             controller.unsetPluginFunctionality();
@@ -123,8 +123,8 @@ define([
                 } else {
                     $timeout(function (){
                         controller.selectedPlugin = null;
-                        scope.rootBroadcast('YANGMAN_SET_LOADING_BOX', false);
-                        scope.rootBroadcast('YANGMAN_SHOW_TOAST', 'YANGMAN_NO_MOUNT_POINT');
+                        scope.rootBroadcast(constants.YANGMAN_SET_LOADING_BOX, false);
+                        scope.rootBroadcast(constants.YANGMAN_SHOW_TOAST, constants.YANGMAN_NO_MOUNT_POINT);
                     }, 100);
                 }
             }
