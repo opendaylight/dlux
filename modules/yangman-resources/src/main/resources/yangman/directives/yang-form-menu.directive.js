@@ -53,6 +53,7 @@ define(['angular'], function (angular) {
                  */
                 function hideInfoBox(){
                     $scope.infoBox = false;
+                    angular.element('#infoBox').addClass('ng-hide');
                 }
 
                 $scope.$on('hideInfoBox', function () {
