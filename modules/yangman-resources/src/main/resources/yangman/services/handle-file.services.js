@@ -3,7 +3,9 @@ define([], function () {
 
     angular.module('app.yangman').service('YMHandleFileService', YMHandleFileService);
 
-    function YMHandleFileService(){
+    YMHandleFileService.$inject = ['$window'];
+
+    function YMHandleFileService($window){
         var service = {
             downloadFile: downloadFile,
         };
@@ -24,10 +26,20 @@ define([], function () {
                 var blob = new Blob([JSON.stringify(data, null, 4)], { type: 'application/' + format + '; ' + charset + ';' }),
                     downloadLink = angular.element('<a></a>');
 
+                var clickEvent = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': false
+                });
+
                 downloadLink.attr('href', window.URL.createObjectURL(blob));
-                downloadLink.attr('download', filename);
-                downloadLink[0].click();
-                successCbk();
+                if(downloadLink.attr('download', filename) !== undefined) {
+                    downloadLink[0].dispatchEvent(clickEvent);
+                    successCbk();
+                }
+                else {
+                    $window.location.href = downloadLink[0].href;
+                }
             } catch (e) {
                 errorCbk(e);
             }
