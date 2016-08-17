@@ -74,6 +74,7 @@ function () {
         YANGMAN_MOUNT_POINT: 'YANGMAN_MOUNT_POINT',
         SET_SCOPE_TREE_ROWS: 'SET_SCOPE_TREE_ROWS',
         TREE_ROWS: 'tree_rows',
+        DOWNLOAD_NOT_SUPPORTED: 'Download is NOT supported in your browser',
     };
 
 });
