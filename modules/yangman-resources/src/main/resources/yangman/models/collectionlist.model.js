@@ -95,13 +95,6 @@ define(
              * @param reqObj HistoryRequest object to be selected
              */
             function toggleReqSelection(onlyOneSelected, reqObj){
-
-                //self.collections.forEach(function (collection){
-                //    collection.data.forEach(function (req){
-                //        req.selected = reqObj === req;
-                //    });
-                //});
-
                 if (onlyOneSelected){
                     self.selectedItems.forEach(function (req){
                         req.selected = false;
@@ -251,20 +244,17 @@ define(
              * Get expanded collection names
              */
             function getExpandedCollectionNames(){
-                var expandCollectionNames = [];
-                self.collections.forEach(function(collection){
-                    if (collection.expanded) {
-                        expandCollectionNames.push(collection.name);
-                    }
+                return self.collections.filter(function(collection){
+                    return collection.expanded;
+                }).map(function(collection){
+                    return collection.name;
                 });
-                return expandCollectionNames;
             }
 
             /**
              * Expand collections by expandCollectionNames
              */
             function expandCollectionByNames(expandCollectionNames){
-
                 self.collections.forEach(function(collection){
                     if (findName(collection.name)) {
                         collection.expanded = true;
@@ -272,16 +262,10 @@ define(
                 });
 
                 function findName(name) {
-                    var found = false;
-                    expandCollectionNames.forEach(function(collectionName){
-                        if (name === collectionName) {
-                            found = true;
-                            return null;
-                        }
+                    return expandCollectionNames.some(function(collectionName){
+                        return name === collectionName;
                     });
-                    return found;
                 }
-
             }
 
         }
