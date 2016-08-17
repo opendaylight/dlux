@@ -170,9 +170,9 @@ define([], function () {
                 }
 
                 node.actElemStructure.clear();
-                for (var prop in actData) {
+                Object.keys(actData).forEach(function(prop) {
                     node.actElemStructure.fillListElement(prop, actData[prop]);
-                }
+                });
 
                 EventDispatcherService.dispatch(constants.EV_LIST_CHANGED, node.actElemStructure);
             };
@@ -196,9 +196,9 @@ define([], function () {
                     var actData = node.listData[node.actElemIndex];
 
                     node.actElemStructure.clear();
-                    for (var prop in actData) {
+                    Object.keys(actData).forEach(function(prop) {
                         node.actElemStructure.fillListElement(prop, actData[prop]);
-                    }
+                    });
                 }
 
                 EventDispatcherService.dispatch(constants.EV_LIST_CHANGED, node.actElemStructure);
@@ -225,11 +225,11 @@ define([], function () {
 
                 var buildedDataCopy = node.listData.slice().map(function (item) {
                     var newItem = {};
-                    for (var prop in item){
+                    Object.keys(item).forEach(function(prop) {
                         if (prop !== '$$hashKey'){
                             newItem[prop] = item[prop];
                         }
-                    }
+                    });
                     return newItem;
                 }).filter(function (item){
                     return Object.keys(item).length !== 0;
@@ -257,9 +257,10 @@ define([], function () {
                     node.createStructure();
                     node.listData = array.slice();
                     node.actElemIndex = node.listData.length - 1;
-                    for (var prop in node.listData[node.actElemIndex]) {
+
+                    Object.keys(node.listData[node.actElemIndex]).forEach(function(prop) {
                         node.actElemStructure.fillListElement(prop, node.listData[node.actElemIndex][prop]);
-                    }
+                    });
                 }
 
                 return (match && array.length > 0);
@@ -544,9 +545,9 @@ define([], function () {
 
                 if (match && nodesToFill.length) {
                     nodesToFill.forEach(function (child) {
-                        for (var prop in data) {
+                        Object.keys(data).forEach(function(prop) {
                             child.fill(prop, data[prop]);
-                        }
+                        });
                     });
                     node.expanded = match;
                 }
@@ -605,9 +606,9 @@ define([], function () {
 
                 if (match && nodesToFill.length) {
                     nodesToFill.forEach(function (child) {
-                        for (var prop in data) {
+                        Object.keys(data).forEach(function(prop) {
                             child.fill(prop, data[prop]);
-                        }
+                        });
                     });
                     node.expanded = match;
                 }
@@ -668,9 +669,9 @@ define([], function () {
 
                 if (match && nodesToFill.length) {
                     nodesToFill.forEach(function (child) {
-                        for (var prop in data) {
+                        Object.keys(data).forEach(function(prop) {
                             child.fill(prop, data[prop]);
-                        }
+                        });
                     });
                 }
 
@@ -749,9 +750,9 @@ define([], function () {
 
                 if (match && nodesToFill.length) {
                     nodesToFill.forEach(function (child) {
-                        for (var prop in data) {
+                        Object.keys(data).forEach(function(prop) {
                             child.fill(prop, data[prop]);
-                        }
+                        });
                     });
 
                     node.expanded = match;
