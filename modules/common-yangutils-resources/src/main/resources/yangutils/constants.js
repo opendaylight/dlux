@@ -27,6 +27,7 @@ function () {
         DISPLAY_TYPE_FORM: 'form',
         DATA_STORE_CONFIG: 'config',
         DATA_STORE_OPERATIONAL: 'operational',
+        DATA_STORE_OPERATIONS: 'operations',
         NODE_RPC: 'rpc',
         OPERATION_GET: 'GET',
         OPERATION_PUT: 'PUT',
