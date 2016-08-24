@@ -1,23 +1,25 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('TypeCtrl', TypeCtrl);
+    angular.module('app.yangman').controller('YMTypeBitCtrl', YMTypeBitCtrl);
 
-    TypeCtrl.$inject = ['$scope'];
+    YMTypeBitCtrl.$inject = ['$scope'];
 
-    function TypeCtrl($scope){
-        var yangType = this;
+    function YMTypeBitCtrl($scope){
+        var yangTypeBit = this;
 
         // methods
-        yangType.valueChanged = valueChanged;
+        yangTypeBit.valueChanged = valueChanged;
 
         /**
          * Methods for checking correct input
          */
         function valueChanged(){
+            $scope.type.setLeafValue($scope.type.bitsValues);
             $scope.node.checkValueType();
             $scope.node.fill($scope.node.label, $scope.node.value);
             $scope.buildRootRequest();
         }
     }
 });
+

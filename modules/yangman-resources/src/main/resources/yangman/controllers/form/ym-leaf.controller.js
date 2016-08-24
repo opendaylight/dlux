@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('LeafCtrl', LeafCtrl);
+    angular.module('app.yangman').controller('YMLeafCtrl', YMLeafCtrl);
 
-    LeafCtrl.$inject = ['$scope'];
+    YMLeafCtrl.$inject = ['$scope'];
 
-    function LeafCtrl($scope){
+    function YMLeafCtrl($scope){
         var types = [
                 'binary',
                 'bits',

@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('CaseCtrl', CaseCtrl);
+    angular.module('app.yangman').controller('YMCaseCtrl', YMCaseCtrl);
 
-    CaseCtrl.$inject = ['$scope'];
+    YMCaseCtrl.$inject = ['$scope'];
 
-    function CaseCtrl($scope){
+    function YMCaseCtrl($scope){
         var yangCase = this;
 
         yangCase.empty = ($scope.case.children.length === 0 ||

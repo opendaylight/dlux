@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('TypeEnumCtrl', TypeEnumCtrl);
+    angular.module('app.yangman').controller('YMTypeEnumCtrl', YMTypeEnumCtrl);
 
-    TypeEnumCtrl.$inject = ['$scope'];
+    YMTypeEnumCtrl.$inject = ['$scope'];
 
-    function TypeEnumCtrl($scope){
+    function YMTypeEnumCtrl($scope){
         var yangTypeEnum = this;
 
         // methods

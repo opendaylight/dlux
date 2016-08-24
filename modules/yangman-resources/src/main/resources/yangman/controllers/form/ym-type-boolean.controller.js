@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('TypeBooleanCtrl', TypeBooleanCtrl);
+    angular.module('app.yangman').controller('YMTypeBooleanCtrl', YMTypeBooleanCtrl);
 
-    TypeBooleanCtrl.$inject = ['$scope'];
+    YMTypeBooleanCtrl.$inject = ['$scope'];
 
-    function TypeBooleanCtrl($scope){
+    function YMTypeBooleanCtrl($scope){
         var yangTypeBolean = this;
 
         $scope.$watch('node.value', function(){

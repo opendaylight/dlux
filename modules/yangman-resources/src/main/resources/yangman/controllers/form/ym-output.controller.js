@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('OutputCtrl', OutputCtrl);
+    angular.module('app.yangman').controller('YMOutputCtrl', YMOutputCtrl);
 
-    OutputCtrl.$inject = ['$scope'];
+    YMOutputCtrl.$inject = ['$scope'];
 
-    function OutputCtrl($scope){
+    function YMOutputCtrl($scope){
         var yangOutput = this;
         yangOutput.notEditable = true;
 
