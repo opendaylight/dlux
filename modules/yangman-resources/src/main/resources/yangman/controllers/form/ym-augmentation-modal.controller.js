@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('AugmentationModalCtrl', AugmentationModalCtrl);
+    angular.module('app.yangman').controller('YMAugmentationModalCtrl', YMAugmentationModalCtrl);
 
-    AugmentationModalCtrl.$inject = ['$scope'];
+    YMAugmentationModalCtrl.$inject = ['$scope'];
 
-    function AugmentationModalCtrl($scope){
+    function YMAugmentationModalCtrl($scope){
         $scope.init = init;
 
         /**

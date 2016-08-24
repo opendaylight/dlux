@@ -1,16 +1,16 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('RpcCtrl', RpcCtrl);
+    angular.module('app.yangman').controller('YMInputCtrl', YMInputCtrl);
 
-    RpcCtrl.$inject = ['$scope'];
+    YMInputCtrl.$inject = ['$scope'];
 
-    function RpcCtrl($scope){
-        var yangRpc = this;
+    function YMInputCtrl($scope){
+        var yangInput = this;
 
         // methods
-        yangRpc.toggleExpanded = toggleExpanded;
-        yangRpc.isActionMenu = isActionMenu;
+        yangInput.isActionMenu = isActionMenu;
+        yangInput.toggleExpanded = toggleExpanded;
 
         /**
          * Show hide node
@@ -24,9 +24,8 @@ define([], function () {
          * @returns {boolean|*}
          */
         function isActionMenu() {
-            return false;
+            return $scope.node.augmentionGroups && $scope.node.augmentionGroups.length;
         }
-
     }
 });
 

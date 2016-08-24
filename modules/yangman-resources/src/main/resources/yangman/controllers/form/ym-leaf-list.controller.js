@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('LeafListCtrl', LeafListCtrl);
+    angular.module('app.yangman').controller('YMLeafListCtrl', YMLeafListCtrl);
 
-    LeafListCtrl.$inject = ['$scope'];
+    YMLeafListCtrl.$inject = ['$scope'];
 
-    function LeafListCtrl($scope){
+    function YMLeafListCtrl($scope){
         var yangLeafList = this;
 
         // methods

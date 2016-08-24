@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('TypeEmptyCtrl', TypeEmptyCtrl);
+    angular.module('app.yangman').controller('YMTypeEmptyCtrl', YMTypeEmptyCtrl);
 
-    TypeEmptyCtrl.$inject = ['$scope'];
+    YMTypeEmptyCtrl.$inject = ['$scope'];
 
-    function TypeEmptyCtrl($scope){
+    function YMTypeEmptyCtrl($scope){
         var yangTypeEmpty = this;
         // methods
         yangTypeEmpty.valueChanged = valueChanged;

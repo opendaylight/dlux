@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('ListCtrl', ListCtrl);
+    angular.module('app.yangman').controller('YMListCtrl', YMListCtrl);
 
-    ListCtrl.$inject = ['$scope', 'ListFilteringService', 'NodeWrapperService', 'constants'];
+    YMListCtrl.$inject = ['$scope', 'ListFilteringService', 'NodeWrapperService', 'constants'];
 
-    function ListCtrl($scope, ListFilteringService, NodeWrapperService, constants){
+    function YMListCtrl($scope, ListFilteringService, NodeWrapperService, constants){
         var yangList = this;
 
         $scope.actElement = null;

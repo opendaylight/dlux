@@ -1,16 +1,16 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('InputCtrl', InputCtrl);
+    angular.module('app.yangman').controller('YMContainerCtrl', YMContainerCtrl);
 
-    InputCtrl.$inject = ['$scope'];
+    YMContainerCtrl.$inject = ['$scope'];
 
-    function InputCtrl($scope){
-        var yangInput = this;
+    function YMContainerCtrl($scope){
+        var yangContainer = this;
 
         // methods
-        yangInput.isActionMenu = isActionMenu;
-        yangInput.toggleExpanded = toggleExpanded;
+        yangContainer.isActionMenu = isActionMenu;
+        yangContainer.toggleExpanded = toggleExpanded;
 
         /**
          * Show hide node

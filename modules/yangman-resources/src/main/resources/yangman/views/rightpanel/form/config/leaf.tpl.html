@@ -1,4 +1,4 @@
-<div ng-controller="LeafCtrl as yangLeaf"
+<div ng-controller="YMLeafCtrl as yangLeaf"
      layout="row"
      layout-align="start {{yangLeaf.getLeafCentering()}}"
      class="yangmanModule__right-panel__form__leaf-container {{yangLeaf.getLeafType()}}">
@@ -14,7 +14,7 @@
     <!-- Empty placeholder for better look -->
     <div class="menu-placeholder" ng-if="!yangLeaf.isActionMenu() && !yangLeaf.isNodeInfo()"></div>
 
-    <div ng-controller="TypeCtrl as yangType"
+    <div ng-controller="YMTypeCtrl as yangType"
          ng-repeat="type in node.getChildren('type')"
          ng-include="yangForm.viewPath + '/config/types/' + yangLeaf.getLeafType() + '.tpl.html'"
          {{yangLeaf.getLeafType() === 'union' ? 'flex="grow"' : ''}}

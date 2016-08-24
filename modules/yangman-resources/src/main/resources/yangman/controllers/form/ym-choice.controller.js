@@ -1,11 +1,11 @@
 define([], function () {
     'use strict';
 
-    angular.module('app.yangman').controller('ChoiceCtrl', ChoiceCtrl);
+    angular.module('app.yangman').controller('YMChoiceCtrl', YMChoiceCtrl);
 
-    ChoiceCtrl.$inject = ['$scope', 'constants'];
+    YMChoiceCtrl.$inject = ['$scope', 'constants'];
 
-    function ChoiceCtrl($scope, constants){
+    function YMChoiceCtrl($scope, constants){
         var yangChoice = this;
 
         $scope.constants = constants;
