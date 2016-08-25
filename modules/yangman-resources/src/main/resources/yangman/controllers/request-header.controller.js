@@ -104,10 +104,14 @@ define([
                 locals: {
                     parametersList: $scope.parametersList,
                 },
-            }).then(function (){
-                $scope.parametersList.loadListFromStorage();
-
-            });
+            }).then(
+                function (){
+                    $scope.parametersList.loadListFromStorage();
+                },
+                function (){
+                    $scope.parametersList.loadListFromStorage();
+                }
+            );
         }
 
         /**
