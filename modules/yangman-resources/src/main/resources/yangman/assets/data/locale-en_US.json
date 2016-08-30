@@ -31,6 +31,7 @@
   "YANGMAN_MODULES": "Modules",
   "YANGMAN_NO_COLLECTIONS": "Type new collection name.",
   "YANGMAN_OK": "OK",
+  "YANGMAN_PARAM_DONT_REPLACE" : "undefined - won't be replaced",
   "YANGMAN_REQ_DELETE": "Delete request",
   "YANGMAN_REQ_DUPLICATE": "Duplicate request",
   "YANGMAN_REQ_SHOW_FORM": "Show form",
