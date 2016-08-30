@@ -503,6 +503,11 @@ define([
          * Check data before executin operations
          */
         function prepareDataAndExecute(cbk){
+            if (requestHeader.statusObj) {
+                requestHeader.statusObj.statusText = null;
+                requestHeader.statusObj.time = null;
+            }
+
             if ( requestHeader.requestUrl.length ) {
 
                 if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
