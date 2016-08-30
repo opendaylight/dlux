@@ -139,8 +139,11 @@
             <!-- Status -->
             <span flex="30">
                 {{'YANGMAN_STATUS' | translate}}:
-                <span ng-if="requestHeader.statusObj">
+                <span ng-if="requestHeader.statusObj && requestHeader.statusObj.statusText">
                     {{requestHeader.statusObj.status}} {{requestHeader.statusObj.statusText}}
+                </span>
+                <span ng-if="!(requestHeader.statusObj && requestHeader.statusObj.statusText)">
+                    ...
                 </span>
             </span>
 
@@ -149,6 +152,9 @@
                 {{'YANGMAN_TIME' | translate}}:
                 <span ng-if="requestHeader.statusObj && requestHeader.statusObj.time">
                     {{requestHeader.statusObj.time}} ms
+                </span>
+                <span ng-if="!(requestHeader.statusObj && requestHeader.statusObj.time)">
+                    ...
                 </span>
             </span>
         </md-content>
