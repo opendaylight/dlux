@@ -290,21 +290,25 @@ define([
                 );
             }
 
-            $scope.setRightPanelSection(constants.DISPLAY_TYPE_REQ_DATA);
-            $scope.setJsonView(true, reqObj.method !== constants.OPERATION_GET);
+            if ($scope.rightPanelSection === constants.DISPLAY_TYPE_REQ_DATA){
+                $scope.setRightPanelSection(constants.DISPLAY_TYPE_REQ_DATA);
+                $scope.setJsonView(true, reqObj.method !== constants.OPERATION_GET);
+            }
 
             $scope.rootBroadcast(constants.YANGMAN_HEADER_INIT, headerObj);
             $scope.rootBroadcast(constants.YANGMAN_FILL_NODE_FROM_REQ, { requestUrl: reqObj.path });
 
-            $scope.rootBroadcast(
-                constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED,
-                { data: reqObj.setDataForView(reqObj.receivedData) }
-            );
+            if ($scope.rightPanelSection === constants.DISPLAY_TYPE_REQ_DATA){
+                $scope.rootBroadcast(
+                    constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED,
+                    { data: reqObj.setDataForView(reqObj.receivedData) }
+                );
 
-            $scope.rootBroadcast(
-                constants.YANGMAN_SET_CODEMIRROR_DATA_SENT,
-                { data: reqObj.setDataForView(reqObj.sentData) }
-            );
+                $scope.rootBroadcast(
+                    constants.YANGMAN_SET_CODEMIRROR_DATA_SENT,
+                    { data: reqObj.setDataForView(reqObj.sentData) }
+                );
+            }
         }
 
         /**
