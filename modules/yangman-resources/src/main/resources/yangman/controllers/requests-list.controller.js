@@ -588,7 +588,12 @@ define([
             $scope.rootBroadcast(constants.YANGMAN_DESELECT_REQUESTS, { broadcastingCtrl: vm });
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             if (!event.ctrlKey){
-                vm.showData(requestObj, true);
+                if ($scope.rightPanelSection === constants.DISPLAY_TYPE_FORM) {
+                    vm.showForm(requestObj, true);
+                }
+                else {
+                    vm.showData(requestObj, true);
+                }
             }
         }
 
