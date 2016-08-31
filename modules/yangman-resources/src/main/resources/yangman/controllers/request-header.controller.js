@@ -1,5 +1,6 @@
 define([
     'app/yangman/controllers/params-admin.controller',
+    'app/yangman/services/time-tracking.services',
 ], function (ParamsAdminCtrl) {
     'use strict';
 
@@ -7,11 +8,12 @@ define([
 
     RequestHeaderCtrl.$inject = [
         '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService',
-        'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService', 'constants'
+        'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService', 'constants', 'TimeTrackingService'
     ];
 
     function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService,
-                               PathUtilsService, RequestService, $filter, DataBackupService, constants) {
+                               PathUtilsService, RequestService, $filter, DataBackupService, constants,
+                               TimeTrackingService) {
         var requestHeader = this;
 
         requestHeader.allOperations = [constants.OPERATION_GET, constants.OPERATION_POST, constants.OPERATION_PUT, constants.OPERATION_DELETE];
@@ -351,6 +353,7 @@ define([
          * Execute request operation
          */
         function executeOperation(requestData, executeCbk){
+            TimeTrackingService.startTimer();
             var allowExecuteOperation =
                 requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM && $scope.selectedSubApi ?
                     !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
@@ -430,13 +433,15 @@ define([
                 }
 
                 // create and set history request
+                requestHeader.statusObj.time = TimeTrackingService.returnTime();
+
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
                     preparedReceivedData,
                     reqInfo.status,
                     reqInfo.status,
                     reqInfo.statusText,
-                    reqInfo.time
+                    requestHeader.statusObj.time
                 );
 
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
@@ -458,13 +463,15 @@ define([
 
                 finishRequestProgress();
 
+                requestHeader.statusObj.time = TimeTrackingService.returnTime();
+
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
                     response.data,
                     reqInfo.status,
                     reqInfo.status,
                     reqInfo.statusText,
-                    reqInfo.time
+                    requestHeader.statusObj.time
                 );
                 $scope.rootBroadcast('YANGMAN_SAVE_EXECUTED_REQUEST', historyReq, function (){
                     $scope.rootBroadcast('YANGMAN_SELECT_THE_NEWEST_REQUEST');
