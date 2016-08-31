@@ -141,7 +141,6 @@ define([
         function saveBcstedHistoryRequest(broadcastEvent, params) {
             vm.requestList.addItemToList(params.params);
             vm.requestList.saveToStorage();
-            loadHistoryList();
             (params.cbk || angular.noop)();
         }
 
