@@ -306,19 +306,12 @@ define([], function () {
          */
         function executeRequestOperation(selectedApi, selectedSubApi, operation, node, dataType, requestUrl,
                                          requestData, params, successCbk, errorCbk) {
-            var time = {
-                started: 0,
-                finished: 0,
-            };
 
             YangUtilsRestangularService.setFullResponse(true);
 
             // prepare all necessary data
             var allPreparedData = prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType,
                 requestUrl, requestData, params);
-
-            // start track time response
-            time.started = new Date().getMilliseconds();
 
             // executing operation
             allPreparedData.customRestangular.customOperation(
@@ -338,14 +331,11 @@ define([], function () {
             );
 
             function finishExecuting(response){
-                // finish track time response
-                time.finished = new Date().getMilliseconds();
-                var spentRequestTime = time.finished - time.started;
 
                 return {
                     status: response.status,
                     statusText: response.statusText,
-                    time: spentRequestTime < 0 ? -(spentRequestTime) : spentRequestTime,
+                    time: null,
                     requestData: allPreparedData.reqData,
                     requestSrcData: allPreparedData.srcData,
                 };
