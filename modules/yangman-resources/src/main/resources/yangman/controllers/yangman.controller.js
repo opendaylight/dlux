@@ -231,6 +231,7 @@ define([
         /**
          * Set global necessary params
          * @param apis
+         * @param augmentations
          */
         function setGlobalParams(apis, augmentations){
             $scope.apis = apis;

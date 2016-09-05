@@ -286,6 +286,12 @@ define([
             });
         }
 
+        /**
+         * Try to set current (depending on url) selectedApi and selectedSubApi to $scope if it exists in api tree data
+         * @param url
+         * @param cbk
+         * @param fill
+         */
         function setApiByUrl(url, cbk, fill){
             $scope.rootBroadcast(constants.YANGMAN_GET_API_TREE_DATA, null, function (treeApis) {
                 var apisIndexes =
@@ -352,18 +358,28 @@ define([
                 requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM && $scope.selectedSubApi ?
                     !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
 
+
             if ( allowExecuteOperation ) {
 
                 showRequestProgress();
-                setRequestUrl(requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ? requestHeader.requestUrl : null);
                 $scope.rootBroadcast(constants.YANGMAN_SET_ERROR_MESSAGE, '');
 
-                if ( requestHeader.selectedShownDataType !== constants.DISPLAY_TYPE_FORM ){
+                setRequestUrl(
+                    requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ?
+                        requestHeader.requestUrl :
+                        null
+                );
+                if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ){
                     setApiByUrl(requestHeader.requestUrl, null, true);
                 }
 
-                var historyReq = RequestService.createHistoryRequest(null, null, requestHeader.requestUrl,
-                    requestHeader.selectedOperation, '', '', '');
+                var historyReq = RequestService.createHistoryRequest(
+                    null,
+                    null,
+                    requestHeader.requestUrl,
+                    requestHeader.selectedOperation,
+                    '', '', ''
+                );
 
                 YangmanService.executeRequestOperation(
                     $scope.selectedApi,
@@ -391,6 +407,7 @@ define([
              * @param response
              */
             function executeReqSuccCbk(reqInfo, response) {
+
                 var preparedReceivedData = YangmanService.prepareReceivedData(
                     $scope.node,
                     requestHeader.selectedOperation,
@@ -412,7 +429,7 @@ define([
                     sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
                 } else {
 
-                    if ($scope.node){
+                    if ($scope.node && requestHeader.selectedOperation !== constants.OPERATION_DELETE){
 
                         YangmanService.fillNodeFromResponse($scope.node, preparedReceivedData);
                         YangmanService.handleNodeIdentifier(
@@ -443,7 +460,6 @@ define([
                 });
 
                 (executeCbk || angular.noop)(historyReq);
-
 
             }
 
