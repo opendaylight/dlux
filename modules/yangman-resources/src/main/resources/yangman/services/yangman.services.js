@@ -225,8 +225,19 @@ define([], function () {
          * @param requestUrl
          * @param requestData
          * @param params
-         * @returns {{customRestangular: null, headers: {}, operation: string, reqString: string, reqHeaders: {},
-         *          reqData: {}}}
+         * @returns {
+         *   {
+         *     customRestangular: null,
+         *     headers: {},
+         *     operation: string,
+         *     reqString: string,
+         *     reqHeaders: {},
+         *     reqData: string,
+         *     srcData: string,
+         *     reqFullUrl:
+         *     string
+         *    }
+         *   }
          */
         function prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType, requestUrl, requestData,
                                        params) {
@@ -246,7 +257,7 @@ define([], function () {
             setParametrizedData(allPreparedData, params, selSubApiCopy, requestUrl);
 
             // prepare req data
-            if (operation === constants.OPERATION_GET || operation === constants.OPERATION_DELETE){
+            if (operation === constants.OPERATION_GET){
                 allPreparedData.srcData = null;
                 allPreparedData.reqData = null;
             }
@@ -309,9 +320,9 @@ define([], function () {
 
             YangUtilsRestangularService.setFullResponse(true);
 
-            // prepare all necessary data
-            var allPreparedData = prepareAllRequestData(selectedApi, selectedSubApi, operation, node, dataType,
-                requestUrl, requestData, params);
+            var allPreparedData = prepareAllRequestData(
+                selectedApi, selectedSubApi, operation, node, dataType, requestUrl, requestData, params
+            );
 
             // executing operation
             allPreparedData.customRestangular.customOperation(
