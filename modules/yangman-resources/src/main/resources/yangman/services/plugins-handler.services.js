@@ -1,24 +1,15 @@
-var yangmanPluginsFactories = [
-    'ymDisplayMountPoints',
-];
-
-var yangmanPluginContollers = [
-];
-
 define([
     'common/yangutils/services/custom-funct.services',
-].concat(yangmanPluginsFactories.map(function (plugin) {
-    'use strict';
-    return 'app/yangman/services/plugins/' + plugin + '.services';
-})).concat(yangmanPluginContollers.map(function (ctrl) {
-    'use strict';
-    return 'app/yangman/plugins/cv/' + ctrl + '.controller';
-})), function () {
+    'app/yangman/services/plugins/ymDisplayMountPoints.services'
+], function () {
     'use strict';
 
     angular.module('app.yangman').service('PluginsHandlerService', PluginsHandlerService);
 
     function PluginsHandlerService($injector, CustomFuncService) {
+        var yangmanPluginsFactories = [
+            'ymDisplayMountPoints',
+        ];
 
         var service = {
             addPlugins: addPlugins,
