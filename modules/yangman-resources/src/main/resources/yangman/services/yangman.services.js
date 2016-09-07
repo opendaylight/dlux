@@ -381,6 +381,7 @@ define([], function () {
 
             // fill each property - needed for root mountpoint node,
             // in other cases there should be only one property anyway
+            node.clear();
             props.forEach(function (p) {
                 node.fill(p, data[p]);
             });
