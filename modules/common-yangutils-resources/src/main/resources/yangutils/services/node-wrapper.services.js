@@ -410,7 +410,7 @@ define([], function () {
                     newLeafListItem;
 
                 if (match) {
-
+                    node.value = [];
                     for (var i = 0; i < array.length; i++) {
                         newLeafListItem = {
                             value: array[i],
