@@ -72,6 +72,7 @@ define(['angular'], function (angular) {
                  */
                 function closeMenu(){
                     scope.isActive = false;
+                    scope.hideInfoBox();
                 }
 
                 /**
