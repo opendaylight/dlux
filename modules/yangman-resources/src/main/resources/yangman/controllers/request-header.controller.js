@@ -7,11 +7,11 @@ define([
     angular.module('app.yangman').controller('RequestHeaderCtrl', RequestHeaderCtrl);
 
     RequestHeaderCtrl.$inject = [
-        '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService',
+        '$timeout', '$mdDialog', '$mdToast', '$scope', '$rootScope', 'ENV', 'YangmanService', 'ParametersService',
         'PathUtilsService', 'RequestsService', '$filter', 'DataBackupService', 'constants', 'TimeTrackingService'
     ];
 
-    function RequestHeaderCtrl($mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService,
+    function RequestHeaderCtrl($timeout, $mdDialog, $mdToast, $scope, $rootScope, ENV, YangmanService, ParametersService,
                                PathUtilsService, RequestService, $filter, DataBackupService, constants,
                                TimeTrackingService) {
         var requestHeader = this;
@@ -534,16 +534,17 @@ define([
                 requestHeader.statusObj.statusText = null;
                 requestHeader.statusObj.time = null;
             }
-
-            if ( requestHeader.requestUrl.length ) {
-
-                if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
-                    // get json data
-                    var params = { reqData: null };
-                    $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_SENT, params);
-                    executeOperation(params.reqData ? angular.fromJson(params.reqData) : {}, cbk);
-                } else {
-                    executeOperation({}, cbk);
+            $timeout(prepareData);
+            function prepareData() {
+                if ( requestHeader.requestUrl.length ) {
+                    if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
+                        // get json data
+                        var params = { reqData: null };
+                        $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA_SENT, params);
+                        executeOperation(params.reqData ? angular.fromJson(params.reqData) : {}, cbk);
+                    } else {
+                        executeOperation({}, cbk);
+                    }
                 }
             }
         }
