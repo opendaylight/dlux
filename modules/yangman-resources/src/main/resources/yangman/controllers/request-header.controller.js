@@ -399,6 +399,7 @@ define([
                     constants.YANGMAN_SET_ERROR_MESSAGE,
                     $filter('translate')(constants.YANGMAN_ERROR_EMPTY_IDENTIFIERS)
                 );
+                finishRequestProgress();
             }
 
             /**
@@ -522,6 +523,9 @@ define([
                 requestHeader.statusObj.statusText = null;
                 requestHeader.statusObj.time = null;
             }
+
+            showRequestProgress();
+
             $timeout(prepareData);
             function prepareData() {
                 if ( requestHeader.requestUrl.length ) {
