@@ -19,7 +19,6 @@
   <artifactId>dlux.common.layout.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Common Layout Module Resources</description>
-  <version>${common.layout.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

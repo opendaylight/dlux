@@ -19,7 +19,6 @@
   <artifactId>dlux.yangvisualizer.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Yang Visualizer Module Resources</description>
-  <version>${yangvisualizer.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

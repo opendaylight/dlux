@@ -19,6 +19,5 @@
   <artifactId>dlux.topology.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Topology Module Resources</description>
-  <version>${topology.resources.version}</version>
   <packaging>jar</packaging>
 </project>

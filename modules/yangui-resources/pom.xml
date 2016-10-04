@@ -19,7 +19,6 @@
   <artifactId>dlux.yangui.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Yangui Module Resources</description>
-  <version>${yangui.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

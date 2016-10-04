@@ -19,7 +19,6 @@
   <artifactId>dlux.loader.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Loader Module Resources</description>
-  <version>${loader.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>
