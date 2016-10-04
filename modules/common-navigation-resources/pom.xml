@@ -19,7 +19,6 @@
   <artifactId>dlux.common.navigation.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Common Navigation Module Resources</description>
-  <version>${common.navigation.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

@@ -19,7 +19,6 @@
   <artifactId>dlux.common.authentication.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Common Authentication Module Resources</description>
-  <version>${common.authentication.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

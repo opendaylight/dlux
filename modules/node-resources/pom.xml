@@ -19,7 +19,6 @@
   <artifactId>dlux.node.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Node Module Resources</description>
-  <version>${node.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>
