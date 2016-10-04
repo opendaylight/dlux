@@ -19,7 +19,6 @@
   <artifactId>dlux.yangman.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Yangman Module Resources</description>
-  <version>${yangman.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>
