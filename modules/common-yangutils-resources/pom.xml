@@ -19,7 +19,6 @@
   <artifactId>dlux.common.yangutils.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Common Yangutils Module Resources</description>
-  <version>${common.yangutils.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

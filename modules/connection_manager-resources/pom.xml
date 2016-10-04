@@ -19,7 +19,6 @@
   <artifactId>dlux.connection_manager.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Connection manager Module Resources</description>
-  <version>${connection_manager.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

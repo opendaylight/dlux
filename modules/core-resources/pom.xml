@@ -19,7 +19,6 @@
   <artifactId>dlux.core.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Core Module Resources</description>
-  <version>${core.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

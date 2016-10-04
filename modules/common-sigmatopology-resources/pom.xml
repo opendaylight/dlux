@@ -19,7 +19,6 @@
   <artifactId>dlux.common.sigmatopology.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Sigma topology Module Resources</description>
-  <version>${common.sigmatopology.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

@@ -19,7 +19,6 @@
   <artifactId>dlux.network.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Network Module Resources</description>
-  <version>${network.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

@@ -19,7 +19,6 @@
   <artifactId>dlux.common.login.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Common Login Module Resources</description>
-  <version>${common.login.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>
