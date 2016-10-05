@@ -263,7 +263,12 @@ define([
          * @param reqObj
          */
         function executeRequest(reqObj) {
-            showData(reqObj);
+            if ($scope.rightPanelSection === constants.DISPLAY_TYPE_FORM) {
+                showForm(reqObj);
+            }
+            else {
+                showData(reqObj);
+            }
             $scope.rootBroadcast(constants.YANGMAN_EXECUTE_WITH_DATA,{ data: reqObj.sentData });
         }
 
