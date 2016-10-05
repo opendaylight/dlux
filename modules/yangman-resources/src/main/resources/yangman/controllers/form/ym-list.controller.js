@@ -57,6 +57,10 @@ define([], function () {
 
                 yangList.addListElem();
             }
+
+            if (!$scope.node.listData.length) {
+                yangList.currentDisplayIndex = 1;
+            }
         }
 
         /**
