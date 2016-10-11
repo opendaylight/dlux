@@ -288,6 +288,7 @@ define(['angular'], function (angular) {
                                 }
                             }
                             scope.tree_rows.push({
+                                index: scope.tree_rows.length, // in template tracking by branch.uid, integer needed
                                 level: level,
                                 branch: branch,
                                 label: branch.label,

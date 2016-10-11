@@ -1,17 +1,18 @@
 <!-- request row -->
 <md-list-item class="yangmanModule__requests-list__group__item"
               ng-class="{selected: request.selected}"
+              id="{{itemId}}"
               layout="row"
               flex="100"
               ng-click="reqList.selectRequest($event, request);">
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
-        <p class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === vm.constants.OPERATION_DELETE ? 'DEL' : request.method }} </p>
+        <p id="{{itemId}}-operation" class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === vm.constants.OPERATION_DELETE ? 'DEL' : request.method }} </p>
         <md-tooltip md-direction="bottom" ng-show="request.status">{{request.status | uppercase }}</md-tooltip>
     </div>
 
     <div flex class="yangmanModule__requests-list__group__item__path" layout="column">
-        <p md-highlight-text="reqList.search" md-highlight-flags="i">
+        <p id="{{itemId}}-url" md-highlight-text="reqList.search" md-highlight-flags="i">
             {{ request.path }}
         </p>
     </div>
@@ -25,25 +26,26 @@
          layout-align="center start"
          ng-class="{selected: request.selected}">
 
-    <md-button aria-label="menu" class="md-primary" ng-click="reqList.selectOnlyThisRequest(request); $mdOpenMenu()">
+    <md-button aria-label="menu" class="md-primary" id="{{itemId}}-submenu" ng-click="reqList.selectOnlyThisRequest(request); $mdOpenMenu()">
         <i class="material-icons">menu</i>
     </md-button>
 
     <md-menu-content class="reqMenu">
         <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" class="" ng-click="reqList.executeRequest(request)">
+            <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" id="{{itemId}}-execute" class="" ng-click="reqList.executeRequest(request)">
                 <i class="material-icons">play_arrow</i>
                 {{'YANGMAN_REQ_RUN'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_SHOW_FORM'| translate}}" ng-click="reqList.showForm(request)">
+            <md-button aria-label="{{'YANGMAN_REQ_SHOW_FORM'| translate}}" id="{{itemId}}-show-form" ng-click="reqList.showForm(request)">
                 <i class="material-icons">exit_to_app</i>
                 {{'YANGMAN_REQ_SHOW_FORM'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item>
             <md-button aria-label="{{'YANGMAN_REQ_SHOW_SENT_DATA'| translate}}"
+                       id="{{itemId}}-show-sent-data"
                        ng-click="reqList.showData(request)">
                 <i class="material-icons">call_made</i>
                 {{'YANGMAN_REQ_SHOW_JSON_DATA'| translate}}
@@ -51,13 +53,14 @@
         </md-menu-item>
         <md-menu-item ng-if="request.collection.length">
             <md-button aria-label="{{'YANGMAN_REQ_DUPLICATE'| translate}}"
+                       id="{{itemId}}-duplicate"
                        ng-click="reqList.showDgSaveReq($event, request, true)">
                 <i class="material-icons">control_point_duplicate</i>
                 {{'YANGMAN_REQ_DUPLICATE'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_DELETE'| translate}}" ng-click="reqList.showDgDeleteRequests($event, request)">
+            <md-button aria-label="{{'YANGMAN_REQ_DELETE'| translate}}" id="{{itemId}}-delete" ng-click="reqList.showDgDeleteRequests($event, request)">
                 <i class="material-icons">delete</i>
                 {{'YANGMAN_REQ_DELETE'| translate}}
             </md-button>

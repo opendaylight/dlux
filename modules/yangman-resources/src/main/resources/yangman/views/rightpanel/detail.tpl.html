@@ -6,21 +6,12 @@
 </section>
 <!-- /Header -->
 
-<!--<section class="yangmanModule__right-panel__request-progress">-->
-    <!--<div class="yangmanModule__right-panel__request-progress__loading-container">-->
-        <!--<md-progress-linear md-mode="query"></md-progress-linear>-->
-        <!--<div class="bottom-block">-->
-            <!--<span>{{ 'YANGMAN_EXECUTING_REQUEST' | translate }}...</span>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</section>-->
-
 <!-- Form section -->
 <section class="yangmanModule__right-panel__form bottom-content"
          ng-show="rightPanelSection === main.constants.DISPLAY_TYPE_FORM"
          ng-if="node"
          ng-controller="YangFormCtrl as yangForm">
-    <div ng-show="yangForm.errorMsg"><p class="error">{{ yangForm.errorMsg }}</p></div>
+    <div ng-show="yangForm.errorMsg"><p class="error" id="form-error-message">{{ yangForm.errorMsg }}</p></div>
     <div ng-include src="yangForm.viewPath + '/' + selectedDatastore.label + '/' + node.type+'.tpl.html'"></div>
 </section>
 <!-- /Form section -->
