@@ -17,6 +17,9 @@ define([
             service.createParameter = createParameter;
             // service.validateFile = validateFile;
 
+            return service;
+
+
             /**
              * Validating collection import file
              * @param data
@@ -62,7 +65,6 @@ define([
             }
 
 
-            return service;
 
         }
 

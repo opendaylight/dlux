@@ -11,12 +11,14 @@
             <md-icon class="material-icons">search</md-icon>
             <input class="ng-pristine ng-valid ng-touched"
                    type="text"
+                   id="search-collections"
                    flex
                    placeholder="{{'YANGMAN_SEARCH' | translate}}"
                    ng-model="reqList.search"
                    aria-invalid="false" />
             <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}" flex="none"
                        ng-click="reqList.clearFilter()"
+                       id="search-collections-clear"
                        ng-if="reqList.search">
                 <md-icon class="material-icons clickable">
                     close
@@ -29,6 +31,7 @@
         <!-- sorting -->
         <span class="collection-button-container">
             <md-button  ng-click="reqList.toggleCollectionsSort()"
+                        id="sort-collections"
                         ng-disabled="reqList.collectionList.collections.length <= 1">
                 <md-icon class="material-icons clickable" > sort</md-icon>
             </md-button>
@@ -41,6 +44,7 @@
         <!-- save -->
         <span class="collection-button-container">
             <md-button  ng-click="reqList.showDgSaveReq($event)"
+                        id="collections-save-selected"
                         ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
                 <md-icon class="material-icons clickable">
                     save
@@ -53,7 +57,7 @@
         <!-- importing -->
         <span class="collection-button-container">
             <input type="file" accept=".json" id="importCollection" on-read-file="reqList.readCollectionFromFile($fileContent)">
-            <md-button>
+            <md-button id="import-collection-button">
                 <label for="importCollection">
                     <md-icon class="material-icons clickable" >
                         file_upload
@@ -65,7 +69,7 @@
         <!-- /importing -->
 
         <md-menu layout-align="center start">
-            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu"  ng-click="$mdOpenMenu()">
+            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu" id="collections-delete-menu" ng-click="$mdOpenMenu()">
                 <md-icon class="material-icons clickable"> delete</md-icon>
                 <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_OPTIONS' | translate}}</md-tooltip>
             </md-button>
@@ -73,6 +77,7 @@
                 <!-- delete selected -->
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_REQS_DELETE'| translate}}"
+                               id="collections-delete-selected"
                                ng-click="reqList.showDgDeleteRequests($event)"
                                ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
                         <md-icon class="material-icons clickable">
@@ -85,6 +90,7 @@
                 <!-- clear collections -->
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_DELETE_COLLECTIONS' | translate}}"
+                               id="collections-delete-all"
                                ng-click="reqList.clearCollectionList($event)">
                         <md-icon class="material-icons clickable">
                             delete_forever
@@ -99,7 +105,7 @@
 
         <!-- menu for selecting and deselecting-->
         <md-menu layout-align="center start">
-            <md-button ng-disabled="( !reqList.mainList.list.length)" aria-label="menu"  ng-click="$mdOpenMenu()">
+            <md-button ng-disabled="( !reqList.mainList.list.length)" aria-label="menu" id="collections-select-menu" ng-click="$mdOpenMenu()">
                 <md-icon class="material-icons clickable">
                     playlist_add_check
                 </md-icon>
@@ -109,6 +115,7 @@
                 <!-- select all -->
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_SELECT_ALL' | translate}}"
+                               id="collections-select-all"
                                ng-click="reqList.selectAllFilteredRequests()">
                         <md-icon class="material-icons clickable">
                             done
@@ -121,6 +128,7 @@
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_DESELECT_ALL' | translate}}"
                                ng-click="reqList.deselectAllFilteredRequests()"
+                               id="collections-deselect-all"
                                ng-disabled="reqList.mainList.getSelectedItems(reqList.filterCollReq).length === 0">
                         <md-icon class="material-icons clickable">
                             close
@@ -139,12 +147,13 @@
     <!-- collection list -->
     <md-content class="scrollableY">
 
-        <div ng-repeat="collection in reqList.mainList.collections | filter: reqList.filterCol | orderBy: (reqList.collectionsSortAsc ? '' : '-')+'name'">
+        <div ng-repeat="collection in reqList.mainList.collections | filter: reqList.filterCol | orderBy: (reqList.collectionsSortAsc ? '' : '-')+'name' track by $index" ng-init="collectionIndex = $index">
 
             <div layout="row">
 
                 <md-list-item class="yangmanModule__requests-list__collection"
                               flex
+                              id="collection-{{$index}}"
                               ng-class="{'expanded' : collection.expanded, 'selected': collection.expanded}"
                               ng-click="collection.toggleExpanded()">
 
@@ -155,7 +164,7 @@
                         <div layout="column">
 
                             <p flex>
-                            <span md-highlight-text="reqList.search" md-highlight-flags="i">
+                            <span md-highlight-text="reqList.search" id="collection-{{$index}}-name" md-highlight-flags="i">
                                 {{collection.name}}
                             </span><br />
                             <span class="desc">
@@ -168,6 +177,7 @@
 
                 </md-list-item>
                 <md-menu class="yangmanModule__requests-list__group__collectionMenu"
+                         id="collection-menu-{{$index}}"
                          md-offset="35 15"
                          layout-align="center start">
                     <md-button aria-label="menu" class="md-primary" ng-click="$mdOpenMenu()">
@@ -175,7 +185,8 @@
                     </md-button>
                     <md-menu-content class="reqMenu">
                         <md-menu-item>
-                            <md-button aria-label="Duplicate collection"
+                            <md-button aria-label="Edit collection"
+                                       id="collection-menu-{{$index}}-edit"
                                        ng-click="reqList.showDgEditCollection($event, collection, false)">
                                 <i class="material-icons">mode_edit</i>
                                 {{'YANGMAN_COLLECTION_EDIT'| translate}}
@@ -183,6 +194,7 @@
                         </md-menu-item>
                         <md-menu-item>
                             <md-button aria-label="{{'YANGMAN_COLLECTION_DUPLICATE'| translate}}"
+                                       id="collection-menu-{{$index}}-duplicate"
                                        ng-click="reqList.showDgEditCollection($event, collection, true)">
                                 <i class="material-icons">control_point_duplicate</i>
                                 {{'YANGMAN_COLLECTION_DUPLICATE'| translate}}
@@ -190,6 +202,7 @@
                         </md-menu-item>
                         <md-menu-item>
                             <md-button aria-label="{{'YANGMAN_COLLECTION_DOWNLOAD'| translate}}"
+                                       id="collection-menu-{{$index}}-download"
                                        ng-click="reqList.downloadCollection(collection)">
                                 <i class="material-icons">file_download</i>
                                 {{'YANGMAN_COLLECTION_DOWNLOAD'| translate}}
@@ -197,6 +210,7 @@
                         </md-menu-item>
                         <md-menu-item>
                             <md-button aria-label="{{'YANGMAN_COLLECTION_DELETE'| translate}}"
+                                       id="collection-menu-{{$index}}-delete"
                                        ng-click="reqList.showDgDeleteCollection($event, collection)">
                                 <i class="material-icons">delete</i>
                                 {{'YANGMAN_COLLECTION_DELETE'| translate}}
@@ -208,8 +222,9 @@
 
 
             <md-list ng-show="collection.expanded" class="yangmanModule__requests-list__collection__requests">
-                <div ng-repeat="request in collection.data | filter: reqList.filterReq"
+                <div ng-repeat="request in collection.data | filter: reqList.filterReq track by $index"
                      layout="row"
+                     ng-init="itemId='collection-request-'+collectionIndex+'-'+$index"
                      class="yangmanModule__requests-list__item-container"
                      ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
                 </div>

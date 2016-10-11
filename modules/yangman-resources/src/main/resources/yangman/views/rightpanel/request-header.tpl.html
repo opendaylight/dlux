@@ -4,6 +4,7 @@
         <md-input-container flex="initial">
             <md-select ng-model="requestHeader.selectedOperation"
                        md-on-close="requestHeader.setJsonView()"
+                       id="request-selected-operation"
                        placeholder="{{'YANGMAN_SEL_METHOD' | translate}}">
 
                 <md-option ng-value="operation" ng-repeat="operation in requestHeader.selectedOperationsList">
@@ -17,12 +18,16 @@
             <md-input-container flex md-no-float ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_REQ_DATA">
                 <input type="text"
                        ng-model="requestHeader.requestUrl"
-                       placeholder="{{'YANGMAN_REQ_URL' | translate}}">
+                       id="request-url"
+                       placeholder="{{'YANGMAN_REQ_URL' | translate}}"
+                       spellcheck="false">
             </md-input-container>
 
-            <div ng-repeat="pathElem in selectedSubApi.pathArray"
+            <div ng-repeat="pathElem in selectedSubApi.pathArray track by $index"
                  flex="nogrow"
+                 id="path-elem-{{$index}}"
                  layout="row"
+                 ng-init="parentIndex = $index"
                  ng-if="rightPanelSection === requestHeader.constants.DISPLAY_TYPE_FORM">
 
                 <md-input-container flex="nogrow" md-no-float class="input-span nrp" >
@@ -43,6 +48,7 @@
                            class="input-identifier"
                            ng-change="requestHeader.fillNodeData(pathElem, identifier)"
                            ng-model="identifier.value"
+                           id="path-elem-{{parentIndex}}-value"
                            aria-label="{{identifier.value}}"
                            ng-class="{'md-has-error': !identifier.value.length}"
                            spellcheck="false">
@@ -67,6 +73,7 @@
         <md-input-container flex="nogrow" layout="row" layout-align="start start" class="action-buttons">
             <!-- Execute action button -->
             <md-button class="md-raised md-primary has-progress"
+                       id="send-request"
                        ng-click="requestHeader.prepareDataAndExecute(
                             main.modulesTreeDisplayed() ? main.leftPanelShowModule : null
                        )">
@@ -74,16 +81,17 @@
             </md-button>
 
             <!-- Save request -->
-            <md-button class="md-raised md-warn" ng-click="requestHeader.saveRequestToCollection($event)">
+            <md-button class="md-raised md-warn" id="save-request" ng-click="requestHeader.saveRequestToCollection($event)">
                 {{'YANGMAN_SAVE' | translate}}
             </md-button>
 
             <!-- Parameters button -->
-            <md-button class="md-raised" ng-click="requestHeader.showParamsAdmin($event)">
+            <md-button class="md-raised" id="show-parameters" ng-click="requestHeader.showParamsAdmin($event)">
                 {{'YANGMAN_PARAMETERS' | translate}}
             </md-button>
 
             <!-- sub api custom functionality menu -->
+            <!-- todo: add ids for testing -->
             <md-menu ng-show="selectedSubApi.custFunct.length || requestHeader.selectedPluginsButtons.length">
                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                     <md-icon md-font-set="material-icons">more_vert</md-icon>
@@ -120,11 +128,11 @@
                         layout="row"
                         layout-align="start center"
                         ng-change="requestHeader.changeDataType()">
-            <md-radio-button value="form" aria-label="{{'YANGMAN_FORM' | translate}}">
+            <md-radio-button id="shown-data-type-form" value="form" aria-label="{{'YANGMAN_FORM' | translate}}">
                 {{'YANGMAN_FORM' | translate}}
             </md-radio-button>
 
-            <md-radio-button value="req-data" aria-label="{{'YANGMAN_JSON' | translate}}">
+            <md-radio-button id="shown-data-type-json" value="req-data" aria-label="{{'YANGMAN_JSON' | translate}}">
                 {{'YANGMAN_JSON' | translate}}
             </md-radio-button>
         </md-radio-group>
@@ -138,10 +146,10 @@
             <!-- Status -->
             <span flex="30">
                 {{'YANGMAN_STATUS' | translate}}:
-                <span ng-if="requestHeader.statusObj && requestHeader.statusObj.statusText">
+                <span id="info-request-status" ng-if="requestHeader.statusObj && requestHeader.statusObj.statusText">
                     {{requestHeader.statusObj.status}} {{requestHeader.statusObj.statusText}}
                 </span>
-                <span ng-if="!(requestHeader.statusObj && requestHeader.statusObj.statusText)">
+                <span id="info-request-status" ng-if="!(requestHeader.statusObj && requestHeader.statusObj.statusText)">
                     ...
                 </span>
             </span>
@@ -149,10 +157,10 @@
             <!-- Request time -->
             <span flex="30">
                 {{'YANGMAN_TIME' | translate}}:
-                <span ng-if="requestHeader.statusObj && requestHeader.statusObj.time">
+                <span id="info-request-execution-time" ng-if="requestHeader.statusObj && requestHeader.statusObj.time">
                     {{requestHeader.statusObj.time}} ms
                 </span>
-                <span ng-if="!(requestHeader.statusObj && requestHeader.statusObj.time)">
+                <span id="info-request-execution-time" ng-if="!(requestHeader.statusObj && requestHeader.statusObj.time)">
                     ...
                 </span>
             </span>

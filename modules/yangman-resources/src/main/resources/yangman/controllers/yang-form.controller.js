@@ -28,15 +28,23 @@ define([
 
         yangForm.viewPath = $scope.globalViewPath + 'rightpanel/form';
         yangForm.errorMsg = '';
+        yangForm.inputIndex = 0;
         $scope.constants = constants;
 
-        // methods
+
         yangForm.getNodeName = getNodeName;
 
-        // watchers
-        $scope.$on(constants.YANGMAN_SET_ERROR_DATA, setRcvdErrorData);
+        init();
 
-        $scope.$on(constants.YANGMAN_SET_ERROR_MESSAGE, setErrorMessage);
+
+
+
+        function init() {
+            $scope.$on(constants.YANGMAN_SET_ERROR_DATA, setRcvdErrorData);
+            $scope.$on(constants.YANGMAN_SET_ERROR_MESSAGE, setErrorMessage);
+        }
+
+
 
         /**
          * Method for set error message in form
