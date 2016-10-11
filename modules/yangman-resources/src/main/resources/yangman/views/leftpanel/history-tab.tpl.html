@@ -13,9 +13,11 @@
                    type="text"
                    flex
                    placeholder="{{'YANGMAN_SEARCH' | translate}}"
+                   id="search-history"
                    ng-model="reqList.search"
                    aria-invalid="false" />
             <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}" flex="none"
+                       id="search-history-clear"
                        ng-click="reqList.clearFilter()"
                        ng-if="reqList.search">
                 <md-icon class="material-icons clickable">
@@ -28,6 +30,7 @@
 
         <!-- save -->
         <md-button  ng-click="reqList.showDgSaveReq($event)"
+                    id="history-save-requests"
                     ng-disabled="!reqList.mainList.getSelectedItems(reqList.filterReq).length">
             <md-icon class="material-icons clickable">
                 save
@@ -38,7 +41,7 @@
 
         <!-- menu for deleting and clearing-->
         <md-menu layout-align="center start">
-            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu"  ng-click="$mdOpenMenu()">
+            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu" id="history-delete-menu" ng-click="$mdOpenMenu()">
                 <md-icon class="material-icons clickable"> delete</md-icon>
                 <md-tooltip md-direction="bottom">{{'YANGMAN_DELETE_OPTIONS' | translate}}</md-tooltip>
             </md-button>
@@ -47,6 +50,7 @@
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_REQS_DELETE'| translate}}"
                                ng-click="reqList.showDgDeleteRequests($event)"
+                               id="history-delete-selected"
                                ng-disabled="!reqList.mainList.getSelectedItems(reqList.filterReq).length">
                         <md-icon class="material-icons clickable"> delete</md-icon>
                         {{'YANGMAN_REQS_DELETE'| translate}}
@@ -57,6 +61,7 @@
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_DELETE_HISTORY' | translate}}"
                                ng-click="reqList.clearHistoryList($event)"
+                               id="history-delete-all"
                                ng-disabled="!reqList.mainList.list.length">
                         <md-icon class="material-icons clickable"> delete_forever</md-icon>
                         {{'YANGMAN_DELETE_HISTORY' | translate}}
@@ -69,7 +74,7 @@
 
         <!-- menu for selecting and deselecting-->
         <md-menu layout-align="center start">
-            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu"  ng-click="$mdOpenMenu()">
+            <md-button ng-disabled="!reqList.mainList.list.length" aria-label="menu" id="history-select-menu"  ng-click="$mdOpenMenu()">
                 <md-icon class="material-icons clickable">
                     playlist_add_check
                 </md-icon>
@@ -79,6 +84,7 @@
                 <!-- select all -->
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_SELECT_ALL' | translate}}"
+                               id="history-select-all"
                                ng-click="reqList.selectAllFilteredRequests()">
                         <md-icon class="material-icons clickable">
                             done
@@ -90,6 +96,7 @@
                 <!-- deselect all -->
                 <md-menu-item>
                     <md-button aria-label="{{'YANGMAN_DESELECT_ALL' | translate}}"
+                               id="history-deselect-all"
                                ng-click="reqList.deselectAllFilteredRequests()" ng-disabled="reqList.mainList.getSelectedItems(reqList.filterReq).length === 0">
                         <md-icon class="material-icons clickable">
                             close
@@ -108,7 +115,9 @@
 
     <!-- list of items grouped by date -->
     <md-content class="scrollableY">
-        <md-list-item ng-repeat="group in reqList.mainList.dateGroups | orderBy: 'name': true"
+        <md-list-item ng-repeat="group in reqList.mainList.dateGroups | orderBy: 'name': true track by $index"
+                      id="history-requests-group-{{$index}}"
+                      ng-init="groupIndex=$index"
                       class="yangmanModule__requests-list__group"
                       ng-if="(group.requests | filter:reqList.filterReq).length">
 
@@ -124,6 +133,7 @@
                 <md-list>
                     <div ng-repeat="request in group.requests | filter: reqList.filterReq  | orderBy: '-timestamp' track by $index"
                          layout="row"
+                         ng-init="itemId = 'history-request-'+groupIndex+'-'+$index"
                          class="yangmanModule__requests-list__item-container"
                          ng-include src="globalViewPath + 'leftpanel/request-item.tpl.html'">
                     </div>

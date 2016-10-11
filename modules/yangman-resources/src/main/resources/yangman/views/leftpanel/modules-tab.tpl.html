@@ -6,12 +6,14 @@
             <input class="ng-pristine ng-valid ng-touched"
                    type="text"
                    flex
+                   id="search-modules"
                    placeholder="{{'YANGMAN_SEARCH' | translate}}"
                    ng-model="modulesList.search"
                    aria-invalid="false" />
 
             <!-- search clear button -->
             <md-button aria-label="{{'YANGMAN_CLEAR_SEARCH'| translate}}" flex="none"
+                       id="search-modules-clear"
                        ng-click="modulesList.clearFilter()"
                        ng-if="modulesList.search">
                 <md-icon class="material-icons clickable">
@@ -40,9 +42,11 @@
         </section>
 
         <!-- Modules list -->
-        <md-list-item ng-repeat="module in modulesList.treeApis | filter: modulesList.customSearch | orderBy: 'label'"
+        <md-list-item ng-repeat="module in modulesList.treeApis | filter: modulesList.customSearch | orderBy: 'label' track by $index"
                       class="yangmanModule__modules-list__item"
                       ng-class="{'expanded' : module.expanded, 'selected' : modulesList.checkSelectedModule(module)}"
+                      id="module_{{$index}}"
+                      ng-init="parentIndex = $index"
                       ng-hide="modulesList.showLoadingBox"
                       ng-click="modulesList.setModule(module, $event)">
             <!-- Item content -->
@@ -57,7 +61,7 @@
 
                 <!-- Datastore && rpc -->
                 <md-list flex class="yangmanModule__datastore-list" ng-show="module.expanded">
-                    <md-list-item ng-repeat="item in module.children">
+                    <md-list-item ng-repeat="item in module.children track by $index" id="module-{{parentIndex}}-portion-{{$index}}">
                         <div flex
                              layout="row"
                              layout-align="center center"
