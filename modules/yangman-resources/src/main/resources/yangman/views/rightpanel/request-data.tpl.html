@@ -7,7 +7,7 @@
 
 <div class="paramsBox" ng-show="requestData.paramsArray.length">
     <div  ng-repeat="param in requestData.paramsArray" class="line">
-        <strong id= "code-mirror-param-name-{{param.name}}">&lt;&lt;{{param.name}}&gt;&gt;</strong> :
-        <span id="code-mirror-param-value-{{param.value}}">{{param.value !== undefined ? param.value : 'YANGMAN_PARAM_DONT_REPLACE' | translate}}</span>
+        <strong id= "code-mirror-param-name-{{$index}}">&lt;&lt;{{param.name}}&gt;&gt;</strong> :
+        <span id="code-mirror-param-value-{{$index}}">{{param.value !== undefined ? param.value : 'YANGMAN_PARAM_DONT_REPLACE' | translate}}</span>
     </div>
 </div>
