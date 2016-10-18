@@ -31,10 +31,6 @@
          <type>zip</type>
       </dependency>
       <dependency>
-          <groupId>com.google.guava</groupId>
-          <artifactId>guava</artifactId>
-      </dependency>
-      <dependency>
           <groupId>org.opendaylight.dlux</groupId>
           <artifactId>loader</artifactId>
           <version>${project.version}</version>
