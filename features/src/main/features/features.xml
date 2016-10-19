@@ -15,7 +15,6 @@
     <feature name='odl-dlux-core' version='${project.version}' description="Opendaylight dlux minimal feature">
         <feature>http</feature>
         <feature version="${restconf.version}">odl-restconf</feature>
-        <bundle>mvn:com.google.guava/guava/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/loader/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/loader.implementation/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.core/{{VERSION}}</bundle>
