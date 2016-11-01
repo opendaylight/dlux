@@ -13,13 +13,13 @@
 	<thead>
       <tr>
         <th>{{ 'NODE_ID' | translate }}</th>
-        <th data-hide="phone">{{ 'NODE_NAME' | translate }}</th>
+        <th>{{ 'NODE_NAME' | translate }}</th>
         <th>{{ 'NODE_CONNECTORS' | translate }}</th>
         <th data-sort-ignore="true">{{ 'STATISTICS' | translate }}</th>
       </tr>
 	</thead>
 	<tbody>
-	    <tr ng-hide="data.length > 1"><td colspan="4" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
+	    <tr ng-hide="data.length > 0"><td colspan="5" class="centerAlign">{{ 'NO_DATA_FOUND' | translate }}</td></tr>
 		<tr ng-repeat="item in data | filter:{id:'!config'} | filter:nodeSearch" node-table>
         <td>{{item.id}}</td>
         <td>{{item['flow-node-inventory:description']}}</td>
