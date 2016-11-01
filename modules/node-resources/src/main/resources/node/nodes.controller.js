@@ -15,7 +15,7 @@ define(['app/node/nodes.module','app/node/nodes.services'], function(node) {
 
   node.controller('allNodesCtrl', function($scope, NodeInventorySvc, $timeout) {
     NodeInventorySvc.getAllNodes().then(function(data) {
-      $scope.data = data[0].node;
+      $scope.data = data.nodes.node;
     });
     var tableRendered = false;
     $scope.$watch('nodeSearch.id', function() {
@@ -39,7 +39,7 @@ define(['app/node/nodes.module','app/node/nodes.services'], function(node) {
     var currentData = NodeInventorySvc.getCurrentData();
     if(currentData != null) {
       currentData.then(function(data) {
-        var node = _.find(data[0].node, function(entry) {if(entry.id == $stateParams.nodeId) { return entry;}});
+        var node = _.find(data.nodes.node, function(entry) {if(entry.id == $stateParams.nodeId) { return entry;}});
         $scope.data = node;
       });
     }
