@@ -19,7 +19,6 @@
   <artifactId>dlux.flow.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Flow Module Resources</description>
-  <version>${flow.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>

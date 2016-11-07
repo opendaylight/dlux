@@ -1,5 +1,6 @@
 <textarea ng-model="requestData.data"
           ui-codemirror
+          id="request-data-{{requestData.type | lowercase}}"
           ui-codemirror-opts="requestData.dataEditorOptions"
           class="codemirror-container">
 </textarea>

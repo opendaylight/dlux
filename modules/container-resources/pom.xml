@@ -19,7 +19,6 @@
   <artifactId>dlux.container.resources</artifactId>
   <name>${project.artifactId}</name>
   <description>Container Module Resources</description>
-  <version>${container.resources.version}</version>
   <packaging>jar</packaging>
 
 </project>
