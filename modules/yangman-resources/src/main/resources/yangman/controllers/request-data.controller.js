@@ -77,7 +77,6 @@ define([], function () {
             },
         };
 
-        // methods
         requestData.init = init;
         requestData.enlargeCMFont = enlargeCMFont;
         requestData.reduceCMFont = reduceCMFont;
@@ -117,7 +116,6 @@ define([], function () {
             requestData.dataEditorOptions.theme = requestData.type === constants.REQUEST_DATA_TYPE_RECEIVED ? 'eclipse-disabled' : 'eclipse';
             requestData.dataEditorOptions.readOnly = requestData.type === constants.REQUEST_DATA_TYPE_RECEIVED;
         }
-
 
         /**
          * Initialization

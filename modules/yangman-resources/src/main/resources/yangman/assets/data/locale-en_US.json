@@ -96,6 +96,13 @@
   "YANGMAN_LIST_DELETE_ITEM": "Delete list item",
   "YANGMAN_LIST_INDEX_DUPLICATE": "Duplicated index",
   "YANGMAN_LIST_PREV_ITEM": "show previous item",
+  "YANGMAN_FILL_FORM_WITH_RECEIVED": "Fill form with received data after execution",
   "YANGMAN_LIST_NEXT_ITEM": "show next item",
-  "YANGMAN_SHOW_HIDE_CON": "show / hide container"
+  "YANGMAN_HISTORY_SETTINGS": "History requests settings",
+  "YANGMAN_HISTORY_SETTINGS_GENERAL": "General settings",
+  "YANGMAN_HISTORY_SETTINGS_COUNT": "History requests buffer size",
+  "YANGMAN_HISTORY_SETTINGS_SAVE_RECEIVED_DATA": "Save received data",
+  "YANGMAN_HISTORY_SETTINGS_SAVE_RESPONSE_DATA": "Save base response data (Status, Execution time)",
+  "YANGMAN_HISTORY_SETTINGS_FILL_FORM_WITH_RECEIVED": "Fill form view with received data on history request select",
+  "YANGMAN_HISTORY_SETTINGS_REQUIRED": "Required field"
 }
