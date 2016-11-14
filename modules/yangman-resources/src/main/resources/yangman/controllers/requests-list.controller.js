@@ -1,8 +1,9 @@
 define([
     'app/yangman/controllers/save-req-dialog.controller',
     'app/yangman/controllers/edit-collection-dialog.controller',
+    'app/yangman/controllers/history-settings.controller',
     'app/yangman/services/handle-file.services',
-], function (SaveReqDialogCtrl, EditCollectionDialogCtrl) {
+], function (SaveReqDialogCtrl, EditCollectionDialogCtrl, HistorySettingsCtrl) {
     'use strict';
 
     angular.module('app.yangman').controller('RequestsListCtrl', RequestsListCtrl);
@@ -28,24 +29,14 @@ define([
                               YangmanService, YangmanDesignService, constants) {
         var vm = this;
 
-        /**
-         * List of all collections containing requests, loads even for history controller to use collection names
-         * in saving requests dialog
-         * @type {*|CollectionList}
-         */
         vm.collectionList = null;
         vm.constants = constants;
 
-        /**
-         *
-         * @type {*|HistoryList}
-         */
         vm.requestList = null;
         vm.mainList = null;
         vm.collectionsSortAsc = true;
         vm.search = '';
 
-        // methods
         vm.clearCollectionList = clearCollectionList;
         vm.clearFilter = clearFilter;
         vm.clearHistoryList = clearHistoryList;
@@ -66,6 +57,7 @@ define([
         vm.showDgDeleteRequests = showDgDeleteRequests;
         vm.showDgEditCollection = showDgEditCollection;
         vm.showDgSaveReq = showDgSaveReq;
+        vm.showHistorySettings = showHistorySettings;
         vm.showForm = showForm;
         vm.toggleCollectionsSort = toggleCollectionsSort;
         vm.selectOnlyThisRequest = selectOnlyThisRequest;
@@ -146,7 +138,6 @@ define([
 
         /**
          * Clear value of input file used to import collection
-         * todo: move to design utils
          */
         function clearFileInputValue(){
             angular.element(document).find('#importCollection').val('');
@@ -154,7 +145,6 @@ define([
 
         /**
          * Importing collection from a file
-         * todo: error handling - msgs for user
          * @param $fileContent
          */
         function readCollectionFromFile($fileContent) {
@@ -209,8 +199,7 @@ define([
         function showForm(reqObj) {
             var data = reqObj.sentData;
 
-            // exception for get meth
-            if ( reqObj.method === constants.OPERATION_GET ) {
+            if ($scope.historySettings.data.fillWithReceived) {
                 data = reqObj.receivedData;
             }
 
@@ -239,14 +228,15 @@ define([
 
                     if ( $scope.node ) {
                         // prepare data for filling form
-                        data = $scope.node.type === constants.NODE_RPC ?
-                                YangmanService.prepareReceivedData(
-                                    $scope.node,
-                                    reqObj.method,
-                                    reqObj.receivedData,
-                                    reqObj.sentData,
-                                    constants.DISPLAY_TYPE_FORM
-                                ) : data;
+                        if ($scope.node.type === constants.NODE_RPC && $scope.historySettings.data.fillWithReceived) {
+                            data = YangmanService.prepareReceivedData(
+                                $scope.node,
+                                reqObj.method,
+                                reqObj.receivedData,
+                                reqObj.sentData,
+                                constants.DISPLAY_TYPE_FORM
+                            );
+                        }
 
                         // try to fill node
                         YangmanService.fillNodeFromResponse($scope.node, data);
@@ -462,6 +452,28 @@ define([
         }
 
         /**
+         * Show popup window for history requests settings
+         * @param ev
+         */
+        function showHistorySettings(ev){
+
+            $mdDialog.show({
+                controller: HistorySettingsCtrl,
+                controllerAs: 'settingsCtrl',
+                templateUrl: $scope.globalViewPath + 'leftpanel/history-settings.tpl.html',
+                parent: angular.element('#yangmanModule'),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                locals: {
+                    settingsObj: $scope.historySettings,
+                },
+            }).then(function (changedSettings){
+                $scope.historySettings.setData(changedSettings.data);
+                $scope.rootBroadcast(constants.YANGMAN_RESET_HISTORY_SETTINGS);
+            });
+        }
+
+        /**
          * Add each request from requests array to collectionList and save
          * @param requests
          */
@@ -539,8 +551,11 @@ define([
             // collections are loaded for both history and collections tab
             loadCollectionsList();
 
-            vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList');
+            vm.requestList = RequestsService.createEmptyHistoryList('yangman_requestsList', $scope.historySettings);
 
+            $scope.$on(constants.YANGMAN_RESET_HISTORY_SETTINGS, function () {
+                vm.requestList.setSettings($scope.historySettings);
+            });
 
             // if request was selected, deselect requests in all other instances of RequestsListCtrl
             $scope.$on(constants.YANGMAN_DESELECT_REQUESTS, function (event, params) {

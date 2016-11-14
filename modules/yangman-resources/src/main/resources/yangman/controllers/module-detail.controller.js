@@ -45,6 +45,8 @@ define([
                 $scope.setApi($scope.apis[apiIndex], $scope.apis[apiIndex].subApis[subApiIndex], true, true);
                 $scope.setNode($scope.selectedSubApi.node);
                 $scope.clearCM();
+                // let request header ctrl know, that codemirror data should be renewed with data from node
+                $scope.rootBroadcast(constants.YANGMAN_CHANGE_TO_JSON);
             }
         }
 

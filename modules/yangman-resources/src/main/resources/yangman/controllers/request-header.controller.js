@@ -26,6 +26,7 @@ define([
         requestHeader.selectedPluginsButtons = [];
         requestHeader.selectedPlugin = null;
         requestHeader.statusObj = null;
+        requestHeader.fillFormWithReceivedData = true;
 
         // methods
         requestHeader.executeOperation = executeOperation;
@@ -40,7 +41,9 @@ define([
         requestHeader.saveRequestToCollection = saveRequestToCollection;
         requestHeader.unsetPluginFunctionality = unsetPluginFunctionality;
 
-        // watchers
+        $scope.$on(constants.YANGMAN_CHANGE_TO_JSON, function () {
+            sendRequestData($scope.buildRootRequest(), 'SENT');
+        });
         /**
          * Set selected operations based on data store
          */
@@ -137,7 +140,7 @@ define([
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
 
-            if(!$scope.node || requestHeader.urlChanged) {
+            if (!$scope.node || requestHeader.urlChanged) {
                 requestHeader.setRequestUrl();
                 requestHeader.urlChanged = false;
             }
@@ -218,6 +221,10 @@ define([
             );
         }
 
+        /**
+         * Set error data to be shown in form area
+         * @param response
+         */
         function sendErrorData(response) {
             $scope.rootBroadcast(constants.YANGMAN_SET_ERROR_DATA, response);
         }
@@ -347,6 +354,10 @@ define([
         }
 
 
+        /**
+         * Stop showing progressbar
+         * @param message
+         */
         function finishRequestProgress (message){
             $scope.rootBroadcast(constants.YANGMAN_EXECUTING_REQUEST_PROGRESS_STOP);
             // $mdToast.show(
@@ -365,8 +376,8 @@ define([
         function executeOperation(requestData, executeCbk){
             TimeTrackingService.startTimer();
             var allowExecuteOperation =
-                requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM && $scope.selectedSubApi ?
-                    !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
+                    requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_FORM && $scope.selectedSubApi ?
+                        !PathUtilsService.checkEmptyIdentifiers($scope.selectedSubApi.pathArray) : true;
 
 
             if ( allowExecuteOperation ) {
@@ -419,13 +430,17 @@ define([
              */
             function executeReqSuccCbk(reqInfo, response) {
 
-                var preparedReceivedData = YangmanService.prepareReceivedData(
-                    $scope.node,
-                    requestHeader.selectedOperation,
-                    response.data ? response.data.plain() : {},
-                    reqInfo.requestSrcData,
-                    requestHeader.selectedShownDataType
-                );
+                var preparedReceivedData = {};
+
+                if (requestHeader.fillFormWithReceivedData) {
+                    preparedReceivedData = YangmanService.prepareReceivedData(
+                        $scope.node,
+                        requestHeader.selectedOperation,
+                        response.data ? response.data.plain() : {},
+                        reqInfo.requestSrcData,
+                        requestHeader.selectedShownDataType
+                    );
+                }
 
                 finishRequestProgress();
 
@@ -434,13 +449,12 @@ define([
                 sendErrorData({});
 
                 if (requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA){
-
                     setNodeDataFromRequestData(requestHeader.requestUrl);
                     sendRequestData(preparedReceivedData, constants.REQUEST_DATA_TYPE_RECEIVED);
                     sendRequestData(reqInfo.requestSrcData || {}, 'SENT');
                 } else {
 
-                    if ($scope.node && requestHeader.selectedOperation !== constants.OPERATION_DELETE){
+                    if ($scope.node && requestHeader.selectedOperation !== constants.OPERATION_DELETE && requestHeader.fillFormWithReceivedData){
 
                         YangmanService.fillNodeFromResponse($scope.node, preparedReceivedData);
                         YangmanService.handleNodeIdentifier(
@@ -459,11 +473,11 @@ define([
 
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
-                    preparedReceivedData,
-                    reqInfo.status,
-                    reqInfo.status,
-                    reqInfo.statusText,
-                    requestHeader.statusObj.time
+                    $scope.historySettings.data.saveReceived ? preparedReceivedData : null,
+                    $scope.historySettings.data.saveResponseData ? reqInfo.status : '',
+                    $scope.historySettings.data.saveResponseData ? reqInfo.status : '',
+                    $scope.historySettings.data.saveResponseData ? reqInfo.statusText : '',
+                    $scope.historySettings.data.saveResponseData ? requestHeader.statusObj.time : ''
                 );
 
                 $scope.rootBroadcast(constants.YANGMAN_SAVE_EXECUTED_REQUEST, historyReq, function (){
@@ -488,11 +502,11 @@ define([
 
                 historyReq.setExecutionData(
                     reqInfo.requestSrcData,
-                    response.data,
-                    reqInfo.status,
-                    reqInfo.status,
-                    reqInfo.statusText,
-                    requestHeader.statusObj.time
+                    $scope.historySettings.data.saveReceived ? response.data : null,
+                    $scope.historySettings.data.saveResponseData ? reqInfo.status : '',
+                    $scope.historySettings.data.saveResponseData ? reqInfo.status : '',
+                    $scope.historySettings.data.saveResponseData ? reqInfo.statusText : '',
+                    $scope.historySettings.data.saveResponseData ? requestHeader.statusObj.time : ''
                 );
                 $scope.rootBroadcast(constants.YANGMAN_SAVE_EXECUTED_REQUEST, historyReq, function (){
                     $scope.rootBroadcast(constants.YANGMAN_SELECT_THE_NEWEST_REQUEST);
@@ -539,6 +553,7 @@ define([
             showRequestProgress();
 
             $timeout(prepareData);
+
             function prepareData() {
                 if ( requestHeader.requestUrl.length ) {
                     if ( requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {

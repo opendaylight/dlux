@@ -51,14 +51,14 @@ define([], function () {
         function init() {
             yangList.disableAddingListElement = $scope.checkAddingListElement($scope.node);
 
-            if(yangList.disableAddingListElement &&
+            if (yangList.disableAddingListElement &&
                 !$scope.node.listData.length &&
                 $scope.selectedDatastore.label === constants.DATA_STORE_CONFIG) {
 
                 yangList.addListElem();
             }
 
-            if (!$scope.node.listData.length) {
+            if ($scope.node.listData && !$scope.node.listData.length) {
                 yangList.currentDisplayIndex = 1;
             }
         }
