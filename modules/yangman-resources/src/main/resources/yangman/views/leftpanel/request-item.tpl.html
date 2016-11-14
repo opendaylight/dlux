@@ -7,7 +7,7 @@
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
         <p class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === vm.constants.OPERATION_DELETE ? 'DEL' : request.method }} </p>
-        <md-tooltip md-direction="bottom" ng-show="request.status">{{request.status | uppercase }}</md-tooltip>
+        <md-tooltip ng-show="request.status.length" md-direction="bottom" ng-show="request.status">{{request.status | uppercase }}</md-tooltip>
     </div>
 
     <div flex class="yangmanModule__requests-list__group__item__path" layout="column">
@@ -34,19 +34,6 @@
             <md-button aria-label="{{'YANGMAN_REQ_RUN'| translate}}" class="" ng-click="reqList.executeRequest(request)">
                 <i class="material-icons">play_arrow</i>
                 {{'YANGMAN_REQ_RUN'| translate}}
-            </md-button>
-        </md-menu-item>
-        <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_SHOW_FORM'| translate}}" ng-click="reqList.showForm(request)">
-                <i class="material-icons">exit_to_app</i>
-                {{'YANGMAN_REQ_SHOW_FORM'| translate}}
-            </md-button>
-        </md-menu-item>
-        <md-menu-item>
-            <md-button aria-label="{{'YANGMAN_REQ_SHOW_SENT_DATA'| translate}}"
-                       ng-click="reqList.showData(request)">
-                <i class="material-icons">call_made</i>
-                {{'YANGMAN_REQ_SHOW_JSON_DATA'| translate}}
             </md-button>
         </md-menu-item>
         <md-menu-item ng-if="request.collection.length">

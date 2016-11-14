@@ -12,6 +12,7 @@ define([
     'app/yangman/services/requests.services',
     'app/yangman/services/parameters.services',
     'app/yangman/services/plugins-unsetter.services',
+    'app/yangman/services/history-settings.services',
     'app/yangman/directives/ui-codemirror.directive',
     'app/yangman/directives/read_file.directive',
 ], function () {
@@ -20,13 +21,14 @@ define([
     angular.module('app.yangman').controller('YangmanCtrl', YangmanCtrl);
 
     YangmanCtrl.$inject = [
-        '$mdDialog', '$scope', '$rootScope', 'YangmanDesignService', 'RequestBuilderService',
-        'EventDispatcherService', 'constants', 'ParametersService', 'PathUtilsService', 'PluginsUnsetterService', '$timeout',
+        '$scope', '$rootScope', 'HistorySettingsService', 'YangmanDesignService', 'RequestBuilderService',
+        'EventDispatcherService', 'constants', 'ParametersService', 'PathUtilsService', 'PluginsUnsetterService',
+        '$timeout',
     ];
 
     function YangmanCtrl(
-        $mdDialog, $scope, $rootScope, YangmanDesignService, RequestBuilderService,
-        EventDispatcherService, constants, ParametersService, PathUtilsService, PluginsUnsetterService, $timeout
+        $scope, $rootScope, HistorySettingsService, YangmanDesignService, RequestBuilderService, EventDispatcherService,
+        constants, ParametersService, PathUtilsService, PluginsUnsetterService, $timeout
     ) {
         var main = this;
 
@@ -46,6 +48,7 @@ define([
         $scope.requestDataToShow = '';
         $scope.parametersList = ParametersService.createEmptyParametersList('yangman_parameters');
         $scope.shownCMHint = false;
+        $scope.historySettings = HistorySettingsService.createHistorySettings().loadFromStorage();
 
         main.selectedMainTab = 0;
         main.leftPanelTab = 0;
@@ -56,7 +59,6 @@ define([
         main.executingRequestProgress = false;
         main.constants = constants;
 
-        // methods
         main.init = init;
         main.initModuleDetailHeight = initModuleDetailHeight;
         main.switchedTab = switchedTab;
@@ -66,7 +68,6 @@ define([
 
         // scope global methods
         $scope.buildRootRequest = buildRootRequest;
-        $scope.broadcastFromRoot = broadcastFromRoot;
         $scope.checkAddingListElement = checkAddingListElement;
         $scope.clearCM = clearCM;
         $scope.rootBroadcast = rootBroadcast;
@@ -82,24 +83,27 @@ define([
         $scope.switchSection = switchSection;
         $scope.setParametersList = setParametersList;
         $scope.unsetPlugin = unsetPlugin;
-        $scope.setCMHintShown = setCMHintShown;
 
         init();
 
-        function setCMHintShown(shown) {
-            $scope.shownCMHint = shown;
-        }
 
+        /**
+         * Start showing progressbar in request header view
+         */
         function startExecutingRequestProgress() {
             main.executingRequestProgress = true;
         }
 
+
+        /**
+         * Stop showing progressbar in request header view
+         */
         function stopExecutingRequestProgress() {
             main.executingRequestProgress = false;
         }
 
         /**
-         * Set parametersList
+         * Set parametersList to $scope to be available for all controllers directly
          * @param parametersList
          */
         function setParametersList(parametersList) {
@@ -107,14 +111,6 @@ define([
         }
 
 
-        /**
-         * Broadcast from this main controller to all children ctrls
-         * @param eventName
-         * @param val
-         */
-        function broadcastFromRoot(eventName, val) {
-            $scope.$broadcast(eventName, val);
-        }
         /**
          * Initialization
          */
@@ -140,7 +136,7 @@ define([
         }
 
         /**
-         * Method for fill key into request path
+         * Method for fill key into request path, used by yangutils via event dispatching
          * @param inputs
          */
         function fillPathIdentifiersByKey(inputs) {
@@ -155,7 +151,11 @@ define([
             }
         }
 
-        // TODO :: description
+
+        /**
+         * Method for bulk filling path identifiers, used by yangutils via event dispatching
+         * @param inputs
+         */
         function fillPathIdentifiersByListData(inputs) {
             var node = inputs[0];
 
@@ -170,7 +170,11 @@ define([
             }
         }
 
-        // TODO :: description
+
+        /**
+         * Check if the main tab containing tree with modules is displayed
+         * @returns {boolean}
+         */
         function modulesTreeDisplayed() {
             return main.selectedMainTab === 0;
         }
@@ -208,15 +212,14 @@ define([
         }
 
         /**
-         * Genereal method for clearing code mirror - sent and received data too
+         * Genereal method for clearing code mirror - both sent and received data, needs to be in $scope to be available
+         * everywhere
          */
         function clearCM(){
             $scope.rootBroadcast(constants.YANGMAN_SET_CODEMIRROR_DATA_RECEIVED, { data: JSON.stringify({}) });
             $scope.rootBroadcast(constants.YANGMAN_SET_CODEMIRROR_DATA_SENT, { data: JSON.stringify({}) });
         }
 
-
-        // SETTERS
 
         /**
          * Switcher for module detail and module list
@@ -260,9 +263,10 @@ define([
         }
 
         /**
-         * Set dataStore to global param && open module detail in left panel
+         * Set dataStore to global param, open module detail in left panel
          * @param dataStore
          * @param expand
+         * @param leftPanel
          */
         function setDataStore(dataStore, expand, leftPanel){
             $scope.selectedDatastore = dataStore;
@@ -272,7 +276,6 @@ define([
                 setLeftPanel(leftPanel);
                 $scope.$broadcast(constants.YANGMAN_MODULE_D_INIT);
             } else {
-
                 if ( $scope.node ) {
                     $scope.node.clear();
                 }
@@ -292,6 +295,8 @@ define([
          * Set api and sub api to global param
          * @param api
          * @param subApi
+         * @param setUrl
+         * @param clearPathArray
          */
         function setApi(api, subApi, setUrl, clearPathArray){
             $scope.selectedApi = api;

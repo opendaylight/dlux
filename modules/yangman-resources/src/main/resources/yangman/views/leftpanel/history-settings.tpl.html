@@ -1,0 +1,59 @@
+<md-settingsCtrl aria-label="{{ 'YANGMAN_HISTORY_SETTINGS' | translate }}"  ng-cloak>
+    <form name="settingsCtrl.settingsForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>{{ 'YANGMAN_HISTORY_SETTINGS' | translate }}</h2>
+                <span flex></span>
+            </div>
+        </md-toolbar>
+        <md-dialog-content layout-padding>
+            <div class="md-dialog-content settingsForm" layout="column">
+                <md-input-container>
+                    <label>{{ 'YANGMAN_HISTORY_SETTINGS_COUNT' | translate }}</label>
+                    <input name="requestsCount"
+                           ng-model="settingsCtrl.mySettingsObj.data.requestsCount"
+                           type="number"
+                           min="5"
+                           max="10000"
+                           ng-required="true">
+                    <div ng-messages="settingsCtrl.settingsForm.requestsCount.$error" multiple md-auto-hide="false">
+                        <div ng-message="required">
+                            {{ 'YANGMAN_HISTORY_SETTINGS_REQUIRED'| translate }}
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <md-checkbox name="saveResponseData"
+                                 ng-model="settingsCtrl.mySettingsObj.data.saveResponseData">
+                        {{ 'YANGMAN_HISTORY_SETTINGS_SAVE_RESPONSE_DATA' | translate }}
+                    </md-checkbox>
+                </md-input-container>
+                <md-input-container>
+                    <md-checkbox name="saveReceived"
+                                 ng-change="settingsCtrl.saveReceivedChanged()"
+                                 ng-model="settingsCtrl.mySettingsObj.data.saveReceived">
+                        {{ 'YANGMAN_HISTORY_SETTINGS_SAVE_RECEIVED_DATA' | translate }}
+                    </md-checkbox>
+                </md-input-container>
+                <md-input-container>
+                    <md-checkbox name="fillWithSaved"
+                                 ng-disabled="!settingsCtrl.mySettingsObj.data.saveReceived"
+                                 ng-model="settingsCtrl.mySettingsObj.data.fillWithReceived">
+                        {{ 'YANGMAN_HISTORY_SETTINGS_FILL_FORM_WITH_RECEIVED' | translate }}
+                    </md-checkbox>
+                </md-input-container>
+
+
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button ng-click="settingsCtrl.cancel()">
+                {{ 'YANGMAN_CANCEL'| translate }}
+            </md-button>
+            <md-button ng-click="settingsCtrl.save()" ng-disabled="!settingsCtrl.settingsForm.$valid">
+                {{ 'YANGMAN_SAVE'| translate }}
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-settingsCtrl>

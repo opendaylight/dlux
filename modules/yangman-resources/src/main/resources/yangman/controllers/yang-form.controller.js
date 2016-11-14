@@ -21,9 +21,9 @@ define([
 
     angular.module('app.yangman').controller('YangFormCtrl', YangFormCtrl);
 
-    YangFormCtrl.$inject = ['$scope', '$rootScope', '$filter', 'constants', 'YangUtilsService'];
+    YangFormCtrl.$inject = ['$scope', '$filter', 'constants', 'YangUtilsService'];
 
-    function YangFormCtrl($scope, $rootScope, $filter, constants) {
+    function YangFormCtrl($scope, $filter, constants) {
         var yangForm = this;
 
         yangForm.viewPath = $scope.globalViewPath + 'rightpanel/form';

@@ -113,12 +113,12 @@
 
     <md-divider flex="grow"></md-divider>
 
-    <section layout="row" layout-align="center center" class="status-bar">
+    <section layout="row" layout-align="start center" class="status-bar">
         <!-- Data type switcher - radio button -->
         <md-radio-group ng-model="requestHeader.selectedShownDataType"
                         class="type-switcher"
-                        flex="50"
                         layout="row"
+                        flex="25"
                         layout-align="start center"
                         ng-change="requestHeader.changeDataType()">
             <md-radio-button value="form" aria-label="{{'YANGMAN_FORM' | translate}}">
@@ -130,8 +130,12 @@
             </md-radio-button>
         </md-radio-group>
 
+        <md-checkbox class="mb0" flex layout-align="center end" ng-model="requestHeader.fillFormWithReceivedData" ng-disabled="requestHeader.selectedShownDataType==='req-data'">
+            {{ 'YANGMAN_FILL_FORM_WITH_RECEIVED' | translate }}
+        </md-checkbox>
+
         <!-- Request info box -->
-        <md-content flex="50"
+        <md-content flex="40"
                     layout="row"
                     layout-align="end center"
                     class="status-text">

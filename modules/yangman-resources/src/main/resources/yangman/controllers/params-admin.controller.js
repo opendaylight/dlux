@@ -11,7 +11,7 @@ define([
         var openMenuListener,
             vm = this;
 
-        vm.parametersList = parametersList;
+        vm.parametersList = parametersList.clone();
         vm.search = '';
         vm.sortField1 = '_name';
         vm.sortField2 = '_value';
