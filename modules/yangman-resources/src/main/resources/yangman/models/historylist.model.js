@@ -21,6 +21,7 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @type {Array}
          */
         self.dateGroups = [];
+        self.settings = null;
 
         self.addItemToList = addItemToList;
         self.clear = clear;
@@ -30,6 +31,14 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.selectReqs = selectReqs;
         self.toggleReqSelection = toggleReqSelection;
         self.getNewestRequest = getNewestRequest;
+        self.setSettings = setSettings;
+
+        /**
+         *
+         */
+        function setSettings(settingsObj) {
+            self.settings = settingsObj;
+        }
 
 
         /**
@@ -101,6 +110,18 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
             }
         }
 
+        function shiftElemFromListDateGroup(elem){
+            if (elem.timestamp){
+                var groupName = roundTimestampToDate(elem.timestamp),
+                    dateGroupArr = self.dateGroups.filter(function (group){
+                        return group.name === groupName;
+                    }),
+                    dateGroup = dateGroupArr[0];
+
+                dateGroup.requests.shift();
+            }
+        }
+
 
         /**
          *
@@ -118,6 +139,10 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         function addItemToList(reqObj){
             self.list.push(reqObj);
             addElemToListDateGroup(reqObj);
+
+            if (self.list.length > self.settings.data.requestsCount) {
+                shiftElemFromListDateGroup(self.list.shift());
+            }
         }
 
         /**

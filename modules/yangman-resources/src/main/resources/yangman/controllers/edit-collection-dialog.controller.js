@@ -18,6 +18,9 @@ define([], function () {
 
         init();
 
+        /**
+         * Load existing collection names
+         */
         function init(){
             vm.existingNames = allCollections.map(function (item){
                 return item.name;
