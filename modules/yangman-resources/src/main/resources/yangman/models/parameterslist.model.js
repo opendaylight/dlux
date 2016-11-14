@@ -26,6 +26,18 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
         self.isNameUnique = isNameUnique;
         self.removeEmptyParams = removeEmptyParams;
         self.applyValsForFilters = applyValsForFilters;
+        self.clone = clone;
+
+        /**
+         * Create copy of parameters list model
+         */
+        function clone() {
+            var result = ParametersService.createEmptyParametersList(self.name);
+            self.list.forEach(function (param) {
+                result.addItemToList(param.clone());
+            });
+            return result;
+        }
 
         /**
          * Apply all parameters names and values for filtering

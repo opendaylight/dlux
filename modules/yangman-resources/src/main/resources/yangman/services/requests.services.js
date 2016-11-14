@@ -328,9 +328,10 @@ define([
          * @param name
          * @returns {*}
          */
-        function createEmptyHistoryList(name){
+        function createEmptyHistoryList(name, settingsObj){
             var result = new HistoryListModel($filter, ParsingJsonService, service);
             result.setName(name);
+            result.setSettings(settingsObj);
             return result;
         }
 

@@ -109,8 +109,16 @@
         </md-menu>
         <!-- / menu for selecting and deselecting -->
 
-    </md-content>
+        <!-- button for settings -->
+        <md-button  ng-click="reqList.showHistorySettings($event)"
+                    id="history-settings">
+            <md-icon class="material-icons clickable">
+                settings
+            </md-icon>
+            <md-tooltip md-direction="bottom">{{'YANGMAN_HISTORY_SETTINGS'| translate}}</md-tooltip>
+        </md-button>
 
+    </md-content>
     <md-divider></md-divider>
 
     <!-- list of items grouped by date -->
