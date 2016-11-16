@@ -51,14 +51,9 @@ define([], function () {
             }
         };
 
-
         function toggleExpandedAugModal(){
             $scope.augModalView = !$scope.augModalView;
         }
-
-        $scope.$on('EV_DISABLE_ADDING_LIST_ELEMENT', function() {
-            $scope.init();
-        });
 
         function refreshListIndex() {
             $scope.currentDisplayIndex = 1;
