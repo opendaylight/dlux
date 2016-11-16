@@ -392,7 +392,8 @@ define(
                     $scope.selectedOperation = $scope.selSubApi.operations[0];
                 }
 
-                $scope.$broadcast('EV_DISABLE_ADDING_LIST_ELEMENT');
+                // TODO: uncomment this broadcast and check why does it cause adding element to list in operational portion twice
+                //$scope.$broadcast('EV_DISABLE_ADDING_LIST_ELEMENT');
 
                 $scope.$broadcast('EV_REFRESH_LIST_INDEX');
                 DesignUtilsService.triggerWindowResize(100);

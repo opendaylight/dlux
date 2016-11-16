@@ -1,12 +1,11 @@
 define(['angular'], function (angular) {
     'use strict';
 
-    angular.module('app.yangman').service('PluginsUnsetterService',
-        ['PathUtilsService', 'DataBackupService', PluginsUnsetterService]);
+    angular.module('app.yangman').service('PluginsUnsetterService', PluginsUnsetterService);
 
-    PluginsUnsetterService.$inject = ['constants'];
+    PluginsUnsetterService.$inject = ['DataBackupService', 'constants'];
 
-    function PluginsUnsetterService(PathUtilsService, DataBackupService, constants){
+    function PluginsUnsetterService(DataBackupService, constants){
         var service = {
             'YANGMAN_CUST_MOUNT_POINTS': unsetMountPoint,
             unset: unset,
