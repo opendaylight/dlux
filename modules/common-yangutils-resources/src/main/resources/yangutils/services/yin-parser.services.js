@@ -27,8 +27,8 @@ define([], function () {
 
             YangUiApisService.getSingleModuleInfo(path)
                 .then(function (data) {
-                    if ($.parseXML(data) !== null) {
-                        parseModule(data, callback);
+                    if ($.parseXML(data.data) !== null) {
+                        parseModule(data.data, callback);
                     } else {
                         loadStaticModule(name, callback, errorCbk);
                     }
