@@ -1,0 +1,8 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+1: Daniel Malachovsky <dmalacho@cisco.com>
+Code-Review+2: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-by: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-at: Mon, 21 Nov 2016 14:43:11 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/48071
+Project: dlux
+Branch: refs/heads/stable/boron
