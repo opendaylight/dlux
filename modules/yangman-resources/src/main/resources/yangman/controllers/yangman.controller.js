@@ -37,6 +37,7 @@ define([
 
         $scope.selectedModule = null;
         $scope.selectedDatastore = null;
+        $scope.selectedPlugin = false;
         $scope.apis = [];
         $scope.node = null;
         $scope.rightPanelSection = constants.DISPLAY_TYPE_REQ_DATA;
@@ -83,9 +84,15 @@ define([
         $scope.switchSection = switchSection;
         $scope.setParametersList = setParametersList;
         $scope.unsetPlugin = unsetPlugin;
+        $scope.setSelectedPlugin = setSelectedPlugin;
+
 
         init();
 
+
+        function setSelectedPlugin(selected) {
+            $scope.selectedPlugin = selected;
+        }
 
         /**
          * Start showing progressbar in request header view
@@ -300,11 +307,32 @@ define([
          * @param clearPathArray
          */
         function setApi(api, subApi, setUrl, clearPathArray){
+            var oldSubApiPathArray = $scope.selectedSubApi ? angular.copy($scope.selectedSubApi.pathArray) : [];
             $scope.selectedApi = api;
             $scope.selectedSubApi = subApi;
 
             if ( clearPathArray ){
                 PathUtilsService.clearPath($scope.selectedSubApi.pathArray);
+
+                // todo: move to pathUtils service
+                $scope.selectedSubApi.pathArray.forEach(function (subApiPathElem) {
+                    oldSubApiPathArray.forEach(function (oldSubApiPathElem){
+                        if (oldSubApiPathElem.module === subApiPathElem.module && oldSubApiPathElem.name === subApiPathElem.name) {
+                            oldSubApiPathElem.identifiers.forEach(function (oldPathElemIdentifier, oldPathElemIdentifierKey){
+                                subApiPathElem.identifiers.forEach(function (pathElemIdentifier) {
+                                    if (oldPathElemIdentifier.label === pathElemIdentifier.label) {
+                                        pathElemIdentifier.value = oldPathElemIdentifier.value;
+                                        oldSubApiPathElem.identifiers.splice(oldPathElemIdentifierKey, 1);
+
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
+
+
+
             }
 
             $scope.$broadcast(constants.SET_SEL_OPERATIONS, subApi ? $scope.selectedSubApi.operations : [], setUrl);

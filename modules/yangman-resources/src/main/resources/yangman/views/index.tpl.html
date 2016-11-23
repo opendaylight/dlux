@@ -8,7 +8,7 @@
                  id="toggle-module-detail"
                  ng-click="main.toggleLeftPanel(); main.initModuleDetailHeight();"
                  ng-class="{'arrow-switcher__left' : main.leftPanelTab === 0}"
-                 ng-show="selectedDatastore"> play_arrow </md-icon>
+                 ng-show="selectedDatastore || selectedPlugin"> play_arrow </md-icon>
                  <!--ng-show="!main.selectedMainTab && selectedDatastore"> play_arrow </md-icon>-->
         <!-- content -->
         <md-tabs md-border-bottom md-selected="main.leftPanelTab" class="yangmanModule__left-panel__detail-list-tabs-container">
