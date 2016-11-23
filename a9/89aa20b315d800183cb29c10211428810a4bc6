@@ -1,0 +1,8 @@
+Code-Review+1: Daniel Malachovsky <dmalacho@cisco.com>
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+2: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-by: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-at: Wed, 23 Nov 2016 17:46:36 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/47053
+Project: dlux
+Branch: refs/heads/master
