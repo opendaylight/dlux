@@ -130,9 +130,18 @@
             </md-radio-button>
         </md-radio-group>
 
-        <md-checkbox class="mb0" flex layout-align="center end" ng-model="requestHeader.fillFormWithReceivedData" ng-disabled="requestHeader.selectedShownDataType==='req-data'">
+        <md-checkbox class="mb0" flex layout-align="center end" ng-model="requestHeader.fillFormWithReceivedData" ng-hide="requestHeader.selectedShownDataType==='req-data'">
             {{ 'YANGMAN_FILL_FORM_WITH_RECEIVED' | translate }}
         </md-checkbox>
+
+        <section layout="row" flex layout-align="center end" ng-show="requestHeader.selectedShownDataType==='req-data'">
+            <md-checkbox class="mb0" flex layout-align="center end" ng-model="main.jsonView.sent" >
+                {{ 'YANGMAN_SHOW_SENT_DATA' | translate }}
+            </md-checkbox>
+            <md-checkbox class="mb0" flex layout-align="center end" ng-model="main.jsonView.received">
+                {{ 'YANGMAN_SHOW_RECEIVED_DATA' | translate }}
+            </md-checkbox>
+        </section>
 
         <!-- Request info box -->
         <md-content flex="40"

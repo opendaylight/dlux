@@ -129,6 +129,9 @@ define([], function () {
                             return {};
                         },
                         DEFAULT: function () {
+                            if (node) {
+                                node.clear();
+                            }
                             return rData;
                         },
                     };

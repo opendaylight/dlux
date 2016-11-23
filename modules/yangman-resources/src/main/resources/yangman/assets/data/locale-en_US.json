@@ -98,6 +98,8 @@
   "YANGMAN_LIST_PREV_ITEM": "show previous item",
   "YANGMAN_FILL_FORM_WITH_RECEIVED": "Fill form with received data after execution",
   "YANGMAN_LIST_NEXT_ITEM": "show next item",
+  "YANGMAN_SHOW_SENT_DATA": "show sent data",
+  "YANGMAN_SHOW_RECEIVED_DATA": "show received data",
   "YANGMAN_HISTORY_SETTINGS": "History requests settings",
   "YANGMAN_HISTORY_SETTINGS_GENERAL": "General settings",
   "YANGMAN_HISTORY_SETTINGS_COUNT": "History requests buffer size",

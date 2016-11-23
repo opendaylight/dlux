@@ -192,11 +192,12 @@ define([
         /**
          * Fill request form in right panel with request data
          * @param reqObj
+         * @param preventFillingWithReceived
          */
-        function showForm(reqObj) {
+        function showForm(reqObj, preventFillingWithReceived) {
             var data = reqObj.sentData;
 
-            if ($scope.historySettings.data.fillWithReceived) {
+            if ($scope.historySettings.data.fillWithReceived && !preventFillingWithReceived) {
                 data = reqObj.receivedData;
             }
 
@@ -250,6 +251,7 @@ define([
          * @param reqObj
          */
         function executeRequest(reqObj) {
+                showForm(reqObj, true);
             showData(reqObj);
             $scope.rootBroadcast(constants.YANGMAN_EXECUTE_WITH_DATA,{ data: reqObj.sentData });
         }
@@ -596,11 +598,13 @@ define([
          * @param requestObj
          */
         function selectRequest(event, requestObj){
+            console.debug('selected', requestObj);
+
             $scope.rootBroadcast(constants.YANGMAN_DESELECT_REQUESTS, { broadcastingCtrl: vm });
             vm.mainList.toggleReqSelection(!event.ctrlKey, requestObj);
             if (!event.ctrlKey){
                 if ($scope.rightPanelSection === constants.DISPLAY_TYPE_FORM) {
-                    vm.showForm(requestObj, true);
+                    vm.showForm(requestObj);
                 }
                 else {
                     vm.showData(requestObj, true);
