@@ -138,7 +138,7 @@ define([
         function changeDataType(){
             $scope.switchSection('rightPanelSection', requestHeader.selectedShownDataType);
 
-            if (!$scope.node || requestHeader.urlChanged) {
+            if ($scope.node || requestHeader.urlChanged) {
                 requestHeader.setRequestUrl();
                 requestHeader.urlChanged = false;
             }
@@ -595,6 +595,7 @@ define([
          */
         function executePluginFunctionality(customPlugin){
             requestHeader.selectedPlugin = customPlugin;
+            $scope.setSelectedPlugin(true);
             customPlugin.runCallback({ scope: $scope, controller: requestHeader });
         }
 
@@ -604,6 +605,7 @@ define([
         function unsetPluginFunctionality(){
             if ( requestHeader.selectedPlugin ) {
                 $scope.unsetPlugin(requestHeader);
+                $scope.setSelectedPlugin(false);
             }
 
             requestHeader.selectedPlugin = null;
