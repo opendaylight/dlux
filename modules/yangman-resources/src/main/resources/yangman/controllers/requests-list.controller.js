@@ -88,14 +88,13 @@ define([
                 .ok($filter('translate')('YANGMAN_OK'))
                 .cancel($filter('translate')('YANGMAN_CANCEL'));
 
-            $mdDialog.show(confirm).then(function (){
+            $mdDialog.show(confirm)
+            .then(function (){
                 vm.requestList.clear();
                 vm.requestList.saveToStorage();
                 loadHistoryList();
-                YangmanDesignService.enableMdMenuItem(event);
-            }, function (){
-                YangmanDesignService.enableMdMenuItem(event);
-            });
+            })
+            .then(YangmanDesignService.enableMdMenuItem(event));
         }
 
         /**
@@ -112,14 +111,13 @@ define([
 
             YangmanDesignService.disableMdMenuItem(event);
 
-            $mdDialog.show(confirm).then(function (){
+            $mdDialog.show(confirm)
+            .then(function (){
                 vm.collectionList.clear();
                 vm.collectionList.saveToStorage();
                 $scope.rootBroadcast(constants.YANGMAN_REFRESH_COLLECTIONS);
-                YangmanDesignService.enableMdMenuItem(event);
-            }, function () {
-                YangmanDesignService.enableMdMenuItem(event);
-            });
+            })
+            .then(YangmanDesignService.enableMdMenuItem(event));
         }
 
         /**
@@ -327,28 +325,11 @@ define([
 
             YangmanDesignService.disableMdMenuItem(event);
 
-            $mdDialog.show(confirm).then(function (){
-                if (reqObj){
-                    vm.mainList.deleteRequestItem(reqObj);
-                }
-                else {
-                    vm.mainList.getSelectedItems(
-                        vm.mainList === vm.collectionList ? filterCollReq : filterReq
-                    ).forEach(function (elem){
-                        vm.mainList.deleteRequestItem(elem);
-                    });
-                }
-                vm.mainList.saveToStorage();
-
-                if (vm.mainList === vm.requestList) {
-                    loadHistoryList();
-                }
-                else {
-                    refreshCollectionsWithExpansion();
-                }
-            }, function (){
-                YangmanDesignService.enableMdMenuItem(event);
-            });
+            $mdDialog.show(confirm)
+            .then(function (){
+                    deleteRequestsAndReload(reqObj);
+            })
+            .then(YangmanDesignService.enableMdMenuItem(event));
         }
 
 
@@ -368,13 +349,13 @@ define([
 
             YangmanDesignService.disableMdMenuItem(ev);
 
-            $mdDialog.show(confirm).then(function (){
+            $mdDialog.show(confirm)
+            .then(function (){
                 vm.collectionList.deleteCollection(collObj);
                 vm.collectionList.saveToStorage();
                 refreshCollectionsWithExpansion();
-            }, function (){
-                YangmanDesignService.enableMdMenuItem(ev);
-            });
+            })
+            .then(YangmanDesignService.enableMdMenuItem(ev));
         }
 
         /**
@@ -660,6 +641,26 @@ define([
             $scope.rootBroadcast(constants.YANGMAN_REFRESH_AND_EXPAND_COLLECTIONS);
         }
 
+        function deleteRequestsAndReload(reqObj) {
+            if (reqObj){
+                vm.mainList.deleteRequestItem(reqObj);
+            }
+            else {
+                vm.mainList.getSelectedItems(
+                    vm.mainList === vm.collectionList ? filterCollReq : filterReq
+                ).forEach(function (elem){
+                    vm.mainList.deleteRequestItem(elem);
+                });
+            }
+            vm.mainList.saveToStorage();
+
+            if (vm.mainList === vm.requestList) {
+                loadHistoryList();
+            }
+            else {
+                refreshCollectionsWithExpansion();
+            }
+        }
     }
 
 });
