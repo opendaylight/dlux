@@ -20,6 +20,7 @@ define([
         requestHeader.constants = constants;
         requestHeader.urlChanged = false;
         requestHeader.executedOperation = null;
+
         requestHeader.selectedOperationsList = [];
         requestHeader.selectedOperation = null;
         requestHeader.requestUrl = '';
@@ -193,11 +194,13 @@ define([
                     },
                     default: function (){
                         var dataType;
-                        if(requestHeader.executedOperation) {
-                            dataType = requestHeader.executedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
+                        if (requestHeader.executedOperation) {
+                            dataType = requestHeader.executedOperation === constants.OPERATION_GET ?
+                                constants.REQUEST_DATA_TYPE_RECEIVED :
+                                'SENT';
                         }
                         else {
-                            dataType = requestHeader.selectedOperation === constants.OPERATION_GET ? constants.REQUEST_DATA_TYPE_RECEIVED : 'SENT';
+                            dataType = 'SENT';
                         }
 
                         $scope.rootBroadcast(constants.YANGMAN_GET_CODEMIRROR_DATA + dataType, params);
@@ -422,7 +425,7 @@ define([
 
                 var preparedReceivedData = {};
 
-                if (requestHeader.fillFormWithReceivedData) {
+                if (requestHeader.fillFormWithReceivedData || requestHeader.selectedShownDataType === constants.DISPLAY_TYPE_REQ_DATA ) {
                     preparedReceivedData = YangmanService.prepareReceivedData(
                         $scope.node,
                         requestHeader.selectedOperation,
