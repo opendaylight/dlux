@@ -3,7 +3,7 @@
     <md-switch ng-model="node.value"
                id="{{ node.label + node.id }}"
                aria-label="Boolean"
-               ng-disabled="{{ yangOutput.notEditable }}">
+               ng-readonly="{{ yangOutput.notEditable }}">
     </md-switch>
     <span>T</span>
 </section>
