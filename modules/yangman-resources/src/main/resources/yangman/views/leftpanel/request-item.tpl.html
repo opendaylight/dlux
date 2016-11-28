@@ -8,7 +8,10 @@
 
     <div flex="15" class="yangmanModule__requests-list__group__item__method" layout-align="center center">
         <p id="{{itemId}}-operation" class="{{request.status === 'success' || !request.status ? request.method : 'error'}}"> {{request.method === vm.constants.OPERATION_DELETE ? 'DEL' : request.method }} </p>
-        <md-tooltip ng-show="request.status.length" md-direction="bottom" ng-show="request.status">{{request.status | uppercase }}</md-tooltip>
+        <md-tooltip ng-show="request.status.length" md-direction="bottom" ng-show="request.status">
+            Status: {{request.status | uppercase }} <br />
+            Run at: {{request.timestamp | date: 'medium' }}
+        </md-tooltip>
     </div>
 
     <div flex class="yangmanModule__requests-list__group__item__path" layout="column">
@@ -37,7 +40,6 @@
                 {{'YANGMAN_REQ_RUN'| translate}}
             </md-button>
         </md-menu-item>
-                       id="{{itemId}}-show-sent-data"
         <md-menu-item ng-if="request.collection.length">
             <md-button aria-label="{{'YANGMAN_REQ_DUPLICATE'| translate}}"
                        id="{{itemId}}-duplicate"

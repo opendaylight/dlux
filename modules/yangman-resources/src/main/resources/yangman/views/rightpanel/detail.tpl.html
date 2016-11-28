@@ -18,6 +18,7 @@
 
 <!-- JSON section -->
 <section class="yangmanModule__right-panel__req-data bottom-content"
+         id="jsonSection"
          ng-cloak
          ng-show="rightPanelSection === main.constants.DISPLAY_TYPE_REQ_DATA">
 
@@ -27,6 +28,8 @@
          ng-show="main.jsonView.sent"
          ng-init="requestData.init('SENT')"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
+         height-watcher watch-attribute="height"
+         id="sentData"
          class="yangmanModule__right-panel__req-data__cm-SENT ym-resizable-s">
 
         <section class="yangmanModule__right-panel__req-data__header" layout="row">
@@ -54,6 +57,7 @@
          ng-show="main.jsonView.received"
          ng-init="requestData.init(main.constants.REQUEST_DATA_TYPE_RECEIVED)"
          ng-class="{'half-size': main.jsonView.received && main.jsonView.sent}"
+         id="ReceiveData"
          class="yangmanModule__right-panel__req-data__cm-RECEIVED ym-resizable-s">
 
         <section class="yangmanModule__right-panel__req-data__header" layout="row">

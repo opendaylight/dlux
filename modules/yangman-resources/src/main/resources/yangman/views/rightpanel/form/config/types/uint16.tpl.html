@@ -1,5 +1,5 @@
 <md-input-container md-no-float>
-    <input ng-change="yangType.valueChanged()" ng-model="node.value" aria-label="{{node.value}}" placeholder="{{type.label}}" ng-disabled="{{ yangOutput.notEditable }}">
+    <input ng-change="yangType.valueChanged()" ng-model="node.value" aria-label="{{node.value}}" placeholder="{{type.label}}" ng-readonly="{{ yangOutput.notEditable }}">
     <md-tooltip md-direction="top">{{type.label}}</md-tooltip>
 </md-input-container>
 
