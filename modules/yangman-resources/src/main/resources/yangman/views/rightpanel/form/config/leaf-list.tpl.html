@@ -28,9 +28,9 @@
 
     <div ng-repeat="elem in node.value" ng-show="node.expanded">
         <!-- Leaf list values -->
-        <md-input-container md-no-float  class="input-icon-container">
+        <md-input-container md-no-float  class="input-icon-container full_width">
             <!-- input -->
-            <input  ng-change="yangLeafList.changed()" ng-model="elem.value" aria-label="{{elem.value}}">
+            <input  ng-change="yangLeafList.changed()" ng-model="elem.value" aria-label="{{elem.value}}" class="full_width">
 
             <!-- remove Icon -->
             <md-icon md-font-set="material-icons" class="top-icon top-element pointer" ng-click="yangLeafList.removeListElem(elem)">

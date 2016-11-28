@@ -18,6 +18,7 @@
          ng-repeat="type in node.getChildren('type')"
          ng-include="yangForm.viewPath + '/config/types/' + yangLeaf.getLeafType() + '.tpl.html'"
          {{yangLeaf.getLeafType() === 'union' ? 'flex="grow"' : ''}}
-         layout="row">
+         layout="row"
+         class="full_width">
     </div>
 </div>

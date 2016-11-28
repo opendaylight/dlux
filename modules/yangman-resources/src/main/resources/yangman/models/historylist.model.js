@@ -78,8 +78,8 @@ define(['app/yangman/models/baselist.model'], function (BaseListModel){
          * @returns {number|*}
          */
         function roundTimestampToDate(timeStamp){
-            timeStamp -= timeStamp % (24 * 60 * 60 * 1000);//subtract amount of time since midnight
             timeStamp += new Date().getTimezoneOffset() * 60 * 1000;//add on the timezone offset
+            timeStamp -= timeStamp % (24 * 60 * 60 * 1000);//subtract amount of time since midnight
             return timeStamp;
         }
 
