@@ -15,6 +15,7 @@ define([
     'app/yangman/services/history-settings.services',
     'app/yangman/directives/ui-codemirror.directive',
     'app/yangman/directives/read_file.directive',
+    'app/yangman/directives/height-watcher.directive',
 ], function () {
     'use strict';
 
