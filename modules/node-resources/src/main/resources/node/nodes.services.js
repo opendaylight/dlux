@@ -39,7 +39,7 @@ define(['app/node/nodes.module'],function(node) {
     };
 
     svc.getAllNodes = function() {
-      svc.data = svc.base().getList();
+      svc.data = svc.base().get();
       return svc.data;
     };
 
