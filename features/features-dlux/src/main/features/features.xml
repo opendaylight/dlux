@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<features name="odl-dlux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+<features name="odl-dlux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+   xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.3.0 http://karaf.apache.org/xmlns/features/v1.3.0">
 
     <repository>mvn:org.opendaylight.netconf/features-restconf/{{VERSION}}/xml/features</repository>
-    <feature name='odl-dlux-all' version='${project.version}' description="Opendaylight dlux all features">
-       <feature>odl-dlux-core</feature>
-        <feature>odl-dlux-node</feature>
-        <feature>odl-dlux-yangui</feature>
-        <feature>odl-dlux-yangvisualizer</feature>
-    </feature>
 
     <feature name='odl-dlux-core' version='${project.version}' description="Opendaylight dlux minimal feature">
         <feature>http</feature>
@@ -24,36 +18,6 @@
         <bundle>mvn:org.opendaylight.dlux/dlux.common.topbar/{{VERSION}}</bundle>
         <bundle>mvn:org.opendaylight.dlux/dlux.common.general/{{VERSION}}</bundle>
         <bundle start-level="90">mvn:org.opendaylight.dlux/dlux.common.layout/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.topology/{{VERSION}}</bundle>
-    </feature>
-
-
-    <feature name="odl-dlux-node" version='${project.version}' description="Enable nodes in Opendaylight dlux">
-        <feature>odl-dlux-core</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux.node/{{VERSION}}</bundle>
-    </feature>
-
-    <feature name="odl-dlux-yangui" version='${project.version}' description="Enable Yang UI in Opendaylight dlux">
-        <feature>odl-dlux-core</feature>
-        <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux.yangui/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/{{VERSION}}</bundle>
-    </feature>
-
-    <feature name="odl-dlux-yangman" version='${project.version}' description="Enable Yangman in Opendaylight dlux">
-        <feature>odl-dlux-core</feature>
-        <feature version="${restconf.version}">odl-mdsal-apidocs</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux.yangman/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/{{VERSION}}</bundle>
-    </feature>
-
-	<feature name="odl-dlux-yangvisualizer" version='${project.version}' description="Enable Yang visualizer in Opendaylight dlux">
-        <feature>odl-dlux-core</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux.yangvisualizer/{{VERSION}}</bundle>
-        <bundle>mvn:org.opendaylight.dlux/dlux.common.yangutils/{{VERSION}}</bundle>
-		<bundle>mvn:org.opendaylight.dlux/dlux.common.sigmatopology/{{VERSION}}</bundle>
     </feature>
 
 </features>
