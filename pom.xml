@@ -19,23 +19,22 @@
     <commons.opendaylight.version>1.8.0-SNAPSHOT</commons.opendaylight.version>
     <loader.resources.version>0.5.0-SNAPSHOT</loader.resources.version>
     <core.resources.version>0.5.0-SNAPSHOT</core.resources.version>
-    <node.resources.version>0.5.0-SNAPSHOT</node.resources.version>
     <connection_manager.resources.version>0.5.0-SNAPSHOT</connection_manager.resources.version>
     <container.resources.version>0.5.0-SNAPSHOT</container.resources.version>
     <flow.resources.version>0.5.0-SNAPSHOT</flow.resources.version>
     <network.resources.version>0.5.0-SNAPSHOT</network.resources.version>
-    <topology.resources.version>0.5.0-SNAPSHOT</topology.resources.version>
-    <yangui.resources.version>0.5.0-SNAPSHOT</yangui.resources.version>
-    <yangman.resources.version>0.5.0-SNAPSHOT</yangman.resources.version>
-    <yangvisualizer.resources.version>0.5.0-SNAPSHOT</yangvisualizer.resources.version>
+    <!--<topology.resources.version>0.5.0-SNAPSHOT</topology.resources.version>-->
+    <!--<yangui.resources.version>0.5.0-SNAPSHOT</yangui.resources.version>-->
+    <!--<yangman.resources.version>0.5.0-SNAPSHOT</yangman.resources.version>-->
+    <!--<yangvisualizer.resources.version>0.5.0-SNAPSHOT</yangvisualizer.resources.version>-->
     <common.authentication.resources.version>0.5.0-SNAPSHOT</common.authentication.resources.version>
     <common.general.resources.version>0.5.0-SNAPSHOT</common.general.resources.version>
     <common.navigation.resources.version>0.5.0-SNAPSHOT</common.navigation.resources.version>
     <common.layout.resources.version>0.5.0-SNAPSHOT</common.layout.resources.version>
     <common.topbar.resources.version>0.5.0-SNAPSHOT</common.topbar.resources.version>
     <common.login.resources.version>0.5.0-SNAPSHOT</common.login.resources.version>
-    <common.yangutils.resources.version>0.5.0-SNAPSHOT</common.yangutils.resources.version>
-    <common.sigmatopology.resources.version>0.5.0-SNAPSHOT</common.sigmatopology.resources.version>
+    <!--<common.yangutils.resources.version>0.5.0-SNAPSHOT</common.yangutils.resources.version>-->
+    <!--<common.sigmatopology.resources.version>0.5.0-SNAPSHOT</common.sigmatopology.resources.version>-->
     <restconf.version>1.5.0-SNAPSHOT</restconf.version>
     <l2switch.version>0.5.0-SNAPSHOT</l2switch.version>
     <mdsal.version>1.5.0-SNAPSHOT</mdsal.version>
