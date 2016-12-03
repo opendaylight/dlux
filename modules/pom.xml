@@ -24,21 +24,17 @@
     <maven>3.0</maven>
   </prerequisites>
   <modules>
-    <module>node-resources</module>
-    <module>common-yangutils-resources</module>
-    <module>common-sigmatopology-resources</module>
     <module>common-navigation-resources</module>
     <module>common-layout-resources</module>
     <module>common-authentication-resources</module>
     <module>common-login-resources</module>
     <module>common-general-resources</module>
-    <module>yangui-resources</module>
-    <module>yangman-resources</module>
-    <module>yangvisualizer-resources</module>
+    <!--<module>yangman-resources</module>-->
+    <!--<module>yangvisualizer-resources</module>-->
     <module>network-resources</module>
     <module>flow-resources</module>
     <module>container-resources</module>
-    <module>topology-resources</module>
+    <!--<module>topology-resources</module>-->
     <module>loader-resources</module>
     <module>connection_manager-resources</module>
     <module>core-resources</module>
