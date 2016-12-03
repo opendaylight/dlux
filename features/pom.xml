@@ -77,11 +77,6 @@
       </dependency>
       <dependency>
           <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.node</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
           <artifactId>dlux.topology</artifactId>
           <version>${project.version}</version>
       </dependency>
