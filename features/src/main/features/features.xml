@@ -30,7 +30,7 @@
 
     <feature name="odl-dlux-node" version='${project.version}' description="Enable nodes in Opendaylight dlux">
         <feature>odl-dlux-core</feature>
-        <bundle>mvn:org.opendaylight.dlux/dlux.node/{{VERSION}}</bundle>
+        <!--<feature>odl-dluxapps-node</feature>-->
     </feature>
 
     <feature name="odl-dlux-yangui" version='${project.version}' description="Enable Yang UI in Opendaylight dlux">

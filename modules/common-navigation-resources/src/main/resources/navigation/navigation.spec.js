@@ -1,6 +1,6 @@
-define(['common/navigation/navigation.module'], function () {
+define(['common/navigation/navigation.module', 'angular-ui-router',], function () {
   describe('Navigation Module', function () {
-    var scope, NavHelperMock, EventMock, controller, NavHelperProviderMock;
+    var scope, NavHelperMock, EventMock, controller;
 
     beforeEach(angular.mock.module('ui.router'));
     beforeEach(module('app.core', function ($provide) {

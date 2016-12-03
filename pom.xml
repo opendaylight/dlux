@@ -19,7 +19,6 @@
     <commons.opendaylight.version>1.8.0-SNAPSHOT</commons.opendaylight.version>
     <loader.resources.version>0.5.0-SNAPSHOT</loader.resources.version>
     <core.resources.version>0.5.0-SNAPSHOT</core.resources.version>
-    <node.resources.version>0.5.0-SNAPSHOT</node.resources.version>
     <connection_manager.resources.version>0.5.0-SNAPSHOT</connection_manager.resources.version>
     <container.resources.version>0.5.0-SNAPSHOT</container.resources.version>
     <flow.resources.version>0.5.0-SNAPSHOT</flow.resources.version>
