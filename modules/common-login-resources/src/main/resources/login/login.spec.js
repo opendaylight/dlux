@@ -1,6 +1,6 @@
-define(['common/login/login.controller'], function() {
+define(['common/login/login.controller', 'angular-ui-router', 'common/layout/layout.module'], function() {
   describe('Login Module', function() {
-    var scope, state, controller, location, _AuthMock;
+    var scope, state, controller, location, AuthMock;
     var url = '/test';
 
     beforeEach(module('ui.router'));
