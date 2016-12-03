@@ -26,10 +26,10 @@
         <module>features4-dlux</module>
         <module>odl-dlux-all</module>
         <module>odl-dlux-core</module>
-        <module>odl-dlux-node</module>
-        <module>odl-dlux-yangui</module>
-        <module>odl-dlux-yangman</module>
-        <module>odl-dlux-yangvisualizer</module>
+        <!--<module>odl-dlux-node</module>-->
+        <!--<module>odl-dlux-yangui</module>-->
+        <!--<module>odl-dlux-yangman</module>-->
+        <!--<module>odl-dlux-yangvisualizer</module>-->
     </modules>
 
 </project>

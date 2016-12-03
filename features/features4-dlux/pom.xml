@@ -38,34 +38,34 @@
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>odl-dlux-node</artifactId>
-            <version>${project.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>odl-dlux-yangman</artifactId>
-            <version>${project.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>odl-dlux-yangui</artifactId>
-            <version>${project.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>odl-dlux-yangvisualizer</artifactId>
-            <version>${project.version}</version>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>${project.groupId}</groupId>-->
+            <!--<artifactId>odl-dlux-node</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>xml</type>-->
+            <!--<classifier>features</classifier>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${project.groupId}</groupId>-->
+            <!--<artifactId>odl-dlux-yangman</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>xml</type>-->
+            <!--<classifier>features</classifier>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${project.groupId}</groupId>-->
+            <!--<artifactId>odl-dlux-yangui</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>xml</type>-->
+            <!--<classifier>features</classifier>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>${project.groupId}</groupId>-->
+            <!--<artifactId>odl-dlux-yangvisualizer</artifactId>-->
+            <!--<version>${project.version}</version>-->
+            <!--<type>xml</type>-->
+            <!--<classifier>features</classifier>-->
+        <!--</dependency>-->
     </dependencies>
-    
+
 </project>
