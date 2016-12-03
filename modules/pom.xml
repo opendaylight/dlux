@@ -24,7 +24,6 @@
     <maven>3.0</maven>
   </prerequisites>
   <modules>
-    <module>node-resources</module>
     <module>common-yangutils-resources</module>
     <module>common-sigmatopology-resources</module>
     <module>common-navigation-resources</module>
