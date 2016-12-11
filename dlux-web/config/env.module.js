@@ -7,6 +7,7 @@ define(['angular'], function (angular) {
       baseURL: '@@baseURL',
       adSalPort: '@@adSalPort',
       mdSalPort: '@@mdSalPort',
+      mdSalSecuredPort: "@@mdSalSecuredPort",
       configEnv: '@@configEnv',
       getBaseURL: function (salType) {
         if (salType !== undefined) {
@@ -20,7 +21,11 @@ define(['angular'], function (angular) {
           if (salType === 'AD_SAL') {
             return urlPrefix + this.adSalPort;
           } else if (salType === 'MD_SAL') {
-            return urlPrefix + this.mdSalPort;
+            var basePort = this.mdSalPort;
+            if (window.location.protocol === 'https:') {
+                basePort = this.mdSalSecuredPort;
+            }
+            return urlPrefix + basePort;
           }
         }
         //default behavior
