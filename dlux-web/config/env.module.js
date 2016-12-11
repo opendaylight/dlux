@@ -7,6 +7,7 @@ define(['angularAMD'], function(ng) {
                 baseURL: "@@baseURL",
                 adSalPort: "@@adSalPort",
                 mdSalPort : "@@mdSalPort",
+                mdSalSecuredPort : "@@mdSalSecuredPort",
                 configEnv : "@@configEnv",
                 getBaseURL : function(salType){
                     if(salType!==undefined){
@@ -20,7 +21,11 @@ define(['angularAMD'], function(ng) {
                         if(salType==="AD_SAL"){
                             return urlPrefix + this.adSalPort;
                         }else if(salType==="MD_SAL"){
-                            return  urlPrefix + this.mdSalPort;
+                              var basePort = this.mdSalPort;
+                              if (window.location.protocol == 'https:') {
+                                  this.basePort = this.mdSalSecuredPort;
+                              }	
+                              return urlPrefix + this.basePort;
                         }
                     }
                     //default behavior
