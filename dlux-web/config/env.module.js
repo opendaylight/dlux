@@ -20,7 +20,11 @@ define(['angularAMD'], function(ng) {
                         if(salType==="AD_SAL"){
                             return urlPrefix + this.adSalPort;
                         }else if(salType==="MD_SAL"){
-                            return  urlPrefix + this.mdSalPort;
+                              var basePort = this.mdSalPort;
+                              if (window.location.protocol == 'https:') {
+                                  this.basePort = "8443";
+                              }	
+                              return urlPrefix + this.basePort;
                         }
                     }
                     //default behavior
