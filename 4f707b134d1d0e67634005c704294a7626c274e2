@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_83c71845",
+        "filename": "dlux-web/config/env.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-12-12T15:58:37Z",
+      "side": 1,
+      "message": "Please use the identity operator (\u003d\u003d\u003d). It\u0027s always a good thing to do to avoid type coercion.",
+      "range": {
+        "startLine": 25,
+        "startChar": 59,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "4f707b134d1d0e67634005c704294a7626c274e2",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_e3c40c42",
+        "filename": "dlux-web/config/env.module.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-12-12T15:58:37Z",
+      "side": 1,
+      "message": "white space, please remove it",
+      "range": {
+        "startLine": 27,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "4f707b134d1d0e67634005c704294a7626c274e2",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
