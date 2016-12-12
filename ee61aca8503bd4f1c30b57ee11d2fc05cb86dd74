@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_72e9e87f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 670
+      },
+      "writtenOn": "2016-12-12T08:27:38Z",
+      "side": 1,
+      "message": "remove signed-off line in the top\nneed a line separating subject and commit message body",
+      "revId": "ee61aca8503bd4f1c30b57ee11d2fc05cb86dd74",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_f2fcd840",
+        "filename": "dlux-web/config/env.module.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 670
+      },
+      "writtenOn": "2016-12-12T08:27:38Z",
+      "side": 1,
+      "message": "Instead of hardcoding it here, can we keep this file generic and use mdSalPort?\nWhere is it set to 8181? That would probably be the place to put this logic..",
+      "revId": "ee61aca8503bd4f1c30b57ee11d2fc05cb86dd74",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
