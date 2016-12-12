@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_03f4a859",
+        "filename": "dlux-web/config/env.module.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-12-12T16:26:29Z",
+      "side": 1,
+      "message": "sorry to have missed that one.`this` refer to the function scope, basePort is local to the function, it isn\u0027t part of the scope.  Like urlPrefix, remove the `this` and keep only basePort.",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 39
+      },
+      "revId": "75941f21c0e34c4236feebe4663be3c62a1c9fda",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_63e91c80",
+        "filename": "dlux-web/config/env.module.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1951
+      },
+      "writtenOn": "2016-12-12T16:26:29Z",
+      "side": 1,
+      "message": "same as upper",
+      "range": {
+        "startLine": 28,
+        "startChar": 49,
+        "endLine": 28,
+        "endChar": 54
+      },
+      "revId": "75941f21c0e34c4236feebe4663be3c62a1c9fda",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
