@@ -1,48 +1,51 @@
-# The `src` Directory
+# OpenDaylight DLUX 
 
-## Overview
+OpenDaylight DLUX is a Javascript-based stateless user interface that communicates with the service backend to provide a consistent and user-friendly interface to interact with OpenDaylight projects and base controller.
 
-The `src/` directory contains all code used in the application along with all
-tests of such code.
 
-```
-src/
-  |- app/
-  |  |- about/
-  |  |- home/
-  |  |- app.js
-  |  |- app.spec.js
-  |- assets/
-  |- common/
-  |  |- plusOne/
-  |- less/
-  |  |- main.less
-  |  |- variables.less
-  |- index.html
-```
+## Build DLUX code with Karaf feature and distribution
 
-- `src/app/` - application-specific code, i.e. code not likely to be reused in
-  another application. [Read more &raquo;](app/README.md)
-- `src/assets/` - static files like fonts and images. 
-  [Read more &raquo;](assets/README.md)
-- `src/common/` - third-party libraries or components likely to be reused in
-  another application. [Read more &raquo;](common/README.md)
-- `src/less/` - LESS CSS files. [Read more &raquo;](less/README.md)
-- `src/index.html` - this is the HTML document of the single-page application.
-  See below.
+All necessary modules mentioned above such as nodesjs, bower etc. will be installed automatically, when you run the dlux build for first time.  Run following command at dlux home directory /dlux to build dlux feature and distribution along with code.
+Once successful, It will make dlux feature available to install and also create dlux karaf distribution. You can find karaf distribution at dlux/distribution-dlux.
 
-See each directory for a detailed explanation.
+    $  mvn clean install
 
-## `index.html`
+__NOTE__: Some people reported about node related error while maven build. Those errors are usually environment related, mostly happens because of the permission issues or node is not installed properly. Try to reinstall node manually.
 
-The `index.html` file is the HTML document of the single-page application (SPA)
-that should contain all markup that applies to everything in the app, such as
-the header and footer. It declares with `ngApp` that this is `ngBoilerplate`,
-specifies the main `AppCtrl` controller, and contains the `ngView` directive
-into which route templates are placed.
+### Install NodeJS manually if needed
 
-Unlike any other HTML document (e.g. the templates), `index.html` is compiled as
-a Grunt template, so variables from `Gruntfile.js` and `package.json` can be
-referenced from within it. Changing `name` in `package.json` from
-"ng-boilerplate" will rename the resultant CSS and JavaScript placed in `build/`,
-so this HTML references them by variable for convenience.
+__For Windows and Mac without brew:__
+
+    Go to http://www.nodejs.org
+    Download and install NodeJS
+
+__For Mac with brew installed:__
+
+    $ brew update
+    $ brew install node
+
+__Verify NodeJS is installed:__
+
+    $ npm --version
+
+__Run DLUX in karaf distribution__
+
+Once you have dlux distribution or you have karaf distribution from integration repository. You can turn on the dlux feature to access the UI.
+We will take example of dlux distribution here. Navigate to directory dlux/distribution-dlux/target/assembly/bin and start the karaf via following command -
+
+    ./karaf
+
+On the karaf shell, install dlux core feature via running following command -
+
+    feature:install odl-dlux-core
+
+
+It will internally install odl-restconf and dlux topology application along with core dlux components. once this feature is successfully installed.
+Access the dlux UI at __http://localhost:8181/index.html__. Default credentials are admin/admin for login.
+
+All the applications in dlux are now karaf features. You can install other dlux applications such as nodes, yang-ui from karaf console using commands such as
+
+    feature:install odl-dlux-node
+    feature:install odl-dlux-yangui
+
+For more details - follow the wiki at  [dlux opendaylight](https://wiki.opendaylight.org/view/OpenDaylight_dlux:Getting_started)
