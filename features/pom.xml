@@ -1,121 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.opendaylight.odlparent</groupId>
-    <artifactId>features-parent</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
-    <relativePath/>
-  </parent>
-  <groupId>org.opendaylight.dlux</groupId>
-  <artifactId>features-dlux</artifactId>
-  <version>0.5.0-SNAPSHOT</version>
-  <name>DLUX - Features </name>
-  <packaging>jar</packaging>
+<!--
+ Copyright © 2017 Red Hat, Inc. and others.  All rights reserved.
 
-  <properties>
-    <features.file>features.xml</features.file>
-    <restconf.version>1.5.0-SNAPSHOT</restconf.version>
-  </properties>
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.opendaylight.odlparent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.8.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    <groupId>org.opendaylight.dlux</groupId>
+    <artifactId>features-dlux-aggregator</artifactId>
+    <version>0.5.0-SNAPSHOT</version>
+    <name>DLUX - Features aggregator</name>
+    <packaging>pom</packaging>
 
-  <dependencies>
-      <dependency>
-         <groupId>org.opendaylight.odlparent</groupId>
-         <artifactId>features-test</artifactId>
-         <version>1.8.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-         <groupId>org.opendaylight.controller</groupId>
-         <artifactId>opendaylight-karaf-empty</artifactId>
-         <version>1.8.0-SNAPSHOT</version>
-         <type>zip</type>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>loader</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>loader.implementation</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.core</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.layout</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.login</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.authentication</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.navigation</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.topbar</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.general</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.node</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.topology</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangui</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangman</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.yangutils</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-	  <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.sigmatopology</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-	  <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangvisualizer</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.netconf</groupId>
-          <artifactId>features-restconf</artifactId>
-          <version>${restconf.version}</version>
-          <classifier>features</classifier>
-          <type>xml</type>
-      </dependency>
-  </dependencies>
+    <modules>
+        <module>features-dlux</module>
+        <module>features4-dlux</module>
+        <module>odl-dlux-all</module>
+        <module>odl-dlux-core</module>
+        <module>odl-dlux-node</module>
+        <module>odl-dlux-yangui</module>
+        <module>odl-dlux-yangman</module>
+        <module>odl-dlux-yangvisualizer</module>
+    </modules>
+
 </project>

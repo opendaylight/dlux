@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright © 2017 Red Hat, Inc. and others.  All rights reserved.
+
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+ -->
+<features name="odl-dlux-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0">
+    <feature name="odl-dlux-core" version="${project.version}">
+        <feature>http</feature>
+        <bundle start-level="90">mvn:org.opendaylight.dlux/dlux.common.layout/${project.version}</bundle>
+    </feature>
+</features>
