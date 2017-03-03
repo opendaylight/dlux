@@ -17,7 +17,9 @@
   </parent>
 
   <artifactId>dlux.container.resources</artifactId>
-  <name>${project.artifactId}</name>
+  <!-- <name> formatting is used by autorelease to parse and notify projects on
+       build failure. Please do not modify this unless you have a good reason. -->
+  <name>ODL :: dlux :: ${project.artifactId}</name>
   <description>Container Module Resources</description>
   <packaging>jar</packaging>
 

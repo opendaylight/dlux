@@ -11,7 +11,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-web</artifactId>
-    <name>DLUX - DLUX Static Web </name>
+    <!-- <name> formatting is used by autorelease to parse and notify projects on
+         build failure. Please do not modify this unless you have a good reason. -->
+    <name>ODL :: dlux :: ${project.artifactId}</name>
 
     <dependencies>
        <dependency>
