@@ -46,5 +46,9 @@ define(['common/topbar/topbar.module', 'common/topbar/topbar.directives', 'commo
                 $window.location.href = 'index.html#/login';
             });
         }
+
+        $scope.getUsername = function() {
+            return $window.localStorage.odlUser;
+        };
     });
 });
