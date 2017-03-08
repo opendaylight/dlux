@@ -31,19 +31,19 @@ define(['common/authentification/auth.module'], function () {
       it('Should set the basic authenticate header', function () {
         _Auth.setBasic(username, password);
 
-        expect(_window.sessionStorage.odlUser).toBeDefined();
-        expect(_window.sessionStorage.odlUser).toEqual(username);
+        expect(_window.localStorage.odlUser).toBeDefined();
+        expect(_window.localStorage.odlUser).toEqual(username);
 
-        expect(_window.sessionStorage.odlPass).toBeDefined();
-        expect(_window.sessionStorage.odlPass).toEqual(password);
+        expect(_window.localStorage.odlPass).toBeDefined();
+        expect(_window.localStorage.odlPass).toEqual(password);
       });
 
       it('Should unset the basic authenticate header', inject(function ($http) {
         _Auth.setBasic(username, password);
         _Auth.unsetBasic();
 
-        expect(_window.sessionStorage.odlUser).toBeUndefined();
-        expect(_window.sessionStorage.odlPass).toBeUndefined();
+        expect(_window.localStorage.odlUser).toBeUndefined();
+        expect(_window.localStorage.odlPass).toBeUndefined();
         expect($http.defaults.headers.common.Authorization).toBeUndefined();
       }));
     });

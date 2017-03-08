@@ -13,21 +13,31 @@ define([], function () {
     var factory = {};
     // Set Authorization header to username + password
     factory.setBasic = function (user, pw) {
+      $window.localStorage.odlUser = user;
+      $window.localStorage.odlPass = pw;
+      // for backward compatibility
       $window.sessionStorage.odlUser = user;
       $window.sessionStorage.odlPass = pw;
     };
+  
+    // for backward compatibility
+    if ($window.localStorage.odlUser && $window.localStorage.odlPass) {
+        $window.sessionStorage.odlUser = $window.localStorage.odlUser;
+        $window.sessionStorage.odlPass = $window.localStorage.odlPass;
+    }
 
     factory.unsetBasic = function () {
       if ($http.defaults.headers.common.Authorization !== null) {
         delete $http.defaults.headers.common.Authorization;
       }
+      $window.localStorage.clear();
       $window.sessionStorage.clear();
       document.cookie = 'JSESSIONID=; Path=/restconf; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     };
 
     // Return the current user object
     factory.getUser = function () {
-      var user = $window.sessionStorage.odlUser || null;
+      var user = $window.localStorage.odlUser || null;
       return user;
     };
 
@@ -166,8 +176,8 @@ define([], function () {
         // Use AAA basic authentication
         if (config.url.indexOf('restconf') !== -1 || config.url.indexOf('apidoc') !== -1) {
           config.headers = config.headers || {};
-          if ($window.sessionStorage.odlUser && $window.sessionStorage.odlPass) {
-            var encoded = Base64.encode($window.sessionStorage.odlUser + ':' + $window.sessionStorage.odlPass);
+          if ($window.localStorage.odlUser && $window.localStorage.odlPass) {
+            var encoded = Base64.encode($window.localStorage.odlUser + ':' + $window.localStorage.odlPass);
             config.headers.Authorization = 'Basic ' + encoded;
           }
         }
