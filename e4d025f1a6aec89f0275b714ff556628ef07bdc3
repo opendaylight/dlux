@@ -22,6 +22,30 @@
       "revId": "e4d025f1a6aec89f0275b714ff556628ef07bdc3",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fafc7978_a47b6c79",
+        "filename": "modules/common-authentication-resources/src/main/resources/authentification/auth.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6812
+      },
+      "writtenOn": "2017-03-09T10:37:27Z",
+      "side": 1,
+      "message": "maybe some dlux projects assume they can find the username in the sessionStorage.\nOur project for example did that. so I don\u0027t think it is a good idea to break it.",
+      "parentUuid": "fafc7978_c23ae3e5",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "e4d025f1a6aec89f0275b714ff556628ef07bdc3",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
