@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fafc7978_c23ae3e5",
+        "filename": "modules/common-authentication-resources/src/main/resources/authentification/auth.services.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 3799
+      },
+      "writtenOn": "2017-03-09T10:16:09Z",
+      "side": 1,
+      "message": "Do we need that backward compatibility?",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "e4d025f1a6aec89f0275b714ff556628ef07bdc3",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
