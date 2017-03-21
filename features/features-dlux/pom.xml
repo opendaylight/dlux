@@ -76,41 +76,6 @@
           <version>${project.version}</version>
       </dependency>
       <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.node</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.topology</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangui</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangman</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.yangutils</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-	  <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.common.sigmatopology</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-	  <dependency>
-          <groupId>org.opendaylight.dlux</groupId>
-          <artifactId>dlux.yangvisualizer</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-      <dependency>
           <groupId>org.opendaylight.netconf</groupId>
           <artifactId>features-restconf</artifactId>
           <version>${restconf.version}</version>

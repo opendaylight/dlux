@@ -31,13 +31,6 @@
     <module>login</module>
     <module>general</module>
     <module>authentication</module>
-    <module>node</module>
-    <module>topology</module>
-    <module>yangui</module>
-    <module>yangman</module>
-    <module>yangutils</module>
-    <module>yangvisualizer</module>
-    <module>sigmatopology</module>
   </modules>
 
 </project>
