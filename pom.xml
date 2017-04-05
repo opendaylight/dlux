@@ -5,55 +5,55 @@
     <parent>
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>odlparent</artifactId>
-        <version>1.7.3-SNAPSHOT</version>
+        <version>1.7.3-Boron-SR3</version>
         <relativePath></relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-parent</artifactId>
-    <version>0.4.3-SNAPSHOT</version>
+    <version>0.4.3-Boron-SR3</version>
     <packaging>pom</packaging>
     <name>dlux</name> <!-- Used by Sonar to set project name -->
 
     <properties>
-        <commons.opendaylight.version>1.7.3-SNAPSHOT</commons.opendaylight.version>
-        <loader.resources.version>0.4.3-SNAPSHOT</loader.resources.version>
-        <core.resources.version>0.4.3-SNAPSHOT</core.resources.version>
-        <node.resources.version>0.4.3-SNAPSHOT</node.resources.version>
-        <connection_manager.resources.version>0.4.3-SNAPSHOT</connection_manager.resources.version>
-        <container.resources.version>0.4.3-SNAPSHOT</container.resources.version>
-        <flow.resources.version>0.4.3-SNAPSHOT</flow.resources.version>
-        <network.resources.version>0.4.3-SNAPSHOT</network.resources.version>
-        <topology.resources.version>0.4.3-SNAPSHOT</topology.resources.version>
-        <yangui.resources.version>0.4.3-SNAPSHOT</yangui.resources.version>
-        <yangman.resources.version>0.4.3-SNAPSHOT</yangman.resources.version>
-        <yangvisualizer.resources.version>0.4.3-SNAPSHOT</yangvisualizer.resources.version>
-        <common.authentication.resources.version>0.4.3-SNAPSHOT</common.authentication.resources.version>
-        <common.general.resources.version>0.4.3-SNAPSHOT</common.general.resources.version>
-        <common.navigation.resources.version>0.4.3-SNAPSHOT</common.navigation.resources.version>
-        <common.layout.resources.version>0.4.3-SNAPSHOT</common.layout.resources.version>
-        <common.topbar.resources.version>0.4.3-SNAPSHOT</common.topbar.resources.version>
-        <common.login.resources.version>0.4.3-SNAPSHOT</common.login.resources.version>
-        <common.yangutils.resources.version>0.4.3-SNAPSHOT</common.yangutils.resources.version>
-        <common.sigmatopology.resources.version>0.4.3-SNAPSHOT</common.sigmatopology.resources.version>
-        <restconf.version>1.4.3-SNAPSHOT</restconf.version>
-        <l2switch.version>0.4.3-SNAPSHOT</l2switch.version>
-        <mdsal.version>1.4.3-SNAPSHOT</mdsal.version>
-        <branding.version>1.3.3-SNAPSHOT</branding.version>
-        <karaf.resources.version>1.7.3-SNAPSHOT</karaf.resources.version>
-        <feature.l2switch.version>0.4.3-SNAPSHOT</feature.l2switch.version>
-        <feature.aaa.version>0.4.3-SNAPSHOT</feature.aaa.version>
-        <feature.openflowplugin.version>0.3.3-SNAPSHOT</feature.openflowplugin.version>
+        <commons.opendaylight.version>1.7.3-Boron-SR3</commons.opendaylight.version>
+        <loader.resources.version>0.4.3-Boron-SR3</loader.resources.version>
+        <core.resources.version>0.4.3-Boron-SR3</core.resources.version>
+        <node.resources.version>0.4.3-Boron-SR3</node.resources.version>
+        <connection_manager.resources.version>0.4.3-Boron-SR3</connection_manager.resources.version>
+        <container.resources.version>0.4.3-Boron-SR3</container.resources.version>
+        <flow.resources.version>0.4.3-Boron-SR3</flow.resources.version>
+        <network.resources.version>0.4.3-Boron-SR3</network.resources.version>
+        <topology.resources.version>0.4.3-Boron-SR3</topology.resources.version>
+        <yangui.resources.version>0.4.3-Boron-SR3</yangui.resources.version>
+        <yangman.resources.version>0.4.3-Boron-SR3</yangman.resources.version>
+        <yangvisualizer.resources.version>0.4.3-Boron-SR3</yangvisualizer.resources.version>
+        <common.authentication.resources.version>0.4.3-Boron-SR3</common.authentication.resources.version>
+        <common.general.resources.version>0.4.3-Boron-SR3</common.general.resources.version>
+        <common.navigation.resources.version>0.4.3-Boron-SR3</common.navigation.resources.version>
+        <common.layout.resources.version>0.4.3-Boron-SR3</common.layout.resources.version>
+        <common.topbar.resources.version>0.4.3-Boron-SR3</common.topbar.resources.version>
+        <common.login.resources.version>0.4.3-Boron-SR3</common.login.resources.version>
+        <common.yangutils.resources.version>0.4.3-Boron-SR3</common.yangutils.resources.version>
+        <common.sigmatopology.resources.version>0.4.3-Boron-SR3</common.sigmatopology.resources.version>
+        <restconf.version>1.4.3-Boron-SR3</restconf.version>
+        <l2switch.version>0.4.3-Boron-SR3</l2switch.version>
+        <mdsal.version>1.4.3-Boron-SR3</mdsal.version>
+        <branding.version>1.3.3-Boron-SR3</branding.version>
+        <karaf.resources.version>1.7.3-Boron-SR3</karaf.resources.version>
+        <feature.l2switch.version>0.4.3-Boron-SR3</feature.l2switch.version>
+        <feature.aaa.version>0.4.3-Boron-SR3</feature.aaa.version>
+        <feature.openflowplugin.version>0.3.3-Boron-SR3</feature.openflowplugin.version>
 
-        <feature.test.version>1.7.3-SNAPSHOT</feature.test.version>
-        <feature.mdsal.version>1.4.3-SNAPSHOT</feature.mdsal.version>
-        <feature.dlux.version>0.4.3-SNAPSHOT</feature.dlux.version>
-        <feature.flow.version>1.4.3-SNAPSHOT</feature.flow.version>
-        <feature.yangtools.version>1.0.3-SNAPSHOT</feature.yangtools.version>
+        <feature.test.version>1.7.3-Boron-SR3</feature.test.version>
+        <feature.mdsal.version>1.4.3-Boron-SR3</feature.mdsal.version>
+        <feature.dlux.version>0.4.3-Boron-SR3</feature.dlux.version>
+        <feature.flow.version>1.4.3-Boron-SR3</feature.flow.version>
+        <feature.yangtools.version>1.0.3-Boron-SR3</feature.yangtools.version>
         <apache.felix.osgi.compendium.version>1.4.0</apache.felix.osgi.compendium.version>
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
-        <karaf.empty.version>1.7.3-SNAPSHOT</karaf.empty.version>
+        <karaf.empty.version>1.7.3-Boron-SR3</karaf.empty.version>
     </properties>
 
     <modules>
