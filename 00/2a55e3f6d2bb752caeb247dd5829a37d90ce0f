@@ -1,0 +1,9 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+1: Lori Jakab <lorand.jakab@gmail.com>
+Code-Review+1: Robert Varga <nite@hq.sk>
+Code-Review+2: Thanh Ha <thanh.ha@linuxfoundation.org>
+Submitted-by: Thanh Ha <thanh.ha@linuxfoundation.org>
+Submitted-at: Wed, 14 Jun 2017 14:02:17 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/58854
+Project: dlux
+Branch: refs/heads/master
