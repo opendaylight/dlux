@@ -1,0 +1,11 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+1: Anil Vishnoi <vishnoianil@gmail.com>
+Code-Review+1: Vratko Polák <vrpolak@cisco.com>
+Code-Review+1: Lori Jakab <lorand.jakab@gmail.com>
+Code-Review+1: Tomas Slusny <tomas.slusny@pantheon.tech>
+Code-Review+2: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-by: Maxime Millette-Coulombe <mmcoulombe@inocybe.com>
+Submitted-at: Fri, 23 Jun 2017 15:09:58 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/59443
+Project: dlux
+Branch: refs/heads/master
