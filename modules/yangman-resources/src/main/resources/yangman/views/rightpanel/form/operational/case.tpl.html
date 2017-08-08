@@ -1,5 +1,0 @@
-<div ng-controller="YMCaseCtrl as yangCase" ng-show="case.isFilled() && yangCase.empty">
-    <!-- case's children -->
-    <div ng-repeat="node in case.getChildren(null,null,constants.NODE_UI_DISPLAY)"
-         ng-include="yangForm.viewPath + '/operational/' + node.type + '.tpl.html'"></div>
-</div>
