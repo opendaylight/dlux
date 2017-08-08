@@ -1,7 +1,0 @@
-<div ng-controller="CaseCtrl" ng-show="case.isFilled() && !empty">
-    <!-- Augmentation control -->
-    <div ng-controller="AugmentationModalCtrl" ng-init="init(case)" class="modalWrapper" ng-if="case.augmentionGroups.length" ng-include src="currentPath + 'modal/augmentation-modal.tpl.html'"></div>
-    <span ng-if="case.augmentationId" class="augmentIcon reversed" tooltip="{{ 'YANGUI_CASE_IS_AUGMENT' | translate }} {{ node.augmentationId }}">A</span>
-    <!-- Augmentation control end -->
-    <div ng-repeat="node in case.getChildren(null,null,constants.NODE_UI_DISPLAY) | filter:filterNodes" ng-include="currentPath+'/operational/'+node.type+'.tpl.html'" ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded"></div>
-</div>

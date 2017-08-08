@@ -1,7 +1,0 @@
-<button ng-click="shiftDisplayPrev()" ng-show="showPrevButton()" tooltip="{{ 'LIST_PREV_ITEM' | translate }}" class="yangButton iconPrev"></button>
-<div class="listButtonWrapper" ng-repeat="offset in displayOffsets" ng-if="currentDisplayIndex + offset > -1 && node.filteredListData.length > currentDisplayIndex + offset">
-    <button  class="btn btn-like-tab {{ (currentDisplayIndex + offset === node.actElemIndex ? 'btn-selected':'') }}" ng-click="node.changeActElementData(currentDisplayIndex + offset,false)" tooltip="{{getListName(offset, false).tooltip}}">
-        {{getNodeName(node.localeLabel, node.label)}}&nbsp;{{ getListName(offset, true).name }}
-    </button>
-</div>
-<button ng-click="shiftDisplayNext('filteredListData')"  ng-show="showNextButton('filteredListData')" tooltip="{{ 'LIST_NEXT_ITEM' | translate }}" class="yangButton iconNext"></button>

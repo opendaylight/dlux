@@ -1,6 +1,0 @@
-<div ng-controller="YMCaseCtrl as yangCase" ng-hide="yangCase.empty">
-    <!-- case's children -->
-    <div ng-repeat="node in case.getChildren(null,null,constants.NODE_UI_DISPLAY) | ymOnlyConfigElem"
-         ng-include="yangForm.viewPath + '/config/' + node.type + '.tpl.html'"
-         ng-hide="node.augmentationId && !augmentations.getAugmentation(node.parent, node.augmentationId).expanded"></div>
-</div>
