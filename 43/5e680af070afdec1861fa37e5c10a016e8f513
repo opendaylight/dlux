@@ -1,0 +1,8 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+1: Daniel Malachovsky <dmalacho@cisco.com>
+Code-Review+2: Thanh Ha <thanh.ha@linuxfoundation.org>
+Submitted-by: Thanh Ha <thanh.ha@linuxfoundation.org>
+Submitted-at: Tue, 15 Aug 2017 12:23:59 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/61371
+Project: dlux
+Branch: refs/heads/master
