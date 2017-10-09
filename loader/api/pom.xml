@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>dlux-parent</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.5.2-Carbon</version>
     <relativePath>../../</relativePath>
   </parent>
   <artifactId>loader</artifactId>
