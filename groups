@@ -1,7 +1,4 @@
 # UUID                                                         	Group Name
 #
-6c822e96ed14a0834e59e814aa6b2a258f2cc8fb                       	Non-interactive dlux users
 c9025ab9ddc1e3171919e085449f22c54f8f7b54                       	GitHub Replication
-global:Anonymous-Users                                         	Anonymous Users
-global:Registered-Users                                        	Registered Users
 ldap:cn=gerrit-dlux-committers,ou=Groups,dc=opendaylight,dc=org	ldap/gerrit-dlux-committers
