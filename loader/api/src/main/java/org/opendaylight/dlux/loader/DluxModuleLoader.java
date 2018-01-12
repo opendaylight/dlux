@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014, 2015 Inocybe Technologies, and others. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -9,7 +9,7 @@
 package org.opendaylight.dlux.loader;
 
 /**
- * Service to register module with dlux
+ * Service to register module with dlux.
  */
 public interface DluxModuleLoader {
 
