@@ -39,7 +39,6 @@
     <feature.mdsal.version>1.7.0-SNAPSHOT</feature.mdsal.version>
     <feature.dlux.version>0.7.0-SNAPSHOT</feature.dlux.version>
     <feature.flow.version>1.7.0-SNAPSHOT</feature.flow.version>
-    <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
   </properties>
 
   <modules>
