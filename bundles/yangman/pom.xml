@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>bundles</artifactId>
-    <version>0.5.3-SNAPSHOT</version>
+    <version>0.5.3-Carbon</version>
     <relativePath>../</relativePath>
   </parent>
   <groupId>org.opendaylight.dlux</groupId>
