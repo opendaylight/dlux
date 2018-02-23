@@ -20,7 +20,7 @@
 
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>features-dlux</artifactId>
-    <version>0.6.2-SNAPSHOT</version>
+    <version>0.6.3-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <dependencies>
