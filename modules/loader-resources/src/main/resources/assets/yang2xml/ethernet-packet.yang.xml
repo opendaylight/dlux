@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module name="ethernet-packet"
-        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
-        xmlns:ethernet="urn:opendaylight:packet:ethernet"
-        xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types"
-        xmlns:pprocessing="urn:opendaylight:packet:service">
+<module xmlns="urn:ietf:params:xml:ns:yang:yin:1" xmlns:ethernet="urn:opendaylight:packet:ethernet" xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types" xmlns:pprocessing="urn:opendaylight:packet:service" name="ethernet-packet">
   <yang-version value="1"/>
   <namespace uri="urn:opendaylight:packet:ethernet"/>
   <prefix value="ethernet"/>
