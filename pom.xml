@@ -11,34 +11,34 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendaylight.dlux</groupId>
   <artifactId>dlux-parent</artifactId>
-  <version>0.7.1-SNAPSHOT</version>
+  <version>0.7.1</version>
   <packaging>pom</packaging>
   <name>dlux</name> <!-- Used by Sonar to set project name -->
 
   <properties>
-    <loader.resources.version>0.7.1-SNAPSHOT</loader.resources.version>
-    <core.resources.version>0.7.1-SNAPSHOT</core.resources.version>
-    <connection_manager.resources.version>0.7.1-SNAPSHOT</connection_manager.resources.version>
-    <container.resources.version>0.7.1-SNAPSHOT</container.resources.version>
-    <flow.resources.version>0.7.1-SNAPSHOT</flow.resources.version>
-    <network.resources.version>0.7.1-SNAPSHOT</network.resources.version>
-    <common.authentication.resources.version>0.7.1-SNAPSHOT</common.authentication.resources.version>
-    <common.general.resources.version>0.7.1-SNAPSHOT</common.general.resources.version>
-    <common.navigation.resources.version>0.7.1-SNAPSHOT</common.navigation.resources.version>
-    <common.layout.resources.version>0.7.1-SNAPSHOT</common.layout.resources.version>
-    <common.topbar.resources.version>0.7.1-SNAPSHOT</common.topbar.resources.version>
-    <common.login.resources.version>0.7.1-SNAPSHOT</common.login.resources.version>
-    <restconf.version>1.7.1-SNAPSHOT</restconf.version>
-    <l2switch.version>0.7.1-SNAPSHOT</l2switch.version>
-    <mdsal.version>1.7.1-SNAPSHOT</mdsal.version>
-    <branding.version>1.6.1-SNAPSHOT</branding.version>
-    <feature.l2switch.version>0.7.1-SNAPSHOT</feature.l2switch.version>
-    <feature.aaa.version>0.7.1-SNAPSHOT</feature.aaa.version>
-    <feature.openflowplugin.version>0.6.1-SNAPSHOT</feature.openflowplugin.version>
+    <loader.resources.version>0.7.1</loader.resources.version>
+    <core.resources.version>0.7.1</core.resources.version>
+    <connection_manager.resources.version>0.7.1</connection_manager.resources.version>
+    <container.resources.version>0.7.1</container.resources.version>
+    <flow.resources.version>0.7.1</flow.resources.version>
+    <network.resources.version>0.7.1</network.resources.version>
+    <common.authentication.resources.version>0.7.1</common.authentication.resources.version>
+    <common.general.resources.version>0.7.1</common.general.resources.version>
+    <common.navigation.resources.version>0.7.1</common.navigation.resources.version>
+    <common.layout.resources.version>0.7.1</common.layout.resources.version>
+    <common.topbar.resources.version>0.7.1</common.topbar.resources.version>
+    <common.login.resources.version>0.7.1</common.login.resources.version>
+    <restconf.version>1.7.1</restconf.version>
+    <l2switch.version>0.7.1</l2switch.version>
+    <mdsal.version>1.7.1</mdsal.version>
+    <branding.version>1.6.1</branding.version>
+    <feature.l2switch.version>0.7.1</feature.l2switch.version>
+    <feature.aaa.version>0.7.1</feature.aaa.version>
+    <feature.openflowplugin.version>0.6.1</feature.openflowplugin.version>
 
-    <feature.mdsal.version>1.7.1-SNAPSHOT</feature.mdsal.version>
-    <feature.dlux.version>0.7.1-SNAPSHOT</feature.dlux.version>
-    <feature.flow.version>1.7.1-SNAPSHOT</feature.flow.version>
+    <feature.mdsal.version>1.7.1</feature.mdsal.version>
+    <feature.dlux.version>0.7.1</feature.dlux.version>
+    <feature.flow.version>1.7.1</feature.flow.version>
   </properties>
 
   <modules>
