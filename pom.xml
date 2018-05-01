@@ -11,35 +11,35 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendaylight.dlux</groupId>
   <artifactId>dlux-parent</artifactId>
-  <version>0.6.3-SNAPSHOT</version>
+  <version>0.6.3</version>
   <packaging>pom</packaging>
   <name>dlux</name> <!-- Used by Sonar to set project name -->
 
   <properties>
-    <loader.resources.version>0.6.3-SNAPSHOT</loader.resources.version>
-    <core.resources.version>0.6.3-SNAPSHOT</core.resources.version>
-    <connection_manager.resources.version>0.6.3-SNAPSHOT</connection_manager.resources.version>
-    <container.resources.version>0.6.3-SNAPSHOT</container.resources.version>
-    <flow.resources.version>0.6.3-SNAPSHOT</flow.resources.version>
-    <network.resources.version>0.6.3-SNAPSHOT</network.resources.version>
-    <common.authentication.resources.version>0.6.3-SNAPSHOT</common.authentication.resources.version>
-    <common.general.resources.version>0.6.3-SNAPSHOT</common.general.resources.version>
-    <common.navigation.resources.version>0.6.3-SNAPSHOT</common.navigation.resources.version>
-    <common.layout.resources.version>0.6.3-SNAPSHOT</common.layout.resources.version>
-    <common.topbar.resources.version>0.6.3-SNAPSHOT</common.topbar.resources.version>
-    <common.login.resources.version>0.6.3-SNAPSHOT</common.login.resources.version>
-    <restconf.version>1.6.3-SNAPSHOT</restconf.version>
-    <l2switch.version>0.6.3-SNAPSHOT</l2switch.version>
-    <mdsal.version>1.6.3-SNAPSHOT</mdsal.version>
-    <branding.version>1.5.3-SNAPSHOT</branding.version>
-    <feature.l2switch.version>0.6.3-SNAPSHOT</feature.l2switch.version>
-    <feature.aaa.version>0.6.3-SNAPSHOT</feature.aaa.version>
-    <feature.openflowplugin.version>0.5.3-SNAPSHOT</feature.openflowplugin.version>
+    <loader.resources.version>0.6.3</loader.resources.version>
+    <core.resources.version>0.6.3</core.resources.version>
+    <connection_manager.resources.version>0.6.3</connection_manager.resources.version>
+    <container.resources.version>0.6.3</container.resources.version>
+    <flow.resources.version>0.6.3</flow.resources.version>
+    <network.resources.version>0.6.3</network.resources.version>
+    <common.authentication.resources.version>0.6.3</common.authentication.resources.version>
+    <common.general.resources.version>0.6.3</common.general.resources.version>
+    <common.navigation.resources.version>0.6.3</common.navigation.resources.version>
+    <common.layout.resources.version>0.6.3</common.layout.resources.version>
+    <common.topbar.resources.version>0.6.3</common.topbar.resources.version>
+    <common.login.resources.version>0.6.3</common.login.resources.version>
+    <restconf.version>1.6.3</restconf.version>
+    <l2switch.version>0.6.3</l2switch.version>
+    <mdsal.version>1.6.3</mdsal.version>
+    <branding.version>1.5.3</branding.version>
+    <feature.l2switch.version>0.6.3</feature.l2switch.version>
+    <feature.aaa.version>0.6.3</feature.aaa.version>
+    <feature.openflowplugin.version>0.5.3</feature.openflowplugin.version>
 
-    <feature.mdsal.version>1.6.3-SNAPSHOT</feature.mdsal.version>
-    <feature.dlux.version>0.6.3-SNAPSHOT</feature.dlux.version>
-    <feature.flow.version>1.6.3-SNAPSHOT</feature.flow.version>
-    <feature.yangtools.version>1.2.3-SNAPSHOT</feature.yangtools.version>
+    <feature.mdsal.version>1.6.3</feature.mdsal.version>
+    <feature.dlux.version>0.6.3</feature.dlux.version>
+    <feature.flow.version>1.6.3</feature.flow.version>
+    <feature.yangtools.version>1.2.3</feature.yangtools.version>
     <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
   </properties>
 
