@@ -18,7 +18,7 @@
 
     <groupId>org.opendaylight.dlux</groupId>
     <artifactId>odl-dlux-core</artifactId>
-    <version>0.6.3-SNAPSHOT</version>
+    <version>0.6.4-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <name>Opendaylight dlux minimal feature</name>
@@ -30,7 +30,7 @@
         <dependency>
             <groupId>org.opendaylight.netconf</groupId>
             <artifactId>odl-restconf</artifactId>
-            <version>1.6.3-SNAPSHOT</version>
+            <version>1.6.4-SNAPSHOT</version>
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
