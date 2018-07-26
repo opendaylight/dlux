@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module name="ietf-restconf"
-        xmlns="urn:ietf:params:xml:ns:yang:yin:1"
-        xmlns:restconf="urn:ietf:params:xml:ns:yang:ietf-restconf"
-        xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types"
-        xmlns:inet="urn:ietf:params:xml:ns:yang:ietf-inet-types">
+<module xmlns="urn:ietf:params:xml:ns:yang:yin:1" xmlns:restconf="urn:ietf:params:xml:ns:yang:ietf-restconf" xmlns:yang="urn:ietf:params:xml:ns:yang:ietf-yang-types" xmlns:inet="urn:ietf:params:xml:ns:yang:ietf-inet-types" name="ietf-restconf">
   <namespace uri="urn:ietf:params:xml:ns:yang:ietf-restconf"/>
   <prefix value="restconf"/>
   <import module="ietf-yang-types">
