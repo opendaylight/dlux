@@ -1,0 +1,7 @@
+Verified+1: jenkins-releng <jenkins-releng@opendaylight.org>
+Code-Review+2: Daniel Malachovsky <daniel.malachovsky@pantheon.tech>
+Submitted-by: Daniel Malachovsky <daniel.malachovsky@pantheon.tech>
+Submitted-at: Sun, 29 Jul 2018 19:49:18 +0000
+Reviewed-on: https://git.opendaylight.org/gerrit/74517
+Project: dlux
+Branch: refs/heads/stable/oxygen
