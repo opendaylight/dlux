@@ -28,7 +28,7 @@
     "select2-bootstrap-css": "~1.2.5",
     "footable": "2.0.1",
     "vis": "2.0.0",
-    "sigma": "https://github.com/jacomyal/sigma.js/releases/download/v1.0.3/release-v1.0.3.zip",
+    "sigma": "https://github.com/markov00/bower-sigma/archive/v1.0.3.zip",
     "ng-slider": "2.2.2",
     "zeroclipboard": "~2.2.0",
     "ng-clip": "~0.2.6",
