@@ -632,7 +632,7 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
+  grunt.registerTask( 'watch', [ 'build', 'delta' ] );
 
   grunt.registerTask('live', ['build', 'connect:dev', 'delta']);
   /**
@@ -646,16 +646,16 @@ module.exports = function ( grunt ) {
   grunt.registerTask( 'common', [
       'clean', 'html2js', 'jshint', 'concat:build_css', 'less:development',
       'copy:build_app_assets', 'copy:build_vendor_assets',
-      'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_appimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'karmaconfig', 'index:build'
+      'copy:build_appjs', 'copy:copy_template', 'copy:build_vendorimages', 'copy:build_appimages', 'copy:build_vendorjs', 'copy:build_vendorcss', 'index:build'
   ]);
 
-  grunt.registerTask( 'build', ['replace:development', 'common', 'karma:continuous']);
+  grunt.registerTask( 'build', ['replace:development', 'common']);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
-  grunt.registerTask( 'compile', ['replace:production', 'common', 'karma:continuous', 'ngAnnotate', 'shell:requirejs']);
+  grunt.registerTask( 'compile', ['replace:production', 'common', 'ngAnnotate', 'shell:requirejs']);
 
   /**
    * A utility function to get all app JavaScript sources.
@@ -703,23 +703,6 @@ module.exports = function ( grunt ) {
     });
   });
 
-  /**
-   * In order to avoid having to specify manually the files needed for karma to
-   * run, we use grunt to manage the list for us. The `karma/*` files are
-   * compiled as grunt templates for use by Karma. Yay!
-   */
-  grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
-    var jsFiles = filterForJS( this.filesSrc );
 
-    grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', {
-      process: function ( contents, path ) {
-        return grunt.template.process( contents, {
-          data: {
-            scripts: jsFiles
-          }
-        });
-      }
-    });
-  });
 
 };
