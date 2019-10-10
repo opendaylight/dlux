@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.opendaylight.odlparent</groupId>
     <artifactId>odlparent</artifactId>
-    <version>3.1.0</version>
+    <version>4.0.11</version>
     <relativePath/>
   </parent>
 
@@ -28,17 +28,6 @@
     <common.layout.resources.version>0.8.0-SNAPSHOT</common.layout.resources.version>
     <common.topbar.resources.version>0.8.0-SNAPSHOT</common.topbar.resources.version>
     <common.login.resources.version>0.8.0-SNAPSHOT</common.login.resources.version>
-    <restconf.version>1.8.0-SNAPSHOT</restconf.version>
-    <l2switch.version>0.8.0-SNAPSHOT</l2switch.version>
-    <mdsal.version>1.8.0-SNAPSHOT</mdsal.version>
-    <branding.version>1.7.0-SNAPSHOT</branding.version>
-    <feature.l2switch.version>0.8.0-SNAPSHOT</feature.l2switch.version>
-    <feature.aaa.version>0.8.0-SNAPSHOT</feature.aaa.version>
-    <feature.openflowplugin.version>0.7.0-SNAPSHOT</feature.openflowplugin.version>
-
-    <feature.mdsal.version>1.8.0-SNAPSHOT</feature.mdsal.version>
-    <feature.dlux.version>0.8.0-SNAPSHOT</feature.dlux.version>
-    <feature.flow.version>1.8.0-SNAPSHOT</feature.flow.version>
   </properties>
 
   <modules>
