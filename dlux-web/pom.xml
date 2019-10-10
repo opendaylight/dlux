@@ -172,7 +172,7 @@
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.24</version>
+                <version>1.8.0</version>
                 <executions>
                     <execution>
                         <id>npm</id>
@@ -183,6 +183,7 @@
                         <phase>generate-resources</phase>
                     </execution>
                     <execution>
+                        <!-- FIXME: https://bower.io/blog/2017/how-to-migrate-away-from-bower/ -->
                         <id>bower</id>
                         <goals>
                             <goal>bower</goal>
@@ -196,8 +197,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v0.12.7</nodeVersion>
-                    <npmVersion>3.1.3</npmVersion>
+                    <nodeVersion>v12.13.0</nodeVersion>
+                    <npmVersion>6.12.0</npmVersion>
                 </configuration>
             </plugin>
         </plugins>
