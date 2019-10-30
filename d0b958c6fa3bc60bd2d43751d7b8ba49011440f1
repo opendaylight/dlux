@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4bf399_446f29a3",
+        "filename": "features/odl-dlux-core/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 797
+      },
+      "writtenOn": "2019-10-30T23:40:12Z",
+      "side": 1,
+      "message": "Latest Neon is 1.9.3-SNAPSHOT.",
+      "revId": "d0b958c6fa3bc60bd2d43751d7b8ba49011440f1",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
+    }
+  ]
+}
