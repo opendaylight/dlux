@@ -16,6 +16,24 @@
       "revId": "d0b958c6fa3bc60bd2d43751d7b8ba49011440f1",
       "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b95722_4ba50b8e",
+        "filename": "features/odl-dlux-core/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 649
+      },
+      "writtenOn": "2019-10-31T07:14:40Z",
+      "side": 1,
+      "message": "I have updated it to point to Neon SR2",
+      "parentUuid": "ca4bf399_446f29a3",
+      "revId": "d0b958c6fa3bc60bd2d43751d7b8ba49011440f1",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": false
     }
   ]
 }
