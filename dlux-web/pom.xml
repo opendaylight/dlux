@@ -197,7 +197,6 @@
                 </executions>
                 <configuration>
                     <nodeVersion>v12.13.0</nodeVersion>
-                    <npmVersion>6.12.0</npmVersion>
                 </configuration>
             </plugin>
         </plugins>
