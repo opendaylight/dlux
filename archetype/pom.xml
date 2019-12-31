@@ -13,5 +13,5 @@
     <artifactId>dlux-app</artifactId>
     <packaging>maven-archetype</packaging>
     <name>archetype-dlux-app</name>
-    <version>0.8.2-SNAPSHOT</version>
+    <version>0.8.2</version>
 </project>
