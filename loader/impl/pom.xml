@@ -29,12 +29,12 @@
       <artifactId>org.osgi.compendium</artifactId>
     </dependency>
     <dependency>
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-api</artifactId>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -46,17 +46,17 @@
       <version>${loader.resources.version}</version>
     </dependency>
       <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <scope>test</scope>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
       </dependency>
       <dependency>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-simple</artifactId>
-          <scope>test</scope>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <scope>test</scope>
       </dependency>
   </dependencies>
- <build>
+  <build>
     <resources>
       <resource>
         <directory>target/generated-resources</directory>
@@ -69,15 +69,14 @@
       <!--Clean extracted resources-->
       <plugin>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.5</version>
           <configuration>
             <filesets>
               <fileset>
                 <directory>${project.basedir}/src/main/resources/</directory>
                 <includes>
-		              <include>dlux/</include>
-		              <include>index/</include>
-		            </includes>
+                  <include>dlux/</include>
+                  <include>index/</include>
+                </includes>
                 <excludes></excludes>
                 <followSymlinks>false</followSymlinks>
               </fileset>
@@ -87,7 +86,6 @@
       <!--Copy resources from the dlux-web/build dir-->
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
         <executions>
           <execution>
             <id>copy-src-resources</id>
@@ -100,18 +98,18 @@
               <resources>
                 <resource>
                   <directory>${project.basedir}/../../dlux-web/build/</directory>
-                    <includes>
-                      <include>src/main.js</include>
-                      <include>src/app/app.controller.js</include>
-                      <include>src/app/app.module.js</include>
-                      <include>src/app/routingConfig.js</include>
-                      <include>src/common/config/env.module.js</include>
-                      <include>vendor/**</include>
-                      <include>assets/**</include>
-                    </includes>
-		    <excludes>
-		      <exclude>assets/yang2xml/</exclude>
-		    </excludes>
+                  <includes>
+                    <include>src/main.js</include>
+                    <include>src/app/app.controller.js</include>
+                    <include>src/app/app.module.js</include>
+                    <include>src/app/routingConfig.js</include>
+                    <include>src/common/config/env.module.js</include>
+                    <include>vendor/**</include>
+                    <include>assets/**</include>
+                  </includes>
+                  <excludes>
+                    <exclude>assets/yang2xml/</exclude>
+                  </excludes>
                   <filtering>false</filtering>
                 </resource>
               </resources>
@@ -160,19 +158,17 @@
           </execution>
         </executions>
       </plugin> -->
-    <plugin>
-
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-checkstyle-plugin</artifactId>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <!-- Exclusion doesn't seem to work for the yang.xml files within the resources folders -->
           <excludes>**/*</excludes>
         </configuration>
-     </plugin>
+      </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.4.0</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
