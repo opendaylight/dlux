@@ -13,7 +13,7 @@
     <artifactId>dlux-app</artifactId>
     <packaging>maven-archetype</packaging>
     <name>archetype-dlux-app</name>
-    <version>0.9.3-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <build>
         <extensions>

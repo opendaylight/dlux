@@ -11,23 +11,23 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opendaylight.dlux</groupId>
   <artifactId>dlux-parent</artifactId>
-  <version>0.9.3-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>dlux</name> <!-- Used by Sonar to set project name -->
 
   <properties>
-    <loader.resources.version>0.9.3-SNAPSHOT</loader.resources.version>
-    <core.resources.version>0.9.3-SNAPSHOT</core.resources.version>
-    <connection_manager.resources.version>0.9.3-SNAPSHOT</connection_manager.resources.version>
-    <container.resources.version>0.9.3-SNAPSHOT</container.resources.version>
-    <flow.resources.version>0.9.3-SNAPSHOT</flow.resources.version>
-    <network.resources.version>0.9.3-SNAPSHOT</network.resources.version>
-    <common.authentication.resources.version>0.9.3-SNAPSHOT</common.authentication.resources.version>
-    <common.general.resources.version>0.9.3-SNAPSHOT</common.general.resources.version>
-    <common.navigation.resources.version>0.9.3-SNAPSHOT</common.navigation.resources.version>
-    <common.layout.resources.version>0.9.3-SNAPSHOT</common.layout.resources.version>
-    <common.topbar.resources.version>0.9.3-SNAPSHOT</common.topbar.resources.version>
-    <common.login.resources.version>0.9.3-SNAPSHOT</common.login.resources.version>
+    <loader.resources.version>1.0.0-SNAPSHOT</loader.resources.version>
+    <core.resources.version>1.0.0-SNAPSHOT</core.resources.version>
+    <connection_manager.resources.version>1.0.0-SNAPSHOT</connection_manager.resources.version>
+    <container.resources.version>1.0.0-SNAPSHOT</container.resources.version>
+    <flow.resources.version>1.0.0-SNAPSHOT</flow.resources.version>
+    <network.resources.version>1.0.0-SNAPSHOT</network.resources.version>
+    <common.authentication.resources.version>1.0.0-SNAPSHOT</common.authentication.resources.version>
+    <common.general.resources.version>1.0.0-SNAPSHOT</common.general.resources.version>
+    <common.navigation.resources.version>1.0.0-SNAPSHOT</common.navigation.resources.version>
+    <common.layout.resources.version>1.0.0-SNAPSHOT</common.layout.resources.version>
+    <common.topbar.resources.version>1.0.0-SNAPSHOT</common.topbar.resources.version>
+    <common.login.resources.version>1.0.0-SNAPSHOT</common.login.resources.version>
   </properties>
 
   <modules>
