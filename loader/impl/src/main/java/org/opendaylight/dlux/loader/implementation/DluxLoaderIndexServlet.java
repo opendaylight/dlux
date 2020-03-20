@@ -10,6 +10,7 @@ package org.opendaylight.dlux.loader.implementation;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.opendaylight.dlux.loader.Module;
 import org.opendaylight.dlux.loader.exception.DluxLoaderException;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ import java.util.Properties;
 public class DluxLoaderIndexServlet extends HttpServlet{
 
     private static final long serialVersionUID = 1L;
-    private static Logger logger = LoggerFactory.getLogger(DluxLoaderIndexServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DluxLoaderIndexServlet.class);
 
     private String DEFINEJS_PROPERTY = "defineJS";
 
@@ -53,6 +54,7 @@ public class DluxLoaderIndexServlet extends HttpServlet{
 
     private final String NEWLINE = "\n";
 
+    @SuppressFBWarnings(value = "SE_BAD_FIELD", justification = "Maintenance Update")
     private final DluxLoader loader;
 
     private final String UTF_CHARSET = "UTF-8";
@@ -89,7 +91,7 @@ public class DluxLoaderIndexServlet extends HttpServlet{
             prop.load(inputStream);
 
         } catch (IOException e) {
-            logger.error("Could not load properties from input stream", e);
+            LOG.error("Could not load properties from input stream", e);
             throw new DluxLoaderException("Dlux Loader Servlet initialization failed. ", e);
         }
         return prop;
@@ -106,7 +108,7 @@ public class DluxLoaderIndexServlet extends HttpServlet{
             }
 
         } catch (IOException e) {
-            logger.error("Could not load index html from input stream", e);
+            LOG.error("Could not load index html from input stream", e);
             throw new DluxLoaderException("Dlux Loader Servlet initialization failed. ", e);
         }
         return indexHTMLContent;

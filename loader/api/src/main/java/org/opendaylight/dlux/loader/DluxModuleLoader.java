@@ -13,7 +13,7 @@ package org.opendaylight.dlux.loader;
  */
 public interface DluxModuleLoader {
 
-    public void addModule(Module module);
+    void addModule(Module module);
 
-    public void removeModule(Module module);
+    void removeModule(Module module);
 }

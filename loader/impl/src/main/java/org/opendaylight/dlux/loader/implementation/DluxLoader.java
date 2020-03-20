@@ -25,7 +25,7 @@ import java.util.List;
 public class DluxLoader implements DluxModuleLoader {
 
     private DluxLoaderIndexServlet index;
-    private static Logger logger = LoggerFactory.getLogger(DluxLoader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DluxLoader.class);
 
     /**
      * List of modules registered with dlux
@@ -65,7 +65,7 @@ public class DluxLoader implements DluxModuleLoader {
         index = new DluxLoaderIndexServlet(this);
         httpService.registerServlet(SERVLET_URL, index, null, null);
         httpService.registerResources(RESOURCE_URL, RESOURCE_DIRECTORY, null);
-        logger.info("DluxLoader Service initialization complete.");
+        LOG.info("DluxLoader Service initialization complete.");
     }
 
 }
