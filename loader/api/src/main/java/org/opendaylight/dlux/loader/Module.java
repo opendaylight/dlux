@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Copyright (c) 2014 Inocybe Technologies, and others. All rights reserved.
  *
+ * <p>
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
@@ -20,32 +21,32 @@ import java.util.List;
 
 public abstract class Module {
     /**
-     * Name of the dlux module
+     * Name of the dlux module.
      */
     String moduleName;
 
     /**
-     * url via the module can be accessed
+     * url via the module can be accessed.
      */
     String url;
 
     /**
-     * Location of resources to be registered
+     * Location of resources to be registered.
      */
     String directory;
 
     /**
-     * Name of the your requireJS module
+     * Name of the your requireJS module.
      */
     String requireJs;
 
     /**
-     * Name of the angularJs module
+     * Name of the angularJs module.
      */
     String angularJs;
 
     /**
-     * List of external or internal css dependencies
+     * List of external or internal css dependencies.
      */
     List<String> cssDependencies;
 
