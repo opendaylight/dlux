@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da3d989_9b9d34f3",
+        "filename": "loader/impl/src/main/java/org/opendaylight/dlux/loader/implementation/DluxLoaderIndexServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 2264
+      },
+      "writtenOn": "2020-03-20T22:29:55Z",
+      "side": 1,
+      "message": "I didn\u0027t know the right way to fix the findbugs error:\n\n\"[ERROR] Class org.opendaylight.dlux.loader.implementation.DluxLoaderIndexServlet defines non-transient non-serializable instance field loader [org.opendaylight.dlux.loader.implementation.DluxLoaderIndexServlet] In DluxLoaderIndexServlet.java SE_BAD_FIELD\"\n\nI tried to add transient to the field, but that ended up with a different error. I tried\nto make the DluxModuleLoader interface extend Serializable, but more errors that way. So,\nhow about just ignoring it? If there is a better way to fix, let me know and I\u0027ll update it\nthat way.",
+      "revId": "939c0ed273421a9da77f96fa1ac33775670341d8",
+      "serverId": "7fc14799-209e-464c-9743-7a06c2c21a81",
+      "unresolved": true
+    }
+  ]
+}
